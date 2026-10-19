@@ -1,0 +1,1585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gridiron Model</title>
+<meta name="description" content="NFL game predictions from an Elo + EPA model">
+<meta name="theme-color" content="#0b0f17">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gridiron">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f17;
+    --surface: #131a26;
+    --surface-2: #1a2333;
+    --line: #243045;
+    --text: #eef2f8;
+    --muted: #8b97ab;
+    --accent: #3ddc84;
+    --accent-dim: rgba(61, 220, 132, .14);
+    --miss: #ff5d6c;
+    --miss-dim: rgba(255, 93, 108, .14);
+    --warn: #ffc857;
+    --radius: 16px;
+    --pad: 14px;
+    --label: #a3aec0;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  :root[data-theme="light"] {
+    --bg: #f3f5f9; --surface: #ffffff; --surface-2: #eef1f6; --line: #dde3ec;
+    --text: #111827; --muted: #5b6678; --label: #3f4a5c;
+    --accent: #0f9d58; --accent-dim: rgba(15, 157, 88, .12);
+    --miss: #d93848; --miss-dim: rgba(217, 56, 72, .1); --warn: #b7791f;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body {
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-size: 15px; line-height: 1.4;
+    min-height: 100vh;
+    padding-bottom: calc(84px + var(--safe-bottom));
+  }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+
+  /* header */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    padding: calc(var(--safe-top) + 14px) 0 12px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand h1 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin: 0; }
+  .brand h1 span { color: var(--accent); }
+  .record-pill {
+    font-size: 12px; font-weight: 600; color: var(--muted);
+    background: var(--surface); border: 1px solid var(--line);
+    padding: 6px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .record-pill b { color: var(--text); }
+
+  .week-nav { display: flex; align-items: center; gap: 8px; margin: 14px -16px 0; padding: 0 16px;
+              overflow-x: auto; scroll-padding-inline: 16px; scrollbar-width: none; }
+  .week-nav::after { content: ""; flex: 0 0 8px; }
+  .week-nav::-webkit-scrollbar { display: none; }
+  .week-nav button {
+    flex: none; border: 1px solid var(--line); background: var(--surface);
+    color: var(--muted); font: inherit; font-weight: 600; font-size: 13px;
+    padding: 9px 14px; border-radius: 12px; cursor: pointer; white-space: nowrap;
+  }
+  .week-nav button .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+                          margin-left: 6px; vertical-align: 1px; }
+  .week-nav button.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .week-nav button:disabled { opacity: .35; }
+
+  .day { font-size: 12px; font-weight: 700; color: var(--label); text-transform: uppercase;
+         letter-spacing: .08em; margin: 22px 4px 10px; }
+
+  /* game card */
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
+    cursor: pointer; transition: transform .12s ease;
+  }
+  .card:active { transform: scale(.99); }
+  .card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px;
+              font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .tag { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+  .tag.hit { background: var(--accent-dim); color: var(--accent); }
+  .tag.miss { background: var(--miss-dim); color: var(--miss); }
+  .tag.lock { background: rgba(255,200,87,.14); color: var(--warn); }
+  .tag.live { background: var(--surface-2); color: var(--muted); }
+  .tag.unit { background: var(--accent); color: var(--bg); }
+  .heads { background: rgba(255,200,87,.08); border: 1px solid rgba(255,200,87,.35); border-radius: var(--radius);
+           padding: 12px 14px; margin-top: 10px; }
+  .heads h2 { font-size: 15px; margin: 0 0 6px; color: var(--warn); }
+  .heads .item { padding: 7px 0; border-top: 1px solid rgba(255,200,87,.2); font-size: 13px; cursor: pointer; }
+  .heads .item:first-of-type { border-top: 0; }
+  .heads .item small { display: block; color: var(--muted); margin-top: 2px; }
+  .alert-line { font-size: 12px; color: var(--warn); margin-top: 6px; }
+  .review-row { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .review-row b { color: var(--text); font-weight: 600; }
+  .review { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; margin-top: 10px; }
+  .review h2 { font-size: 16px; margin: 0 0 8px; }
+  .review .line { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; padding: 7px 0; border-top: 1px solid var(--line); }
+  .review .line span:first-child { color: var(--muted); }
+  .prow { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 10px 0;
+          border-top: 1px solid var(--line); cursor: pointer; }
+  .prow .nm { font-weight: 700; font-size: 14px; }
+  .prow .nm small { color: var(--muted); font-weight: 500; }
+  .prow .pj { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); }
+  .prow .pj b { color: var(--text); font-weight: 600; }
+  .pill.Q { background: var(--surface-2); color: var(--warn); }
+  .pgame { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin-top: 10px; }
+  .pgame h3 { margin: 0; font-size: 15px; display: flex; justify-content: space-between; cursor: pointer; }
+  .pgame h3 small { color: var(--muted); font-weight: 500; }
+  .ou-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px;
+            padding-top: 10px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .sim-hist { display: flex; align-items: flex-end; gap: 1px; height: 90px; margin-top: 8px; }
+  .sim-hist div { flex: 1; border-radius: 2px 2px 0 0; min-height: 1px; }
+  .sim-axis { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-top: 3px; }
+  .scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+  .scores div { background: var(--surface-2); border-radius: 10px; padding: 7px 4px; text-align: center; font-size: 13px; }
+  .scores small { display: block; font-size: 10px; color: var(--muted); }
+  .tag.lean { background: rgba(108, 167, 255, .16); color: #8dbbff; }
+  .tag.light { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+
+  /* records */
+  .rec-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+  .rec-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .rec-card.wide { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; }
+  .rec-card small { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .rec-card b { font-size: 24px; font-weight: 800; letter-spacing: -.02em; }
+  .rec-card .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .rec-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  .rec-table th { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em;
+                  font-weight: 600; text-align: right; padding: 6px 4px; }
+  .rec-table td { padding: 9px 4px; text-align: right; border-top: 1px solid var(--line); }
+  .rec-table th:first-child, .rec-table td:first-child { text-align: left; }
+  .hist { display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: center;
+          background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; margin-bottom: 6px; font-size: 13px; }
+  .hist .wk { color: var(--muted); font-size: 12px; }
+  .hist small { color: var(--muted); }
+
+  .teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+  .team { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .team.home { flex-direction: row-reverse; text-align: right; }
+  .logo { width: 40px; height: 40px; flex: none; object-fit: contain;
+          filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
+  .tname { min-width: 0; }
+  .tname .abbr { font-weight: 800; font-size: 17px; letter-spacing: -.01em; }
+  .tname .nick { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .team.picked .abbr::after { content: " ✓"; color: var(--accent); font-size: 13px; }
+  .team.home.picked .abbr::after { content: ""; }
+  .team.home.picked .abbr::before { content: "✓ "; color: var(--accent); font-size: 13px; }
+  .center { text-align: center; font-size: 12px; color: var(--muted); }
+  .score { font-size: 18px; font-weight: 700; color: var(--text); }
+  .score .w { color: var(--text); } .score .l { color: var(--muted); }
+
+  .bar { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 14px 0 6px;
+         background: var(--surface-2); }
+  .bar div { height: 100%; transition: width .5s ease; }
+  .probs { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; }
+  .probs .dim { color: var(--muted); font-weight: 500; }
+
+  .kv { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .kv div { background: var(--surface-2); border-radius: 12px; padding: 9px 10px; }
+  .kv small { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase;
+              letter-spacing: .06em; margin-bottom: 2px; }
+  .kv b { font-size: 14px; }
+  .edge-pos { color: var(--accent); } .edge-neg { color: var(--warn); }
+  .qbs { margin-top: 10px; font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+
+  /* rankings */
+  .rank-head, .rank-row {
+    display: grid; grid-template-columns: 28px 1fr 52px 58px 58px; align-items: center; gap: 6px;
+  }
+  .rank-head { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em;
+               padding: 0 12px 8px; margin-top: 18px; }
+  .rank-head span:not(:nth-child(2)) { text-align: right; }
+  .rank-row { background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+              padding: 9px 12px; margin-bottom: 6px; font-size: 14px; }
+  .rank-row .n { color: var(--muted); font-weight: 600; }
+  .rank-row .t { display: flex; align-items: center; gap: 9px; min-width: 0; }
+  .rank-row .t img { width: 26px; height: 26px; object-fit: contain; }
+  .rank-row .t small { color: var(--muted); font-size: 12px; }
+  .rank-row .r { text-align: right; }
+  .good { color: var(--accent); } .bad { color: var(--miss); }
+
+  /* about */
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+           padding: 18px; margin-top: 18px; }
+  .panel h2 { font-size: 17px; margin: 0 0 8px; }
+  .panel p, .panel li { color: var(--muted); font-size: 14px; }
+  .panel ul { padding-left: 18px; margin: 0 0 12px; }
+  .panel li { margin-bottom: 6px; }
+  .panel b { color: var(--text); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 12px; }
+  .stat small { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .stat b { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+
+  /* tab bar */
+  nav.tabs {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--line);
+    padding: 8px 16px calc(8px + var(--safe-bottom));
+  }
+  nav.tabs .wrap { display: flex; justify-content: space-around; padding: 0; }
+  nav.tabs button {
+    background: none; border: 0; color: var(--muted); font: inherit; font-size: 11px; font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 10px; cursor: pointer;
+  }
+  nav.tabs button svg { width: 24px; height: 24px; }
+  nav.tabs button.on { color: var(--accent); }
+
+  .view { display: none; } .view.on { display: block; }
+
+  /* game analysis page */
+  .gv { position: fixed; inset: 0; z-index: 30; background: var(--bg); overflow-y: auto;
+        padding: calc(var(--safe-top) + 10px) 0 calc(30px + var(--safe-bottom)); display: none; }
+  .gv.on { display: block; }
+  .gv-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+  .gv-back { background: var(--surface); border: 1px solid var(--line); color: var(--text); border-radius: 12px;
+             padding: 8px 12px; font: inherit; font-weight: 700; cursor: pointer; }
+  .badge { font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+  .badge.live { background: var(--accent-dim); color: var(--accent); }
+  .badge.stale { background: rgba(255,200,87,.14); color: var(--warn); }
+  .gv-head { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 14px; }
+  .gv-teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; text-align: center; gap: 6px; }
+  .gv-teams img { width: 56px; height: 56px; object-fit: contain; }
+  .gv-teams .abbr { font-weight: 800; font-size: 18px; }
+  .gv-teams small { display: block; color: var(--muted); font-size: 12px; }
+  .gv-score { font-size: 30px; font-weight: 800; letter-spacing: -.02em; }
+  .gv-meta { text-align: center; font-size: 12px; color: var(--muted); margin-top: 10px; }
+  .gv-tabs { display: flex; gap: 6px; margin: 14px 0 4px; overflow-x: auto; scrollbar-width: none; }
+  .gv-tabs button { flex: 1; border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+                    font: inherit; font-weight: 700; font-size: 13px; padding: 9px 10px; border-radius: 12px; cursor: pointer; white-space: nowrap; }
+  .gv-tabs button.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 11px 12px; }
+  .tile small { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+  .tile b { font-size: 18px; }
+  .tile .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .mkt { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .mkt th { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600;
+            text-align: right; padding: 6px 3px; }
+  .mkt td { text-align: right; padding: 9px 3px; border-top: 1px solid var(--line); }
+  .mkt th:first-child, .mkt td:first-child { text-align: left; }
+  .mkt .grp td { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; padding-top: 14px; border-top: 0; }
+  .inj { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13px; }
+  .inj small { color: var(--muted); grid-column: 1 / -1; font-size: 12px; }
+  .pill { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+  .pill.Out { background: var(--miss-dim); color: var(--miss); }
+  .pill.Doubtful { background: rgba(255,200,87,.14); color: var(--warn); }
+  .pill.Questionable { background: var(--surface-2); color: var(--muted); }
+  .why-row { display: grid; grid-template-columns: 1fr 64px; gap: 4px 10px; align-items: center; padding: 8px 0;
+             border-top: 1px solid var(--line); font-size: 13px; }
+  .why-bar { grid-column: 1 / -1; height: 6px; background: var(--surface-2); border-radius: 3px; position: relative; }
+  .why-bar span { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+  .calib { display: grid; grid-template-columns: 70px 1fr 54px 54px; gap: 6px; align-items: center; font-size: 12px; padding: 5px 0; }
+  .calib .track { height: 8px; background: var(--surface-2); border-radius: 4px; position: relative; }
+  .calib .track span { position: absolute; top: -2px; width: 3px; height: 12px; border-radius: 2px; }
+
+  /* alt-line sheet */
+  .alt-btn { width: 100%; margin-top: 12px; padding: 11px; border-radius: 12px; cursor: pointer;
+             border: 1px solid var(--accent); background: var(--accent-dim); color: var(--accent);
+             font: inherit; font-weight: 700; font-size: 14px; }
+  .sheet-bg { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 40; display: none; }
+  .sheet-bg.on { display: block; }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; max-height: 88vh; overflow-y: auto;
+           background: var(--surface); border-top: 1px solid var(--line); border-radius: 22px 22px 0 0;
+           padding: 10px 16px calc(20px + var(--safe-bottom)); transform: translateY(100%);
+           transition: transform .25s ease; }
+  .sheet.on { transform: none; }
+  .sheet .grab { width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 12px; }
+  .sheet h3 { margin: 0 0 12px; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
+  .sheet h3 button { background: var(--surface-2); border: 0; color: var(--muted); width: 32px; height: 32px;
+                     border-radius: 50%; font-size: 18px; cursor: pointer; }
+  .seg { display: flex; background: var(--surface-2); border-radius: 12px; padding: 3px; margin-bottom: 8px; }
+  .seg button { flex: 1; border: 0; background: none; color: var(--muted); font: inherit; font-weight: 700;
+                font-size: 13px; padding: 8px; border-radius: 9px; cursor: pointer; }
+  .seg button.on { background: var(--text); color: var(--bg); }
+  .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0 8px; }
+  .calc label { background: var(--surface-2); border-radius: 12px; padding: 8px 10px; font-size: 10px;
+                color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .calc input { width: 100%; background: none; border: 0; color: var(--text); font: 700 20px "JetBrains Mono", monospace;
+                padding: 2px 0 0; outline: none; }
+  .verdict { border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; background: var(--surface-2); }
+  .verdict.pos { background: var(--accent-dim); } .verdict.neg { background: var(--miss-dim); }
+  .verdict .big { font-size: 22px; font-weight: 800; }
+  .verdict .row { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .verdict .row b { color: var(--text); }
+  .alt-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .alt-table th { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em;
+                  font-weight: 600; text-align: right; padding: 6px 4px; }
+  .alt-table th:first-child, .alt-table td:first-child { text-align: left; }
+  .alt-table td { padding: 8px 4px; text-align: right; border-top: 1px solid var(--line); cursor: pointer; }
+  .alt-table tr.key td:first-child::after { content: " key"; font-size: 10px; color: var(--warn); font-weight: 700; }
+  .alt-table tr.sel td { background: var(--surface-2); }
+  .alt-table tr.vegas td:first-child { color: var(--accent); }
+  .note { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
+  .updated { text-align: center; font-size: 12px; color: var(--muted); margin: 22px 0 8px; }
+  .empty { text-align: center; color: var(--muted); padding: 48px 0; }
+
+  /* one card system: radius, border, padding everywhere */
+  .card, .review, .rec-card, .panel, .stat, .heads, .pgame, .rank-row, .tile, .hist, .gv-head, .verdict {
+    border-radius: var(--radius); }
+  .review, .rec-card, .panel, .pgame, .heads { padding: var(--pad); }
+  .rank-row, .hist { border-radius: 12px; }
+  /* content clear of Netlify's toolbar handle on the right edge and above the tab bar */
+  main.wrap { padding-right: 22px; }
+  body { padding-bottom: calc(110px + var(--safe-bottom)); }
+  /* focal card: official plays */
+  .rec-card.wide.focal { background: linear-gradient(135deg, var(--accent-dim), transparent 70%), var(--surface);
+                   border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+                   box-shadow: 0 0 28px -8px color-mix(in srgb, var(--accent) 45%, transparent); }
+  .small-n { color: var(--muted) !important; }
+  .n-badge { font-size: 11px; color: var(--muted); font-weight: 600; margin-left: 4px; }
+  /* tier groups with a colored left bar */
+  .tier-group { border-left: 3px solid var(--line); padding-left: 10px; margin-top: 12px; }
+  .tier-group.play3, .tier-group.play1 { border-left-color: var(--accent); }
+  .tier-group.lean { border-left-color: #6ca7ff; }
+  .tier-group.light { border-left-color: var(--muted); }
+  .tier-group .day { margin: 0 0 4px; }
+  /* pick price column: fixed width, % on its own line */
+  .pick-col { text-align: right; min-width: 92px; flex: none; line-height: 1.2; }
+  .pick-col b { display: block; white-space: nowrap; }
+  .pick-col small { display: block; color: var(--muted); font-size: 12px; }
+  /* filled icon for the active tab */
+  nav.tabs button.on svg { fill: currentColor; fill-opacity: .22; }
+  /* power table extras */
+  .rank-row .chg { font-size: 11px; margin-left: 4px; }
+  .rank-row .t > span { display: flex; flex-direction: column; line-height: 1.2; }
+  .rank-row .t small { white-space: nowrap; }
+  .elo-bar { display: block; height: 4px; border-radius: 2px; background: var(--accent); opacity: .7; margin-top: 3px; }
+  .epa-cell { border-radius: 6px; padding: 2px 4px; }
+  /* why this pick */
+  .why-btn { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px;
+             font: inherit; font-size: 11px; font-weight: 700; padding: 3px 9px; cursor: pointer; }
+  .why-box { display: none; margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .why-box.on { display: block; }
+  .why-box div { padding: 3px 0; }
+  .why-box b { color: var(--text); font-weight: 600; }
+  .legend { font-size: 12px; color: var(--muted); margin: 10px 4px 0; }
+  .stat .cap { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+  /* slightly larger small text on phones */
+  .tname .nick, .card-top, .probs, .ou-row, .review-row, .note { font-size: 13px; }
+  .theme-toggle { display: flex; gap: 6px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <h1>Gridiron<span>.</span></h1>
+      <div class="record-pill" id="record">Loading…</div>
+    </div>
+    <div class="week-nav" id="weeknav"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="view on" id="v-picks"><div id="games"></div></section>
+  <section class="view" id="v-props"><div id="props"></div></section>
+  <section class="view" id="v-records"><div id="records"></div></section>
+  <section class="view" id="v-ranks"><div id="ranks"></div></section>
+  <section class="view" id="v-about"><div id="about"></div></section>
+  <div class="updated" id="updated"></div>
+</main>
+
+<div class="gv" id="gv"><div class="wrap" id="gv-body"></div></div>
+<div class="sheet-bg" id="sheet-bg" onclick="closeAlt()"></div>
+<div class="sheet" id="sheet"></div>
+
+<nav class="tabs">
+  <div class="wrap">
+    <button class="on" data-view="picks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="5.5" transform="rotate(-35 12 12)"/><path d="M10 10l4 4M11 13l2-2M9.5 11.5l1-1M13.5 13.5l1-1"/></svg>
+      Picks
+    </button>
+    <button data-view="props">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+      Props
+    </button>
+    <button data-view="records">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM4 10h16M10 10v10"/></svg>
+      Records
+    </button>
+    <button data-view="ranks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg>
+      Power
+    </button>
+    <button data-view="about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+      Model
+    </button>
+  </div>
+</nav>
+
+<script src="calc.js"></script>
+<script>
+// Theme: remembered on this device (falls back to dark if storage is blocked)
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  document.querySelector('meta[name="theme-color"]').content = t === "light" ? "#f3f5f9" : "#0b0f17";
+  try { localStorage.setItem("gridiron-theme", t); } catch (e) {}
+  if (typeof DATA !== "undefined" && DATA) { renderAbout(); renderGames(); renderRanks(); }
+}
+try { const t = localStorage.getItem("gridiron-theme"); if (t) setTheme(t); } catch (e) {}
+const $ = (s) => document.querySelector(s);
+let DATA, curWeek;
+
+const pct = (x) => Math.round(x * 100) + "%";
+const fmtU = (u) => `${u > 0 ? "+" : u < 0 ? "−" : ""}${Math.abs(u).toFixed(2)}u`;
+const fmtLine = (team, homeMargin, isHome) => {
+  // homeMargin: expected home margin. Show from the favorite's view.
+  if (homeMargin == null) return "—";
+  if (Math.abs(homeMargin) < 0.25) return "PK";
+  const fav = homeMargin > 0 ? team.home : team.away;
+  return `${fav} −${Math.abs(homeMargin).toFixed(1)}`;
+};
+const fmtTime = (g) => {
+  if (!g.time) return "";
+  const [h, m] = g.time.split(":").map(Number);
+  const hr = ((h + 11) % 12) + 1;
+  return `${hr}:${String(m).padStart(2, "0")} ${h >= 12 ? "PM" : "AM"} ET`;
+};
+const dayLabel = (g) => {
+  const d = new Date(g.date + "T12:00:00");
+  return d.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
+};
+const logo = (t) => DATA.teams[t]?.logo || "";
+const lum = (hex) => {
+  const n = parseInt((hex || "#000").slice(1), 16);
+  return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255);
+};
+// Team color that stays visible on a dark background: primary, else secondary
+// Each team's primary color; very dark ones are lightened (same hue) so the bar stays visible
+const color = (t) => {
+  const c = DATA.teams[t] || {}, hex = c.color || "#6b7a90";
+  const L = lum(hex);
+  if (L >= 55) return hex;
+  const n = parseInt(hex.slice(1), 16), mix = L < 20 ? 0.55 : 0.4;
+  const ch = (v) => Math.round(v + (255 - v) * mix);
+  return `rgb(${ch(n >> 16)}, ${ch((n >> 8) & 255)}, ${ch(n & 255)})`;
+};
+const readableColor = (c) => c;
+// Bar colors for a matchup: both primaries, unless they're too alike (e.g. two navies),
+// then the home team uses its secondary color
+function matchupColors(away, home) {
+  const rgb = (c) => c.startsWith("#") ? [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]
+                                      : c.match(/\d+/g).map(Number);
+  const a = color(away), h = color(home);
+  const d = Math.hypot(...rgb(a).map((v, i) => v - rgb(h)[i]));
+  if (d >= 90) return [a, h];
+  const alt = DATA.teams[home]?.color2;
+  return [a, alt && lum(alt) >= 55 && lum(alt) <= 235 ? alt : "#8b97ab"];
+}
+
+function renderWeekNav() {
+  const weeks = Object.keys(DATA.weeks).map(Number).sort((a, b) => a - b);
+  $("#weeknav").innerHTML = weeks.map(w =>
+    `<button data-week="${w}" class="${w === curWeek ? "on" : ""}" ${w === DATA.week ? 'title="This week"' : ""}>Week ${w}${w === DATA.week ? '<span class="dot"></span>' : ""}</button>`
+  ).join("");
+  $("#weeknav").querySelectorAll("button").forEach(b =>
+    b.onclick = () => { curWeek = +b.dataset.week; renderWeekNav(); renderGames(); window.scrollTo({ top: 0 }); });
+  const on = $("#weeknav .on");
+  if (on) $("#weeknav").scrollLeft = Math.max(0, on.offsetLeft - ($("#weeknav").clientWidth - on.offsetWidth) / 2);
+}
+
+// QB rating = EPA per dropback, shrunk toward replacement level
+const qbTag = (r) => r == null ? "" :
+  ` <b class="mono ${r > 0.1 ? "good" : r < -0.05 ? "bad" : ""}">${r > 0 ? "+" : ""}${r.toFixed(2)}</b>`;
+
+// ATS pick with the Vegas number for that side, e.g. "NYG +1.5"
+function atsLabel(g) {
+  if (!g.ats_pick) return g.ats_edge != null ? "No pick" : "—";
+  const homeLine = -g.vegas_spread, line = g.ats_pick === g.home ? homeLine : -homeLine;
+  return `${g.ats_pick} ${line > 0 ? "+" : line < 0 ? "−" : ""}${line === 0 ? "PK" : Math.abs(line).toFixed(1)}`;
+}
+
+const tierName = (g) => g.tier === "play" ? `${g.units}u play` : g.tier === "lean" ? "Lean" : "Light lean";
+const TIER_ORDER = ["play", "lean", "light"];
+const TIER_LABEL = { play: "Plays", lean: "Leans", light: "Light leans" };
+
+// W-L-P for graded picks of one tier
+function tierRecord(games, tier) {
+  const r = { w: 0, l: 0, p: 0, units: 0 };
+  games.forEach(g => {
+    if (!g.final || g.tier !== tier) return;
+    if (g.ats_correct == null) r.p++; else if (g.ats_correct) r.w++; else r.l++;
+    r.units += g.units_result || 0;
+  });
+  return r;
+}
+const fmtRec = (r) => `${r.w}–${r.l}${r.p ? "–" + r.p : ""}`;
+function ouRecord(games) {
+  const r = { w: 0, l: 0, p: 0 };
+  games.forEach(g => { if (g.final && g.ou_pick) { if (g.ou_correct == null) r.p++; else if (g.ou_correct) r.w++; else r.l++; } });
+  return r;
+}
+
+// ---------------------------------------------------------------- heads up
+// Injury / line-move news on plays that haven't kicked off: game picks with a
+// tier and prop unit plays. Shown at the top of Picks; no separate screen.
+function headsUpBox(games) {
+  const items = [];
+  games.filter(g => !g.final && g.alerts?.length && (g.tier || g.ou_pick)).forEach(g => items.push(
+    `<div class="item" onclick="openGame('${g.id}')"><b>${g.tier ? tierName(g) + " · " + atsLabel(g) : "O/U lean · " + g.ou_pick + " " + g.total_line}</b>
+      <small>${g.alerts.join(" · ")}</small></div>`));
+  if (PROPS) {
+    const week = new Set(games.map(g => g.id));
+    for (const [gid, ps] of Object.entries(PROPS.games)) {
+      if (!week.has(gid)) continue;
+      for (const p of ps) for (const [mk, l] of Object.entries(p.lines || {})) {
+        const big = l.open != null && Math.abs(l.line - l.open) / Math.max(0.5, l.open) > 0.35;
+        if ((l.tier === "play3" || l.tier === "play1") && (p.alerts?.length || big))
+          items.push(`<div class="item" onclick="openProp('${gid}','${p.id}','${mk}')"><b>${PTIER[l.tier].label} · ${p.name} ${l.side} ${l.line} ${PMKT[mk].short}</b>
+            <small>${[...(big ? [`line moved ${l.open} → ${l.line}`] : []), ...(p.alerts || [])].join(" · ")}</small></div>`);
+      }
+    }
+  } else loadProps().then(() => renderGames());
+  if (!items.length) return "";
+  return `<div class="heads"><h2>⚠ Heads up · ${items.length} play${items.length > 1 ? "s" : ""} with news</h2>${items.join("")}
+    <p class="note" style="margin:6px 0 0">Injuries and line moves since the pick. Tap one to check it before betting.</p></div>`;
+}
+
+// ---------------------------------------------------------------- post-game review
+// Everything from the home team's view: margin = home − away
+function review(g) {
+  const margin = g.home_score - g.away_score, total = g.home_score + g.away_score;
+  const r = { margin, total, modelMiss: Math.abs(g.model_spread - margin) };
+  if (g.vegas_spread != null) r.vegasMiss = Math.abs(g.vegas_spread - margin);
+  if (g.ats_pick) {  // how much the pick covered (+) or missed (−) by
+    const sideMargin = g.ats_pick === g.home ? margin : -margin;
+    const line = g.ats_pick === g.home ? -g.vegas_spread : g.vegas_spread;
+    r.coverBy = sideMargin + line;
+  }
+  if (g.ou_pick && g.total_line != null) r.ouBy = (g.ou_pick === "Over" ? 1 : -1) * (total - g.total_line);
+  if (g.ou_total != null) r.totalMiss = Math.abs(g.ou_total - total);
+  if (g.total_line != null) r.vegasTotalMiss = Math.abs(g.total_line - total);
+  return r;
+}
+const fmtBy = (x) => x > 0 ? `covered by ${x.toFixed(1)}` : x < 0 ? `missed by ${(-x).toFixed(1)}` : "pushed";
+const resultText = (g, margin) => margin === 0 ? "Tie" : `${margin > 0 ? g.home : g.away} by ${Math.abs(margin)}`;
+
+// What kind of miss: did Vegas miss too (variance) or was it the model?
+function missType(r) {
+  if (r.vegasMiss == null) return "";
+  if (r.modelMiss - r.vegasMiss >= 3) return "model miss — Vegas was closer";
+  if (r.vegasMiss - r.modelMiss >= 3) return "model beat Vegas";
+  if (r.modelMiss >= 10 && r.vegasMiss >= 10) return "nobody saw it (Vegas missed too)";
+  return "";
+}
+
+function reviewRow(g) {
+  if (!g.final) return "";
+  const r = review(g), teams = { home: g.home, away: g.away };
+  return `<div class="review-row">
+    <span>Result <b>${resultText(g, r.margin)}</b></span>
+    <span>Model <b>${fmtLine(teams, g.model_spread)}</b> (off ${r.modelMiss.toFixed(1)})</span>
+    ${r.vegasMiss != null ? `<span>Vegas <b>${fmtLine(teams, g.vegas_spread)}</b> (off ${r.vegasMiss.toFixed(1)})</span>` : ""}
+    ${r.coverBy != null ? `<span>${atsLabel(g)} <b class="${r.coverBy > 0 ? "good" : r.coverBy < 0 ? "bad" : ""}">${fmtBy(r.coverBy)}</b></span>` : ""}
+  </div>`;
+}
+
+// Week (or season) review: how close we were and where the model went wrong
+function weekReview(games, title) {
+  const done = games.filter(g => g.final);
+  if (!done.length) return "";
+  const rs = done.map(g => ({ g, r: review(g) }));
+  const avg = (xs) => xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
+  const mMiss = avg(rs.map(x => x.r.modelMiss)), vMiss = avg(rs.filter(x => x.r.vegasMiss != null).map(x => x.r.vegasMiss));
+  const tMiss = avg(rs.filter(x => x.r.totalMiss != null).map(x => x.r.totalMiss));
+  const vtMiss = avg(rs.filter(x => x.r.vegasTotalMiss != null).map(x => x.r.vegasTotalMiss));
+  const beat = rs.filter(x => x.r.vegasMiss != null && x.r.modelMiss < x.r.vegasMiss).length;
+  const lined = rs.filter(x => x.r.vegasMiss != null).length;
+  const close = rs.filter(x => x.g.tier && x.r.coverBy != null && Math.abs(x.r.coverBy) <= 2)
+    .map(x => `<div class="line"><span>${tierName(x.g)} ${atsLabel(x.g)}</span><b class="${x.r.coverBy > 0 ? "good" : x.r.coverBy < 0 ? "bad" : ""}">${fmtBy(x.r.coverBy)}</b></div>`).join("");
+  const worst = [...rs].sort((a, b) => b.r.modelMiss - a.r.modelMiss).slice(0, 3)
+    .map(x => `<div class="line"><span>${x.g.away} @ ${x.g.home}: ${resultText(x.g, x.r.margin)}<br><small>${missType(x.r) || "off by " + x.r.modelMiss.toFixed(1)}</small></span>
+      <b class="mono">off ${x.r.modelMiss.toFixed(1)}</b></div>`).join("");
+  const modelMisses = rs.filter(x => x.r.vegasMiss != null && x.r.modelMiss - x.r.vegasMiss >= 3).length;
+  return `<div class="review"><h2>${title}</h2>
+    <div class="line"><span>Avg miss on the margin</span><b class="mono">Model ${mMiss.toFixed(1)} · Vegas ${vMiss != null ? vMiss.toFixed(1) : "—"}</b></div>
+    ${tMiss != null ? `<div class="line"><span>Avg miss on the total</span><b class="mono">Model ${tMiss.toFixed(1)} · Vegas ${vtMiss.toFixed(1)}</b></div>` : ""}
+    <div class="line"><span>Model closer than Vegas</span><b class="mono">${beat} of ${lined} games</b></div>
+    <div class="line"><span>Model-specific misses (Vegas 3+ pts closer)</span><b class="mono">${modelMisses}</b></div>
+    ${close ? `<div class="day" style="margin:12px 0 2px">Close calls (within 2 pts)</div>${close}` : ""}
+    <div class="day" style="margin:12px 0 2px">Biggest misses</div>${worst}
+  </div>`;
+}
+
+// "Why this pick?": the biggest inputs behind the model's line, plus news and rest
+function whyBox(g) {
+  if (!g.explain) return "";
+  const toward = g.ats_pick || g.pick;
+  const parts = g.explain.parts.filter(p => Math.abs(p.pts) >= 0.3)
+    .sort((a, b) => Math.abs(b.pts) - Math.abs(a.pts)).slice(0, 3)
+    .map(p => `<div><b>${p.label}</b>: ${Math.abs(p.pts).toFixed(1)} pts toward ${p.pts >= 0 ? g.home : g.away}</div>`);
+  if (g.rest?.[0] != null && g.rest?.[1] != null && Math.abs(g.rest[1] - g.rest[0]) >= 3)
+    parts.push(`<div><b>Rest</b>: ${g.home} ${g.rest[1]} days vs ${g.away} ${g.rest[0]}</div>`);
+  if (!g.final && g.alerts?.length) parts.push(`<div><b>News</b>: ${g.alerts[0]}${g.alerts.length > 1 ? ` (+${g.alerts.length - 1} more)` : ""}</div>`);
+  return `<div style="margin-top:8px"><button class="why-btn" onclick="event.stopPropagation(); this.nextElementSibling.classList.toggle('on')">Why ${toward}?</button>
+    <div class="why-box">${parts.join("") || "<div>No single input stands out; it's close to an average matchup.</div>"}</div></div>`;
+}
+
+// Over/under line on a card: model total vs line, plus the O/U lean and result
+function ouRow(g) {
+  if (g.total_line == null) return "";
+  let tag = "";
+  if (g.ou_pick && g.final) {
+    const res = g.ou_correct == null ? "push" : g.ou_correct ? "win" : "loss";
+    tag = `<span class="tag ${g.ou_correct == null ? "live" : g.ou_correct ? "hit" : "miss"}">O/U lean ${res} · ${g.ou_pick} ${g.total_line}</span>`;
+  } else if (g.ou_pick) {
+    tag = `<span class="tag lean">O/U lean · ${g.ou_pick} ${g.total_line}</span>`;
+  }
+  const actual = g.final ? ` · Final ${g.away_score + g.home_score}` : "";
+  return `<div class="ou-row"><span>Total ${g.total_line} · Model ${(g.ou_total ?? g.model_total).toFixed(1)}${actual}</span>${tag}</div>`;
+}
+
+function gameCard(g) {
+  const ph = g.home_prob, pa = 1 - ph;
+  const pickHome = g.pick === g.home;
+  const teams = { home: g.home, away: g.away };
+  // Only tiered picks get a tag: official plays, leans and light leans
+  let tag = "";
+  if (g.tier && g.final) {
+    const res = g.ats_correct == null ? "push" : g.ats_correct ? "win" : "loss";
+    const cls = g.ats_correct == null ? "live" : g.ats_correct ? "hit" : "miss";
+    const u = g.tier === "play" ? ` ${fmtU(g.units_result)}` : "";
+    tag = `<span class="tag ${cls}">${tierName(g)} ${res} · ${atsLabel(g)}${u}</span>`;
+  } else if (g.tier) {
+    tag = `<span class="tag ${g.tier === "play" ? "unit" : g.tier}">${tierName(g)} · ${atsLabel(g)}</span>`;
+  }
+  const edge = g.vegas_spread == null ? null : g.model_spread - g.vegas_spread;
+  const atsTxt = atsLabel(g);
+  const center = g.final
+    ? `<div class="score mono"><span class="${g.away_score > g.home_score ? "w" : "l"}">${g.away_score}</span> – <span class="${g.home_score > g.away_score ? "w" : "l"}">${g.home_score}</span></div><div>Final</div>`
+    : `<div>${g.neutral ? "vs" : "@"}</div>`;
+  const nick = (t) => DATA.teams[t]?.nick || "";
+  return `
+  <article class="card" onclick="openGame('${g.id}')">
+    <div class="card-top"><span>${g.final ? dayLabel(g).split(",")[0] : fmtTime(g)}${g.neutral ? " · Neutral site" : ""}</span>${tag}</div>
+    <div class="teams">
+      <div class="team ${!pickHome ? "picked" : ""}">
+        <img class="logo" src="${logo(g.away)}" alt="" loading="lazy">
+        <div class="tname"><div class="abbr">${g.away}</div><div class="nick">${nick(g.away)}</div></div>
+      </div>
+      <div class="center">${center}</div>
+      <div class="team home ${pickHome ? "picked" : ""}">
+        <img class="logo" src="${logo(g.home)}" alt="" loading="lazy">
+        <div class="tname"><div class="abbr">${g.home}</div><div class="nick">${nick(g.home)}</div></div>
+      </div>
+    </div>
+    <div class="bar">
+      <div style="width:${pa * 100}%;background:${matchupColors(g.away, g.home)[0]}"></div>
+      <div style="width:${ph * 100}%;background:${matchupColors(g.away, g.home)[1]}"></div>
+    </div>
+    <div class="probs mono">
+      <span class="${pa < 0.5 ? "dim" : ""}">${pct(pa)}</span>
+      <span class="${ph < 0.5 ? "dim" : ""}">${pct(ph)}</span>
+    </div>
+    ${ouRow(g)}
+    ${whyBox(g)}
+    ${!g.final && g.alerts?.length ? `<div class="alert-line">⚠ Heads up: ${g.alerts.join(" · ")}</div>` : ""}
+    ${reviewRow(g)}
+  </article>`;
+}
+
+function renderGames() {
+  const games = DATA.weeks[curWeek] || [];
+  if (!games.length) { $("#games").innerHTML = `<div class="empty">No games this week.</div>`; return; }
+  const byDay = {};
+  games.forEach(g => (byDay[g.date] ||= []).push(g));
+  let html = "";
+  for (const day of Object.keys(byDay).sort()) {
+    const list = byDay[day].sort((a, b) => (a.time || "").localeCompare(b.time || ""));
+    html += `<div class="day">${dayLabel(list[0])}</div>` + list.map(gameCard).join("");
+  }
+  if (games.some(g => g.final)) {
+    const parts = TIER_ORDER.map(t => {
+      const r = tierRecord(games, t);
+      if (!r.w && !r.l && !r.p) return "";
+      const u = t === "play" ? ` <span class="${r.units >= 0 ? "good" : "bad"}">(${fmtU(r.units)})</span>` : "";
+      return `${TIER_LABEL[t]} <span style="color:var(--text)">${fmtRec(r)}</span>${u}`;
+    }).filter(Boolean);
+    const ou = ouRecord(games);
+    if (ou.w + ou.l + ou.p) parts.push(`O/U <span style="color:var(--text)">${fmtRec(ou)}</span>`);
+    html = `<div class="day" style="margin-top:6px">Week ${curWeek}: ${parts.length ? parts.join(" · ") : "no plays or leans graded"}</div>`
+      + weekReview(games, `Week ${curWeek} review${games.every(g => g.final) ? "" : " (so far)"}`) + html;
+  }
+  html = headsUpBox(games) + html;  // news first
+  html += `<p class="legend">✓ = team the model picks to win · bar = each team's win chance (favorite in bold) · tags = our bets (plays, leans) · tap a game for everything</p>`;
+  $("#games").innerHTML = html;
+}
+
+function renderRanks() {
+  const r = DATA.ratings;
+  const lo = Math.min(...r.map(t => t.elo)), hi = Math.max(...r.map(t => t.elo));
+  const tint = (v, good) => {  // shade by size: +/-0.15 EPA per play is the strong end
+    const a = Math.min(Math.abs(v) / 0.15, 1) * 0.35;
+    const c = good ? "61, 220, 132" : "255, 93, 108";
+    return Math.abs(v) < 0.01 ? "" : `background: rgba(${c}, ${a.toFixed(2)})`;
+  };
+  const arrow = (c) => !c ? "" : `<span class="chg ${c > 0 ? "good" : "bad"}">${c > 0 ? "▲" : "▼"}${Math.abs(c)}</span>`;
+  $("#ranks").innerHTML = `
+    <div class="rank-head"><span>#</span><span>Team</span><span>Elo</span><span>Off EPA</span><span>Def EPA</span></div>
+    ${r.map((t, i) => `
+      <div class="rank-row">
+        <span class="n mono">${i + 1}</span>
+        <span class="t"><img src="${logo(t.team)}" alt="" loading="lazy"><span><b>${t.team}${arrow(t.rank_change)}</b><small>${t.record}</small></span></span>
+        <span class="r mono">${t.elo}<span class="elo-bar" style="width:${(8 + (t.elo - lo) / Math.max(1, hi - lo) * 92).toFixed(0)}%;margin-left:auto"></span></span>
+        <span class="r mono"><span class="epa-cell" style="${tint(t.off_epa, t.off_epa > 0)}">${t.off_epa > 0 ? "+" : ""}${t.off_epa.toFixed(2)}</span></span>
+        <span class="r mono"><span class="epa-cell" style="${tint(t.def_epa, t.def_epa < 0)}">${t.def_epa > 0 ? "+" : ""}${t.def_epa.toFixed(2)}</span></span>
+      </div>`).join("")}
+    <p class="updated">▲▼ = rank change since each team's last game. Bar = Elo strength. EPA = expected points added per play, recency-weighted; darker = stronger (defense: lower is better).</p>`;
+}
+
+function propRecordPanel() {
+  if (!PROPS) { loadProps().then(() => $("#v-records").classList.contains("on") && renderRecords()); return ""; }
+  const R = PROPS.record;
+  if (!R) return "";
+  const units = ["play3", "play1"].reduce((t, k) => t + (R[k]?.units_net || 0), 0);
+  const cards = PTIER_ORDER.map(t => `<div class="rec-card"><small>Prop ${PTIER[t].label.toLowerCase()}s</small>
+      <b class="mono">${recTxt(R[t])}</b><div class="sub">${recPct(R[t]).replace(/[()]/g, "")}${R[t]?.units_risked ? " · " + fmtU(R[t].units_net) : " · tracked"}</div></div>`).join("");
+  const weeks = Object.entries(PROPS.record_weeks || {}).sort((a, b) => b[0] - a[0]).map(([w, ts]) =>
+    `<tr><td><b>Wk ${w}</b></td>${PTIER_ORDER.map(t => `<td class="mono">${recTxt(ts[t])}</td>`).join("")}
+      <td class="mono ${(ts.play3.units_net + ts.play1.units_net) >= 0 ? "good" : "bad"}">${fmtU(ts.play3.units_net + ts.play1.units_net)}</td></tr>`).join("");
+  const hist = (PROPS.graded || []).filter(g => g.units > 0).slice(0, 40).map(g =>
+    `<div class="hist"><span class="wk mono">Wk ${g.week}</span>
+      <span><b class="mono">${g.name} ${g.side} ${g.line}</b> <small>${PTIER[g.tier].label} · ${PMKT[g.market].label} · actual ${g.actual}</small></span>
+      <b class="${g.result === "win" ? "good" : g.result === "loss" ? "bad" : ""}">${fmtU(g.units_net)}</b></div>`).join("");
+  return `<div class="review"><h2>Player props</h2>
+      <div class="line"><span>Prop plays (3u + 1u)</span><b class="mono ${units >= 0 ? "good" : "bad"}">${fmtU(units)}</b></div></div>
+    <div class="rec-cards">${cards}</div>
+    <div class="day">Props by week</div>
+    <table class="rec-table"><tr><th>Week</th><th>3u</th><th>1u</th><th>Lean</th><th>Light</th><th>Units</th></tr>${weeks}</table>
+    ${hist ? `<div class="day">Recent prop plays</div>${hist}` : ""}
+    <p class="note">Graded at −110 (DraftKings prices aren't in the feed). Weeks before tracking began use DraftKings' last pre-game line from ESPN.</p>`;
+}
+
+function renderRecords() {
+  const all = Object.values(DATA.weeks).flat();
+  const s = DATA.season_record;
+  const play = tierRecord(all, "play"), lean = tierRecord(all, "lean"), light = tierRecord(all, "light");
+  const pct = (r) => r.w + r.l ? `${(r.w / (r.w + r.l) * 100).toFixed(1)}%` : "—";
+  const weeks = Object.keys(DATA.weeks).map(Number).sort((a, b) => b - a);
+  const rows = weeks.map(w => {
+    const gs = DATA.weeks[w];
+    if (!gs.some(g => g.final)) return "";
+    const su = gs.filter(g => g.final && g.correct != null), suW = su.filter(g => g.correct).length;
+    const p = tierRecord(gs, "play");
+    return `<tr><td><b>Wk ${w}</b></td>
+      <td class="mono">${fmtRec(p)}</td>
+      <td class="mono ${p.units > 0 ? "good" : p.units < 0 ? "bad" : ""}">${p.w + p.l + p.p ? fmtU(p.units) : "—"}</td>
+      <td class="mono">${fmtRec(tierRecord(gs, "lean"))}</td>
+      <td class="mono">${fmtRec(tierRecord(gs, "light"))}</td>
+      <td class="mono">${fmtRec(ouRecord(gs))}</td>
+      <td class="mono">${suW}–${su.length - suW}</td></tr>`;
+  }).join("");
+  const ouHist = weeks.flatMap(w => DATA.weeks[w].filter(g => g.final && g.ou_pick).map(g => {
+    const res = g.ou_correct == null ? "Push" : g.ou_correct ? "Win" : "Loss";
+    return `<div class="hist"><span class="wk mono">Wk ${w}</span>
+      <span><b class="mono">${g.ou_pick} ${g.total_line}</b> <small>O/U lean · ${g.away} ${g.away_score}–${g.home_score} ${g.home} (${g.away_score + g.home_score})</small></span>
+      <b class="${g.ou_correct == null ? "" : g.ou_correct ? "good" : "bad"}">${res}</b></div>`;
+  })).join("");
+  const hist = weeks.flatMap(w => DATA.weeks[w].filter(g => g.final && g.tier).map(g => ({ w, g })))
+    .map(({ w, g }) => {
+      const res = g.ats_correct == null ? "Push" : g.ats_correct ? "Win" : "Loss";
+      const cls = g.ats_correct == null ? "" : g.ats_correct ? "good" : "bad";
+      return `<div class="hist"><span class="wk mono">Wk ${w}</span>
+        <span><b class="mono">${atsLabel(g)}</b> <small>${tierName(g)} · ${g.away} ${g.away_score}–${g.home_score} ${g.home}</small></span>
+        <b class="${cls}">${res}${g.tier === "play" ? " " + fmtU(g.units_result) : ""}</b></div>`;
+    }).join("");
+  $("#records").innerHTML = `
+    <div class="rec-cards">
+      <div class="rec-card wide focal"><div><small>Official plays (4+ pt edge)</small><b class="mono">${fmtRec(play)}</b>
+        <div class="sub">${pct(play)} · n = ${play.w + play.l + play.p}${play.w + play.l + play.p < 30 ? " (small sample)" : ""} · ROI ${s.units_risked ? (s.units_net / s.units_risked * 100).toFixed(1) + "%" : "—"}</div></div>
+        <b class="mono ${play.w + play.l + play.p < 30 ? "small-n" : s.units_net >= 0 ? "good" : "bad"}">${fmtU(s.units_net)}</b></div>
+      <div class="rec-card"><small>Leans (3–4 pts)</small><b class="mono">${fmtRec(lean)}</b><div class="sub">${pct(lean)}</div></div>
+      <div class="rec-card"><small>Light leans (2.5–3)</small><b class="mono">${fmtRec(light)}</b><div class="sub">${pct(light)}</div></div>
+      <div class="rec-card"><small>All ATS picks (${DATA.ats_min_edge}+)</small><b class="mono">${s.ats_wins}–${s.ats_losses}${s.ats_pushes ? "–" + s.ats_pushes : ""}</b>
+        <div class="sub">${pct({ w: s.ats_wins, l: s.ats_losses })} · breakeven 52.4%</div></div>
+      <div class="rec-card"><small>Straight up</small><b class="mono">${s.wins}–${s.losses}</b><div class="sub">${pct({ w: s.wins, l: s.losses })}</div></div>
+      <div class="rec-card wide"><div><small>Over/under leans (${DATA.ou_min_edge}+ pts)</small><b class="mono">${s.ou_wins}–${s.ou_losses}${s.ou_pushes ? "–" + s.ou_pushes : ""}</b>
+        <div class="sub">${pct({ w: s.ou_wins, l: s.ou_losses })} · tracked, no units · backtest ${pct({ w: DATA.backtest.ou_picks.wins, l: DATA.backtest.ou_picks.losses })}</div></div></div>
+    </div>
+    ${propRecordPanel()}
+    ${weekReview(all, "Season review")}
+    <div class="day">By week</div>
+    <table class="rec-table">
+      <tr><th>Week</th><th>Plays</th><th>Units</th><th>Leans</th><th>Light</th><th>O/U</th><th>SU</th></tr>${rows}
+    </table>
+    <div class="day">Every play &amp; lean</div>
+    ${hist || `<div class="empty">No graded plays yet.</div>`}
+    <div class="day">Every over/under lean</div>
+    ${ouHist || `<div class="empty">No graded O/U leans yet.</div>`}`;
+}
+
+function renderAbout() {
+  const b = DATA.backtest, s = DATA.season_record;
+  const p1 = (x) => `${(x * 100).toFixed(1)}%`;
+  const tierRows = b.ats_tiers.map(t => {
+    const n = t.wins + t.losses, wp = n ? t.wins / n : 0;
+    return `<tr><td>${t.tier}</td><td class="mono">${t.wins}–${t.losses}</td>
+      <td class="mono ${wp > 0.524 ? "good" : ""}">${p1(wp)}</td><td class="mono">${n}</td></tr>`;
+  }).join("");
+  const calib = b.calibration.map(c => `<div class="calib"><span class="mono">${c.bucket}</span>
+      <div class="track"><span style="left:${c.predicted * 100}%;background:var(--muted)"></span><span style="left:${c.actual * 100}%;background:var(--accent)"></span></div>
+      <span class="mono">${p1(c.predicted)}</span><span class="mono">${p1(c.actual)}</span></div>`).join("");
+  const calErr = b.calibration.length ? Math.max(...b.calibration.filter(c => c.n >= 100).map(c => Math.abs(c.predicted - c.actual))) : 0;
+  const plays = b.ats_tiers[0], playPct = plays.wins / Math.max(1, plays.wins + plays.losses);
+  const pr = PROPS?.record;
+  const yes = (ok, txt) => `<b class="${ok ? "good" : "bad"}">${txt}</b>`;
+  $("#about").innerHTML = `
+    <div class="review"><h2>In plain English</h2>
+      <div class="line"><span>Picks winners as well as Vegas?</span>${yes(b.model_acc >= b.vegas_acc - 0.015, `Close: ${p1(b.model_acc)} vs ${p1(b.vegas_acc)}`)}</div>
+      <div class="line"><span>Beats the spread overall?</span>${yes(b.ats_acc > 0.524, `No: ${p1(b.ats_acc)}`)}</div>
+      <div class="line"><span>Beats the spread on official plays?</span>${yes(playPct > 0.524, `${playPct > 0.524 ? "Yes" : "No"}: ${p1(playPct)} (n = ${plays.wins + plays.losses})`)}</div>
+      <div class="line"><span>Are its win chances honest (calibrated)?</span>${yes(calErr < 0.05, calErr < 0.05 ? "Good" : "Off in places")}</div>
+      ${pr ? `<div class="line"><span>Prop plays vs DraftKings (2026)?</span>${yes((pr.play3.units_net + pr.play1.units_net) > 0, `3u ${recTxt(pr.play3)} · 1u ${recTxt(pr.play1)}`)}</div>` : ""}
+      <div class="line"><span>Over/unders?</span>${yes(b.ou_acc > 0.524, `Coin flip: ${p1(b.ou_acc)}`)}</div>
+    </div>
+    <div class="day">The details</div>
+    <div class="stats">
+      <div class="stat"><small>Picks right</small><b class="mono">${p1(b.model_acc)}</b><span class="cap">Vegas favorite: ${p1(b.vegas_acc)}</span></div>
+      <div class="stat"><small>Spread miss</small><b class="mono">${b.spread_mae}</b><span class="cap">avg points off · Vegas ${b.vegas_spread_mae}</span></div>
+      <div class="stat"><small>Total miss</small><b class="mono">${b.total_mae}</b><span class="cap">avg points off · Vegas ${b.vegas_total_mae}</span></div>
+    </div>
+    <div class="stats" style="margin-top:8px">
+      <div class="stat"><small>Brier</small><b class="mono">${b.brier.toFixed(3)}</b><span class="cap">accuracy of win chances; lower is better, guessing 50% = 0.250</span></div>
+      <div class="stat"><small>Log loss</small><b class="mono">${b.log_loss.toFixed(3)}</b><span class="cap">punishes confident misses; lower is better, guessing = 0.693</span></div>
+      <div class="stat"><small>Over/under</small><b class="mono">${p1(b.ou_acc)}</b><span class="cap">all games; 52.4% needed to profit</span></div>
+    </div>
+    <div class="panel">
+      <h2>Backtest: against the spread</h2>
+      <table class="rec-table"><tr><th>Tier</th><th>W–L</th><th>Win %</th><th>Games</th></tr>${tierRows}</table>
+      <p class="note">Break-even at −110 is 52.4%. ${b.method}, ${b.seasons}, ${b.games.toLocaleString()} games; graded against closing lines.</p>
+    </div>
+    <div class="panel">
+      <h2>Calibration</h2>
+      <p>When the model says a team wins X% of the time, how often did it? <span style="color:var(--muted)">Gray = predicted, green = actual.</span></p>
+      <div class="calib note"><span>Model says</span><span></span><span>Pred.</span><span>Actual</span></div>
+      ${calib}
+    </div>
+    <div class="panel">
+      <h2>Bet sizing</h2>
+      <ul>
+        <li><b>Under ${DATA.ats_min_edge} pts</b>: no ATS pick; it doesn't count in the ATS record.</li>
+        <li><b>${DATA.ats_min_edge}–2.5 pts</b>: ATS pick, counted only in the overall ATS record.</li>
+        <li><b>2.5–3 pts</b>: <b>light lean</b>, tracked but no bet.</li>
+        <li><b>3–4 pts</b>: <b>lean</b>, tracked but no bet (~52% in the backtest).</li>
+        <li><b>4–6 pts</b>: <b>1 unit</b> (hit ~54%).</li>
+        <li><b>6+ pts</b>: <b>2 units</b> (hit ~58%, but only ~7 games a season).</li>
+      </ul>
+      <p>Graded at −110: a win pays 1u per unit, a loss costs 1.1u. Small samples; a unit should be a small slice of your bankroll (1–2%).</p>
+    </div>
+    <div class="panel">
+      <h2>How it works</h2>
+      <ul>
+        <li><b>Elo ratings</b> for every team since 1999, updated after each game. Bigger wins move ratings more.</li>
+        <li><b>EPA per play</b> and <b>success rate</b> from play-by-play data, offense and defense, weighted toward recent games.</li>
+        <li><b>QB ratings</b>: each starter's EPA per dropback over their career, weighted toward recent games. Backups and rookies start near replacement level.</li>
+        <li>Rest days, short weeks, division games and neutral sites.</li>
+        <li>A logistic regression turns these into a win probability; a ridge regression predicts the margin.</li>
+      </ul>
+      <p>Backtested on ${b.seasons}: each season predicted using only earlier seasons. Vegas is still a bit sharper. Against the spread it has been close to a coin flip historically (${p1(b.ats_acc)} on ${DATA.ats_min_edge}+ point edges), so the records here are for tracking, not betting advice.</p>
+      <p>Tap any game for the full analysis: markets, injuries and why the model predicts what it does.</p>
+      <p class="note">Model ${DATA.model_version}. Not tracked: line movement, multiple sportsbooks, closing-line value (only one consensus line is available).</p>
+    </div>
+    <div class="panel">
+      <h2>Appearance</h2>
+      <div class="seg theme-toggle">${["dark", "light"].map(t => `<button class="${(document.documentElement.dataset.theme || "dark") === t ? "on" : ""}"
+        onclick="setTheme('${t}')">${t === "dark" ? "Dark" : "Light"}</button>`).join("")}</div>
+    </div>
+    <div class="panel">
+      <h2>Add to home screen</h2>
+      <p><b>iPhone:</b> open in Safari → Share → Add to Home Screen.<br><b>Android:</b> Chrome menu ⋮ → Add to Home screen / Install app.</p>
+    </div>`;
+}
+
+// ---------------------------------------------------------------- game analysis
+const GV = { game: null, tab: "overview", mode: "cal" };
+const fmtOdds = (o) => o == null ? "—" : o > 0 ? `+${o}` : `${o}`;
+const fmtPct = (p) => p == null ? "—" : `${(p * 100).toFixed(1)}%`;
+const fmtEv = (ev) => ev == null ? "—" : `${ev >= 0 ? "+" : "−"}${Math.abs(ev * 100).toFixed(1)}%`;
+const evCls = (ev) => ev == null ? "" : ev > 0.005 ? "good" : ev < -0.005 ? "bad" : "";
+const hoursOld = () => (Date.now() - new Date(DATA.generated_at)) / 36e5;
+const teamRecord = (t) => DATA.ratings.find(r => r.team === t)?.record || "";
+
+function openGame(id) {
+  GV.game = Object.values(DATA.weeks).flat().find(x => x.id === id);
+  GV.tab = "overview";
+  GV.mode = GV.game.market?.spread == null ? "model" : "cal";
+  if (location.hash !== "#game=" + id) history.pushState({ game: id }, "", "#game=" + id);
+  renderGame();
+  $("#gv").classList.add("on"); $("#gv").scrollTop = 0;
+  document.body.style.overflow = "hidden";
+}
+function closeGame(fromPop) {
+  $("#gv").classList.remove("on"); document.body.style.overflow = "";
+  if (fromPop || !location.hash.startsWith("#game=")) return;
+  // Back only if we pushed this entry; a deep link would otherwise leave the app
+  if (history.state?.game) history.back();
+  else history.replaceState(null, "", location.pathname + location.search);
+}
+window.addEventListener("popstate", () => {
+  const m = location.hash.match(/^#game=(.+)$/);
+  if (m && DATA) openGame(m[1]); else closeGame(true);
+});
+
+function statusBadge(g) {
+  if (g.final) return `<span class="badge">Final</span>`;
+  const h = hoursOld();
+  return h > 12 ? `<span class="badge stale">Data ${Math.round(h)}h old</span>`
+                : `<span class="badge live">Pre-game · updated ${h < 1 ? "<1" : Math.round(h)}h ago</span>`;
+}
+
+// Projected score from a margin and a total (home view)
+const projScore = (margin, total) => ({ home: (total + margin) / 2, away: (total - margin) / 2 });
+
+function renderGame() {
+  const g = GV.game, m = g.market || {};
+  const tabs = [["overview", "Overview"], ["markets", "Markets"], ["sim", "Simulate"], ["props", "Props"], ["injuries", "Injuries"], ["model", "Model"]];
+  const ps = projScore(g.model_spread, g.model_total);
+  const center = g.final
+    ? `<div class="gv-score mono">${g.away_score}–${g.home_score}</div><small>Final</small>`
+    : `<div class="gv-score mono">${Math.round(ps.away)}–${Math.round(ps.home)}</div><small>Model projected score</small>`;
+  const body = { overview: gvOverview, markets: gvMarkets, sim: gvSim, props: gvProps, injuries: gvInjuries, model: gvModel }[GV.tab](g);
+  $("#gv-body").innerHTML = `
+    <div class="gv-top"><button class="gv-back" onclick="closeGame()">‹ Picks</button>${statusBadge(g)}</div>
+    <div class="gv-head">
+      <div class="gv-teams">
+        <div><img src="${logo(g.away)}" alt=""><div class="abbr">${g.away}</div><small>${DATA.teams[g.away]?.nick || ""} · ${teamRecord(g.away)}</small><small>Away</small></div>
+        <div>${center}</div>
+        <div><img src="${logo(g.home)}" alt=""><div class="abbr">${g.home}</div><small>${DATA.teams[g.home]?.nick || ""} · ${teamRecord(g.home)}</small><small>${g.neutral ? "Neutral site" : "Home"}</small></div>
+      </div>
+      <div class="gv-meta">${dayLabel(g)}${g.time ? " · " + fmtTime(g) : ""}${g.stadium ? " · " + g.stadium : ""}</div>
+    </div>
+    <div class="gv-tabs">${tabs.map(([k, l]) => `<button class="${GV.tab === k ? "on" : ""}" onclick="GV.tab='${k}'; renderGame()">${l}</button>`).join("")}</div>
+    ${body}`;
+}
+
+function modeToggle(g) {
+  return `<div class="seg" style="margin-top:12px">
+    <button class="${GV.mode === "cal" ? "on" : ""}" ${g.market?.spread == null ? "disabled" : ""} onclick="GV.mode='cal'; renderGame()">Calibrated</button>
+    <button class="${GV.mode === "model" ? "on" : ""}" onclick="GV.mode='model'; renderGame()">Model only</button></div>`;
+}
+
+function gvOverview(g) {
+  const m = g.market || {}, teams = { home: g.home, away: g.away };
+  const edge = m.spread == null ? null : g.model_spread - m.spread;
+  const pick = g.tier ? `<span class="tag ${g.tier === "play" ? "unit" : g.tier}">${tierName(g)} · ${atsLabel(g)}</span>`
+                      : `<span class="tag light">${g.ats_pick ? "ATS pick · " + atsLabel(g) : "No ATS pick"}</span>`;
+  const rv = g.final ? review(g) : null;
+  const played = rv ? `<div class="review"><h2>How it played out</h2>
+      <div class="line"><span>Final</span><b>${g.away} ${g.away_score} – ${g.home_score} ${g.home} (${resultText(g, rv.margin)})</b></div>
+      <div class="line"><span>Model line</span><b class="mono">${fmtLine(teams, g.model_spread)} · off ${rv.modelMiss.toFixed(1)}</b></div>
+      ${rv.vegasMiss != null ? `<div class="line"><span>Vegas line</span><b class="mono">${fmtLine(teams, g.vegas_spread)} · off ${rv.vegasMiss.toFixed(1)}</b></div>` : ""}
+      ${missType(rv) ? `<div class="line"><span>Verdict</span><b>${missType(rv)}</b></div>` : ""}
+      ${rv.coverBy != null ? `<div class="line"><span>${g.tier ? tierName(g) : "ATS pick"} ${atsLabel(g)}</span><b class="${rv.coverBy > 0 ? "good" : rv.coverBy < 0 ? "bad" : ""}">${fmtBy(rv.coverBy)}</b></div>` : ""}
+      ${g.total_line != null ? `<div class="line"><span>Total ${rv.total} vs line ${g.total_line}</span><b class="mono">model ${(g.ou_total ?? g.model_total).toFixed(1)}${g.ou_pick ? " · " + g.ou_pick + " " + (rv.ouBy > 0 ? "won by " + rv.ouBy.toFixed(1) : rv.ouBy < 0 ? "lost by " + (-rv.ouBy).toFixed(1) : "push") : ""}</b></div>` : ""}
+      <div class="line"><span>Model's win chance for the winner</span><b class="mono">${rv.margin === 0 ? "—" : pct(rv.margin > 0 ? g.home_prob : 1 - g.home_prob)}</b></div>
+    </div>` : "";
+  const result = g.final && g.ats_pick
+    ? `<div class="note">Graded ${g.ats_correct == null ? "push" : g.ats_correct ? "win" : "loss"} vs the ${g.graded_vs}${g.snapshot_at ? " (frozen " + new Date(g.snapshot_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ")" : ""}.</div>` : "";
+  const scen = (g.qb_scenarios || []).map(s => {
+    const d = s.model_spread - g.model_spread;
+    return `<div class="tile" style="grid-column:1/-1"><small>If ${s.qb} (${s.status}) sits</small>
+      <b class="mono">${fmtLine(teams, s.model_spread)}</b> <span class="sub">model line moves ${d >= 0 ? "+" : "−"}${Math.abs(d).toFixed(1)} toward ${d >= 0 ? g.home : g.away}; ${g.home} win ${pct(s.home_prob)}</span></div>`;
+  }).join("");
+  const cal = projScore(expectedMargin(g, "cal"), expectedTotal(g, "cal"));
+  return `
+    <div style="margin-top:12px">${pick}</div>
+    ${!g.final && g.alerts?.length ? `<div class="heads"><h2>⚠ Heads up</h2>${g.alerts.map(a => `<div class="item">${a}</div>`).join("")}
+      <p class="note" style="margin:6px 0 0">The model only adjusts for the starting QB; other injuries can move this game away from the line.</p></div>` : ""}
+    <div class="tiles">
+      <div class="tile"><small>Model spread</small><b class="mono">${fmtLine(teams, g.model_spread)}</b></div>
+      <div class="tile"><small>Market spread</small><b class="mono">${fmtLine(teams, m.spread)}</b><div class="sub">${m.spread == null ? "No line posted" : "Consensus line"}</div></div>
+      <div class="tile"><small>Spread edge</small><b class="mono ${Math.abs(edge ?? 0) >= 2.5 ? "good" : ""}">${edge == null ? "—" : Math.abs(edge).toFixed(1) + " pts"}</b><div class="sub">${edge == null ? "" : "toward " + (edge > 0 ? g.home : g.away)}</div></div>
+      <div class="tile"><small>Win probability</small><b class="mono">${pct(Math.max(g.home_prob, 1 - g.home_prob))}</b><div class="sub">${g.pick} (model)</div></div>
+      <div class="tile"><small>Over/under</small><b class="mono ${g.ou_pick ? "good" : ""}">${g.ou_pick ? g.ou_pick + " " + g.total_line : "No lean"}</b>
+        <div class="sub">Market-aware ${g.ou_total ?? "—"} vs ${m.total ?? "—"}${g.ou_edge != null ? " (" + g.ou_edge + " pts)" : ""} · stats-only ${g.model_total.toFixed(1)}${g.final ? " · final " + (g.away_score + g.home_score) : ""}</div></div>
+      <div class="tile"><small>Calibrated score</small><b class="mono">${Math.round(cal.away)}–${Math.round(cal.home)}</b><div class="sub">Market + ${Math.round(DATA.margin_pmf.calibration_k * 100)}% model</div></div>
+      ${scen}
+    </div>
+    ${played}
+    ${result}
+    <p class="note">A model edge is an estimate, not proof a bet will win. Against the spread the model has been close to a coin flip historically; see Model for the backtest.</p>`;
+}
+
+function gvMarkets(g) {
+  const m = g.market || {};
+  if (m.spread == null && m.away_ml == null && m.total == null)
+    return `<div class="empty">No market prices posted for this game yet.</div>`;
+  const mp = marginPmf(expectedMargin(g, GV.mode)), mn = DATA.margin_pmf.min_margin;
+  const tp = Calc.pmfAt(DATA.total_pmf, expectedTotal(g, GV.mode));
+  const rows = [];
+  const row = (label, line, odds, probs, nv) => {
+    const ok = odds != null && probs;
+    const ev = ok ? Calc.expectedValue(probs.win, probs.push, odds) : null;
+    rows.push(`<tr><td><b class="mono">${label}</b>${line != null ? ` <span class="mono">${line}</span>` : ""}</td>
+      <td class="mono">${fmtOdds(odds)}</td><td class="mono">${fmtPct(nv)}</td>
+      <td class="mono">${probs ? fmtPct(probs.win / (1 - probs.push || 1)) : "—"}</td>
+      <td class="mono">${probs ? fairOdds(probs.win, probs.lose) : "—"}</td>
+      <td class="mono ${evCls(ev)}">${fmtEv(ev)}</td></tr>`);
+  };
+  if (m.spread != null) {
+    rows.push(`<tr class="grp"><td colspan="6">Spread</td></tr>`);
+    const nv = m.away_spread_odds && m.home_spread_odds ? Calc.noVig(m.away_spread_odds, m.home_spread_odds) : null;
+    row(g.away, fmtLn(m.spread), m.away_spread_odds, Calc.spreadProbs(mp, mn, false, m.spread), nv?.a);
+    row(g.home, fmtLn(-m.spread), m.home_spread_odds, Calc.spreadProbs(mp, mn, true, -m.spread), nv?.b);
+  }
+  if (m.away_ml != null && m.home_ml != null) {
+    rows.push(`<tr class="grp"><td colspan="6">Moneyline</td></tr>`);
+    const nv = Calc.noVig(m.away_ml, m.home_ml);
+    row(g.away, null, m.away_ml, Calc.moneylineProbs(mp, mn, false), nv.a);
+    row(g.home, null, m.home_ml, Calc.moneylineProbs(mp, mn, true), nv.b);
+  }
+  if (m.total != null) {
+    rows.push(`<tr class="grp"><td colspan="6">Total ${m.total}</td></tr>`);
+    const t = Calc.totalProbs(tp, DATA.total_pmf.min_total, m.total);
+    const nv = m.over_odds && m.under_odds ? Calc.noVig(m.over_odds, m.under_odds) : null;
+    row("Over", null, m.over_odds, { win: t.over, push: t.push, lose: t.under }, nv?.a);
+    row("Under", null, m.under_odds, { win: t.under, push: t.push, lose: t.over }, nv?.b);
+  }
+  return `${modeToggle(g)}
+    <table class="mkt"><tr><th>Bet</th><th>Price</th><th>Mkt</th><th>Ours</th><th>Fair</th><th>EV</th></tr>${rows.join("")}</table>
+    ${!g.final ? `<button class="alt-btn" onclick="openAlt('${g.id}')">Alt lines &amp; value calculator</button>` : ""}
+    <p class="note"><b>Mkt</b> = market's win chance with the bookmaker's margin removed. <b>Ours</b> = ${GV.mode === "cal"
+      ? "spread: market line moved " + Math.round(DATA.margin_pmf.calibration_k * 100) + "% toward the model; total: the market-aware totals model. That's what the backtest supports"
+      : "the model's own line; the backtest says this overstates value"}, pushes excluded. <b>EV</b> = long-run profit per 1 unit risked at that price, pushes returning the stake.</p>
+    <p class="note">Prices: one consensus market per game from nflverse, ${g.final ? "closing" : "as of " + new Date(DATA.generated_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}. Not a specific sportsbook and no line history; check DraftKings' live price before betting.</p>`;
+}
+
+function gvInjuries(g) {
+  if (g.final) return `<div class="empty">Injury reports are shown for upcoming games.</div>`;
+  if (!DATA.sources.injuries) return `<div class="empty">Injury reports are unavailable right now.</div>`;
+  const teams = { home: g.home, away: g.away };
+  const list = (t) => {
+    const ps = g.injuries?.[t] || [];
+    return `<div class="panel" style="margin-top:12px"><h2>${t} <span class="note">${ps.length ? ps.length + " listed" : "nobody listed"}</span></h2>
+      ${ps.map(p => `<div class="inj"><span><b>${p.name}</b> <span class="note">${p.pos || ""}${p.starting_qb ? " · listed starting QB" : ""}</span></span>
+        <span class="pill ${p.status}">${p.status}</span>
+        <small>${[p.injury, p.practice].filter(Boolean).join(" · ") || "No detail"}</small></div>`).join("")}</div>`;
+  };
+  const scen = (g.qb_scenarios || []).map(s => `<div class="tile" style="grid-column:1/-1"><small>Scenario: ${s.qb} (${s.status}) sits</small>
+    <div class="sub">Model line ${fmtLine(teams, g.model_spread)} → <b class="mono">${fmtLine(teams, s.model_spread)}</b> ·
+    ${g.home} win ${pct(g.home_prob)} → <b class="mono">${pct(s.home_prob)}</b> · total ${g.model_total.toFixed(1)} → <b class="mono">${s.model_total.toFixed(1)}</b></div></div>`).join("");
+  return `${scen ? `<div class="tiles">${scen}</div>` : ""}${list(g.away)}${list(g.home)}
+    <p class="note"><b>How injuries enter the model:</b> only through the starting quarterback. The model uses the listed starter's
+    QB rating; if that QB is on the report, the scenario swaps in a replacement-level QB (rating ${DATA.qb_prior.toFixed(2)}).
+    Other injuries are shown for context but get <b>no</b> point adjustment, because there is no validated per-player value to apply
+    and team EPA already reflects players who have been missing.</p>
+    <p class="note">Source: ${DATA.sources.injuries}, fetched ${new Date(DATA.sources.injuries_fetched_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}.</p>`;
+}
+
+function gvModel(g) {
+  const e = g.explain, teams = { home: g.home, away: g.away };
+  const max = Math.max(...e.parts.map(p => Math.abs(p.pts)), 1);
+  const rows = e.parts.map(p => {
+    const w = Math.abs(p.pts) / max * 50, toward = p.pts >= 0 ? g.home : g.away;
+    return `<div class="why-row"><span>${p.label}</span><b class="mono" style="text-align:right">${p.pts >= 0 ? "+" : "−"}${Math.abs(p.pts).toFixed(1)}</b>
+      <div class="why-bar"><span style="left:${p.pts >= 0 ? 50 : 50 - w}%;width:${w}%;background:${p.pts >= 0 ? color(g.home) : color(g.away)}"></span>
+      <span style="left:50%;width:1px;background:var(--muted)"></span></div>
+      <span class="note" style="grid-column:1/-1;margin:0">toward ${toward}</span></div>`;
+  }).join("");
+  const sum = e.baseline + e.parts.reduce((t, p) => t + p.pts, 0);
+  return `<div class="panel" style="margin-top:12px"><h2>Why the model predicts this</h2>
+      <p>Points of predicted margin, positive = toward ${g.home} (home). These add up exactly to the model line.</p>
+      <div class="why-row"><span>Average game in training data (incl. typical home edge)</span><b class="mono" style="text-align:right">${e.baseline >= 0 ? "+" : "−"}${Math.abs(e.baseline).toFixed(1)}</b></div>
+      ${rows}
+      <div class="why-row"><b>Model line</b><b class="mono" style="text-align:right">${fmtLine(teams, sum)}</b></div>
+      <p class="note">Inputs overlap (for example form and EPA both reflect scoring), so the split between groups is approximate even though the total is exact.</p>
+    </div>
+    <div class="panel"><h2>Quarterbacks</h2>
+      <p>${g.away_qb || "TBD"} ${qbTag(g.away_qb_rating)} vs ${g.home_qb || "TBD"} ${qbTag(g.home_qb_rating)} (EPA per dropback, shrunk toward replacement level).</p></div>
+    <div class="panel"><h2>How this is calculated</h2><ul>
+      <li><b>Margin</b>: ridge regression on the inputs above, trained only on games before this week.</li>
+      <li><b>Win probability</b>: logistic regression on the same inputs.</li>
+      <li><b>Total</b>: ridge regression on both teams' scoring (recent and longer-run), pace, EPA, QBs, roof and the league scoring level. The projected score uses this stats-only total.</li>
+      <li><b>Over/under leans</b>: a market-aware version that also takes the Vegas total as an input, so it only leans where the stats add something beyond the line.</li>
+      <li><b>Cover / over / moneyline chances</b>: real NFL final margins and totals from games with a similar line, so key numbers like 3 and 7 count.</li>
+      <li><b>EV</b> = win% × profit − lose%, with pushes returning the stake.</li></ul></div>
+    <div class="panel"><h2>Transparency</h2>
+      <p>Model: <b>${DATA.model_version}</b><br>Predictions generated: ${new Date(DATA.generated_at).toLocaleString()}<br>
+      ${g.snapshot_at ? `Pick frozen before kickoff: ${new Date(g.snapshot_at).toLocaleString()}<br>` : ""}
+      ${g.final ? `Graded vs: ${g.graded_vs}<br>` : ""}
+      Data: ${DATA.sources.results_lines}; ${DATA.sources.play_by_play}.</p></div>`;
+}
+
+// ---------------------------------------------------------------- simulator
+// Monte Carlo: each simulated game draws a margin from the same distribution
+// the Markets tab uses (real NFL final margins for games with a similar line,
+// so key numbers like 3, 7 and 10 show up), then picks a real NFL final score
+// with that margin, weighted toward the expected total.
+const SIM = { n: 10000, result: null, id: null, mode: "cal", margin: null, total: null };
+
+function sampler(pmf) {
+  const cdf = new Float64Array(pmf.length); let acc = 0;
+  pmf.forEach((x, i) => { acc += x; cdf[i] = acc; });
+  return () => {
+    const r = Math.random() * acc;
+    let lo = 0, hi = cdf.length - 1;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (cdf[mid] < r) lo = mid + 1; else hi = mid; }
+    return lo;
+  };
+}
+
+function simulate(margin, total, n) {
+  const mMin = DATA.margin_pmf.min_margin, tMin = DATA.total_pmf.min_total;
+  const drawM = sampler(Calc.pmfAt(DATA.margin_pmf, margin));
+  const tp = Calc.pmfAt(DATA.total_pmf, total), freq = DATA.score_pairs.total_freq;
+  // For each margin, the real final scores with that margin, weighted by how
+  // likely their total is here (vs how common that total is overall)
+  const byMargin = new Map();
+  for (const [hi, lo, c] of DATA.score_pairs.pairs) {
+    const t = hi + lo, p = tp[t - tMin] || 0;
+    if (!p) continue;
+    const d = hi - lo;
+    if (!byMargin.has(d)) byMargin.set(d, { pairs: [], w: [] });
+    const e = byMargin.get(d); e.pairs.push([hi, lo]); e.w.push(c * p / freq[t]);
+  }
+  const draws = new Map();
+  for (const [d, e] of byMargin) draws.set(d, { pairs: e.pairs, draw: sampler(e.w) });
+  const home = new Int16Array(n), away = new Int16Array(n);
+  for (let k = 0; k < n; k++) {
+    let m = mMin + drawM();
+    while (!draws.has(Math.abs(m))) m = mMin + drawM();  // margins never seen in the NFL
+    const e = draws.get(Math.abs(m)), [hi, lo] = e.pairs[e.draw()];
+    if (m >= 0) { home[k] = hi; away[k] = lo; } else { home[k] = lo; away[k] = hi; }
+  }
+  return { home, away, n };
+}
+
+function summarize(sim, g) {
+  const m = g.market || {}, n = sim.n;
+  let hw = 0, aw = 0, tie = 0, hc = 0, ac = 0, sp = 0, ov = 0, un = 0, tp = 0, hs = 0, as = 0;
+  const margins = [], totals = [], scoreCount = new Map();
+  for (let k = 0; k < n; k++) {
+    const h = sim.home[k], a = sim.away[k], d = h - a, t = h + a;
+    hs += h; as += a; margins.push(d); totals.push(t);
+    if (d > 0) hw++; else if (d < 0) aw++; else tie++;
+    if (m.spread != null) { const c = d - m.spread; if (c > 0) hc++; else if (c < 0) ac++; else sp++; }
+    if (m.total != null) { if (t > m.total) ov++; else if (t < m.total) un++; else tp++; }
+    const key = `${a}–${h}`; scoreCount.set(key, (scoreCount.get(key) || 0) + 1);
+  }
+  const sm = Int16Array.from(margins).sort(), st = Int16Array.from(totals).sort();
+  const q = (s, p) => s[Math.floor(p * (s.length - 1))];
+  return {
+    hw: hw / n, aw: aw / n, tie: tie / n, hc: hc / n, ac: ac / n, sp: sp / n, ov: ov / n, un: un / n, tp: tp / n,
+    hAvg: hs / n, aAvg: as / n, margins, totals,
+    mRange: [q(sm, 0.1), q(sm, 0.9)], tRange: [q(st, 0.1), q(st, 0.9)],
+    top: [...scoreCount.entries()].sort((x, y) => y[1] - x[1]).slice(0, 8),
+  };
+}
+
+function histogram(values, lo, hi, colorFn) {
+  const bins = new Array(hi - lo + 1).fill(0);
+  values.forEach(v => { if (v >= lo && v <= hi) bins[v - lo]++; });
+  const max = Math.max(...bins, 1);
+  return `<div class="sim-hist">${bins.map((b, i) => `<div title="${lo + i}: ${(b / values.length * 100).toFixed(1)}%" style="height:${b / max * 100}%;background:${colorFn(lo + i)}"></div>`).join("")}</div>`;
+}
+
+async function runSim() {
+  const g = GV.game;
+  $("#sim-out").innerHTML = `<div class="empty">Simulating ${SIM.n.toLocaleString()} games…</div>`;
+  await new Promise(r => setTimeout(r, 20));
+  const t0 = performance.now();
+  const sim = simulate(SIM.margin, SIM.total, SIM.n);
+  SIM.result = { ...summarize(sim, g), ms: performance.now() - t0, margin: SIM.margin, total: SIM.total };
+  SIM.id = g.id;
+  renderSimOut();
+}
+
+function simInputs(mode) {
+  const g = GV.game;
+  SIM.mode = mode;
+  if (mode !== "custom") { SIM.margin = expectedMargin(g, mode); SIM.total = expectedTotal(g, mode); }
+}
+
+function gvSim(g) {
+  if (SIM.id !== g.id) { SIM.result = null; simInputs(g.market?.spread == null ? "model" : "cal"); SIM.id = g.id; }
+  const fmtM = (x) => `${x >= 0 ? g.home : g.away} by ${Math.abs(x).toFixed(1)}`;
+  setTimeout(() => SIM.result && renderSimOut(), 0);
+  return `
+    <div class="seg" style="margin-top:12px">
+      ${[["cal", "Calibrated"], ["model", "Model only"], ["custom", "Custom"]].map(([k, l]) =>
+        `<button class="${SIM.mode === k ? "on" : ""}" ${k === "cal" && g.market?.spread == null ? "disabled" : ""}
+          onclick="simInputs('${k}'); SIM.result=null; renderGame()">${l}</button>`).join("")}
+    </div>
+    <div class="calc">
+      <label>Expected margin (${g.home} +)<input type="number" step="0.5" value="${SIM.margin.toFixed(1)}"
+        onchange="SIM.margin=parseFloat(this.value)||0; SIM.mode='custom'; SIM.result=null; renderGame()"></label>
+      <label>Expected total<input type="number" step="0.5" value="${SIM.total.toFixed(1)}"
+        onchange="SIM.total=parseFloat(this.value)||44; SIM.mode='custom'; SIM.result=null; renderGame()"></label>
+    </div>
+    <p class="note" style="margin-top:0">${fmtM(SIM.margin)}, ${SIM.total.toFixed(1)} total.
+      ${SIM.mode === "cal" ? "Market numbers moved toward the model by the backtested amount." : SIM.mode === "model" ? "The model's own numbers (the backtest says these overstate edges)." : "Your own numbers."}</p>
+    <button class="alt-btn" onclick="runSim()">${SIM.result ? "Run again" : "Run " + SIM.n.toLocaleString() + " simulations"}</button>
+    <div id="sim-out"></div>`;
+}
+
+function renderSimOut() {
+  const r = SIM.result, g = GV.game, m = g.market || {}, el = $("#sim-out");
+  if (!r || !el) return;
+  const line = (lab, val, sub = "") => `<div class="tile"><small>${lab}</small><b class="mono">${val}</b>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  const hc = color(g.home), ac = color(g.away);
+  el.innerHTML = `
+    <div class="tiles">
+      ${line("Average score", `${r.aAvg.toFixed(1)}–${r.hAvg.toFixed(1)}`, `${g.away}–${g.home}`)}
+      ${line("Win %", `${pct(r.aw)} / ${pct(r.hw)}`, `${g.away} / ${g.home}${r.tie >= 0.005 ? " · tie " + pct(r.tie) : ""}`)}
+      ${m.spread != null ? line(`Cover ${atsSideLabel(g, g.away)} / ${atsSideLabel(g, g.home)}`, `${pct(r.ac)} / ${pct(r.hc)}`, r.sp ? `push ${(r.sp * 100).toFixed(1)}%` : "no push possible") : ""}
+      ${m.total != null ? line(`Over / under ${m.total}`, `${pct(r.ov)} / ${pct(r.un)}`, r.tp ? `push ${(r.tp * 100).toFixed(1)}%` : "no push possible") : ""}
+    </div>
+    <div class="panel"><h2>Margin of victory</h2>
+      ${histogram(r.margins, -35, 35, (v) => v > 0 ? hc : v < 0 ? ac : "var(--muted)")}
+      <div class="sim-axis"><span>${g.away} by 35</span><span>tie</span><span>${g.home} by 35</span></div>
+      <p class="note">80% of simulations: ${r.mRange[0] >= 0 ? g.home + " by " + r.mRange[0] : g.away + " by " + -r.mRange[0]} to ${r.mRange[1] >= 0 ? g.home + " by " + r.mRange[1] : g.away + " by " + -r.mRange[1]}. Spikes at 3 and 7 are real NFL key numbers.</p></div>
+    <div class="panel"><h2>Total points</h2>
+      ${histogram(r.totals, 10, 85, (v) => m.total != null && v > m.total ? "var(--accent)" : "#6b7a90")}
+      <div class="sim-axis"><span>10</span><span>${m.total != null ? "green = over " + m.total : ""}</span><span>85</span></div>
+      <p class="note">80% of simulations: ${r.tRange[0]} to ${r.tRange[1]} points.</p></div>
+    <div class="panel"><h2>Most common final scores</h2>
+      <div class="scores">${r.top.map(([sc, c]) => `<div><b class="mono">${sc}</b><small>${(c / SIM.n * 100).toFixed(1)}%</small></div>`).join("")}</div>
+      <p class="note">${g.away}–${g.home}.</p></div>
+    <p class="note">${SIM.n.toLocaleString()} simulated games in ${Math.round(r.ms)} ms. Each draws a margin from real NFL results of games
+      with a similar line (the same numbers behind the Markets tab, so key numbers like 3 and 7 show up), then a real NFL final score
+      with that margin, weighted toward the expected total. Run it again and results shift slightly; that's normal randomness.</p>`;
+}
+
+const atsSideLabel = (g, side) => {
+  const homeLine = -g.market.spread, l = side === g.home ? homeLine : -homeLine;
+  return `${side} ${fmtLn(l)}`;
+};
+
+// ---------------------------------------------------------------- player props
+let PROPS = null;
+const PTIER = { play3: { label: "3u play", cls: "unit" }, play1: { label: "1u play", cls: "unit" },
+                lean: { label: "Lean", cls: "lean" }, light: { label: "Light lean", cls: "light" } };
+const PTIER_ORDER = ["play3", "play1", "lean", "light"];
+const PMKT = {
+  receptions: { label: "Receptions", short: "rec", kind: "q" },
+  receiving_yards: { label: "Receiving yards", short: "rec yds", kind: "q" },
+  rushing_yards: { label: "Rushing yards", short: "rush yds", kind: "q" },
+  passing_yards: { label: "Passing yards", short: "pass yds", kind: "q" },
+  pass_tds: { label: "Passing TDs", short: "pass TD", kind: "td" },
+  anytime: { label: "Anytime TD", short: "TD", kind: "td" },
+};
+const PS = { player: null, game: null, market: null, line: null, over: -115, under: -115 };
+
+async function loadProps() {
+  if (PROPS) return PROPS;
+  try { PROPS = await (await fetch("props.json", { cache: "no-cache" })).json(); }
+  catch (e) { PROPS = { games: {}, meta: {}, error: true }; }
+  return PROPS;
+}
+
+function playerRow(p, gid) {
+  const pj = p.proj, bits = [];
+  if (pj.passing_yards != null) bits.push(`<span><b>${pj.passing_yards.toFixed(0)}</b> pass yds</span>`);
+  if (pj.receptions != null) bits.push(`<span><b>${pj.receptions.toFixed(1)}</b> rec</span>`);
+  if (pj.receiving_yards != null) bits.push(`<span><b>${pj.receiving_yards.toFixed(0)}</b> rec yds</span>`);
+  if (pj.rushing_yards != null) bits.push(`<span><b>${pj.rushing_yards.toFixed(0)}</b> rush yds</span>`);
+  if (p.td.pass != null) bits.push(`<span><b>${p.td.pass.toFixed(1)}</b> pass TD</span>`);
+  const st = p.status ? ` <span class="pill ${p.status === "Questionable" ? "Q" : p.status}">${p.status}</span>` : "";
+  const dk = Object.entries(p.lines || {}).map(([mk, l]) => l.tier
+    ? `<span class="tag ${PTIER[l.tier].cls}">${PTIER[l.tier].label} · ${l.side} ${l.line} ${PMKT[mk].short}</span>`
+    : `<span>DK ${PMKT[mk].short} ${l.line}: ${l.side[0]} ${pct(l.prob)}</span>`).join("");
+  if (dk) bits.push(`<span style="flex-basis:100%;display:flex;flex-wrap:wrap;gap:4px 12px">${dk}</span>`);
+  return `<div class="prow" onclick="openProp('${gid}','${p.id}')">
+    <span class="nm">${p.name} <small>${p.pos} · ${p.team}</small>${st}</span>
+    <b class="mono" title="Anytime TD">${p.td.anytime != null && p.pos !== "QB" ? pct(p.td.anytime) + " TD" : p.td.anytime != null ? pct(p.td.anytime) + " rush TD" : ""}</b>
+    <span class="pj">${bits.join("")}</span></div>`;
+}
+
+function propsGame(gid, open) {
+  const ps = PROPS.games[gid] || [], m = PROPS.meta[gid] || {};
+  if (!ps.length) return "";
+  const teams = [m.away, m.home];
+  return `<div class="pgame"><h3 onclick="this.parentElement.classList.toggle('open'); this.nextElementSibling.style.display = this.parentElement.classList.contains('open') ? '' : 'none'">
+      ${m.away} @ ${m.home} <small>Week ${m.week} · ${ps.length} players ▾</small></h3>
+    <div style="${open ? "" : "display:none"}">${teams.map(t => `<div class="day" style="margin:10px 0 0">${t}</div>` +
+      ps.filter(p => p.team === t).map(p => playerRow(p, gid)).join("")).join("")}</div></div>`;
+}
+
+const propsFooter = () => `<p class="note">Projections are averages; a player goes under his average more often than over because of occasional big games,
+  and the over/under chances account for that. Tap a player to enter a DraftKings line. Backtest (${PROPS.backtest.receiving_yards?.seasons}):
+  receiving yards miss ${PROPS.backtest.receiving_yards?.mae} on average vs ${PROPS.backtest.receiving_yards?.recent_avg_mae} using the player's recent average;
+  anytime TD odds were well calibrated. Players listed Out are left off.</p>`;
+
+async function renderProps() {
+  await loadProps();
+  const ids = Object.keys(PROPS.games);
+  if (!ids.length) { $("#props").innerHTML = `<div class="empty">No upcoming player projections right now.</div>`; return; }
+  const byWeek = {};
+  ids.forEach(id => (byWeek[PROPS.meta[id]?.week] ||= []).push(id));
+  $("#props").innerHTML = propLeansPanel() + Object.keys(byWeek).sort((a, b) => a - b).map(w =>
+    `<div class="day">Week ${w}</div>` + byWeek[w].map(id => propsGame(id, false)).join("")).join("") + propsFooter();
+}
+
+// "Opened 20.5 → now 44.5", with a news warning when the line moved a lot
+function moveNote(l) {
+  if (l.open == null || l.open === l.line) return "";
+  const big = Math.abs(l.line - l.open) / Math.max(0.5, l.open) > 0.35;
+  return ` · opened ${l.open}${big ? ` <span class="tag lock">big line move · check news</span>` : ""}`;
+}
+
+// Tiered prop picks vs DraftKings lines, plus the season record by tier
+const recTxt = (r) => r ? `${r.wins}–${r.losses}${r.pushes ? "–" + r.pushes : ""}` : "0–0";
+const recPct = (r) => r && r.wins + r.losses ? ` (${(r.wins / (r.wins + r.losses) * 100).toFixed(1)}%)` : "";
+function propLeansPanel() {
+  const picks = [];
+  for (const [gid, ps] of Object.entries(PROPS.games))
+    for (const p of ps) for (const [mk, l] of Object.entries(p.lines || {}))
+      if (l.tier) picks.push({ gid, p, mk, l });
+  const R = PROPS.record || {};
+  const recLines = PTIER_ORDER.map(t => `<div class="line"><span>${PTIER[t].label}s</span><b class="mono">${recTxt(R[t])}${recPct(R[t])}${
+    R[t]?.units_risked ? ` · <span class="${R[t].units_net >= 0 ? "good" : "bad"}">${fmtU(R[t].units_net)}</span>` : ""}</b></div>`).join("");
+  const groups = PTIER_ORDER.map(t => {
+    const xs = picks.filter(x => x.l.tier === t).sort((a, b) => b.l.prob - a.l.prob);
+    if (!xs.length) return "";
+    return `<div class="tier-group ${t}"><div class="day">${PTIER[t].label}s · ${xs.length}</div>` + xs.map(x =>
+      `<div class="line" style="cursor:pointer" onclick="openProp('${x.gid}','${x.p.id}','${x.mk}')">
+        <span>${x.p.name} <small>${x.p.team} · ${PMKT[x.mk].label} · proj ${x.l.proj}${moveNote(x.l)}</small>
+          ${x.p.alerts?.length ? `<small class="alert-line" style="display:block">⚠ ${x.p.alerts.join(" · ")}</small>` : ""}</span>
+        <span class="pick-col"><b class="mono ${t.startsWith("play") ? "good" : ""}">${x.l.side} ${x.l.line}</b><small class="mono">${pct(x.l.prob)}</small></span></div>`).join("") + `</div>`;
+  }).join("");
+  const tiers = PROPS.tiers.map(t => `<b>${PTIER[t.tier].label}</b>: ${t.rule}`).join("; ");
+  return `<div class="review"><h2>Prop picks vs DraftKings</h2>
+    <div class="day" style="margin:4px 0 2px">${PROPS.season} record (graded at −110)</div>${recLines}
+    ${groups || `<p class="note">No picks right now. DraftKings lines usually post during the week and fill in on game day.</p>`}
+    <p class="note">Tiers: ${tiers}. Passing yards get no tier (they lost in the backtest). Unit plays need the filters because, in this season's results,
+      bigger chances alone didn't win more often, but lines under 45 that moved away from our side did (in both halves of the season).
+      Weeks before tracking began are graded against DraftKings' last pre-game line from ESPN, with each week projected only from earlier games.
+      ${PROPS.lines_source}: the record assumes −110, but DraftKings props are often −115 to −125, which would cut the profit a lot (the 1u tier would be near break-even at −120).
+      Rules were set on this season's results, so expect the future to be somewhat worse.</p></div>`;
+}
+
+function gvProps(g) {
+  if (!PROPS) { loadProps().then(() => GV.tab === "props" && renderGame()); return `<div class="empty">Loading…</div>`; }
+  if (!PROPS.games[g.id]) return `<div class="empty">${g.final ? "Props are shown for upcoming games." : "No player projections for this game yet."}</div>`;
+  return propsGame(g.id, true) + propsFooter();
+}
+
+function propMarkets(p) {
+  const ms = Object.keys(p.proj).filter(k => p.proj[k] != null);
+  if (p.td.pass != null) ms.push("pass_tds");
+  if (p.td.anytime != null && p.pos !== "QB") ms.push("anytime");
+  return ms;
+}
+
+function openProp(gid, pid, mk) {
+  const p = PROPS.games[gid].find(x => x.id === pid);
+  PS.player = p; PS.game = gid;
+  PS.market = mk || Object.keys(p.lines || {})[0] || propMarkets(p)[0];
+  PS.line = defaultLine(p, PS.market); PS.over = -110; PS.under = -110; PS.mode = "model";
+  renderProp();
+  $("#sheet-bg").classList.add("on"); $("#sheet").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+
+// Outcome-to-projection quantiles for this market and projection size
+function propDist(mk, proj) {
+  const d = PROPS.dists[mk];
+  return d.q[d.edges.filter(e => proj > e).length];
+}
+
+function defaultLine(p, mk) {
+  if (p.lines?.[mk]) return p.lines[mk].line;  // DraftKings' current line
+  if (mk === "anytime") return 0.5;
+  if (mk === "pass_tds") return 1.5;
+  const v = p.proj[mk];  // books set lines near the median, below the average
+  const med = propDist(mk, v)[50] * v;
+  return Math.max(0.5, Math.floor(med) + 0.5);
+}
+
+// Calibrated: DraftKings' implied projection moved 15% toward ours (when a DK line exists)
+function propCenter(p, mk) {
+  const raw = mk === "pass_tds" ? p.td.pass : p.proj[mk], l = p.lines?.[mk];
+  return PS.mode === "cal" && l?.cal_proj != null ? l.cal_proj : raw;
+}
+function propProbs(p, mk, line) {
+  if (mk === "anytime") return Calc.poissonOver((p.td.rec || 0) + (p.td.rush || 0), line);
+  if (mk === "pass_tds") return Calc.poissonOver(propCenter(p, mk), line);
+  const c = propCenter(p, mk);
+  return Calc.propProbs(propDist(mk, c), c, line);
+}
+
+function renderProp() {
+  const p = PS.player, mk = PS.market, info = PMKT[mk], c = p.ctx;
+  const pr = propProbs(p, mk, PS.line);
+  const side = (lab, win, lose, odds) => {
+    let ev = null; try { ev = Calc.expectedValue(win, pr.push, odds); } catch (e) {}
+    return `<div class="verdict ${ev > 0.005 ? "pos" : ev < -0.005 ? "neg" : ""}">
+      <div class="row" style="margin:0"><b style="font-size:16px">${lab} ${PS.line}</b><b class="mono ${evCls(ev)}" style="font-size:16px">${fmtEv(ev)} EV</b></div>
+      <div class="row"><span>Chance</span><b class="mono">${fmtPct(win)}${pr.push > 0.001 ? " (push " + fmtPct(pr.push) + ")" : ""}</b></div>
+      <div class="row"><span>Fair odds</span><b class="mono">${fairOdds(win, lose)}</b></div></div>`;
+  };
+  const projTxt = info.kind === "td"
+    ? (mk === "anytime" ? `${pct(p.td.anytime)} to score (expected ${((p.td.rec || 0) + (p.td.rush || 0)).toFixed(2)} TDs)` : `${p.td.pass.toFixed(2)} passing TDs expected`)
+    : `${p.proj[mk].toFixed(1)} average · ${(propDist(mk, p.proj[mk])[50] * p.proj[mk]).toFixed(1)} median`;
+  const opp = PROPS.meta[PS.game].home === p.team ? PROPS.meta[PS.game].away : PROPS.meta[PS.game].home;
+  const rel = (x) => x == null ? "—" : `${x > 0 ? "+" : ""}${(x * 100).toFixed(0)}%`;
+  const manRate = PROPS.coverage.man_rate?.[opp];
+  const mz = c.tprr_man != null ? `<div class="line"><span>Vs man / vs zone (2023–${PROPS.coverage.season})</span>
+      <b class="mono">${c.yprr_man} / ${c.yprr_zone} yds per route · ${(c.tprr_man * 100).toFixed(0)}% / ${(c.tprr_zone * 100).toFixed(0)}% targets per route</b></div>
+    <div class="line"><span>${opp} man coverage rate (${PROPS.coverage.season})</span><b class="mono">${manRate != null ? pct(manRate) : "—"} · league ${pct(PROPS.coverage.league_man)}</b></div>` : "";
+  $("#sheet").innerHTML = `
+    <div class="grab"></div>
+    <h3>${p.name} <small style="color:var(--muted);font-size:13px;font-weight:500">&nbsp;${p.pos} · ${p.team} vs ${opp}</small><button onclick="closeAlt()">×</button></h3>
+    <div class="seg" style="flex-wrap:wrap">${propMarkets(p).map(k => `<button class="${k === mk ? "on" : ""}"
+      onclick="PS.market='${k}'; PS.line=defaultLine(PS.player,'${k}'); renderProp()">${PMKT[k].label}</button>`).join("")}</div>
+    ${p.lines?.[mk] ? `<div class="seg" style="margin-top:8px">
+      <button class="${PS.mode === "model" ? "on" : ""}" onclick="PS.mode='model'; renderProp()">Stats model</button>
+      <button class="${PS.mode === "cal" ? "on" : ""}" onclick="PS.mode='cal'; renderProp()">Lean on DraftKings</button></div>
+      ${p.lines[mk].tier ? `<p style="margin:8px 0 0"><span class="tag ${PTIER[p.lines[mk].tier].cls}">${PTIER[p.lines[mk].tier].label} · ${p.lines[mk].side} ${p.lines[mk].line}</span></p>` : ""}
+      <p class="note" style="margin:6px 0 0">DraftKings line <b>${p.lines[mk].line}</b>${p.lines[mk].open != null && p.lines[mk].open !== p.lines[mk].line ? ` (opened ${p.lines[mk].open})` : ""}
+      · updated ${new Date(p.lines[mk].updated).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}. Odds aren't in the feed: enter DraftKings' prices.</p>` : ""}
+    <p class="note" style="margin:6px 0 0">Model projection: <b>${projTxt}</b>${p.cfac ? ` (includes ${Math.round((p.cfac - 1) * 100)}% more carries from injured teammates)` : ""}</p>
+    ${p.alerts?.length ? `<div class="heads"><h2>⚠ Heads up</h2>${p.alerts.map(a => `<div class="item">${a}</div>`).join("")}</div>` : ""}
+    <div class="calc" style="grid-template-columns:1fr 1fr 1fr">
+      <label>Line<input type="number" step="0.5" inputmode="decimal" value="${PS.line}" onchange="PS.line=parseFloat(this.value)||0.5; renderProp()"></label>
+      <label>Over odds<input type="number" step="5" value="${PS.over}" onchange="const v=parseInt(this.value); PS.over=(v>=100||v<=-100)?v:-115; renderProp()"></label>
+      <label>Under odds<input type="number" step="5" value="${PS.under}" onchange="const v=parseInt(this.value); PS.under=(v>=100||v<=-100)?v:-115; renderProp()"></label>
+    </div>
+    ${side(mk === "anytime" ? "Yes, over" : "Over", pr.over, pr.under, PS.over)}
+    ${side(mk === "anytime" ? "No, under" : "Under", pr.under, pr.over, PS.under)}
+    <div class="review"><h2>Matchup</h2>
+      ${c.targets ? `<div class="line"><span>Targets per game · target share</span><b class="mono">${c.targets} · ${(c.tgt_share * 100).toFixed(0)}%</b></div>
+      <div class="line"><span>Yards per target · avg depth</span><b class="mono">${c.ypt} · ${c.adot}</b></div>` : ""}
+      ${c.carries ? `<div class="line"><span>Carries per game · share · yds/carry</span><b class="mono">${c.carries} · ${(c.car_share * 100).toFixed(0)}% · ${c.ypc}</b></div>` : ""}
+      <div class="line"><span>${opp} vs ${p.pos}s this season (yds per ${p.pos === "QB" ? "attempt" : "target"}, vs league)</span>
+        <b class="mono">${rel(p.pos === "QB" ? c.def_ypa_rel : c.def_ypt_rel)}</b></div>
+      ${p.pos !== "QB" && p.pos !== "WR" ? `<div class="line"><span>${opp} run defense (yds per carry vs league)</span><b class="mono">${rel(c.def_ypc_rel)}</b></div>` : ""}
+      <div class="line"><span>${p.team} implied points</span><b class="mono">${c.team_pts}</b></div>
+      ${mz}
+    </div>
+    <p class="note">${mz ? "Man/zone is shown for context only: in the backtest it didn't improve projections, and a receiver's edge vs man barely carries from one season to the next. " : ""}
+      Chances come from how real players finished relative to their projections (2024–26), so they include duds and big games.
+      ${p.lines?.[mk] ? (PS.mode === "cal" ? "'Lean on DraftKings' moves DraftKings' line only 15% toward the model; it's here for comparison." : "Stats-model chances, which beat DraftKings' lines in this season's backtest. Very big gaps can still mean the model is missing news (injury returns, role changes).") : ""}</p>`;
+}
+
+// ---------------------------------------------------------------- alt lines
+const KEY_MARGINS = new Set([3, 7, 10, 6, 4, 14, 1]);
+const ALT = { game: null, side: null, mode: "cal", line: null, odds: -110 };
+
+const marginPmf = (mu) => Calc.pmfAt(DATA.margin_pmf, mu);
+
+// One distribution drives spread, moneyline and alt lines. "cal" = market line
+// moved k toward the model (what the backtest supports); "model" = model only.
+function expectedMargin(g, mode) {
+  const mkt = g.market?.spread ?? g.vegas_spread;
+  return mode === "model" ? g.model_spread : Calc.blend(mkt, g.model_spread, DATA.margin_pmf.calibration_k);
+}
+// Calibrated total = the market-aware totals model (Vegas total + what the stats add)
+function expectedTotal(g, mode) {
+  return mode === "model" || g.ou_total == null ? g.model_total : g.ou_total;
+}
+
+// line is from the bet side's view: -3.5 means the side gives 3.5
+const coverProbs = (g, side, line, mode) =>
+  Calc.spreadProbs(marginPmf(expectedMargin(g, mode)), DATA.margin_pmf.min_margin, side === g.home, line);
+
+const payout = (odds) => Calc.profitPerUnit(odds);
+function fairOdds(win, lose) {
+  const f = Calc.fairOdds(win, lose);
+  return f == null ? "—" : f > 0 ? `+${f}` : `${f}`;
+}
+const sideVegasLine = (g, side) => g.vegas_spread == null ? 0 : (side === g.home ? -g.vegas_spread : g.vegas_spread);
+const fmtLn = (l) => l === 0 ? "PK" : `${l > 0 ? "+" : "−"}${Math.abs(l).toFixed(1)}`;
+
+function openAlt(id) {
+  const g = Object.values(DATA.weeks).flat().find(x => x.id === id);
+  ALT.game = g;
+  ALT.side = g.ats_pick || g.pick;
+  ALT.mode = g.vegas_spread == null ? "model" : "cal";
+  ALT.line = sideVegasLine(g, ALT.side);
+  ALT.odds = -110;
+  renderAlt();
+  $("#sheet-bg").classList.add("on"); $("#sheet").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+function closeAlt() {
+  $("#sheet-bg").classList.remove("on"); $("#sheet").classList.remove("on");
+  document.body.style.overflow = "";
+}
+
+function renderAlt() {
+  const g = ALT.game, side = ALT.side, base = sideVegasLine(g, side);
+  const c = coverProbs(g, side, ALT.line, ALT.mode);
+  const ev = c.win * payout(ALT.odds) - c.lose;           // per 1 unit risked
+  const cls = ev > 0.005 ? "pos" : ev < -0.005 ? "neg" : "";
+  const lines = [];
+  for (let l = base - 7; l <= base + 7 + 1e-9; l += 0.5) lines.push(Math.round(l * 2) / 2);
+  const rows = lines.map(l => {
+    const p = coverProbs(g, side, l, ALT.mode);
+    const key = Number.isInteger(l) && KEY_MARGINS.has(Math.abs(l));
+    return `<tr class="${key ? "key" : ""} ${l === ALT.line ? "sel" : ""} ${l === base ? "vegas" : ""}" onclick="ALT.line=${l}; renderAlt()">
+      <td class="mono"><b>${side} ${fmtLn(l)}</b></td>
+      <td class="mono">${(p.win * 100).toFixed(1)}%</td>
+      <td class="mono">${p.push > 0.0005 ? (p.push * 100).toFixed(1) + "%" : "—"}</td>
+      <td class="mono">${fairOdds(p.win, p.lose)}</td></tr>`;
+  }).join("");
+  const mu = expectedMargin(g, ALT.mode);
+  $("#sheet").innerHTML = `
+    <div class="grab"></div>
+    <h3>${g.away} @ ${g.home} <button onclick="closeAlt()">×</button></h3>
+    <div class="seg">${[g.away, g.home].map(t =>
+      `<button class="${t === side ? "on" : ""}" onclick="ALT.side='${t}'; ALT.line=sideVegasLine(ALT.game,'${t}'); renderAlt()">${t}</button>`).join("")}</div>
+    <div class="seg">
+      <button class="${ALT.mode === "cal" ? "on" : ""}" ${g.vegas_spread == null ? "disabled" : ""} onclick="ALT.mode='cal'; renderAlt()">Calibrated</button>
+      <button class="${ALT.mode === "model" ? "on" : ""}" onclick="ALT.mode='model'; renderAlt()">Model only</button>
+    </div>
+    <div class="calc">
+      <label>Your line (${side})<input type="number" step="0.5" inputmode="decimal" value="${ALT.line}"
+        onchange="ALT.line=Math.round(parseFloat(this.value)*2)/2||0; renderAlt()"></label>
+      <label>DraftKings odds<input type="number" step="5" inputmode="numeric" value="${ALT.odds}"
+        onchange="const v=parseInt(this.value); ALT.odds=(v>=100||v<=-100)?v:-110; renderAlt()"></label>
+    </div>
+    <div class="verdict ${cls}">
+      <div class="big mono ${ev > 0 ? "good" : ev < 0 ? "bad" : ""}">${ev >= 0 ? "+" : "−"}${Math.abs(ev * 100).toFixed(1)}% EV</div>
+      <div class="row"><span>Win / push / lose</span><b class="mono">${(c.win * 100).toFixed(1)} / ${(c.push * 100).toFixed(1)} / ${(c.lose * 100).toFixed(1)}%</b></div>
+      <div class="row"><span>Fair odds at this line</span><b class="mono">${fairOdds(c.win, c.lose)}</b></div>
+      <div class="row"><span>Profit per $100 bet, long run</span><b class="mono">${ev >= 0 ? "+" : "−"}$${Math.abs(ev * 100).toFixed(2)}</b></div>
+    </div>
+    <table class="alt-table">
+      <tr><th>Line</th><th>Cover</th><th>Push</th><th>Fair odds</th></tr>
+      ${rows}
+    </table>
+    <p class="note">Expected margin: ${g.home} ${fmtLn(-mu)} (${ALT.mode === "cal"
+      ? `Vegas line moved ${Math.round(DATA.margin_pmf.calibration_k * 100)}% toward the model — what the backtest supports`
+      : "model's line only — the backtest says this overstates value"}).
+      Probabilities use real NFL final margins, so key numbers like 3 and 7 count. If DraftKings' price is better than the fair odds, the bet has value.</p>`;
+}
+
+document.querySelectorAll("nav.tabs button").forEach(btn => btn.addEventListener("click", () => {
+  if (btn.dataset.view === "props") renderProps();
+}));
+document.querySelectorAll("nav.tabs button").forEach(btn => btn.onclick = () => {
+  document.querySelectorAll("nav.tabs button").forEach(b => b.classList.toggle("on", b === btn));
+  document.querySelectorAll(".view").forEach(v => v.classList.toggle("on", v.id === "v-" + btn.dataset.view));
+  $("#weeknav").style.display = btn.dataset.view === "picks" ? "" : "none";
+  window.scrollTo({ top: 0 });
+});
+
+async function load() {
+  try {
+    const res = await fetch("predictions.json", { cache: "no-cache" });
+    DATA = await res.json();
+  } catch (e) {
+    $("#games").innerHTML = `<div class="empty">Couldn't load predictions. Check your connection.</div>`;
+    return;
+  }
+  const wks = Object.keys(DATA.weeks).map(Number);
+  curWeek = wks.includes(DATA.week) ? DATA.week : Math.max(...wks);
+  const r = DATA.season_record;
+  const nPlays = r.plays_wins + r.plays_losses + r.plays_pushes;
+  $("#record").innerHTML = `Plays <b>${r.plays_wins}–${r.plays_losses}${r.plays_pushes ? "–" + r.plays_pushes : ""}</b> · <b class="${nPlays < 30 ? "small-n" : r.units_net >= 0 ? "good" : "bad"}">${fmtU(r.units_net)}</b><span class="n-badge">n=${nPlays}</span>`;
+  const when = new Date(DATA.generated_at);
+  $("#updated").textContent = "Updated " + when.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  renderWeekNav(); renderGames(); renderRecords(); renderRanks(); renderAbout();
+  const deep = location.hash.match(/^#game=(.+)$/);
+  if (deep) openGame(deep[1]);
+}
+load();
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+</script>
+</body>
+</html>
