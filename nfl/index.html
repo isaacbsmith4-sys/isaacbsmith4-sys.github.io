@@ -730,30 +730,92 @@ function renderRanks() {
     <p class="updated">▲▼ = rank change since each team's last game. Bar = Elo strength. EPA = expected points added per play, recency-weighted; darker = stronger (defense: lower is better).</p>`;
 }
 
-function propRecordPanel() {
+// ---------------------------------------------------------------- records: player props
+let RECORDS_VIEW = "games";
+function recordsSwitch() {
+  return `<div class="seg" style="margin-top:14px">
+    <button class="${RECORDS_VIEW === "games" ? "on" : ""}" onclick="RECORDS_VIEW='games'; renderRecords(); window.scrollTo(0,0)">Games</button>
+    <button class="${RECORDS_VIEW === "props" ? "on" : ""}" onclick="RECORDS_VIEW='props'; renderRecords(); window.scrollTo(0,0)">Player props</button></div>`;
+}
+
+// Small teaser on the Games view that jumps to the props record
+function propTeaser() {
   if (!PROPS) { loadProps().then(() => $("#v-records").classList.contains("on") && renderRecords()); return ""; }
   const R = PROPS.record;
   if (!R) return "";
-  const units = ["play3", "play1"].reduce((t, k) => t + (R[k]?.units_net || 0), 0);
-  const cards = PTIER_ORDER.map(t => `<div class="rec-card"><small>Prop ${PTIER[t].label.toLowerCase()}s</small>
+  const u = (R.play3?.units_net || 0) + (R.play1?.units_net || 0);
+  return `<div class="review" style="cursor:pointer" onclick="RECORDS_VIEW='props'; renderRecords(); window.scrollTo(0,0)">
+    <div class="line" style="border:0;padding:0"><span><b style="color:var(--text)">Player props</b> · unit plays</span>
+    <b class="mono ${u >= 0 ? "good" : "bad"}">${fmtU(u)} ›</b></div></div>`;
+}
+
+function renderPropRecords() {
+  if (!PROPS) { loadProps().then(() => renderRecords()); return `<div class="empty">Loading…</div>`; }
+  const R = PROPS.record, G = (PROPS.graded || []);
+  if (!R) return `<div class="empty">No graded props yet.</div>`;
+  const units = G.filter(g => g.units > 0);
+  const w = units.filter(g => g.result === "win"), l = units.filter(g => g.result === "loss"), p = units.filter(g => g.result === "push");
+  const net = units.reduce((t, g) => t + g.units_net, 0);
+  const risked = (R.play3?.units_risked || 0) + (R.play1?.units_risked || 0);
+  // the same plays at a worse price: DraftKings props are often -115 to -125
+  const at = (odds) => w.reduce((t, g) => t + g.units * 100 / odds, 0) - l.reduce((t, g) => t + g.units, 0);
+  // cumulative units by week
+  const wk = Object.entries(PROPS.record_weeks || {}).map(([k, v]) => [Number(k), (v.play3?.units_net || 0) + (v.play1?.units_net || 0)])
+    .sort((a, b) => a[0] - b[0]);
+  let run = 0;
+  const pts = wk.map(([k, v]) => [k, (run += v)]);
+  const lo = Math.min(0, ...pts.map(x => x[1])), hi = Math.max(1, ...pts.map(x => x[1]));
+  const X = (i) => 22 + i * (276 / Math.max(1, pts.length - 1)), Y = (v) => 110 - (v - lo) / (hi - lo) * 100;
+  const chart = pts.length > 1 ? `<svg viewBox="0 0 320 130" style="width:100%;height:auto;margin-top:6px">
+      <line x1="22" x2="298" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)" stroke-dasharray="3 3"/>
+      <polyline fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" points="${pts.map((q, i) => `${X(i)},${Y(q[1])}`).join(" ")}"/>
+      ${pts.map((q, i) => `<circle cx="${X(i)}" cy="${Y(q[1])}" r="3.5" fill="var(--accent)"/>
+        <text x="${X(i)}" y="126" text-anchor="middle" font-size="10" fill="var(--muted)">Wk ${q[0]}</text>`).join("")}
+    </svg>` : "";
+  // by market and by side, unit plays only
+  const group = (key) => {
+    const m = {};
+    units.forEach(g => { const k = key(g), x = (m[k] ||= { w: 0, l: 0, u: 0 }); if (g.result === "win") x.w++; else if (g.result === "loss") x.l++; x.u += g.units_net; });
+    return Object.entries(m).sort((a, b) => b[1].u - a[1].u);
+  };
+  const tableOf = (rows, label) => `<table class="rec-table"><tr><th>${label}</th><th>W–L</th><th>Win %</th><th>Units</th></tr>${rows.map(([k, x]) =>
+    `<tr><td>${k}</td><td class="mono">${x.w}–${x.l}</td><td class="mono">${(x.w / Math.max(1, x.w + x.l) * 100).toFixed(1)}%</td>
+      <td class="mono ${x.u >= 0 ? "good" : "bad"}">${fmtU(x.u)}</td></tr>`).join("")}</table>`;
+  const cards = PTIER_ORDER.map(t => `<div class="rec-card"><small>${PTIER[t].label}s</small>
       <b class="mono">${recTxt(R[t])}</b><div class="sub">${recPct(R[t]).replace(/[()]/g, "")}${R[t]?.units_risked ? " · " + fmtU(R[t].units_net) : " · tracked"}</div></div>`).join("");
-  const weeks = Object.entries(PROPS.record_weeks || {}).sort((a, b) => b[0] - a[0]).map(([w, ts]) =>
-    `<tr><td><b>Wk ${w}</b></td>${PTIER_ORDER.map(t => `<td class="mono">${recTxt(ts[t])}</td>`).join("")}
+  const weeks = Object.entries(PROPS.record_weeks || {}).sort((a, b) => b[0] - a[0]).map(([k, ts]) =>
+    `<tr><td><b>Wk ${k}</b></td>${PTIER_ORDER.map(t => `<td class="mono">${recTxt(ts[t])}</td>`).join("")}
       <td class="mono ${(ts.play3.units_net + ts.play1.units_net) >= 0 ? "good" : "bad"}">${fmtU(ts.play3.units_net + ts.play1.units_net)}</td></tr>`).join("");
-  const hist = (PROPS.graded || []).filter(g => g.units > 0).slice(0, 40).map(g =>
+  const hist = units.slice(0, 40).map(g =>
     `<div class="hist"><span class="wk mono">Wk ${g.week}</span>
       <span><b class="mono">${g.name} ${g.side} ${g.line}</b> <small>${PTIER[g.tier].label} · ${PMKT[g.market].label} · actual ${g.actual}</small></span>
       <b class="${g.result === "win" ? "good" : g.result === "loss" ? "bad" : ""}">${fmtU(g.units_net)}</b></div>`).join("");
-  return `<div class="review"><h2>Player props</h2>
-      <div class="line"><span>Prop plays (3u + 1u)</span><b class="mono ${units >= 0 ? "good" : "bad"}">${fmtU(units)}</b></div></div>
+  const n = w.length + l.length + p.length;
+  return `
+    <div class="rec-cards">
+      <div class="rec-card wide focal"><div><small>Player prop plays (3u + 1u) · ${PROPS.season}</small>
+        <b class="mono">${w.length}–${l.length}${p.length ? "–" + p.length : ""}</b>
+        <div class="sub">${(w.length / Math.max(1, w.length + l.length) * 100).toFixed(1)}% · n = ${n} · ROI ${(net / Math.max(1, risked) * 100).toFixed(1)}%</div></div>
+        <b class="mono ${net >= 0 ? "good" : "bad"}">${fmtU(net)}</b></div>
+    </div>
+    <div class="review"><h2>Units over the season</h2>${chart}
+      <div class="line"><span>At −110 (how it's graded)</span><b class="mono ${net >= 0 ? "good" : "bad"}">${fmtU(net)}</b></div>
+      <div class="line"><span>If DraftKings charged −120</span><b class="mono ${at(120) >= 0 ? "good" : "bad"}">${fmtU(at(120))}</b></div>
+      <div class="line"><span>If DraftKings charged −125</span><b class="mono ${at(125) >= 0 ? "good" : "bad"}">${fmtU(at(125))}</b></div>
+    </div>
     <div class="rec-cards">${cards}</div>
-    <div class="day">Props by week</div>
+    <div class="day">By week</div>
     <table class="rec-table"><tr><th>Week</th><th>3u</th><th>1u</th><th>Lean</th><th>Light</th><th>Units</th></tr>${weeks}</table>
-    ${hist ? `<div class="day">Recent prop plays</div>${hist}` : ""}
-    <p class="note">Graded at −110 (DraftKings prices aren't in the feed). Weeks before tracking began use DraftKings' last pre-game line from ESPN.</p>`;
+    <div class="day">By market (unit plays)</div>${tableOf(group(g => PMKT[g.market].label), "Market")}
+    <div class="day">Over vs under (unit plays)</div>${tableOf(group(g => g.side), "Side")}
+    ${hist ? `<div class="day">Recent unit plays</div>${hist}` : ""}
+    <p class="note">Graded at −110 because ESPN's feed has DraftKings' lines but not their prices; the −120 / −125 rows show the same plays at typical prop prices.
+      Weeks before tracking began use DraftKings' last pre-game line from ESPN, with each week projected only from earlier games. The tier rules were set on this season's
+      results, so the real-money record going forward will likely be lower.</p>`;
 }
 
 function renderRecords() {
+  if (RECORDS_VIEW === "props") { $("#records").innerHTML = recordsSwitch() + renderPropRecords(); return; }
   const all = Object.values(DATA.weeks).flat();
   const s = DATA.season_record;
   const play = tierRecord(all, "play"), lean = tierRecord(all, "lean"), light = tierRecord(all, "light");
@@ -786,7 +848,7 @@ function renderRecords() {
         <span><b class="mono">${atsLabel(g)}</b> <small>${tierName(g)} · ${g.away} ${g.away_score}–${g.home_score} ${g.home}</small></span>
         <b class="${cls}">${res}${g.tier === "play" ? " " + fmtU(g.units_result) : ""}</b></div>`;
     }).join("");
-  $("#records").innerHTML = `
+  $("#records").innerHTML = recordsSwitch() + `
     <div class="rec-cards">
       <div class="rec-card wide focal"><div><small>Official plays (4+ pt edge)</small><b class="mono">${fmtRec(play)}</b>
         <div class="sub">${pct(play)} · n = ${play.w + play.l + play.p}${play.w + play.l + play.p < 30 ? " (small sample)" : ""} · ROI ${s.units_risked ? (s.units_net / s.units_risked * 100).toFixed(1) + "%" : "—"}</div></div>
@@ -799,7 +861,7 @@ function renderRecords() {
       <div class="rec-card wide"><div><small>Over/under leans (${DATA.ou_min_edge}+ pts)</small><b class="mono">${s.ou_wins}–${s.ou_losses}${s.ou_pushes ? "–" + s.ou_pushes : ""}</b>
         <div class="sub">${pct({ w: s.ou_wins, l: s.ou_losses })} · tracked, no units · backtest ${pct({ w: DATA.backtest.ou_picks.wins, l: DATA.backtest.ou_picks.losses })}</div></div></div>
     </div>
-    ${propRecordPanel()}
+    ${propTeaser()}
     ${weekReview(all, "Season review")}
     <div class="day">By week</div>
     <table class="rec-table">
