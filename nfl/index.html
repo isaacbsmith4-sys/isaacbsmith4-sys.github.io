@@ -1303,14 +1303,30 @@ const propsFooter = () => `<p class="note">Projections are averages; a player go
   receiving yards miss ${PROPS.backtest.receiving_yards?.mae} on average vs ${PROPS.backtest.receiving_yards?.recent_avg_mae} using the player's recent average;
   anytime TD odds were well calibrated. Players listed Out are left off.</p>`;
 
+// Props by week: graded results for past games, picks for games still to come
+let PROPS_WEEK = null;
+function propWeeks() {
+  const ws = new Set(Object.keys(PROPS.record_weeks || {}).map(Number));
+  Object.values(PROPS.meta || {}).forEach(m => ws.add(m.week));
+  return [...ws].sort((a, b) => a - b);
+}
+
 async function renderProps() {
   await loadProps();
-  const ids = Object.keys(PROPS.games);
-  if (!ids.length) { $("#props").innerHTML = `<div class="empty">No upcoming player projections right now.</div>`; return; }
-  const byWeek = {};
-  ids.forEach(id => (byWeek[PROPS.meta[id]?.week] ||= []).push(id));
-  $("#props").innerHTML = propLeansPanel() + Object.keys(byWeek).sort((a, b) => a - b).map(w =>
-    `<div class="day">Week ${w}</div>` + byWeek[w].map(id => propsGame(id, false)).join("")).join("") + propsFooter();
+  const weeks = propWeeks();
+  if (!weeks.length) { $("#props").innerHTML = `<div class="empty">No player props yet.</div>`; return; }
+  // default: the earliest week that still has games to play, else the latest week
+  const upcomingWeeks = Object.values(PROPS.meta || {}).map(m => m.week);
+  if (PROPS_WEEK == null || !weeks.includes(PROPS_WEEK))
+    PROPS_WEEK = upcomingWeeks.length ? Math.min(...upcomingWeeks) : weeks[weeks.length - 1];
+  const nowWeek = upcomingWeeks.length ? Math.min(...upcomingWeeks) : null;
+  const pills = `<div class="week-nav" id="propweeks" style="margin-top:8px">${weeks.map(w =>
+    `<button class="${w === PROPS_WEEK ? "on" : ""}" onclick="PROPS_WEEK=${w}; renderProps()">Week ${w}${w === nowWeek ? '<span class="dot"></span>' : ""}</button>`).join("")}</div>`;
+  const ids = Object.keys(PROPS.games).filter(id => PROPS.meta[id]?.week === PROPS_WEEK);
+  $("#props").innerHTML = pills + propLeansPanel(PROPS_WEEK) +
+    (ids.length ? `<div class="day">All players · week ${PROPS_WEEK}</div>` + ids.map(id => propsGame(id, false)).join("") : "") + propsFooter();
+  const on = $("#propweeks .on");
+  if (on) $("#propweeks").scrollLeft = Math.max(0, on.offsetLeft - ($("#propweeks").clientWidth - on.offsetWidth) / 2);
 }
 
 // "Opened 20.5 → now 44.5", with a news warning when the line moved a lot
@@ -1323,12 +1339,29 @@ function moveNote(l) {
 // Tiered prop picks vs DraftKings lines, plus the season record by tier
 const recTxt = (r) => r ? `${r.wins}–${r.losses}${r.pushes ? "–" + r.pushes : ""}` : "0–0";
 const recPct = (r) => r && r.wins + r.losses ? ` (${(r.wins / (r.wins + r.losses) * 100).toFixed(1)}%)` : "";
-function propLeansPanel() {
+function propLeansPanel(week) {
   const picks = [];
-  for (const [gid, ps] of Object.entries(PROPS.games))
+  for (const [gid, ps] of Object.entries(PROPS.games)) {
+    if (week != null && PROPS.meta[gid]?.week !== week) continue;
     for (const p of ps) for (const [mk, l] of Object.entries(p.lines || {}))
       if (l.tier) picks.push({ gid, p, mk, l });
+  }
   const R = PROPS.record || {};
+  // this week's record and graded picks
+  const WR = (PROPS.record_weeks || {})[week];
+  const wkUnits = WR ? (WR.play3?.units_net || 0) + (WR.play1?.units_net || 0) : 0;
+  const wkLines = WR ? PTIER_ORDER.map(t => `<div class="line"><span>${PTIER[t].label}s</span><b class="mono">${recTxt(WR[t])}${recPct(WR[t])}${
+    WR[t]?.units_risked ? ` · <span class="${WR[t].units_net >= 0 ? "good" : "bad"}">${fmtU(WR[t].units_net)}</span>` : ""}</b></div>`).join("") : "";
+  const done = (PROPS.graded || []).filter(g => g.week === week);
+  const doneGroups = PTIER_ORDER.map(t => {
+    const xs = done.filter(g => g.tier === t);
+    if (!xs.length) return "";
+    const w = xs.filter(g => g.result === "win").length, l = xs.filter(g => g.result === "loss").length;
+    return `<div class="tier-group ${t}"><div class="day">${PTIER[t].label}s · graded ${w}–${l}</div>` + xs.map(g =>
+      `<div class="line"><span>${g.name} <small>${g.team} · ${PMKT[g.market].label} · actual <b>${g.actual}</b></small></span>
+        <span class="pick-col"><b class="mono ${g.result === "win" ? "good" : g.result === "loss" ? "bad" : ""}">${g.side} ${g.line}</b>
+        <small class="mono">${g.result}${g.units ? " · " + fmtU(g.units_net) : ""}</small></span></div>`).join("") + `</div>`;
+  }).join("");
   const recLines = PTIER_ORDER.map(t => `<div class="line"><span>${PTIER[t].label}s</span><b class="mono">${recTxt(R[t])}${recPct(R[t])}${
     R[t]?.units_risked ? ` · <span class="${R[t].units_net >= 0 ? "good" : "bad"}">${fmtU(R[t].units_net)}</span>` : ""}</b></div>`).join("");
   const groups = PTIER_ORDER.map(t => {
@@ -1341,9 +1374,13 @@ function propLeansPanel() {
         <span class="pick-col"><b class="mono ${t.startsWith("play") ? "good" : ""}">${x.l.side} ${x.l.line}</b><small class="mono">${pct(x.l.prob)}</small></span></div>`).join("") + `</div>`;
   }).join("");
   const tiers = PROPS.tiers.map(t => `<b>${PTIER[t.tier].label}</b>: ${t.rule}`).join("; ");
-  return `<div class="review"><h2>Prop picks vs DraftKings</h2>
-    <div class="day" style="margin:4px 0 2px">${PROPS.season} record (graded at −110)</div>${recLines}
-    ${groups || `<p class="note">No picks right now. DraftKings lines usually post during the week and fill in on game day.</p>`}
+  return `<div class="review"><h2>Week ${week} props</h2>
+    ${WR ? `<div class="day" style="margin:4px 0 2px">Week ${week} record · unit plays <span class="${wkUnits >= 0 ? "good" : "bad"}">${fmtU(wkUnits)}</span></div>${wkLines}`
+         : `<p class="note">Nothing graded yet this week.</p>`}
+    ${groups ? `<div class="day" style="margin:14px 0 2px">Still to play</div>${groups}` : ""}
+    ${doneGroups ? `<div class="day" style="margin:14px 0 2px">Graded</div>${doneGroups}` : ""}
+    ${!groups && !doneGroups ? `<p class="note">No picks for this week yet. DraftKings lines usually post during the week and fill in on game day.</p>` : ""}
+    <div class="day" style="margin:16px 0 2px">${PROPS.season} season (graded at −110)</div>${recLines}
     <p class="note">Tiers: ${tiers}. Passing yards get no tier (they lost in the backtest). Unit plays need the filters because, in this season's results,
       bigger chances alone didn't win more often, but lines under 45 that moved away from our side did (in both halves of the season).
       Weeks before tracking began are graded against DraftKings' last pre-game line from ESPN, with each week projected only from earlier games.
@@ -1431,7 +1468,7 @@ function renderProp() {
       ${p.lines[mk].tier ? `<p style="margin:8px 0 0"><span class="tag ${PTIER[p.lines[mk].tier].cls}">${PTIER[p.lines[mk].tier].label} · ${p.lines[mk].side} ${p.lines[mk].line}</span></p>` : ""}
       <p class="note" style="margin:6px 0 0">DraftKings line <b>${p.lines[mk].line}</b>${p.lines[mk].open != null && p.lines[mk].open !== p.lines[mk].line ? ` (opened ${p.lines[mk].open})` : ""}
       · updated ${new Date(p.lines[mk].updated).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}. Odds aren't in the feed: enter DraftKings' prices.</p>` : ""}
-    <p class="note" style="margin:6px 0 0">Model projection: <b>${projTxt}</b>${p.cfac ? ` (includes ${Math.round((p.cfac - 1) * 100)}% more carries from injured teammates)` : ""}</p>
+    <p class="note" style="margin:6px 0 0">Model projection: <b>${projTxt}</b>${p.cfac ? ` (includes ${Math.round((p.cfac - 1) * 100)}% more carries from injured teammates)` : ""}${p.tfac ? ` (includes ${Math.round((p.tfac - 1) * 100)}% more targets from injured teammates)` : ""}${p.opp_def_out && (p.opp_def_out[0] + p.opp_def_out[1]) ? ` · ${p.opp_def_out[0] + p.opp_def_out[1]} opposing defensive starter(s) out, factored in` : ""}</p>
     ${p.alerts?.length ? `<div class="heads"><h2>⚠ Heads up</h2>${p.alerts.map(a => `<div class="item">${a}</div>`).join("")}</div>` : ""}
     <div class="calc" style="grid-template-columns:1fr 1fr 1fr">
       <label>Line<input type="number" step="0.5" inputmode="decimal" value="${PS.line}" onchange="PS.line=parseFloat(this.value)||0.5; renderProp()"></label>

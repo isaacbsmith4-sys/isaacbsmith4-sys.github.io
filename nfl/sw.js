@@ -1,5 +1,5 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "gridiron-v5";
+const CACHE = "gridiron-v6";
 const SHELL = ["./", "index.html", "calc.js", "props.json", "manifest.webmanifest", "icon.svg", "predictions.json"];
 
 self.addEventListener("install", (e) => {
