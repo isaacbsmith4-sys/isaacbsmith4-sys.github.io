@@ -6,6 +6,12 @@ on:
     # lock hour in hub/settings.json, grades them as each sport posts results, rebuilds index.html.
     - cron: "*/30 13-23 * * *"
     - cron: "*/30 0-5 * * *"
+  # GitHub often skips frequent scheduled runs, so also rebuild whenever a sport app
+  # publishes (their pushes use deploy keys, which do trigger workflows; the hub's own
+  # commits use GITHUB_TOKEN, which doesn't, so there's no loop)
+  push:
+    branches: [main]
+    paths-ignore: ["index.html", "hub/ledger.json"]
   workflow_dispatch: {}
 
 permissions:

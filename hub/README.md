@@ -10,7 +10,7 @@ don't edit it by hand). Each sport publishes its own app to a subfolder (`nba/`,
 - `hub/ledger.json`: the official best plays and their results (the hub's record). The top-ranked
   pick each day is marked `potd` (Play of the Day) and tracked as its own record; it stays
   final once its game starts.
-- `hub/settings.json`: plays per day (3), lock hour (11 AM ET), allowed tiers (1U and up).
+- `hub/settings.json`: plays per day (3), lock time (10:30 AM ET), allowed tiers (1U and up).
 - `.github/workflows/hub.yml`: runs every 30 minutes from 9 AM to 1 AM ET.
 
 Ranking: every 3U/VIP play first (one arriving after the lock bumps the weakest unstarted pick),

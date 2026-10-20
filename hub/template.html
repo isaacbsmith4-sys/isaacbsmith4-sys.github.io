@@ -66,14 +66,14 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offse
 /* tabs */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
   padding-bottom:env(safe-area-inset-bottom, 0px);padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
-.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabbar-h)}
+.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--tabbar-h)}
 .tab{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11.5px;font-weight:700;letter-spacing:.03em}
 .tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--gold-ink)}
 @media (min-width:760px){
   body{padding-bottom:0}
   .tabs{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top, 0px)}
-  .tabs-in{height:52px;grid-template-columns:repeat(4,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
+  .tabs-in{height:52px;grid-template-columns:repeat(5,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
   .tab{flex-direction:row;gap:8px;font-size:14px;padding:0 14px;border-bottom:2px solid transparent}
   .tab.on{border-bottom-color:var(--gold)}
   .tab svg{width:18px;height:18px}
@@ -205,7 +205,40 @@ table.t .grp{text-align:center;color:var(--ink2)}
 .sp-card .line b.pos{color:var(--win)} .sp-card .line b.neg{color:var(--loss)}
 .sp-card .go{font-size:13px;font-weight:800;color:var(--ink2)}
 .sp-card .soon{color:var(--muted);font-size:13px}
+.gcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.ghead{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px 4px}
+.gmatch{padding:0 14px 10px;display:flex;flex-direction:column;gap:2px}
+.gteam{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font:800 21px/1.15 var(--font-display);text-transform:uppercase;min-width:0}
+.gteam span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gteam small{font:600 12.5px var(--font-body);color:var(--muted);text-transform:none;margin-left:6px}
+.gteam b{font:900 24px var(--font-display)}
+.glines{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.glines > div{background:var(--surface2);padding:9px 12px;min-width:0}
+.glines .lab{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.glines .now{font:800 18px/1.2 var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.glines .was{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mv{font-weight:800;color:var(--ink2)}
+.gmodel{padding:8px 14px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);display:flex;gap:12px;flex-wrap:wrap}
+.gmodel b{color:var(--ink2)}
+details.gmore{border-top:1px solid var(--line)}
+details.gmore summary{cursor:pointer;padding:9px 14px;font-size:13px;font-weight:700;color:var(--ink2);list-style:none}
+details.gmore summary::-webkit-details-marker{display:none}
+details.gmore summary::after{content:" +";color:var(--muted)}
+details.gmore[open] summary::after{content:" –"}
+.gbody{padding:0 14px 14px;display:grid;gap:12px}
+.cmp{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+.cmp th,.cmp td{padding:6px 4px;border-top:1px solid var(--line);text-align:right}
+.cmp th{font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.07em;text-transform:uppercase;border-top:0}
+.cmp td:first-child,.cmp th:first-child{text-align:left;color:var(--muted)}
+.inj2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.inj2 h4{margin:0 0 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.inj2 div{font-size:13px;min-width:0}
+.inj2 p{margin:0 0 2px;display:flex;justify-content:space-between;gap:6px}
+.inj2 p span:last-child{color:var(--muted);white-space:nowrap}
+.dtools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.dtools input{flex:1 1 160px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--ink);font:inherit}
 @media (max-width:520px){
+  .glines .now{font-size:16px}
   .slip-sel{font-size:28px}
   .slip-foot{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:12px}
   .strip{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -221,6 +254,7 @@ table.t .grp{text-align:center;color:var(--ink2)}
   <button class="tab" data-v="today"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>Today</button>
   <button class="tab" data-v="calendar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Calendar</button>
   <button class="tab" data-v="records"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5h16M6.5 16l4-5 3 3 4.5-6.5"/></svg>Records</button>
+  <button class="tab" data-v="data"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5V20"/></svg>Data</button>
   <button class="tab" data-v="sports"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 2.6 14.6 0 17M12 3.5c-2.6 2.4-2.6 14.6 0 17"/></svg>Sports</button>
 </div></nav>
 
@@ -233,6 +267,7 @@ table.t .grp{text-align:center;color:var(--ink2)}
     <section class="view" id="v-today"></section>
     <section class="view" id="v-calendar" hidden></section>
     <section class="view" id="v-records" hidden></section>
+    <section class="view" id="v-data" hidden></section>
     <section class="view" id="v-sports" hidden></section>
   </main>
 </div>
@@ -252,14 +287,14 @@ const fromYmd = s => { const [y,m,d] = s.split("-").map(Number); return new Date
 const sportVar = code => `var(--${H.folders[code] || "nba"})`;
 const profit = pr => pr == null ? 100/110 : (pr < 0 ? 100/-pr : pr/100);
 const tip = s => { if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}); };
-const lockText = () => S.lock_hour_et > 12 ? (S.lock_hour_et-12) + " PM" : S.lock_hour_et + " AM";
+const lockText = () => { const [h, m] = (S.lock_time_et || "10:30").split(":").map(Number); return `${h > 12 ? h-12 : h}:${String(m).padStart(2,"0")} ${h >= 12 ? "PM" : "AM"}`; };
 const store = { get(k, d){ try { return localStorage.getItem(k) ?? d; } catch(e){ return d; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} } };
 const rankSort = (a,b) => (TOP.includes(b.tier) - TOP.includes(a.tier)) || (b.ev||0) - (a.ev||0);
 const cls = x => x > 0 ? "pos" : x < 0 ? "neg" : "";
 
 let view = store.get("hubView", "today");
 const hv = location.hash.replace("#","");
-if (["today","calendar","records","sports"].includes(hv)) view = hv;
+if (["today","calendar","records","data","sports"].includes(hv)) view = hv;
 let selDay = today, month = fromYmd(today), sportFilter = store.get("hubSport", "all"), live = [];
 
 function rec(es){
@@ -320,6 +355,22 @@ function candidates(day){
 }
 
 // ---------- TODAY
+function yesterdayHTML(){
+  const d = fromYmd(today); d.setDate(d.getDate() - 1);
+  const yk = ymd(d);
+  const es = H.ledger.filter(e => e.date === yk).sort((a,b) => (b.potd?1:0)-(a.potd?1:0) || a.slot-b.slot);
+  if (!es.length) return "";
+  const r = rec(es), pending = es.some(e => !FINAL.includes(e.status));
+  return `<div class="sec">
+    <div class="sec-h"><h2>Yesterday</h2><span>${r.n ? `${r.text} · <b class="${cls(r.u)}">${sgn(r.u)}u</b>` : ""}${pending ? (r.n ? " · " : "") + "waiting on results" : ""}</span></div>
+    ${es.map(e => `<div class="mini">
+      <div class="sel">${e.potd ? '<span style="color:var(--gold-ink)">★ </span>' : ""}${e.selection} <span class="px">${price(e.price)}</span></div>
+      <div class="side">${unitsBadge(e)}${resultBadge(e, false)}</div>
+      <div class="meta"><span class="sport"><i style="background:${sportVar(e.sport)}"></i>${e.sport}</span><span>${e.event}</span>${e.potd ? "<span>Play of the Day</span>" : ""}</div>
+    </div>`).join("")}
+  </div>`;
+}
+
 function renderToday(){
   const potdAll = H.ledger.filter(e => e.potd).sort((a,b) => a.date < b.date ? -1 : 1);
   const r = rec(potdAll);
@@ -354,6 +405,8 @@ function renderToday(){
       <div class="kv"><b class="num">${streak}</b><span>Streak</span></div>
     </div>
     ${form ? `<div class="form">${form}<small>last ${formEs.length}</small></div>` : ""}
+
+    ${yesterdayHTML()}
 
     <div class="sec">
       <div class="sec-h"><h2>Today's card</h2><span>${S.picks_per_day} best plays · 3U first, then highest EV</span></div>
@@ -506,6 +559,81 @@ function renderRecords(){
   wireChart();
 }
 
+// ---------- DATA (every game, no picks)
+let gamesAll = [], dataDay = null, dataSport = store.get("hubDataSport", "all"), dataSort = store.get("hubDataSort", "time"), dataQ = "";
+const sideLine = (g, s) => s == null ? "–" : s === 0 ? "PK" : s < 0 ? `${g.home.abbr || g.home.short} ${s}` : `${g.away.abbr || g.away.short} ${-s}`;
+const ml = x => x == null ? "–" : (x > 0 ? "+" : "") + Math.round(x);
+function moveText(g){
+  const L = g.lines || {}; if (L.spread == null || L.spread_open == null || L.spread === L.spread_open) return "";
+  const d = L.spread - L.spread_open, to = d < 0 ? (g.home.abbr || g.home.short) : (g.away.abbr || g.away.short);
+  return `<span class="mv">▲ ${Math.abs(d).toFixed(1)} to ${to}</span>`;
+}
+function totalMove(g){
+  const L = g.lines || {}; if (L.total == null || L.total_open == null || L.total === L.total_open) return "";
+  return `<span class="mv">${L.total > L.total_open ? "▲" : "▼"} ${Math.abs(L.total - L.total_open).toFixed(1)}</span>`;
+}
+function gameCard(g){
+  const L = g.lines || {}, m = g.model, fin = g.status === "post";
+  const awayWon = fin && g.away.score > g.home.score, homeWon = fin && g.home.score > g.away.score;
+  const labels = [...new Set([...Object.keys(g.away.stats||{}), ...Object.keys(g.home.stats||{})])];
+  const row = (lab, a, h) => `<tr><td>${lab}</td><td>${a ?? "–"}</td><td>${h ?? "–"}</td></tr>`;
+  const injs = t => (t.injuries||[]).length ? t.injuries.map(i => `<p><span>${i.name}</span><span>${i.status}</span></p>`).join("") : `<p><span style="color:var(--muted)">None listed</span></p>`;
+  return `<article class="gcard">
+    <div class="ghead"><span class="sport"><i style="background:${sportVar(g.sport)}"></i>${H.names[g.sport]||g.sport}${g.neutral?" · neutral site":""}</span>
+      <span class="res ${fin?"push":"pending"}">${fin ? "Final" : g.status === "in" ? "Live" : (tip(g.start) || g.status_text || "")}</span></div>
+    <div class="gmatch">
+      <div class="gteam"><span style="${fin && !awayWon ? "color:var(--muted)" : ""}">${g.away.short}<small>${g.away.record||""}</small></span>${g.away.score!=null?`<b class="num">${g.away.score}</b>`:""}</div>
+      <div class="gteam"><span style="${fin && !homeWon ? "color:var(--muted)" : ""}">@ ${g.home.short}<small>${g.home.record||""}</small></span>${g.home.score!=null?`<b class="num">${g.home.score}</b>`:""}</div>
+    </div>
+    <div class="glines">
+      <div><div class="lab">Spread</div><div class="now num">${sideLine(g, L.spread)}</div><div class="was">${L.spread_open!=null ? "Open " + sideLine(g, L.spread_open) + " " + moveText(g) : (L.book||"")}</div></div>
+      <div><div class="lab">Total</div><div class="now num">${L.total ?? "–"}</div><div class="was">${L.total_open!=null ? "Open " + L.total_open + " " + totalMove(g) : ""}</div></div>
+      <div><div class="lab">Moneyline</div><div class="now num">${ml(L.away_ml)} / ${ml(L.home_ml)}</div><div class="was">${L.away_ml_open!=null ? "Open " + ml(L.away_ml_open) + " / " + ml(L.home_ml_open) : ""}</div></div>
+    </div>
+    ${m ? `<div class="gmodel"><span>Model numbers:</span><span>line <b>${sideLine(g, m.spread)}</b></span>${m.total!=null?`<span>total <b>${m.total}</b></span>`:""}${m.home_win_prob!=null?`<span>${g.home.short} win <b>${pct(m.home_win_prob)}</b></span>`:""}</div>` : ""}
+    <details class="gmore"><summary>Matchup details</summary><div class="gbody">
+      <table class="cmp"><tr><th></th><th>${g.away.abbr||g.away.short}</th><th>${g.home.abbr||g.home.short}</th></tr>
+        ${g.away.record||g.home.record ? row("Record", g.away.record, g.home.record) : ""}
+        ${g.away.rest_days!=null||g.home.rest_days!=null ? row("Days rest", g.away.rest_days>=4?"4+":g.away.rest_days, g.home.rest_days>=4?"4+":g.home.rest_days) : ""}
+        ${g.away.b2b||g.home.b2b ? row("Back-to-back", g.away.b2b?"Yes":"No", g.home.b2b?"Yes":"No") : ""}
+        ${labels.map(l => row(l, g.away.stats?.[l], g.home.stats?.[l])).join("")}
+      </table>
+      <div class="inj2"><div><h4>${g.away.short} injuries</h4>${injs(g.away)}</div><div><h4>${g.home.short} injuries</h4>${injs(g.home)}</div></div>
+      ${(g.notes||[]).map(n => `<p class="note" style="margin:0">${n}</p>`).join("")}
+    </div></details>
+  </article>`;
+}
+function renderData(){
+  const days = [...new Set(gamesAll.map(g => g.date))].sort();
+  if (!dataDay || !days.includes(dataDay)) dataDay = days.includes(today) ? today : (days.find(d => d >= today) || days[days.length-1]);
+  const dayLabel = d => { const y = new Date(fromYmd(today)); y.setDate(y.getDate()-1);
+    return d === today ? "Today" : d === ymd(y) ? "Yesterday" : fromYmd(d).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"}); };
+  const onDay = gamesAll.filter(g => g.date === dataDay);
+  const sports = Object.keys(H.names).filter(s => onDay.some(g => g.sport === s));
+  if (dataSport !== "all" && !sports.includes(dataSport)) dataSport = "all";
+  const q = dataQ.trim().toLowerCase();
+  let gs = onDay.filter(g => (dataSport === "all" || g.sport === dataSport) &&
+    (!q || [g.away.name, g.home.name, g.away.abbr, g.home.abbr].join(" ").toLowerCase().includes(q)));
+  const mvAmt = g => (g.lines && g.lines.spread != null && g.lines.spread_open != null) ? Math.abs(g.lines.spread - g.lines.spread_open) : -1;
+  gs.sort(dataSort === "move" ? (a,b) => mvAmt(b) - mvAmt(a) : (a,b) => (a.start||"9") < (b.start||"9") ? -1 : 1);
+  const loading = !gamesAll.length;
+  $("#v-data").innerHTML = `
+    <div class="sec-h"><h2>Game data</h2><span>Every game, no picks: lines, line moves, injuries, rest and the model's numbers</span></div>
+    <div class="chips" id="dDays">${days.map(d => `<button class="chip ${d===dataDay?'on':''}" data-d="${d}">${dayLabel(d)}</button>`).join("")}</div>
+    <div class="chips" id="dSports" style="margin-top:6px">${[["all","All sports"], ...sports.map(s=>[s,H.names[s]])].map(([k,l]) => `<button class="chip ${dataSport===k?'on':''}" data-s="${k}">${l}</button>`).join("")}</div>
+    <div class="dtools" style="margin-top:10px">
+      <input id="dQ" type="search" placeholder="Find a team" value="${dataQ.replace(/"/g,"&quot;")}" aria-label="Find a team">
+      <div class="chips" id="dSort"><button class="chip ${dataSort==="time"?'on':''}" data-o="time">By time</button><button class="chip ${dataSort==="move"?'on':''}" data-o="move">Biggest line moves</button></div>
+    </div>
+    ${loading ? `<div class="empty">Loading every sport's games…</div>` : gs.length ? gs.map(gameCard).join("") : `<div class="empty">No games match.</div>`}
+    ${!loading && missingSports.length ? `<p class="note">Not sharing game data yet: ${missingSports.map(s => H.names[s]).join(", ")}.</p>` : ""}`;
+  document.querySelectorAll("#dDays .chip").forEach(c => c.onclick = () => { dataDay = c.dataset.d; renderData(); });
+  document.querySelectorAll("#dSports .chip").forEach(c => c.onclick = () => { dataSport = c.dataset.s; store.set("hubDataSport", dataSport); renderData(); });
+  document.querySelectorAll("#dSort .chip").forEach(c => c.onclick = () => { dataSort = c.dataset.o; store.set("hubDataSort", dataSort); renderData(); });
+  const qi = $("#dQ"); qi.oninput = () => { dataQ = qi.value; const pos = qi.selectionStart; renderData(); const n = $("#dQ"); n.focus(); n.setSelectionRange(pos, pos); };
+}
+let missingSports = [];
+
 // ---------- SPORTS
 function renderSports(){
   $("#v-sports").innerHTML = `<div class="sec-h"><h2>Sport apps</h2><span>Each model's own record on its 1U+ plays</span></div>
@@ -527,13 +655,22 @@ const season = rec(H.ledger);
 $("#seasonUnits").textContent = sgn(season.u) + "u";
 $("#seasonUnits").className = "num " + cls(season.u);
 $("#seasonLabel").textContent = `Season · ${season.text}`;
-renderToday(); renderCalendar(); renderRecords(); renderSports(); setView(view);
+renderToday(); renderCalendar(); renderRecords(); renderData(); renderSports(); setView(view);
 let rw = window.innerWidth;
 window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - rw) > 40) { rw = window.innerWidth; renderRecords(); } });
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/plays.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).then(d => d.plays || []).catch(() => [])
 )).then(lists => { live = lists.flat(); renderToday(); });
+
+Promise.all(Object.entries(H.folders).map(([code, folder]) =>
+  fetch(folder + "/games.json", {cache: "no-store"}).then(r => r.ok ? r.json() : null).catch(() => null)
+    .then(d => ({code, games: d && Array.isArray(d.games) ? d.games.map(g => ({...g, sport: code})) : null}))
+)).then(res => {
+  missingSports = res.filter(r => r.games === null).map(r => r.code);
+  gamesAll = res.flatMap(r => r.games || []);
+  renderData();
+});
 </script>
 </body>
 </html>

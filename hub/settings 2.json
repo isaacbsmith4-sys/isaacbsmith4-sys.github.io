@@ -1,0 +1,16 @@
+{
+  "picks_per_day": 3,
+  "lock_hour_et": 11,
+  "allowed_tiers": [
+    "VIP",
+    "3U",
+    "2U",
+    "1U",
+    "Lean"
+  ],
+  "max_per_game": 1,
+  "max_props_per_day": 1,
+  "min_ev": 0.0,
+  "min_stake": 1,
+  "unit_plays_first": true
+}

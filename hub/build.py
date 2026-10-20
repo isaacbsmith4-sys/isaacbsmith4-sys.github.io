@@ -81,7 +81,8 @@ def select(day, now, feeds, ledger, settings, backfill=False):
     backfill=True picks a past day after the fact, from plays the models had already
     logged and graded, using the same rules (the entries are marked "backfilled")."""
     todays = [e for e in ledger if e["date"] == day]
-    if not backfill and now.hour < settings["lock_hour_et"]:
+    lh, lm = (int(x) for x in settings.get("lock_time_et", "10:30").split(":"))
+    if not backfill and (now.hour, now.minute) < (lh, lm):
         return []
     open_slots = settings["picks_per_day"] - len(todays)
     taken_games = {(e["sport"], e["event"], e.get("player") if e["market"] == "prop" else None)

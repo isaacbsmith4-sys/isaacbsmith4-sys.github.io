@@ -1,0 +1,25 @@
+[
+ {
+  "id": "nfl-2026_06_WAS_SF-00-0039910-rushing_yards",
+  "sport": "NFL",
+  "date": "2026-10-19",
+  "start": "2026-10-20T00:15Z",
+  "event": "Commanders @ 49ers",
+  "market": "prop",
+  "selection": "Jayden Daniels under 40.5 rushing yards",
+  "player": "Jayden Daniels",
+  "line": 40.5,
+  "price": -110,
+  "model_prob": 0.687,
+  "market_prob": 0.5,
+  "edge_prob": 0.187,
+  "ev": 0.3115,
+  "edge_display": "19%",
+  "tier": "1U",
+  "slot": 1,
+  "stake": 1.0,
+  "locked_at": "2026-10-19 19:36 ET",
+  "status": "pending",
+  "result_units": null
+ }
+]
