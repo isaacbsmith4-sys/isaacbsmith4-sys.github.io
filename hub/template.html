@@ -418,13 +418,16 @@ function cumulative(es){
   let run = 0;
   return days.map(d => { run += es.filter(e=>e.date===d).reduce((a,e)=>a+(e.result_units||0),0); return {d, v: run}; });
 }
-const CH = {W: 640, H: 230, L: 42, R: 14, T: 12, B: 26};
+const CH = {W: 640, H: 230, L: 40, R: 12, T: 12, B: 26};
 function chartData(){
   const graded = H.ledger.filter(e => FINAL.includes(e.status));
   const all = cumulative(graded), pd = cumulative(graded.filter(e=>e.potd));
   return {all, pd, days: all.map(p=>p.d)};
 }
 function chartSVG(){
+  // draw at the real on-screen width so labels stay readable on phones
+  CH.W = Math.max(300, Math.min(640, Math.round(Math.min(window.innerWidth, 860) - 58)));
+  CH.H = CH.W < 480 ? 210 : 230;
   const {all, pd, days} = chartData();
   if (all.length < 2) return `<div class="empty">The chart fills in once a few days are graded.</div>`;
   const {W, H: Hh, L, R, T, B} = CH;
@@ -525,6 +528,8 @@ $("#seasonUnits").textContent = sgn(season.u) + "u";
 $("#seasonUnits").className = "num " + cls(season.u);
 $("#seasonLabel").textContent = `Season · ${season.text}`;
 renderToday(); renderCalendar(); renderRecords(); renderSports(); setView(view);
+let rw = window.innerWidth;
+window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - rw) > 40) { rw = window.innerWidth; renderRecords(); } });
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/plays.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).then(d => d.plays || []).catch(() => [])
