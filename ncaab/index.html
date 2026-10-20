@@ -166,14 +166,16 @@ details.sum summary{cursor:pointer;font-weight:700}
   <details class="sum" id="sumbox"><summary>Season results</summary><div id="summary"></div></details>
 </div>
 <script>
-const D = {"games": [], "summary": [], "settings": {"tiers": {"light_lean": 3.0, "lean": 4.0, "one_unit": 5.0, "two_unit": 7.0}, "total_tiers": {"light_lean": 4.0, "lean": 5.0, "one_unit": 6.0, "two_unit": 9.0}, "early_season_games": 10, "dashboard_days": 3, "market_blend": {"weight": 0.7, "total_weight": 0.5, "fade_games": 12}}, "logos": {}, "conferences": [], "power": ["2", "21", "23", "4", "7", "8"], "updated": "Oct 19, 7:16 PM"};
+const D = {"games": [], "summary": [], "settings": {"tiers": {"light_lean": 3.0, "lean": 4.0, "one_unit": 5.0, "two_unit": 7.0}, "total_tiers": {"light_lean": 4.0, "lean": 5.0, "one_unit": 6.0, "two_unit": 9.0}, "early_season_games": 10, "dashboard_days": 3, "market_blend": {"weight": 0.7, "total_weight": 0.5, "fade_games": 12}}, "logos": {}, "conferences": [], "power": ["2", "21", "23", "4", "7", "8"], "updated": "Oct 19, 11:31 PM"};
 const S = D.settings, T = S.tiers, TT = S.total_tiers;
 const $ = s => document.querySelector(s);
 const fmt = (x, d=1) => x == null ? "–" : (+x).toFixed(d);
 const sgn = (x, d=1) => x == null ? "–" : (x > 0 ? "+" : "") + (+x).toFixed(d);
 const tierCls = t => "t-" + t.split(" ")[0];
 const PLAYS = ["2U","1U","Lean","Light lean"];
-const isPlay = g => PLAYS.includes(g.tier);
+// the green dot, the date's play record and "Plays only" count unit plays only (no leans)
+const UNIT_TIERS = ["3U","2U","1U"];
+const isPlay = g => UNIT_TIERS.includes(g.tier);
 const TIER_RANK = t => ["2U","1U","Lean","Light lean","No play","No line"].indexOf(t);
 const today = new Date(); const todayStr = today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
 let filter = "plays", openId = null, conf = "all";
@@ -222,8 +224,8 @@ function renderDates(){
   $("#dates").innerHTML = dates.map(d => {
     const dt = dayLabel(d), gs = byDate[d].filter(inConf), plays = gs.filter(isPlay).length;
     const graded = gs.filter(g => g.result && isPlay(g));
-    const w = graded.reduce((a,g)=>a+["spread","total"].filter(m=>g.result[m]&&g.result[m].result==="win"&&PLAYS.includes((g[m]||{}).tier)).length,0);
-    const l = graded.reduce((a,g)=>a+["spread","total"].filter(m=>g.result[m]&&g.result[m].result==="loss"&&PLAYS.includes((g[m]||{}).tier)).length,0);
+    const w = graded.reduce((a,g)=>a+["spread","total"].filter(m=>g.result[m]&&g.result[m].result==="win"&&UNIT_TIERS.includes((g[m]||{}).tier)).length,0);
+    const l = graded.reduce((a,g)=>a+["spread","total"].filter(m=>g.result[m]&&g.result[m].result==="loss"&&UNIT_TIERS.includes((g[m]||{}).tier)).length,0);
     const meta = graded.length ? `${w}-${l} plays` : `${gs.length} games` + (plays ? ` · <span class="dot"></span>${plays}` : "");
     const cls = ["date", d < todayStr ? "past" : "", d === todayStr ? "today" : "", d === current ? "active" : ""].join(" ");
     return `<button class="${cls}" data-d="${d}"><div class="dow">${d===todayStr?"Today":dt.toLocaleDateString(undefined,{weekday:"short"})}</div>` +
