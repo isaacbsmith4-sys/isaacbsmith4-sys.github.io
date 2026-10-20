@@ -2,7 +2,7 @@
  "sport": "NHL",
  "app": "NHL Model",
  "format": 1,
- "generated_at": "2026-10-20T17:43Z",
+ "generated_at": "2026-10-20T18:57Z",
  "plays": [
   {
    "id": "nhl-401891773-ml",
@@ -2205,6 +2205,27 @@
    "ev": 0.0469,
    "edge_display": "4.1%",
    "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nhl-401892551-ml",
+   "sport": "NHL",
+   "date": "2026-10-21",
+   "start": "2026-10-21T23:30Z",
+   "event": "Panthers @ Senators",
+   "market": "moneyline",
+   "selection": "Senators ML",
+   "player": null,
+   "line": null,
+   "price": -108.0,
+   "model_prob": 0.5403,
+   "market_prob": 0.4957,
+   "edge_prob": 0.0447,
+   "ev": 0.0406,
+   "edge_display": "4.5%",
+   "tier": "Lean",
    "units": 0,
    "status": "pending",
    "result_units": null
