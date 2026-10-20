@@ -5,24 +5,351 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Isaac's Models</title>
 <meta name="theme-color" content="#0c1018">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Best Plays">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg:#0c1018;--panel:#141a26;--line:#252e42;--text:#e9edf5;--muted:#8b95aa;--accent:#ff7a1a}
-@media (prefers-color-scheme: light){:root{color-scheme:light;--bg:#eef1f6;--panel:#fff;--line:#dde2eb;--text:#141a26;--muted:#5a6478;--accent:#e8620c}}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,sans-serif}
-main{max-width:560px;margin:0 auto;padding-block:40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1{font-size:26px;margin:0 0 4px}p{color:var(--muted);margin:0 0 24px}
-a.app{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px;color:var(--text);text-decoration:none;font-weight:600}
-a.app span{color:var(--muted);font-weight:400;font-size:14px}a.app:hover{border-color:var(--accent)}
+/* Layout: record strip, month calendar of official results, the selected day's plays,
+   then today's biggest edges across every sport and a tile per sport app. */
+:root{
+  color-scheme:dark;
+  --bg:#0c1018; --panel:#141a26; --panel2:#1a2233; --line:#252e42; --line-hi:#3a4560;
+  --text:#e9edf5; --muted:#8b95aa; --faint:#5d6779; --accent:#ff7a1a; --accent2:#e8432e; --on-accent:#fff;
+  --win:#2fd06e; --win-bg:rgba(34,197,94,.15); --loss:#f05252; --loss-bg:rgba(239,68,68,.15); --push-bg:#252e42;
+  --vip:#f5b301; --vip-bg:rgba(245,179,1,.16); --vip-ring:rgba(245,179,1,.55);
+  --u3:#ff9f43; --u3-bg:rgba(255,159,67,.15); --u3-ring:rgba(255,159,67,.45);
+  --u2:#f5b301; --u2-bg:rgba(245,179,1,.12); --u2-ring:rgba(245,179,1,.4);
+  --u1:#2fd06e; --u1-bg:rgba(34,197,94,.13); --u1-ring:rgba(34,197,94,.42);
+  --lean:#86b5ff; --lean-bg:rgba(59,130,246,.14); --lean-ring:rgba(59,130,246,.42);
+  --light:#aab7d4; --light-bg:rgba(124,141,181,.12); --light-ring:rgba(124,141,181,.32);
+  --nfl:#4f8cff; --cfb:#ef4f5f; --nba:#ff7a1a; --ncaab:#a78bfa; --nhl:#2dd4bf;
+  --font-body:Barlow,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-num:"Barlow Condensed","Arial Narrow",Barlow,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  color-scheme:light;
+  --bg:#eef1f6; --panel:#fff; --panel2:#f5f7fb; --line:#dde2eb; --line-hi:#b9c2d3;
+  --text:#141a26; --muted:#5a6478; --faint:#8a93a5; --accent:#e8620c; --accent2:#cf3420;
+  --win:#13893f; --win-bg:rgba(34,197,94,.13); --loss:#c62828; --loss-bg:rgba(220,38,38,.1); --push-bg:#e6eaf1;
+  --vip:#a87400; --vip-bg:rgba(245,179,1,.18); --vip-ring:rgba(200,140,0,.55);
+  --u3:#c2410c; --u3-bg:rgba(249,115,22,.12); --u3-ring:rgba(194,65,12,.4);
+  --u2:#a87400; --u2-bg:rgba(245,179,1,.14); --u2-ring:rgba(200,140,0,.45);
+  --u1:#13893f; --u1-bg:rgba(34,197,94,.12); --u1-ring:rgba(19,137,63,.4);
+  --lean:#1d4fc4; --lean-bg:rgba(59,130,246,.1); --lean-ring:rgba(37,99,235,.35);
+  --light:#4f5d7d; --light-bg:rgba(107,122,156,.1); --light-ring:rgba(107,122,156,.3);
+  --nfl:#2563eb; --cfb:#dc2626; --nba:#ea580c; --ncaab:#7c3aed; --nhl:#0d9488;
+}}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#eef1f6; --panel:#fff; --panel2:#f5f7fb; --line:#dde2eb; --line-hi:#b9c2d3;
+  --text:#141a26; --muted:#5a6478; --faint:#8a93a5; --accent:#e8620c; --accent2:#cf3420;
+  --win:#13893f; --win-bg:rgba(34,197,94,.13); --loss:#c62828; --loss-bg:rgba(220,38,38,.1); --push-bg:#e6eaf1;
+  --vip:#a87400; --vip-bg:rgba(245,179,1,.18); --vip-ring:rgba(200,140,0,.55);
+  --u3:#c2410c; --u3-bg:rgba(249,115,22,.12); --u3-ring:rgba(194,65,12,.4);
+  --u2:#a87400; --u2-bg:rgba(245,179,1,.14); --u2-ring:rgba(200,140,0,.45);
+  --u1:#13893f; --u1-bg:rgba(34,197,94,.12); --u1-ring:rgba(19,137,63,.4);
+  --lean:#1d4fc4; --lean-bg:rgba(59,130,246,.1); --lean-ring:rgba(37,99,235,.35);
+  --light:#4f5d7d; --light-bg:rgba(107,122,156,.1); --light-ring:rgba(107,122,156,.3);
+  --nfl:#2563eb; --cfb:#dc2626; --nba:#ea580c; --ncaab:#7c3aed; --nhl:#0d9488;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 var(--font-body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font:800 15px var(--font-num);color:var(--on-accent)}
+.brand h1{font:800 24px/1 var(--font-num);margin:0;letter-spacing:.3px;text-transform:uppercase}
+.brand small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 12px;min-width:88px}
+.stat b{display:block;font:700 20px/1.1 var(--font-num);font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+h2{font:700 20px/1.2 var(--font-num);margin:0;text-transform:uppercase;letter-spacing:.3px;text-wrap:balance}
+section{margin-top:26px}
+.sechead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.muted{color:var(--muted)}
+/* calendar */
+.cal{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
+.calnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.calnav b{font:700 18px var(--font-num);text-transform:uppercase;letter-spacing:.4px}
+.calnav button{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;width:34px;height:30px;cursor:pointer;font-size:16px}
+.month-sum{font-size:13px;color:var(--muted);text-align:center;margin-bottom:8px}
+.grid7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.dow{font-size:10.5px;color:var(--faint);text-align:center;text-transform:uppercase;letter-spacing:.6px;font-weight:600;padding:2px 0}
+.day{min-height:62px;border-radius:9px;border:1px solid transparent;background:var(--panel2);padding:5px 6px;cursor:pointer;text-align:left;color:var(--text);font:inherit;display:flex;flex-direction:column;gap:2px;min-width:0}
+.day.out{background:transparent;cursor:default}
+.day .n{font:600 13px var(--font-num);color:var(--muted)}
+.day .u{font:700 15px var(--font-num);font-variant-numeric:tabular-nums}
+.day .r{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden}
+.day.pos{background:var(--win-bg)} .day.pos .u{color:var(--win)}
+.day.neg{background:var(--loss-bg)} .day.neg .u{color:var(--loss)}
+.day.today{border-color:var(--accent)}
+.day.sel{border-color:var(--text)}
+.day .dots{display:flex;gap:3px;flex-wrap:wrap}
+.day .dots i{width:6px;height:6px;border-radius:50%;background:var(--faint)}
+/* play cards */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center}
+.card.top{border-color:var(--line-hi)}
+.sel-line{font:800 22px/1.15 var(--font-num);letter-spacing:.2px;min-width:0;overflow-wrap:anywhere}
+.meta{font-size:13px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.nums{display:flex;gap:14px;flex-wrap:wrap;font-variant-numeric:tabular-nums;font-size:13px}
+.nums span b{font:700 16px var(--font-num);color:var(--text)}
+.right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.sport{display:inline-flex;align-items:center;gap:6px;font:700 12px var(--font-num);letter-spacing:.6px;text-transform:uppercase}
+.sport i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.badge{font:700 13px var(--font-num);letter-spacing:.4px;text-transform:uppercase;padding:5px 9px;border-radius:8px;white-space:nowrap;text-align:center}
+.t-VIP{background:var(--vip-bg);color:var(--vip);box-shadow:inset 0 0 0 1.5px var(--vip-ring)}
+.t-3U{background:var(--u3-bg);color:var(--u3);box-shadow:inset 0 0 0 1px var(--u3-ring)}
+.t-2U{background:var(--u2-bg);color:var(--u2);box-shadow:inset 0 0 0 1px var(--u2-ring)}
+.t-1U{background:var(--u1-bg);color:var(--u1);box-shadow:inset 0 0 0 1px var(--u1-ring)}
+.t-Lean{background:var(--lean-bg);color:var(--lean);box-shadow:inset 0 0 0 1px var(--lean-ring)}
+.t-Light{background:var(--light-bg);color:var(--light);box-shadow:inset 0 0 0 1px var(--light-ring)}
+.res{font:700 13px var(--font-num);letter-spacing:.4px;padding:4px 8px;border-radius:7px;text-transform:uppercase}
+.res.win{background:var(--win-bg);color:var(--win)} .res.loss{background:var(--loss-bg);color:var(--loss)}
+.res.push,.res.void{background:var(--push-bg);color:var(--muted)} .res.pending{background:var(--panel2);color:var(--muted)}
+.note{color:var(--muted);font-size:13px;max-width:75ch;margin:4px 0 12px}
+/* edges list */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--panel);border:1px solid var(--line);color:var(--muted);font:600 12.5px var(--font-body);padding:5px 11px;border-radius:999px;cursor:pointer}
+.chip.on{color:var(--text);border-color:var(--text);background:var(--panel2)}
+.edges{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.erow{display:grid;grid-template-columns:72px minmax(0,1fr) 70px 64px 92px;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);color:var(--text);text-decoration:none}
+.erow:first-child{border-top:0}
+.erow:hover{background:var(--panel2)}
+.erow .what{min-width:0}
+.erow .what b{display:block;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.erow .what span{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.erow .num{text-align:right;font-variant-numeric:tabular-nums}
+.erow .num b{display:block;font:700 16px var(--font-num)}
+.erow .num span{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+.erow .badge{justify-self:end}
+/* sports */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--text);text-decoration:none;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile:hover{border-color:var(--line-hi)}
+.tile .nm{font:800 19px var(--font-num);text-transform:uppercase;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.tile .nm i{width:10px;height:10px;border-radius:3px}
+.tile .rec{font-variant-numeric:tabular-nums;font-size:14px}
+.tile .rec b{font:700 18px var(--font-num)}
+.tile small{color:var(--faint);font-size:12px}
+.tablewrap{overflow-x:auto}
+table.sum{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+table.sum th,table.sum td{padding:7px 8px;text-align:right;border-top:1px solid var(--line);white-space:nowrap}
+table.sum th{color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-top:0}
+table.sum td:first-child,table.sum th:first-child{text-align:left}
+.empty{color:var(--muted);text-align:center;padding:28px 0;background:var(--panel);border:1px dashed var(--line);border-radius:14px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media (max-width:640px){
+  .card{grid-template-columns:minmax(0,1fr)}
+  .right{flex-direction:row;align-items:center;justify-content:flex-start}
+  .erow{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"w b" "s e"}
+  .erow .sp{grid-area:s}.erow .what{grid-area:w}.erow .badge{grid-area:b}
+  .erow .num.ev{grid-area:e}.erow .num.pr{display:none}
+  .day{min-height:52px;padding:4px}
+  .day .r{display:none}
+}
 </style>
 </head>
 <body>
-<main>
-<h1>Isaac's Models</h1>
-<p>The all-sports hub with the day's best plays is coming here. For now, open a sport:</p>
-<a class="app" href="nba/">NBA Model <span>games + player props</span></a>
-<a class="app" href="nfl/">NFL Model <span>games + player props</span></a>
-<a class="app" href="nhl/">NHL Model <span>moneylines + totals</span></a>
-<a class="app" href="ncaab/">College Basketball <span>spreads + totals</span></a>
-</main>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="mark">BEST</div><div><h1>Best Plays</h1><small id="updated"></small></div></div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <section style="margin-top:0">
+    <div class="cal">
+      <div class="calnav"><button id="prev" aria-label="Previous month">‹</button><b id="monthName"></b><button id="next" aria-label="Next month">›</button></div>
+      <div class="month-sum" id="monthSum"></div>
+      <div class="grid7" id="dows"></div>
+      <div class="grid7" id="days"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2 id="dayTitle"></h2><span class="muted" id="dayNote"></span></div>
+    <div id="dayPlays"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Biggest edges today</h2><div class="chips" id="sportChips"></div></div>
+    <p class="note">Every sport's plays for today, ranked by expected profit per unit at the posted price. Tap one to open that sport's app.</p>
+    <div id="edges"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Sports</h2></div>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Best plays by sport</h2></div>
+    <div id="bySport"></div>
+  </section>
+</div>
+<script>
+const H = {"generated_at": "2026-10-19T19:36", "today": "2026-10-19", "settings": {"picks_per_day": 3, "lock_hour_et": 11, "allowed_tiers": ["VIP", "3U", "2U", "1U", "Lean"], "max_per_game": 1, "max_props_per_day": 1, "min_ev": 0.0, "min_stake": 1, "unit_plays_first": true}, "ledger": [{"id": "nfl-2026_06_WAS_SF-00-0039910-rushing_yards", "sport": "NFL", "date": "2026-10-19", "start": "2026-10-20T00:15Z", "event": "Commanders @ 49ers", "market": "prop", "selection": "Jayden Daniels under 40.5 rushing yards", "player": "Jayden Daniels", "line": 40.5, "price": -110, "model_prob": 0.687, "market_prob": 0.5, "edge_prob": 0.187, "ev": 0.3115, "edge_display": "19%", "tier": "1U", "slot": 1, "stake": 1.0, "locked_at": "2026-10-19 19:36 ET", "status": "pending", "result_units": null}], "sports": [{"sport": "NFL", "name": "NFL", "folder": "nfl", "w": 163, "l": 103, "units": 77.7, "updated": "2026-10-19T23:23Z", "live": true}, {"sport": "CFB", "name": "College Football", "folder": "cfb", "w": 0, "l": 0, "units": 0, "updated": null, "live": false}, {"sport": "NBA", "name": "NBA", "folder": "nba", "w": 0, "l": 0, "units": 0, "updated": "2026-10-19T22:13Z", "live": true}, {"sport": "NCAAB", "name": "College Basketball", "folder": "ncaab", "w": 0, "l": 0, "units": 0, "updated": "2026-10-19T23:16Z", "live": false}, {"sport": "NHL", "name": "NHL", "folder": "nhl", "w": 24, "l": 15, "units": 12.8, "updated": "2026-10-19T23:28Z", "live": true}], "folders": {"NFL": "nfl", "CFB": "cfb", "NBA": "nba", "NCAAB": "ncaab", "NHL": "nhl"}, "names": {"NFL": "NFL", "CFB": "College Football", "NBA": "NBA", "NCAAB": "College Basketball", "NHL": "NHL"}};
+const $ = s => document.querySelector(s);
+const S = H.settings;
+const FINAL = ["win","loss","push","void"];
+const sgn = (x,d=1) => x == null ? "–" : (x > 0 ? "+" : "") + (+x).toFixed(d);
+const pct = x => x == null ? "–" : Math.round(x*100) + "%";
+const tierCls = t => "t-" + String(t||"").split(" ")[0];
+const sportColor = code => `var(--${(H.folders[code]||"nba")})`;
+const price = p => p == null ? "" : (p > 0 ? "+" : "") + Math.round(p);
+const ymd = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const fromYmd = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+const today = H.today;
+let selDay = today, month = fromYmd(today), sportFilter = "all", live = [];
+try { sportFilter = localStorage.getItem("hubSport") || "all"; } catch(e) {}
+
+function profit(pr){ return pr == null ? 100/110 : (pr < 0 ? 100/-pr : pr/100); }
+function tipTime(s){ if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}); }
+
+// ---- record across the top
+function renderStats(){
+  const g = H.ledger.filter(e => FINAL.includes(e.status));
+  const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length;
+  const units = g.reduce((a,e)=>a+(e.result_units||0),0), staked = g.filter(e=>e.status!=="void").reduce((a,e)=>a+e.stake,0);
+  const mk = ymd(new Date()).slice(0,7);
+  const mu = g.filter(e=>e.date.startsWith(mk)).reduce((a,e)=>a+(e.result_units||0),0);
+  $("#stats").innerHTML =
+    `<div class="stat"><b>${w}-${l}</b><span>Best plays</span></div>` +
+    `<div class="stat"><b style="color:${units>=0?'var(--win)':'var(--loss)'}">${sgn(units)}u</b><span>Units</span></div>` +
+    `<div class="stat"><b>${staked?sgn(100*units/staked,1)+"%":"–"}</b><span>ROI</span></div>` +
+    `<div class="stat"><b style="color:${mu>=0?'var(--win)':'var(--loss)'}">${sgn(mu)}u</b><span>This month</span></div>`;
+  $("#updated").textContent = `${S.picks_per_day} plays a day, locked at ${S.lock_hour_et > 12 ? S.lock_hour_et-12 + " PM" : S.lock_hour_et + " AM"} ET · updated ${new Date(H.generated_at).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})} ET`;
+}
+
+// ---- calendar
+function renderCalendar(){
+  $("#monthName").textContent = month.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+  $("#dows").innerHTML = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<div class="dow">${d}</div>`).join("");
+  const first = new Date(month.getFullYear(), month.getMonth(), 1);
+  const nDays = new Date(month.getFullYear(), month.getMonth()+1, 0).getDate();
+  let html = "";
+  for (let i = 0; i < first.getDay(); i++) html += `<div class="day out"></div>`;
+  let mw = 0, ml = 0, mu = 0;
+  for (let d = 1; d <= nDays; d++){
+    const key = ymd(new Date(month.getFullYear(), month.getMonth(), d));
+    const es = H.ledger.filter(e => e.date === key);
+    const g = es.filter(e => FINAL.includes(e.status));
+    const u = g.reduce((a,e)=>a+(e.result_units||0),0);
+    const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length;
+    mw += w; ml += l; mu += u;
+    const cls = ["day", g.length ? (u > 0 ? "pos" : u < 0 ? "neg" : "") : "", key===today?"today":"", key===selDay?"sel":""].join(" ");
+    const dots = es.filter(e=>!FINAL.includes(e.status)).map(e=>`<i style="background:${sportColor(e.sport)}"></i>`).join("");
+    html += `<button class="${cls}" data-d="${key}" aria-label="${key}"><span class="n">${d}</span>` +
+      (g.length ? `<span class="u">${sgn(u)}</span><span class="r">${w}-${l}</span>` : "") +
+      (dots ? `<span class="dots">${dots}</span>` : "") + `</button>`;
+  }
+  $("#days").innerHTML = html;
+  $("#monthSum").textContent = (mw+ml) ? `${mw}-${ml} this month · ${sgn(mu)} units` : "No graded best plays this month yet";
+  document.querySelectorAll("#days .day[data-d]").forEach(b => b.onclick = () => { selDay = b.dataset.d; render(); });
+}
+
+// ---- a play card
+function card(e, opts={}){
+  const st = e.status || "pending";
+  const result = FINAL.includes(st) ? `<span class="res ${st}">${st}${e.result_units!=null?" "+sgn(e.result_units,2)+"u":""}</span>` : `<span class="res pending">${opts.preview ? "Candidate" : tipTime(e.start) || "Pending"}</span>`;
+  const myP = e.model_prob, bookP = e.market_prob;
+  return `<div class="card ${opts.top?'top':''}">
+    <div style="min-width:0">
+      <div class="meta"><span class="sport"><i style="background:${sportColor(e.sport)}"></i>${H.names[e.sport]||e.sport}</span><span>${e.event}</span>${e.market==="prop"?"<span>Player prop</span>":""}</div>
+      <div class="sel-line">${e.selection} <span style="font-size:15px;color:var(--muted)">${price(e.price)}</span></div>
+      <div class="nums"><span>Edge <b>${e.edge_display||"–"}</b></span><span>EV <b>${sgn(100*(e.ev||0),1)}%</b></span><span>Model <b>${pct(myP)}</b> vs book <b>${pct(bookP)}</b></span>${e.stake?`<span>Stake <b>${e.stake}u</b></span>`:""}</div>
+    </div>
+    <div class="right"><span class="badge ${tierCls(e.tier)}">${e.tier||""}</span>${result}</div>
+  </div>`;
+}
+
+// candidates the way the cloud run will choose them (preview before lock time)
+function candidates(day){
+  const taken = new Set(), out = []; let props = 0;
+  const now = Date.now() + 5*60*1000;
+  const c = live.filter(p => p.date===day && p.status==="pending" && S.allowed_tiers.includes(p.tier) && (p.ev||0) > S.min_ev && p.start && new Date(p.start).getTime() > now)
+    .sort((a,b) => (S.unit_plays_first ? ((a.units||0) < 1) - ((b.units||0) < 1) : 0) || b.ev - a.ev);
+  for (const p of c){
+    if (out.length >= S.picks_per_day) break;
+    const g = p.sport + "|" + p.event;
+    if (taken.has(g)) continue;
+    if (p.market === "prop" && props >= S.max_props_per_day) continue;
+    taken.add(g); props += p.market === "prop";
+    out.push({...p, stake: Math.max(p.units||0, S.min_stake)});
+  }
+  return out;
+}
+
+function renderDay(){
+  const d = fromYmd(selDay);
+  $("#dayTitle").textContent = (selDay===today ? "Today · " : "") + d.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"});
+  const es = H.ledger.filter(e => e.date === selDay).sort((a,b)=>a.slot-b.slot);
+  if (es.length){
+    const g = es.filter(e=>FINAL.includes(e.status)), u = g.reduce((a,e)=>a+(e.result_units||0),0);
+    $("#dayNote").textContent = g.length ? `${g.filter(e=>e.status==="win").length}-${g.filter(e=>e.status==="loss").length} · ${sgn(u)}u` : "Locked in";
+    $("#dayPlays").innerHTML = es.map(e => card(e, {top:true})).join("");
+    return;
+  }
+  if (selDay === today){
+    const c = candidates(today);
+    $("#dayNote").textContent = "";
+    $("#dayPlays").innerHTML = `<p class="note">Today's ${S.picks_per_day} best plays lock at ${S.lock_hour_et > 12 ? S.lock_hour_et-12 + " PM" : S.lock_hour_et + " AM"} ET and won't change after that. ${c.length ? "Leading candidates right now:" : "No qualifying plays posted yet."}</p>` +
+      c.map(e => card(e, {preview:true})).join("");
+    return;
+  }
+  $("#dayNote").textContent = "";
+  $("#dayPlays").innerHTML = `<div class="empty">No best plays ${selDay < today ? "were locked" : "yet"} for this day.</div>`;
+}
+
+function renderEdges(){
+  const sports = [...new Set(live.filter(p=>p.date===today).map(p=>p.sport))];
+  $("#sportChips").innerHTML = [["all","All"], ...Object.keys(H.names).filter(s=>sports.includes(s)).map(s=>[s,H.names[s]])]
+    .map(([k,l]) => `<button class="chip ${sportFilter===k?'on':''}" data-s="${k}">${l}</button>`).join("");
+  document.querySelectorAll("#sportChips .chip").forEach(c => c.onclick = () => { sportFilter = c.dataset.s; try { localStorage.setItem("hubSport", sportFilter); } catch(e) {} renderEdges(); });
+  const rows = live.filter(p => p.date===today && p.status==="pending" && p.tier && (sportFilter==="all" || p.sport===sportFilter))
+    .sort((a,b) => (b.ev||0) - (a.ev||0)).slice(0, 40);
+  $("#edges").innerHTML = rows.length ? `<div class="edges">` + rows.map(p => `<a class="erow" href="${H.folders[p.sport]}/">
+      <span class="sp sport"><i style="background:${sportColor(p.sport)}"></i>${p.sport}</span>
+      <span class="what"><b>${p.selection} ${price(p.price)}</b><span>${p.event}${p.start?" · "+tipTime(p.start):""}</span></span>
+      <span class="num pr"><b>${p.edge_display||"–"}</b><span>Edge</span></span>
+      <span class="num ev"><b>${sgn(100*(p.ev||0),1)}%</b><span>EV</span></span>
+      <span class="badge ${tierCls(p.tier)}">${p.tier}</span></a>`).join("") + `</div>`
+    : `<div class="empty">No plays posted for today yet.</div>`;
+}
+
+function renderTiles(){
+  $("#tiles").innerHTML = H.sports.map(s => `<a class="tile" href="${s.folder}/">
+    <span class="nm"><i style="background:${sportColor(s.sport)}"></i>${s.name}</span>
+    ${s.live ? `<span class="rec"><b>${s.w}-${s.l}</b> unit plays · <b style="color:${s.units>=0?'var(--win)':'var(--loss)'}">${sgn(s.units)}u</b></span>` : `<span class="rec muted">Coming soon</span>`}
+    <small>${s.live && s.updated ? "Updated " + String(s.updated).replace("T"," ").slice(0,16) : "Open app ›"}</small></a>`).join("");
+}
+
+function renderBySport(){
+  const g = H.ledger.filter(e => FINAL.includes(e.status));
+  if (!g.length){ $("#bySport").innerHTML = `<div class="empty">Results show here once the first best plays are graded.</div>`; return; }
+  const rows = Object.keys(H.names).map(s => {
+    const x = g.filter(e=>e.sport===s); if (!x.length) return "";
+    const w = x.filter(e=>e.status==="win").length, l = x.filter(e=>e.status==="loss").length, p = x.filter(e=>e.status==="push").length;
+    const u = x.reduce((a,e)=>a+(e.result_units||0),0), st = x.filter(e=>e.status!=="void").reduce((a,e)=>a+e.stake,0);
+    return `<tr><td><span class="sport"><i style="background:${sportColor(s)}"></i>${H.names[s]}</span></td><td>${w}-${l}${p?"-"+p:""}</td><td>${w+l?Math.round(100*w/(w+l))+"%":"–"}</td><td style="color:${u>=0?'var(--win)':'var(--loss)'}">${sgn(u)}</td><td>${st?sgn(100*u/st)+"%":"–"}</td></tr>`;
+  }).join("");
+  $("#bySport").innerHTML = `<div class="tablewrap"><table class="sum"><tr><th>Sport</th><th>Record</th><th>Win %</th><th>Units</th><th>ROI</th></tr>${rows}</table></div>`;
+}
+
+function render(){ renderStats(); renderCalendar(); renderDay(); renderEdges(); renderTiles(); renderBySport(); }
+$("#prev").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()-1, 1); renderCalendar(); };
+$("#next").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()+1, 1); renderCalendar(); };
+
+// Pull every sport's live feed (same site), so today's edges are current even between hub runs.
+Promise.all(Object.entries(H.folders).map(([code, folder]) =>
+  fetch(folder + "/plays.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).then(d => d.plays || []).catch(() => [])
+)).then(lists => { live = lists.flat(); renderDay(); renderEdges(); });
+render();
+</script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+name: Update hub
+
+on:
+  schedule:
+    # Every 30 minutes, 9 AM - 1 AM ET (UTC 13:00-05:30): locks the day's best plays at the
+    # lock hour in hub/settings.json, grades them as each sport posts results, rebuilds index.html.
+    - cron: "*/30 13-23 * * *"
+    - cron: "*/30 0-5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hub
+  cancel-in-progress: false
+
+jobs:
+  hub:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 hub/build.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html hub/ledger.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Hub $(TZ=America/New_York date +%Y-%m-%dT%H:%M%Z)"
+          for i in 1 2 3 4; do git push && break; git pull --rebase; done
