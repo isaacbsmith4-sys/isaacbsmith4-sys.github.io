@@ -66,14 +66,14 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offse
 /* tabs */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
   padding-bottom:env(safe-area-inset-bottom, 0px);padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
-.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--tabbar-h)}
-.tab{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11.5px;font-weight:700;letter-spacing:.03em}
+.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);height:var(--tabbar-h)}
+.tab{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10.5px;font-weight:700;letter-spacing:.02em;min-width:0}
 .tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--gold-ink)}
 @media (min-width:760px){
   body{padding-bottom:0}
   .tabs{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top, 0px)}
-  .tabs-in{height:52px;grid-template-columns:repeat(5,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
+  .tabs-in{height:52px;grid-template-columns:repeat(6,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
   .tab{flex-direction:row;gap:8px;font-size:14px;padding:0 14px;border-bottom:2px solid transparent}
   .tab.on{border-bottom-color:var(--gold)}
   .tab svg{width:18px;height:18px}
@@ -240,6 +240,30 @@ details.gmore[open] summary::after{content:" –"}
 .scope button.on{background:var(--ink);color:var(--bg)}
 .dtools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
 .dtools input{flex:1 1 160px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--ink);font:inherit}
+.add{flex:0 0 auto;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--gold-line);background:var(--gold-bg);color:var(--gold-ink);font:800 18px/1 var(--font-body);cursor:pointer;display:grid;place-items:center}
+.add.done{border-color:var(--win);background:var(--win-bg);color:var(--win)}
+.addrow{display:flex;gap:6px;flex-wrap:wrap;padding:8px 14px;border-top:1px solid var(--line)}
+.addrow button{background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:800;cursor:pointer;color:var(--ink2)}
+.prow2{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
+.prow2:first-child{border-top:0}
+.prow2 b{display:block;font-weight:800;overflow-wrap:anywhere}
+.prow2 span{display:block;font-size:12px;color:var(--muted)}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line-hi);border-radius:18px 18px 0 0;
+  padding:16px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));box-shadow:0 -12px 40px rgba(0,0,0,.35)}
+.sheet[hidden]{display:none}
+.sheet h3{margin:0 0 4px;font:900 22px/1.1 var(--font-display);text-transform:uppercase}
+.sheet p{margin:0 0 12px;color:var(--muted);font-size:13px}
+.ubtns{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}
+.ubtns button{padding:14px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--sunk);font:900 22px var(--font-display);cursor:pointer}
+.ubtns button:hover{border-color:var(--gold)}
+.cancel{width:100%;padding:11px;border-radius:12px;border:1px solid var(--line);background:none;font-weight:800;color:var(--muted);cursor:pointer}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabbar-h) + 14px + env(safe-area-inset-bottom, 0px));background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:10px;font-size:13.5px;font-weight:700;z-index:45;max-width:calc(100% - 32px)}
+.toast[hidden]{display:none}
+.mform{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.mform input,.mform select{width:100%;min-width:0;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:9px 11px;color:var(--ink);font:inherit}
+.mform .r{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.mbtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.mbtns button{background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:4px 9px;font-size:12px;font-weight:800;cursor:pointer;color:var(--ink2)}
 @media (max-width:520px){
   .glines .now{font-size:16px}
   .slip-sel{font-size:28px}
@@ -255,6 +279,7 @@ details.gmore[open] summary::after{content:" –"}
 <body>
 <nav class="tabs" aria-label="Sections"><div class="tabs-in">
   <button class="tab" data-v="today"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>Today</button>
+  <button class="tab" data-v="mine"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg>Mine</button>
   <button class="tab" data-v="calendar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Calendar</button>
   <button class="tab" data-v="records"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5h16M6.5 16l4-5 3 3 4.5-6.5"/></svg>Records</button>
   <button class="tab" data-v="data"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5V20"/></svg>Data</button>
@@ -268,6 +293,7 @@ details.gmore[open] summary::after{content:" –"}
   </div>
   <main>
     <section class="view" id="v-today"></section>
+    <section class="view" id="v-mine" hidden></section>
     <section class="view" id="v-calendar" hidden></section>
     <section class="view" id="v-records" hidden></section>
     <section class="view" id="v-data" hidden></section>
@@ -275,6 +301,12 @@ details.gmore[open] summary::after{content:" –"}
   </main>
 </div>
 
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetT">
+  <h3 id="sheetT"></h3><p id="sheetS"></p>
+  <div class="ubtns"><button data-u="1">1U</button><button data-u="2">2U</button><button data-u="3">3U</button><button data-u="4">4U</button><button data-u="5">5U</button></div>
+  <button class="cancel" id="sheetX">Cancel</button>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
 <script>
 const H = /*HUB*/null;
 const $ = s => document.querySelector(s);
@@ -297,7 +329,7 @@ const cls = x => x > 0 ? "pos" : x < 0 ? "neg" : "";
 
 let view = store.get("hubView", "today");
 const hv = location.hash.replace("#","");
-if (["today","calendar","records","data","sports"].includes(hv)) view = hv;
+if (["today","mine","calendar","records","data","sports"].includes(hv)) view = hv;
 let selDay = today, month = fromYmd(today), sportFilter = store.get("hubSport", "all"), live = [];
 let scope = store.get("hubScope", "best");   // "best" = the hub's best plays; "all" = every 1U+ play from every model
 const MARKET_NAMES = {prop: "Player props", spread: "Spreads", moneyline: "Moneylines", total: "Totals"};
@@ -352,7 +384,7 @@ function bigSlip(e, preview){
 function miniSlip(e, preview){
   return `<div class="mini">
     <div class="sel">${e.selection} <span class="px">${price(e.price)}</span></div>
-    <div class="side">${unitsBadge(e)}${resultBadge(e, preview)}</div>
+    <div class="side">${unitsBadge(e)}${FINAL.includes(e.status) ? resultBadge(e, preview) : `<span style="display:flex;gap:6px;align-items:center">${resultBadge(e, preview)}${addBtn(fromFeed(e))}</span>`}</div>
     <div class="meta"><span class="sport"><i style="background:${sportVar(e.sport)}"></i>${e.sport}</span><span>${e.event}</span><span>Edge ${e.edge_display||"–"} · EV ${sgn(100*(e.ev||0),0)}%</span>${e.backfilled?'<span class="tag">Backfilled</span>':""}</div>
   </div>`;
 }
@@ -436,7 +468,7 @@ function renderToday(){
       ${rows.length ? `<div class="board">${rows.map((p,i) => `<a class="brow" href="${H.folders[p.sport]}/">
           <span class="rank">${i+1}</span>
           <span class="w"><b>${p.selection} <span style="color:var(--muted);font-weight:600">${price(p.price)}</span></b><span>${p.sport} · ${p.event}${p.start?" · "+tip(p.start):""}</span></span>
-          <span class="r"><span class="ev"><b>${sgn(100*(p.ev||0),0)}%</b><span>EV</span></span>${unitsBadge({stake: Math.max(p.units||0,1)})}</span>
+          <span class="r"><span class="ev"><b>${sgn(100*(p.ev||0),0)}%</b><span>EV</span></span>${unitsBadge({stake: Math.max(p.units||0,1)})}${addBtn(fromFeed(p))}</span>
         </a>`).join("")}</div>` : `<div class="empty" style="margin-top:10px">${live.length ? "No 1U+ plays posted for today." : "Loading today's plays…"}</div>`}
     </div>`;
   document.querySelectorAll("#chips .chip").forEach(c => c.onclick = () => { sportFilter = c.dataset.s; store.set("hubSport", sportFilter); renderToday(); });
@@ -642,6 +674,7 @@ function gameCard(g){
       <div><div class="lab">Total</div><div class="now num">${L.total ?? "–"}</div><div class="was">${L.total_open!=null ? "Open " + L.total_open + " " + totalMove(g) : ""}</div></div>
       <div><div class="lab">Moneyline</div><div class="now num">${ml(L.away_ml)} / ${ml(L.home_ml)}</div><div class="was">${L.away_ml_open!=null ? "Open " + ml(L.away_ml_open) + " / " + ml(L.home_ml_open) : ""}</div></div>
     </div>
+    ${g.status === "pre" ? gameAddRow(g) : ""}
     ${m ? `<div class="gmodel"><span>Model numbers:</span><span>line <b>${sideLine(g, m.spread)}</b></span>${m.total!=null?`<span>total <b>${m.total}</b></span>`:""}${m.home_win_prob!=null?`<span>${g.home.short} win <b>${pct(m.home_win_prob)}</b></span>`:""}</div>` : ""}
     <details class="gmore"><summary>Matchup details</summary><div class="gbody">
       <table class="cmp"><tr><th></th><th>${g.away.abbr||g.away.short}</th><th>${g.home.abbr||g.home.short}</th></tr>
@@ -687,6 +720,121 @@ function renderData(){
 }
 let missingSports = [];
 
+// ---------- MINE (your own picks, saved on this phone inside this app)
+const MINE_KEY = "hubMyPicks";
+let mine = []; try { mine = JSON.parse(store.get(MINE_KEY, "[]")) || []; } catch(e) { mine = []; }
+const saveMine = () => store.set(MINE_KEY, JSON.stringify(mine));
+const ADD = {}; let addSeq = 0, pendingAdd = null, mineSport = "all", mineQ = "";
+const uid2 = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2400); }
+const mineHas = p => mine.some(m => m.key === p.key);
+function addBtn(p){ if (!p) return ""; const k = "a" + (++addSeq); ADD[k] = p;
+  return `<button class="add ${mineHas(p)?'done':''}" data-add="${k}" aria-label="Add ${p.selection.replace(/"/g,"")} to my picks">${mineHas(p)?"✓":"+"}</button>`; }
+function fromFeed(p){ if (!p || !p.id) return null;
+  return {key: "feed:" + p.id, source: "feed", feed_id: p.id, sport: p.sport, date: p.date, start: p.start, event: p.event,
+          market: p.market, selection: p.selection, price: p.price ?? -110, model_tier: p.tier || null}; }
+function fromGame(g, market, side){
+  const L = g.lines || {}, A = g.away.abbr || g.away.short, Hm = g.home.abbr || g.home.short;
+  let line = null, pr = -110, sel = "";
+  if (market === "spread"){ if (L.spread == null) return null; line = side === "home" ? L.spread : -L.spread; sel = `${side === "home" ? Hm : A} ${line > 0 ? "+" : ""}${line}`; }
+  if (market === "total"){ if (L.total == null) return null; line = L.total; sel = `${side === "over" ? "Over" : "Under"} ${line}`; }
+  if (market === "ml"){ pr = side === "home" ? L.home_ml : L.away_ml; if (pr == null) return null; sel = `${side === "home" ? Hm : A} ML`; }
+  return {key: `game:${g.sport}:${g.date}:${g.home.name}:${market}:${side}`, source: "game", sport: g.sport, date: g.date, start: g.start,
+          event: `${g.away.short} @ ${g.home.short}`, home: g.home.name, away: g.away.name, market, side, line, price: pr, selection: sel};
+}
+function gameAddRow(g){
+  const b = (mk, sd, label) => { const p = fromGame(g, mk, sd); if (!p) return ""; const k = "a" + (++addSeq); ADD[k] = p;
+    return `<button data-add="${k}">${mineHas(p) ? "✓ " : "+ "}${label}</button>`; };
+  const L = g.lines || {}, A = g.away.abbr || g.away.short, Hm = g.home.abbr || g.home.short;
+  return `<div class="addrow">${b("spread","away",`${A} ${L.spread!=null?(-L.spread>0?"+":"")+(-L.spread):""}`)}${b("spread","home",`${Hm} ${L.spread!=null?(L.spread>0?"+":"")+L.spread:""}`)}${b("total","over",`Over ${L.total??""}`)}${b("total","under",`Under ${L.total??""}`)}${b("ml","away",`${A} ML`)}${b("ml","home",`${Hm} ML`)}</div>`;
+}
+function openSheet(p){
+  pendingAdd = p; $("#sheetT").textContent = p.selection;
+  $("#sheetS").textContent = `${p.sport} · ${p.event || "Your pick"}${p.price != null ? " · " + price(p.price) : ""}. How many units?`;
+  $("#sheet").hidden = false;
+}
+document.addEventListener("click", ev => {
+  const b = ev.target.closest("[data-add]"); if (!b) return;
+  ev.preventDefault(); ev.stopPropagation();
+  const p = ADD[b.dataset.add]; if (!p) return;
+  if (mineHas(p)) { toast("Already in your picks"); return; }
+  openSheet(p);
+}, true);
+document.querySelectorAll("#sheet [data-u]").forEach(b => b.onclick = () => {
+  const p = pendingAdd; if (!p) return;
+  mine.push({...p, id: uid2(), units: +b.dataset.u, added_at: new Date().toISOString(), status: "pending", result_units: null});
+  saveMine(); $("#sheet").hidden = true; pendingAdd = null; toast(`Added: ${p.selection} · ${b.dataset.u}U`); renderAllViews();
+});
+$("#sheetX").onclick = () => { $("#sheet").hidden = true; pendingAdd = null; };
+
+function settle(m, st){ m.status = st; const u = +m.units || 1; m.result_units = st === "win" ? +(u * profit(m.price)).toFixed(3) : st === "loss" ? -u : 0; }
+function gradeMine(){
+  let changed = false;
+  for (const m of mine){
+    if (FINAL.includes(m.status)) continue;
+    if (m.source === "feed"){ const f = live.find(p => p.id === m.feed_id); if (f && FINAL.includes(f.status)) { settle(m, f.status); changed = true; } }
+    if (m.source === "game"){
+      const g = gamesAll.find(x => x.sport === m.sport && x.date === m.date && x.home.name === m.home && x.status === "post" && x.home.score != null);
+      if (g){ const hs = g.home.score, as_ = g.away.score; let d;
+        if (m.market === "spread") d = (m.side === "home" ? hs - as_ : as_ - hs) + m.line;
+        else if (m.market === "total") d = (hs + as_ - m.line) * (m.side === "over" ? 1 : -1);
+        else d = m.side === "home" ? hs - as_ : as_ - hs;
+        settle(m, d > 0 ? "win" : d < 0 ? "loss" : "push"); m.final = `${g.away.short} ${as_} - ${hs} ${g.home.short}`; changed = true; }
+    }
+  }
+  if (changed) saveMine();
+}
+function renderMine(){
+  const r = rec(mine.map(m => ({...m, stake: +m.units || 1})));
+  const todayPlays = live.filter(p => p.date === today && p.status === "pending");
+  const sports = Object.keys(H.names).filter(s => todayPlays.some(p => p.sport === s));
+  if (mineSport !== "all" && !sports.includes(mineSport)) mineSport = "all";
+  const q = mineQ.trim().toLowerCase();
+  const list = todayPlays.filter(p => (mineSport === "all" || p.sport === mineSport) && (!q || (p.selection + " " + p.event).toLowerCase().includes(q)))
+    .sort((a,b) => (b.units||0) - (a.units||0) || (b.ev||0) - (a.ev||0)).slice(0, 80);
+  const pend = mine.filter(m => !FINAL.includes(m.status)).sort((a,b) => (a.date + (a.start||"")) < (b.date + (b.start||"")) ? -1 : 1);
+  const done = mine.filter(m => FINAL.includes(m.status)).sort((a,b) => a.date < b.date ? 1 : -1);
+  const card = m => `<div class="mini">
+      <div class="sel">${m.selection} <span class="px">${price(m.price)}</span></div>
+      <div class="side"><span class="units ${m.units>=3?'u3':''}">${m.units}U</span>${resultBadge(m, false)}</div>
+      <div class="meta"><span class="sport"><i style="background:${sportVar(m.sport)}"></i>${m.sport}</span><span>${m.event||""}</span>${m.final?`<span>${m.final}</span>`:""}${m.model_tier?`<span>Model: ${m.model_tier}</span>`:""}
+        ${!FINAL.includes(m.status) ? `<span class="mbtns"><button data-mset="${m.id}" data-st="win">Won</button><button data-mset="${m.id}" data-st="loss">Lost</button><button data-mset="${m.id}" data-st="push">Push</button><button data-mdel="${m.id}">Remove</button></span>` : `<span class="mbtns"><button data-mreopen="${m.id}">Undo result</button></span>`}</div>
+    </div>`;
+  $("#v-mine").innerHTML = `
+    <div class="sec-h"><h2>My picks</h2><span>Saved on this phone, in this app</span></div>
+    <div class="strip" style="margin-top:0">
+      <div class="kv"><b class="num">${r.text}</b><span>Record</span></div>
+      <div class="kv"><b class="num ${cls(r.u)}">${sgn(r.u)}u</b><span>Units</span></div>
+      <div class="kv"><b class="num">${r.roi==null?"–":sgn(r.roi)+"%"}</b><span>ROI</span></div>
+      <div class="kv"><b class="num">${pend.length}</b><span>Pending</span></div>
+    </div>
+    <div class="sec"><div class="sec-h"><h2>Pending</h2></div>${pend.length ? pend.map(card).join("") : `<div class="empty">Tap + on any play below, on the Today tab, or on a game in the Data tab.</div>`}</div>
+
+    <div class="sec"><div class="sec-h"><h2>Add from today's plays</h2><span>Every model play today, props included</span></div>
+      <div class="chips" id="mSports">${[["all","All"], ...sports.map(s=>[s,H.names[s]])].map(([k,l]) => `<button class="chip ${mineSport===k?'on':''}" data-s="${k}">${l}</button>`).join("")}</div>
+      <div class="dtools" style="margin-top:8px"><input id="mQ" type="search" placeholder="Find a player or team" value="${mineQ.replace(/"/g,"&quot;")}" aria-label="Find a player or team"></div>
+      ${list.length ? `<div class="board">${list.map(p => `<div class="prow2"><div style="min-width:0"><b>${p.selection} <span style="display:inline;color:var(--muted);font-weight:600">${price(p.price)}</span></b><span>${p.sport} · ${p.event}${p.start?" · "+tip(p.start):""} · model ${p.tier||"–"}</span></div>${addBtn(fromFeed(p))}</div>`).join("")}</div>`
+        : `<div class="empty">${live.length ? "No plays match." : "Loading today's plays…"}</div>`}
+      <p class="note">For any game's spread, total or moneyline, use the + buttons on the Data tab.</p></div>
+
+    <div class="sec"><div class="sec-h"><h2>Add your own</h2><span>A bet from anywhere</span></div>
+      <div class="mform">
+        <input id="cSel" placeholder="e.g. Cade Cunningham 18+ points">
+        <div class="r"><select id="cSport">${Object.keys(H.names).map(s => `<option value="${s}">${s}</option>`).join("")}<option value="Other">Other</option></select>
+          <input id="cPrice" inputmode="numeric" placeholder="Price, e.g. -120"><button class="btn-add chip on" id="cAdd" style="border-radius:10px">Add</button></div>
+      </div></div>
+
+    <div class="sec"><div class="sec-h"><h2>Graded</h2><span>${done.length}</span></div>${done.length ? done.slice(0, 80).map(card).join("") : `<div class="empty">Results show here. Model plays and game lines grade themselves; mark anything else Won or Lost.</div>`}</div>`;
+  document.querySelectorAll("#mSports .chip").forEach(c => c.onclick = () => { mineSport = c.dataset.s; renderMine(); });
+  const qi = $("#mQ"); qi.oninput = () => { mineQ = qi.value; const pos = qi.selectionStart; renderMine(); const n = $("#mQ"); n.focus(); n.setSelectionRange(pos, pos); };
+  $("#cAdd").onclick = () => { const sel = $("#cSel").value.trim(); if (!sel) return toast("Type your pick first");
+    const pr = parseFloat($("#cPrice").value); openSheet({key: "custom:" + uid2(), source: "custom", sport: $("#cSport").value, date: today, start: null, event: "", market: "custom", selection: sel, price: isNaN(pr) ? -110 : pr}); };
+  document.querySelectorAll("[data-mset]").forEach(b => b.onclick = () => { const m = mine.find(x => x.id === b.dataset.mset); if (m) { settle(m, b.dataset.st); saveMine(); renderAllViews(); } });
+  document.querySelectorAll("[data-mdel]").forEach(b => b.onclick = () => { mine = mine.filter(x => x.id !== b.dataset.mdel); saveMine(); toast("Removed"); renderAllViews(); });
+  document.querySelectorAll("[data-mreopen]").forEach(b => b.onclick = () => { const m = mine.find(x => x.id === b.dataset.mreopen); if (m) { m.status = "pending"; m.result_units = null; saveMine(); renderAllViews(); } });
+}
+function renderAllViews(){ renderToday(); renderMine(); renderData(); }
+
 // ---------- SPORTS
 function renderSports(){
   $("#v-sports").innerHTML = `<div class="sec-h"><h2>Sport apps</h2><span>Each model's own record on its 1U+ plays</span></div>
@@ -713,13 +861,13 @@ const season = rec(H.ledger);
 $("#seasonUnits").textContent = sgn(season.u) + "u";
 $("#seasonUnits").className = "num " + cls(season.u);
 $("#seasonLabel").textContent = `Season · ${season.text}`;
-renderToday(); renderCalendar(); renderRecords(); renderData(); renderSports(); setView(view);
+renderToday(); renderMine(); renderCalendar(); renderRecords(); renderData(); renderSports(); setView(view);
 let rw = window.innerWidth;
 window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - rw) > 40) { rw = window.innerWidth; renderRecords(); } });
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/plays.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).then(d => d.plays || []).catch(() => [])
-)).then(lists => { live = lists.flat(); renderToday(); if (scope === "all") { renderCalendar(); renderRecords(); } });
+)).then(lists => { live = lists.flat(); gradeMine(); renderToday(); renderMine(); if (scope === "all") { renderCalendar(); renderRecords(); } });
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/games.json", {cache: "no-store"}).then(r => r.ok ? r.json() : null).catch(() => null)
@@ -727,7 +875,7 @@ Promise.all(Object.entries(H.folders).map(([code, folder]) =>
 )).then(res => {
   missingSports = res.filter(r => r.games === null).map(r => r.code);
   gamesAll = res.flatMap(r => r.games || []);
-  renderData();
+  gradeMine(); renderData(); renderMine();
 });
 </script>
 </body>
