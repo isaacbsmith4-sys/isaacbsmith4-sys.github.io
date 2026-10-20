@@ -7,7 +7,9 @@ don't edit it by hand). Each sport publishes its own app to a subfolder (`nba/`,
 - `hub/build.py` reads every sport's `plays.json`, locks the day's best plays at the lock
   hour, grades them as each sport reports results, and writes `index.html` from
   `hub/template.html`. Standard library only.
-- `hub/ledger.json`: the official best plays and their results (the hub's record).
+- `hub/ledger.json`: the official best plays and their results (the hub's record). The top-ranked
+  pick each day is marked `potd` (Play of the Day) and tracked as its own record; it stays
+  final once its game starts.
 - `hub/settings.json`: plays per day (3), lock hour (11 AM ET), allowed tiers (1U and up).
 - `.github/workflows/hub.yml`: runs every 30 minutes from 9 AM to 1 AM ET.
 

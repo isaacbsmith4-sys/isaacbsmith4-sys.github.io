@@ -144,6 +144,21 @@ table.sum th,table.sum td{padding:7px 8px;text-align:right;border-top:1px solid 
 table.sum th{color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-top:0}
 table.sum td:first-child,table.sum th:first-child{text-align:left}
 .empty{color:var(--muted);text-align:center;padding:28px 0;background:var(--panel);border:1px dashed var(--line);border-radius:14px}
+.potd{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1.5px solid var(--accent);border-radius:16px;padding:16px;margin-bottom:18px}
+.potd-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.potd-head h2{color:var(--accent)}
+.potd-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.potd-stats div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
+.potd-stats b{display:block;font:800 22px/1.1 var(--font-num);font-variant-numeric:tabular-nums}
+.potd-stats span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+.last10{display:flex;gap:5px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:12px}
+.last10 i{width:20px;height:20px;border-radius:5px;display:grid;place-items:center;font:700 11px var(--font-num);font-style:normal}
+.last10 i.win{background:var(--win-bg);color:var(--win)} .last10 i.loss{background:var(--loss-bg);color:var(--loss)} .last10 i.push{background:var(--push-bg);color:var(--muted)}
+.star{color:var(--accent);font-size:12px;line-height:1}
+.star.win{color:var(--win)} .star.loss{color:var(--loss)}
+.potd-tag{font:700 11px var(--font-num);letter-spacing:.6px;text-transform:uppercase;color:var(--on-accent);background:var(--accent);border-radius:5px;padding:1px 7px}
+.card.isPotd{border-color:var(--accent)}
+@media (max-width:640px){.potd-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.potd-stats div:nth-child(n+4){display:none}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 @media (max-width:640px){
   .card{grid-template-columns:minmax(0,1fr)}
@@ -162,6 +177,8 @@ table.sum td:first-child,table.sum th:first-child{text-align:left}
     <div class="brand"><div class="mark">BEST</div><div><h1>Best Plays</h1><small id="updated"></small></div></div>
     <div class="stats" id="stats"></div>
   </header>
+
+  <section style="margin-top:0" class="potd" id="potd"></section>
 
   <section style="margin-top:0">
     <div class="cal">
@@ -245,7 +262,9 @@ function renderCalendar(){
     mw += w; ml += l; mu += u;
     const cls = ["day", g.length ? (u > 0 ? "pos" : u < 0 ? "neg" : "") : "", key===today?"today":"", key===selDay?"sel":""].join(" ");
     const dots = es.filter(e=>!FINAL.includes(e.status)).map(e=>`<i style="background:${sportColor(e.sport)}"></i>`).join("");
-    html += `<button class="${cls}" data-d="${key}" aria-label="${key}"><span class="n">${d}</span>` +
+    const pd = es.find(e => e.potd);
+    const star = pd ? `<span class="star ${FINAL.includes(pd.status)?pd.status:''}" title="Play of the Day">★</span>` : "";
+    html += `<button class="${cls}" data-d="${key}" aria-label="${key}"><span class="n">${d} ${star}</span>` +
       (g.length ? `<span class="u">${sgn(u)}</span><span class="r">${w}-${l}</span>` : "") +
       (dots ? `<span class="dots">${dots}</span>` : "") + `</button>`;
   }
@@ -259,9 +278,9 @@ function card(e, opts={}){
   const st = e.status || "pending";
   const result = FINAL.includes(st) ? `<span class="res ${st}">${st}${e.result_units!=null?" "+sgn(e.result_units,2)+"u":""}</span>` : `<span class="res pending">${opts.preview ? "Candidate" : tipTime(e.start) || "Pending"}</span>`;
   const myP = e.model_prob, bookP = e.market_prob;
-  return `<div class="card ${opts.top?'top':''}">
+  return `<div class="card ${opts.top?'top':''} ${e.potd?'isPotd':''}">
     <div style="min-width:0">
-      <div class="meta"><span class="sport"><i style="background:${sportColor(e.sport)}"></i>${H.names[e.sport]||e.sport}</span><span>${e.event}</span>${e.market==="prop"?"<span>Player prop</span>":""}${e.backfilled?'<span class="bf">Backfilled</span>':""}</div>
+      <div class="meta"><span class="sport"><i style="background:${sportColor(e.sport)}"></i>${H.names[e.sport]||e.sport}</span><span>${e.event}</span>${e.market==="prop"?"<span>Player prop</span>":""}${e.backfilled?'<span class="bf">Backfilled</span>':""}${e.potd?'<span class="potd-tag">Play of the Day</span>':""}</div>
       <div class="sel-line">${e.selection} <span style="font-size:15px;color:var(--muted)">${price(e.price)}</span></div>
       <div class="nums"><span>Edge <b>${e.edge_display||"–"}</b></span><span>EV <b>${sgn(100*(e.ev||0),1)}%</b></span><span>Model <b>${pct(myP)}</b> vs book <b>${pct(bookP)}</b></span>${e.stake?`<span>Stake <b>${e.stake}u</b></span>`:""}</div>
     </div>
@@ -290,7 +309,7 @@ function candidates(day){
 function renderDay(){
   const d = fromYmd(selDay);
   $("#dayTitle").textContent = (selDay===today ? "Today · " : "") + d.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"});
-  const es = H.ledger.filter(e => e.date === selDay).sort((a,b)=>a.slot-b.slot);
+  const es = H.ledger.filter(e => e.date === selDay).sort((a,b)=>(b.potd?1:0)-(a.potd?1:0) || a.slot-b.slot);
   if (es.length){
     const g = es.filter(e=>FINAL.includes(e.status)), u = g.reduce((a,e)=>a+(e.result_units||0),0);
     $("#dayNote").textContent = g.length ? `${g.filter(e=>e.status==="win").length}-${g.filter(e=>e.status==="loss").length} · ${sgn(u)}u` : "Locked in";
@@ -344,14 +363,40 @@ function renderBySport(){
   $("#bySport").innerHTML = `<div class="tablewrap"><table class="sum"><tr><th>Sport</th><th>Record</th><th>Win %</th><th>Units</th><th>ROI</th></tr>${rows}</table></div>`;
 }
 
-function render(){ renderStats(); renderCalendar(); renderDay(); renderEdges(); renderTiles(); renderBySport(); }
+function renderPotd(){
+  const all = H.ledger.filter(e => e.potd).sort((a,b) => a.date < b.date ? -1 : 1);
+  const g = all.filter(e => FINAL.includes(e.status) && e.status !== "void");
+  const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length, p = g.filter(e=>e.status==="push").length;
+  const units = g.reduce((a,e)=>a+(e.result_units||0),0), staked = g.reduce((a,e)=>a+e.stake,0);
+  const flat = g.reduce((a,e)=>a+(e.status==="win"?profit(e.price):e.status==="loss"?-1:0),0);
+  let streak = "–";
+  const dec = g.filter(e=>e.status!=="push");
+  if (dec.length){ const last = dec[dec.length-1].status; let n = 0; for (let i = dec.length-1; i >= 0 && dec[i].status === last; i--) n++; streak = (last==="win"?"W":"L") + n; }
+  const last10 = g.slice(-10).map(e => `<i class="${e.status}" title="${e.date}: ${e.selection}">${e.status==="win"?"W":e.status==="loss"?"L":"P"}</i>`).join("");
+  const todayPick = all.find(e => e.date === today);
+  const todayHtml = todayPick ? card(todayPick, {top:true})
+    : (() => { const c = candidates(today)[0]; return `<p class="note">Today's Play of the Day locks at ${S.lock_hour_et > 12 ? S.lock_hour_et-12 + " PM" : S.lock_hour_et + " AM"} ET.${c ? " Leading right now:" : " Nothing qualifies yet."}</p>` + (c ? card({...c, potd:true}, {preview:true}) : ""); })();
+  $("#potd").innerHTML = `<div class="potd-head"><h2>★ Play of the Day</h2><span class="muted">The single best play each day: a 3U if there is one, otherwise the highest expected value.</span></div>
+    <div class="potd-stats">
+      <div><b>${w}-${l}${p?"-"+p:""}</b><span>Record</span></div>
+      <div><b>${w+l?Math.round(100*w/(w+l))+"%":"–"}</b><span>Win rate</span></div>
+      <div><b style="color:${units>=0?'var(--win)':'var(--loss)'}">${sgn(units)}u</b><span>Units</span></div>
+      <div><b>${staked?sgn(100*units/staked,1)+"%":"–"}</b><span>ROI</span></div>
+      <div><b>${streak}</b><span>Streak</span></div>
+    </div>
+    ${last10 ? `<div class="last10">Last ${Math.min(10,g.length)}: ${last10} <span style="margin-left:6px">Flat 1u: ${sgn(flat)}u</span></div>` : ""}
+    ${todayHtml}
+    ${g.some(e=>e.backfilled) ? `<p class="note" style="margin-bottom:0">Days before Oct 19 are backfilled with the same rules, so the live record starts Oct 19.</p>` : ""}`;
+}
+
+function render(){ renderPotd(); renderStats(); renderCalendar(); renderDay(); renderEdges(); renderTiles(); renderBySport(); }
 $("#prev").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()-1, 1); renderCalendar(); };
 $("#next").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()+1, 1); renderCalendar(); };
 
 // Pull every sport's live feed (same site), so today's edges are current even between hub runs.
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/plays.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).then(d => d.plays || []).catch(() => [])
-)).then(lists => { live = lists.flat(); renderDay(); renderEdges(); });
+)).then(lists => { live = lists.flat(); renderPotd(); renderDay(); renderEdges(); });
 render();
 </script>
 </body>

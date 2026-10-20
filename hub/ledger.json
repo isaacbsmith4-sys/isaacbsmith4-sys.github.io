@@ -21,7 +21,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 0.909
+  "result_units": 0.909,
+  "potd": true
  },
  {
   "id": "nfl-2026_04_PIT_CLE-00-0041547-receptions",
@@ -45,7 +46,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -1.0
+  "result_units": -1.0,
+  "potd": false
  },
  {
   "id": "nhl-401891782-ml",
@@ -69,7 +71,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 1.7
+  "result_units": 1.7,
+  "potd": true
  },
  {
   "id": "nhl-401892434-ml",
@@ -93,7 +96,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.2
+  "result_units": 2.2,
+  "potd": true
  },
  {
   "id": "nhl-401892438-ml",
@@ -117,7 +121,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.4
+  "result_units": 2.4,
+  "potd": false
  },
  {
   "id": "nhl-401891826-ml",
@@ -141,7 +146,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 1.408
+  "result_units": 1.408,
+  "potd": false
  },
  {
   "id": "nfl-2026_04_TEN_BAL-00-0034837-receiving_yards",
@@ -165,7 +171,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": true
  },
  {
   "id": "nfl-2026_04_IND_WAS-00-0038997-receptions",
@@ -189,7 +196,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": false
  },
  {
   "id": "nfl-2026_04_ARI_NYG-00-0039847-receptions",
@@ -213,7 +221,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": false
  },
  {
   "id": "nfl-2026_04_ATL_NO-00-0037238-receptions",
@@ -237,7 +246,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": true
  },
  {
   "id": "nfl-2026_04_ATL_NO-00-0032392-receptions",
@@ -261,7 +271,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 0.909
+  "result_units": 0.909,
+  "potd": false
  },
  {
   "id": "nfl-2026_04_ATL_NO-00-0036970-receiving_yards",
@@ -285,7 +296,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -1.0
+  "result_units": -1.0,
+  "potd": false
  },
  {
   "id": "nhl-401891779-ml",
@@ -309,7 +321,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -2.0
+  "result_units": -2.0,
+  "potd": true
  },
  {
   "id": "nhl-401891806-ml",
@@ -333,7 +346,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -1.0
+  "result_units": -1.0,
+  "potd": false
  },
  {
   "id": "nhl-401891815-ml",
@@ -357,7 +371,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 0.833
+  "result_units": 0.833,
+  "potd": false
  },
  {
   "id": "nfl-2026_05_TB_DAL-00-0041251-rushing_yards",
@@ -381,7 +396,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": true
  },
  {
   "id": "nfl-2026_05_TB_DAL-00-0038041-receiving_yards",
@@ -405,7 +421,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 0.909
+  "result_units": 0.909,
+  "potd": false
  },
  {
   "id": "nhl-401891825-ml",
@@ -429,7 +446,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -2.0
+  "result_units": -2.0,
+  "potd": false
  },
  {
   "id": "nhl-401892480-ml",
@@ -453,7 +471,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -2.0
+  "result_units": -2.0,
+  "potd": true
  },
  {
   "id": "nhl-401892473-ml",
@@ -477,7 +496,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -1.0
+  "result_units": -1.0,
+  "potd": false
  },
  {
   "id": "nhl-401891805-ml",
@@ -501,7 +521,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 1.24
+  "result_units": 1.24,
+  "potd": false
  },
  {
   "id": "nfl-2026_05_HOU_TEN-00-0038618-receiving_yards",
@@ -525,7 +546,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": true
  },
  {
   "id": "nfl-2026_05_MIN_NO-00-0036322-receptions",
@@ -549,7 +571,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": false
  },
  {
   "id": "nfl-2026_05_BAL_ATL-00-0037238-receptions",
@@ -573,7 +596,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -3.0
+  "result_units": -3.0,
+  "potd": false
  },
  {
   "id": "nfl-2026_05_BUF_LA-00-0038933-receptions",
@@ -597,7 +621,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": true
  },
  {
   "id": "nfl-2026_05_BUF_LA-00-0039875-rushing_yards",
@@ -621,7 +646,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -1.0
+  "result_units": -1.0,
+  "potd": false
  },
  {
   "id": "nhl-401892485-ml",
@@ -645,7 +671,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 0.926
+  "result_units": 0.926,
+  "potd": false
  },
  {
   "id": "nhl-401892501-ml",
@@ -669,7 +696,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 3.6
+  "result_units": 3.6,
+  "potd": true
  },
  {
   "id": "nhl-401892503-ml",
@@ -693,7 +721,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.04
+  "result_units": 2.04,
+  "potd": false
  },
  {
   "id": "nhl-401892494-ml",
@@ -717,7 +746,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.2
+  "result_units": 2.2,
+  "potd": false
  },
  {
   "id": "nfl-2026_06_SEA_DEN-00-0040648-receiving_yards",
@@ -741,7 +771,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.727
+  "result_units": 2.727,
+  "potd": true
  },
  {
   "id": "nfl-2026_06_SEA_DEN-00-0039793-receptions",
@@ -765,7 +796,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 0.909
+  "result_units": 0.909,
+  "potd": false
  },
  {
   "id": "nhl-401892506-ml",
@@ -789,7 +821,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.0
+  "result_units": 2.0,
+  "potd": false
  },
  {
   "id": "nhl-401892523-ml",
@@ -813,7 +846,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 2.4
+  "result_units": 2.4,
+  "potd": true
  },
  {
   "id": "nhl-401892520-ml",
@@ -837,7 +871,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "win",
-  "result_units": 1.408
+  "result_units": 1.408,
+  "potd": false
  },
  {
   "id": "nhl-401892526-ml",
@@ -861,7 +896,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -1.0
+  "result_units": -1.0,
+  "potd": false
  },
  {
   "id": "nfl-2026_06_HOU_JAX-00-0038618-receiving_yards",
@@ -885,7 +921,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -3.0
+  "result_units": -3.0,
+  "potd": true
  },
  {
   "id": "nfl-2026_06_NYJ_NE-00-0039451-receiving_yards",
@@ -909,7 +946,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -3.0
+  "result_units": -3.0,
+  "potd": false
  },
  {
   "id": "nfl-2026_06_BUF_LV-00-0039901-receptions",
@@ -933,7 +971,8 @@
   "locked_at": "backfilled",
   "backfilled": true,
   "status": "loss",
-  "result_units": -3.0
+  "result_units": -3.0,
+  "potd": false
  },
  {
   "id": "nfl-2026_06_WAS_SF-00-0033280-receiving_yards",
@@ -957,7 +996,8 @@
   "locked_at": "2026-10-19 (re-set to the new rules)",
   "backfilled": false,
   "status": "pending",
-  "result_units": null
+  "result_units": null,
+  "potd": true
  },
  {
   "id": "nfl-2026_06_WAS_SF-00-0039910-rushing_yards",
@@ -981,7 +1021,8 @@
   "locked_at": "2026-10-19 (re-set to the new rules)",
   "backfilled": false,
   "status": "pending",
-  "result_units": null
+  "result_units": null,
+  "potd": false
  },
  {
   "id": "nfl-2026_06_WAS_SF-00-0037256-receptions",
@@ -1005,6 +1046,7 @@
   "locked_at": "2026-10-19 (re-set to the new rules)",
   "backfilled": false,
   "status": "pending",
-  "result_units": null
+  "result_units": null,
+  "potd": false
  }
 ]

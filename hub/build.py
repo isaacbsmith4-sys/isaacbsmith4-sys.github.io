@@ -140,6 +140,23 @@ def select(day, now, feeds, ledger, settings, backfill=False):
     return picked
 
 
+def set_play_of_the_day(ledger, now):
+    """The day's single best play: the top-ranked pick. Once its game starts it's final;
+    before that, a better pick (e.g. a 3U posted after the lock) can take its place."""
+    days = {}
+    for e in ledger:
+        days.setdefault(e["date"], []).append(e)
+    for es in days.values():
+        cur = next((e for e in es if e.get("potd")), None)
+        started = cur is not None and (cur["status"] != "pending" or
+                                       (parse_start(cur.get("start")) or now) <= now)
+        if started:
+            continue
+        best = min(es, key=rank_key)
+        for e in es:
+            e["potd"] = e is best
+
+
 def sport_records(feeds):
     """Each sport's own record on its unit plays (1U and up), from its feed."""
     out = []
@@ -185,6 +202,7 @@ def main():
     for e in ledger:
         day_n[e["date"]] = day_n.get(e["date"], 0) + 1
         e["slot"] = day_n[e["date"]]
+    set_play_of_the_day(ledger, now)
     with open(LEDGER, "w") as f:
         json.dump(ledger, f, indent=1)
 
