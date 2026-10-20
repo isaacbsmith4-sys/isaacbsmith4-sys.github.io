@@ -1,5 +1,5 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "cfb-model-v1";
+const CACHE = "cfb-model-v2";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "plays.json"];
 
 self.addEventListener("install", (e) => {
