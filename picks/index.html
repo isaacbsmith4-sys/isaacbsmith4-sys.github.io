@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Layout: four tabs. Blind = tap a side on every spread before seeing the model; My plays =
-   log researched bets with notes; Record = you vs. the model; Setup = the one-time key. */
+/* Layout: five tabs. Spreads / Moneylines = blind picks on every game before seeing the model;
+   Real picks = the plays you actually give out, with notes; Record = you vs. the model; Setup. */
 :root{
   color-scheme:dark;
   --bg:#0d0f15; --surface:#151821; --surface2:#1c2030; --sunk:#10131b; --line:#272c3d; --line-hi:#3b4258;
@@ -60,14 +60,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .chipline b{font:800 22px var(--font-display)}
 .chipline span{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom, 0px);padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
-.tabs-in{max-width:760px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabbar-h)}
+.tabs-in{max-width:760px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--tabbar-h)}
 .tab{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11.5px;font-weight:700}
 .tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--blue-ink)}
 @media (min-width:760px){
   body{padding-bottom:0}
   .tabs{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top, 0px)}
-  .tabs-in{height:52px;grid-template-columns:repeat(4,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
+  .tabs-in{height:52px;grid-template-columns:repeat(5,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
   .tab{flex-direction:row;gap:8px;font-size:14px;padding:0 14px;border-bottom:2px solid transparent}
   .tab.on{border-bottom-color:var(--blue)}
   .tab svg{width:18px;height:18px}
@@ -162,8 +162,9 @@ code{background:var(--sunk);border:1px solid var(--line);border-radius:5px;paddi
 </head>
 <body>
 <nav class="tabs" aria-label="Sections"><div class="tabs-in">
-  <button class="tab" data-v="blind"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><path d="M4 20L20 4"/></svg>Blind picks</button>
-  <button class="tab" data-v="plays"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h10l4 4V19.5H5z"/><path d="M8.5 11h7M8.5 14.5h7M8.5 7.5h4"/></svg>My plays</button>
+  <button class="tab" data-v="blind"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/><path d="M7 7l10 10"/></svg>Spreads</button>
+  <button class="tab" data-v="ml"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9.5 9.5c0-1.2 1.1-2 2.5-2s2.5.8 2.5 2-1.1 1.8-2.5 2.2-2.5 1-2.5 2.3 1.1 2 2.5 2 2.5-.8 2.5-2"/></svg>Moneylines</button>
+  <button class="tab" data-v="plays"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>Real picks</button>
   <button class="tab" data-v="record"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5h16M6.5 16l4-5 3 3 4.5-6.5"/></svg>Record</button>
   <button class="tab" data-v="setup"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg>Setup</button>
 </div></nav>
@@ -175,6 +176,7 @@ code{background:var(--sunk);border:1px solid var(--line);border-radius:5px;paddi
   </div>
   <main>
     <section class="view" id="v-blind"></section>
+    <section class="view" id="v-ml" hidden></section>
     <section class="view" id="v-plays" hidden></section>
     <section class="view" id="v-record" hidden></section>
     <section class="view" id="v-setup" hidden></section>
@@ -204,7 +206,8 @@ const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString
 let token = store.get("myPicksToken", "");
 let data = {format: 1, picks: []}, sha = null, loaded = false, loadError = "";
 let games = [], view = store.get("myPicksView", token ? "blind" : "setup");
-let blindSport = store.get("myPicksBlindSport", "NBA"), blindDay = null;
+const BL = {spread: {sport: store.get("myPicksBlindSport", "NBA"), day: null, kind: "blind", el: "#v-blind", title: "Blind spreads"},
+            ml: {sport: store.get("myPicksMlSport", "NBA"), day: null, kind: "blind_ml", el: "#v-ml", title: "Blind moneylines"}};
 let form = {sport: "NBA", game: "", market: "spread", side: "", line: "", price: "", units: "1", conf: 3, notes: "", selection: ""};
 
 function toast(msg){ const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2600); }
@@ -290,71 +293,87 @@ function rec(ps, field = "status", unitsField = "result_units"){
   const u = g.reduce((a,p) => a + (p[unitsField] || 0), 0), st = g.reduce((a,p) => a + (+p.units || 1), 0);
   return {n: g.length, w, l, p: pu, u, roi: st ? 100*u/st : null, text: `${w}-${l}${pu?"-"+pu:""}`};
 }
-function modelUnits(p){ return p.model_result === "win" ? profit(-110) : p.model_result === "loss" ? -1 : 0; }
+function modelUnits(p){ if (p.model_units != null) return p.model_units; return p.model_result === "win" ? profit(-110) : p.model_result === "loss" ? -1 : 0; }
 
 function renderHeader(){
-  const r = rec(data.picks);
+  const r = rec(data.picks.filter(p => p.kind === "research"));
   $("#hdrUnits").textContent = loaded ? sgn(r.u) + "u" : "–";
   $("#hdrUnits").className = "num " + cls(r.u);
-  $("#hdrRec").textContent = loaded ? `All my picks · ${r.text}` : "Your record";
+  $("#hdrRec").textContent = loaded ? `Real picks · ${r.text}` : "Your record";
 }
 function needSetup(){ return `<div class="banner">${loadError ? esc(loadError) : "Connect your picks first: it takes about 2 minutes, once."} <button class="linkbtn" data-go="setup">Open Setup</button></div>`; }
 
-// ---------- BLIND
-function renderBlind(){
-  const sports = ["NBA", "NFL"];
-  const pool = games.filter(g => sports.includes(g.sport) && upcoming(g) && g.lines.spread != null);
-  const mine = new Map(data.picks.filter(p => p.kind === "blind").map(p => [pickKey(p), p]));
-  // keep showing today's picked games after tip-off so you can see them
-  const shown = games.filter(g => g.sport === blindSport && g.lines.spread != null && (upcoming(g) || (mine.has(gameKey(g)) && g.date >= todayET)));
+// ---------- BLIND (spreads and moneylines)
+const hasLine = (g, mode) => mode === "spread" ? g.lines.spread != null : (g.lines.home_ml != null && g.lines.away_ml != null);
+function renderBlind(mode = "spread"){
+  const st = BL[mode], sports = ["NBA", "NFL"];
+  const mine = new Map(data.picks.filter(p => p.kind === st.kind).map(p => [pickKey(p), p]));
+  const pool = games.filter(g => sports.includes(g.sport) && upcoming(g) && hasLine(g, mode));
+  // keep today's picked games on screen after tip-off so you can see them
+  const shown = games.filter(g => g.sport === st.sport && hasLine(g, mode) && (upcoming(g) || (mine.has(gameKey(g)) && g.date >= todayET)));
   const days = [...new Set(shown.map(g => g.date))].sort();
-  if (!blindDay || !days.includes(blindDay)) blindDay = days[0] || null;
-  const list = shown.filter(g => g.date === blindDay).sort((a,b) => (a.start||"") < (b.start||"") ? -1 : 1);
+  if (!st.day || !days.includes(st.day)) st.day = days[0] || null;
+  const list = shown.filter(g => g.date === st.day).sort((a,b) => (a.start||"") < (b.start||"") ? -1 : 1);
   const left = list.filter(g => !mine.has(gameKey(g)) && upcoming(g)).length;
-  $("#v-blind").innerHTML = `${!loaded ? needSetup() : ""}
-    <div class="sec-h"><h2>Blind spreads</h2><span>Pick a side on every game. The model's line shows after you pick.</span></div>
-    <div class="chips">${sports.map(s => `<button class="chip ${blindSport===s?'on':''}" data-bs="${s}">${s} · ${pool.filter(g=>g.sport===s && !mine.has(gameKey(g))).length} open</button>`).join("")}</div>
-    <div class="chips" style="margin-top:6px">${days.map(d => `<button class="chip ${d===blindDay?'on':''}" data-bd="${d}">${d===todayET?"Today":new Date(d+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</button>`).join("")}</div>
+  const tag = mode === "spread" ? "bs" : "ms";
+  $(st.el).innerHTML = `${!loaded ? needSetup() : ""}
+    <div class="sec-h"><h2>${st.title}</h2><span>${mode === "spread" ? "Pick a side on every game." : "Pick the winner of every game."} The model's view shows after you pick.</span></div>
+    <div class="chips">${sports.map(sp => `<button class="chip ${st.sport===sp?'on':''}" data-${tag}="${sp}">${sp} · ${pool.filter(g=>g.sport===sp && !mine.has(gameKey(g))).length} open</button>`).join("")}</div>
+    <div class="chips" style="margin-top:6px">${days.map(d => `<button class="chip ${d===st.day?'on':''}" data-${tag}d="${d}">${d===todayET?"Today":new Date(d+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</button>`).join("")}</div>
     <div class="sec" style="margin-top:12px">
-      ${!games.length ? `<div class="empty">Loading games…</div>` : !list.length ? `<div class="empty">No ${blindSport} games with lines right now.</div>` :
-        (left ? `<p class="note" style="margin:0 0 10px">${left} left to pick${blindDay===todayET?" today":""}.</p>` : `<p class="note" style="margin:0 0 10px">All picked. Nice.</p>`) +
-        list.map(g => blindCard(g, mine.get(gameKey(g)))).join("")}
+      ${!games.length ? `<div class="empty">Loading games…</div>` : !list.length ? `<div class="empty">No ${st.sport} games with ${mode === "spread" ? "spreads" : "moneylines"} right now.</div>` :
+        (left ? `<p class="note" style="margin:0 0 10px">${left} left to pick${st.day===todayET?" today":""}.</p>` : `<p class="note" style="margin:0 0 10px">All picked. Nice.</p>`) +
+        list.map(g => blindCard(g, mine.get(gameKey(g)), mode)).join("")}
     </div>`;
-  document.querySelectorAll("[data-bs]").forEach(b => b.onclick = () => { blindSport = b.dataset.bs; store.set("myPicksBlindSport", blindSport); blindDay = null; renderBlind(); });
-  document.querySelectorAll("[data-bd]").forEach(b => b.onclick = () => { blindDay = b.dataset.bd; renderBlind(); });
-  document.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => pickBlind(b.dataset.g, b.dataset.pick));
-  document.querySelectorAll("[data-undo]").forEach(b => b.onclick = () => undoPick(b.dataset.undo));
+  document.querySelectorAll(`[data-${tag}]`).forEach(b => b.onclick = () => { st.sport = b.dataset[tag]; store.set(mode === "spread" ? "myPicksBlindSport" : "myPicksMlSport", st.sport); st.day = null; renderBlind(mode); });
+  document.querySelectorAll(`[data-${tag}d]`).forEach(b => b.onclick = () => { st.day = b.dataset[tag + "d"]; renderBlind(mode); });
+  document.querySelectorAll(`${st.el} [data-pick]`).forEach(b => b.onclick = () => pickBlind(b.dataset.g, b.dataset.pick, mode));
+  document.querySelectorAll(`${st.el} [data-undo]`).forEach(b => b.onclick = () => undoPick(b.dataset.undo));
   wireGo();
 }
-function blindCard(g, p){
-  const s = g.lines.spread, open = upcoming(g);
-  const awayLine = -s, homeLine = s;
-  const side = p ? p.side : null;
+function blindCard(g, p, mode){
+  const open = upcoming(g), side = p ? p.side : null;
   let reveal = "";
   if (p){
-    const ml = p.model_line, modelSide = ml == null ? null : (ml < p.vegas_line ? "home" : ml > p.vegas_line ? "away" : null);
+    let modelSide = null, modelTxt = "–";
+    if (mode === "spread"){
+      const ml = p.model_line;
+      modelSide = ml == null ? null : (ml < p.vegas_line ? "home" : ml > p.vegas_line ? "away" : null);
+      modelTxt = ml == null ? "–" : (ml < 0 ? g.home.short + " " + ml : ml > 0 ? g.away.short + " " + (-ml) : "PK");
+    } else if (p.model_home_prob != null){
+      modelSide = p.model_home_prob >= 0.5 ? "home" : "away";
+      modelTxt = `${g.home.short} ${Math.round(100*p.model_home_prob)}% to win`;
+    }
     const agree = modelSide == null ? "" : modelSide === p.side ? `<span class="agree yes">Model agrees</span>` : `<span class="agree no">Model disagrees</span>`;
-    reveal = `<div class="reveal"><span>Model line <b>${ml == null ? "–" : (ml < 0 ? g.home.short + " " + ml : ml > 0 ? g.away.short + " " + (-ml) : "PK")}</b></span>${agree}
-      ${FINAL.includes(p.status) ? `<span class="res ${p.status}">${p.status}</span>` : open ? `<button class="linkbtn" data-undo="${p.id}">Undo</button>` : ""}</div>`;
+    reveal = `<div class="reveal"><span>Model <b>${esc(modelTxt)}</b></span>${agree}
+      ${FINAL.includes(p.status) ? `<span class="res ${p.status}">${p.status}${p.result_units!=null?" "+sgn(p.result_units,2):""}</span>` : open ? `<button class="linkbtn" data-undo="${p.id}">Undo</button>` : ""}</div>`;
   }
-  const btn = (who, team, line) => `<button class="side ${side===who?'mine':''}" data-g="${esc(gameKey(g))}" data-pick="${who}" ${(!open || !loaded) ? "disabled" : ""}>
-      <small>${who === "away" ? "Away" : "Home"}${side===who ? " · your pick" : ""}</small><b>${esc(team.short)}</b><span class="num">${fmtLine(line)}</span></button>`;
+  const label = who => mode === "spread" ? fmtLine(who === "home" ? g.lines.spread : -g.lines.spread) : price(who === "home" ? g.lines.home_ml : g.lines.away_ml);
+  const btn = (who, team) => `<button class="side ${side===who?'mine':''}" data-g="${esc(gameKey(g))}" data-pick="${who}" ${(!open || !loaded) ? "disabled" : ""}>
+      <small>${who === "away" ? "Away" : "Home"}${side===who ? " · your pick" : ""}</small><b>${esc(team.short)}</b><span class="num">${label(who)}</span></button>`;
   return `<div class="bcard"><div class="bhead"><span class="sport"><i style="background:${sportVar(g.sport)}"></i>${g.sport}</span><span>${open ? tip(g.start) : "Started"}</span></div>
-    <div class="sides">${btn("away", g.away, awayLine)}${btn("home", g.home, homeLine)}</div>${reveal}</div>`;
+    <div class="sides">${btn("away", g.away)}${btn("home", g.home)}</div>${reveal}</div>`;
 }
-async function pickBlind(key, side){
+async function pickBlind(key, side, mode = "spread"){
   const g = games.find(x => gameKey(x) === key); if (!g || !upcoming(g)) return;
-  const existing = data.picks.find(p => p.kind === "blind" && pickKey(p) === key);
-  const line = side === "home" ? g.lines.spread : -g.lines.spread;
-  const sidePrice = side === "home" ? g.lines.home_spread_price : g.lines.away_spread_price;
-  const p = {id: existing ? existing.id : uid(), kind: "blind", created_at: new Date().toISOString(), sport: g.sport, game_id: g.id,
-    date: g.date, start: g.start, home: g.home.name, away: g.away.name, home_short: g.home.short, away_short: g.away.short,
-    market: "spread", side, line, price: sidePrice || -110, units: 1, vegas_line: g.lines.spread,
+  const kind = BL[mode].kind;
+  const existing = data.picks.find(p => p.kind === kind && pickKey(p) === key);
+  const base = {id: existing ? existing.id : uid(), kind, created_at: new Date().toISOString(), sport: g.sport, game_id: g.id,
+    date: g.date, start: g.start, home: g.home.name, away: g.away.name, home_short: g.home.short, away_short: g.away.short, side, units: 1,
+    vegas_line: g.lines.spread ?? null, home_ml: g.lines.home_ml ?? null, away_ml: g.lines.away_ml ?? null,
     model_line: g.model ? g.model.spread : null, model_total: g.model ? g.model.total : null, model_home_prob: g.model ? g.model.home_win_prob : null,
-    selection: `${(side === "home" ? g.home : g.away).short} ${fmtLine(line)}`, status: "pending", result_units: null};
-  // show it right away, then save
-  data.picks = data.picks.filter(x => x.id !== p.id).concat([p]); renderBlind(); renderHeader();
-  const ok = await savePicks(d => { d.picks = d.picks.filter(x => x.id !== p.id).concat([p]); }, `Blind pick: ${p.selection}`);
+    status: "pending", result_units: null};
+  let p;
+  if (mode === "spread"){
+    const line = side === "home" ? g.lines.spread : -g.lines.spread;
+    p = {...base, market: "spread", line, price: (side === "home" ? g.lines.home_spread_price : g.lines.away_spread_price) || -110,
+         selection: `${(side === "home" ? g.home : g.away).short} ${fmtLine(line)}`};
+  } else {
+    const pr = side === "home" ? g.lines.home_ml : g.lines.away_ml;
+    p = {...base, market: "ml", line: null, price: pr, selection: `${(side === "home" ? g.home : g.away).short} ML ${price(pr)}`};
+  }
+  data.picks = data.picks.filter(x => x.id !== p.id).concat([p]); renderAll();
+  const ok = await savePicks(d => { d.picks = d.picks.filter(x => x.id !== p.id).concat([p]); }, `Blind ${mode === "spread" ? "spread" : "moneyline"}: ${p.selection}`);
   if (ok) toast(`Saved: ${p.selection}`); renderAll();
 }
 async function undoPick(id){
@@ -380,7 +399,7 @@ function renderPlays(){
   const mine = data.picks.filter(p => p.kind === "research").sort((a,b) => (b.created_at||"") < (a.created_at||"") ? -1 : 1);
   const pending = mine.filter(p => !FINAL.includes(p.status)), done = mine.filter(p => FINAL.includes(p.status));
   $("#v-plays").innerHTML = `${!loaded ? needSetup() : ""}
-    <div class="sec-h"><h2>Log a play</h2><span>Your researched bets, with your reasons</span></div>
+    <div class="sec-h"><h2>Log a real pick</h2><span>The plays you actually bet or give out, with your reasons</span></div>
     <div class="form">
       <div class="field"><label>Sport</label><div class="seg" id="fSport">${Object.keys(SPORTS).map(s => `<button class="${form.sport===s?'on':''}" data-v="${s}">${s}</button>`).join("")}</div></div>
       <div class="field"><label for="fGame">Game</label><select id="fGame"><option value="">Choose a game…</option>${pool.map(x => `<option value="${esc(x.id)}" ${x.id===form.game?"selected":""}>${esc(x.away.short)} @ ${esc(x.home.short)} · ${tip(x.start)}</option>`).join("")}</select></div>
@@ -395,10 +414,10 @@ function renderPlays(){
       <div class="field"><label>Confidence</label><div class="stars" id="fConf">${[1,2,3,4,5].map(i => `<button class="${i<=form.conf?'on':''}" data-v="${i}" aria-label="${i} of 5">★</button>`).join("")}</div></div>
       <div class="field"><label for="fNotes">Why I like it</label><textarea id="fNotes" placeholder="Injuries, matchup, line move, trends…">${esc(form.notes)}</textarea></div>
       ${g && g.model ? `<p class="note" style="margin:0">Model on this game: line <b>${g.model.spread == null ? "–" : (g.model.spread < 0 ? g.home.short + " " + g.model.spread : g.model.spread > 0 ? g.away.short + " " + (-g.model.spread) : "PK")}</b>${g.model.total!=null?` · total <b>${g.model.total}</b>`:""}${g.model.home_win_prob!=null?` · ${esc(g.home.short)} win <b>${Math.round(100*g.model.home_win_prob)}%</b>`:""}</p>` : ""}
-      <button class="btn" id="fSave" ${!loaded ? "disabled" : ""}>Save play</button>
+      <button class="btn" id="fSave" ${!loaded ? "disabled" : ""}>Save pick</button>
     </div>
     <div class="sec"><div class="sec-h"><h2>Pending</h2><span>${pending.length}</span></div>
-      ${pending.length ? pending.map(playCard).join("") : `<div class="empty">No pending plays.</div>`}</div>
+      ${pending.length ? pending.map(playCard).join("") : `<div class="empty">No pending picks.</div>`}</div>
     <div class="sec"><div class="sec-h"><h2>Graded</h2><span>${rec(done).text} · <b class="${cls(rec(done).u)}">${sgn(rec(done).u)}u</b></span></div>
       ${done.length ? done.slice(0, 60).map(playCard).join("") : `<div class="empty">Results show up here after games finish.</div>`}</div>`;
   const keepInputs = () => { const v = id => ($(id) || {}).value; form.line = v("#fLine") ?? form.line; form.price = v("#fPrice") ?? form.price; form.units = v("#fUnits") ?? form.units; form.notes = v("#fNotes") ?? form.notes; if ($("#fSel")) form.selection = $("#fSel").value; };
@@ -453,11 +472,7 @@ async function selfGrade(id, st){
 
 // ---------- RECORD
 function renderRecord(){
-  const blind = data.picks.filter(p => p.kind === "blind"), research = data.picks.filter(p => p.kind === "research");
-  const me = rec(blind);
-  const mo2 = rec(blind.filter(p => p.model_result).map(p => ({...p, status: p.model_result, result_units: modelUnits(p), units: 1})));
-  const both = blind.filter(p => p.model_side && FINAL.includes(p.status));
-  const agree = both.filter(p => p.model_side === p.side), dis = both.filter(p => p.model_side !== p.side);
+  const research = data.picks.filter(p => p.kind === "research");
   const rs = rec(research);
   const cell = r => r.n ? `<td>${r.text}</td><td>${r.w+r.l?Math.round(100*r.w/(r.w+r.l))+"%":"–"}</td><td class="${cls(r.u)}">${sgn(r.u)}</td><td>${r.roi==null?"–":sgn(r.roi)+"%"}</td>` : `<td>–</td><td>–</td><td>–</td><td>–</td>`;
   const head = `<tr><th></th><th>W-L</th><th>Win %</th><th>Units</th><th>ROI</th></tr>`;
@@ -465,22 +480,28 @@ function renderRecord(){
   const byMarket = ["spread","total","ml","prop"].filter(m => research.some(p => p.market === m)).map(m => `<tr><td>${{spread:"Spreads",total:"Totals",ml:"Moneylines",prop:"Player props"}[m]}</td>${cell(rec(research.filter(p=>p.market===m)))}</tr>`).join("");
   const byConf = [5,4,3,2,1].filter(c => research.some(p => p.confidence === c)).map(c => `<tr><td style="color:var(--gold)">${"★".repeat(c)}</td>${cell(rec(research.filter(p=>p.confidence===c)))}</tr>`).join("");
   const clvs = data.picks.filter(p => p.clv != null), clv = clvs.length ? clvs.reduce((a,p)=>a+p.clv,0)/clvs.length : null;
+  const vsModel = (kind, title, note) => {
+    const bl = data.picks.filter(p => p.kind === kind);
+    const me = rec(bl), mo = rec(bl.filter(p => p.model_result).map(p => ({...p, status: p.model_result, result_units: modelUnits(p), units: 1})));
+    const both = bl.filter(p => p.model_side && FINAL.includes(p.status));
+    const agree = both.filter(p => p.model_side === p.side), dis = both.filter(p => p.model_side !== p.side);
+    return `<div class="sec"><div class="sec-h"><h2>${title}</h2><span>${bl.length} picks</span></div>
+      <div class="kpis">
+        <div class="kpi me"><h3>You</h3><div class="big num ${cls(me.u)}">${sgn(me.u)}u</div><div class="rowk"><span><b>${me.text}</b></span><span><b>${me.w+me.l?Math.round(100*me.w/(me.w+me.l)):"–"}%</b> wins</span></div></div>
+        <div class="kpi"><h3>The model</h3><div class="big num ${cls(mo.u)}">${sgn(mo.u)}u</div><div class="rowk"><span><b>${mo.text}</b></span><span><b>${mo.w+mo.l?Math.round(100*mo.w/(mo.w+mo.l)):"–"}%</b> wins</span></div></div>
+      </div>
+      <div class="sec" style="margin-top:12px"><div class="twrap"><table class="t">${head}
+        <tr><td>When you agree with the model</td>${cell(rec(agree))}</tr>
+        <tr><td>When you disagree: you</td>${cell(rec(dis))}</tr>
+        <tr><td>When you disagree: the model</td>${cell(rec(dis.map(p => ({...p, status: p.model_result, result_units: modelUnits(p), units: 1}))))}</tr>
+        ${bySport(bl)}
+      </table></div><p class="note">${note}</p></div></div>`;
+  };
   $("#v-record").innerHTML = `${!loaded ? needSetup() : ""}
-    <div class="sec-h"><h2>Blind spreads: you vs. the model</h2><span>Same games, same lines</span></div>
-    <div class="kpis">
-      <div class="kpi me"><h3>You</h3><div class="big num ${cls(me.u)}">${sgn(me.u)}u</div><div class="rowk"><span><b>${me.text}</b></span><span><b>${me.w+me.l?Math.round(100*me.w/(me.w+me.l)):"–"}%</b> wins</span></div></div>
-      <div class="kpi"><h3>The model</h3><div class="big num ${cls(mo2.u)}">${sgn(mo2.u)}u</div><div class="rowk"><span><b>${mo2.text}</b></span><span><b>${mo2.w+mo2.l?Math.round(100*mo2.w/(mo2.w+mo2.l)):"–"}%</b> wins</span></div></div>
-    </div>
-    <div class="sec" style="margin-top:12px"><div class="twrap"><table class="t">${head}
-      <tr><td>When you agree with the model</td>${cell(rec(agree))}</tr>
-      <tr><td>When you disagree: you</td>${cell(rec(dis))}</tr>
-      <tr><td>When you disagree: the model</td>${cell(rec(dis.map(p => ({...p, status: p.model_result, result_units: modelUnits(p)}))))}</tr>
-      ${bySport(blind)}
-    </table></div>
-    <p class="note">The interesting row is "when you disagree": that's where your read and the model's split, and the results show who's seeing it better. 1 unit at -110 per pick.</p></div>
-
-    <div class="sec"><div class="sec-h"><h2>My researched plays</h2><span>${research.length} logged</span></div>
-      <div class="kpis"><div class="kpi me"><h3>Researched plays</h3><div class="big num ${cls(rs.u)}">${sgn(rs.u)}u</div>
+    ${vsModel("blind", "Blind spreads: you vs. the model", "The row to watch is \"when you disagree\": that's where your read and the model's split. 1 unit per pick at -110.")}
+    ${vsModel("blind_ml", "Blind moneylines: you vs. the model", "1 unit per pick at the moneyline price when you picked, so underdog wins pay more. The model's side is whichever team it gives over 50%.")}
+    <div class="sec"><div class="sec-h"><h2>Real picks</h2><span>${research.length} logged</span></div>
+      <div class="kpis"><div class="kpi me"><h3>Real picks</h3><div class="big num ${cls(rs.u)}">${sgn(rs.u)}u</div>
         <div class="rowk"><span><b>${rs.text}</b></span><span><b>${rs.roi==null?"–":sgn(rs.roi)+"%"}</b> ROI</span></div></div>
       <div class="kpi"><h3>Line value</h3><div class="big num ${cls(clv)}">${clv==null?"–":sgn(clv)}</div>
         <div class="rowk"><span>Average points you beat the closing line by, across ${clvs.length} graded picks</span></div></div></div>
@@ -517,7 +538,7 @@ function renderSetup(){
 
 // ---------- shell
 function wireGo(){ document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => setView(b.dataset.go)); }
-function renderAll(){ renderHeader(); renderBlind(); renderPlays(); renderRecord(); renderSetup(); }
+function renderAll(){ renderHeader(); renderBlind("spread"); renderBlind("ml"); renderPlays(); renderRecord(); renderSetup(); }
 function setView(v){
   view = v; store.set("myPicksView", v);
   document.querySelectorAll(".tab").forEach(t => { t.classList.toggle("on", t.dataset.v === v); t.setAttribute("aria-current", t.dataset.v === v ? "page" : "false"); });
