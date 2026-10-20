@@ -594,7 +594,7 @@ function renderPlayer(P){
   el.innerHTML = `
     <button class="back" id="pback">‹ All props</button>
     <div class="phead"><div><h2>${esc(pl.name)}</h2>
-      <div class="meta">${esc(teamAb)}${pl.pos?` · ${esc(pl.pos)}`:""}${ctx?` · ${ctx.home?"vs":"@"} ${esc(oppAb)} · ${P.sport==="NBA"?tipTime(ctx.start):"Week "+ctx.week}`:""}${ctx && ctx.status ? ` · <span class="neg">${esc(ctx.status)}</span>` : ""}${ctx && ctx.model && ctx.model.status ? ` · <span class="neg">${esc(ctx.model.status)}</span>` : ""}${injTxt ? ` · <span class="neg">${esc(injTxt)}</span>` : ""}</div></div></div>
+      <div class="meta">${esc(teamAb)}${pl.pos?` · ${esc(pl.pos)}`:""}${ctx?` · ${ctx.home?"vs":"@"} ${esc(oppAb)} · ${P.sport==="NBA"?tipTime(ctx.start):"Week "+ctx.week}`:""}${ctx && ctx.status ? ` · <span class="neg">${esc(ctx.status)}</span>` : ""}${ctx && ctx.model && ctx.model.status ? ` · <span class="neg">${esc(ctx.model.status)}</span>` : ""}${injTxt ? ` · <span class="${inj.live || inj.status ? "neg" : ""}">${esc(injTxt)}</span>` : ""}</div></div></div>
     <div class="chips wrapc" id="dmk" style="margin-top:12px" title="Faded = no posted line">${mList.map(m => `<button class="chip ${m===mk?"on":""}" data-m="${m}" ${lined.has(m)?"":'style="opacity:.6" title="No posted line"'}>${esc(P.markets[m]||m)}</button>`).join("")}</div>
     <div class="card" style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
       <div><div class="stepper"><button id="lminus" aria-label="Lower line">−</button><b class="num">${fmtLine(line)}</b><button id="lplus" aria-label="Raise line">+</button>
@@ -1670,7 +1670,21 @@ function setSport(s){
 }
 $$(".tab").forEach(t => t.onclick = () => { if (t.dataset.v === view && view === "props") detail = null; if (t.dataset.v === view && view === "games") gameDetail = null; show(t.dataset.v); window.scrollTo(0,0); });
 $$("#sportSeg button").forEach(b => b.onclick = () => setSport(b.dataset.s));
+// Deep links from other apps (e.g. Parlays): #props/<sport>/<player id>/<market>
+function openFromHash(){
+  const m = location.hash.match(/^#props\/(nba|nfl)\/([^/]+)\/([a-z0-9_]+)/i);
+  if (!m) return false;
+  const sp = m[1].toUpperCase();
+  if (sp !== sport) setSport(sp);
+  view = "props";
+  detail = {pid: decodeURIComponent(m[2]), market: m[3].toLowerCase(), line: null, side: "over", range: "L20"};
+  show("props");
+  window.scrollTo(0, 0);
+  return true;
+}
 setSport(sport);
+openFromHash();
+window.addEventListener("hashchange", openFromHash);
 </script>
 </body>
 </html>
