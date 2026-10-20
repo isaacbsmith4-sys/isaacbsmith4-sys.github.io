@@ -3,375 +3,524 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0c1018">
+<meta name="theme-color" content="#0d0f15">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="College Hoops">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>College Basketball Model</title>
+<title>College Hoops Model</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Layout: scoreboard strip of dates on top, then one card per game; cards expand into a breakdown. */
+/* Layout: three tabs (Plays / Games / Results). Plays leads with the day's top play as a bet
+   slip; Games is every game with lines; Results is the season record. Tab bar sits at the
+   bottom on phones, top on desktop. Shares the hub's design tokens. */
 :root{
   color-scheme:dark;
-  --bg:#0c1018; --panel:#141a26; --panel2:#1a2233; --detail:#111723; --line:#252e42; --line-hi:#3a4560;
-  --text:#e9edf5; --muted:#8b95aa; --faint:#5d6779; --track:#2a3348; --away-bar:#6b7590;
-  --accent:#2f7df6; --accent2:#1b4fc4; --on-accent:#ffffff;
-  --u2:#f5b301; --u2-bg:rgba(245,179,1,.15); --u2-ring:rgba(245,179,1,.45);
-  --u1:#2fd06e; --u1-bg:rgba(34,197,94,.13); --u1-ring:rgba(34,197,94,.42);
-  --lean:#3b82f6; --lean-tx:#86b5ff; --lean-bg:rgba(59,130,246,.14); --lean-ring:rgba(59,130,246,.42);
-  --light:#7c8db5; --light-tx:#aab7d4; --light-bg:rgba(124,141,181,.12); --light-ring:rgba(124,141,181,.32);
-  --win:#2fd06e; --win-bg:rgba(34,197,94,.15); --loss:#f05252; --loss-bg:rgba(239,68,68,.15); --push-bg:#252e42;
-  --flag:#ffb46b; --flag-bg:rgba(255,122,26,.13);
-  --font-body:Barlow,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --font-num:"Barlow Condensed","Arial Narrow",Barlow,system-ui,sans-serif;
+  --bg:#0d0f15; --surface:#151821; --surface2:#1c2030; --sunk:#10131b; --line:#272c3d; --line-hi:#3b4258;
+  --ink:#eef0f6; --ink2:#b4bbcc; --muted:#808a9f; --faint:#586178;
+  --gold:#e3b04b; --gold-ink:#f2c66a; --gold-bg:rgba(227,176,75,.13); --gold-line:rgba(227,176,75,.5); --on-gold:#1a1305;
+  --win:#3ddc84; --win-bg:rgba(61,220,132,.14); --loss:#ff6b6b; --loss-bg:rgba(255,107,107,.14); --push-bg:#272c3d;
+  --acc:#b39dff; --acc-bg:rgba(179,157,255,.13); --acc-line:rgba(179,157,255,.45); --on-acc:#160d33;
+  --font-display:"Big Shoulders Display","Oswald","Arial Narrow",system-ui,sans-serif;
+  --font-body:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --tabbar-h:64px;
 }
 @media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
   color-scheme:light;
-  --bg:#eef1f6; --panel:#ffffff; --panel2:#f5f7fb; --detail:#f8f9fc; --line:#dde2eb; --line-hi:#b9c2d3;
-  --text:#141a26; --muted:#5a6478; --faint:#8a93a5; --track:#e2e7ef; --away-bar:#98a2b6;
-  --accent:#1f66d6; --accent2:#163f9e; --on-accent:#ffffff;
-  --u2:#a87400; --u2-bg:rgba(245,179,1,.16); --u2-ring:rgba(200,140,0,.5);
-  --u1:#13893f; --u1-bg:rgba(34,197,94,.12); --u1-ring:rgba(19,137,63,.4);
-  --lean:#2563eb; --lean-tx:#1d4fc4; --lean-bg:rgba(59,130,246,.1); --lean-ring:rgba(37,99,235,.35);
-  --light:#6b7a9c; --light-tx:#4f5d7d; --light-bg:rgba(107,122,156,.1); --light-ring:rgba(107,122,156,.3);
-  --win:#13893f; --win-bg:rgba(34,197,94,.13); --loss:#c62828; --loss-bg:rgba(220,38,38,.1); --push-bg:#e6eaf1;
-  --flag:#b45309; --flag-bg:rgba(245,158,11,.14);
+  --bg:#f3f1ec; --surface:#ffffff; --surface2:#f8f6f1; --sunk:#ece9e2; --line:#e0dcd2; --line-hi:#c9c3b5;
+  --ink:#16181f; --ink2:#3d4252; --muted:#6a7080; --faint:#9a9fac;
+  --gold:#a8750a; --gold-ink:#8a5f00; --gold-bg:rgba(201,141,18,.12); --gold-line:rgba(168,117,10,.45); --on-gold:#fffaf0;
+  --win:#14864a; --win-bg:rgba(20,134,74,.11); --loss:#c8323a; --loss-bg:rgba(200,50,58,.1); --push-bg:#e6e2d9;
+  --acc:#6d4ee0; --acc-bg:rgba(109,78,224,.1); --acc-line:rgba(109,78,224,.4); --on-acc:#ffffff;
 }}
 :root[data-theme="light"]{
   color-scheme:light;
-  --bg:#eef1f6; --panel:#ffffff; --panel2:#f5f7fb; --detail:#f8f9fc; --line:#dde2eb; --line-hi:#b9c2d3;
-  --text:#141a26; --muted:#5a6478; --faint:#8a93a5; --track:#e2e7ef; --away-bar:#98a2b6;
-  --accent:#1f66d6; --accent2:#163f9e; --on-accent:#ffffff;
-  --u2:#a87400; --u2-bg:rgba(245,179,1,.16); --u2-ring:rgba(200,140,0,.5);
-  --u1:#13893f; --u1-bg:rgba(34,197,94,.12); --u1-ring:rgba(19,137,63,.4);
-  --lean:#2563eb; --lean-tx:#1d4fc4; --lean-bg:rgba(59,130,246,.1); --lean-ring:rgba(37,99,235,.35);
-  --light:#6b7a9c; --light-tx:#4f5d7d; --light-bg:rgba(107,122,156,.1); --light-ring:rgba(107,122,156,.3);
-  --win:#13893f; --win-bg:rgba(34,197,94,.13); --loss:#c62828; --loss-bg:rgba(220,38,38,.1); --push-bg:#e6eaf1;
-  --flag:#b45309; --flag-bg:rgba(245,158,11,.14);
+  --bg:#f3f1ec; --surface:#ffffff; --surface2:#f8f6f1; --sunk:#ece9e2; --line:#e0dcd2; --line-hi:#c9c3b5;
+  --ink:#16181f; --ink2:#3d4252; --muted:#6a7080; --faint:#9a9fac;
+  --gold:#a8750a; --gold-ink:#8a5f00; --gold-bg:rgba(201,141,18,.12); --gold-line:rgba(168,117,10,.45); --on-gold:#fffaf0;
+  --win:#14864a; --win-bg:rgba(20,134,74,.11); --loss:#c8323a; --loss-bg:rgba(200,50,58,.1); --push-bg:#e6e2d9;
+  --acc:#6d4ee0; --acc-bg:rgba(109,78,224,.1); --acc-line:rgba(109,78,224,.4); --on-acc:#ffffff;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 var(--font-body);-webkit-font-smoothing:antialiased}
-.wrap{max-width:1080px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
-button:focus-visible,.row:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
-.brand{display:flex;align-items:center;gap:12px}
-.mark{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font:800 13px var(--font-num);color:var(--on-accent);letter-spacing:.3px}
-.brand h1{font:800 24px/1 var(--font-num);margin:0;letter-spacing:.3px;text-transform:uppercase}
-.brand small{display:block;color:var(--muted);font-size:12.5px;font-weight:500;margin-top:3px}
-.record{display:flex;gap:8px;flex-wrap:wrap}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 12px;min-width:92px}
-.stat b{display:block;font:700 20px/1.1 var(--font-num);font-variant-numeric:tabular-nums}
-.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
-.dates{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:thin;scroll-snap-type:x proximity}
-.date{flex:0 0 auto;scroll-snap-align:start;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 14px;cursor:pointer;text-align:center;min-width:86px;transition:border-color .15s;color:var(--text);font:inherit}
-.date:hover{border-color:var(--line-hi)}
-.date .dow{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600}
-.date .day{font:700 19px/1.15 var(--font-num);margin:1px 0}
-.date .meta{font-size:11.5px;color:var(--muted)}
-.date .meta .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--u1);margin-right:4px;vertical-align:1px}
-.date.past .day{color:var(--muted)}
-.date.today{border-color:var(--accent)}
-.date.active{background:var(--panel2);border-color:var(--text)}
-.toolbar{display:flex;align-items:center;justify-content:space-between;margin:6px 0 12px;gap:10px;flex-wrap:wrap}
-.toolbar h2{font:700 20px/1.2 var(--font-num);margin:0;text-transform:uppercase;letter-spacing:.3px;text-wrap:balance}
-.views{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px}
-.seg button{background:none;border:0;color:var(--muted);font:600 13px var(--font-body);padding:6px 12px;border-radius:7px;cursor:pointer}
-.seg button.on{background:var(--panel2);color:var(--text)}
-select.conf{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:7px 10px;font:600 13px var(--font-body);max-width:200px}
-.legend{display:flex;gap:12px;color:var(--muted);font-size:12.5px;flex-wrap:wrap;margin-bottom:12px}
-.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:0}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .15s}
-.card:hover,.card.open{border-color:var(--line-hi)}
-.row{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr) 96px;align-items:center;gap:10px;padding:14px 16px;cursor:pointer}
-.teams{display:flex;flex-direction:column;gap:6px;min-width:0}
-.team{display:flex;align-items:center;gap:9px;min-width:0}
-.team img{width:26px;height:26px;object-fit:contain;flex:0 0 26px}
-.team .rk{font:700 12px var(--font-num);color:var(--faint);min-width:18px;text-align:right}
-.team .nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.team .rec{color:var(--faint);font-size:12.5px;margin-left:2px;font-variant-numeric:tabular-nums}
-.team .sc{margin-left:auto;font:700 18px var(--font-num);font-variant-numeric:tabular-nums}
-.team.lost .nm,.team.lost .sc{color:var(--muted)}
-.cell{min-width:0}
-.cell .lbl{font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.7px;font-weight:600}
-.cell .val{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cell .sub{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.edge .val{font:800 19px/1.15 var(--font-num)}
-.edge .pk{display:flex;align-items:center;gap:6px;white-space:nowrap}
-.edge .pk small{font:700 11px var(--font-num);padding:1px 5px;border-radius:5px}
-.badge{justify-self:end;font:700 14px var(--font-num);letter-spacing:.4px;text-transform:uppercase;padding:6px 10px;border-radius:8px;white-space:nowrap;text-align:center;min-width:80px}
-.t-2U{background:var(--u2-bg);color:var(--u2);box-shadow:inset 0 0 0 1px var(--u2-ring)}
-.t-1U{background:var(--u1-bg);color:var(--u1);box-shadow:inset 0 0 0 1px var(--u1-ring)}
-.t-Lean{background:var(--lean-bg);color:var(--lean-tx);box-shadow:inset 0 0 0 1px var(--lean-ring)}
-.t-Light{background:var(--light-bg);color:var(--light-tx);box-shadow:inset 0 0 0 1px var(--light-ring)}
-.t-No{background:transparent;color:var(--faint);box-shadow:inset 0 0 0 1px var(--line)}
-.res{display:inline-block;font:700 12px var(--font-num);letter-spacing:.5px;padding:2px 7px;border-radius:6px;margin-left:6px}
-.res.win{background:var(--win-bg);color:var(--win)} .res.loss{background:var(--loss-bg);color:var(--loss)} .res.push{background:var(--push-bg);color:var(--muted)}
-.flag{display:inline-block;font-size:11px;font-weight:700;color:var(--flag);background:var(--flag-bg);border-radius:5px;padding:1px 6px;margin-top:4px}
-.detail{display:none;border-top:1px solid var(--line);padding:16px;background:var(--detail)}
-.card.open .detail{display:block}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.box{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
-.box h4{margin:0 0 8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
-.pickline{font:800 22px/1.15 var(--font-num);letter-spacing:.2px}
-.kv{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-variant-numeric:tabular-nums}
-.kv span:first-child{color:var(--muted)}
-.prob{height:8px;border-radius:5px;background:var(--track);overflow:hidden;display:flex;margin:8px 0 4px}
-.prob div{height:100%}
-.cmpwrap{overflow-x:auto}
-.cmp{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.cmp th{font-size:11px;color:var(--muted);font-weight:600;text-align:right;padding:4px 6px}
-.cmp th:first-child,.cmp td:first-child{text-align:left;color:var(--muted)}
-.cmp td{text-align:right;padding:5px 6px;border-top:1px solid var(--line)}
-.cmp td.better{color:var(--text);font-weight:700}
-.note{color:var(--muted);font-size:13px;margin-top:10px;max-width:75ch}
-.empty{color:var(--muted);text-align:center;padding:50px 0}
-.sumwrap{overflow-x:auto}
-.summary{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin-top:6px}
-.summary th,.summary td{padding:7px 8px;text-align:right;border-top:1px solid var(--line);white-space:nowrap}
-.summary th{color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-top:0}
-.summary td:first-child,.summary th:first-child{text-align:left}
-details.sum{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:22px}
-details.sum summary{cursor:pointer;font-weight:700}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
-@media (max-width:760px){
-  .row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;grid-template-areas:"t t b" "v o o" "e e e"}
-  .row .teams{grid-area:t}.row .badge{grid-area:b;align-self:start}
-  .row .c-spread{grid-area:v}.row .c-total{grid-area:o}.row .edge{grid-area:e;border-top:1px solid var(--line);padding-top:8px}
-  .grid{grid-template-columns:1fr}
-  .box[style*="span 2"]{grid-column:auto!important}
-  .stat{min-width:0;flex:1}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--font-body);-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));overflow-x:hidden}
+button,select{font:inherit;color:inherit}
+button:focus-visible,select:focus-visible,summary:focus-visible,[role=button]:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-block:18px 32px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.num{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-top:env(safe-area-inset-top, 0px)}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:var(--acc);color:var(--on-acc);display:grid;place-items:center;font:900 15px var(--font-display);letter-spacing:.02em;flex:0 0 36px}
+.logo h1{margin:0;font:900 25px/1 var(--font-display);letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.logo small{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px}
+.season-chip{display:flex;flex-direction:column;align-items:flex-end;line-height:1.15;flex:0 0 auto}
+.season-chip b{font:800 22px var(--font-display)}
+.season-chip span{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+
+/* tabs */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom, 0px);padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
+.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);height:var(--tabbar-h)}
+.tab{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.02em;min-width:0}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--acc)}
+@media (min-width:760px){
+  body{padding-bottom:0}
+  .tabs{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top, 0px)}
+  .tabs-in{height:52px;grid-template-columns:repeat(3,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
+  .tab{flex-direction:row;gap:8px;font-size:14px;padding:0 14px;border-bottom:2px solid transparent}
+  .tab.on{border-bottom-color:var(--acc)}
+  .tab svg{width:18px;height:18px}
+  .top{padding-top:0}
 }
+.view[hidden]{display:none!important}
+
+/* date strip */
+.dates{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none;margin:0 -16px;padding-inline:16px;scroll-padding-inline:16px}
+.dates::-webkit-scrollbar{display:none}
+.date{flex:0 0 auto;min-width:64px;min-height:56px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 10px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.date .dw{font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.date .dd{font:800 18px/1.05 var(--font-display)}
+.date .dm{font-size:10.5px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.date .dm i{width:6px;height:6px;border-radius:50%;background:var(--win);display:inline-block}
+.date.past .dd{color:var(--muted)}
+.date.today{border-color:var(--acc-line)}
+.date.on{background:var(--ink);border-color:var(--ink)}
+.date.on .dw,.date.on .dd,.date.on .dm{color:var(--bg)}
+
+.sec{margin-top:22px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sec-h h2{margin:0;font:800 22px/1 var(--font-display);text-transform:uppercase;letter-spacing:.03em;text-wrap:balance}
+.sec-h span{color:var(--muted);font-size:13px}
+.note{color:var(--muted);font-size:13px;max-width:70ch;margin:10px 0 0}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--acc)}
+
+/* bet slip (hero) */
+.slip{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px}
+.slip.top2{border-color:var(--gold-line);background:linear-gradient(180deg,var(--gold-bg),transparent 65%),var(--surface)}
+.slip.top1{border-color:var(--acc-line);background:linear-gradient(180deg,var(--acc-bg),transparent 65%),var(--surface)}
+.slip-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 16px 0}
+.slip-body{padding:10px 16px 14px}
+.match{display:flex;align-items:center;gap:8px;color:var(--ink2);font-weight:700;font-size:14px;min-width:0;flex-wrap:wrap}
+.match img{width:22px;height:22px;object-fit:contain}
+.slip-sel{font:900 34px/1.02 var(--font-display);text-transform:uppercase;letter-spacing:.01em;overflow-wrap:anywhere;margin-top:8px}
+.slip-sel .px{font:700 17px var(--font-body);color:var(--muted);text-transform:none;margin-left:6px;white-space:nowrap}
+.perf{position:relative;height:0;border-top:2px dashed var(--line);margin:0 14px}
+.perf::before,.perf::after{content:"";position:absolute;top:-10px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.perf::before{left:-24px}.perf::after{right:-24px}
+.slip-foot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:12px 16px 14px}
+.kv{min-width:0}
+.kv b{display:block;font:800 20px/1.1 var(--font-display);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kv span{display:block;font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+
+/* badges */
+.units{font:800 15px var(--font-display);letter-spacing:.04em;padding:4px 9px;border-radius:7px;background:var(--sunk);color:var(--ink);white-space:nowrap}
+.units.u2,.units.u3{background:var(--gold);color:var(--on-gold)}
+.units.u1{background:var(--acc);color:var(--on-acc)}
+.units.lean{background:transparent;color:var(--ink2);box-shadow:inset 0 0 0 1px var(--line-hi)}
+.units.light{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.res{font:800 13px var(--font-display);letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:7px;white-space:nowrap}
+.res.win{background:var(--win-bg);color:var(--win)} .res.loss{background:var(--loss-bg);color:var(--loss)}
+.res.push{background:var(--push-bg);color:var(--muted)} .res.pending{background:var(--sunk);color:var(--muted)}
+.tag{font-size:10.5px;font-weight:800;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:0 6px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.tag.early{color:var(--gold-ink);border-color:var(--gold-line)}
+
+/* compact play rows */
+.mini{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;min-height:64px;cursor:pointer;width:100%;text-align:left}
+.mini:hover{border-color:var(--line-hi)}
+.mini .sel{font:800 20px/1.1 var(--font-display);text-transform:uppercase;overflow-wrap:anywhere;min-width:0}
+.mini .sel .px{font:600 13px var(--font-body);color:var(--muted);text-transform:none}
+.mini .meta{grid-column:1/2;font-size:12.5px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-width:0}
+.mini .meta img{width:16px;height:16px;object-fit:contain}
+.mini .side{display:flex;flex-direction:column;align-items:flex-end;gap:5px;grid-row:1/3;grid-column:2}
+.mini .side small{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
+.empty{color:var(--muted);text-align:center;padding:28px 16px;background:var(--surface);border:1px dashed var(--line-hi);border-radius:16px}
+.empty b{display:block;color:var(--ink);font:900 26px/1.1 var(--font-display);text-transform:uppercase;margin:6px 0}
+.empty .ball{width:44px;height:44px;margin:0 auto 4px;color:var(--acc)}
+
+/* filters */
+.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{background:none;border:0;color:var(--muted);font-weight:700;font-size:13px;padding:0 12px;min-height:38px;border-radius:9px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+select.conf{appearance:none;-webkit-appearance:none;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23808a9f' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 12px center;border:1px solid var(--line);border-radius:12px;min-height:44px;padding:0 34px 0 12px;font-weight:700;font-size:13px;max-width:100%;cursor:pointer}
+
+/* game cards */
+.gc{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:8px;overflow:hidden}
+.gc.open{border-color:var(--line-hi)}
+.gc-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;padding:12px 14px;cursor:pointer;align-items:center;min-height:64px}
+.tm{display:flex;align-items:center;gap:9px;min-width:0;min-height:26px}
+.tm .sw{width:3px;height:20px;border-radius:2px;flex:0 0 3px;background:var(--line)}
+.tm img{width:24px;height:24px;object-fit:contain;flex:0 0 24px}
+.tm .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tm .rk{font-size:11.5px;color:var(--faint);font-weight:800;flex:0 0 auto}
+.tm .rc{font-size:12px;color:var(--muted);flex:0 0 auto}
+.tm .sc{margin-left:auto;font:800 20px var(--font-display);padding-left:8px}
+.tm.lost .nm,.tm.lost .sc{color:var(--muted)}
+.gc-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;grid-row:1/3;grid-column:2}
+.gc-lines{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding-top:10px;margin-top:2px}
+.ln{min-width:0}
+.ln span{display:block;font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.ln b{display:block;font:800 17px/1.15 var(--font-display);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ln small{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ln small.hit{color:var(--ink2);font-weight:700}
+.time{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
+.gd{display:none;border-top:1px solid var(--line);background:var(--sunk);padding:14px}
+.gc.open .gd{display:block}
+.boxes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.box h4{margin:0 0 6px;font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.box .big{font:900 22px/1.1 var(--font-display);text-transform:uppercase;overflow-wrap:anywhere}
+.row{display:flex;justify-content:space-between;gap:8px;padding:4px 0;font-size:13.5px;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row span:first-child{color:var(--muted)}
+.row span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.wp{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:8px 0 6px;background:var(--line)}
+.wp i{display:block;height:100%}
+.wpl{display:flex;justify-content:space-between;font-size:13px;font-weight:700}
+table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13.5px}
+table.t th,table.t td{padding:7px 8px;text-align:right;white-space:nowrap;border-top:1px solid var(--line)}
+table.t th{font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.07em;text-transform:uppercase;border-top:0}
+table.t td:first-child,table.t th:first-child{text-align:left;color:var(--muted);white-space:normal}
+table.t td.b{color:var(--ink);font-weight:800}
+.twrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.twrap table.t th:first-child,.twrap table.t td:first-child{padding-left:14px}
+.small{font-size:12.5px;color:var(--muted);margin-top:10px}
+.more{display:block;width:100%;min-height:44px;margin-top:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-weight:700;color:var(--ink2);cursor:pointer}
+
+/* results */
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.kpi.hero{border-color:var(--acc-line);background:linear-gradient(180deg,var(--acc-bg),transparent),var(--surface);grid-column:1/-1}
+.kpi h3{margin:0 0 6px;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.kpi.hero h3{color:var(--acc)}
+.kpi .big{font:900 40px/1 var(--font-display)}
+.kpi .sub{display:flex;gap:14px;margin-top:8px;color:var(--ink2);font-size:13px;flex-wrap:wrap}
+.kpi .sub b{color:var(--ink);font-weight:800}
+.kpi .sub b.pos{color:var(--win)} .kpi .sub b.neg{color:var(--loss)}
+.pos{color:var(--win)} .neg{color:var(--loss)}
+details.how{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-top:22px}
+details.how summary{cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-weight:800;list-style:none}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::after{content:"+";font:800 22px var(--font-display);color:var(--muted)}
+details.how[open] summary::after{content:"–"}
+details.how .in{padding:0 16px 14px;color:var(--ink2);font-size:14px}
+details.how .in p{margin:0 0 10px}
+details.how table.t{margin:6px 0 12px}
+@media (max-width:420px){
+  .slip-sel{font-size:30px}
+  .slip-foot{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:12px}
+  .boxes{grid-template-columns:1fr}
+  table.t th,table.t td{padding:7px 6px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 
+<nav class="tabs" aria-label="Sections"><div class="tabs-in">
+  <button class="tab" data-v="plays"><svg viewBox="0 0 24 24"><path d="M4 7h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4z"/><path d="M14 7v12" stroke-dasharray="2 2"/></svg>Plays</button>
+  <button class="tab" data-v="games"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4v16M6.3 6.3c3 2.8 3 8.6 0 11.4M17.7 6.3c-3 2.8-3 8.6 0 11.4"/></svg>Games</button>
+  <button class="tab" data-v="results"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Results</button>
+</div></nav>
 <div class="wrap">
-  <header>
-    <div class="brand"><div class="mark">NCAA</div><div><h1>College Hoops Model</h1><small id="updated"></small></div></div>
-    <div class="record" id="record"></div>
-  </header>
-  <div class="dates" id="dates"></div>
-  <div class="toolbar">
-    <h2 id="dayTitle"></h2>
-    <div class="views">
-      <select class="conf" id="conf" aria-label="Conference"></select>
-      <div class="seg" id="filter"><button data-f="plays">Plays only</button><button data-f="all">All</button></div>
-    </div>
+  <div class="top">
+    <div class="logo"><div class="logo-mark">CBB</div><div><h1>College Hoops</h1><small id="updated"></small></div></div>
+    <div class="season-chip" id="chip"></div>
   </div>
-  <div class="legend" id="legend"></div>
-  <div id="games"></div>
-  <details class="sum" id="sumbox"><summary>Season results</summary><div id="summary"></div></details>
+
+  <section class="view" id="v-plays">
+    <div class="dates" id="dates-p"></div>
+    <div id="plays"></div>
+  </section>
+
+  <section class="view" id="v-games" hidden>
+    <div class="dates" id="dates-g"></div>
+    <div class="filters">
+      <select class="conf" id="conf" aria-label="Conference"></select>
+      <div class="seg" id="gfilter"><button data-f="all">All</button><button data-f="leans">Leans +</button><button data-f="plays">Unit plays</button></div>
+    </div>
+    <div id="games"></div>
+  </section>
+
+  <section class="view" id="v-results" hidden>
+    <div id="results"></div>
+    <details class="how" id="how"><summary>How this works</summary><div class="in" id="howin"></div></details>
+  </section>
 </div>
+
+
 <script>
-const D = {"games": [], "summary": [], "settings": {"tiers": {"light_lean": 3.0, "lean": 4.0, "one_unit": 5.0, "two_unit": 7.0}, "total_tiers": {"light_lean": 4.0, "lean": 5.0, "one_unit": 6.0, "two_unit": 9.0}, "early_season_games": 10, "dashboard_days": 3, "market_blend": {"weight": 0.7, "total_weight": 0.5, "fade_games": 12}}, "logos": {}, "conferences": [], "power": ["2", "21", "23", "4", "7", "8"], "updated": "Oct 20, 1:38 PM"};
+const D = {"games": [], "summary": [], "settings": {"tiers": {"light_lean": 3.0, "lean": 4.0, "one_unit": 5.0, "two_unit": 7.0}, "total_tiers": {"light_lean": 4.0, "lean": 5.0, "one_unit": 6.0, "two_unit": 9.0}, "early_season_games": 10, "dashboard_days": 3, "market_blend": {"weight": 0.7, "total_weight": 0.5, "fade_games": 12}}, "logos": {}, "conferences": [], "power": ["2", "21", "23", "4", "7", "8"], "next": {"date": "2026-11-02", "games": 181}, "updated": "Oct 20, 2:56 PM"};
 const S = D.settings, T = S.tiers, TT = S.total_tiers;
 const $ = s => document.querySelector(s);
 const fmt = (x, d=1) => x == null ? "–" : (+x).toFixed(d);
-const sgn = (x, d=1) => x == null ? "–" : (x > 0 ? "+" : "") + (+x).toFixed(d);
-const tierCls = t => "t-" + t.split(" ")[0];
-const PLAYS = ["2U","1U","Lean","Light lean"];
-// the green dot, the date's play record and "Plays only" count unit plays only (no leans)
-const UNIT_TIERS = ["3U","2U","1U"];
+const sgn = (x, d=1) => x == null ? "–" : (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(+x).toFixed(d);
+const UNIT_TIERS = ["3U","2U","1U"], LEANS = ["Lean","Light lean"];
+const TIER_RANK = t => ["3U","2U","1U","Lean","Light lean","No play","No line"].indexOf(t);
 const isPlay = g => UNIT_TIERS.includes(g.tier);
-const TIER_RANK = t => ["2U","1U","Lean","Light lean","No play","No line"].indexOf(t);
-const today = new Date(); const todayStr = today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
-let filter = "plays", openId = null, conf = "all";
-try { filter = localStorage.getItem("cbbFilter") || "plays"; conf = localStorage.getItem("cbbConf") || "all"; } catch(e) {}
+const store = { get(k, d){ try { return localStorage.getItem(k) || d; } catch(e) { return d; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e) {} } };
+const pad = n => String(n).padStart(2, "0");
+const now = new Date(), todayStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+const dayOf = d => { const [y,m,dd] = d.split("-").map(Number); return new Date(y, m-1, dd); };
+const longDay = d => dayOf(d).toLocaleDateString(undefined, {weekday:"long", month:"short", day:"numeric"});
+const logo = t => D.logos[t.logo] ? `<img src="${D.logos[t.logo]}" alt="" loading="lazy">` : "";
+const color = t => t.color ? "#" + t.color : "var(--line-hi)";
+// opening number from the picked side's point of view
+const openTxt = (g, m) => { const v = g.vegas; if (!v) return "–";
+  if (m === "total") return v.open_total != null ? fmt(v.open_total) : "–";
+  if (v.open == null) return "–"; return sgn(g[m].pick === g.home.name ? v.open : -v.open); };
+const unitBadge = t => !t || t === "No play" || t === "No line" ? "" :
+  `<span class="units ${t==="2U"?"u2":t==="3U"?"u3":t==="1U"?"u1":t==="Lean"?"lean":"light"}">${t}</span>`;
+const resPill = r => r ? `<span class="res ${r.result}">${r.result}${r.units!=null && r.result!=="push" ? " " + sgn(r.units) + "u" : ""}</span>` : "";
+const tip = g => g.result ? "Final" : g.start ? new Date(g.start).toLocaleTimeString(undefined, {hour:"numeric", minute:"2-digit"}) : (g.status || "");
+// compact "ABBR -4.5" text for a home-perspective spread
+const ab = t => t.abbr || t.name;
+const spreadAbbr = (g, sp) => sp == null ? "–" : sp === 0 ? "PK" : sp < 0 ? `${ab(g.home)} ${sgn(sp)}` : `${ab(g.away)} ${sgn(-sp)}`;
+const pickText = (g, m) => { const p = g[m]; return m === "spread" ? `${p.pick} ${sgn(p.pick_line)}` : `${p.pick} ${fmt(p.line)}`; };
 
 $("#updated").textContent = "Updated " + D.updated;
-$("#legend").innerHTML =
-  `<span><i style="background:var(--u2)"></i>2U · ${T.two_unit}+ pts (totals ${TT.two_unit}+)</span>` +
-  `<span><i style="background:var(--u1)"></i>1U · ${T.one_unit}+ (${TT.one_unit}+)</span>` +
-  `<span><i style="background:var(--lean)"></i>Lean · ${T.lean}+ (${TT.lean}+)</span>` +
-  `<span><i style="background:var(--light)"></i>Light lean · ${T.light_lean}+ (${TT.light_lean}+)</span>`;
 
-// conference filter
-const sel = $("#conf");
-sel.innerHTML = `<option value="all">All conferences</option><option value="power">Power 6</option>` +
-  D.conferences.map(([id, nm]) => `<option value="${id}">${nm}</option>`).join("");
-if (![...sel.options].some(o => o.value === conf)) conf = "all";
-sel.value = conf;
-sel.onchange = () => { conf = sel.value; openId = null; try { localStorage.setItem("cbbConf", conf); } catch(e) {} render(); };
-const inConf = g => conf === "all" || [g.home, g.away].some(t => conf === "power" ? D.power.includes(t.conf_id) : t.conf_id === conf);
+// season chip: units on unit plays
+const unitRows = D.summary.filter(r => UNIT_TIERS.includes(r.tier));
+const seasonU = unitRows.reduce((a, r) => a + (r.units || 0), 0);
+const seasonW = unitRows.reduce((a, r) => a + r.w, 0), seasonL = unitRows.reduce((a, r) => a + r.l, 0);
+$("#chip").innerHTML = seasonW + seasonL ? `<b class="${seasonU>=0?'pos':'neg'}">${sgn(seasonU)}u</b><span>${seasonW}-${seasonL} this season</span>` : `<b>0-0</b><span>Season record</span>`;
 
-// header record: unit plays (spreads and totals)
-(function(){
-  const sp = D.summary.filter(r => r.market==="spread" && (r.tier === "2U" || r.tier === "1U"));
-  const to = D.summary.filter(r => r.market==="total" && (r.tier === "2U" || r.tier === "1U"));
-  const wl = rs => `${rs.reduce((a,r)=>a+r.w,0)}-${rs.reduce((a,r)=>a+r.l,0)}`;
-  const u = [...sp, ...to].reduce((a,r)=>a+(r.units||0),0);
-  const beat = D.summary.filter(r=>r.beat!=null);
-  const n = beat.reduce((a,r)=>a+r.w+r.l,0);
-  const bw = beat.reduce((a,r)=>a+r.beat*(r.w+r.l),0)/Math.max(1,n);
-  $("#record").innerHTML =
-    `<div class="stat"><b>${wl(sp)}</b><span>Spread plays</span></div>` +
-    `<div class="stat"><b>${wl(to)}</b><span>Total plays</span></div>` +
-    `<div class="stat"><b style="color:${u>=0?'var(--win)':'var(--loss)'}">${sgn(u)}u</b><span>Units</span></div>` +
-    `<div class="stat"><b>${n?Math.round(bw*100)+"%":"–"}</b><span>Beat close</span></div>`;
-})();
-
+// dates
 const byDate = {};
 D.games.forEach(g => (byDate[g.date] = byDate[g.date] || []).push(g));
 const dates = Object.keys(byDate).sort();
-let current = dates.find(d => d >= todayStr) || dates[dates.length-1];
+let current = store.get("cbbDate", "");
+if (!dates.includes(current) || current < todayStr) current = dates.find(d => d >= todayStr) || dates[dates.length - 1];
+let view = store.get("cbbView", "plays"), conf = store.get("cbbConf", "all"), gfilter = store.get("cbbGFilter", "all");
+let openId = null, showAll = false;
 
-function dayLabel(d){ const [y,m,dd] = d.split("-").map(Number); return new Date(y, m-1, dd); }
-function renderDates(){
-  if (!dates.length) { $("#dates").innerHTML = ""; return; }
-  $("#dates").innerHTML = dates.map(d => {
-    const dt = dayLabel(d), gs = byDate[d].filter(inConf), plays = gs.filter(isPlay).length;
-    const graded = gs.filter(g => g.result && isPlay(g));
-    const w = graded.reduce((a,g)=>a+["spread","total"].filter(m=>g.result[m]&&g.result[m].result==="win"&&UNIT_TIERS.includes((g[m]||{}).tier)).length,0);
-    const l = graded.reduce((a,g)=>a+["spread","total"].filter(m=>g.result[m]&&g.result[m].result==="loss"&&UNIT_TIERS.includes((g[m]||{}).tier)).length,0);
-    const meta = graded.length ? `${w}-${l} plays` : `${gs.length} games` + (plays ? ` · <span class="dot"></span>${plays}` : "");
-    const cls = ["date", d < todayStr ? "past" : "", d === todayStr ? "today" : "", d === current ? "active" : ""].join(" ");
-    return `<button class="${cls}" data-d="${d}"><div class="dow">${d===todayStr?"Today":dt.toLocaleDateString(undefined,{weekday:"short"})}</div>` +
-      `<div class="day">${dt.toLocaleDateString(undefined,{month:"short",day:"numeric"})}</div><div class="meta">${meta}</div></button>`;
+function plays(day){
+  const out = [];
+  (byDate[day] || []).forEach(g => ["spread","total"].forEach(m => { if (g[m] && UNIT_TIERS.includes(g[m].tier)) out.push({g, m, p: g[m]}); }));
+  return out.sort((a, b) => TIER_RANK(a.p.tier) - TIER_RANK(b.p.tier) || b.p.edge - a.p.edge);
+}
+function renderDates(el){
+  if (!dates.length) { el.innerHTML = ""; return; }
+  el.innerHTML = dates.map(d => {
+    const gs = byDate[d], dt = dayOf(d), ps = plays(d);
+    const graded = ps.filter(x => x.g.result && x.g.result[x.m]);
+    const w = graded.filter(x => x.g.result[x.m].result === "win").length, l = graded.filter(x => x.g.result[x.m].result === "loss").length;
+    const meta = graded.length ? `${w}-${l}` : ps.length ? `<i></i>${ps.length} play${ps.length>1?"s":""}` : `${gs.length} games`;
+    return `<button class="date ${d<todayStr?"past":""} ${d===todayStr?"today":""} ${d===current?"on":""}" data-d="${d}">
+      <span class="dw">${d===todayStr?"Today":dt.toLocaleDateString(undefined,{weekday:"short"})}</span>
+      <span class="dd">${dt.toLocaleDateString(undefined,{month:"short",day:"numeric"})}</span><span class="dm">${meta}</span></button>`;
   }).join("");
-  document.querySelectorAll(".date").forEach(b => b.onclick = () => { current = b.dataset.d; openId = null; render(); });
-  const a = document.querySelector(".date.active"); if (a) a.scrollIntoView({inline:"center", block:"nearest"});
+  el.querySelectorAll(".date").forEach(b => b.onclick = () => { current = b.dataset.d; store.set("cbbDate", current); openId = null; showAll = false; render(); });
+  const on = el.querySelector(".date.on"); if (on) on.scrollIntoView({inline:"center", block:"nearest"});
 }
 
-function tip(g){
-  if (g.result) return "Final";
-  if (!g.start) return g.status || "";
-  return new Date(g.start).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
+const BALL = `<svg class="ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.3 3.3 3.3 9.5 0 12.8M18.4 5.6c-3.3 3.3-3.3 9.5 0 12.8"/></svg>`;
+function seasonEmpty(){
+  const n = D.next;
+  if (!n) return `<div class="empty">${BALL}<b>No games scheduled</b>The schedule hasn't been posted yet.</div>`;
+  const days = Math.round((dayOf(n.date) - dayOf(todayStr)) / 864e5);
+  return `<div class="empty">${BALL}<div class="eyebrow">${days > 0 ? `Tip-off in ${days} day${days>1?"s":""}` : "Tip-off today"}</div>
+    <b>${longDay(n.date)}</b>${n.games} games on opening night.<br>Lines post a day or two ahead, and plays show up here automatically.</div>`;
 }
 
-function teamRow(t, g, side){
-  const r = g.result; let sc = "", lost = false;
-  if (r && r.home_pts != null) { sc = side==="home" ? r.home_pts : r.away_pts; const other = side==="home" ? r.away_pts : r.home_pts; lost = sc < other; }
-  return `<div class="team ${lost?'lost':''}"><span class="rk">${t.rank && t.rank<=50 ? t.rank : ""}</span><img src="${D.logos[t.logo]||""}" alt="" onerror="this.style.visibility='hidden'">` +
-    `<span class="nm">${t.name}</span><span class="rec">${t.record||""}</span>${r?`<span class="sc">${sc}</span>`:""}</div>`;
-}
-
-function pickText(g, m){
-  const p = g[m]; if (!p) return "";
-  return m === "spread" ? `${p.pick} ${sgn(p.pick_line)}` : `${p.pick} ${fmt(p.line)}`;
-}
-function resTag(g, m){
-  const r = g.result && g.result[m]; return r ? `<span class="res ${r.result}">${r.result.toUpperCase()}</span>` : "";
-}
-
-function card(g){
-  const v = g.vegas, m = g.model;
-  // the edge cell shows the best play (or the bigger edge when there's no play)
-  const opts = ["spread","total"].filter(k => g[k]).sort((a,b) => TIER_RANK(g[a].tier) - TIER_RANK(g[b].tier) || g[b].edge - g[a].edge);
-  const best = opts[0];
-  const shownPicks = opts.filter(k => PLAYS.includes(g[k].tier)).length ? opts.filter(k => PLAYS.includes(g[k].tier)) : opts.slice(0, 1);
-  const edgeCell = best ? `<div class="val">${fmt(g[best].edge)} <span style="font-size:12px;color:var(--muted);font-weight:600">${best==="spread"?"spread":"total"}</span></div>` +
-      shownPicks.map(k => `<div class="sub">${pickText(g,k)}${resTag(g,k)}</div>`).join("") : `<div class="val">–</div>`;
-  const badge = g.tier === "No line" ? `<span class="badge t-No">No line yet</span>` : `<span class="badge ${tierCls(g.tier)}">${g.tier}</span>`;
-  const spreadV = v && v.spread != null ? v.line : (g.spread ? pickText(g,"spread") : "–");
-  const totalV = v && v.total != null ? fmt(v.total) : (g.total ? fmt(g.total.line) : "–");
-  const totalM = m && m.total != null ? fmt(m.total) : (g.total && g.total.model != null ? fmt(g.total.model) : "");
-  return `<div class="card ${openId===g.id?'open':''}" data-id="${g.id}">
-    <div class="row" tabindex="0" role="button" aria-expanded="${openId===g.id}">
-      <div class="teams">${teamRow(g.away,g,"away")}${teamRow(g.home,g,"home")}</div>
-      <div class="cell c-spread"><div class="lbl">Spread</div><div class="val">${spreadV}</div><div class="sub">Model ${m?m.line:"–"}</div></div>
-      <div class="cell c-total"><div class="lbl">Total</div><div class="val">${totalV}</div><div class="sub">Model ${totalM||"–"} · ${tip(g)}</div></div>
-      <div class="cell edge"><div class="lbl">Edge</div>${edgeCell}${g.early?'<span class="flag">Early season</span>':""}</div>
-      ${badge}
+/* ---------- Plays ---------- */
+function slip(x){
+  const {g, m, p} = x;
+  const r = g.result && g.result[m];
+  const modelNum = m === "spread" ? (g.model ? g.model.line : "–") : fmt(g.model && g.model.total != null ? g.model.total : p.model);
+  return `<div class="slip ${p.tier==="2U"||p.tier==="3U"?"top2":"top1"}">
+    <div class="slip-top"><span class="eyebrow">Top play · ${tip(g)}</span><span style="display:flex;gap:6px;align-items:center">${resPill(r)}${unitBadge(p.tier)}</span></div>
+    <div class="slip-body">
+      <div class="match">${logo(g.away)}${g.away.name} ${g.neutral?"vs":"@"} ${logo(g.home)}${g.home.name}</div>
+      <div class="slip-sel">${pickText(g, m)}<span class="px">−110</span></div>
     </div>
-    <div class="detail">${openId===g.id?detail(g):""}</div>
-  </div>`;
+    <div class="perf"></div>
+    <div class="slip-foot">
+      <div class="kv"><b>${fmt(p.edge)}</b><span>Edge (pts)</span></div>
+      <div class="kv"><b>${openTxt(g, m)}</b><span>Opened</span></div>
+      <div class="kv"><b>${modelNum}</b><span>Model ${m==="spread"?"line":"total"}</span></div>
+      <div class="kv"><b>${m==="spread"?"Spread":"Total"}</b><span>${g.early?"Early season":g.level||""}</span></div>
+    </div></div>`;
+}
+function mini(x){
+  const {g, m, p} = x, r = g.result && g.result[m];
+  return `<button class="mini" data-gid="${g.id}">
+    <div class="sel">${pickText(g, m)}<span class="px"> −110</span></div>
+    <div class="meta">${logo(g.away)}${g.away.name} ${g.neutral?"vs":"@"} ${logo(g.home)}${g.home.name} · ${tip(g)}${g.early?' <span class="tag early">Early</span>':""}</div>
+    <div class="side">${r ? resPill(r) : unitBadge(p.tier)}<small>${fmt(p.edge)} pts</small></div></button>`;
+}
+function renderPlays(){
+  renderDates($("#dates-p"));
+  const el = $("#plays");
+  if (!dates.length) { el.innerHTML = seasonEmpty(); return; }
+  const ps = plays(current), leans = (byDate[current]||[]).filter(g => LEANS.includes(g.tier)).length;
+  const h = `<div class="sec-h" style="margin-top:14px"><h2>${longDay(current)}</h2><span>${ps.length} unit play${ps.length===1?"":"s"}</span></div>`;
+  if (!ps.length) {
+    const nLines = (byDate[current]||[]).filter(g => g.vegas).length;
+    el.innerHTML = h + `<div class="empty">${BALL}<b>No unit plays</b>${nLines ? `None of the ${nLines} games with lines clear the 1-unit bar.` : "No lines posted for this day yet. Books usually post them the day before."}${leans ? `<br>${leans} lean${leans>1?"s":""} in the Games tab.` : ""}</div>`;
+    return;
+  }
+  el.innerHTML = h + slip(ps[0]) + (ps.length > 1 ? `<div class="sec"><div class="sec-h"><h2>More plays</h2></div>${ps.slice(1).map(mini).join("")}</div>` : "") +
+    (leans ? `<p class="note">${leans} more game${leans>1?"s":""} with a lean (no stake) in the Games tab.</p>` : "");
+  el.querySelectorAll(".mini").forEach(b => b.onclick = () => { openId = b.dataset.gid; setView("games"); const c = document.querySelector(`.gc[data-id="${openId}"]`); if (c) c.scrollIntoView({block:"start"}); });
 }
 
-const STAKE = {"2U":"2 units","1U":"1 unit","Lean":"Lean (no stake)","Light lean":"Light lean (no stake)","No play":"No play"};
-function pickBox(g, k){
-  const p = g[k], title = k === "spread" ? "Spread pick" : "Total pick";
-  let h = `<div class="box"><h4>${title}</h4>`;
-  if (!p) return h + `<div class="note" style="margin:0">No ${k==="spread"?"spread":"total"} posted yet.</div></div>`;
-  h += `<div class="pickline">${pickText(g,k)}</div>
-    <div class="kv"><span>Edge vs. line</span><span><b>${fmt(p.edge)} pts</b></span></div>
-    <div class="kv"><span>Play</span><span>${STAKE[p.tier]||p.tier}</span></div>`;
-  if (p.logged) h += `<div class="kv"><span>Logged at</span><span>${k==="spread"?sgn(p.logged.pick===g.home.name?p.logged.line:-p.logged.line):fmt(p.logged.line)} (${fmt(p.logged.edge)} edge)</span></div>`;
-  const r = g.result && g.result[k];
-  if (r) h += `<div class="kv"><span>Result</span><span><span class="res ${r.result}">${r.result.toUpperCase()}</span> ${sgn(r.units,2)}u</span></div>
-    <div class="kv"><span>Closing line</span><span>${r.close!=null?(k==="spread"?sgn(p.pick===g.home.name?r.close:-r.close):fmt(r.close)):"–"}</span></div>
-    <div class="kv"><span>Line value (CLV)</span><span>${r.clv!=null?sgn(r.clv)+" pts":"–"}</span></div>`;
-  return h + `</div>`;
-}
+/* ---------- Games ---------- */
+const sel = $("#conf");
+sel.innerHTML = `<option value="all">All conferences</option><option value="power">Power 6</option>` + D.conferences.map(([id, nm]) => `<option value="${id}">${nm}</option>`).join("");
+if (![...sel.options].some(o => o.value === conf)) conf = "all";
+sel.value = conf;
+sel.onchange = () => { conf = sel.value; store.set("cbbConf", conf); openId = null; showAll = false; render(); };
+document.querySelectorAll("#gfilter button").forEach(b => b.onclick = () => { gfilter = b.dataset.f; store.set("cbbGFilter", gfilter); showAll = false; render(); });
+const inConf = g => conf === "all" || [g.home, g.away].some(t => conf === "power" ? D.power.includes(t.conf_id) : t.conf_id === conf);
+const passes = g => gfilter === "all" || (gfilter === "plays" ? isPlay(g) : TIER_RANK(g.tier) <= TIER_RANK("Light lean"));
 
+function teamLine(t, g, side){
+  const r = g.result; let sc = "", lost = false;
+  if (r && r.home_pts != null) { sc = side === "home" ? r.home_pts : r.away_pts; lost = sc < (side === "home" ? r.away_pts : r.home_pts); }
+  return `<div class="tm ${lost?"lost":""}"><i class="sw" style="background:${color(t)}"></i>${logo(t)}${t.rank && t.rank <= 25 ? `<span class="rk">${t.rank}</span>` : ""}<span class="nm">${t.name}</span><span class="rc">${t.record||""}</span>${r?`<span class="sc">${sc}</span>`:""}</div>`;
+}
+function lineCell(g, m){
+  const v = g.vegas, p = g[m], mod = g.model;
+  const val = m === "spread" ? (v && v.spread != null ? spreadAbbr(g, v.spread) : p ? spreadAbbr(g, p.pick === g.home.name ? p.pick_line : -p.pick_line) : "–") : (v && v.total != null ? fmt(v.total) : p ? fmt(p.line) : "–");
+  const modv = m === "spread" ? (mod && mod.margin != null ? spreadAbbr(g, -Math.round(mod.margin*10)/10) : "–") : (mod && mod.total != null ? fmt(mod.total) : p && p.model != null ? fmt(p.model) : "–");
+  const hit = p && TIER_RANK(p.tier) <= TIER_RANK("Light lean");
+  return `<div class="ln"><span>${m === "spread" ? "Spread" : "Total"}</span><b>${val}</b>
+    <small class="${hit?"hit":""}">${hit ? `${m === "spread" ? `${ab(p.pick === g.home.name ? g.home : g.away)} ${sgn(p.pick_line)}` : p.pick + " " + fmt(p.line)} · ${fmt(p.edge)} edge` : `Model ${modv}`}</small></div>`;
+}
+function gameCard(g){
+  const best = ["spread","total"].filter(m => g[m] && TIER_RANK(g[m].tier) <= TIER_RANK("Light lean")).sort((a,b) => TIER_RANK(g[a].tier) - TIER_RANK(g[b].tier))[0];
+  const res = best && g.result && g.result[best];
+  return `<div class="gc ${openId===g.id?"open":""}" data-id="${g.id}">
+    <div class="gc-row" role="button" tabindex="0" aria-expanded="${openId===g.id}">
+      ${teamLine(g.away, g, "away")}${teamLine(g.home, g, "home")}
+      <div class="gc-side">${res ? resPill(res) : unitBadge(g.tier)}<span class="time">${tip(g)}</span></div>
+      <div class="gc-lines">${lineCell(g, "spread")}${lineCell(g, "total")}</div>
+    </div>
+    <div class="gd">${openId===g.id ? detail(g) : ""}</div></div>`;
+}
+const STAKE = {"3U":"3 units","2U":"2 units","1U":"1 unit","Lean":"Lean · no stake","Light lean":"Light lean · no stake","No play":"No play"};
+function pickBox(g, m){
+  const p = g[m], v = g.vegas, title = m === "spread" ? "Spread" : "Total";
+  if (!p) return `<div class="box"><h4>${title}</h4><div class="small" style="margin:0">No line posted yet.</div></div>`;
+  const r = g.result && g.result[m];
+  const homeLine = p.pick === g.home.name ? p.pick_line : -p.pick_line;
+  const open = v ? (m === "spread" ? spreadAbbr(g, v.open) : fmt(v.open_total)) : "–";
+  const nowL = v ? (m === "spread" ? spreadAbbr(g, v.spread) : fmt(v.total)) : (m === "spread" ? spreadAbbr(g, homeLine) : fmt(p.line));
+  const modL = m === "spread" ? (g.model && g.model.margin != null ? spreadAbbr(g, -Math.round(g.model.margin*10)/10) : "–") : fmt(g.model && g.model.total != null ? g.model.total : p.model);
+  const isP = TIER_RANK(p.tier) <= TIER_RANK("Light lean");
+  return `<div class="box"><h4>${title}${isP ? "" : " · model side"}</h4><div class="big" style="${isP ? "" : "color:var(--muted)"}">${pickText(g, m)}</div>
+    <div class="row"><span>Play</span><span>${STAKE[p.tier]||p.tier}</span></div>
+    <div class="row"><span>Edge</span><span><b>${fmt(p.edge)} pts</b></span></div>
+    <div class="row"><span>Open → now</span><span>${open} → ${nowL}</span></div>
+    <div class="row"><span>Model</span><span>${modL}</span></div>
+    ${p.logged ? `<div class="row"><span>Logged at</span><span>${m==="spread" ? sgn(p.logged.pick===g.home.name ? p.logged.line : -p.logged.line) : fmt(p.logged.line)}</span></div>` : ""}
+    ${r ? `<div class="row"><span>Result</span><span>${resPill(r)}</span></div><div class="row"><span>Closing line · CLV</span><span>${r.close!=null ? (m==="spread" ? sgn(p.pick===g.home.name ? r.close : -r.close) : fmt(r.close)) : "–"} · ${r.clv!=null ? sgn(r.clv) : "–"}</span></div>` : ""}</div>`;
+}
 function detail(g){
-  const v = g.vegas, m = g.model, a = g.away, h = g.home;
-  let out = pickBox(g,"spread") + pickBox(g,"total");
+  const a = g.away, h = g.home, m = g.model;
+  let out = `<div class="boxes">${pickBox(g, "spread")}${pickBox(g, "total")}`;
   if (m && m.p_home != null) {
-    const ph = m.p_home, pa = 1 - ph;
-    out += `<div class="box"><h4>Win probability</h4>
-      <div class="kv"><span>${a.name}</span><span><b>${Math.round(pa*100)}%</b></span></div>
-      <div class="prob"><div style="width:${pa*100}%;background:var(--away-bar)"></div><div style="width:${ph*100}%;background:var(--accent)"></div></div>
-      <div class="kv"><span>${h.name}</span><span><b>${Math.round(ph*100)}%</b></span></div>
-      <div class="kv"><span>Projected margin</span><span>${(m.margin>=0?h.name:a.name)} by ${fmt(Math.abs(m.margin))}</span></div>
-      ${m.fair_home?`<div class="kv"><span>Fair ML</span><span>${a.name.split(" ")[0]} ${m.fair_away} · ${h.name.split(" ")[0]} ${m.fair_home}</span></div>`:""}</div>`;
+    const ph = m.p_home;
+    out += `<div class="box"><h4>Win chance</h4><div class="wpl"><span>${a.name} ${Math.round((1-ph)*100)}%</span><span>${Math.round(ph*100)}% ${h.name}</span></div>
+      <div class="wp"><i style="width:${(1-ph)*100}%;background:${color(a)}"></i><i style="width:${ph*100}%;background:${color(h)}"></i></div>
+      <div class="row"><span>Projected</span><span>${m.margin>=0?h.name:a.name} by ${fmt(Math.abs(m.margin))}</span></div>
+      ${m.fair_home ? `<div class="row"><span>Fair moneyline</span><span>${m.fair_away} / ${m.fair_home}</span></div>` : ""}
+      ${g.vegas && g.vegas.home_ml != null ? `<div class="row"><span>Book moneyline</span><span>${sgn(g.vegas.away_ml,0)} / ${sgn(g.vegas.home_ml,0)}</span></div>` : ""}</div>`;
   }
-  if (v) {
-    const openTxt = v.open != null ? (v.open <= 0 ? h.name+" "+sgn(v.open) : a.name+" "+sgn(-v.open)) : "–";
-    out += `<div class="box"><h4>Lines${v.book?" ("+v.book+")":""}</h4>
-      <div class="kv"><span>Spread open · now</span><span>${openTxt} · <b>${v.line}</b></span></div>
-      <div class="kv"><span>Total open · now</span><span>${fmt(v.open_total)} · <b>${fmt(v.total)}</b></span></div>
-      <div class="kv"><span>Moneyline</span><span>${v.away_ml!=null?sgn(v.away_ml,0):"–"} / ${v.home_ml!=null?sgn(v.home_ml,0):"–"}</span></div>
-      ${m.market_share>0.05?`<div class="kv"><span>Stats-only line</span><span>${m.model_only>=0?h.name+" "+sgn(-m.model_only):a.name+" "+sgn(m.model_only)}</span></div>
-      <div class="kv"><span>Stats-only total</span><span>${fmt(m.total_only)}</span></div>`:""}</div>`;
-  }
-  const better = (x, y) => x==null||y==null ? ["",""] : (x>y?["better",""]:x<y?["","better"]:["",""]);
-  const rowC = (label, x, y, f, hi=true) => { let [c1,c2] = better(x,y); if(!hi) [c1,c2]=[c2,c1]; return `<tr><td>${label}</td><td class="${c1}">${f(x)}</td><td class="${c2}">${f(y)}</td></tr>`; };
   if (a.net !== undefined) {
-    out += `<div class="box" style="grid-column:span 2"><h4>Matchup</h4><div class="cmpwrap"><table class="cmp">
-      <tr><th></th><th>${a.name}</th><th>${h.name}</th></tr>
-      <tr><td>Conference</td><td>${a.conf||"–"}</td><td>${h.conf||"–"}</td></tr>
-      ${rowC("Model rank", a.rank?-a.rank:null, h.rank?-h.rank:null, x=>x==null?"–":"#"+(-x))}
-      ${rowC("Net rating (pts/100 vs avg)", a.net, h.net, x=>sgn(x))}
-      ${rowC("Offense", a.off, h.off, x=>sgn(x))}
-      ${rowC("Defense", a.def, h.def, x=>sgn(x))}
-      <tr><td>Tempo (possessions)</td><td>${fmt(a.tempo)}</td><td>${fmt(h.tempo)}</td></tr>
-      <tr><td>Days rest</td><td>${a.rest==null?"–":(a.rest>=7?"7+":a.rest)}</td><td>${h.rest==null?"–":(h.rest>=7?"7+":h.rest)}</td></tr>
-      ${(a.adj||h.adj)?`<tr><td>Your adjustment</td><td>${a.adj?sgn(a.adj):"–"}</td><td>${h.adj?sgn(h.adj):"–"}</td></tr>`:""}
-    </table></div></div>`;
+    const better = (x, y) => x == null || y == null ? ["",""] : x > y ? ["b",""] : x < y ? ["","b"] : ["",""];
+    const tr = (lbl, x, y, f, hi=true) => { let [c1,c2] = better(x, y); if (!hi) [c1,c2] = [c2,c1]; return `<tr><td>${lbl}</td><td class="${c1}">${f(x)}</td><td class="${c2}">${f(y)}</td></tr>`; };
+    out += `<div class="box"><h4>Matchup</h4><table class="t"><tr><th></th><th>${a.abbr||a.name}</th><th>${h.abbr||h.name}</th></tr>
+      ${tr("Rank", a.rank, h.rank, x => x == null ? "–" : "#" + x, false)}
+      ${tr("Rating", a.net, h.net, x => sgn(x))}
+      ${tr("Offense", a.off, h.off, x => sgn(x))}
+      ${tr("Defense", a.def, h.def, x => sgn(x))}
+      <tr><td>Tempo</td><td>${fmt(a.tempo,0)}</td><td>${fmt(h.tempo,0)}</td></tr>
+      <tr><td>Rest</td><td>${a.rest==null?"–":a.rest>=7?"7+ d":a.rest+" d"}</td><td>${h.rest==null?"–":h.rest>=7?"7+ d":h.rest+" d"}</td></tr>
+      <tr><td>Conf</td><td>${a.conf||"–"}</td><td>${h.conf||"–"}</td></tr>
+      ${(a.adj||h.adj) ? `<tr><td>Your bump</td><td>${a.adj?sgn(a.adj):"–"}</td><td>${h.adj?sgn(h.adj):"–"}</td></tr>` : ""}</table></div>`;
   }
+  out += `</div>`;
   const notes = [];
-  if (g.neutral) notes.push("Neutral site" + (g.notes ? ": " + g.notes : "") + ".");
-  else if (g.notes) notes.push(g.notes + ".");
-  if (m && m.market_share > 0.05) notes.push(`Early-season blend: the model line is ${Math.round(m.market_share*100)}% the market's view of these teams (from every other posted line) and ${Math.round((1-m.market_share)*100)}% the stats model. The market's share fades as teams play games.`);
-  if (g.early) notes.push(`Early season: a team has played fewer than ${S.early_season_games} games, so ratings still lean on last season.`);
-  [a,h].forEach(t => { if (t.adj) notes.push(`Your adjustment: ${t.name} ${sgn(t.adj)} pts${t.adj_note?" (" + t.adj_note + ")":""}.`); });
-  return `<div class="grid">${out}</div>` + notes.map(n=>`<div class="note">${n}</div>`).join("") +
-    `<div class="note">Net rating = points per 100 possessions better than an average D-I team, adjusted for opponents.</div>`;
+  if (g.neutral || g.notes) notes.push((g.neutral ? "Neutral site" : "") + (g.notes ? (g.neutral ? " · " : "") + g.notes : ""));
+  if (m && m.market_share > 0.05) notes.push(`Early season: ${Math.round(m.market_share*100)}% of the model line is the market's view of these teams.`);
+  [a, h].forEach(t => { if (t.adj) notes.push(`Your adjustment: ${t.name} ${sgn(t.adj)} pts${t.adj_note ? " (" + t.adj_note + ")" : ""}.`); });
+  return out + notes.map(n => `<p class="small">${n}</p>`).join("");
 }
-
-function render(){
-  renderDates();
-  document.querySelectorAll("#filter button").forEach(b => b.classList.toggle("on", b.dataset.f === filter));
-  if (!current) { $("#dayTitle").textContent = "No games yet"; $("#games").innerHTML = `<div class="empty">No games on the schedule yet. The season starts in early November.</div>`; return; }
-  $("#dayTitle").textContent = dayLabel(current).toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+function renderGames(){
+  renderDates($("#dates-g"));
+  document.querySelectorAll("#gfilter button").forEach(b => b.classList.toggle("on", b.dataset.f === gfilter));
+  const el = $("#games");
+  if (!dates.length) { el.innerHTML = seasonEmpty(); return; }
   const all = (byDate[current] || []).filter(inConf);
-  const gs = all.slice().sort((x,y) => TIER_RANK(x.tier) - TIER_RANK(y.tier) ||
-      Math.max((y.spread||{}).edge||0,(y.total||{}).edge||0) - Math.max((x.spread||{}).edge||0,(x.total||{}).edge||0))
-    .filter(g => filter === "all" || isPlay(g));
-  const shown = gs.slice(0, 200);
-  $("#games").innerHTML = shown.length ? shown.map(card).join("") :
-    `<div class="empty">${filter==="plays" ? (all.length ? `No plays on this date${conf!=="all"?" in this conference":""}. Tap “All” to see every game.` : "No games.") : "No games."}</div>`;
-  document.querySelectorAll(".card .row").forEach(r => {
-    const toggle = () => { const id = r.parentElement.dataset.id; openId = openId === id ? null : id; render(); };
+  const gs = all.filter(passes).sort((x, y) => TIER_RANK(x.tier) - TIER_RANK(y.tier) || (x.start||"").localeCompare(y.start||""));
+  const limit = showAll ? gs.length : 40;
+  el.innerHTML = gs.length ? gs.slice(0, limit).map(gameCard).join("") +
+      (gs.length > limit ? `<button class="more" id="more">Show all ${gs.length} games</button>` : "")
+    : `<div class="empty">${BALL}<b>Nothing here</b>${all.length ? "No games match this filter. Try “All”." : "No games for this conference on this day."}</div>`;
+  const more = $("#more"); if (more) more.onclick = () => { showAll = true; renderGames(); };
+  el.querySelectorAll(".gc-row").forEach(r => {
+    const toggle = () => { const id = r.parentElement.dataset.id; openId = openId === id ? null : id; renderGames(); };
     r.onclick = toggle;
     r.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } };
   });
 }
-document.querySelectorAll("#filter button").forEach(b => b.onclick = () => {
-  filter = b.dataset.f; try { localStorage.setItem("cbbFilter", filter); } catch(e) {} render();
-});
 
-(function(){
-  if (!D.summary.length) { $("#summary").innerHTML = `<div class="note">No graded picks yet. Results appear here after games finish and the model runs.</div>`; return; }
-  $("#summary").innerHTML = `<div class="sumwrap"><table class="summary"><tr><th>Bet</th><th>Tier</th><th>Record</th><th>Win %</th><th>Units (staked)</th><th>Flat units</th><th>Beat close</th><th>Avg CLV</th></tr>` +
-    D.summary.map(r => `<tr><td>${r.market==="spread"?"Spread":"Total"}</td><td><span class="badge ${tierCls(r.tier)}" style="min-width:0;padding:3px 8px">${r.tier}</span></td><td>${r.w}-${r.l}${r.p?"-"+r.p:""}</td>` +
-      `<td>${r.w+r.l?Math.round(100*r.w/(r.w+r.l))+"%":"–"}</td><td>${r.units!=null?sgn(r.units):"–"}</td><td>${sgn(r.flat)}</td>` +
-      `<td>${r.beat!=null?Math.round(r.beat*100)+"%":"–"}</td><td>${r.clv!=null?sgn(r.clv,2):"–"}</td></tr>`).join("") + `</table></div>`;
-})();
-render();
+/* ---------- Results ---------- */
+function renderResults(){
+  const rows = D.summary, el = $("#results");
+  const beatRows = rows.filter(r => r.beat != null), n = beatRows.reduce((a, r) => a + r.w + r.l, 0);
+  const beat = n ? beatRows.reduce((a, r) => a + r.beat * (r.w + r.l), 0) / n : null;
+  const mk = mkt => { const rs = rows.filter(r => r.market === mkt && UNIT_TIERS.includes(r.tier));
+    return {w: rs.reduce((a,r)=>a+r.w,0), l: rs.reduce((a,r)=>a+r.l,0), u: rs.reduce((a,r)=>a+(r.units||0),0)}; };
+  const sp = mk("spread"), to = mk("total"), wl = seasonW + seasonL;
+  let h = `<div class="sec-h"><h2>Season results</h2><span>Graded automatically after each game</span></div>
+    <div class="kpis">
+      <div class="kpi hero"><h3>Unit plays</h3><div class="big ${seasonU>=0?"pos":"neg"}">${sgn(seasonU)}u</div>
+        <div class="sub"><span><b>${seasonW}-${seasonL}</b> record</span><span><b>${wl ? Math.round(100*seasonW/wl) + "%" : "–"}</b> win rate</span><span>break-even 52.4%</span></div></div>
+      <div class="kpi"><h3>Spreads</h3><div class="big">${sp.w}-${sp.l}</div><div class="sub"><span><b class="${sp.u>=0?"pos":"neg"}">${sgn(sp.u)}u</b> units</span></div></div>
+      <div class="kpi"><h3>Totals</h3><div class="big">${to.w}-${to.l}</div><div class="sub"><span><b class="${to.u>=0?"pos":"neg"}">${sgn(to.u)}u</b> units</span></div></div>
+      <div class="kpi" style="grid-column:1/-1"><h3>Beat the closing line</h3><div class="big">${beat == null ? "–" : Math.round(beat*100) + "%"}</div>
+        <div class="sub"><span>How often the line moved toward the pick after it was logged. Above ~55% means the edges are real.</span></div></div>
+    </div>`;
+  if (rows.length) {
+    h += `<div class="sec"><div class="sec-h"><h2>By tier</h2></div><div class="twrap"><table class="t"><tr><th>Bet</th><th>Record</th><th>Win %</th><th>Units</th><th>Beat CL</th></tr>` +
+      rows.map(r => `<tr><td>${r.market==="spread"?"Spread":"Total"} · ${r.tier}</td><td>${r.w}-${r.l}${r.p?"-"+r.p:""}</td><td>${r.w+r.l ? Math.round(100*r.w/(r.w+r.l)) + "%" : "–"}</td>` +
+        `<td class="${(r.units ?? r.flat)>=0?"pos":"neg"}">${r.units != null ? sgn(r.units) : sgn(r.flat) + " flat"}</td><td>${r.beat != null ? Math.round(r.beat*100) + "%" : "–"}</td></tr>`).join("") +
+      `</table></div><p class="small">Leans have no stake; their units are shown flat (1 unit each) to see if they hold up.</p></div>`;
+  } else {
+    h += `<div class="sec"><div class="empty">${BALL}<b>No graded plays yet</b>Results fill in here after games finish.</div></div>`;
+  }
+  el.innerHTML = h;
+}
+$("#howin").innerHTML = `
+  <p><b>The model.</b> Every D-I team gets an offense and a defense rating (points per 100 possessions vs. an average team, adjusted for opponents, recent games weighted more) and a pace. Those give a projected score for each side, so a spread and a total, plus home court and rest.</p>
+  <p><b>Early season.</b> Each team starts from last season, pulled 30% toward its conference average. Until teams have played about a dozen games, the model line also leans on the betting market's view of each team (${Math.round(S.market_blend.weight*100)}% at the start, fading as games are played).</p>
+  <p><b>Tiers.</b> Edge = points between the model and the current line.</p>
+  <table class="t"><tr><th>Tier</th><th>Spread</th><th>Total</th></tr>
+    <tr><td>2U</td><td>${T.two_unit}+ pts</td><td>${TT.two_unit}+ pts</td></tr><tr><td>1U</td><td>${T.one_unit}+</td><td>${TT.one_unit}+</td></tr>
+    <tr><td>Lean</td><td>${T.lean}+</td><td>${TT.lean}+</td></tr><tr><td>Light lean</td><td>${T.light_lean}+</td><td>${TT.light_lean}+</td></tr></table>
+  <p><b>Honest track record.</b> In backtests the model did not beat closing lines. Against opening lines, bigger edges did win (spreads 5+ about 61%, totals 5+ about 55%, 2023-24 to 2025-26), mostly in low-major games and early season, and it swung a lot by season. Betting early, before lines move, matters. This season's "beat the closing line" rate is the real test.</p>`;
+
+/* ---------- shell ---------- */
+function setView(v){
+  view = v; store.set("cbbView", v);
+  ["plays","games","results"].forEach(k => $("#v-" + k).hidden = k !== v);
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.dataset.v === v));
+  render();
+  if (!openId) window.scrollTo(0, 0);
+}
+function render(){ if (view === "plays") renderPlays(); else if (view === "games") renderGames(); else renderResults(); }
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => { openId = null; setView(t.dataset.v); });
+if (!["plays","games","results"].includes(view)) view = "plays";
+setView(view);
 </script>
 <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});</script>
 </html>
