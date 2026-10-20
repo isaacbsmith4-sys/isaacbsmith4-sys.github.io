@@ -106,6 +106,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .agree{font-weight:800}
 .agree.yes{color:var(--win)} .agree.no{color:var(--gold)}
 .linkbtn{background:none;border:0;color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;text-decoration:underline;padding:0}
+.lock{font-size:11.5px;font-weight:800;color:var(--muted);background:var(--sunk);border:1px solid var(--line);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.slate{background:var(--surface);border:1px solid var(--blue-line);border-radius:14px;padding:10px 14px;margin-bottom:12px}
+.slate h3{margin:0 0 6px;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--blue-ink)}
+.slate p{margin:0;padding:5px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.slate p:first-of-type{border-top:0}
+.slate p b{font:800 17px var(--font-display);text-transform:uppercase}
+.slate p span{color:var(--muted);font-size:12.5px;white-space:nowrap}
 
 /* forms */
 .form{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:12px}
@@ -283,6 +290,8 @@ async function loadGames(){
   games = res.flat();
 }
 const upcoming = g => g.status === "pre" && (!g.start || new Date(g.start).getTime() > Date.now());
+// a pick locks when its game starts: no changing sides, no undo, no deleting
+const pickLocked = p => !!p.start && new Date(p.start).getTime() <= Date.now();
 const gameKey = g => `${g.sport}|${g.date}|${g.home.name}`;
 const pickKey = p => `${p.sport}|${p.date}|${p.home}`;
 
@@ -320,9 +329,10 @@ function renderBlind(mode = "spread"){
     <div class="sec-h"><h2>${st.title}</h2><span>${mode === "spread" ? "Pick a side on every game." : "Pick the winner of every game."} The model's view shows after you pick.</span></div>
     <div class="chips">${sports.map(sp => `<button class="chip ${st.sport===sp?'on':''}" data-${tag}="${sp}">${sp} · ${pool.filter(g=>g.sport===sp && !mine.has(gameKey(g))).length} open</button>`).join("")}</div>
     <div class="chips" style="margin-top:6px">${days.map(d => `<button class="chip ${d===st.day?'on':''}" data-${tag}d="${d}">${d===todayET?"Today":new Date(d+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</button>`).join("")}</div>
+    ${slateHTML(st, mine)}
     <div class="sec" style="margin-top:12px">
       ${!games.length ? `<div class="empty">Loading games…</div>` : !list.length ? `<div class="empty">No ${st.sport} games with ${mode === "spread" ? "spreads" : "moneylines"} right now.</div>` :
-        (left ? `<p class="note" style="margin:0 0 10px">${left} left to pick${st.day===todayET?" today":""}.</p>` : `<p class="note" style="margin:0 0 10px">All picked. Nice.</p>`) +
+        (left ? `<p class="note" style="margin:0 0 10px">${left} left to pick. Picks lock when each game starts${st.day===todayET?" today":""}.</p>` : `<p class="note" style="margin:0 0 10px">All picked. Nice.</p>`) +
         list.map(g => blindCard(g, mine.get(gameKey(g)), mode)).join("")}
     </div>`;
   document.querySelectorAll(`[data-${tag}]`).forEach(b => b.onclick = () => { st.sport = b.dataset[tag]; store.set(mode === "spread" ? "myPicksBlindSport" : "myPicksMlSport", st.sport); st.day = null; renderBlind(mode); });
@@ -331,33 +341,44 @@ function renderBlind(mode = "spread"){
   document.querySelectorAll(`${st.el} [data-undo]`).forEach(b => b.onclick = () => undoPick(b.dataset.undo));
   wireGo();
 }
+function slateHTML(st, mine){
+  const ps = [...mine.values()].filter(p => p.date === st.day && p.sport === st.sport).sort((a,b) => (a.start||"") < (b.start||"") ? -1 : 1);
+  if (!ps.length) return "";
+  return `<div class="slate" style="margin-top:12px"><h3>Your picks${st.day === todayET ? " today" : ""}</h3>${ps.map(p => `<p><b>${esc(p.selection)}</b><span>${FINAL.includes(p.status) ? p.status.toUpperCase() : pickLocked(p) ? "🔒 Locked" : tip(p.start)}</span></p>`).join("")}</div>`;
+}
 function blindCard(g, p, mode){
-  const open = upcoming(g), side = p ? p.side : null;
+  const open = upcoming(g) && !(p && pickLocked(p)), side = p ? p.side : null;
   let reveal = "";
   if (p){
-    let modelSide = null, modelTxt = "–";
-    if (mode === "spread"){
-      const ml = p.model_line;
-      modelSide = ml == null ? null : (ml < p.vegas_line ? "home" : ml > p.vegas_line ? "away" : null);
-      modelTxt = ml == null ? "–" : (ml < 0 ? g.home.short + " " + ml : ml > 0 ? g.away.short + " " + (-ml) : "PK");
-    } else if (p.model_home_prob != null){
-      modelSide = p.model_home_prob >= 0.5 ? "home" : "away";
-      modelTxt = `${g.home.short} ${Math.round(100*p.model_home_prob)}% to win`;
+    const locked = !open;
+    let modelPart = `<span style="color:var(--muted)">Model's view shows at game time</span>`;
+    if (locked){
+      let modelSide = null, modelTxt = "–";
+      if (mode === "spread"){
+        const ml = p.model_line;
+        modelSide = ml == null ? null : (ml < p.vegas_line ? "home" : ml > p.vegas_line ? "away" : null);
+        modelTxt = ml == null ? "–" : (ml < 0 ? g.home.short + " " + ml : ml > 0 ? g.away.short + " " + (-ml) : "PK");
+      } else if (p.model_home_prob != null){
+        modelSide = p.model_home_prob >= 0.5 ? "home" : "away";
+        modelTxt = `${g.home.short} ${Math.round(100*p.model_home_prob)}% to win`;
+      }
+      const agree = modelSide == null ? "" : modelSide === p.side ? `<span class="agree yes">Model agreed</span>` : `<span class="agree no">Model disagreed</span>`;
+      modelPart = `<span>Model <b>${esc(modelTxt)}</b></span>${agree}`;
     }
-    const agree = modelSide == null ? "" : modelSide === p.side ? `<span class="agree yes">Model agrees</span>` : `<span class="agree no">Model disagrees</span>`;
-    reveal = `<div class="reveal"><span>Model <b>${esc(modelTxt)}</b></span>${agree}
-      ${FINAL.includes(p.status) ? `<span class="res ${p.status}">${p.status}${p.result_units!=null?" "+sgn(p.result_units,2):""}</span>` : open ? `<button class="linkbtn" data-undo="${p.id}">Undo</button>` : ""}</div>`;
+    reveal = `<div class="reveal"><span>Your pick <b>${esc(p.selection)}</b></span>${locked ? `<span class="lock">🔒 Locked</span>` : ""}${modelPart}
+      ${FINAL.includes(p.status) ? `<span class="res ${p.status}">${p.status}${p.result_units!=null?" "+sgn(p.result_units,2):""}</span>` : !locked ? `<button class="linkbtn" data-undo="${p.id}">Undo</button>` : ""}</div>`;
   }
   const label = who => mode === "spread" ? fmtLine(who === "home" ? g.lines.spread : -g.lines.spread) : price(who === "home" ? g.lines.home_ml : g.lines.away_ml);
   const btn = (who, team) => `<button class="side ${side===who?'mine':''}" data-g="${esc(gameKey(g))}" data-pick="${who}" ${(!open || !loaded) ? "disabled" : ""}>
       <small>${who === "away" ? "Away" : "Home"}${side===who ? " · your pick" : ""}</small><b>${esc(team.short)}</b><span class="num">${label(who)}</span></button>`;
-  return `<div class="bcard"><div class="bhead"><span class="sport"><i style="background:${sportVar(g.sport)}"></i>${g.sport}</span><span>${open ? tip(g.start) : "Started"}</span></div>
+  return `<div class="bcard"><div class="bhead"><span class="sport"><i style="background:${sportVar(g.sport)}"></i>${g.sport}</span><span>${upcoming(g) ? tip(g.start) : "Started"}</span></div>
     <div class="sides">${btn("away", g.away)}${btn("home", g.home)}</div>${reveal}</div>`;
 }
 async function pickBlind(key, side, mode = "spread"){
-  const g = games.find(x => gameKey(x) === key); if (!g || !upcoming(g)) return;
+  const g = games.find(x => gameKey(x) === key); if (!g || !upcoming(g)) return toast("This game has started. Picks are locked.");
   const kind = BL[mode].kind;
   const existing = data.picks.find(p => p.kind === kind && pickKey(p) === key);
+  if (existing && pickLocked(existing)) return toast("Locked: the game has started");
   const base = {id: existing ? existing.id : uid(), kind, created_at: new Date().toISOString(), sport: g.sport, game_id: g.id,
     date: g.date, start: g.start, home: g.home.name, away: g.away.name, home_short: g.home.short, away_short: g.away.short, side, units: 1,
     vegas_line: g.lines.spread ?? null, home_ml: g.lines.home_ml ?? null, away_ml: g.lines.away_ml ?? null,
@@ -373,10 +394,13 @@ async function pickBlind(key, side, mode = "spread"){
     p = {...base, market: "ml", line: null, price: pr, selection: `${(side === "home" ? g.home : g.away).short} ML ${price(pr)}`};
   }
   data.picks = data.picks.filter(x => x.id !== p.id).concat([p]); renderAll();
-  const ok = await savePicks(d => { d.picks = d.picks.filter(x => x.id !== p.id).concat([p]); }, `Blind ${mode === "spread" ? "spread" : "moneyline"}: ${p.selection}`);
+  const ok = await savePicks(d => { const old = d.picks.find(x => x.id === p.id); if (old && pickLocked(old)) return;
+    d.picks = d.picks.filter(x => x.id !== p.id).concat([p]); }, `Blind ${mode === "spread" ? "spread" : "moneyline"}: ${p.selection}`);
   if (ok) toast(`Saved: ${p.selection}`); renderAll();
 }
 async function undoPick(id){
+  const p = data.picks.find(x => x.id === id);
+  if (p && pickLocked(p)) return toast("Locked: the game has started");
   data.picks = data.picks.filter(x => x.id !== id); renderAll();
   if (await savePicks(d => { d.picks = d.picks.filter(x => x.id !== id); }, "Remove pick")) toast("Removed");
   renderAll();
@@ -439,7 +463,7 @@ function playCard(p){
       <span class="res ${st}">${FINAL.includes(st) ? st + (p.result_units != null && st !== "void" ? " " + sgn(p.result_units, 2) : "") : (tip(p.start) || "Pending")}</span></div>
     <div class="pmeta"><span class="sport"><i style="background:${sportVar(p.sport)}"></i>${p.sport}</span><span>${esc(p.away_short || p.away)} @ ${esc(p.home_short || p.home)}</span><span>${p.units}u</span>${p.confidence?`<span style="color:var(--gold)">${"★".repeat(p.confidence)}</span>`:""}${p.final?`<span>${esc(p.final)}</span>`:""}${p.clv!=null?`<span>Line value ${sgn(p.clv)}</span>`:""}</div>
     ${p.notes ? `<div class="pnotes">${esc(p.notes)}</div>` : ""}
-    ${canSelf || !FINAL.includes(st) ? `<div class="pact">${canSelf ? `<button data-id="${p.id}" data-self="win">Won</button><button data-id="${p.id}" data-self="loss">Lost</button><button data-id="${p.id}" data-self="push">Push</button>` : ""}<button data-del="${p.id}">Delete</button></div>` : ""}
+    ${canSelf || !FINAL.includes(st) ? `<div class="pact">${canSelf ? `<button data-id="${p.id}" data-self="win">Won</button><button data-id="${p.id}" data-self="loss">Lost</button><button data-id="${p.id}" data-self="push">Push</button>` : ""}${pickLocked(p) ? `<span class="lock">🔒 Locked</span>` : `<button data-del="${p.id}">Delete</button>`}</div>` : ""}
   </div>`;
 }
 async function saveResearch(g){

@@ -798,7 +798,7 @@ function renderMine(){
       <div class="sel">${m.selection} <span class="px">${price(m.price)}</span></div>
       <div class="side"><span class="units ${m.units>=3?'u3':''}">${m.units}U</span>${resultBadge(m, false)}</div>
       <div class="meta"><span class="sport"><i style="background:${sportVar(m.sport)}"></i>${m.sport}</span><span>${m.event||""}</span>${m.final?`<span>${m.final}</span>`:""}${m.model_tier?`<span>Model: ${m.model_tier}</span>`:""}
-        ${!FINAL.includes(m.status) ? `<span class="mbtns"><button data-mset="${m.id}" data-st="win">Won</button><button data-mset="${m.id}" data-st="loss">Lost</button><button data-mset="${m.id}" data-st="push">Push</button><button data-mdel="${m.id}">Remove</button></span>` : `<span class="mbtns"><button data-mreopen="${m.id}">Undo result</button></span>`}</div>
+        ${!FINAL.includes(m.status) ? `<span class="mbtns"><button data-mset="${m.id}" data-st="win">Won</button><button data-mset="${m.id}" data-st="loss">Lost</button><button data-mset="${m.id}" data-st="push">Push</button>${m.start && new Date(m.start).getTime() <= Date.now() ? `<span class="tag">🔒 Locked</span>` : `<button data-mdel="${m.id}">Remove</button>`}</span>` : `<span class="mbtns"><button data-mreopen="${m.id}">Undo result</button></span>`}</div>
     </div>`;
   $("#v-mine").innerHTML = `
     <div class="sec-h"><h2>My picks</h2><span>Saved on this phone, in this app</span></div>
@@ -830,7 +830,9 @@ function renderMine(){
   $("#cAdd").onclick = () => { const sel = $("#cSel").value.trim(); if (!sel) return toast("Type your pick first");
     const pr = parseFloat($("#cPrice").value); openSheet({key: "custom:" + uid2(), source: "custom", sport: $("#cSport").value, date: today, start: null, event: "", market: "custom", selection: sel, price: isNaN(pr) ? -110 : pr}); };
   document.querySelectorAll("[data-mset]").forEach(b => b.onclick = () => { const m = mine.find(x => x.id === b.dataset.mset); if (m) { settle(m, b.dataset.st); saveMine(); renderAllViews(); } });
-  document.querySelectorAll("[data-mdel]").forEach(b => b.onclick = () => { mine = mine.filter(x => x.id !== b.dataset.mdel); saveMine(); toast("Removed"); renderAllViews(); });
+  document.querySelectorAll("[data-mdel]").forEach(b => b.onclick = () => { const m = mine.find(x => x.id === b.dataset.mdel);
+    if (m && m.start && new Date(m.start).getTime() <= Date.now()) return toast("Locked: the game has started");
+    mine = mine.filter(x => x.id !== b.dataset.mdel); saveMine(); toast("Removed"); renderAllViews(); });
   document.querySelectorAll("[data-mreopen]").forEach(b => b.onclick = () => { const m = mine.find(x => x.id === b.dataset.mreopen); if (m) { m.status = "pending"; m.result_units = null; saveMine(); renderAllViews(); } });
 }
 function renderAllViews(){ renderToday(); renderMine(); renderData(); }
