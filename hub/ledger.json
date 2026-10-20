@@ -2148,5 +2148,30 @@
   "status": "pending",
   "result_units": null,
   "potd": true
+ },
+ {
+  "id": "nhl-401892543-ml",
+  "sport": "NHL",
+  "date": "2026-10-20",
+  "start": "2026-10-20T23:00Z",
+  "event": "Maple Leafs @ Blue Jackets",
+  "market": "moneyline",
+  "selection": "Blue Jackets ML",
+  "player": null,
+  "line": null,
+  "price": -155.0,
+  "model_prob": 0.6471,
+  "market_prob": 0.583,
+  "edge_prob": 0.0641,
+  "ev": 0.0646,
+  "edge_display": "6.4%",
+  "tier": "1U",
+  "slot": 2,
+  "stake": 1.0,
+  "locked_at": "2026-10-20 13:43 ET",
+  "backfilled": false,
+  "status": "pending",
+  "result_units": null,
+  "potd": false
  }
 ]
