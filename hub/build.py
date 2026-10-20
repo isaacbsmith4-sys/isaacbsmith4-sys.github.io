@@ -22,6 +22,12 @@ ET = ZoneInfo("America/New_York")
 SPORTS = [("nfl", "NFL", "NFL"), ("cfb", "CFB", "College Football"), ("nba", "NBA", "NBA"),
           ("ncaab", "NCAAB", "College Basketball"), ("nhl", "NHL", "NHL")]
 TIER_RANK = {"VIP": 0, "3U": 1, "2U": 2, "1U": 3, "Lean": 4, "Light lean": 5}
+TOP_TIERS = ("VIP", "3U")  # always a best play
+
+
+def rank_key(p):
+    """3U/VIP plays first; after that, highest expected value (1U or 2U alike)."""
+    return (p.get("tier") not in TOP_TIERS, -(p.get("ev") or 0))
 FINAL = ("win", "loss", "push", "void")
 
 
@@ -75,9 +81,9 @@ def select(day, now, feeds, ledger, settings, backfill=False):
     backfill=True picks a past day after the fact, from plays the models had already
     logged and graded, using the same rules (the entries are marked "backfilled")."""
     todays = [e for e in ledger if e["date"] == day]
-    open_slots = settings["picks_per_day"] - len(todays)
-    if open_slots <= 0 or (not backfill and now.hour < settings["lock_hour_et"]):
+    if not backfill and now.hour < settings["lock_hour_et"]:
         return []
+    open_slots = settings["picks_per_day"] - len(todays)
     taken_games = {(e["sport"], e["event"], e.get("player") if e["market"] == "prop" else None)
                    for e in todays}
     chosen_ids = {e["id"] for e in ledger}
@@ -95,8 +101,26 @@ def select(day, now, feeds, ledger, settings, backfill=False):
             elif p.get("status") != "pending" or start is None or start < now + timedelta(minutes=5):
                 continue
             cands.append(p)
-    # biggest bets first (3U/VIP, then 2U, then 1U), best expected value within each size
-    cands.sort(key=lambda p: (-(p.get("units") or 0), -p["ev"]))
+    cands.sort(key=rank_key)
+    picked = []
+    # a 3U/VIP that shows up after the lock bumps the weakest pick whose game hasn't started
+    if not backfill:
+        for p in [c for c in cands if c.get("tier") in TOP_TIERS]:
+            if open_slots > 0:
+                break
+            bumpable = [e for e in todays if e.get("tier") not in TOP_TIERS and e["status"] == "pending"
+                        and (parse_start(e.get("start")) or now) > now + timedelta(minutes=5)]
+            if not bumpable:
+                break
+            weakest = max(bumpable, key=rank_key)
+            ledger.remove(weakest)
+            todays.remove(weakest)
+            taken_games.discard((weakest["sport"], weakest["event"],
+                                 weakest.get("player") if weakest["market"] == "prop" else None))
+            open_slots += 1
+            print(f"Bumped {weakest['selection']} for a new {p['tier']} play")
+    if open_slots <= 0:
+        return []
     picked = []
     for p in cands:
         if len(picked) >= open_slots:
@@ -156,7 +180,11 @@ def main():
             d += timedelta(days=1)
     new = select(day, now, feeds, ledger, settings)
     ledger += new
-    ledger.sort(key=lambda e: (e["date"], e["slot"]))
+    ledger.sort(key=lambda e: (e["date"], rank_key(e)))
+    day_n = {}
+    for e in ledger:
+        day_n[e["date"]] = day_n.get(e["date"], 0) + 1
+        e["slot"] = day_n[e["date"]]
     with open(LEDGER, "w") as f:
         json.dump(ledger, f, indent=1)
 

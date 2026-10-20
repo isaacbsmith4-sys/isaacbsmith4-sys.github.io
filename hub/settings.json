@@ -10,5 +10,5 @@
   "max_per_game": 1,
   "min_ev": 0.0,
   "min_stake": 1,
-  "rank": "units, then expected value"
+  "rank": "3U/VIP always first, then highest expected value"
 }

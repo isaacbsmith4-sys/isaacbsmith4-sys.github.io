@@ -11,6 +11,7 @@ don't edit it by hand). Each sport publishes its own app to a subfolder (`nba/`,
 - `hub/settings.json`: plays per day (3), lock hour (11 AM ET), allowed tiers (1U and up).
 - `.github/workflows/hub.yml`: runs every 30 minutes from 9 AM to 1 AM ET.
 
-Ranking: biggest bets first (3U/VIP, then 2U, then 1U; leans never), then expected profit
-per unit (`ev`). One bet per game on game lines; props on different players can share a game.
+Ranking: every 3U/VIP play first (one arriving after the lock bumps the weakest unstarted pick),
+then the highest expected profit per unit (`ev`) among 1U/2U. Leans never. One bet per game
+on game lines; props on different players can share a game.
 To add a sport: add it to `SPORTS` in `hub/build.py` and a color token in the template.
