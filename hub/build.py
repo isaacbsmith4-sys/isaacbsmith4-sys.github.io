@@ -78,8 +78,8 @@ def select(day, now, feeds, ledger, settings, backfill=False):
     open_slots = settings["picks_per_day"] - len(todays)
     if open_slots <= 0 or (not backfill and now.hour < settings["lock_hour_et"]):
         return []
-    taken_games = {(e["sport"], e["event"]) for e in todays}
-    props = sum(1 for e in todays if e["market"] == "prop")
+    taken_games = {(e["sport"], e["event"], e.get("player") if e["market"] == "prop" else None)
+                   for e in todays}
     chosen_ids = {e["id"] for e in ledger}
     cands = []
     for code, feed in feeds.items():
@@ -95,15 +95,15 @@ def select(day, now, feeds, ledger, settings, backfill=False):
             elif p.get("status") != "pending" or start is None or start < now + timedelta(minutes=5):
                 continue
             cands.append(p)
-    cands.sort(key=lambda p: (-p["ev"], TIER_RANK.get(p["tier"], 9)))
+    # biggest bets first (3U/VIP, then 2U, then 1U), best expected value within each size
+    cands.sort(key=lambda p: (-(p.get("units") or 0), -p["ev"]))
     picked = []
     for p in cands:
         if len(picked) >= open_slots:
             break
-        game = (p["sport"], p["event"])
-        if sum(1 for g in taken_games if g == game) >= settings["max_per_game"]:
-            continue
-        if p["market"] == "prop" and props >= settings["max_props_per_day"]:
+        # one bet per game on the game itself; props on different players can share a game
+        game = (p["sport"], p["event"], p.get("player") if p["market"] == "prop" else None)
+        if game in taken_games:
             continue
         entry = {k: p.get(k) for k in ("id", "sport", "date", "start", "event", "market",
                                        "selection", "player", "line", "price", "model_prob",
@@ -113,7 +113,6 @@ def select(day, now, feeds, ledger, settings, backfill=False):
                       "backfilled": backfill, "status": "pending", "result_units": None})
         picked.append(entry)
         taken_games.add(game)
-        props += p["market"] == "prop"
     return picked
 
 

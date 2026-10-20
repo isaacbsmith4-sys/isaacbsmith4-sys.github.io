@@ -8,10 +8,9 @@ don't edit it by hand). Each sport publishes its own app to a subfolder (`nba/`,
   hour, grades them as each sport reports results, and writes `index.html` from
   `hub/template.html`. Standard library only.
 - `hub/ledger.json`: the official best plays and their results (the hub's record).
-- `hub/settings.json`: plays per day (3), lock hour (11 AM ET), allowed tiers, one play per
-  game, at most one prop a day, unit plays before Leans.
+- `hub/settings.json`: plays per day (3), lock hour (11 AM ET), allowed tiers (1U and up).
 - `.github/workflows/hub.yml`: runs every 30 minutes from 9 AM to 1 AM ET.
 
-Ranking: expected profit per unit at the posted price (`ev` in each feed), unit plays
-(1U and up, incl. VIP/3U) first. Stake = the play's units (Leans count as 1 unit).
+Ranking: biggest bets first (3U/VIP, then 2U, then 1U; leans never), then expected profit
+per unit (`ev`). One bet per game on game lines; props on different players can share a game.
 To add a sport: add it to `SPORTS` in `hub/build.py` and a color token in the template.

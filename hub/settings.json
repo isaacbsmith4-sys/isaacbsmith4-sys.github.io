@@ -8,7 +8,7 @@
     "1U"
   ],
   "max_per_game": 1,
-  "max_props_per_day": 1,
   "min_ev": 0.0,
-  "min_stake": 1
+  "min_stake": 1,
+  "rank": "units, then expected value"
 }

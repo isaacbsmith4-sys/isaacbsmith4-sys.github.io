@@ -179,7 +179,7 @@ table.sum td:first-child,table.sum th:first-child{text-align:left}
 
   <section>
     <div class="sechead"><h2>Biggest edges today</h2><div class="chips" id="sportChips"></div></div>
-    <p class="note">Every sport's unit plays for today (1U and up), ranked by expected profit per unit at the posted price. Tap one to open that sport's app.</p>
+    <p class="note">Every sport's unit plays for today, biggest bets first (3U/VIP, 2U, 1U), then by expected profit per unit at the posted price. Tap one to open that sport's app.</p>
     <div id="edges"></div>
   </section>
 
@@ -271,16 +271,15 @@ function card(e, opts={}){
 
 // candidates the way the cloud run will choose them (preview before lock time)
 function candidates(day){
-  const taken = new Set(), out = []; let props = 0;
+  const taken = new Set(), out = [];
   const now = Date.now() + 5*60*1000;
   const c = live.filter(p => p.date===day && p.status==="pending" && S.allowed_tiers.includes(p.tier) && (p.ev||0) > S.min_ev && p.start && new Date(p.start).getTime() > now)
-    .sort((a,b) => b.ev - a.ev);
+    .sort((a,b) => (b.units||0) - (a.units||0) || b.ev - a.ev);
   for (const p of c){
     if (out.length >= S.picks_per_day) break;
-    const g = p.sport + "|" + p.event;
+    const g = p.sport + "|" + p.event + "|" + (p.market === "prop" ? p.player : "");
     if (taken.has(g)) continue;
-    if (p.market === "prop" && props >= S.max_props_per_day) continue;
-    taken.add(g); props += p.market === "prop";
+    taken.add(g);
     out.push({...p, stake: Math.max(p.units||0, S.min_stake)});
   }
   return out;
@@ -294,7 +293,7 @@ function renderDay(){
     const g = es.filter(e=>FINAL.includes(e.status)), u = g.reduce((a,e)=>a+(e.result_units||0),0);
     $("#dayNote").textContent = g.length ? `${g.filter(e=>e.status==="win").length}-${g.filter(e=>e.status==="loss").length} · ${sgn(u)}u` : "Locked in";
     $("#dayPlays").innerHTML = es.map(e => card(e, {top:true})).join("") +
-      (es.some(e => e.backfilled) ? `<p class="note">Backfilled: picked after the fact with the same rules (top ${S.picks_per_day} unit plays by expected value, one per game, one prop at most) from plays the models had already logged.</p>` : "");
+      (es.some(e => e.backfilled) ? `<p class="note">Backfilled: picked after the fact with the same rules (the ${S.picks_per_day} biggest unit plays, best expected value first within each size) from plays the models had already logged.</p>` : "");
     return;
   }
   if (selDay === today){
@@ -314,7 +313,7 @@ function renderEdges(){
     .map(([k,l]) => `<button class="chip ${sportFilter===k?'on':''}" data-s="${k}">${l}</button>`).join("");
   document.querySelectorAll("#sportChips .chip").forEach(c => c.onclick = () => { sportFilter = c.dataset.s; try { localStorage.setItem("hubSport", sportFilter); } catch(e) {} renderEdges(); });
   const rows = live.filter(p => p.date===today && p.status==="pending" && S.allowed_tiers.includes(p.tier) && (sportFilter==="all" || p.sport===sportFilter))
-    .sort((a,b) => (b.ev||0) - (a.ev||0)).slice(0, 40);
+    .sort((a,b) => (b.units||0) - (a.units||0) || (b.ev||0) - (a.ev||0)).slice(0, 40);
   $("#edges").innerHTML = rows.length ? `<div class="edges">` + rows.map(p => `<a class="erow" href="${H.folders[p.sport]}/">
       <span class="sp sport"><i style="background:${sportColor(p.sport)}"></i>${p.sport}</span>
       <span class="what"><b>${p.selection} ${price(p.price)}</b><span>${p.event}${p.start?" · "+tipTime(p.start):""}</span></span>
