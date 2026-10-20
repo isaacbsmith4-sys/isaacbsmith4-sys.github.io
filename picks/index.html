@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Picks</title>
+<meta name="theme-color" content="#0d0f15">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="My Picks">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: four tabs. Blind = tap a side on every spread before seeing the model; My plays =
+   log researched bets with notes; Record = you vs. the model; Setup = the one-time key. */
+:root{
+  color-scheme:dark;
+  --bg:#0d0f15; --surface:#151821; --surface2:#1c2030; --sunk:#10131b; --line:#272c3d; --line-hi:#3b4258;
+  --ink:#eef0f6; --ink2:#b4bbcc; --muted:#808a9f; --faint:#586178;
+  --blue:#6f97ff; --blue-ink:#9db8ff; --blue-bg:rgba(111,151,255,.14); --blue-line:rgba(111,151,255,.55); --on-blue:#0b1430;
+  --gold:#e3b04b;
+  --win:#3ddc84; --win-bg:rgba(61,220,132,.14); --loss:#ff6b6b; --loss-bg:rgba(255,107,107,.14); --push-bg:#272c3d;
+  --nfl:#5b8def; --cfb:#ff6b7d; --nba:#ff8a3d; --ncaab:#b39dff; --nhl:#3dd6c6;
+  --font-display:"Big Shoulders Display","Oswald","Arial Narrow",system-ui,sans-serif;
+  --font-body:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --tabbar-h:64px;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  color-scheme:light;
+  --bg:#f3f1ec; --surface:#ffffff; --surface2:#f8f6f1; --sunk:#ece9e2; --line:#e0dcd2; --line-hi:#c9c3b5;
+  --ink:#16181f; --ink2:#3d4252; --muted:#6a7080; --faint:#9a9fac;
+  --blue:#2f5fe0; --blue-ink:#1f47b8; --blue-bg:rgba(47,95,224,.1); --blue-line:rgba(47,95,224,.45); --on-blue:#ffffff;
+  --gold:#a8750a;
+  --win:#14864a; --win-bg:rgba(20,134,74,.11); --loss:#c8323a; --loss-bg:rgba(200,50,58,.1); --push-bg:#e6e2d9;
+  --nfl:#2f62d8; --cfb:#d6304a; --nba:#d9600f; --ncaab:#6d4ee0; --nhl:#0f8f84;
+}}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f3f1ec; --surface:#ffffff; --surface2:#f8f6f1; --sunk:#ece9e2; --line:#e0dcd2; --line-hi:#c9c3b5;
+  --ink:#16181f; --ink2:#3d4252; --muted:#6a7080; --faint:#9a9fac;
+  --blue:#2f5fe0; --blue-ink:#1f47b8; --blue-bg:rgba(47,95,224,.1); --blue-line:rgba(47,95,224,.45); --on-blue:#ffffff;
+  --gold:#a8750a;
+  --win:#14864a; --win-bg:rgba(20,134,74,.11); --loss:#c8323a; --loss-bg:rgba(200,50,58,.1); --push-bg:#e6e2d9;
+  --nfl:#2f62d8; --cfb:#d6304a; --nba:#d9600f; --ncaab:#6d4ee0; --nhl:#0f8f84;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--font-body);-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px))}
+button,input,select,textarea{font:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding-block:18px 32px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.num{font-variant-numeric:tabular-nums}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding-top:env(safe-area-inset-top, 0px)}
+.logo{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:var(--blue);color:var(--on-blue);display:grid;place-items:center;font:900 19px var(--font-display)}
+.logo h1{margin:0;font:900 26px/1 var(--font-display);letter-spacing:.03em;text-transform:uppercase}
+.chipline{display:flex;flex-direction:column;align-items:flex-end;line-height:1.15}
+.chipline b{font:800 22px var(--font-display)}
+.chipline span{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom, 0px);padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
+.tabs-in{max-width:760px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabbar-h)}
+.tab{background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11.5px;font-weight:700}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--blue-ink)}
+@media (min-width:760px){
+  body{padding-bottom:0}
+  .tabs{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top, 0px)}
+  .tabs-in{height:52px;grid-template-columns:repeat(4,auto);justify-content:start;gap:4px;padding-left:max(16px, env(safe-area-inset-left, 0px))}
+  .tab{flex-direction:row;gap:8px;font-size:14px;padding:0 14px;border-bottom:2px solid transparent}
+  .tab.on{border-bottom-color:var(--blue)}
+  .tab svg{width:18px;height:18px}
+  .top{padding-top:0}
+}
+.view[hidden]{display:none!important}
+.sec{margin-top:24px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.sec-h h2{margin:0;font:800 22px/1 var(--font-display);text-transform:uppercase;letter-spacing:.03em;text-wrap:balance}
+.sec-h span{color:var(--muted);font-size:13px}
+.note{color:var(--muted);font-size:13px;max-width:70ch;margin:10px 0 0}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;background:var(--surface);border:1px solid var(--line);color:var(--ink2);font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.empty{color:var(--muted);text-align:center;padding:26px 14px;background:var(--surface);border:1px dashed var(--line-hi);border-radius:14px}
+.sport{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.sport i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.res{font:800 14px var(--font-display);letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:7px;white-space:nowrap}
+.res.win{background:var(--win-bg);color:var(--win)} .res.loss{background:var(--loss-bg);color:var(--loss)}
+.res.push,.res.void{background:var(--push-bg);color:var(--muted)} .res.pending{background:var(--sunk);color:var(--muted)}
+.pos{color:var(--win)} .neg{color:var(--loss)}
+
+/* blind pick cards */
+.bcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.bhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-size:12.5px;color:var(--muted)}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.side{background:var(--sunk);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.side b{font:900 22px/1.05 var(--font-display);text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side span{font:800 18px var(--font-display);color:var(--ink2)}
+.side small{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.side.mine{border-color:var(--blue);background:var(--blue-bg)}
+.side.mine small{color:var(--blue-ink)}
+.side:disabled{cursor:default}
+.reveal{margin-top:8px;font-size:13px;color:var(--ink2);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.agree{font-weight:800}
+.agree.yes{color:var(--win)} .agree.no{color:var(--gold)}
+.linkbtn{background:none;border:0;color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;text-decoration:underline;padding:0}
+
+/* forms */
+.form{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:12px}
+.field{display:grid;gap:5px;min-width:0}
+.field label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;min-width:0;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.field textarea{min-height:88px;resize:vertical}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.seg{display:flex;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px;flex-wrap:wrap}
+.seg button{flex:1;background:none;border:0;cursor:pointer;padding:8px 6px;border-radius:8px;font-size:13px;font-weight:800;color:var(--muted);min-width:0}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.btn{background:var(--blue);color:var(--on-blue);border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}
+.btn.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.stars button{background:none;border:0;cursor:pointer;font-size:22px;color:var(--faint);padding:0 2px}
+.stars button.on{color:var(--gold)}
+
+/* play list */
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.ptop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.psel{font:800 20px/1.1 var(--font-display);text-transform:uppercase;overflow-wrap:anywhere;min-width:0}
+.psel .px{font:600 14px var(--font-body);color:var(--muted);text-transform:none}
+.pmeta{font-size:12.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.pnotes{margin-top:8px;font-size:13.5px;color:var(--ink2);white-space:pre-wrap;border-left:3px solid var(--line-hi);padding-left:10px}
+.pact{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.pact button{background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:800;cursor:pointer}
+
+/* record */
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.kpi.me{border-color:var(--blue-line);background:linear-gradient(180deg,var(--blue-bg),transparent),var(--surface)}
+.kpi h3{margin:0 0 8px;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.kpi.me h3{color:var(--blue-ink)}
+.kpi .big{font:900 34px/1 var(--font-display)}
+.kpi .rowk{display:flex;gap:12px;margin-top:8px;color:var(--ink2);font-size:13px;flex-wrap:wrap}
+.kpi .rowk b{color:var(--ink);font-weight:800}
+.twrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+table.t th,table.t td{padding:9px 12px;text-align:right;white-space:nowrap;border-top:1px solid var(--line)}
+table.t th{font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-top:0}
+table.t td:first-child,table.t th:first-child{text-align:left}
+
+/* setup + toast */
+.steps{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink2)}
+.steps b{color:var(--ink)}
+code{background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:13px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabbar-h) + 14px + env(safe-area-inset-bottom, 0px));background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:10px;font-size:13.5px;font-weight:700;z-index:30;max-width:calc(100% - 32px)}
+.toast[hidden]{display:none}
+.banner{background:var(--blue-bg);border:1px solid var(--blue-line);border-radius:14px;padding:12px 14px;margin-bottom:14px;font-size:13.5px}
+@media (max-width:520px){ .kpis{grid-template-columns:1fr} .row3{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<nav class="tabs" aria-label="Sections"><div class="tabs-in">
+  <button class="tab" data-v="blind"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><path d="M4 20L20 4"/></svg>Blind picks</button>
+  <button class="tab" data-v="plays"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h10l4 4V19.5H5z"/><path d="M8.5 11h7M8.5 14.5h7M8.5 7.5h4"/></svg>My plays</button>
+  <button class="tab" data-v="record"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5h16M6.5 16l4-5 3 3 4.5-6.5"/></svg>Record</button>
+  <button class="tab" data-v="setup"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg>Setup</button>
+</div></nav>
+
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="../"><div class="logo-mark">✓</div><h1>My Picks</h1></a>
+    <div class="chipline"><b class="num" id="hdrUnits">–</b><span id="hdrRec">Your record</span></div>
+  </div>
+  <main>
+    <section class="view" id="v-blind"></section>
+    <section class="view" id="v-plays" hidden></section>
+    <section class="view" id="v-record" hidden></section>
+    <section class="view" id="v-setup" hidden></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const REPO = "isaacbsmith4-sys/my-picks", FILE = "picks.json";
+const $ = s => document.querySelector(s);
+const FINAL = ["win","loss","push","void"];
+const SPORTS = {NBA:"nba", NFL:"nfl", CFB:"cfb", NHL:"nhl", NCAAB:"ncaab"};
+const NAMES = {NBA:"NBA", NFL:"NFL", CFB:"College Football", NHL:"NHL", NCAAB:"College Basketball"};
+const store = { get(k, d){ try { return localStorage.getItem(k) ?? d; } catch(e){ return d; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
+const sgn = (x,d=1) => x == null || isNaN(x) ? "–" : (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(+x).toFixed(d);
+const fmtLine = x => x == null || isNaN(x) ? "–" : x === 0 ? "PK" : (x > 0 ? "+" : "") + (+x);
+const price = p => p == null ? "" : (p > 0 ? "+" : "") + Math.round(p);
+const profit = pr => pr == null ? 100/110 : (pr < 0 ? 100/-pr : pr/100);
+const cls = x => x > 0 ? "pos" : x < 0 ? "neg" : "";
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sportVar = s => `var(--${SPORTS[s] || "nba"})`;
+const etDate = d => new Intl.DateTimeFormat("en-CA", {timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit"}).format(d);
+const todayET = etDate(new Date());
+const tip = s => { if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleString(undefined,{weekday:"short", hour:"numeric", minute:"2-digit"}); };
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+
+let token = store.get("myPicksToken", "");
+let data = {format: 1, picks: []}, sha = null, loaded = false, loadError = "";
+let games = [], view = store.get("myPicksView", token ? "blind" : "setup");
+let blindSport = store.get("myPicksBlindSport", "NBA"), blindDay = null;
+let form = {sport: "NBA", game: "", market: "spread", side: "", line: "", price: "", units: "1", conf: 3, notes: "", selection: ""};
+
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2600); }
+
+// ---------- GitHub storage (private repo; the key lives only on this device)
+async function gh(path, opts = {}){
+  const r = await fetch(`https://api.github.com/repos/${REPO}${path}`, {...opts, headers: {
+    Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28",
+    ...(opts.body ? {"Content-Type": "application/json"} : {})}});
+  return r;
+}
+const b64decode = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, "")), c => c.charCodeAt(0)));
+const b64encode = s => { const b = new TextEncoder().encode(s); let out = ""; for (let i = 0; i < b.length; i += 0x8000) out += String.fromCharCode(...b.subarray(i, i + 0x8000)); return btoa(out); };
+async function loadPicks(){
+  if (!token) { loaded = false; return; }
+  try {
+    const r = await gh(`/contents/${FILE}?ref=main&t=${Date.now()}`);
+    if (r.status === 401 || r.status === 403) { loadError = "GitHub didn't accept the key. Check it on the Setup tab."; return; }
+    if (r.status === 404) { loadError = "Couldn't find your picks repo. Make sure the key has access to my-picks."; return; }
+    if (!r.ok) { loadError = `GitHub error ${r.status}. Try again in a minute.`; return; }
+    const j = await r.json(); sha = j.sha; data = JSON.parse(b64decode(j.content)); loaded = true; loadError = "";
+  } catch(e) { loadError = "Couldn't reach GitHub. Check your connection."; }
+}
+async function savePicks(change, msg){
+  for (let attempt = 0; attempt < 3; attempt++){
+    await loadPicks(); if (!loaded) { toast(loadError || "Couldn't save"); return false; }
+    change(data);
+    const r = await gh(`/contents/${FILE}`, {method: "PUT", body: JSON.stringify({message: msg, sha, content: b64encode(JSON.stringify(data, null, 1)), branch: "main"})});
+    if (r.ok) { const j = await r.json(); sha = j.content.sha; return true; }
+    if (r.status !== 409 && r.status !== 422) { toast(`Couldn't save (GitHub ${r.status})`); return false; }
+  }
+  toast("Couldn't save: picks changed elsewhere. Try again."); return false;
+}
+async function requestGrading(){
+  const last = +store.get("myPicksGradeAt", "0");
+  if (!token || Date.now() - last < 20*60*1000) return;
+  store.set("myPicksGradeAt", String(Date.now()));
+  try { await gh(`/actions/workflows/grade.yml/dispatches`, {method: "POST", body: JSON.stringify({ref: "main"})}); } catch(e) {}
+}
+
+// ---------- slates (read from the model apps on this same site)
+function etOffset(dateStr){
+  const parts = new Intl.DateTimeFormat("en-US", {timeZone: "America/New_York", timeZoneName: "shortOffset"}).formatToParts(new Date(dateStr + "T16:00:00Z"));
+  const z = (parts.find(p => p.type === "timeZoneName") || {}).value || "GMT-4";
+  const m = z.match(/GMT([+-]\d+)/); const h = m ? +m[1] : -4;
+  return (h < 0 ? "-" : "+") + String(Math.abs(h)).padStart(2,"0") + ":00";
+}
+function fromGamesJson(sport, d){
+  return (d.games || []).map(g => ({sport, id: g.id, date: g.date, start: g.start, status: g.status,
+    away: g.away, home: g.home, lines: g.lines || {}, model: g.model || null}));
+}
+function fromNflPredictions(d){
+  const out = [], wk = d.week;
+  for (const w of [String(wk), String(wk + 1)]) for (const g of (d.weeks[w] || [])){
+    const T = c => ({name: d.teams[c]?.name || c, short: d.teams[c]?.nick || c, abbr: c});
+    const mk = g.market || {};
+    out.push({sport: "NFL", id: "nfl-" + g.id, date: g.date, start: g.time ? `${g.date}T${g.time}:00${etOffset(g.date)}` : null,
+      status: g.final ? "post" : "pre", away: T(g.away), home: T(g.home),
+      lines: {spread: mk.spread != null ? -mk.spread : null, total: mk.total ?? null, home_ml: mk.home_ml ?? null, away_ml: mk.away_ml ?? null,
+              home_spread_price: mk.home_spread_odds ?? null, away_spread_price: mk.away_spread_odds ?? null},
+      model: {spread: g.model_spread != null ? -g.model_spread : null, total: g.model_total ?? null, home_win_prob: g.home_prob ?? null}});
+  }
+  return out;
+}
+async function loadGames(){
+  const get = u => fetch(u, {cache: "no-store"}).then(r => r.ok ? r.json() : null).catch(() => null);
+  const res = await Promise.all(Object.entries(SPORTS).map(async ([s, f]) => {
+    const d = await get(`../${f}/games.json`);
+    if (d) return fromGamesJson(s, d);
+    if (s === "NFL") { const p = await get(`../nfl/predictions.json`); return p ? fromNflPredictions(p) : []; }
+    return [];
+  }));
+  games = res.flat();
+}
+const upcoming = g => g.status === "pre" && (!g.start || new Date(g.start).getTime() > Date.now());
+const gameKey = g => `${g.sport}|${g.date}|${g.home.name}`;
+const pickKey = p => `${p.sport}|${p.date}|${p.home}`;
+
+// ---------- records
+function rec(ps, field = "status", unitsField = "result_units"){
+  const g = ps.filter(p => FINAL.includes(p[field]) && p[field] !== "void");
+  const w = g.filter(p => p[field]==="win").length, l = g.filter(p => p[field]==="loss").length, pu = g.filter(p => p[field]==="push").length;
+  const u = g.reduce((a,p) => a + (p[unitsField] || 0), 0), st = g.reduce((a,p) => a + (+p.units || 1), 0);
+  return {n: g.length, w, l, p: pu, u, roi: st ? 100*u/st : null, text: `${w}-${l}${pu?"-"+pu:""}`};
+}
+function modelUnits(p){ return p.model_result === "win" ? profit(-110) : p.model_result === "loss" ? -1 : 0; }
+
+function renderHeader(){
+  const r = rec(data.picks);
+  $("#hdrUnits").textContent = loaded ? sgn(r.u) + "u" : "–";
+  $("#hdrUnits").className = "num " + cls(r.u);
+  $("#hdrRec").textContent = loaded ? `All my picks · ${r.text}` : "Your record";
+}
+function needSetup(){ return `<div class="banner">${loadError ? esc(loadError) : "Connect your picks first: it takes about 2 minutes, once."} <button class="linkbtn" data-go="setup">Open Setup</button></div>`; }
+
+// ---------- BLIND
+function renderBlind(){
+  const sports = ["NBA", "NFL"];
+  const pool = games.filter(g => sports.includes(g.sport) && upcoming(g) && g.lines.spread != null);
+  const mine = new Map(data.picks.filter(p => p.kind === "blind").map(p => [pickKey(p), p]));
+  // keep showing today's picked games after tip-off so you can see them
+  const shown = games.filter(g => g.sport === blindSport && g.lines.spread != null && (upcoming(g) || (mine.has(gameKey(g)) && g.date >= todayET)));
+  const days = [...new Set(shown.map(g => g.date))].sort();
+  if (!blindDay || !days.includes(blindDay)) blindDay = days[0] || null;
+  const list = shown.filter(g => g.date === blindDay).sort((a,b) => (a.start||"") < (b.start||"") ? -1 : 1);
+  const left = list.filter(g => !mine.has(gameKey(g)) && upcoming(g)).length;
+  $("#v-blind").innerHTML = `${!loaded ? needSetup() : ""}
+    <div class="sec-h"><h2>Blind spreads</h2><span>Pick a side on every game. The model's line shows after you pick.</span></div>
+    <div class="chips">${sports.map(s => `<button class="chip ${blindSport===s?'on':''}" data-bs="${s}">${s} · ${pool.filter(g=>g.sport===s && !mine.has(gameKey(g))).length} open</button>`).join("")}</div>
+    <div class="chips" style="margin-top:6px">${days.map(d => `<button class="chip ${d===blindDay?'on':''}" data-bd="${d}">${d===todayET?"Today":new Date(d+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</button>`).join("")}</div>
+    <div class="sec" style="margin-top:12px">
+      ${!games.length ? `<div class="empty">Loading games…</div>` : !list.length ? `<div class="empty">No ${blindSport} games with lines right now.</div>` :
+        (left ? `<p class="note" style="margin:0 0 10px">${left} left to pick${blindDay===todayET?" today":""}.</p>` : `<p class="note" style="margin:0 0 10px">All picked. Nice.</p>`) +
+        list.map(g => blindCard(g, mine.get(gameKey(g)))).join("")}
+    </div>`;
+  document.querySelectorAll("[data-bs]").forEach(b => b.onclick = () => { blindSport = b.dataset.bs; store.set("myPicksBlindSport", blindSport); blindDay = null; renderBlind(); });
+  document.querySelectorAll("[data-bd]").forEach(b => b.onclick = () => { blindDay = b.dataset.bd; renderBlind(); });
+  document.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => pickBlind(b.dataset.g, b.dataset.pick));
+  document.querySelectorAll("[data-undo]").forEach(b => b.onclick = () => undoPick(b.dataset.undo));
+  wireGo();
+}
+function blindCard(g, p){
+  const s = g.lines.spread, open = upcoming(g);
+  const awayLine = -s, homeLine = s;
+  const side = p ? p.side : null;
+  let reveal = "";
+  if (p){
+    const ml = p.model_line, modelSide = ml == null ? null : (ml < p.vegas_line ? "home" : ml > p.vegas_line ? "away" : null);
+    const agree = modelSide == null ? "" : modelSide === p.side ? `<span class="agree yes">Model agrees</span>` : `<span class="agree no">Model disagrees</span>`;
+    reveal = `<div class="reveal"><span>Model line <b>${ml == null ? "–" : (ml < 0 ? g.home.short + " " + ml : ml > 0 ? g.away.short + " " + (-ml) : "PK")}</b></span>${agree}
+      ${FINAL.includes(p.status) ? `<span class="res ${p.status}">${p.status}</span>` : open ? `<button class="linkbtn" data-undo="${p.id}">Undo</button>` : ""}</div>`;
+  }
+  const btn = (who, team, line) => `<button class="side ${side===who?'mine':''}" data-g="${esc(gameKey(g))}" data-pick="${who}" ${(!open || !loaded) ? "disabled" : ""}>
+      <small>${who === "away" ? "Away" : "Home"}${side===who ? " · your pick" : ""}</small><b>${esc(team.short)}</b><span class="num">${fmtLine(line)}</span></button>`;
+  return `<div class="bcard"><div class="bhead"><span class="sport"><i style="background:${sportVar(g.sport)}"></i>${g.sport}</span><span>${open ? tip(g.start) : "Started"}</span></div>
+    <div class="sides">${btn("away", g.away, awayLine)}${btn("home", g.home, homeLine)}</div>${reveal}</div>`;
+}
+async function pickBlind(key, side){
+  const g = games.find(x => gameKey(x) === key); if (!g || !upcoming(g)) return;
+  const existing = data.picks.find(p => p.kind === "blind" && pickKey(p) === key);
+  const line = side === "home" ? g.lines.spread : -g.lines.spread;
+  const sidePrice = side === "home" ? g.lines.home_spread_price : g.lines.away_spread_price;
+  const p = {id: existing ? existing.id : uid(), kind: "blind", created_at: new Date().toISOString(), sport: g.sport, game_id: g.id,
+    date: g.date, start: g.start, home: g.home.name, away: g.away.name, home_short: g.home.short, away_short: g.away.short,
+    market: "spread", side, line, price: sidePrice || -110, units: 1, vegas_line: g.lines.spread,
+    model_line: g.model ? g.model.spread : null, model_total: g.model ? g.model.total : null, model_home_prob: g.model ? g.model.home_win_prob : null,
+    selection: `${(side === "home" ? g.home : g.away).short} ${fmtLine(line)}`, status: "pending", result_units: null};
+  // show it right away, then save
+  data.picks = data.picks.filter(x => x.id !== p.id).concat([p]); renderBlind(); renderHeader();
+  const ok = await savePicks(d => { d.picks = d.picks.filter(x => x.id !== p.id).concat([p]); }, `Blind pick: ${p.selection}`);
+  if (ok) toast(`Saved: ${p.selection}`); renderAll();
+}
+async function undoPick(id){
+  data.picks = data.picks.filter(x => x.id !== id); renderAll();
+  if (await savePicks(d => { d.picks = d.picks.filter(x => x.id !== id); }, "Remove pick")) toast("Removed");
+  renderAll();
+}
+
+// ---------- MY PLAYS
+function sideOptions(g, market){
+  if (!g) return [];
+  const L = g.lines || {};
+  if (market === "spread") return [["away", `${g.away.short} ${fmtLine(L.spread != null ? -L.spread : null)}`, L.spread != null ? -L.spread : null, L.away_spread_price || -110],
+                                   ["home", `${g.home.short} ${fmtLine(L.spread)}`, L.spread, L.home_spread_price || -110]];
+  if (market === "total") return [["over", `Over ${L.total ?? ""}`, L.total, -110], ["under", `Under ${L.total ?? ""}`, L.total, -110]];
+  if (market === "ml") return [["away", `${g.away.short} ML ${price(L.away_ml)}`, null, L.away_ml], ["home", `${g.home.short} ML ${price(L.home_ml)}`, null, L.home_ml]];
+  return [["over", "Over", null, -110], ["under", "Under", null, -110]];
+}
+function renderPlays(){
+  const pool = games.filter(g => g.sport === form.sport && upcoming(g)).sort((a,b) => (a.start||"") < (b.start||"") ? -1 : 1);
+  const g = pool.find(x => x.id === form.game) || null;
+  const opts = sideOptions(g, form.market);
+  const mine = data.picks.filter(p => p.kind === "research").sort((a,b) => (b.created_at||"") < (a.created_at||"") ? -1 : 1);
+  const pending = mine.filter(p => !FINAL.includes(p.status)), done = mine.filter(p => FINAL.includes(p.status));
+  $("#v-plays").innerHTML = `${!loaded ? needSetup() : ""}
+    <div class="sec-h"><h2>Log a play</h2><span>Your researched bets, with your reasons</span></div>
+    <div class="form">
+      <div class="field"><label>Sport</label><div class="seg" id="fSport">${Object.keys(SPORTS).map(s => `<button class="${form.sport===s?'on':''}" data-v="${s}">${s}</button>`).join("")}</div></div>
+      <div class="field"><label for="fGame">Game</label><select id="fGame"><option value="">Choose a game…</option>${pool.map(x => `<option value="${esc(x.id)}" ${x.id===form.game?"selected":""}>${esc(x.away.short)} @ ${esc(x.home.short)} · ${tip(x.start)}</option>`).join("")}</select></div>
+      <div class="field"><label>Bet</label><div class="seg" id="fMarket">${[["spread","Spread"],["total","Total"],["ml","Moneyline"],["prop","Player prop"]].map(([k,l]) => `<button class="${form.market===k?'on':''}" data-v="${k}">${l}</button>`).join("")}</div></div>
+      ${form.market === "prop" ? `<div class="field"><label for="fSel">Prop</label><input id="fSel" placeholder="e.g. Jalen Brunson over 6.5 assists" value="${esc(form.selection)}"></div>` : ""}
+      ${g || form.market === "prop" ? `<div class="field"><label>Side</label><div class="seg" id="fSide">${opts.map(([k,l]) => `<button class="${form.side===k?'on':''}" data-v="${k}">${esc(l)}</button>`).join("")}</div></div>` : ""}
+      <div class="row3">
+        <div class="field"><label for="fLine">Line</label><input id="fLine" inputmode="decimal" value="${esc(form.line)}" placeholder="${form.market==="ml"?"–":"-3.5"}"></div>
+        <div class="field"><label for="fPrice">Price</label><input id="fPrice" inputmode="numeric" value="${esc(form.price)}" placeholder="-110"></div>
+        <div class="field"><label for="fUnits">Units</label><select id="fUnits">${["0.5","1","1.5","2","2.5","3","4","5"].map(u => `<option ${form.units===u?"selected":""}>${u}</option>`).join("")}</select></div>
+      </div>
+      <div class="field"><label>Confidence</label><div class="stars" id="fConf">${[1,2,3,4,5].map(i => `<button class="${i<=form.conf?'on':''}" data-v="${i}" aria-label="${i} of 5">★</button>`).join("")}</div></div>
+      <div class="field"><label for="fNotes">Why I like it</label><textarea id="fNotes" placeholder="Injuries, matchup, line move, trends…">${esc(form.notes)}</textarea></div>
+      ${g && g.model ? `<p class="note" style="margin:0">Model on this game: line <b>${g.model.spread == null ? "–" : (g.model.spread < 0 ? g.home.short + " " + g.model.spread : g.model.spread > 0 ? g.away.short + " " + (-g.model.spread) : "PK")}</b>${g.model.total!=null?` · total <b>${g.model.total}</b>`:""}${g.model.home_win_prob!=null?` · ${esc(g.home.short)} win <b>${Math.round(100*g.model.home_win_prob)}%</b>`:""}</p>` : ""}
+      <button class="btn" id="fSave" ${!loaded ? "disabled" : ""}>Save play</button>
+    </div>
+    <div class="sec"><div class="sec-h"><h2>Pending</h2><span>${pending.length}</span></div>
+      ${pending.length ? pending.map(playCard).join("") : `<div class="empty">No pending plays.</div>`}</div>
+    <div class="sec"><div class="sec-h"><h2>Graded</h2><span>${rec(done).text} · <b class="${cls(rec(done).u)}">${sgn(rec(done).u)}u</b></span></div>
+      ${done.length ? done.slice(0, 60).map(playCard).join("") : `<div class="empty">Results show up here after games finish.</div>`}</div>`;
+  const keepInputs = () => { const v = id => ($(id) || {}).value; form.line = v("#fLine") ?? form.line; form.price = v("#fPrice") ?? form.price; form.units = v("#fUnits") ?? form.units; form.notes = v("#fNotes") ?? form.notes; if ($("#fSel")) form.selection = $("#fSel").value; };
+  document.querySelectorAll("#fSport button").forEach(b => b.onclick = () => { keepInputs(); form.sport = b.dataset.v; form.game = ""; form.side = ""; renderPlays(); });
+  $("#fGame").onchange = e => { keepInputs(); form.game = e.target.value; form.side = ""; form.line = ""; form.price = ""; renderPlays(); };
+  document.querySelectorAll("#fMarket button").forEach(b => b.onclick = () => { keepInputs(); form.market = b.dataset.v; form.side = ""; form.line = ""; form.price = ""; renderPlays(); });
+  document.querySelectorAll("#fSide button").forEach(b => b.onclick = () => { keepInputs(); form.side = b.dataset.v; const o = opts.find(x => x[0] === form.side);
+    if (o) { if (o[2] != null) form.line = String(o[2]); if (o[3] != null) form.price = String(o[3]); } renderPlays(); });
+  document.querySelectorAll("#fConf button").forEach(b => b.onclick = () => { keepInputs(); form.conf = +b.dataset.v; renderPlays(); });
+  $("#fSave").onclick = () => { keepInputs(); saveResearch(g); };
+  document.querySelectorAll("[data-self]").forEach(b => b.onclick = () => selfGrade(b.dataset.id, b.dataset.self));
+  document.querySelectorAll("[data-del]").forEach(b => b.onclick = () => undoPick(b.dataset.del));
+  wireGo();
+}
+function playCard(p){
+  const st = p.status || "pending";
+  const canSelf = p.market === "prop" && !FINAL.includes(st);
+  return `<div class="pcard"><div class="ptop"><div class="psel">${esc(p.selection)} <span class="px">${price(p.price)}</span></div>
+      <span class="res ${st}">${FINAL.includes(st) ? st + (p.result_units != null && st !== "void" ? " " + sgn(p.result_units, 2) : "") : (tip(p.start) || "Pending")}</span></div>
+    <div class="pmeta"><span class="sport"><i style="background:${sportVar(p.sport)}"></i>${p.sport}</span><span>${esc(p.away_short || p.away)} @ ${esc(p.home_short || p.home)}</span><span>${p.units}u</span>${p.confidence?`<span style="color:var(--gold)">${"★".repeat(p.confidence)}</span>`:""}${p.final?`<span>${esc(p.final)}</span>`:""}${p.clv!=null?`<span>Line value ${sgn(p.clv)}</span>`:""}</div>
+    ${p.notes ? `<div class="pnotes">${esc(p.notes)}</div>` : ""}
+    ${canSelf || !FINAL.includes(st) ? `<div class="pact">${canSelf ? `<button data-id="${p.id}" data-self="win">Won</button><button data-id="${p.id}" data-self="loss">Lost</button><button data-id="${p.id}" data-self="push">Push</button>` : ""}<button data-del="${p.id}">Delete</button></div>` : ""}
+  </div>`;
+}
+async function saveResearch(g){
+  if (form.market !== "prop" && !g) return toast("Pick a game first");
+  if (!form.side) return toast("Pick a side");
+  if (form.market === "prop" && !form.selection.trim()) return toast("Type the prop");
+  const line = form.line === "" ? null : parseFloat(form.line), pr = form.price === "" ? -110 : parseFloat(form.price);
+  if (form.market !== "ml" && form.market !== "prop" && (line == null || isNaN(line))) return toast("Add the line");
+  const team = g ? (form.side === "home" ? g.home : form.side === "away" ? g.away : null) : null;
+  const sel = form.market === "prop" ? form.selection.trim()
+    : form.market === "total" ? `${form.side === "over" ? "Over" : "Under"} ${line}`
+    : form.market === "ml" ? `${team.short} ML` : `${team.short} ${fmtLine(line)}`;
+  const p = {id: uid(), kind: "research", created_at: new Date().toISOString(), sport: form.sport,
+    game_id: g ? g.id : null, date: g ? g.date : todayET, start: g ? g.start : null,
+    home: g ? g.home.name : "", away: g ? g.away.name : "", home_short: g ? g.home.short : "", away_short: g ? g.away.short : "",
+    market: form.market, side: form.side, line, price: isNaN(pr) ? -110 : pr, units: parseFloat(form.units) || 1,
+    vegas_line: g && g.lines ? g.lines.spread : null, model_line: g && g.model ? g.model.spread : null,
+    model_total: g && g.model ? g.model.total : null, model_home_prob: g && g.model ? g.model.home_win_prob : null,
+    confidence: form.conf, notes: form.notes.trim(), selection: sel, status: "pending", result_units: null};
+  const btn = $("#fSave"); btn.disabled = true; btn.textContent = "Saving…";
+  const ok = await savePicks(d => { d.picks.push(p); }, `Play: ${sel}`);
+  if (ok) { toast(`Saved: ${sel}`); form = {...form, game: "", side: "", line: "", price: "", notes: "", selection: ""}; }
+  renderAll();
+}
+async function selfGrade(id, st){
+  const ok = await savePicks(d => { const p = d.picks.find(x => x.id === id); if (!p) return;
+    p.status = st; const u = +p.units || 1; p.result_units = st === "win" ? +(u * profit(p.price)).toFixed(3) : st === "loss" ? -u : 0; }, `Grade prop: ${st}`);
+  if (ok) toast("Graded"); renderAll();
+}
+
+// ---------- RECORD
+function renderRecord(){
+  const blind = data.picks.filter(p => p.kind === "blind"), research = data.picks.filter(p => p.kind === "research");
+  const me = rec(blind);
+  const mo2 = rec(blind.filter(p => p.model_result).map(p => ({...p, status: p.model_result, result_units: modelUnits(p), units: 1})));
+  const both = blind.filter(p => p.model_side && FINAL.includes(p.status));
+  const agree = both.filter(p => p.model_side === p.side), dis = both.filter(p => p.model_side !== p.side);
+  const rs = rec(research);
+  const cell = r => r.n ? `<td>${r.text}</td><td>${r.w+r.l?Math.round(100*r.w/(r.w+r.l))+"%":"–"}</td><td class="${cls(r.u)}">${sgn(r.u)}</td><td>${r.roi==null?"–":sgn(r.roi)+"%"}</td>` : `<td>–</td><td>–</td><td>–</td><td>–</td>`;
+  const head = `<tr><th></th><th>W-L</th><th>Win %</th><th>Units</th><th>ROI</th></tr>`;
+  const bySport = (ps) => Object.keys(SPORTS).filter(s => ps.some(p => p.sport === s)).map(s => `<tr><td>${NAMES[s]}</td>${cell(rec(ps.filter(p=>p.sport===s)))}</tr>`).join("");
+  const byMarket = ["spread","total","ml","prop"].filter(m => research.some(p => p.market === m)).map(m => `<tr><td>${{spread:"Spreads",total:"Totals",ml:"Moneylines",prop:"Player props"}[m]}</td>${cell(rec(research.filter(p=>p.market===m)))}</tr>`).join("");
+  const byConf = [5,4,3,2,1].filter(c => research.some(p => p.confidence === c)).map(c => `<tr><td style="color:var(--gold)">${"★".repeat(c)}</td>${cell(rec(research.filter(p=>p.confidence===c)))}</tr>`).join("");
+  const clvs = data.picks.filter(p => p.clv != null), clv = clvs.length ? clvs.reduce((a,p)=>a+p.clv,0)/clvs.length : null;
+  $("#v-record").innerHTML = `${!loaded ? needSetup() : ""}
+    <div class="sec-h"><h2>Blind spreads: you vs. the model</h2><span>Same games, same lines</span></div>
+    <div class="kpis">
+      <div class="kpi me"><h3>You</h3><div class="big num ${cls(me.u)}">${sgn(me.u)}u</div><div class="rowk"><span><b>${me.text}</b></span><span><b>${me.w+me.l?Math.round(100*me.w/(me.w+me.l)):"–"}%</b> wins</span></div></div>
+      <div class="kpi"><h3>The model</h3><div class="big num ${cls(mo2.u)}">${sgn(mo2.u)}u</div><div class="rowk"><span><b>${mo2.text}</b></span><span><b>${mo2.w+mo2.l?Math.round(100*mo2.w/(mo2.w+mo2.l)):"–"}%</b> wins</span></div></div>
+    </div>
+    <div class="sec" style="margin-top:12px"><div class="twrap"><table class="t">${head}
+      <tr><td>When you agree with the model</td>${cell(rec(agree))}</tr>
+      <tr><td>When you disagree: you</td>${cell(rec(dis))}</tr>
+      <tr><td>When you disagree: the model</td>${cell(rec(dis.map(p => ({...p, status: p.model_result, result_units: modelUnits(p)}))))}</tr>
+      ${bySport(blind)}
+    </table></div>
+    <p class="note">The interesting row is "when you disagree": that's where your read and the model's split, and the results show who's seeing it better. 1 unit at -110 per pick.</p></div>
+
+    <div class="sec"><div class="sec-h"><h2>My researched plays</h2><span>${research.length} logged</span></div>
+      <div class="kpis"><div class="kpi me"><h3>Researched plays</h3><div class="big num ${cls(rs.u)}">${sgn(rs.u)}u</div>
+        <div class="rowk"><span><b>${rs.text}</b></span><span><b>${rs.roi==null?"–":sgn(rs.roi)+"%"}</b> ROI</span></div></div>
+      <div class="kpi"><h3>Line value</h3><div class="big num ${cls(clv)}">${clv==null?"–":sgn(clv)}</div>
+        <div class="rowk"><span>Average points you beat the closing line by, across ${clvs.length} graded picks</span></div></div></div>
+      ${research.length ? `<div class="sec" style="margin-top:12px"><div class="twrap"><table class="t">${head}${bySport(research)}${byMarket}${byConf}</table></div></div>` : ""}
+    </div>`;
+  wireGo();
+}
+
+// ---------- SETUP
+function renderSetup(){
+  $("#v-setup").innerHTML = `
+    <div class="sec-h"><h2>Connect your picks</h2><span>One time, about 2 minutes</span></div>
+    <div class="form">
+      <ol class="steps">
+        <li>On this phone, open <b>github.com/settings/personal-access-tokens/new</b> and sign in.</li>
+        <li>Name it <b>My Picks</b> and set <b>Expiration</b> to the longest option (or "No expiration").</li>
+        <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick <b>my-picks</b>.</li>
+        <li>Under <b>Permissions → Repository permissions</b>, set <b>Contents</b> to <b>Read and write</b> and <b>Actions</b> to <b>Read and write</b>.</li>
+        <li>Tap <b>Generate token</b>, copy it, and paste it below.</li>
+      </ol>
+      <div class="field"><label for="tok">Your GitHub key</label><input id="tok" type="password" autocomplete="off" placeholder="github_pat_…" value=""></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="tokSave">Connect</button>${token ? `<button class="btn ghost" id="tokClear">Disconnect this phone</button>` : ""}</div>
+      <p class="note" style="margin:0">${token ? (loaded ? "✓ Connected. Your picks save to your private my-picks repo." : esc(loadError || "Connecting…")) : "The key stays on this phone only. It can only touch your my-picks repo, nothing else on your account."}</p>
+    </div>
+    <div class="sec"><div class="sec-h"><h2>How it works</h2></div>
+      <p class="note">Your picks are saved to a private GitHub repo only you can see. Spreads, totals and moneylines are graded automatically from ESPN final scores (twice a day, and whenever you open this app), including how your line compared with the closing line. Player props you grade yourself with the Won / Lost buttons. Using it on a second device? Do these steps there too, or reuse the same key.</p></div>`;
+  $("#tokSave").onclick = async () => {
+    const v = $("#tok").value.trim(); if (!v) return toast("Paste your key first");
+    token = v; store.set("myPicksToken", v); loadError = ""; toast("Connecting…");
+    await loadPicks(); if (loaded) { toast("Connected"); requestGrading(); setView("blind"); } renderAll();
+  };
+  if ($("#tokClear")) $("#tokClear").onclick = () => { store.del("myPicksToken"); token = ""; loaded = false; data = {format:1, picks:[]}; toast("Disconnected"); renderAll(); };
+}
+
+// ---------- shell
+function wireGo(){ document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => setView(b.dataset.go)); }
+function renderAll(){ renderHeader(); renderBlind(); renderPlays(); renderRecord(); renderSetup(); }
+function setView(v){
+  view = v; store.set("myPicksView", v);
+  document.querySelectorAll(".tab").forEach(t => { t.classList.toggle("on", t.dataset.v === v); t.setAttribute("aria-current", t.dataset.v === v ? "page" : "false"); });
+  document.querySelectorAll(".view").forEach(s => s.hidden = s.id !== "v-" + v);
+}
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => setView(t.dataset.v));
+renderAll(); setView(view);
+Promise.all([loadGames(), loadPicks()]).then(() => { renderAll(); requestGrading(); });
+</script>
+</body>
+</html>

@@ -693,7 +693,12 @@ function renderSports(){
     <div class="sports">${H.sports.map(s => `<a class="sp-card" href="${s.folder}/" style="--c:${sportVar(s.sport)}">
       <h3>${s.name}</h3>
       ${s.live ? `<div class="line"><span><b class="num">${s.w}-${s.l}</b> record</span><span><b class="num ${cls(s.units)}">${sgn(s.units)}u</b> units</span></div>` : `<div class="soon">No plays yet this season</div>`}
-      <span class="go">Open the ${s.name} app ›</span></a>`).join("")}</div>`;
+      <span class="go">Open the ${s.name} app ›</span></a>`).join("")}</div>
+    <div class="sec"><div class="sec-h"><h2>Your tools</h2><span>No model picks here</span></div>
+      <div class="sports">
+        <a class="sp-card" href="picks/" style="--c:var(--s-all)"><h3>My Picks</h3><div class="line"><span>Blind spreads vs. the model, and your researched plays with notes</span></div><span class="go">Open My Picks ›</span></a>
+        <a class="sp-card" href="research/" style="--c:var(--gold)"><h3>Research</h3><div class="line"><span>Prop hit rates, trends and matchup data for your own handicapping</span></div><span class="go">Open Research ›</span></a>
+      </div></div>`;
 }
 
 // ---------- shell
