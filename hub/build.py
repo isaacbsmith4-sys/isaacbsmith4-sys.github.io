@@ -69,11 +69,14 @@ def grade(entry, play):
         (-s if st == "loss" else 0.0)
 
 
-def select(day, now, feeds, ledger, settings):
-    """Fill today's open slots with the best remaining plays (never replaces a pick)."""
+def select(day, now, feeds, ledger, settings, backfill=False):
+    """Fill a day's open slots with the best remaining plays (never replaces a pick).
+
+    backfill=True picks a past day after the fact, from plays the models had already
+    logged and graded, using the same rules (the entries are marked "backfilled")."""
     todays = [e for e in ledger if e["date"] == day]
     open_slots = settings["picks_per_day"] - len(todays)
-    if open_slots <= 0 or now.hour < settings["lock_hour_et"]:
+    if open_slots <= 0 or (not backfill and now.hour < settings["lock_hour_et"]):
         return []
     taken_games = {(e["sport"], e["event"]) for e in todays}
     props = sum(1 for e in todays if e["market"] == "prop")
@@ -82,16 +85,17 @@ def select(day, now, feeds, ledger, settings):
     for code, feed in feeds.items():
         for p in feed["plays"]:
             start = parse_start(p.get("start"))
-            if (p.get("date") != day or p.get("status") != "pending" or p["id"] in chosen_ids
+            if (p.get("date") != day or p["id"] in chosen_ids
                     or p.get("tier") not in settings["allowed_tiers"]
-                    or (p.get("ev") or 0) <= settings["min_ev"]
-                    or start is None or start < now + timedelta(minutes=5)):
+                    or (p.get("ev") or 0) <= settings["min_ev"]):
+                continue
+            if backfill:
+                if p.get("status") not in ("win", "loss", "push"):
+                    continue
+            elif p.get("status") != "pending" or start is None or start < now + timedelta(minutes=5):
                 continue
             cands.append(p)
-    # each model's own tiers say how much its backtest trusts a play: unit plays (1U and up)
-    # fill the slots first, best expected value first; Leans only fill what's left
-    first = settings.get("unit_plays_first", True)
-    cands.sort(key=lambda p: ((first and (p.get("units") or 0) < 1), -p["ev"]))
+    cands.sort(key=lambda p: (-p["ev"], TIER_RANK.get(p["tier"], 9)))
     picked = []
     for p in cands:
         if len(picked) >= open_slots:
@@ -105,8 +109,8 @@ def select(day, now, feeds, ledger, settings):
                                        "selection", "player", "line", "price", "model_prob",
                                        "market_prob", "edge_prob", "ev", "edge_display", "tier")}
         entry.update({"slot": len(todays) + len(picked) + 1, "stake": stake_of(p, settings),
-                      "locked_at": now.strftime("%Y-%m-%d %H:%M ET"), "status": "pending",
-                      "result_units": None})
+                      "locked_at": "backfilled" if backfill else now.strftime("%Y-%m-%d %H:%M ET"),
+                      "backfilled": backfill, "status": "pending", "result_units": None})
         picked.append(entry)
         taken_games.add(game)
         props += p["market"] == "prop"
@@ -129,6 +133,8 @@ def sport_records(feeds):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--now", help="ET time to pretend it is (testing)")
+    ap.add_argument("--backfill", metavar="YYYY-MM-DD",
+                    help="fill past days from this date through yesterday (days with no picks)")
     args = ap.parse_args()
     with open(os.path.join(HUB, "settings.json")) as f:
         settings = json.load(f)
@@ -141,6 +147,14 @@ def main():
     for e in ledger:
         if e["status"] == "pending" and e["id"] in by_id:
             grade(e, by_id[e["id"]])
+    if args.backfill:
+        d = datetime.fromisoformat(args.backfill).date()
+        while d < now.date():
+            past = select(d.isoformat(), now, feeds, ledger, settings, backfill=True)
+            for e in past:
+                grade(e, by_id[e["id"]])
+            ledger += past
+            d += timedelta(days=1)
     new = select(day, now, feeds, ledger, settings)
     ledger += new
     ledger.sort(key=lambda e: (e["date"], e["slot"]))

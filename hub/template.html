@@ -113,6 +113,7 @@ section{margin-top:26px}
 .res.win{background:var(--win-bg);color:var(--win)} .res.loss{background:var(--loss-bg);color:var(--loss)}
 .res.push,.res.void{background:var(--push-bg);color:var(--muted)} .res.pending{background:var(--panel2);color:var(--muted)}
 .note{color:var(--muted);font-size:13px;max-width:75ch;margin:4px 0 12px}
+.bf{font-size:11px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:0 6px}
 /* edges list */
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{background:var(--panel);border:1px solid var(--line);color:var(--muted);font:600 12.5px var(--font-body);padding:5px 11px;border-radius:999px;cursor:pointer}
@@ -178,7 +179,7 @@ table.sum td:first-child,table.sum th:first-child{text-align:left}
 
   <section>
     <div class="sechead"><h2>Biggest edges today</h2><div class="chips" id="sportChips"></div></div>
-    <p class="note">Every sport's plays for today, ranked by expected profit per unit at the posted price. Tap one to open that sport's app.</p>
+    <p class="note">Every sport's unit plays for today (1U and up), ranked by expected profit per unit at the posted price. Tap one to open that sport's app.</p>
     <div id="edges"></div>
   </section>
 
@@ -260,7 +261,7 @@ function card(e, opts={}){
   const myP = e.model_prob, bookP = e.market_prob;
   return `<div class="card ${opts.top?'top':''}">
     <div style="min-width:0">
-      <div class="meta"><span class="sport"><i style="background:${sportColor(e.sport)}"></i>${H.names[e.sport]||e.sport}</span><span>${e.event}</span>${e.market==="prop"?"<span>Player prop</span>":""}</div>
+      <div class="meta"><span class="sport"><i style="background:${sportColor(e.sport)}"></i>${H.names[e.sport]||e.sport}</span><span>${e.event}</span>${e.market==="prop"?"<span>Player prop</span>":""}${e.backfilled?'<span class="bf">Backfilled</span>':""}</div>
       <div class="sel-line">${e.selection} <span style="font-size:15px;color:var(--muted)">${price(e.price)}</span></div>
       <div class="nums"><span>Edge <b>${e.edge_display||"–"}</b></span><span>EV <b>${sgn(100*(e.ev||0),1)}%</b></span><span>Model <b>${pct(myP)}</b> vs book <b>${pct(bookP)}</b></span>${e.stake?`<span>Stake <b>${e.stake}u</b></span>`:""}</div>
     </div>
@@ -273,7 +274,7 @@ function candidates(day){
   const taken = new Set(), out = []; let props = 0;
   const now = Date.now() + 5*60*1000;
   const c = live.filter(p => p.date===day && p.status==="pending" && S.allowed_tiers.includes(p.tier) && (p.ev||0) > S.min_ev && p.start && new Date(p.start).getTime() > now)
-    .sort((a,b) => (S.unit_plays_first ? ((a.units||0) < 1) - ((b.units||0) < 1) : 0) || b.ev - a.ev);
+    .sort((a,b) => b.ev - a.ev);
   for (const p of c){
     if (out.length >= S.picks_per_day) break;
     const g = p.sport + "|" + p.event;
@@ -292,7 +293,8 @@ function renderDay(){
   if (es.length){
     const g = es.filter(e=>FINAL.includes(e.status)), u = g.reduce((a,e)=>a+(e.result_units||0),0);
     $("#dayNote").textContent = g.length ? `${g.filter(e=>e.status==="win").length}-${g.filter(e=>e.status==="loss").length} · ${sgn(u)}u` : "Locked in";
-    $("#dayPlays").innerHTML = es.map(e => card(e, {top:true})).join("");
+    $("#dayPlays").innerHTML = es.map(e => card(e, {top:true})).join("") +
+      (es.some(e => e.backfilled) ? `<p class="note">Backfilled: picked after the fact with the same rules (top ${S.picks_per_day} unit plays by expected value, one per game, one prop at most) from plays the models had already logged.</p>` : "");
     return;
   }
   if (selDay === today){
@@ -307,11 +309,11 @@ function renderDay(){
 }
 
 function renderEdges(){
-  const sports = [...new Set(live.filter(p=>p.date===today).map(p=>p.sport))];
+  const sports = [...new Set(live.filter(p=>p.date===today && S.allowed_tiers.includes(p.tier)).map(p=>p.sport))];
   $("#sportChips").innerHTML = [["all","All"], ...Object.keys(H.names).filter(s=>sports.includes(s)).map(s=>[s,H.names[s]])]
     .map(([k,l]) => `<button class="chip ${sportFilter===k?'on':''}" data-s="${k}">${l}</button>`).join("");
   document.querySelectorAll("#sportChips .chip").forEach(c => c.onclick = () => { sportFilter = c.dataset.s; try { localStorage.setItem("hubSport", sportFilter); } catch(e) {} renderEdges(); });
-  const rows = live.filter(p => p.date===today && p.status==="pending" && p.tier && (sportFilter==="all" || p.sport===sportFilter))
+  const rows = live.filter(p => p.date===today && p.status==="pending" && S.allowed_tiers.includes(p.tier) && (sportFilter==="all" || p.sport===sportFilter))
     .sort((a,b) => (b.ev||0) - (a.ev||0)).slice(0, 40);
   $("#edges").innerHTML = rows.length ? `<div class="edges">` + rows.map(p => `<a class="erow" href="${H.folders[p.sport]}/">
       <span class="sp sport"><i style="background:${sportColor(p.sport)}"></i>${p.sport}</span>
