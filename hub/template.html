@@ -206,6 +206,11 @@ table.sum td:first-child,table.sum th:first-child{text-align:left}
   </section>
 
   <section>
+    <div class="sechead"><h2>Month by month</h2></div>
+    <div id="byMonth"></div>
+  </section>
+
+  <section>
     <div class="sechead"><h2>Best plays by sport</h2></div>
     <div id="bySport"></div>
   </section>
@@ -389,7 +394,29 @@ function renderPotd(){
     ${g.some(e=>e.backfilled) ? `<p class="note" style="margin-bottom:0">Days before Oct 19 are backfilled with the same rules, so the live record starts Oct 19.</p>` : ""}`;
 }
 
-function render(){ renderPotd(); renderStats(); renderCalendar(); renderDay(); renderEdges(); renderTiles(); renderBySport(); }
+function recLine(es){
+  const g = es.filter(e => FINAL.includes(e.status) && e.status !== "void");
+  const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length, p = g.filter(e=>e.status==="push").length;
+  const u = g.reduce((a,e)=>a+(e.result_units||0),0), st = g.reduce((a,e)=>a+e.stake,0);
+  return {n: g.length, rec: `${w}-${l}${p?"-"+p:""}`, u, roi: st ? 100*u/st : null};
+}
+function renderByMonth(){
+  const months = [...new Set(H.ledger.map(e => e.date.slice(0,7)))].sort().reverse();
+  if (!months.length){ $("#byMonth").innerHTML = `<div class="empty">No results yet.</div>`; return; }
+  const cell = r => r.n ? `<td>${r.rec}</td><td style="color:${r.u>=0?'var(--win)':'var(--loss)'}">${sgn(r.u)}</td><td>${r.roi==null?"–":sgn(r.roi)+"%"}</td>` : `<td>–</td><td>–</td><td>–</td>`;
+  const row = (label, es, bold) => {
+    const all = recLine(es), pd = recLine(es.filter(e=>e.potd));
+    return `<tr${bold?' style="font-weight:700"':''}><td>${label}</td>${cell(all)}${cell(pd)}</tr>`;
+  };
+  $("#byMonth").innerHTML = `<div class="tablewrap"><table class="sum">
+    <tr><th></th><th colspan="3" style="text-align:center">All best plays</th><th colspan="3" style="text-align:center">★ Play of the Day</th></tr>
+    <tr><th>Month</th><th>Record</th><th>Units</th><th>ROI</th><th>Record</th><th>Units</th><th>ROI</th></tr>
+    ${months.map(m => row(fromYmd(m+"-01").toLocaleDateString(undefined,{month:"long",year:"numeric"}), H.ledger.filter(e=>e.date.startsWith(m)))).join("")}
+    ${row("Season", H.ledger, true)}
+  </table></div><p class="note">Units are at each play's own size (3U plays risk 3 units). ROI = units won ÷ units risked. Anything tagged Backfilled was picked after the fact with the same rules.</p>`;
+}
+
+function render(){ renderPotd(); renderByMonth(); renderStats(); renderCalendar(); renderDay(); renderEdges(); renderTiles(); renderBySport(); }
 $("#prev").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()-1, 1); renderCalendar(); };
 $("#next").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()+1, 1); renderCalendar(); };
 
