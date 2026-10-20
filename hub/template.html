@@ -235,6 +235,9 @@ details.gmore[open] summary::after{content:" –"}
 .inj2 div{font-size:13px;min-width:0}
 .inj2 p{margin:0 0 2px;display:flex;justify-content:space-between;gap:6px}
 .inj2 p span:last-child{color:var(--muted);white-space:nowrap}
+.scope{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:14px}
+.scope button{flex:1;background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:9px;font-size:13.5px;font-weight:800;color:var(--muted)}
+.scope button.on{background:var(--ink);color:var(--bg)}
 .dtools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
 .dtools input{flex:1 1 160px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--ink);font:inherit}
 @media (max-width:520px){
@@ -296,6 +299,19 @@ let view = store.get("hubView", "today");
 const hv = location.hash.replace("#","");
 if (["today","calendar","records","data","sports"].includes(hv)) view = hv;
 let selDay = today, month = fromYmd(today), sportFilter = store.get("hubSport", "all"), live = [];
+let scope = store.get("hubScope", "best");   // "best" = the hub's best plays; "all" = every 1U+ play from every model
+const MARKET_NAMES = {prop: "Player props", spread: "Spreads", moneyline: "Moneylines", total: "Totals"};
+function everyPlay(){
+  return live.filter(p => (p.units||0) >= 1).map(p => ({...p, stake: p.units,
+    result_units: p.result_units != null ? p.result_units : (p.status === "win" ? p.units * profit(p.price) : p.status === "loss" ? -p.units : p.status === "push" || p.status === "void" ? 0 : null)}));
+}
+const scopeList = () => scope === "all" ? everyPlay() : H.ledger;
+function scopeSwitch(id){
+  return `<div class="scope" id="${id}"><button data-sc="best" class="${scope==="best"?"on":""}">Best plays</button><button data-sc="all" class="${scope==="all"?"on":""}">Every 1U+ play</button></div>`;
+}
+function wireScope(id){
+  document.querySelectorAll(`#${id} button`).forEach(b => b.onclick = () => { scope = b.dataset.sc; store.set("hubScope", scope); renderCalendar(); renderRecords(); });
+}
 
 function rec(es){
   const g = es.filter(e => FINAL.includes(e.status) && e.status !== "void");
@@ -428,16 +444,17 @@ function renderToday(){
 
 // ---------- CALENDAR
 function renderCalendar(){
+  const LG = scopeList(), best = scope === "best";
   const first = new Date(month.getFullYear(), month.getMonth(), 1);
   const nDays = new Date(month.getFullYear(), month.getMonth()+1, 0).getDate();
   const mk = ymd(first).slice(0,7);
-  const mr = rec(H.ledger.filter(e => e.date.startsWith(mk)));
-  const mp = rec(H.ledger.filter(e => e.date.startsWith(mk) && e.potd));
+  const mr = rec(LG.filter(e => e.date.startsWith(mk)));
+  const mp = rec(LG.filter(e => e.date.startsWith(mk) && e.potd));
   let cells = ["S","M","T","W","T","F","S"].map(d=>`<div class="dw">${d}</div>`).join("");
   for (let i = 0; i < first.getDay(); i++) cells += `<div class="d blank"></div>`;
   for (let d = 1; d <= nDays; d++){
     const key = ymd(new Date(month.getFullYear(), month.getMonth(), d));
-    const es = H.ledger.filter(e => e.date === key), r = rec(es), pd = es.find(e=>e.potd);
+    const es = LG.filter(e => e.date === key), r = rec(es), pd = best ? es.find(e=>e.potd) : null;
     const pend = es.filter(e => !FINAL.includes(e.status));
     const c = ["d", r.n ? (r.u > 0 ? "up" : r.u < 0 ? "down" : "") : "", key===today?"today":"", key===selDay?"sel":""].join(" ");
     cells += `<button class="${c}" data-d="${key}" aria-label="${fromYmd(key).toDateString()}${r.n?", "+r.text+", "+sgn(r.u)+" units":""}">
@@ -445,22 +462,24 @@ function renderCalendar(){
       ${r.n ? `<span class="du num">${sgn(r.u)}</span>` : pend.length ? `<span class="pend">${pend.map(e=>`<i style="background:${sportVar(e.sport)}"></i>`).join("")}</span>` : ""}
     </button>`;
   }
-  const es = H.ledger.filter(e => e.date === selDay).sort((a,b) => (b.potd?1:0)-(a.potd?1:0) || a.slot-b.slot);
+  const es = LG.filter(e => e.date === selDay).sort((a,b) => best ? ((b.potd?1:0)-(a.potd?1:0) || a.slot-b.slot) : rankSort(a,b));
   const dr = rec(es);
   $("#v-calendar").innerHTML = `
     <div class="cal-head"><button class="navbtn" id="prev" aria-label="Previous month">‹</button>
       <h2>${month.toLocaleDateString(undefined,{month:"long",year:"numeric"})}</h2>
       <button class="navbtn" id="next" aria-label="Next month">›</button></div>
-    <div class="mtotal">${mr.n ? `<span>Best plays <b class="${cls(mr.u)}">${mr.text} · ${sgn(mr.u)}u</b></span><span>★ Play of the Day <b class="${cls(mp.u)}">${mp.text} · ${sgn(mp.u)}u</b></span>` : `<span>No graded plays this month.</span>`}</div>
+    ${scopeSwitch("scCal")}
+    <div class="mtotal">${mr.n ? `<span>${best ? "Best plays" : "Every 1U+ play"} <b class="${cls(mr.u)}">${mr.text} · ${sgn(mr.u)}u</b></span>${best ? `<span>★ Play of the Day <b class="${cls(mp.u)}">${mp.text} · ${sgn(mp.u)}u</b></span>` : ""}` : `<span>${!best && !live.length ? "Loading every model's plays…" : "No graded plays this month."}</span>`}</div>
     <div class="g7">${cells}</div>
     <div class="sec">
       <div class="sec-h"><h2>${fromYmd(selDay).toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})}</h2>
         <span>${dr.n ? `${dr.text} · <b class="${cls(dr.u)}">${sgn(dr.u)}u</b>` : es.length ? "Pending" : ""}</span></div>
-      ${es.length ? es.map(e => e.potd ? bigSlip(e, false) + `<div style="height:8px"></div>` : miniSlip(e, false)).join("")
-        : `<div class="empty">No best plays ${selDay < today ? "that day" : "yet"}.</div>`}
+      ${es.length ? es.map(e => best && e.potd ? bigSlip(e, false) + `<div style="height:8px"></div>` : miniSlip(e, false)).join("")
+        : `<div class="empty">No ${best ? "best plays" : "1U+ plays"} ${selDay < today ? "that day" : "yet"}.</div>`}
       ${es.some(e=>e.backfilled) ? `<p class="note">Backfilled: picked after the fact with the same rules from plays the models had logged.</p>` : ""}
     </div>`;
   document.querySelectorAll(".d[data-d]").forEach(b => b.onclick = () => { selDay = b.dataset.d; renderCalendar(); });
+  wireScope("scCal");
   $("#prev").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()-1, 1); renderCalendar(); };
   $("#next").onclick = () => { month = new Date(month.getFullYear(), month.getMonth()+1, 1); renderCalendar(); };
 }
@@ -473,8 +492,8 @@ function cumulative(es){
 }
 const CH = {W: 640, H: 230, L: 40, R: 12, T: 12, B: 26};
 function chartData(){
-  const graded = H.ledger.filter(e => FINAL.includes(e.status));
-  const all = cumulative(graded), pd = cumulative(graded.filter(e=>e.potd));
+  const graded = scopeList().filter(e => FINAL.includes(e.status));
+  const all = cumulative(graded), pd = scope === "best" ? cumulative(graded.filter(e=>e.potd)) : [];
   return {all, pd, days: all.map(p=>p.d)};
 }
 function chartSVG(){
@@ -495,7 +514,7 @@ function chartSVG(){
   const xl = firsts.map(d => `<text x="${xi(d)}" y="${Hh-6}" font-size="11" fill="var(--muted)">${fromYmd(d).toLocaleDateString(undefined,{month:"short"})}</text>`).join("");
   const path = pts => pts.map((p,i) => (i?"L":"M") + xi(p.d).toFixed(1) + " " + y(p.v).toFixed(1)).join(" ");
   const dot = (pts, color) => { const p = pts[pts.length-1]; return `<circle cx="${xi(p.d)}" cy="${y(p.v)}" r="4.5" fill="${color}" stroke="var(--surface)" stroke-width="2"/>`; };
-  return `<div class="legend"><span><i style="background:var(--s-all)"></i>All best plays ${sgn(all[all.length-1].v)}u</span><span><i style="background:var(--s-potd)"></i>★ Play of the Day ${pd.length?sgn(pd[pd.length-1].v)+"u":"–"}</span></div>
+  return `<div class="legend"><span><i style="background:var(--s-all)"></i>${scope==="best"?"All best plays":"Every 1U+ play"} ${sgn(all[all.length-1].v)}u</span>${pd.length?`<span><i style="background:var(--s-potd)"></i>★ Play of the Day ${sgn(pd[pd.length-1].v)}u</span>`:""}</div>
     <svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Running units over the season: all best plays ${sgn(all[all.length-1].v)} units">${grid}${xl}
       <path d="${path(all)}" fill="none" stroke="var(--s-all)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
       ${pd.length > 1 ? `<path d="${path(pd)}" fill="none" stroke="var(--s-potd)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>` : ""}
@@ -516,7 +535,7 @@ function wireChart(){
     const px = L + (W-L-R) * i / (days.length-1), sx = px * box.width / W;
     xh.setAttribute("x1", px); xh.setAttribute("x2", px); xh.setAttribute("visibility", "visible");
     const v2 = pdAt(days[i]);
-    tipEl.innerHTML = `${fromYmd(days[i]).toLocaleDateString(undefined,{month:"short",day:"numeric"})} · All <b>${sgn(all[i].v)}u</b>${v2!=null?` · ★ <b>${sgn(v2)}u</b>`:""}`;
+    tipEl.innerHTML = `${fromYmd(days[i]).toLocaleDateString(undefined,{month:"short",day:"numeric"})} · <b>${sgn(all[i].v)}u</b>${v2!=null?` · ★ <b>${sgn(v2)}u</b>`:""}`;
     tipEl.style.display = "block";
     const tw = tipEl.offsetWidth, cw = svg.parentElement.clientWidth;
     tipEl.style.left = Math.max(8, Math.min(cw - tw - 8, sx + 12 - (sx > cw/2 ? tw + 24 : 0))) + "px";
@@ -526,6 +545,7 @@ function wireChart(){
   hit.addEventListener("pointerleave", () => { xh.setAttribute("visibility","hidden"); tipEl.style.display = "none"; });
 }
 function renderRecords(){
+  if (scope === "all") return renderEveryRecords();
   const r = rec(H.ledger), p = rec(H.ledger.filter(e=>e.potd));
   const flat = H.ledger.filter(e=>e.potd && FINAL.includes(e.status)).reduce((a,e)=>a+(e.status==="win"?profit(e.price):e.status==="loss"?-1:0),0);
   const months = [...new Set(H.ledger.map(e=>e.date.slice(0,7)))].sort().reverse();
@@ -533,7 +553,7 @@ function renderRecords(){
   const mrow = (label, es, total) => `<tr${total?' class="total"':''}><td>${label}</td>${cell(rec(es))}${cell(rec(es.filter(e=>e.potd)))}</tr>`;
   const sports = Object.keys(H.names).filter(s => H.ledger.some(e=>e.sport===s));
   const since = H.ledger.length ? fromYmd(H.ledger[0].date).toLocaleDateString(undefined,{month:"short",day:"numeric"}) : "";
-  $("#v-records").innerHTML = `
+  $("#v-records").innerHTML = `${scopeSwitch("scRec")}
     <div class="sec-h"><h2>Season record</h2><span>${since ? "Since " + since : ""}</span></div>
     <div class="kpis">
       <div class="kpi gold"><h3>★ Play of the Day</h3><div class="big num ${cls(p.u)}">${sgn(p.u)}u</div>
@@ -556,7 +576,39 @@ function renderRecords(){
           return `<tr><td><span class="sport"><i style="background:${sportVar(s)}"></i>${H.names[s]}</span></td><td>${a.text}</td><td class="${cls(a.u)}">${sgn(a.u)}</td><td>${a.roi==null?"–":sgn(a.roi)+"%"}</td><td>${b.n?b.text:"–"}</td><td class="${cls(b.u)}">${b.n?sgn(b.u):"–"}</td></tr>`; }).join("")}
       </table></div></div>
     <p class="note">Units are at each play's own size (a 3U play risks 3 units). ROI = units won ÷ units risked. Plays before the live log began (Oct 19) are backfilled with the same rules from each model's record.</p>`;
-  wireChart();
+  wireChart(); wireScope("scRec");
+}
+
+function renderEveryRecords(){
+  const L = everyPlay();
+  if (!live.length){ $("#v-records").innerHTML = scopeSwitch("scRec") + `<div class="empty">Loading every model's plays…</div>`; wireScope("scRec"); return; }
+  const r = rec(L);
+  const cell = x => x.n ? `<td>${x.text}</td><td>${x.w+x.l?Math.round(100*x.w/(x.w+x.l))+"%":"–"}</td><td class="${cls(x.u)}">${sgn(x.u)}</td><td>${x.roi==null?"–":sgn(x.roi)+"%"}</td>` : `<td>–</td><td>–</td><td>–</td><td>–</td>`;
+  const head = `<tr><th></th><th>W-L</th><th>Win %</th><th>Units</th><th>ROI</th></tr>`;
+  const sports = Object.keys(H.names).filter(s => L.some(e=>e.sport===s && FINAL.includes(e.status)));
+  const months = [...new Set(L.filter(e=>FINAL.includes(e.status)).map(e=>e.date.slice(0,7)))].sort().reverse();
+  const sportRows = sports.map(s => {
+    const es = L.filter(e=>e.sport===s), mk = [...new Set(es.map(e=>e.market))];
+    return `<tr class="total"><td><span class="sport"><i style="background:${sportVar(s)}"></i>${H.names[s]}</span></td>${cell(rec(es))}</tr>` +
+      (mk.length > 1 ? mk.map(m => `<tr><td style="padding-left:28px">${MARKET_NAMES[m] || m}</td>${cell(rec(es.filter(e=>e.market===m)))}</tr>`).join("") : "");
+  }).join("");
+  const tiers = ["3U","2U","1U"].filter(t => L.some(e=>e.tier===t && FINAL.includes(e.status)));
+  $("#v-records").innerHTML = `${scopeSwitch("scRec")}
+    <div class="sec-h"><h2>Every 1U+ play</h2><span>All sports, as each model logged them</span></div>
+    <div class="kpis">
+      <div class="kpi gold"><h3>Every 1U+ play</h3><div class="big num ${cls(r.u)}">${sgn(r.u)}u</div>
+        <div class="row"><span><b>${r.text}</b> record</span><span><b>${r.w+r.l?Math.round(100*r.w/(r.w+r.l)):"–"}%</b> wins</span><span><b>${r.roi==null?"–":sgn(r.roi)+"%"}</b> ROI</span></div></div>
+      <div class="kpi"><h3>Units risked</h3><div class="big num">${Math.round(L.filter(e=>FINAL.includes(e.status) && e.status!=="void").reduce((a,e)=>a+e.stake,0))}u</div>
+        <div class="row"><span><b>${L.filter(e=>!FINAL.includes(e.status)).length}</b> plays pending</span></div></div>
+    </div>
+    <div class="sec"><div class="sec-h"><h2>Running units</h2><span>Tap or hover for any day</span></div><div class="chart">${chartSVG()}</div></div>
+    <div class="sec"><div class="sec-h"><h2>By sport and bet type</h2></div><div class="twrap"><table class="t">${head}${sportRows}</table></div></div>
+    <div class="sec"><div class="sec-h"><h2>By size</h2></div><div class="twrap"><table class="t">${head}${tiers.map(t => `<tr><td>${t}</td>${cell(rec(L.filter(e=>e.tier===t)))}</tr>`).join("")}</table></div></div>
+    <div class="sec"><div class="sec-h"><h2>By month</h2></div><div class="twrap"><table class="t">${head}
+      ${months.map(m => `<tr><td>${fromYmd(m+"-01").toLocaleDateString(undefined,{month:"long"})}</td>${cell(rec(L.filter(e=>e.date.startsWith(m))))}</tr>`).join("")}
+      <tr class="total"><td>Season</td>${cell(r)}</tr></table></div></div>
+    <p class="note">Every 1U, 2U and 3U play each model posted, at its own size (a 3U play risks 3 units). Leans aren't counted. Each sport's record includes its backtest/backfilled games before its live log began, the same way that sport's app shows them.</p>`;
+  wireChart(); wireScope("scRec");
 }
 
 // ---------- DATA (every game, no picks)
@@ -661,7 +713,7 @@ window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - rw) >
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/plays.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).then(d => d.plays || []).catch(() => [])
-)).then(lists => { live = lists.flat(); renderToday(); });
+)).then(lists => { live = lists.flat(); renderToday(); if (scope === "all") { renderCalendar(); renderRecords(); } });
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/games.json", {cache: "no-store"}).then(r => r.ok ? r.json() : null).catch(() => null)
