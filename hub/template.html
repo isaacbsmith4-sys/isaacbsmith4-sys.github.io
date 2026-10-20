@@ -648,6 +648,7 @@ function gameCard(g){
         ${g.away.record||g.home.record ? row("Record", g.away.record, g.home.record) : ""}
         ${g.away.rest_days!=null||g.home.rest_days!=null ? row("Days rest", g.away.rest_days>=4?"4+":g.away.rest_days, g.home.rest_days>=4?"4+":g.home.rest_days) : ""}
         ${g.away.b2b||g.home.b2b ? row("Back-to-back", g.away.b2b?"Yes":"No", g.home.b2b?"Yes":"No") : ""}
+        ${g.away.short_week||g.home.short_week ? row("Short week", g.away.short_week?"Yes":"No", g.home.short_week?"Yes":"No") : ""}
         ${labels.map(l => row(l, g.away.stats?.[l], g.home.stats?.[l])).join("")}
       </table>
       <div class="inj2"><div><h4>${g.away.short} injuries</h4>${injs(g.away)}</div><div><h4>${g.home.short} injuries</h4>${injs(g.home)}</div></div>
