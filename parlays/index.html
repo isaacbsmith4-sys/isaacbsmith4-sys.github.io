@@ -108,9 +108,13 @@ a{color:var(--gold-ink)}
 .leg .w b{display:block;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .leg .w b em{font-style:normal;font:800 16px var(--font-display);letter-spacing:.02em;text-transform:uppercase;margin-left:4px;color:var(--ink2)}
 .leg .w > span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.leg .ev{text-align:right;min-width:62px}
+.leg .ev{text-align:right;min-width:58px}
 .leg .ev b{display:block;font:800 19px/1.05 var(--font-display)}
-.leg .ev span{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.leg .ev .pill{font-size:15px;letter-spacing:.03em;color:inherit}
+.leg .ev .pill.pos{color:var(--win)} .leg .ev .pill.neg{color:var(--loss)} .leg .ev .pill.zero{color:var(--muted)}
+.leg .selx{font:800 18px/1.15 var(--font-display);text-transform:uppercase;letter-spacing:.02em;margin:1px 0 2px}
+.leg .selx .price{font-size:15px;color:var(--muted);margin-left:6px}
+.leg .ev span.x-old{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .price{font:800 15px var(--font-display);letter-spacing:.03em}
 .add{width:38px;height:38px;border-radius:10px;border:1px solid var(--line-hi);background:var(--sunk);cursor:pointer;font:800 20px/1 var(--font-body);color:var(--ink2)}
 .add.on{background:var(--gold);border-color:var(--gold);color:var(--on-gold)}
@@ -172,6 +176,40 @@ td.hit{color:var(--win);font-weight:800} td.miss{color:var(--loss);font-weight:8
 .kvs div span{color:var(--muted)}
 .kvs div b{text-align:right}
 @media (max-width:520px){ .kvs{grid-template-columns:1fr} .slip-foot{grid-template-columns:repeat(2,minmax(0,1fr))} }
+/* team logos, edge pills, game headers */
+.tl{width:22px;height:22px;object-fit:contain;flex:0 0 22px;vertical-align:middle}
+.tl.lg{width:40px;height:40px;flex-basis:40px}
+.tl.xl{width:56px;height:56px;flex-basis:56px}
+.pill{display:inline-block;font:800 15px/1 var(--font-display);letter-spacing:.03em;padding:6px 8px;border-radius:8px;min-width:58px;text-align:center}
+.pill.pos{background:var(--win-bg);color:var(--win)} .pill.neg{background:var(--loss-bg);color:var(--loss)} .pill.zero{background:var(--sunk);color:var(--muted)}
+.leg{grid-template-columns:30px minmax(0,1fr) auto auto}
+.leg .tlc{display:flex;align-items:center;justify-content:center}
+.gcard{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:22px 0 10px}
+.gcard .tm{display:flex;align-items:center;gap:8px;font:900 22px/1 var(--font-display);text-transform:uppercase}
+.gcard .at{color:var(--faint);font:800 14px var(--font-display)}
+.gcard .when{margin-left:auto;text-align:right;font-size:12px;color:var(--muted);font-weight:700;line-height:1.3}
+.hero{margin-top:14px}
+.hero .slip{border-color:var(--gold-line);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.stats3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:12px}
+.stats3 > div{background:var(--surface);padding:10px 12px}
+.stats3 b{display:block;font:900 24px/1 var(--font-display)}
+.stats3 span{font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+details.how{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-top:10px}
+details.how summary{cursor:pointer;padding:10px 14px;font-weight:800;font-size:13px;color:var(--ink2);list-style:none;display:flex;justify-content:space-between}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::after{content:"+";color:var(--gold-ink);font-size:16px}
+details.how[open] summary::after{content:"–"}
+details.how .in{padding:0 14px 12px;font-size:13px;color:var(--muted)}
+details.how .in p{margin:6px 0}
+.slipbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabbar-h) + 10px + env(safe-area-inset-bottom,0px));z-index:19;
+  width:min(828px,calc(100% - 24px));display:flex;align-items:center;gap:12px;background:var(--gold);color:var(--on-gold);border:0;border-radius:14px;padding:11px 16px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35);font-weight:800;text-align:left}
+.slipbar[hidden]{display:none}
+.slipbar .n{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:rgba(0,0,0,.18);font:900 16px var(--font-display)}
+.slipbar .o{margin-left:auto;font:900 22px/1 var(--font-display);letter-spacing:.02em}
+.slipbar small{display:block;font-weight:700;font-size:11.5px;opacity:.8}
+body.has-bar .wrap{padding-bottom:90px}
+@media (min-width:760px){ .slipbar{bottom:18px} }
+.rs-head{display:flex;align-items:center;gap:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabbar-h) + 18px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:10px;font-weight:700;font-size:13px;z-index:50;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 .foot{color:var(--faint);font-size:12px;margin-top:28px;text-align:center}
@@ -199,6 +237,7 @@ td.hit{color:var(--win);font-weight:800} td.miss{color:var(--loss);font-weight:8
   <section class="view" id="v-research"></section>
   <p class="foot" id="foot"></p>
 </div>
+<button class="slipbar" id="slipbar" hidden><span class="n" id="sbN"></span><span><span id="sbT">Your slip</span><small id="sbS"></small></span><span class="o" id="sbO"></span></button>
 <div class="toast" id="toast"></div>
 <script>
 const $ = s => document.querySelector(s);
@@ -272,6 +311,18 @@ function hitRate(p, x, n, d=D){
   const h = logs.filter(r => hits(statVal(r, x.m, d), x)).length;
   return {h, n: logs.length};
 }
+const LOGO_FIX = {NFL:{LA:"lar", WAS:"wsh"}, NBA:{}};
+function logo(team, cls="", sp=D.sport){
+  if (!team) return "";
+  const t = (LOGO_FIX[sp][team] || team).toLowerCase();
+  return `<img class="tl ${cls}" src="https://a.espncdn.com/i/teamlogos/${sp.toLowerCase()}/500/${t}.png" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`;
+}
+function pill(e){ return `<span class="pill ${e == null ? "zero" : e > 0.005 ? "pos" : e < -0.005 ? "neg" : "zero"}">${sgnPct(e)}</span>`; }
+function how(title, html){ return `<details class="how"><summary>${title}</summary><div class="in">${html}</div></details>`; }
+function gameCard(g){
+  return `<div class="gcard"><span class="tm">${logo(g.away,"lg")}${g.away}</span><span class="at">@</span><span class="tm">${logo(g.home,"lg")}${g.home}</span>
+    <span class="when">${tipTime(g.start).replace(" ET","")}<br>ET</span></div>`;
+}
 function edgeCls(e){ return e == null ? "" : e > 0.005 ? "pos" : e < -0.005 ? "neg" : ""; }
 const inSlip = id => slip.some(s => s.id === id);
 
@@ -296,10 +347,11 @@ function toggleLeg(id){
 function legRow(x){
   const p = D.players[x.pid], l = legLabel(x), on = inSlip(x.id), note = playerNote(x);
   const mk = p.mk[x.m] || {};
-  return `<div class="leg">
-    <div class="w" data-rs="${x.id}"><b>${esc(p.name)}<em>${esc(l.sel)} ${esc(D.short[x.m])}</em></b>
-      <span>${note?`<span class="tag bad">${esc(note.split(" - ")[0])}</span> `:""}${p.team} vs ${p.opp} · <span class="price">${am(x.price)}</span>${x.est?" est.":""} · model ${pct(x.p)} vs book ${pct(x.b)} · proj ${mk.mu ?? "–"}${x.k==="alt"?"":` <span class="tag">${x.k==="over"?"main":"main under"}</span>`}</span></div>
-    <div class="ev"><b class="${edgeCls(x.edge)}">${sgnPct(x.edge)}</b><span>edge</span></div>
+  return `<div class="leg"><div class="tlc">${logo(p.team)}</div>
+    <div class="w" data-rs="${x.id}"><b>${esc(p.name)}</b>
+      <div class="selx">${esc(l.sel)} ${esc(D.short[x.m])}<span class="price">${am(x.price)}${x.est?" est.":""}</span></div>
+      <span>${note?`<span class="tag bad">${esc(note.split(" - ")[0])}</span> `:""}model ${pct(x.p)} vs book ${pct(x.b)} · proj ${mk.mu ?? "–"} · vs ${p.opp}${x.k==="alt"?"":` <span class="tag">${x.k==="over"?"main":"main under"}</span>`}</span></div>
+    <div class="ev">${pill(x.edge)}</div>
     <button class="add ${on?"on":""}" data-add="${x.id}" aria-label="${on?"Remove from":"Add to"} slip">${on?"✓":"+"}</button>
   </div>`;
 }
@@ -319,16 +371,20 @@ function renderLegs(){
   legs = legs.slice(0, ui.shown);
   const games = D.games.map(g => `<button class="chip ${ui.game===g.eid?"on":""}" data-game="${g.eid}">${g.away} @ ${g.home}<small>${tipTime(g.start)}</small></button>`).join("");
   el.innerHTML = `
-    <div class="sec-h"><h2>${D.sport} legs</h2><span>${total} lines · sorted by edge</span></div>
+    <div class="sec-h"><h2>${D.sport} legs</h2><span>${total} lines · best edge first</span></div>
     <div class="chips"><button class="chip ${ui.game==="all"?"on":""}" data-game="all">All games</button>${games}</div>
     <div class="chips" style="margin-top:6px"><button class="chip ${ui.mk==="all"?"on":""}" data-mk="all">All stats</button>${mks.map(m => `<button class="chip ${ui.mk===m?"on":""}" data-mk="${m}">${D.markets[m]}${D.trusted.includes(m)?"":" "}</button>`).join("")}</div>
     <div class="row2"><input class="search" id="q" placeholder="Find a player" value="${esc(ui.q)}">
       <label class="toggle"><input type="checkbox" id="edgeOnly" ${ui.edgeOnly?"checked":""}> Positive edge only</label></div>
     ${ui.game!=="all" ? injuryBox(D.gameById[ui.game]) : ""}
-    ${D.sport==="NFL" ? `<div class="warn">NFL prices are <b>estimates</b>: ESPN's feed shows DraftKings' NFL numbers but not their prices. "Book %" is what DraftKings' main line implies, plus their usual alt-line margin. Check the real price in DraftKings, and type it into your slip.</div>` : ""}
+    ${D.sport==="NFL" ? `<div class="warn"><b>NFL prices are estimates</b> (ESPN doesn't show DraftKings' NFL prices). Check the real price and type it into your slip.</div>` : ""}
     <div class="board">${legs.map(legRow).join("") || `<div class="empty" style="border:0">Nothing matches. Try turning off "Positive edge only".</div>`}
       ${total > legs.length ? `<button class="more" id="more">Show more (${total - legs.length} left)</button>` : ""}</div>
-    <p class="note"><b>Edge</b> = the model's chance minus the chance implied by DraftKings' price. Alt lines ("18+") are one-sided, so the book's % there still includes their margin (vig); main over/unders do too. Tap a player for research, + to add to your slip.</p>`;
+    ${how("How this works", `<p><b>Edge</b> = the model's chance of the leg hitting minus the chance DraftKings' price implies. Green = the model likes it more than the book does.</p>
+      <p>Alt lines ("18+") are one-sided, so the book's % still includes DraftKings' margin (vig); so do main over/unders. That's the price you actually pay.</p>
+      <p>A red tag means the model shouldn't be trusted on that leg (injury news, or a role the model hasn't seen). Those sit at the bottom.</p>
+      ${D.sport==="NFL" ? "<p>NFL: ESPN's feed has DraftKings' numbers but not their prices, so the book's % is what DraftKings' main line implies plus their usual alt-line margin.</p>" : ""}
+      <p>Tap a player for research, <b>+</b> to add a leg to your slip.</p>`)}`;
   el.querySelectorAll("[data-game]").forEach(b => b.onclick = () => { ui.game = b.dataset.game; ui.shown = 60; saveUI(); render(); });
   el.querySelectorAll("[data-mk]").forEach(b => b.onclick = () => { ui.mk = b.dataset.mk; ui.shown = 60; saveUI(); render(); });
   $("#edgeOnly").onchange = e => { ui.edgeOnly = e.target.checked; saveUI(); render(); };
@@ -392,16 +448,28 @@ function renderParlays(){
   if (!D.games.length) { el.innerHTML = `<div class="empty">No ${D.sport} games with DraftKings props right now.</div>`; return; }
   const key = ui.trusted ? "trusted" : "all";
   const days = [...new Set(D.games.map(g => g.day))];
-  let html = `<div class="sec-h"><h2>Suggested parlays</h2><span>best 2–4 leg combos per game, −130 to +150</span></div>
+  // tonight's top parlay: the best positive-EV suggestion on the first game day
+  const first = days[0];
+  const tops = D.games.filter(g => g.day === first).map(g => ({g, s: (((D.suggested||{})[g.eid]||{})[key]||[])[0]})).filter(t => t.s);
+  const best = tops.filter(t => t.s.positive !== false).sort((a,b) => b.s.ev - a.s.ev)[0];
+  const nPos = tops.filter(t => t.s.positive !== false).length;
+  let html = `<div class="sec-h"><h2>Suggested parlays</h2><span>2–4 legs per game, −130 to +150</span></div>
     <label class="toggle"><input type="checkbox" id="trusted" ${ui.trusted?"checked":""}> Only stats the model's backtest supported (${D.trusted.map(m => D.markets[m]).join(", ")})</label>
-    <div class="warn">A starting point, not a pick. Hit chances multiply the legs' chances as if they were independent; same-game legs aren't, so treat it as an estimate.
-    ${D.sport==="NBA" ? "Early in the season the NBA model leans mostly on DraftKings' own numbers, so real edges are small. Its backtest only held up for rebounds/assists/threes unders at main lines; points and combo stats lost money." : "NFL prices are estimates (ESPN shows no NFL prices); check DraftKings before betting."}</div>`;
+    <div class="stats3"><div><b>${tops.length}</b><span>Games</span></div><div><b class="${nPos?"pos":""}">${nPos}</b><span>With an edge</span></div>
+      <div><b>${best ? sgnPct(best.s.ev,0) : "–"}</b><span>Best EV</span></div></div>
+    ${best ? `<div class="hero">${slipCard(suggestionLegs(best.s), {title:`Top parlay · ${best.g.away} @ ${best.g.home}`, research:true,
+      buttons:`<div class="btns"><button class="btn gold" data-use="${best.g.eid}|0">Put in my slip</button></div>`})}</div>`
+      : `<div class="empty" style="margin-top:12px">No parlay with a model edge ${new Date(first+"T12:00").toLocaleDateString("en-US",{weekday:"long"})}. The closest combos for each game are below, marked "No edge".</div>`}
+    ${how("How these are picked, and how much to trust them", `<p>Legs the model likes (2%+ edge, no injury or role warning, priced −400 to +100), one per player, never two teammates' overs on a stat they share. Combined price −130 to +150, ranked by expected value.</p>
+      <p>The hit chance multiplies the legs' chances as if they were unrelated. Same-game legs aren't (pace, blowouts, minutes), so treat it as an estimate.</p>
+      <p>${D.sport==="NBA" ? "Early in the season the NBA model leans mostly on DraftKings' own numbers, so real edges are small. Its backtest only held up for rebounds/assists/threes unders at main lines; points and combo stats lost money; alt lines were never tested." : "NFL prices are estimates (ESPN shows no NFL prices); check DraftKings before betting. Alt lines were never tested."}</p>
+      <p>A starting point, not a pick.</p>`)}`;
   for (const day of days) {
     const gs = D.games.filter(g => g.day === day);
     html += `<div class="sec"><div class="sec-h"><h2>${new Date(day+"T12:00").toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"})}</h2></div>`;
     for (const g of gs) {
       const sug = ((D.suggested || {})[g.eid] || {})[key] || [];
-      html += `<div class="game-h"><h3>${g.away} @ ${g.home}</h3><span>${tipTime(g.start)}</span></div>`;
+      html += gameCard(g);
       if (!sug.length) { html += `<div class="empty">No combo fits −130 to +150 from this game's lines${ui.trusted?" in these stats. Try turning off the backtest filter":""}.</div>`; continue; }
       sug.forEach((s, i) => {
         const legs = suggestionLegs(s);
@@ -449,7 +517,7 @@ function renderSlip(){
     ${!c.sweet ? `<p class="note">${c.dec < LO ? "Shorter than −130: add a leg or use a longer line." : "Longer than +150: drop a leg or use a shorter line."}</p>` : ""}
     ${warns.map(w => `<div class="warn">${w}</div>`).join("")}
     ${stale.length ? `<div class="warn">${stale.length} leg(s) are no longer on the board (game started or line pulled); their numbers are from when you added them.</div>` : ""}
-    <p class="note">Prices update with each refresh. If DraftKings shows a different price, type it in (e.g. −150 or +120) and the odds and EV update. The model hit chance multiplies the legs' chances and is an estimate, not a promise.${legs.some(l=>l.sport==="NFL")?" * NFL prices marked est. are estimates until you type the real one.":""}</p>`;
+    ${how("About these numbers", `<p>Prices update with each refresh. If DraftKings shows a different price, type it in (e.g. −150 or +120) and the odds and EV update.</p><p>The model hit chance multiplies the legs' chances and is an estimate, not a promise.${legs.some(l=>l.sport==="NFL")?" * NFL prices marked est. are estimates until you type the real one.":""}</p><p>Bet it? Copy the slip and save it in My Picks so it's tracked.</p>`)}`;
   el.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { slip = slip.filter(s => s.id !== b.dataset.rm); saveSlip(); render(); });
   el.querySelectorAll("[data-px]").forEach(inp => inp.onchange = () => {
     const v = parseFloat(inp.value.replace(/[−–]/g,"-").replace("+",""));
@@ -529,11 +597,11 @@ function renderResearch(){
   const deep = `${RESEARCH}#props/${D.sport.toLowerCase()}/${encodeURIComponent(rs.pid)}/${encodeURIComponent(rs.m)}`;
   el.innerHTML = `
     <button class="x" id="back" style="margin-bottom:8px">← All players</button>
-    <div class="rs-head"><h2>${esc(p.name)}</h2>
-      <p>${p.team}${p.pos?` ${p.pos}`:""} vs ${p.opp} · ${g ? tipTime(g.start) : ""}${p.status ? ` · <span class="tag bad">${esc(p.status)}</span>` : ""}</p></div>
+    <div class="rs-head">${logo(p.team,"xl")}<div><h2>${esc(p.name)}</h2>
+      <p>${p.team}${p.pos?` ${p.pos}`:""} vs ${logo(p.opp)} ${p.opp} · ${g ? tipTime(g.start) : ""}${p.status ? ` · <span class="tag bad">${esc(p.status)}</span>` : ""}</p></div></div>
     <div class="chips" style="margin-top:10px">${mkChips}</div>
     <div class="chips" style="margin-top:6px">${sel}</div>
-    <div class="leg board" style="border-radius:14px">${legRow(x).replace(/^<div class="leg">|<\/div>$/g,"")}</div>
+    <div class="board">${legRow(x)}</div>
     <div class="kpis">
       <div class="kpi"><h3>Last 5</h3>${hr(5)}</div>
       <div class="kpi"><h3>Last 10</h3>${hr(10)}</div>
@@ -569,12 +637,25 @@ function renderResearch(){
 
 // ---------------------------------------------------------------- shell
 function setView(v){ view = v; store.set("parView", v); history.replaceState(null, "", "#" + v); render(); window.scrollTo(0,0); }
+function renderBar(){
+  const bar = $("#slipbar");
+  const show = slip.length > 0 && view !== "slip";
+  bar.hidden = !show; document.body.classList.toggle("has-bar", show);
+  if (!show) return;
+  const legs = slipLegs(), c = combine(legs);
+  $("#sbN").textContent = legs.length;
+  $("#sbT").textContent = legs.length === 1 ? "1 leg in your slip" : `${legs.length}-leg parlay`;
+  $("#sbS").textContent = `Model ${pct(c.p)} · ${c.sweet ? "in your range" : "outside −130 to +150"}`;
+  $("#sbO").textContent = am(c.american);
+}
+$("#slipbar").onclick = () => setView("slip");
 function render(){
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.dataset.v === view));
   document.querySelectorAll("#sportSeg button").forEach(b => b.classList.toggle("on", b.dataset.s === sport));
   document.querySelectorAll(".view").forEach(v => v.hidden = v.id !== "v-" + view);
   if (!D) return;
   ({legs:renderLegs, parlays:renderParlays, slip:renderSlip, research:renderResearch})[view]();
+  renderBar();
   const t = new Date(D.generated_at);
   $("#foot").innerHTML = `${D.sport} lines from DraftKings via ESPN, updated ${t.toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit",timeZone:"America/New_York"})} ET · <a href="../">Best Plays</a> · <a href="${RESEARCH}">Research</a> · <a href="${PICKS}">My Picks</a>`;
 }
