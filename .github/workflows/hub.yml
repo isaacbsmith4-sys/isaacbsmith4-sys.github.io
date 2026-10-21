@@ -30,6 +30,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      # your own picks (private repo my-picks), read with the read-only deploy key "hub reader".
+      # Without the secret the hub still builds; phones connected to My Picks read them live.
+      - name: Read my picks
+        env:
+          KEY: ${{ secrets.MY_PICKS_KEY }}
+        run: |
+          [ -z "$KEY" ] && { echo "No MY_PICKS_KEY secret; skipping"; exit 0; }
+          mkdir -p ~/.ssh && printf '%s\n' "$KEY" > ~/.ssh/my_picks && chmod 600 ~/.ssh/my_picks
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/my_picks -o StrictHostKeyChecking=accept-new" \
+            git clone -q --depth 1 git@github.com:isaacbsmith4-sys/my-picks.git "$RUNNER_TEMP/my-picks" \
+            && echo "MY_PICKS_JSON=$RUNNER_TEMP/my-picks/picks.json" >> "$GITHUB_ENV" || echo "Couldn't read my-picks"
+          rm -f ~/.ssh/my_picks
       - run: python3 hub/build.py
       - name: Commit
         run: |

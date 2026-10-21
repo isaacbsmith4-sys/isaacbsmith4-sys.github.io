@@ -6,6 +6,7 @@ site root. Standard library only, so the cloud run needs no installs.
 
     python3 hub/build.py            # normal run
     python3 hub/build.py --now 2026-10-21T11:30   # pretend it's this time (ET), for testing
+    python3 hub/build.py --my-picks ~/Desktop/my-picks/picks.json   # include your own picks
 """
 import argparse
 import json
@@ -171,11 +172,72 @@ def sport_records(feeds):
     return out
 
 
+ESPN_LOGOS = {"NBA": "nba", "NHL": "nhl", "NFL": "nfl"}  # ESPN logo paths go by team code
+
+
+def team_index():
+    """Team short name -> code, logo and color per sport, for logos on the page."""
+    out = {}
+    for folder, code, _ in SPORTS:
+        teams = out.setdefault(code, {})
+        try:
+            with open(os.path.join(ROOT, folder, "games.json")) as f:
+                for g in json.load(f).get("games", []):
+                    for t in (g["away"], g["home"]):
+                        a = t.get("abbr")
+                        if a and t.get("short"):
+                            teams[t["short"]] = {"a": a, "l": f"https://a.espncdn.com/i/teamlogos/{ESPN_LOGOS[code]}/500/{a.lower()}.png"
+                                                 if code in ESPN_LOGOS else None}
+        except (OSError, ValueError, KeyError):
+            pass
+    try:  # NFL has no games.json; its predictions.json lists every team with logo and color
+        with open(os.path.join(ROOT, "nfl", "predictions.json")) as f:
+            for a, t in json.load(f).get("teams", {}).items():
+                out["NFL"][t.get("nick") or a] = {"a": a, "l": t.get("logo"), "c": t.get("color")}
+    except (OSError, ValueError, KeyError):
+        pass
+    return out
+
+
+# what the hub shows of your own picks (from the private my-picks repo): no notes, no model numbers
+MINE_FIELDS = ("id", "kind", "sport", "date", "start", "market", "side", "selection", "units", "price",
+               "status", "result_units", "final", "home_short", "away_short", "confidence", "feed_id")
+
+
+def load_my_picks(path, now):
+    """Your picks from picks.json, trimmed to what the hub page needs. None if not available."""
+    if not path or not os.path.exists(path):
+        return None
+    try:
+        with open(path) as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return None
+    abbr = {}  # team code per (sport, date, home team), for logos
+    for folder, code, _ in SPORTS:
+        try:
+            with open(os.path.join(ROOT, folder, "games.json")) as f:
+                for g in json.load(f).get("games", []):
+                    abbr[(code, g.get("date"), g["home"]["name"])] = (g["away"].get("abbr"), g["home"].get("abbr"))
+        except (OSError, ValueError, KeyError):
+            pass
+    out = []
+    for p in d.get("picks", []):
+        e = {k: p.get(k) for k in MINE_FIELDS if p.get(k) is not None}
+        a = abbr.get((p.get("sport"), p.get("date"), p.get("home")))
+        if a:
+            e["away_abbr"], e["home_abbr"] = a
+        out.append(e)
+    return {"picks": out, "read_at": now.strftime("%Y-%m-%dT%H:%M")}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--now", help="ET time to pretend it is (testing)")
     ap.add_argument("--backfill", metavar="YYYY-MM-DD",
                     help="fill past days from this date through yesterday (days with no picks)")
+    ap.add_argument("--my-picks", metavar="PICKS_JSON", default=os.environ.get("MY_PICKS_JSON"),
+                    help="your picks.json from the private my-picks repo (optional)")
     args = ap.parse_args()
     with open(os.path.join(HUB, "settings.json")) as f:
         settings = json.load(f)
@@ -210,14 +272,16 @@ def main():
     payload = {"generated_at": now.strftime("%Y-%m-%dT%H:%M"), "today": day,
                "settings": settings, "ledger": ledger, "sports": sport_records(feeds),
                "folders": {code: f["folder"] for code, f in feeds.items()},
-               "names": {code: f["name"] for code, f in feeds.items()}}
+               "names": {code: f["name"] for code, f in feeds.items()},
+               "mine": load_my_picks(args.my_picks, now), "teams": team_index()}
     with open(os.path.join(HUB, "template.html")) as f:
         page = f.read().replace("/*HUB*/null", json.dumps(payload))
     with open(os.path.join(ROOT, "index.html"), "w") as f:
         f.write(page)
     graded = [e for e in ledger if e["status"] in FINAL]
     print(f"Hub: {len(ledger)} official plays ({len(new)} new today, {len(graded)} graded); "
-          f"feeds: " + ", ".join(f"{c} {len(f['plays'])}" for c, f in feeds.items()))
+          f"feeds: " + ", ".join(f"{c} {len(f['plays'])}" for c, f in feeds.items()) +
+          (f"; my picks: {len(payload['mine']['picks'])}" if payload["mine"] else "; my picks: not available"))
 
 
 if __name__ == "__main__":
