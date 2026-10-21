@@ -27,7 +27,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # check out the latest main (not the commit that triggered the run): a run that waited
+      # in the queue must see the previous run's ledger and alert state, or alerts repeat
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
