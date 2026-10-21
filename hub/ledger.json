@@ -2223,5 +2223,30 @@
   "status": "pending",
   "result_units": null,
   "potd": false
+ },
+ {
+  "id": "nba-401909836-4432194-reb",
+  "sport": "NBA",
+  "date": "2026-10-21",
+  "start": "2026-10-21T23:30Z",
+  "event": "Nets vs Hornets",
+  "market": "prop",
+  "selection": "Day'Ron Sharpe under 8.5 rebounds",
+  "player": "Day'Ron Sharpe",
+  "line": 8.5,
+  "price": -137.0,
+  "model_prob": 0.633,
+  "market_prob": 0.541,
+  "edge_prob": 0.092,
+  "ev": 0.095,
+  "edge_display": "9%",
+  "tier": "1U",
+  "slot": 3,
+  "stake": 1.0,
+  "locked_at": "2026-10-21 13:55 ET",
+  "backfilled": false,
+  "status": "pending",
+  "result_units": null,
+  "potd": false
  }
 ]
