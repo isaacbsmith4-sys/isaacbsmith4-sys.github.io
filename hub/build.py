@@ -16,6 +16,8 @@ from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HUB = os.path.join(ROOT, "hub")
+import sys
+sys.path.insert(0, HUB)
 LEDGER = os.path.join(HUB, "ledger.json")
 ET = ZoneInfo("America/New_York")
 
@@ -268,6 +270,11 @@ def main():
     set_play_of_the_day(ledger, now)
     with open(LEDGER, "w") as f:
         json.dump(ledger, f, indent=1)
+    try:  # phone alerts must never break the hub build
+        import alerts
+        alerts.run(ledger, by_id, now, settings, parse_start)
+    except Exception as e:
+        print(f"Alerts skipped: {e}")
 
     payload = {"generated_at": now.strftime("%Y-%m-%dT%H:%M"), "today": day,
                "settings": settings, "ledger": ledger, "sports": sport_records(feeds),

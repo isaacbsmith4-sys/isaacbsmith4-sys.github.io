@@ -6,12 +6,13 @@ on:
     # lock hour in hub/settings.json, grades them as each sport posts results, rebuilds index.html.
     - cron: "*/30 13-23 * * *"
     - cron: "*/30 0-5 * * *"
+    - cron: "35,45 14 * * *"   # 10:35 / 10:45 AM EDT, right after the lock
   # GitHub often skips frequent scheduled runs, so also rebuild whenever a sport app
   # publishes (their pushes use deploy keys, which do trigger workflows; the hub's own
   # commits use GITHUB_TOKEN, which doesn't, so there's no loop)
   push:
     branches: [main]
-    paths-ignore: ["index.html", "hub/ledger.json"]
+    paths-ignore: ["index.html", "hub/ledger.json", "hub/alerts_state.json"]
   workflow_dispatch: {}
 
 permissions:
@@ -43,11 +44,13 @@ jobs:
             && echo "MY_PICKS_JSON=$RUNNER_TEMP/my-picks/picks.json" >> "$GITHUB_ENV" || echo "Couldn't read my-picks"
           rm -f ~/.ssh/my_picks
       - run: python3 hub/build.py
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html hub/ledger.json
+          git add index.html hub/ledger.json hub/alerts_state.json
           git diff --cached --quiet && exit 0
           git commit -m "Hub $(TZ=America/New_York date +%Y-%m-%dT%H:%M%Z)"
           for i in 1 2 3 4; do git push && break; git pull --rebase; done
