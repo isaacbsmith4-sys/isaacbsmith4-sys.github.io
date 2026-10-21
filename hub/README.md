@@ -17,3 +17,8 @@ Ranking: every 3U/VIP play first (one arriving after the lock bumps the weakest 
 then the highest expected profit per unit (`ev`) among 1U/2U. Leans never. One bet per game
 on game lines; props on different players can share a game.
 To add a sport: add it to `SPORTS` in `hub/build.py` and a color token in the template.
+
+Phone alerts: `hub/alerts.py` posts to ntfy (free app, no account) on the private channel in
+the NTFY_TOPIC secret: the day's card when it locks (Play of the Day first), yesterday's
+results each morning, and a heads-up if the model drops a locked play or its line moves 1+
+point against it. Each alert is sent once (remembered in `hub/alerts_state.json`).
