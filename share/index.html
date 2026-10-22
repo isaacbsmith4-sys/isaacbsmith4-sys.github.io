@@ -93,9 +93,11 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
   <div class="chips" id="sportChips"></div>
   <label class="f">Record to show</label>
   <div class="chips" id="recChips"></div>
+  <label class="f">Image size and extras</label>
+  <div class="chips" id="fmtChips"></div>
 
   <div class="scope" id="tabs" style="margin-top:6px">
-    <button data-k="card">Card</button><button data-k="single">One play</button><button data-k="recap">Recap</button>
+    <button data-k="card">Card</button><button data-k="single">Play</button><button data-k="recap">Recap</button><button data-k="week">Week</button><button data-k="edges">Edges</button>
   </div>
   <div id="out"><div class="empty">Loading plays…</div></div>
 
@@ -140,6 +142,7 @@ const shortSel = s => SHORT.reduce((a,[r,t]) => a.replace(r,t), s);
 let H = {ledger: [], feeds: {}}, day = etYmd(new Date());
 let tab = store.get("shareTab", "card"); if (tab === "potd") tab = "single";
 let src = store.get("shareSrc", "card"), sport = store.get("shareSport", "all"), recMode = store.get("shareRec", "season");
+let fmt = store.get("shareFmt", "post"), tagsOn = store.get("shareTags", false);
 let handle = store.get("shareHandle", ""), takes = store.get("shareTakes", {}), pickId = null;
 
 const potdIds = () => new Set(H.ledger.filter(e => e.potd).map(e => e.id));
@@ -199,8 +202,40 @@ function recapText(d){
   return `📊 ${sport === "all" ? "" : sport + " "}Results · ${niceDay(d)}: ${w}-${l}, ${sgnU(u)}\n\n${lines.join("\n")}\n${waiting ? `\n${waiting} still waiting on a result.\n` : ""}\n${recordLine(d)}`;
 }
 
+function weekRange(){ return [addDays(day, -7), addDays(day, -1)]; }
+function weekPlays(){ const [a, b] = weekRange(); return pool().filter(e => e.date >= a && e.date <= b && FINAL.includes(e.status) && e.status !== "void"); }
+function tally(es){ const w = es.filter(e=>e.status==="win").length, l = es.filter(e=>e.status==="loss").length, p = es.filter(e=>e.status==="push").length;
+  return {n: es.length, w, l, p, u: es.reduce((a,e)=>a+(e.result_units||0),0), text: `${w}-${l}${p?"-"+p:""}`}; }
+function weekGroups(){
+  const es = weekPlays();
+  if (sport === "all") return Object.keys(FOLDERS).map(s => [s, tally(es.filter(e => e.sport === s))]).filter(([, t]) => t.n);
+  return ["VIP","3U","2U","1U"].map(t => [t, tally(es.filter(e => e.tier === t))]).filter(([, t]) => t.n);
+}
+const weekLabel = () => { const [a, b] = weekRange(); return `${niceDay(a, {month:"short", day:"numeric"})}–${niceDay(b, {month:"short", day:"numeric"})}`; };
+function weekText(){
+  const t = tally(weekPlays()); if (!t.n) return null;
+  const rows = weekGroups().map(([k, g]) => `${k}: ${g.text}, ${sgnU(g.u)}`);
+  return `📅 ${sport === "all" ? "" : sport + " "}Week ${weekLabel()}: ${t.text}, ${sgnU(t.u)}\n\n${rows.join("\n")}\n\n${recordLine(addDays(day,-1))}`;
+}
+function edgePlays(d){ return playsOn(d).filter(e => e.model_prob != null && e.market_prob != null).sort((a,b) => (b.model_prob-b.market_prob) - (a.model_prob-a.market_prob)).slice(0, 6); }
+function edgesText(d){
+  const es = edgePlays(d); if (!es.length) return null;
+  return `📈 Where the model disagrees with Vegas most · ${niceDay(d)}\n\n` +
+    es.map((e, i) => `${i+1}. ${shortSel(e.selection)} (${e.sport}): model ${pct(e.model_prob)}, book ${pct(e.market_prob)}`).join("\n") +
+    `\n\n${recordLine(addDays(d,-1))}`;
+}
+const TAGS = {NFL:"#NFL #NFLBets", CFB:"#CFB #CollegeFootball", NBA:"#NBA #NBABets", NCAAB:"#CBB #MarchMadness", NHL:"#NHL #NHLPicks"};
+function hashtags(es){ const sp = [...new Set(es.map(e => e.sport))]; return [...sp.map(s => TAGS[s] || ""), es.some(e => e.market === "prop") ? "#PlayerProps" : "", "#SportsBetting"].filter(Boolean).join(" "); }
+// split a long post into an X thread: whole lines kept together, each part ≤ 280 with "1/3" on the end
+function threadParts(text){
+  const lines = text.split("\n"), parts = []; let cur = "";
+  for (const l of lines){ const t = cur ? cur + "\n" + l : l; if ([...t].length > 272 && cur){ parts.push(cur.trim()); cur = l; } else cur = t; }
+  if (cur.trim()) parts.push(cur.trim());
+  return parts.length > 1 ? parts.map((p, i) => `${p}\n\n${i+1}/${parts.length}`) : parts;
+}
+
 // ---------- images (1080x1350, 4:5: fits X and Instagram feeds)
-const W = 1080, Hh = 1350, PAD = 72;
+const W = 1080, PAD = 72; let Hh = 1350;  // Hh = usable height; story images add safe zones above and below
 const C = {bg:"#0d0f15", surface:"#151821", line:"#272c3d", ink:"#eef0f6", ink2:"#b4bbcc", muted:"#808a9f", gold:"#e3b04b", win:"#3ddc84", loss:"#ff6b6b"};
 const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif', BODY = 'Manrope, system-ui, sans-serif';
 function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
@@ -220,9 +255,9 @@ function fitFont(ctx, text, weight, size, family, maxW){
   return s;
 }
 function frame(ctx, title, kicker, d){
-  ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, Hh);
+  ctx.fillStyle = C.bg; ctx.fillRect(0, -400, W, Hh + 800);
   const g = ctx.createRadialGradient(W*0.85, 0, 0, W*0.85, 0, 900); g.addColorStop(0, "rgba(227,176,75,.16)"); g.addColorStop(1, "rgba(227,176,75,0)");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, Hh);
+  ctx.fillStyle = g; ctx.fillRect(0, -400, W, Hh + 400);
   rr(ctx, PAD, PAD, 76, 76, 18); ctx.fillStyle = C.gold; ctx.fill(); star(ctx, PAD+38, PAD+40, 24, "#1a1305");
   ctx.fillStyle = C.ink; ctx.font = `900 46px ${DISPLAY}`; ctx.textBaseline = "middle";
   ctx.fillText((handle || "BEST PLAYS").toUpperCase(), PAD + 100, PAD + 38);
@@ -249,7 +284,8 @@ function badge(ctx, xRight, y, text, color){
   ctx.fillStyle = color; ctx.textBaseline = "middle"; ctx.textAlign = "center"; ctx.fillText(text, xRight - w/2, y + 25); ctx.textAlign = "left"; return w;
 }
 const PER_PAGE = 8, COMPACT_OVER = 5;  // more than 5 plays: one-line rows, up to 8 per image, spread evenly
-function pagesOf(es){ return es.length > COMPACT_OVER ? Math.ceil(es.length / PER_PAGE) : 1; }
+const perImage = () => fmt === "story" ? 10 : PER_PAGE;
+function pagesOf(es){ return es.length > COMPACT_OVER ? Math.ceil(es.length / perImage()) : 1; }
 const perPage = es => Math.ceil(es.length / pagesOf(es));
 function compactRows(ctx, es, y, resultMode){
   for (const e of es){
@@ -324,6 +360,43 @@ function drawRecap(ctx, d, page){
   const y = frame(ctx, `${w}-${l} · ${sgnU(u)}`, `${sport === "all" ? "" : sport + " "}Results · ${niceDay(d, {weekday:"long"})}`, d);
   playRows(ctx, es, y, true, page); footer(ctx, recordLine(d));
 }
+function drawWeek(ctx){
+  const t = tally(weekPlays()), groups = weekGroups();
+  let y = frame(ctx, `${t.text} · ${sgnU(t.u)}`, `${sport === "all" ? "" : sport + " "}Week · ${weekLabel()}`, addDays(day, -1));
+  const h = groups.length <= 4 ? 120 : 96;
+  for (const [k, g] of groups){
+    if (y + h > Hh - PAD - 130) break;
+    rr(ctx, PAD, y, W - 2*PAD, h, 22); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
+    ctx.textBaseline = "middle";
+    if (FOLDERS[k]) chip(ctx, PAD + 28, y + h/2 - 20, k); else { ctx.fillStyle = C.gold; ctx.font = `900 52px ${DISPLAY}`; ctx.fillText(k, PAD + 28, y + h/2 + 2); }
+    ctx.fillStyle = C.ink; ctx.font = `800 46px ${BODY}`; ctx.fillText(g.text, PAD + 230, y + h/2 + 2);
+    ctx.fillStyle = g.u > 0 ? C.win : g.u < 0 ? C.loss : C.muted; ctx.font = `900 60px ${DISPLAY}`; ctx.textAlign = "right";
+    ctx.fillText(sgnU(g.u), W - PAD - 28, y + h/2 + 4); ctx.textAlign = "left";
+    y += h + 16;
+  }
+  footer(ctx, recordLine(addDays(day, -1)));
+}
+function drawEdges(ctx, d){
+  const es = edgePlays(d);
+  let y = frame(ctx, "Model vs. Vegas", "Biggest disagreements today", d);
+  const h = es.length <= 4 ? 196 : 158, barW = W - 2*PAD - 56 - 120;
+  for (const e of es){
+    if (y + h > Hh - PAD - 130) break;
+    rr(ctx, PAD, y, W - 2*PAD, h, 22); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
+    const cw = chip(ctx, PAD + 24, y + 22, e.sport);
+    ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; const t = shortSel(e.selection);
+    fitFont(ctx, t, 800, 36, BODY, W - 2*PAD - 48 - cw - 24); ctx.fillText(t, PAD + 24 + cw + 16, y + 43);
+    [["MODEL", e.model_prob, C.gold], ["BOOK", e.market_prob, C.muted]].forEach(([k, v, col], i) => {
+      const by = y + (h <= 158 ? 86 : 100) + i*(h <= 158 ? 36 : 46);
+      ctx.fillStyle = C.muted; ctx.font = `800 22px ${BODY}`; ctx.fillText(k, PAD + 24, by + 12);
+      rr(ctx, PAD + 120, by, barW, 24, 12); ctx.fillStyle = "#1c2030"; ctx.fill();
+      rr(ctx, PAD + 120, by, Math.max(24, barW * v), 24, 12); ctx.fillStyle = col; ctx.fill();
+      ctx.fillStyle = C.ink; ctx.font = `900 34px ${DISPLAY}`; ctx.textAlign = "right"; ctx.fillText(pct(v), W - PAD - 24, by + 13); ctx.textAlign = "left";
+    });
+    y += h + 14;
+  }
+  footer(ctx, recordLine(addDays(d, -1)));
+}
 function drawSingle(ctx, d, e){
   const f = feedPlay(e);
   let y = frame(ctx, e.potd ? "Play of the Day" : `${units(e.stake)} ${e.sport} play`, `${e.sport} · ${units(e.stake)} · ${price(e.price)}`, d);
@@ -361,9 +434,15 @@ function loadFonts(){
 }
 async function render(kind, d, e, page = 0){
   await loadFonts();
-  const cv = document.createElement("canvas"); cv.width = W; cv.height = Hh;
+  const story = fmt === "story", TOPSAFE = 150, BOTSAFE = 170;   // keep clear of Instagram/TikTok story buttons
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = story ? 1920 : 1350;
   const ctx = cv.getContext("2d");
-  if (kind === "card") drawCard(ctx, d, page); else if (kind === "recap") drawRecap(ctx, d, page); else drawSingle(ctx, d, e);
+  ctx.fillStyle = C.bg; ctx.fillRect(0, 0, cv.width, cv.height);
+  if (story){ ctx.translate(0, TOPSAFE); Hh = 1920 - TOPSAFE - BOTSAFE; }
+  try {
+    if (kind === "card") drawCard(ctx, d, page); else if (kind === "recap") drawRecap(ctx, d, page);
+    else if (kind === "week") drawWeek(ctx); else if (kind === "edges") drawEdges(ctx, d); else drawSingle(ctx, d, e);
+  } finally { Hh = 1350; }
   return cv;
 }
 
@@ -371,7 +450,7 @@ async function render(kind, d, e, page = 0){
 function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 1600); }
 async function copy(text){
   try { await navigator.clipboard.writeText(text); toast("Copied"); }
-  catch(e){ const ta = $("#draft"); ta.focus(); ta.select(); toast("Selected. Tap Copy"); }
+  catch(e){ toast("Couldn't copy. Press and hold the text to copy it"); }
 }
 async function shareImage(cvs, name, text){
   const files = [];
@@ -395,6 +474,10 @@ function chips(){
   const sports = Object.keys(FOLDERS).filter(s => onDay.some(e => e.sport === s) || s === sport);
   $("#sportChips").innerHTML = mk("sp", "all", "All sports", sport, onDay.length) + sports.map(s => mk("sp", s, s, sport, onDay.filter(e => e.sport === s).length)).join("");
   $("#recChips").innerHTML = mk("rec", "season", "Season (incl. backtest)", recMode) + mk("rec", "live", `Live since ${niceDay(liveStart(), {month:"short", day:"numeric"})}`, recMode);
+  $("#fmtChips").innerHTML = mk("fmt", "post", "Post 4:5", fmt) + mk("fmt", "story", "Story 9:16", fmt) +
+    `<button class="chip ${tagsOn ? "on" : ""}" id="tagChip">${tagsOn ? "✓ " : ""}Hashtags</button>`;
+  document.querySelectorAll("#fmtChips [data-fmt]").forEach(c => c.onclick = () => { fmt = c.dataset.fmt; store.set("shareFmt", fmt); draw(); });
+  $("#tagChip").onclick = () => { tagsOn = !tagsOn; store.set("shareTags", tagsOn); draw(); };
   document.querySelectorAll("#srcChips .chip").forEach(c => c.onclick = () => { src = c.dataset.src; store.set("shareSrc", src); pickId = null; draw(); });
   document.querySelectorAll("#sportChips .chip").forEach(c => c.onclick = () => { sport = c.dataset.sp; store.set("shareSport", sport); pickId = null; draw(); });
   document.querySelectorAll("#recChips .chip").forEach(c => c.onclick = () => { recMode = c.dataset.rec; store.set("shareRec", recMode); draw(); });
@@ -403,14 +486,17 @@ async function draw(){
   chips();
   document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.k === tab));
   $("#dayLabel").textContent = day === etYmd(new Date()) ? "Today" : niceDay(day);
-  const d = tab === "recap" ? addDays(day, -1) : day, es = playsOn(d);
+  const d = tab === "recap" ? addDays(day, -1) : day, es = tab === "week" ? weekPlays() : tab === "edges" ? edgePlays(day) : playsOn(d);
   const one = tab === "single" ? (es.find(e => e.id === pickId) || es.find(e => e.potd) || es[0]) : null;
-  const text = tab === "card" ? cardText(d) : tab === "single" ? singleText(d, one) : recapText(d);
+  let text = {card: () => cardText(d), single: () => singleText(d, one), recap: () => recapText(d), week: weekText, edges: () => edgesText(d)}[tab]();
+  if (text && tagsOn) text += "\n\n" + hashtags(one ? [one] : es);
   const what = sport === "all" ? "" : sport + " ";
-  const title = {card: `${what}Card · ${niceDay(d)}`, single: "One play", recap: `${what}Recap · ${niceDay(d)}`}[tab];
+  const title = {card: `${what}Card · ${niceDay(d)}`, single: "One play", recap: `${what}Recap · ${niceDay(d)}`,
+    week: `${what}Week · ${weekLabel()}`, edges: `${what}Model vs. Vegas · ${niceDay(d)}`}[tab];
   if (!text){
     const locked = src === "card" && d === etYmd(new Date()) && tab !== "recap";
     const msg = locked ? "Today's card locks at 10:30 AM ET. Check back then, or switch to Every 1U+ play."
+      : tab === "week" ? `No graded ${what}plays from ${weekLabel()}.`
       : `No ${what}${src === "card" ? "official " : "1U+ "}plays on ${niceDay(d)}.`;
     $("#out").innerHTML = `<div class="card"><h2>${title}</h2><div class="empty">${msg}</div></div>`; return;
   }
@@ -423,11 +509,16 @@ async function draw(){
       <label class="f" for="draft">Draft (edit before posting)</label><textarea id="draft" style="min-height:230px"></textarea>
       <div class="count"><span id="cnt"></span><span>X allows 280 characters (more with Premium)</span></div>
       <div class="btns"><button class="btn" id="copy2">Copy text</button></div>
-      ${tab !== "recap" ? `<div class="note">Post this before the first game starts.</div>` : ""}</div>`;
+      ${["card","single","edges"].includes(tab) ? `<div class="note">Post this before the first game starts.</div>` : ""}</div>
+    <div class="card" id="threadCard" hidden><h2>As an X thread</h2><div class="note" style="margin:0 0 10px">Too long for one post on free X, so here it is split into parts. Post part 1, then reply to it with the next.</div><div id="thread"></div></div>`;
   const ta = $("#draft"); ta.value = text;
-  const count = () => { const n = [...ta.value].length; $("#cnt").innerHTML = `<span class="${n > 280 ? "over" : ""}">${n}</span> characters`; };
+  const count = () => { const n = [...ta.value].length; $("#cnt").innerHTML = `<span class="${n > 280 ? "over" : ""}">${n}</span> characters`;
+    const parts = n > 280 ? threadParts(ta.value) : [];
+    $("#threadCard").hidden = parts.length < 2;
+    $("#thread").innerHTML = parts.map((p, i) => `<label class="f">Part ${i+1}</label><textarea readonly style="min-height:110px;margin-bottom:8px">${p.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</textarea><div class="btns" style="margin-bottom:14px"><button class="btn" data-part="${i}">Copy part ${i+1}</button></div>`).join("");
+    document.querySelectorAll("#thread [data-part]").forEach(b => b.onclick = () => copy(parts[+b.dataset.part])); };
   ta.oninput = count; count();
-  const nPages = one ? 1 : pagesOf(es);
+  const nPages = one || tab === "week" || tab === "edges" ? 1 : pagesOf(es);
   let cvs = [];
   const paint = async () => {
     cvs = []; for (let i = 0; i < nPages; i++) cvs.push(await render(tab, d, one, i));
