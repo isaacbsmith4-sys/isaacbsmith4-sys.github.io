@@ -2,7 +2,7 @@
  "sport": "NBA",
  "app": "NBA Model",
  "format": 1,
- "generated_at": "2026-10-22T11:10Z",
+ "generated_at": "2026-10-22T16:30Z",
  "plays": [
   {
    "id": "nba-401909088-4351852-reb",
@@ -23,7 +23,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.08
+   "result_units": 1.08,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-5037871-ast",
@@ -44,7 +45,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4278562-reb",
@@ -65,7 +67,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909089-1966-ast",
@@ -86,7 +89,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.0
+   "result_units": 1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-5104157-reb",
@@ -107,7 +111,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4433621-reb",
@@ -128,7 +133,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.952
+   "result_units": 0.952,
+   "beat_close": null
   },
   {
    "id": "nba-401909089-3136195-ast",
@@ -149,7 +155,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.1
+   "result_units": 1.1,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4432166-ast",
@@ -170,7 +177,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.73
+   "result_units": 0.73,
+   "beat_close": null
   },
   {
    "id": "nba-401909089-3059318-reb",
@@ -191,7 +199,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4683778-fg3m",
@@ -212,7 +221,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4278073-reb",
@@ -233,7 +243,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4683778-reb",
@@ -254,7 +265,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.775
+   "result_units": 0.775,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4683692-ast",
@@ -275,7 +287,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.01
+   "result_units": 1.01,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4278562-ast",
@@ -296,7 +309,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4065648-ast",
@@ -317,7 +331,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4278073-fg3m",
@@ -338,7 +353,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4684742-reb",
@@ -359,7 +375,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4845367-ast",
@@ -380,7 +397,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.893
+   "result_units": 0.893,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-3157465-reb",
@@ -401,7 +419,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.877
+   "result_units": 0.877,
+   "beat_close": null
   },
   {
    "id": "nba-401909089-5124612-ast",
@@ -422,7 +441,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-3078576-fg3m",
@@ -443,7 +463,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909089-3136195-reb",
@@ -464,7 +485,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909089-1966-reb",
@@ -485,7 +507,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4684742-ast",
@@ -506,7 +529,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-3078576-ast",
@@ -527,7 +551,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909088-4432166-reb",
@@ -548,7 +573,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.649
+   "result_units": 0.649,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4593803-fg3m",
@@ -569,7 +595,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.483
+   "result_units": 0.483,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-4683778-ast",
@@ -590,7 +617,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-5104157-fg3m",
@@ -611,7 +639,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.543
+   "result_units": 0.543,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-5104157-ast",
@@ -632,7 +661,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.578
+   "result_units": 0.578,
+   "beat_close": null
   },
   {
    "id": "nba-401909090-5037871-fg3m",
@@ -653,7 +683,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.613
+   "result_units": 0.613,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-spread",
@@ -674,7 +705,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4065733-ast",
@@ -695,7 +727,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 1.14
+   "result_units": 1.14,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-spread",
@@ -716,7 +749,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4397077-reb",
@@ -737,7 +771,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 1.13
+   "result_units": 1.13,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-4432194-reb",
@@ -758,7 +793,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.87
+   "result_units": 0.87,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-3150844-reb",
@@ -779,7 +815,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.98
+   "result_units": 0.98,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-3032979-ast",
@@ -800,7 +837,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.69
+   "result_units": 0.69,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4997536-reb",
@@ -821,7 +859,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.98
+   "result_units": 0.98,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-4278129-reb",
@@ -842,7 +881,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4397136-reb",
@@ -863,7 +903,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.07
+   "result_units": 1.07,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-3064440-reb",
@@ -884,7 +925,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-4683021-ast",
@@ -905,7 +947,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909834-4566434-ast",
@@ -926,7 +969,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.662
+   "result_units": 0.662,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-3032977-ast",
@@ -947,7 +991,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.06
+   "result_units": 1.06,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4395712-ast",
@@ -968,7 +1013,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-3907498-reb",
@@ -989,7 +1035,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-3945274-reb",
@@ -1010,7 +1057,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.813
+   "result_units": 0.813,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4397040-ast",
@@ -1031,7 +1079,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.885
+   "result_units": 0.885,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-5175643-ast",
@@ -1052,7 +1101,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.09
+   "result_units": 1.09,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-3995-ast",
@@ -1073,7 +1123,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4433137-reb",
@@ -1094,7 +1145,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-6442-ast",
@@ -1115,7 +1167,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.05
+   "result_units": 1.05,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-6606-reb",
@@ -1136,7 +1189,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-4432848-ast",
@@ -1157,7 +1211,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-6589-reb",
@@ -1178,7 +1233,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.01
+   "result_units": 1.01,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4278580-reb",
@@ -1199,7 +1255,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.893
+   "result_units": 0.893,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-4601023-ast",
@@ -1220,7 +1277,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.31
+   "result_units": 1.31,
+   "beat_close": null
   },
   {
    "id": "nba-401909834-4701230-reb",
@@ -1241,7 +1299,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-4433247-reb",
@@ -1262,7 +1321,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.87
+   "result_units": 0.87,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-4432241-ast",
@@ -1283,7 +1343,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.22
+   "result_units": 1.22,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4711272-ast",
@@ -1304,7 +1365,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.862
+   "result_units": 0.862,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-5175643-reb",
@@ -1325,7 +1387,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909834-6478-reb",
@@ -1346,7 +1409,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-4397475-fg3m",
@@ -1367,7 +1431,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-4396907-reb",
@@ -1388,7 +1453,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.694
+   "result_units": 0.694,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-4601025-fg3m",
@@ -1409,7 +1475,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.5
+   "result_units": 1.5,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-2990992-ast",
@@ -1430,7 +1497,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-4397475-reb",
@@ -1451,7 +1519,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-4433134-ast",
@@ -1472,7 +1541,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4278078-ast",
@@ -1493,7 +1563,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-5044385-reb",
@@ -1514,7 +1585,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-4432194-ast",
@@ -1535,7 +1607,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4432582-ast",
@@ -1556,7 +1629,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4065733-fg3m",
@@ -1577,7 +1651,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-3064514-reb",
@@ -1598,7 +1673,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4433627-ast",
@@ -1619,7 +1695,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.99
+   "result_units": 0.99,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4066457-reb",
@@ -1640,7 +1717,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.637
+   "result_units": 0.637,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-6606-ast",
@@ -1661,7 +1739,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.719
+   "result_units": 0.719,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-5061589-reb",
@@ -1682,7 +1761,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-2991230-ast",
@@ -1703,7 +1783,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-4396907-ast",
@@ -1724,7 +1805,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.685
+   "result_units": 0.685,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-4397189-ast",
@@ -1745,7 +1827,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.73
+   "result_units": 0.73,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4396993-fg3m",
@@ -1766,7 +1849,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.28
+   "result_units": 1.28,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4600663-reb",
@@ -1787,7 +1871,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.952
+   "result_units": 0.952,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-4433134-reb",
@@ -1808,7 +1893,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.787
+   "result_units": 0.787,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-4397189-reb",
@@ -1829,7 +1915,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909834-4701230-ast",
@@ -1850,7 +1937,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.671
+   "result_units": 0.671,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-4437244-ast",
@@ -1871,7 +1959,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.943
+   "result_units": 0.943,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-3064514-ast",
@@ -1892,7 +1981,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4396993-reb",
@@ -1913,7 +2003,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4903027-reb",
@@ -1934,7 +2025,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4683634-reb",
@@ -1955,7 +2047,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-2991139-reb",
@@ -1976,7 +2069,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-3936099-ast",
@@ -1997,7 +2091,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4066457-ast",
@@ -2018,7 +2113,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4433627-reb",
@@ -2039,7 +2135,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.24
+   "result_units": 1.24,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4873138-fg3m",
@@ -2060,7 +2157,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.952
+   "result_units": 0.952,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4278049-reb",
@@ -2081,7 +2179,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.09
+   "result_units": 1.09,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-3202-ast",
@@ -2102,7 +2201,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-4397002-ast",
@@ -2123,7 +2223,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909834-4702382-ast",
@@ -2144,7 +2245,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-4397475-ast",
@@ -2165,7 +2267,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4432582-reb",
@@ -2186,7 +2289,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.694
+   "result_units": 0.694,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-2595516-fg3m",
@@ -2207,7 +2311,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.926
+   "result_units": 0.926,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-4066211-reb",
@@ -2228,7 +2333,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-3133603-reb",
@@ -2249,7 +2355,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4683634-ast",
@@ -2270,7 +2377,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.847
+   "result_units": 0.847,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-5144091-ast",
@@ -2291,7 +2399,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4397014-fg3m",
@@ -2312,7 +2421,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.04
+   "result_units": 1.04,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4903027-fg3m",
@@ -2333,7 +2443,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.13
+   "result_units": 1.13,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4395628-reb",
@@ -2354,7 +2465,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.04
+   "result_units": 1.04,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-4432816-ast",
@@ -2375,7 +2487,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.709
+   "result_units": 0.709,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-4871145-ast",
@@ -2396,7 +2509,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.1
+   "result_units": 1.1,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4017837-reb",
@@ -2417,7 +2531,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4871144-fg3m",
@@ -2438,7 +2553,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-5106060-reb",
@@ -2459,7 +2575,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.637
+   "result_units": 0.637,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-3936099-reb",
@@ -2480,7 +2597,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-5106060-ast",
@@ -2501,7 +2619,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4997536-fg3m",
@@ -2522,7 +2641,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.8
+   "result_units": 0.8,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-3064514-fg3m",
@@ -2543,7 +2663,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-6475-reb",
@@ -2564,7 +2685,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.645
+   "result_units": 0.645,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4432639-reb",
@@ -2585,7 +2707,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-3032977-reb",
@@ -2606,7 +2729,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.935
+   "result_units": 0.935,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-4065733-reb",
@@ -2627,7 +2751,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4684740-reb",
@@ -2648,7 +2773,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-3995-fg3m",
@@ -2669,7 +2795,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-4278104-fg3m",
@@ -2690,7 +2817,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909837-4397189-fg3m",
@@ -2711,7 +2839,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.935
+   "result_units": 0.935,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-4278053-ast",
@@ -2732,7 +2861,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-3032976-reb",
@@ -2753,7 +2883,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-5174563-ast",
@@ -2774,7 +2905,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.599
+   "result_units": 0.599,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-5105565-reb",
@@ -2795,7 +2927,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.794
+   "result_units": 0.794,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-5041939-ast",
@@ -2816,7 +2949,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.637
+   "result_units": 0.637,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-4065732-reb",
@@ -2837,7 +2971,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.84
+   "result_units": 0.84,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-3155942-reb",
@@ -2858,7 +2993,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-5211175-ast",
@@ -2879,7 +3015,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4997536-ast",
@@ -2900,7 +3037,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.606
+   "result_units": 0.606,
+   "beat_close": null
   },
   {
    "id": "nba-401909091-4397002-reb",
@@ -2921,7 +3059,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.667
+   "result_units": 0.667,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-4065732-ast",
@@ -2942,7 +3081,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.641
+   "result_units": 0.641,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-4702177-fg3m",
@@ -2963,7 +3103,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.578
+   "result_units": 0.578,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-4396971-ast",
@@ -2984,7 +3125,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909834-4431680-reb",
@@ -3005,7 +3147,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.763
+   "result_units": 0.763,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-4433287-ast",
@@ -3026,7 +3169,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.637
+   "result_units": 0.637,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-2583632-reb",
@@ -3047,7 +3191,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.654
+   "result_units": 0.654,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4433136-reb",
@@ -3068,7 +3213,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.769
+   "result_units": 0.769,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-4066383-reb",
@@ -3089,7 +3235,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.654
+   "result_units": 0.654,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-4066457-fg3m",
@@ -3110,7 +3257,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.714
+   "result_units": 0.714,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-4437244-fg3m",
@@ -3131,7 +3279,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.725
+   "result_units": 0.725,
+   "beat_close": null
   },
   {
    "id": "nba-401909838-5112087-reb",
@@ -3152,7 +3301,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909839-4395628-ast",
@@ -3173,7 +3323,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.658
+   "result_units": 0.658,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-2583632-fg3m",
@@ -3194,7 +3345,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.685
+   "result_units": 0.685,
+   "beat_close": null
   },
   {
    "id": "nba-401909092-3213-ast",
@@ -3215,7 +3367,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.588
+   "result_units": 0.588,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-3136193-ast",
@@ -3236,7 +3389,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.671
+   "result_units": 0.671,
+   "beat_close": null
   },
   {
    "id": "nba-401909842-3936099-fg3m",
@@ -3257,7 +3411,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.599
+   "result_units": 0.599,
+   "beat_close": null
   },
   {
    "id": "nba-401909840-4711272-fg3m",
@@ -3278,7 +3433,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-5160992-ast",
@@ -3299,7 +3455,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.568
+   "result_units": 0.568,
+   "beat_close": null
   },
   {
    "id": "nba-401909841-3136193-reb",
@@ -3320,7 +3477,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.625
+   "result_units": 0.625,
+   "beat_close": null
   },
   {
    "id": "nba-401909836-4396971-fg3m",
@@ -3341,7 +3499,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909835-5104155-ast",
@@ -3362,133 +3521,162 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
-  },
-  {
-   "id": "nba-401909093-3908809-ast",
-   "sport": "NBA",
-   "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
-   "event": "Cavaliers @ 76ers",
-   "market": "prop",
-   "selection": "Donovan Mitchell under 4.5 assists",
-   "player": "Donovan Mitchell",
-   "line": 4.5,
-   "price": 102.0,
-   "model_prob": 0.531,
-   "market_prob": 0.464,
-   "edge_prob": 0.068,
-   "ev": 0.073,
-   "edge_display": "7%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-5124612-ast",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
+   "start": null,
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "VJ Edgecombe over 2.5 assists",
    "player": "VJ Edgecombe",
    "line": 2.5,
-   "price": -109.0,
-   "model_prob": 0.558,
-   "market_prob": 0.489,
+   "price": -122.0,
+   "model_prob": 0.584,
+   "market_prob": 0.514,
    "edge_prob": 0.07,
-   "ev": 0.071,
+   "ev": 0.063,
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909094-4278073-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
+   "start": null,
    "event": "Thunder vs Nuggets",
    "market": "prop",
    "selection": "Shai Gilgeous-Alexander under 1.5 threes",
    "player": "Shai Gilgeous-Alexander",
    "line": 1.5,
-   "price": 104.0,
-   "model_prob": 0.512,
-   "market_prob": 0.459,
-   "edge_prob": 0.053,
-   "ev": 0.045,
-   "edge_display": "5%",
+   "price": 107.0,
+   "model_prob": 0.509,
+   "market_prob": 0.452,
+   "edge_prob": 0.057,
+   "ev": 0.054,
+   "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
-   "id": "nba-401909094-4593803-reb",
+   "id": "nba-401909093-3908809-ast",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
-   "event": "Thunder vs Nuggets",
+   "start": null,
+   "event": "Cavaliers vs 76ers",
    "market": "prop",
-   "selection": "Jalen Williams under 4.5 rebounds",
-   "player": "Jalen Williams",
-   "line": 4.5,
-   "price": 104.0,
-   "model_prob": 0.509,
-   "market_prob": 0.459,
-   "edge_prob": 0.05,
-   "ev": 0.038,
-   "edge_display": "5%",
-   "tier": "Light lean",
+   "selection": "Donovan Mitchell under 5.5 assists",
+   "player": "Donovan Mitchell",
+   "line": 5.5,
+   "price": -151.0,
+   "model_prob": 0.631,
+   "market_prob": 0.564,
+   "edge_prob": 0.067,
+   "ev": 0.05,
+   "edge_display": "7%",
+   "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909094-4278073-reb",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
+   "start": null,
    "event": "Thunder vs Nuggets",
    "market": "prop",
-   "selection": "Shai Gilgeous-Alexander under 3.5 rebounds",
+   "selection": "Shai Gilgeous-Alexander under 4.5 rebounds",
    "player": "Shai Gilgeous-Alexander",
-   "line": 3.5,
-   "price": 104.0,
+   "line": 4.5,
+   "price": -156.0,
+   "model_prob": 0.636,
+   "market_prob": 0.571,
+   "edge_prob": 0.065,
+   "ev": 0.043,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909094-4593803-reb",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": null,
+   "event": "Thunder vs Nuggets",
+   "market": "prop",
+   "selection": "Jalen Williams under 4.5 rebounds",
+   "player": "Jalen Williams",
+   "line": 4.5,
+   "price": 105.0,
    "model_prob": 0.508,
-   "market_prob": 0.46,
-   "edge_prob": 0.048,
-   "ev": 0.035,
+   "market_prob": 0.457,
+   "edge_prob": 0.051,
+   "ev": 0.041,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909094-3112335-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": null,
+   "event": "Nuggets vs Thunder",
+   "market": "prop",
+   "selection": "Nikola Jokic under 1.5 threes",
+   "player": "Nikola Jokic",
+   "line": 1.5,
+   "price": 109.0,
+   "model_prob": 0.496,
+   "market_prob": 0.448,
+   "edge_prob": 0.048,
+   "ev": 0.038,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-1966-reb",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
+   "start": null,
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "LeBron James under 6.5 rebounds",
    "player": "LeBron James",
    "line": 6.5,
-   "price": 101.0,
-   "model_prob": 0.512,
-   "market_prob": 0.466,
-   "edge_prob": 0.046,
-   "ev": 0.029,
+   "price": 102.0,
+   "model_prob": 0.511,
+   "market_prob": 0.464,
+   "edge_prob": 0.048,
+   "ev": 0.033,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909094-3936299-ast",
@@ -3509,13 +3697,14 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-1966-ast",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
+   "start": null,
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "LeBron James under 7.5 assists",
@@ -3530,55 +3719,36 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909093-3059318-ast",
-   "sport": "NBA",
-   "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
-   "event": "76ers vs Cavaliers",
-   "market": "prop",
-   "selection": "Joel Embiid over 3.5 assists",
-   "player": "Joel Embiid",
-   "line": 3.5,
-   "price": -125.0,
-   "model_prob": 0.568,
-   "market_prob": 0.52,
-   "edge_prob": 0.048,
-   "ev": 0.023,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-3992-ast",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
-   "event": "Cavaliers @ 76ers",
+   "start": null,
+   "event": "Cavaliers vs 76ers",
    "market": "prop",
    "selection": "James Harden under 6.5 assists",
    "player": "James Harden",
    "line": 6.5,
-   "price": 105.0,
-   "model_prob": 0.497,
-   "market_prob": 0.456,
-   "edge_prob": 0.041,
-   "ev": 0.019,
+   "price": 107.0,
+   "model_prob": 0.495,
+   "market_prob": 0.452,
+   "edge_prob": 0.042,
+   "ev": 0.024,
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-4351851-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
+   "start": null,
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "Anfernee Simons over 1.5 threes",
@@ -3593,13 +3763,14 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-3917376-ast",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
+   "start": null,
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "Jaylen Brown over 3.5 assists",
@@ -3614,28 +3785,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909094-3112335-fg3m",
-   "sport": "NBA",
-   "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
-   "event": "Nuggets @ Thunder",
-   "market": "prop",
-   "selection": "Nikola Jokic under 1.5 threes",
-   "player": "Nikola Jokic",
-   "line": 1.5,
-   "price": -106.0,
-   "model_prob": 0.522,
-   "market_prob": 0.482,
-   "edge_prob": 0.041,
-   "ev": 0.015,
-   "edge_display": "4%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-3059318-reb",
@@ -3656,13 +3807,14 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909094-4593803-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
+   "start": null,
    "event": "Thunder vs Nuggets",
    "market": "prop",
    "selection": "Jalen Williams under 1.5 threes",
@@ -3677,13 +3829,36 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909093-3059318-ast",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": null,
+   "event": "76ers vs Cavaliers",
+   "market": "prop",
+   "selection": "Joel Embiid over 3.5 assists",
+   "player": "Joel Embiid",
+   "line": 3.5,
+   "price": -122.0,
+   "model_prob": 0.555,
+   "market_prob": 0.514,
+   "edge_prob": 0.041,
+   "ev": 0.011,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909093-2581018-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-22T23:00Z",
+   "start": null,
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "Kentavious Caldwell-Pope under 1.5 threes",
@@ -3698,13 +3873,14 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909094-4900671-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
+   "start": null,
    "event": "Thunder vs Nuggets",
    "market": "prop",
    "selection": "Ajay Mitchell under 1.5 threes",
@@ -3719,13 +3895,14 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909094-4683778-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
+   "start": null,
    "event": "Thunder vs Nuggets",
    "market": "prop",
    "selection": "Jared McCain under 2.5 threes",
@@ -3740,13 +3917,35 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909849-spread",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-24T01:30Z",
+   "event": "Pelicans @ Jazz",
+   "market": "spread",
+   "selection": "Pelicans +4.5",
+   "player": null,
+   "line": 4.5,
+   "price": -110,
+   "model_prob": 0.629,
+   "market_prob": 0.5,
+   "edge_prob": 0.129,
+   "ev": 0.201,
+   "edge_display": "4.1 pts",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
    "result_units": null
   },
   {
    "id": "nba-401909095-3078576-ast",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
+   "start": null,
    "event": "Celtics vs Knicks",
    "market": "prop",
    "selection": "Derrick White under 4.5 assists",
@@ -3761,13 +3960,14 @@
    "tier": "1U",
    "units": 1,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909095-3078576-fg3m",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
+   "start": null,
    "event": "Celtics vs Knicks",
    "market": "prop",
    "selection": "Derrick White under 2.5 threes",
@@ -3782,35 +3982,37 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909095-3136195-ast",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
-   "event": "Knicks @ Celtics",
+   "start": null,
+   "event": "Knicks vs Celtics",
    "market": "prop",
    "selection": "Karl-Anthony Towns under 4.5 assists",
    "player": "Karl-Anthony Towns",
    "line": 4.5,
-   "price": -132.0,
-   "model_prob": 0.613,
-   "market_prob": 0.532,
-   "edge_prob": 0.08,
-   "ev": 0.076,
+   "price": -130.0,
+   "model_prob": 0.606,
+   "market_prob": 0.529,
+   "edge_prob": 0.076,
+   "ev": 0.072,
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909095-6585-reb",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
-   "event": "Knicks @ Celtics",
+   "start": null,
+   "event": "Knicks vs Celtics",
    "market": "prop",
    "selection": "Andre Drummond under 6.5 rebounds",
    "player": "Andre Drummond",
@@ -3824,34 +4026,14 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909095-3136195-reb",
-   "sport": "NBA",
-   "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
-   "event": "Knicks @ Celtics",
-   "market": "prop",
-   "selection": "Karl-Anthony Towns under 11.5 rebounds",
-   "player": "Karl-Anthony Towns",
-   "line": 11.5,
-   "price": -128.0,
-   "model_prob": 0.596,
-   "market_prob": 0.526,
-   "edge_prob": 0.07,
-   "ev": 0.062,
-   "edge_display": "7%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909095-4351852-reb",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
+   "start": null,
    "event": "Celtics vs Knicks",
    "market": "prop",
    "selection": "Mitchell Robinson under 7.5 rebounds",
@@ -3866,35 +4048,37 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
-   "id": "nba-401909095-4065648-fg3m",
+   "id": "nba-401909095-3136195-reb",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
-   "event": "Celtics vs Knicks",
+   "start": null,
+   "event": "Knicks vs Celtics",
    "market": "prop",
-   "selection": "Jayson Tatum under 2.5 threes",
-   "player": "Jayson Tatum",
-   "line": 2.5,
-   "price": 130.0,
-   "model_prob": 0.459,
-   "market_prob": 0.407,
-   "edge_prob": 0.052,
-   "ev": 0.055,
-   "edge_display": "5%",
+   "selection": "Karl-Anthony Towns under 10.5 rebounds",
+   "player": "Karl-Anthony Towns",
+   "line": 10.5,
+   "price": 101.0,
+   "model_prob": 0.524,
+   "market_prob": 0.466,
+   "edge_prob": 0.058,
+   "ev": 0.053,
+   "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909095-3934719-ast",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
-   "event": "Knicks @ Celtics",
+   "start": null,
+   "event": "Knicks vs Celtics",
    "market": "prop",
    "selection": "OG Anunoby under 1.5 assists",
    "player": "OG Anunoby",
@@ -3908,13 +4092,58 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909095-3934672-ast",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": null,
+   "event": "Knicks vs Celtics",
+   "market": "prop",
+   "selection": "Jalen Brunson under 6.5 assists",
+   "player": "Jalen Brunson",
+   "line": 6.5,
+   "price": -118.0,
+   "model_prob": 0.566,
+   "market_prob": 0.507,
+   "edge_prob": 0.059,
+   "ev": 0.046,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909095-4065648-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": null,
+   "event": "Celtics vs Knicks",
+   "market": "prop",
+   "selection": "Jayson Tatum under 2.5 threes",
+   "player": "Jayson Tatum",
+   "line": 2.5,
+   "price": 125.0,
+   "model_prob": 0.461,
+   "market_prob": 0.416,
+   "edge_prob": 0.044,
+   "ev": 0.037,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909095-4251-fg3m",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
+   "start": null,
    "event": "Celtics vs Knicks",
    "market": "prop",
    "selection": "Paul George under 2.5 threes",
@@ -3929,14 +4158,15 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nba-401909095-3136195-fg3m",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
-   "event": "Knicks @ Celtics",
+   "start": null,
+   "event": "Knicks vs Celtics",
    "market": "prop",
    "selection": "Karl-Anthony Towns under 1.5 threes",
    "player": "Karl-Anthony Towns",
@@ -3950,28 +4180,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909095-3934672-ast",
-   "sport": "NBA",
-   "date": "2026-10-23",
-   "start": "2026-10-23T23:00Z",
-   "event": "Knicks @ Celtics",
-   "market": "prop",
-   "selection": "Jalen Brunson under 6.5 assists",
-   "player": "Jalen Brunson",
-   "line": 6.5,
-   "price": -140.0,
-   "model_prob": 0.589,
-   "market_prob": 0.546,
-   "edge_prob": 0.043,
-   "ev": 0.009,
-   "edge_display": "4%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   }
  ]
 }
