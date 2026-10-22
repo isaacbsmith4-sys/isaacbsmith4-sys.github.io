@@ -2,7 +2,7 @@
  "sport": "NBA",
  "app": "NBA Model",
  "format": 1,
- "generated_at": "2026-10-22T17:19Z",
+ "generated_at": "2026-10-22T17:52Z",
  "plays": [
   {
    "id": "nba-401909088-4351852-reb",
@@ -3553,34 +3553,6 @@
    "flags": []
   },
   {
-   "id": "nba-401909094-4278073-reb",
-   "sport": "NBA",
-   "date": "2026-10-22",
-   "start": "2026-10-23T01:30Z",
-   "event": "Thunder vs Nuggets",
-   "market": "prop",
-   "selection": "Shai Gilgeous-Alexander under 3.5 rebounds",
-   "player": "Shai Gilgeous-Alexander",
-   "line": 3.5,
-   "price": 118.0,
-   "model_prob": 0.488,
-   "market_prob": 0.43,
-   "edge_prob": 0.058,
-   "ev": 0.064,
-   "edge_display": "6%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Jalen Williams in, Chet Holmgren in tonight; 72 of his past games match that",
-    "Went over 3.5 in 5 of his last 10 games",
-    "Early season: 62% weighted to the book's expected number",
-    "Model says 49%; book says 43%; realistic \u2248 48% (the model runs overconfident)"
-   ],
-   "flags": []
-  },
-  {
    "id": "nba-401909093-5124612-ast",
    "sport": "NBA",
    "date": "2026-10-22",
@@ -3627,6 +3599,34 @@
     "Went over 4.5 in 1 of his last 10 games",
     "Early season: 70% weighted to the book's expected number",
     "Model says 54%; book says 48%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": []
+  },
+  {
+   "id": "nba-401909094-4278073-reb",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-23T01:30Z",
+   "event": "Thunder vs Nuggets",
+   "market": "prop",
+   "selection": "Shai Gilgeous-Alexander under 3.5 rebounds",
+   "player": "Shai Gilgeous-Alexander",
+   "line": 3.5,
+   "price": 113.0,
+   "model_prob": 0.494,
+   "market_prob": 0.44,
+   "edge_prob": 0.055,
+   "ev": 0.053,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Williams in, Chet Holmgren in tonight; 72 of his past games match that",
+    "Went over 3.5 in 5 of his last 10 games",
+    "Early season: 62% weighted to the book's expected number",
+    "Model says 49%; book says 44%; realistic \u2248 48% (the model runs overconfident)"
    ],
    "flags": []
   },
@@ -4024,23 +4024,29 @@
    "id": "nba-401909094-4683778-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
+   "start": "2026-10-23T01:30Z",
    "event": "Thunder vs Nuggets",
    "market": "prop",
    "selection": "Jared McCain under 2.5 threes",
    "player": "Jared McCain",
    "line": 2.5,
-   "price": -191.0,
-   "model_prob": 0.656,
-   "market_prob": 0.616,
-   "edge_prob": 0.04,
-   "ev": -0.001,
+   "price": -189.0,
+   "model_prob": 0.654,
+   "market_prob": 0.613,
+   "edge_prob": 0.041,
+   "ev": -0.0,
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "beat_close": null
+   "why": [
+    "Role: Shai Gilgeous-Alexander in, Jalen Williams in tonight; 12 of his past games match that, where his 3-pointers ran 11% lower",
+    "Went over 2.5 in 4 of his last 10 games",
+    "Early season: 62% weighted to the book's expected number",
+    "Model says 65%; book says 61%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": []
   },
   {
    "id": "nba-401909094-4900671-fg3m",
@@ -4069,6 +4075,32 @@
     "Model says 70%; book says 66%; realistic \u2248 52% (the model runs overconfident)"
    ],
    "flags": []
+  },
+  {
+   "id": "nba-401909849-spread",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-24T01:30Z",
+   "event": "Pelicans @ Jazz",
+   "market": "spread",
+   "selection": "Pelicans +3.5",
+   "player": null,
+   "line": 3.5,
+   "price": -110,
+   "model_prob": 0.599,
+   "market_prob": 0.5,
+   "edge_prob": 0.099,
+   "ev": 0.143,
+   "edge_display": "3.1 pts",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Team rating: Pelicans +3.7 better",
+    "Roster strength tonight: Pelicans +10.3 better",
+    "Early season: line is 67% the market's view of these teams"
+   ]
   },
   {
    "id": "nba-401909095-3078576-ast",
