@@ -207,6 +207,20 @@ a.row:hover{background:var(--surface2)}
 .scope button{flex:1;min-height:42px;background:none;border:0;cursor:pointer;padding:0 8px;border-radius:11px;font-size:13px;font-weight:800;color:var(--muted);min-width:0}
 .scope button.on{background:var(--surface2);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.18),inset 0 0 0 1px var(--line-hi)}
 .scope button.on.me{color:var(--blue-ink)}
+#pfSport,#pfOpts{margin-bottom:10px}
+.proofk{grid-template-columns:1fr 1fr}
+.proofk .kpi .big{font-size:30px}
+.knote{font-size:12px;color:var(--muted);margin-top:6px}
+.t td small{color:var(--muted);font-size:11px;font-weight:600}
+table.t.pf th,table.t.pf td{padding:9px 5px;font-size:12.5px}
+table.t.pf th{font-size:10px;letter-spacing:.04em;white-space:normal}
+table.t.pf td:first-child,table.t.pf th:first-child{padding-left:12px}
+table.t.pf td:last-child,table.t.pf th:last-child{padding-right:12px}
+.pv{display:inline-block;margin-top:4px;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.pv.up{background:var(--win-bg);color:var(--win)}
+.pv.down{background:var(--loss-bg);color:var(--loss)}
+.pv.flat{background:var(--surface2);color:var(--ink2)}
+.pv.wait{background:none;color:var(--faint);padding-left:0}
 
 /* + buttons (open My Picks with the play filled in) */
 .add{flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:0;background:none;cursor:pointer;display:grid;place-items:center;padding:0;text-decoration:none}
@@ -391,9 +405,9 @@ function everyPlay(){
 }
 const scopeList = () => scope === "all" ? everyPlay() : H.ledger;
 function scopeSwitch(id, withMe){
-  const cur = !withMe && scope === "me" ? "best" : scope;
+  const cur = !withMe && (scope === "me" || scope === "proof") ? "best" : scope;
   const b = (k, l) => `<button data-sc="${k}" class="${cur===k?"on":""} ${k==="me"?"me":""}">${l}</button>`;
-  return `<div class="scope" id="${id}">${b("best","Best plays")}${b("all","Every 1U+ play")}${withMe ? b("me","My picks") : ""}</div>`;
+  return `<div class="scope" id="${id}">${b("best","Best plays")}${b("all", withMe ? "All 1U+" : "Every 1U+ play")}${withMe ? b("proof","Proof") + b("me","My picks") : ""}</div>`;
 }
 function wireScope(id){
   document.querySelectorAll(`#${id} button`).forEach(b => b.onclick = () => { scope = b.dataset.sc; store.set("hubScope", scope); renderCalendar(); renderRecords(); });
@@ -751,6 +765,7 @@ function youTeaser(){
 }
 function renderRecords(){
   if (scope === "all") return renderEveryRecords();
+  if (scope === "proof") return renderProof();
   if (scope === "me") return renderMyRecords();
   const r = rec(H.ledger), p = rec(H.ledger.filter(e=>e.potd));
   const flat = H.ledger.filter(e=>e.potd && FINAL.includes(e.status)).reduce((a,e)=>a+(e.status==="win"?profit(e.price):e.status==="loss"?-1:0),0);
@@ -816,6 +831,73 @@ function renderEveryRecords(){
     ${how(["Every 1U, 2U and 3U play each model posted, at its own size (a 3U play risks 3 units). Leans aren't counted.",
       "Each sport's record includes its backtest/backfilled games before its live log began, the same way that sport's app shows them."])}`;
   wireChart(); wireScope("scRec");
+}
+
+// ---------- Proof: every tier each model posts (leans included), at a flat 1 unit, plus beat-the-close
+const TIERS = ["VIP","3U","2U","1U","Lean","Light lean"];
+let proofSport = store.get("proofSport", "all"), proofKind = store.get("proofKind", "all"), proofSpan = store.get("proofSpan", "season");
+function flat1(p){ return p.status === "win" ? profit(p.price) : p.status === "loss" ? -1 : 0; }
+function proofRec(es){
+  const g = es.filter(e => FINAL.includes(e.status) && e.status !== "void");
+  const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length, p = g.filter(e=>e.status==="push").length;
+  const u = g.reduce((a,e)=>a+flat1(e),0);
+  const c = es.filter(e => e.beat_close === true || e.beat_close === false), cb = c.filter(e => e.beat_close === true).length;
+  return {n:g.length, w, l, p, u, roi: g.length ? 100*u/g.length : null, text:`${w}-${l}${p?"-"+p:""}`, cn:c.length, cpct: c.length ? 100*cb/c.length : null};
+}
+function proofVerdict(r){
+  if (r.n < 100) return `<span class="pv wait">Too few yet</span>`;
+  if (r.roi >= 4) return `<span class="pv up">Making money</span>`;
+  if (r.roi <= -4) return `<span class="pv down">Losing</span>`;
+  return `<span class="pv flat">About even</span>`;
+}
+function renderProof(){
+  const top = scopeSwitch("scRec", true);
+  if (!liveLoaded){ $("#v-records").innerHTML = top + `<div class="skel" style="height:140px"></div><div class="skel" style="height:220px"></div>`; wireScope("scRec"); return; }
+  const cutoff = new Date(fromYmd(today).getTime() - 30*864e5).toISOString().slice(0,10);
+  const base = live.filter(p => TIERS.includes(p.tier) && FINAL.includes(p.status) && (proofSpan === "season" || p.date >= cutoff));
+  const sports = Object.keys(H.names).filter(s => base.some(e => e.sport === s));
+  if (proofSport !== "all" && !sports.includes(proofSport)) proofSport = "all";
+  const bySport = base.filter(e => proofSport === "all" || e.sport === proofSport);
+  const hasProps = bySport.some(e => e.market === "prop"), hasGames = bySport.some(e => e.market !== "prop");
+  const kind = hasProps && hasGames ? proofKind : "all";
+  const L = bySport.filter(e => kind === "all" || (kind === "props" ? e.market === "prop" : e.market !== "prop"));
+  const chip = (attr, k, label, cur) => `<button class="chip ${cur===k?"on":""}" data-${attr}="${k}">${label}</button>`;
+  const closeTxt = r => r.cn ? `${Math.round(r.cpct)}%<small><br>of ${r.cn}</small>` : "–";
+  const row = (label, r, total) => `<tr${total ? ' class="total"' : ""}><td>${label}${r.n && !total ? `<br>${proofVerdict(r)}` : ""}</td><td>${r.n ? `${r.w}-${r.l}` : "–"}${r.n ? `<small><br>${winPct(r)}</small>` : ""}</td><td class="${cls(r.u)}">${r.n ? sgn(r.u) : "–"}</td><td>${r.n ? (r.roi>=0?"+":"") + r.roi.toFixed(1) + "%" : "–"}</td><td>${closeTxt(r)}</td></tr>`;
+  const head = `<tr><th>Tier</th><th>W-L</th><th>Units</th><th>ROI</th><th>Close</th></tr>`;
+  const tiers = TIERS.filter(t => L.some(e => e.tier === t));
+  const unit = proofRec(L.filter(e => (e.units||0) >= 1)), leans = proofRec(L.filter(e => (e.units||0) < 1));
+  const kpi = (title, r, note) => `<div class="kpi"><h3>${title}</h3><div class="big num ${cls(r.u)}">${r.n ? sgn(r.u) + "u" : "–"}</div>
+      <div class="krow"><span><b>${r.n ? r.text : "0-0"}</b> record</span><span><b>${r.n ? (r.roi>=0?"+":"") + r.roi.toFixed(1) + "%" : "–"}</b> ROI</span><span><b>${r.cn ? Math.round(r.cpct) + "%" : "–"}</b> beat close</span></div>
+      ${note ? `<div class="knote">${note}</div>` : ""}</div>`;
+  // each sport (or bet type) on its own rows, so a tier that works in one sport isn't hidden by another
+  const splits = proofSport === "all"
+    ? sports.map(s => [`<span class="sport"><i style="background:${sportVar(s)}"></i>${H.names[s]}</span>`, L.filter(e => e.sport === s)])
+    : (hasProps && hasGames && kind === "all" ? [["Games", L.filter(e => e.market !== "prop")], ["Player props", L.filter(e => e.market === "prop")]] : []);
+  const splitRows = splits.filter(([, es]) => es.length).map(([label, es]) =>
+    `<tr class="total"><td colspan="5">${label}</td></tr>` + TIERS.filter(t => es.some(e => e.tier === t)).map(t => row(t, proofRec(es.filter(e => e.tier === t)))).join("")).join("");
+  $("#v-records").innerHTML = `${top}
+    <div class="chips" id="pfSport">${chip("ps","all","All sports",proofSport)}${sports.map(s => chip("ps", s, H.names[s], proofSport)).join("")}</div>
+    <div class="chips" id="pfOpts">${hasProps && hasGames ? chip("pk","all","Games + props",kind) + chip("pk","games","Games",kind) + chip("pk","props","Props",kind) : ""}${chip("pp","season","Season",proofSpan)}${chip("pp","30","Last 30 days",proofSpan)}</div>
+    <div class="kpis proofk">
+      ${kpi("1U+ plays", unit, "")}
+      ${kpi("Leans (no stake)", leans, "If you'd bet every lean 1 unit")}
+    </div>
+    <div class="sec"><div class="sec-h"><h2>By tier</h2></div>
+      <div class="twrap"><table class="t pf">${head}${tiers.map(t => row(t, proofRec(L.filter(e => e.tier === t)))).join("") || `<tr><td colspan="5">No graded plays yet.</td></tr>`}
+      ${tiers.length > 1 ? row("All tiers", proofRec(L), true) : ""}</table></div></div>
+    ${splitRows ? `<div class="sec"><div class="sec-h"><h2>${proofSport === "all" ? "Each sport by tier" : "Games vs. props"}</h2></div><div class="twrap"><table class="t pf">${head}${splitRows}</table></div></div>` : ""}
+    ${how(["Every play each model posted, leans included, scored as if each were 1 unit at its listed price (that's the Units column). That makes tiers fair to compare. A 2U play counts as 1 unit here.",
+      "Break-even at -110 is a 52.4% win rate. <b>Too few yet</b> means under 100 graded plays: at that size a hot or cold week swamps everything, so don't move units on it.",
+      "<b>Close</b> (beat the close) is how often the line moved toward the pick after it was posted (out of the plays where the line moved at all). Sharp bettors beat the close well over half the time. It's the earliest honest signal, long before win-loss settles.",
+      "Closing lines: NBA games, NHL and college football are checked at game time. NBA props use the last check before tip (as late as 6:30 PM ET). The NFL feed doesn't send closing lines yet, so it shows –.",
+      "Records include each sport's backfilled plays from before its live log began, the same as that sport's app."])}`;
+  wireScope("scRec");
+  document.querySelectorAll("#pfSport .chip").forEach(c => c.onclick = () => { proofSport = c.dataset.ps; store.set("proofSport", proofSport); renderProof(); });
+  document.querySelectorAll("#pfOpts .chip").forEach(c => c.onclick = () => {
+    if (c.dataset.pk) { proofKind = c.dataset.pk; store.set("proofKind", proofKind); }
+    if (c.dataset.pp) { proofSpan = c.dataset.pp; store.set("proofSpan", proofSpan); }
+    renderProof(); });
 }
 
 function renderMyRecords(){
@@ -1037,7 +1119,7 @@ loadMineLive();
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/plays.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).then(d => d.plays || []).catch(() => [])
-)).then(lists => { live = lists.flat(); liveLoaded = true; renderToday(); if (scope === "all") { renderCalendar(); renderRecords(); } });
+)).then(lists => { live = lists.flat(); liveLoaded = true; renderToday(); if (scope === "all") renderCalendar(); if (scope === "all" || scope === "proof") renderRecords(); });
 
 Promise.all(Object.entries(H.folders).map(([code, folder]) =>
   fetch(folder + "/games.json", {cache: "no-store"}).then(r => r.ok ? r.json() : null).catch(() => null)
