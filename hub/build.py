@@ -281,6 +281,8 @@ def main():
                "folders": {code: f["folder"] for code, f in feeds.items()},
                "names": {code: f["name"] for code, f in feeds.items()},
                "mine": load_my_picks(args.my_picks, now), "teams": team_index()}
+    with open(os.path.join(HUB, "teams.json"), "w") as f:  # team logos for the Share page
+        json.dump(payload["teams"], f)
     with open(os.path.join(HUB, "template.html")) as f:
         page = f.read().replace("/*HUB*/null", json.dumps(payload))
     with open(os.path.join(ROOT, "index.html"), "w") as f:

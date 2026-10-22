@@ -14,7 +14,7 @@
 <style>
 /* Share: ready-to-post drafts and images from the official card (hub/ledger.json).
    Posts: a card (official best plays, or every 1U+ play), a single play, and the recap,
-   for all sports or one. Records: full season (backtest included, labeled) or live only. */
+   for all sports or one. Records count posted plays; one sport picked = that sport's record. */
 :root{
   color-scheme:dark;
   --bg:#0d0f15; --surface:#151821; --surface2:#1c2030; --sunk:#10131b; --line:#272c3d; --line-hi:#3b4258;
@@ -75,28 +75,46 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
 @media (min-width:760px){ .chips{margin-left:0;margin-right:0;padding-left:0;padding-right:0} }
 @media (max-width:420px){ .settings{grid-template-columns:1fr} .day{justify-content:space-between} }
 </style>
+<style>
+/* page polish: hero banner, gold selected chips, options grouped in one panel */
+.hero{position:relative;overflow:hidden;border-radius:20px;padding:18px 18px 16px;margin-bottom:14px;
+  background:radial-gradient(120% 140% at 100% 0%, rgba(227,176,75,.28), rgba(227,176,75,0) 55%), linear-gradient(160deg, var(--surface2), var(--surface));
+  border:1px solid var(--line)}
+.hero h1{font-size:40px}
+.hero .sub{margin:6px 0 0}
+.hero .badge{position:absolute;right:16px;top:16px;width:44px;height:44px;border-radius:12px;background:var(--gold);display:grid;place-items:center}
+.hero .badge svg{width:24px;height:24px;fill:var(--on-gold)}
+.opts{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 14px 4px;margin-bottom:14px}
+.opts .chips{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
+.chip.on{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.scope button.on{color:var(--gold-ink)}
+.preview{box-shadow:0 10px 30px rgba(0,0,0,.35)}
+</style>
 </head>
 <body>
 <div class="wrap">
   <div class="top"><a class="back" href="../#today">‹ Best Plays</a></div>
-  <h1>Share</h1>
-  <p class="sub">Ready-to-post images and text for your plays: the official card or every 1U+ play, for every sport or just one.</p>
-
-  <div class="settings">
-    <div><label class="f" for="handle">Your handle (shows on images)</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
-    <div><label class="f">Day</label><div class="day"><button id="prev" aria-label="Previous day">‹</button><span id="dayLabel"></span><button id="next" aria-label="Next day">›</button></div></div>
+  <div class="hero">
+    <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg></div>
+    <h1>Share</h1>
+    <p class="sub">Post-ready images and captions: your VIP card, every play, the Top Dog, and daily or weekly recaps.</p>
   </div>
 
-  <label class="f">Which plays</label>
-  <div class="chips" id="srcChips"></div>
-  <label class="f">Sport</label>
-  <div class="chips" id="sportChips"></div>
-  <label class="f">Record to show</label>
-  <div class="chips" id="recChips"></div>
-  <label class="f">Image size and extras</label>
-  <div class="chips" id="fmtChips"></div>
+  <div class="opts">
+    <div class="settings">
+      <div><label class="f" for="handle">Your handle (on every image)</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <div><label class="f">Day</label><div class="day"><button id="prev" aria-label="Previous day">‹</button><span id="dayLabel"></span><button id="next" aria-label="Next day">›</button></div></div>
+    </div>
+    <div style="height:12px"></div>
+    <label class="f">Which plays</label>
+    <div class="chips" id="srcChips"></div>
+    <label class="f">Sport</label>
+    <div class="chips" id="sportChips"></div>
+    <label class="f">Image size and extras</label>
+    <div class="chips" id="fmtChips"></div>
+  </div>
 
-  <div class="scope" id="tabs" style="margin-top:6px">
+  <div class="scope" id="tabs">
     <button data-k="card">Card</button><button data-k="single">Play</button><button data-k="recap">Recap</button><button data-k="week">Week</button><button data-k="edges">Edges</button>
   </div>
   <div id="out"><div class="empty">Loading plays…</div></div>
@@ -104,7 +122,7 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
   <details class="how"><summary>Posting tips</summary><ul>
     <li>Post plays before the game starts. A pick posted after tip-off is worth nothing to followers.</li>
     <li>Post the recap every day, losing days too. People trust a record when they can see the losses in it.</li>
-    <li><b>Season</b> includes backtested plays, so the line says "incl. backtest". Backtested plays were picked by the model after the games, not posted beforehand. If someone checks your old posts and those plays aren't there, the label is what keeps you honest. <b>Live</b> counts only plays posted at the time (since Oct 19).</li>
+    <li>The record on posts counts the plays you've posted since you started (Oct 19). Pick one sport and it shows just that sport's record.</li>
     <li>Never promise wins or "locks". If you ever sell picks or use sportsbook affiliate links, you have to disclose that, and the rules vary by state.</li>
   </ul></details>
 </div>
@@ -115,10 +133,10 @@ const $ = s => document.querySelector(s);
 const store = { get(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
                 set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} } };
 const FOLDERS = {NFL:"nfl", CFB:"cfb", NBA:"nba", NCAAB:"ncaab", NHL:"nhl"};
-const NAMES = {NFL:"NFL", CFB:"College Football", NBA:"NBA", NCAAB:"College Basketball", NHL:"NHL"};
 const SPORT_COLOR = {NFL:"#5b8def", CFB:"#ff6b7d", NBA:"#ff8a3d", NCAAB:"#b39dff", NHL:"#3dd6c6"};
 const FINAL = ["win","loss","push","void"];
 const TIER_RANK = {VIP:0, "3U":1, "2U":2, "1U":3};
+const TOP = "Top Dog";
 
 // ---------- dates (Eastern time, like the hub)
 const etYmd = d => new Intl.DateTimeFormat("en-CA", {timeZone:"America/New_York", year:"numeric", month:"2-digit", day:"2-digit"}).format(d);
@@ -139,83 +157,102 @@ const SHORT = [[/ rushing yards/i," rush yds"],[/ receiving yards/i," rec yds"],
 const shortSel = s => SHORT.reduce((a,[r,t]) => a.replace(r,t), s);
 
 // ---------- state
-let H = {ledger: [], feeds: {}}, day = etYmd(new Date());
+let H = {ledger: [], feeds: {}, teams: {}}, day = etYmd(new Date());
 let tab = store.get("shareTab", "card"); if (tab === "potd") tab = "single";
-let src = store.get("shareSrc", "card"), sport = store.get("shareSport", "all"), recMode = store.get("shareRec", "season");
+let src = store.get("shareSrc2", "all"), sport = store.get("shareSport", "all");
 let fmt = store.get("shareFmt", "post"), tagsOn = store.get("shareTags", false);
 let handle = store.get("shareHandle", ""), takes = store.get("shareTakes", {}), pickId = null;
 
-const potdIds = () => new Set(H.ledger.filter(e => e.potd).map(e => e.id));
-const liveStart = () => H.ledger.filter(e => !e.backfilled).map(e => e.date).sort()[0] || "9999";
-// every 1U+ play the models posted, in the same shape as official card entries
-function allUnitPlays(){
-  const P = potdIds(), out = [];
+const topDogIds = () => new Set(H.ledger.filter(e => e.potd).map(e => e.id));
+// the record counts plays posted since the log began (the first non-backfilled card)
+const postedFrom = () => H.ledger.filter(e => !e.backfilled).map(e => e.date).sort()[0] || "9999";
+function allPlays(){
+  const P = topDogIds(), out = [];
   for (const [code, byId] of Object.entries(H.feeds))
-    for (const p of Object.values(byId)) if ((p.units || 0) >= 1) {
-      const ru = p.result_units != null ? p.result_units : null;
-      out.push({...p, sport: p.sport || code, stake: p.units, potd: P.has(p.id), result_units: ru, backfilled: p.date < liveStart()});
-    }
-  return out;
+    for (const p of Object.values(byId)) if ((p.units || 0) >= 1)
+      out.push({...p, sport: p.sport || code, stake: p.units, potd: P.has(p.id), posted: p.date >= postedFrom()});
+  // official card plays win over the feed's copy (a play can be upgraded, e.g. Lean -> 1U, after a model first logs it)
+  const byId = new Map(out.map(p => [p.id, p]));
+  for (const e of H.ledger) byId.set(e.id, {...(byId.get(e.id) || {}), ...e, posted: !e.backfilled});
+  return [...byId.values()];
 }
-function pool(){ return (src === "card" ? H.ledger : allUnitPlays()).filter(e => sport === "all" || e.sport === sport); }
+function pool(){ return (src === "card" ? H.ledger.map(e => ({...e, posted: !e.backfilled})) : allPlays()).filter(e => sport === "all" || e.sport === sport); }
 function playsOn(d){
   return pool().filter(e => e.date === d).sort((a,b) => (b.potd?1:0)-(a.potd?1:0) || (TIER_RANK[a.tier]??9)-(TIER_RANK[b.tier]??9) || (b.ev||0)-(a.ev||0));
 }
-function record(upTo, onlyPotd){
-  const g = pool().filter(e => e.date <= upTo && FINAL.includes(e.status) && e.status !== "void" && (!onlyPotd || e.potd) && (recMode === "season" || !e.backfilled));
+function tally(es){ const g = es.filter(e => FINAL.includes(e.status) && e.status !== "void");
   const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length, p = g.filter(e=>e.status==="push").length;
-  return {n:g.length, w, l, p, u:g.reduce((a,e)=>a+(e.result_units||0),0), text:`${w}-${l}${p?"-"+p:""}`};
-}
+  return {n: g.length, w, l, p, u: g.reduce((a,e)=>a+(e.result_units||0),0), text: `${w}-${l}${p?"-"+p:""}`}; }
+function record(upTo){ const es = pool().filter(e => e.posted && e.date <= upTo); return {all: tally(es), top: tally(es.filter(e => e.potd))}; }
+const recordName = () => `${sport === "all" ? "" : sport + " "}${src === "card" ? "VIP record" : "Record"}`;
 function recordLine(upTo){
-  const r = record(upTo), pr = src === "card" && sport === "all" ? record(upTo, true) : {n:0};
-  if (!r.n) return "Every pick tracked, wins and losses.";
-  const who = sport === "all" ? (src === "card" ? "Record" : "1U+ record") : `${sport} ${src === "card" ? "record" : "1U+ record"}`;
-  const label = recMode === "season" ? `${who} (incl. backtest)` : `${who} since ${niceDay(liveStart(), {month:"short", day:"numeric"})}`;
-  return `${label}: ${r.text}, ${sgnU(r.u)}${pr.n ? ` · ★ ${pr.text}` : ""}`;
+  const r = record(upTo);
+  if (!r.all.n) return "Every play tracked, wins and losses.";
+  return `${recordName()}: ${r.all.text}, ${sgnU(r.all.u)}${sport === "all" && r.top.n ? ` · ${TOP}: ${r.top.text}` : ""}`;
 }
 const feedPlay = e => (H.feeds[e.sport] || {})[e.id] || e;
 const whyOf = e => { const t = (takes[e.id] || "").trim(); return t ? [t] : (feedPlay(e).why || []).filter(w => !/^Model says/.test(w)).slice(0,3); };
-const cardTitle = () => sport === "all" ? (src === "card" ? "Today's card" : "Today's plays") : `${sport} plays`;
+const cardTitle = () => src === "card" ? (sport === "all" ? "VIP plays" : `${sport} VIP plays`) : (sport === "all" ? "Today's plays" : `${sport} plays`);
+
+// ---------- teams and logos
+function teamOf(sp, name){
+  const T = H.teams[sp] || {}, n = String(name || "").trim(), lo = n.toLowerCase();
+  if (T[n]) return {name: n, ...T[n]};
+  for (const [k, v] of Object.entries(T)) if (k.toLowerCase() === lo || (v.a || "").toLowerCase() === lo) return {name: k, ...v};
+  for (const [k, v] of Object.entries(T)) if (lo.endsWith(" " + k.toLowerCase()) || k.toLowerCase().endsWith(" " + lo)) return {name: k, ...v};
+  return n ? {name: n, a: n.replace(/[^A-Za-z ]/g, "").split(/\s+/).map(w => w[0]).join("").slice(0,3).toUpperCase() || "?"} : null;
+}
+const teamsOf = e => String(e.event || "").split(/\s+(?:@|vs\.?|at)\s+/i).slice(0,2).map(t => teamOf(e.sport, t)).filter(Boolean);
+const IMG = new Map();
+function loadImg(url){
+  if (!url) return Promise.resolve(null);
+  if (!IMG.has(url)) IMG.set(url, new Promise(res => { const im = new Image(); im.crossOrigin = "anonymous";
+    im.onload = () => res(im); im.onerror = () => res(null); im.src = url; setTimeout(() => res(null), 4000); }));
+  return IMG.get(url);
+}
+const logoCache = new Map();
+async function preloadLogos(es){ await Promise.all(es.flatMap(teamsOf).map(t => t.l ? loadImg(t.l).then(im => logoCache.set(t.l, im)) : null)); }
 
 // ---------- text drafts
+const topTag = e => e.potd ? `🐶 ${TOP}: ` : "• ";
 function cardText(d){
   const es = playsOn(d); if (!es.length) return null;
-  const lines = es.map(e => `${e.potd && src === "card" ? "⭐ POTD: " : "• "}${shortSel(e.selection)} (${price(e.price)}) · ${units(e.stake)}${sport === "all" ? " · " + e.sport : ""}`);
-  return `📋 ${cardTitle()} · ${niceDay(d)}\n\n${lines.join("\n")}\n\n${recordLine(addDays(d,-1))}`;
+  const lines = es.map(e => `${topTag(e)}${shortSel(e.selection)} (${price(e.price)}) · ${units(e.stake)}${sport === "all" ? " · " + e.sport : ""}`);
+  return `${src === "card" ? "💎" : "📋"} ${cardTitle()} · ${niceDay(d)}\n\n${lines.join("\n")}\n\n${recordLine(addDays(d,-1))}`;
 }
 function singleText(d, e){
   if (!e) return null;
   const f = feedPlay(e), why = whyOf(e), t = etTime(e.start || f.start);
-  const head = e.potd ? "⭐ Play of the Day" : `${e.sport} ${units(e.stake)} play`;
+  const head = e.potd ? `🐶 ${TOP}` : `${e.sport} ${units(e.stake)} play`;
   return `${head}: ${e.selection} (${price(e.price)})\n${e.event}${t ? " · " + t : ""} · ${units(e.stake)}\n\n` +
     `Model: ${pct(e.model_prob)} · Book: ${pct(e.market_prob)} · Edge: ${e.edge_display}\n` +
     (why.length ? `\n${why.length === 1 && takes[e.id] ? why[0] : "Why:\n" + why.map(w => "- " + w).join("\n")}\n` : "") +
     `\n${recordLine(addDays(d,-1))}`;
 }
+const icon = s => ({win:"✅", loss:"❌", push:"➖", void:"➖"}[s] || "⏳");
 function recapText(d){
   const es = playsOn(d); if (!es.length) return null;
-  const done = es.filter(e => FINAL.includes(e.status));
-  const w = done.filter(e=>e.status==="win").length, l = done.filter(e=>e.status==="loss").length, u = done.reduce((a,e)=>a+(e.result_units||0),0);
-  const icon = s => ({win:"✅", loss:"❌", push:"➖", void:"➖"}[s] || "⏳");
-  const lines = es.map(e => `${icon(e.status)} ${shortSel(e.selection)}${e.potd && src === "card" ? " ⭐" : ""}${FINAL.includes(e.status) && e.result_units != null ? ` (${sgnU(e.result_units)})` : ""}`);
-  const waiting = es.length - done.length;
-  return `📊 ${sport === "all" ? "" : sport + " "}Results · ${niceDay(d)}: ${w}-${l}, ${sgnU(u)}\n\n${lines.join("\n")}\n${waiting ? `\n${waiting} still waiting on a result.\n` : ""}\n${recordLine(d)}`;
+  const t = tally(es), waiting = es.filter(e => !FINAL.includes(e.status)).length;
+  const lines = es.map(e => `${icon(e.status)} ${shortSel(e.selection)}${e.potd ? " 🐶" : ""}${FINAL.includes(e.status) && e.result_units != null ? ` (${sgnU(e.result_units)})` : ""}`);
+  return `📊 ${sport === "all" ? "" : sport + " "}${src === "card" ? "VIP " : ""}Recap · ${niceDay(d)}: ${t.text}, ${sgnU(t.u)}\n\n${lines.join("\n")}\n${waiting ? `\n${waiting} still waiting on a result.\n` : ""}\n${recordLine(d)}`;
 }
-
 function weekRange(){ return [addDays(day, -7), addDays(day, -1)]; }
-function weekPlays(){ const [a, b] = weekRange(); return pool().filter(e => e.date >= a && e.date <= b && FINAL.includes(e.status) && e.status !== "void"); }
-function tally(es){ const w = es.filter(e=>e.status==="win").length, l = es.filter(e=>e.status==="loss").length, p = es.filter(e=>e.status==="push").length;
-  return {n: es.length, w, l, p, u: es.reduce((a,e)=>a+(e.result_units||0),0), text: `${w}-${l}${p?"-"+p:""}`}; }
+function weekPlays(){ const [a, b] = weekRange(); return pool().filter(e => e.date >= a && e.date <= b && e.posted && FINAL.includes(e.status) && e.status !== "void"); }
 function weekGroups(){
   const es = weekPlays();
   if (sport === "all") return Object.keys(FOLDERS).map(s => [s, tally(es.filter(e => e.sport === s))]).filter(([, t]) => t.n);
   return ["VIP","3U","2U","1U"].map(t => [t, tally(es.filter(e => e.tier === t))]).filter(([, t]) => t.n);
 }
+const bestHits = () => weekPlays().filter(e => e.status === "win").sort((a,b) => (b.result_units||0)-(a.result_units||0)).slice(0,3);
 const weekLabel = () => { const [a, b] = weekRange(); return `${niceDay(a, {month:"short", day:"numeric"})}–${niceDay(b, {month:"short", day:"numeric"})}`; };
 function weekText(){
-  const t = tally(weekPlays()); if (!t.n) return null;
-  const rows = weekGroups().map(([k, g]) => `${k}: ${g.text}, ${sgnU(g.u)}`);
-  return `📅 ${sport === "all" ? "" : sport + " "}Week ${weekLabel()}: ${t.text}, ${sgnU(t.u)}\n\n${rows.join("\n")}\n\n${recordLine(addDays(day,-1))}`;
+  const es = weekPlays(), t = tally(es); if (!t.n) return null;
+  const top = tally(es.filter(e => e.potd)), hits = bestHits();
+  return `📅 ${sport === "all" ? "" : sport + " "}Week recap · ${weekLabel()}: ${t.text}, ${sgnU(t.u)}\n\n` +
+    weekGroups().map(([k, g]) => `${k}: ${g.text}, ${sgnU(g.u)}`).join("\n") +
+    (top.n && sport === "all" ? `\n${TOP}: ${top.text}` : "") +
+    (hits.length ? `\n\nBest hits:\n${hits.map(e => `✅ ${shortSel(e.selection)} (${sgnU(e.result_units)})`).join("\n")}` : "") +
+    `\n\n${recordLine(addDays(day,-1))}`;
 }
 function edgePlays(d){ return playsOn(d).filter(e => e.model_prob != null && e.market_prob != null).sort((a,b) => (b.model_prob-b.market_prob) - (a.model_prob-a.market_prob)).slice(0, 6); }
 function edgesText(d){
@@ -226,7 +263,6 @@ function edgesText(d){
 }
 const TAGS = {NFL:"#NFL #NFLBets", CFB:"#CFB #CollegeFootball", NBA:"#NBA #NBABets", NCAAB:"#CBB #MarchMadness", NHL:"#NHL #NHLPicks"};
 function hashtags(es){ const sp = [...new Set(es.map(e => e.sport))]; return [...sp.map(s => TAGS[s] || ""), es.some(e => e.market === "prop") ? "#PlayerProps" : "", "#SportsBetting"].filter(Boolean).join(" "); }
-// split a long post into an X thread: whole lines kept together, each part ≤ 280 with "1/3" on the end
 function threadParts(text){
   const lines = text.split("\n"), parts = []; let cur = "";
   for (const l of lines){ const t = cur ? cur + "\n" + l : l; if ([...t].length > 272 && cur){ parts.push(cur.trim()); cur = l; } else cur = t; }
@@ -234,9 +270,10 @@ function threadParts(text){
   return parts.length > 1 ? parts.map((p, i) => `${p}\n\n${i+1}/${parts.length}`) : parts;
 }
 
-// ---------- images (1080x1350, 4:5: fits X and Instagram feeds)
-const W = 1080, PAD = 72; let Hh = 1350;  // Hh = usable height; story images add safe zones above and below
-const C = {bg:"#0d0f15", surface:"#151821", line:"#272c3d", ink:"#eef0f6", ink2:"#b4bbcc", muted:"#808a9f", gold:"#e3b04b", win:"#3ddc84", loss:"#ff6b6b"};
+// ---------- images: 1080 wide; 1350 tall (post 4:5) or 1920 (story 9:16, with safe zones)
+const W = 1080, PAD = 64; let Hh = 1350;
+const C = {bg:"#08090e", card:"#12151e", card2:"#0e1118", line:"#232838", ink:"#f4f5fa", ink2:"#c3c8d6", muted:"#7f889c",
+           gold:"#f0b847", gold2:"#c98a1a", win:"#36e08a", loss:"#ff5d6c"};
 const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif', BODY = 'Manrope, system-ui, sans-serif';
 function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function wrap(ctx, text, maxW){
@@ -244,184 +281,237 @@ function wrap(ctx, text, maxW){
   for (const w of words){ const t = cur ? cur + " " + w : w; if (ctx.measureText(t).width > maxW && cur){ lines.push(cur); cur = w; } else cur = t; }
   if (cur) lines.push(cur); return lines;
 }
+function fitFont(ctx, text, weight, size, family, maxW, min = 26){
+  let s = size; ctx.font = `${weight} ${s}px ${family}`;
+  while (ctx.measureText(text).width > maxW && s > min){ s -= 2; ctx.font = `${weight} ${s}px ${family}`; }
+  return s;
+}
+function clip(ctx, t, maxW){ while (ctx.measureText(t).width > maxW && t.length > 4) t = t.slice(0, -2).trimEnd() + "…"; return t; }
 function star(ctx, cx, cy, r, color){
   ctx.beginPath();
   for (let i = 0; i < 10; i++){ const a = -Math.PI/2 + i*Math.PI/5, rad = i % 2 ? r*0.45 : r; ctx.lineTo(cx + rad*Math.cos(a), cy + rad*Math.sin(a)); }
   ctx.closePath(); ctx.fillStyle = color; ctx.fill();
 }
-function fitFont(ctx, text, weight, size, family, maxW){
-  let s = size; ctx.font = `${weight} ${s}px ${family}`;
-  while (ctx.measureText(text).width > maxW && s > 40){ s -= 4; ctx.font = `${weight} ${s}px ${family}`; }
-  return s;
+const goldGrad = (ctx, x, y, w, h) => { const g = ctx.createLinearGradient(x, y, x + w, y + h); g.addColorStop(0, "#ffd77a"); g.addColorStop(.5, C.gold); g.addColorStop(1, C.gold2); return g; };
+function background(ctx, total){
+  ctx.fillStyle = C.bg; ctx.fillRect(0, -400, W, total + 800);
+  let g = ctx.createRadialGradient(W*0.95, -40, 0, W*0.95, -40, 1000); g.addColorStop(0, "rgba(240,184,71,.30)"); g.addColorStop(.45, "rgba(240,184,71,.07)"); g.addColorStop(1, "rgba(240,184,71,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, -400, W, total + 800);
+  g = ctx.createRadialGradient(0, total, 0, 0, total, 900); g.addColorStop(0, "rgba(91,141,239,.12)"); g.addColorStop(1, "rgba(91,141,239,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, -400, W, total + 800);
+  ctx.save(); ctx.strokeStyle = "rgba(255,255,255,.028)"; ctx.lineWidth = 2;               // diagonal pinstripes
+  for (let x = -total; x < W; x += 34){ ctx.beginPath(); ctx.moveTo(x, -400); ctx.lineTo(x + total + 800, total + 400); ctx.stroke(); }
+  ctx.restore();
 }
-function frame(ctx, title, kicker, d){
-  ctx.fillStyle = C.bg; ctx.fillRect(0, -400, W, Hh + 800);
-  const g = ctx.createRadialGradient(W*0.85, 0, 0, W*0.85, 0, 900); g.addColorStop(0, "rgba(227,176,75,.16)"); g.addColorStop(1, "rgba(227,176,75,0)");
-  ctx.fillStyle = g; ctx.fillRect(0, -400, W, Hh + 400);
-  rr(ctx, PAD, PAD, 76, 76, 18); ctx.fillStyle = C.gold; ctx.fill(); star(ctx, PAD+38, PAD+40, 24, "#1a1305");
-  ctx.fillStyle = C.ink; ctx.font = `900 46px ${DISPLAY}`; ctx.textBaseline = "middle";
-  ctx.fillText((handle || "BEST PLAYS").toUpperCase(), PAD + 100, PAD + 38);
-  ctx.textAlign = "right"; ctx.fillStyle = C.muted; ctx.font = `700 30px ${BODY}`;
-  ctx.fillText(niceDay(d).toUpperCase(), W - PAD, PAD + 38); ctx.textAlign = "left";
-  ctx.fillStyle = C.gold; ctx.font = `800 30px ${BODY}`; ctx.fillText(kicker.toUpperCase(), PAD, PAD + 160);
-  ctx.fillStyle = C.ink; fitFont(ctx, title.toUpperCase(), 900, 120, DISPLAY, W - 2*PAD - 110); ctx.fillText(title.toUpperCase(), PAD, PAD + 250);
-  return PAD + 330;
+function header(ctx, d){
+  rr(ctx, PAD, PAD, 70, 70, 18); ctx.fillStyle = goldGrad(ctx, PAD, PAD, 70, 70); ctx.fill(); star(ctx, PAD+35, PAD+37, 22, "#1a1305");
+  ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, (handle || "BEST PLAYS").toUpperCase(), 900, 46, DISPLAY, 520);
+  ctx.fillText((handle || "BEST PLAYS").toUpperCase(), PAD + 92, PAD + 36);
+  ctx.font = `800 26px ${BODY}`; const t = niceDay(d).toUpperCase(), tw = ctx.measureText(t).width + 40;
+  rr(ctx, W - PAD - tw, PAD + 14, tw, 46, 23); ctx.strokeStyle = "rgba(255,255,255,.18)"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = C.ink2; ctx.textAlign = "center"; ctx.fillText(t, W - PAD - tw/2, PAD + 38); ctx.textAlign = "left";
+}
+function titleBlock(ctx, kicker, title, opts = {}){
+  let y = PAD + 150;
+  ctx.textBaseline = "alphabetic"; ctx.fillStyle = C.gold; ctx.font = `800 28px ${BODY}`;
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "4px";
+  ctx.fillText(kicker.toUpperCase(), PAD, y); if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+  const s = fitFont(ctx, title.toUpperCase(), 900, 156, DISPLAY, W - 2*PAD - (opts.right || 0), 80);
+  y += s * 0.92 + 4;
+  if (opts.colorTitle){ ctx.fillStyle = opts.colorTitle; } else { ctx.fillStyle = C.ink; }
+  ctx.fillText(title.toUpperCase(), PAD - 4, y);
+  rr(ctx, PAD, y + 22, 130, 10, 5); ctx.fillStyle = goldGrad(ctx, PAD, y + 22, 130, 10); ctx.fill();
+  return y + 64;
+}
+function logoBadge(ctx, t, x, y, s){
+  const im = t && t.l ? logoCache.get(t.l) : null;
+  ctx.save(); ctx.beginPath(); ctx.arc(x + s/2, y + s/2, s/2, 0, Math.PI*2); ctx.fillStyle = "#f3f1ec"; ctx.fill();
+  if (im){ ctx.clip(); const pad = s*0.12; ctx.drawImage(im, x + pad, y + pad, s - 2*pad, s - 2*pad); }
+  else { ctx.fillStyle = (t && t.c) || "#2a3042"; ctx.fill(); ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    fitFont(ctx, (t && t.a) || "?", 900, s*0.42, DISPLAY, s*0.8, 12); ctx.fillText((t && t.a) || "?", x + s/2, y + s/2 + 2); }
+  ctx.restore();
+}
+function matchup(ctx, e, x, y, s){  // two logos, the second tucked behind the first
+  const ts = teamsOf(e);
+  if (!ts.length){ ctx.fillStyle = SPORT_COLOR[e.sport]; ctx.font = `900 ${s*0.45}px ${DISPLAY}`; ctx.textBaseline = "middle"; ctx.fillText(e.sport, x, y + s/2); return; }
+  if (ts[1]){ ctx.save(); ctx.globalAlpha = .9; logoBadge(ctx, ts[1], x + s*0.62, y + s*0.18, s*0.82); ctx.restore(); }
+  ctx.save(); ctx.beginPath(); ctx.arc(x + s/2, y + s/2, s/2 + 4, 0, Math.PI*2); ctx.fillStyle = C.card; ctx.fill(); ctx.restore();
+  logoBadge(ctx, ts[0], x, y, s);
+}
+function sportTag(ctx, sp, x, y){
+  ctx.font = `800 22px ${BODY}`; const w = ctx.measureText(sp).width + 24;
+  rr(ctx, x, y, w, 34, 17); ctx.fillStyle = SPORT_COLOR[sp] || C.muted; ctx.globalAlpha = .2; ctx.fill(); ctx.globalAlpha = 1;
+  ctx.fillStyle = SPORT_COLOR[sp] || C.muted; ctx.textBaseline = "middle"; ctx.fillText(sp, x + 12, y + 18); return w;
+}
+function cardBox(ctx, x, y, w, h, accent, gold){
+  rr(ctx, x, y, w, h, 24);
+  const g = ctx.createLinearGradient(x, y, x, y + h); g.addColorStop(0, C.card); g.addColorStop(1, C.card2); ctx.fillStyle = g; ctx.fill();
+  ctx.lineWidth = gold ? 4 : 2; ctx.strokeStyle = gold ? goldGrad(ctx, x, y, w, h) : C.line; ctx.stroke();
+  if (accent){ ctx.save(); rr(ctx, x, y, w, h, 24); ctx.clip(); ctx.fillStyle = accent; ctx.fillRect(x, y, 10, h); ctx.restore(); }
+}
+function ribbon(ctx, xRight, y, text){
+  ctx.font = `900 26px ${DISPLAY}`; if ("letterSpacing" in ctx) ctx.letterSpacing = "2px";
+  const w = ctx.measureText(text).width + 34;
+  rr(ctx, xRight - w, y - 18, w, 38, 19); ctx.fillStyle = goldGrad(ctx, xRight - w, y - 18, w, 38); ctx.fill();
+  ctx.fillStyle = "#1a1305"; ctx.textBaseline = "middle"; ctx.textAlign = "center"; ctx.fillText(text, xRight - w/2, y + 2); ctx.textAlign = "left";
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
 }
 function footer(ctx, line){
-  const y = Hh - PAD - 96;
-  rr(ctx, PAD, y, W - 2*PAD, 96, 20); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
-  ctx.fillStyle = C.ink2; ctx.textBaseline = "middle";
-  fitFont(ctx, line, 700, 30, BODY, W - 2*PAD - 56); ctx.fillText(line, PAD + 28, y + 48);
+  const h = 112, y = Hh - PAD - h;
+  rr(ctx, PAD, y, W - 2*PAD, h, 26); ctx.fillStyle = "rgba(255,255,255,.04)"; ctx.fill(); ctx.strokeStyle = "rgba(240,184,71,.35)"; ctx.lineWidth = 2; ctx.stroke();
+  const [label, rest] = line.includes(":") ? [line.slice(0, line.indexOf(":")), line.slice(line.indexOf(":") + 1).trim()] : ["", line];
+  ctx.textBaseline = "alphabetic";
+  if (label){ ctx.fillStyle = C.gold; ctx.font = `800 22px ${BODY}`; if ("letterSpacing" in ctx) ctx.letterSpacing = "3px"; ctx.fillText(label.toUpperCase(), PAD + 30, y + 42); if ("letterSpacing" in ctx) ctx.letterSpacing = "0px"; }
+  ctx.fillStyle = C.ink; fitFont(ctx, rest, 900, 46, DISPLAY, W - 2*PAD - 60); ctx.fillText(rest, PAD + 30, y + (label ? 90 : 68));
 }
-function chip(ctx, x, y, sp){
-  ctx.font = `800 24px ${BODY}`; const w = ctx.measureText(sp).width + 28;
-  rr(ctx, x, y, w, 40, 20); ctx.fillStyle = SPORT_COLOR[sp] || C.muted; ctx.globalAlpha = .18; ctx.fill(); ctx.globalAlpha = 1;
-  ctx.fillStyle = SPORT_COLOR[sp] || C.muted; ctx.textBaseline = "middle"; ctx.fillText(sp, x + 14, y + 21); return w;
-}
-function badge(ctx, xRight, y, text, color){
-  ctx.font = `800 26px ${BODY}`; const w = ctx.measureText(text).width + 32;
-  rr(ctx, xRight - w, y, w, 48, 24); ctx.fillStyle = color; ctx.globalAlpha = .18; ctx.fill(); ctx.globalAlpha = 1;
-  ctx.fillStyle = color; ctx.textBaseline = "middle"; ctx.textAlign = "center"; ctx.fillText(text, xRight - w/2, y + 25); ctx.textAlign = "left"; return w;
-}
-const PER_PAGE = 8, COMPACT_OVER = 5;  // more than 5 plays: one-line rows, up to 8 per image, spread evenly
+const PER_PAGE = 7, COMPACT_OVER = 4;  // up to 4 plays: big rows; more: compact rows, 7 per image (10 on stories)
 const perImage = () => fmt === "story" ? 10 : PER_PAGE;
 function pagesOf(es){ return es.length > COMPACT_OVER ? Math.ceil(es.length / perImage()) : 1; }
 const perPage = es => Math.ceil(es.length / pagesOf(es));
-function compactRows(ctx, es, y, resultMode){
-  for (const e of es){
-    const h = 84;
-    rr(ctx, PAD, y, W - 2*PAD, h, 18); ctx.fillStyle = C.surface; ctx.fill();
-    const gold = e.potd && src === "card";
-    ctx.strokeStyle = gold ? "rgba(227,176,75,.6)" : C.line; ctx.lineWidth = gold ? 3 : 2; ctx.stroke();
-    const cw = chip(ctx, PAD + 20, y + 22, e.sport);
-    let right;
-    if (resultMode){
-      const st = e.status, col = st === "win" ? C.win : st === "loss" ? C.loss : C.muted;
-      ctx.fillStyle = col; ctx.font = `900 44px ${DISPLAY}`; ctx.textAlign = "right"; ctx.textBaseline = "middle";
-      ctx.fillText(FINAL.includes(st) && e.result_units != null ? sgnU(e.result_units) : "–", W - PAD - 22, y + h/2 + 2); ctx.textAlign = "left";
-      right = 130;
-    } else {
-      ctx.fillStyle = C.ink2; ctx.font = `700 28px ${BODY}`; ctx.textAlign = "right"; ctx.textBaseline = "middle";
-      ctx.fillText(price(e.price), W - PAD - 22, y + h/2 + 2); ctx.textAlign = "left";
-      badge(ctx, W - PAD - 120, y + 18, units(e.stake), C.gold);
-      right = 230;
-    }
-    const x = PAD + 20 + cw + 16, maxW = W - PAD - right - x;
-    ctx.fillStyle = C.ink; ctx.textBaseline = "middle";
-    let t = (gold ? "★ " : "") + shortSel(e.selection); fitFont(ctx, t, 800, 32, BODY, maxW);
-    while (ctx.measureText(t).width > maxW && t.length > 4) t = t.slice(0, -2).trimEnd() + "…";
-    ctx.fillText(t, x, y + h/2 + 2);
-    y += h + 10;
+function resultColor(st){ return st === "win" ? C.win : st === "loss" ? C.loss : C.muted; }
+function bigRow(ctx, e, y, h, resultMode){
+  const top = e.potd, acc = resultMode ? resultColor(e.status) : SPORT_COLOR[e.sport];
+  cardBox(ctx, PAD, y, W - 2*PAD, h, acc, top);
+  const s = 96; matchup(ctx, e, PAD + 34, y + (h - s)/2, s);
+  const x = PAD + 34 + s*1.5 + 24, right = 200, maxW = W - PAD - right - x;
+  ctx.fillStyle = C.ink; ctx.textBaseline = "alphabetic"; ctx.font = `800 46px ${BODY}`;
+  const lines = wrap(ctx, shortSel(e.selection), maxW).slice(0, 2);
+  const blockH = lines.length * 54 + 40, by = y + (h - blockH)/2 + 44;
+  lines.forEach((l, i) => ctx.fillText(clip(ctx, l, maxW), x, by + i*54));
+  ctx.fillStyle = C.muted; ctx.font = `700 24px ${BODY}`;
+  ctx.fillText(clip(ctx, [e.sport, e.event, etTime(e.start || feedPlay(e).start)].filter(Boolean).join(" · "), maxW + 40), x, by + (lines.length - 1)*54 + 40);
+  ctx.textAlign = "right";
+  if (resultMode){
+    const col = resultColor(e.status), done = FINAL.includes(e.status);
+    ctx.fillStyle = col; ctx.font = `900 60px ${DISPLAY}`; ctx.fillText(done ? e.status.toUpperCase() : "LIVE", W - PAD - 34, y + h/2 + 4);
+    if (done && e.result_units != null){ ctx.font = `800 30px ${BODY}`; ctx.fillText(sgnU(e.result_units), W - PAD - 34, y + h/2 + 44); }
+  } else {
+    ctx.fillStyle = goldGrad(ctx, W - PAD - 160, y, 160, h); ctx.font = `900 76px ${DISPLAY}`; ctx.fillText(units(e.stake), W - PAD - 34, y + h/2 + 12);
+    ctx.fillStyle = C.ink2; ctx.font = `800 28px ${BODY}`; ctx.fillText(price(e.price), W - PAD - 34, y + h/2 + 50);
   }
+  ctx.textAlign = "left";
+  if (top) ribbon(ctx, W - PAD - 30, y, `🐶 ${TOP.toUpperCase()}`);
+}
+function smallRow(ctx, e, y, h, resultMode){
+  const top = e.potd, acc = resultMode ? resultColor(e.status) : SPORT_COLOR[e.sport];
+  cardBox(ctx, PAD, y, W - 2*PAD, h, acc, top);
+  const s = h - 34; matchup(ctx, e, PAD + 28, y + 17, s);
+  const x = PAD + 28 + s*1.5 + 18, right = resultMode ? 170 : 210, maxW = W - PAD - right - x;
+  ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, shortSel(e.selection), 800, 34, BODY, maxW, 26);
+  ctx.fillText(clip(ctx, (top ? "🐶 " : "") + shortSel(e.selection), maxW), x, y + h/2 + 2);
+  ctx.textAlign = "right";
+  if (resultMode){
+    ctx.fillStyle = resultColor(e.status); ctx.font = `900 46px ${DISPLAY}`;
+    ctx.fillText(FINAL.includes(e.status) && e.result_units != null ? sgnU(e.result_units) : "–", W - PAD - 28, y + h/2 + 3);
+  } else {
+    ctx.fillStyle = goldGrad(ctx, W - PAD - 200, y, 100, h); ctx.font = `900 52px ${DISPLAY}`; ctx.fillText(units(e.stake), W - PAD - 118, y + h/2 + 3);
+    ctx.fillStyle = C.ink2; ctx.font = `800 26px ${BODY}`; ctx.fillText(price(e.price), W - PAD - 28, y + h/2 + 2);
+  }
+  ctx.textAlign = "left";
 }
 function playRows(ctx, es, y, resultMode, page = 0){
-  if (es.length > COMPACT_OVER){
-    const n = pagesOf(es), part = es.slice(page*perPage(es), (page+1)*perPage(es));
-    compactRows(ctx, part, y, resultMode);
-    if (n > 1){ ctx.fillStyle = C.muted; ctx.font = `700 26px ${BODY}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "right";
-      ctx.fillText(`${page+1} / ${n}`, W - PAD, PAD + 160); ctx.textAlign = "left"; }
+  const room = Hh - PAD - 112 - 28 - y;
+  if (es.length <= COMPACT_OVER){
+    const gap = 22, h = Math.min(220, Math.floor((room - gap*(es.length - 1)) / Math.max(es.length, 1)));
+    es.forEach((e, i) => bigRow(ctx, e, y + i*(h + gap), h, resultMode));
     return;
   }
-  const maxY = Hh - PAD - 130, gap = es.length <= 3 ? 26 : 14;
-  const fs = es.length <= 2 ? 54 : es.length <= 3 ? 48 : es.length <= 5 ? 40 : 34, lh = Math.round(fs*1.2), top = es.length <= 5 ? 92 : 78;
-  let shown = 0;
-  for (const e of es){
-    ctx.font = `800 ${fs}px ${BODY}`;
-    const right = resultMode ? 190 : 170, lines = wrap(ctx, shortSel(e.selection), W - 2*PAD - 56 - right).slice(0,2);
-    const h = top + lines.length*lh + 18;
-    if (y + h > maxY - (shown < es.length - 1 ? 50 : 0)) break;
-    rr(ctx, PAD, y, W - 2*PAD, h, 22); ctx.fillStyle = C.surface; ctx.fill();
-    const gold = e.potd && src === "card";
-    ctx.strokeStyle = gold ? "rgba(227,176,75,.6)" : C.line; ctx.lineWidth = gold ? 3 : 2; ctx.stroke();
-    let x = PAD + 28; x += chip(ctx, x, y + (top - 40)/2 - 10, e.sport) + 12;
-    if (gold){ star(ctx, x + 18, y + (top - 40)/2 + 10, 16, C.gold); ctx.fillStyle = C.gold; ctx.font = `800 24px ${BODY}`; ctx.fillText("PLAY OF THE DAY", x + 42, y + (top - 40)/2 + 11); }
-    ctx.fillStyle = C.ink; ctx.font = `800 ${fs}px ${BODY}`; ctx.textBaseline = "alphabetic";
-    lines.forEach((l, i) => ctx.fillText(l, PAD + 28, y + top + fs*0.85 + i*lh));
-    if (resultMode){
-      const st = e.status, col = st === "win" ? C.win : st === "loss" ? C.loss : C.muted;
-      badge(ctx, W - PAD - 28, y + (top - 48)/2 - 8, FINAL.includes(st) ? st.toUpperCase() : "PENDING", col);
-      if (e.result_units != null && FINAL.includes(st)){ ctx.fillStyle = col; ctx.font = `900 44px ${DISPLAY}`; ctx.textAlign = "right"; ctx.fillText(sgnU(e.result_units), W - PAD - 28, y + h - 24); ctx.textAlign = "left"; }
-    } else {
-      badge(ctx, W - PAD - 28, y + (top - 48)/2 - 8, units(e.stake), C.gold);
-      ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic"; ctx.fillText(price(e.price), W - PAD - 28, y + h - 24); ctx.textAlign = "left";
-    }
-    y += h + gap; shown++;
-  }
-  if (shown < es.length){ ctx.fillStyle = C.muted; ctx.font = `700 30px ${BODY}`; ctx.textBaseline = "alphabetic"; ctx.fillText(`+ ${es.length - shown} more (full list in the post)`, PAD + 4, y + 26); }
+  const part = es.slice(page*perPage(es), (page+1)*perPage(es)), gap = 14;
+  const h = Math.min(120, Math.floor((room - gap*(part.length - 1)) / part.length));
+  part.forEach((e, i) => smallRow(ctx, e, y + i*(h + gap), h, resultMode));
+  const n = pagesOf(es);
+  if (n > 1){ ctx.fillStyle = C.muted; ctx.font = `800 26px ${BODY}`; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic"; ctx.fillText(`${page+1}/${n}`, W - PAD, PAD + 150); ctx.textAlign = "left"; }
 }
 function drawCard(ctx, d, page){
   const es = playsOn(d);
-  const y = frame(ctx, cardTitle(), src === "card" ? `${es.length} official play${es.length === 1 ? "" : "s"}` : `${es.length} play${es.length === 1 ? "" : "s"} · 1U and up`, d);
+  header(ctx, d);
+  const y = titleBlock(ctx, src === "card" ? `${es.length} VIP play${es.length === 1 ? "" : "s"}` : `${es.length} play${es.length === 1 ? "" : "s"}${d === etYmd(new Date()) ? " today" : ""}`, cardTitle());
   playRows(ctx, es, y, false, page); footer(ctx, recordLine(addDays(d,-1)));
 }
 function drawRecap(ctx, d, page){
-  const es = playsOn(d), done = es.filter(e => FINAL.includes(e.status));
-  const w = done.filter(e=>e.status==="win").length, l = done.filter(e=>e.status==="loss").length, u = done.reduce((a,e)=>a+(e.result_units||0),0);
-  const y = frame(ctx, `${w}-${l} · ${sgnU(u)}`, `${sport === "all" ? "" : sport + " "}Results · ${niceDay(d, {weekday:"long"})}`, d);
+  const es = playsOn(d), t = tally(es);
+  header(ctx, d);
+  const y = titleBlock(ctx, `${sport === "all" ? "" : sport + " "}${src === "card" ? "VIP " : ""}Recap · ${niceDay(d, {weekday:"long"})}`, `${t.text}  ${sgnU(t.u)}`,
+    {colorTitle: t.u > 0 ? C.win : t.u < 0 ? C.loss : C.ink});
   playRows(ctx, es, y, true, page); footer(ctx, recordLine(d));
 }
 function drawWeek(ctx){
-  const t = tally(weekPlays()), groups = weekGroups();
-  let y = frame(ctx, `${t.text} · ${sgnU(t.u)}`, `${sport === "all" ? "" : sport + " "}Week · ${weekLabel()}`, addDays(day, -1));
-  const h = groups.length <= 4 ? 120 : 96;
-  for (const [k, g] of groups){
-    if (y + h > Hh - PAD - 130) break;
-    rr(ctx, PAD, y, W - 2*PAD, h, 22); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
-    ctx.textBaseline = "middle";
-    if (FOLDERS[k]) chip(ctx, PAD + 28, y + h/2 - 20, k); else { ctx.fillStyle = C.gold; ctx.font = `900 52px ${DISPLAY}`; ctx.fillText(k, PAD + 28, y + h/2 + 2); }
-    ctx.fillStyle = C.ink; ctx.font = `800 46px ${BODY}`; ctx.fillText(g.text, PAD + 230, y + h/2 + 2);
+  const es = weekPlays(), t = tally(es), groups = weekGroups(), hits = bestHits(), top = tally(es.filter(e => e.potd));
+  header(ctx, addDays(day, -1));
+  let y = titleBlock(ctx, `${sport === "all" ? "" : sport + " "}Week recap · ${weekLabel()}`, `${t.text}  ${sgnU(t.u)}`, {colorTitle: t.u > 0 ? C.win : t.u < 0 ? C.loss : C.ink});
+  const rows = groups.concat(top.n && sport === "all" ? [[TOP, top]] : []);
+  const h = hits.length ? (rows.length <= 3 ? 100 : 84) : (rows.length <= 4 ? 112 : 92);
+  for (const [k, g] of rows){
+    cardBox(ctx, PAD, y, W - 2*PAD, h, FOLDERS[k] ? SPORT_COLOR[k] : C.gold, k === TOP);
+    ctx.textBaseline = "middle"; ctx.fillStyle = FOLDERS[k] ? SPORT_COLOR[k] : C.gold; ctx.font = `900 54px ${DISPLAY}`; ctx.fillText(k.toUpperCase(), PAD + 40, y + h/2 + 3);
+    ctx.fillStyle = C.ink; ctx.font = `800 44px ${BODY}`; ctx.fillText(g.text, PAD + 330, y + h/2 + 2);
     ctx.fillStyle = g.u > 0 ? C.win : g.u < 0 ? C.loss : C.muted; ctx.font = `900 60px ${DISPLAY}`; ctx.textAlign = "right";
-    ctx.fillText(sgnU(g.u), W - PAD - 28, y + h/2 + 4); ctx.textAlign = "left";
-    y += h + 16;
+    ctx.fillText(sgnU(g.u), W - PAD - 34, y + h/2 + 4); ctx.textAlign = "left";
+    y += h + 14;
+  }
+  const fit = hits.slice(0, Math.max(0, Math.floor((Hh - PAD - 140 - y - 52) / 72)));
+  if (fit.length){
+    y += 30; ctx.fillStyle = C.gold; ctx.font = `800 24px ${BODY}`; ctx.textBaseline = "alphabetic"; ctx.fillText("BEST HITS", PAD, y); y += 18;
+    for (const e of fit){ smallRow(ctx, e, y, 62, true); y += 72; }
   }
   footer(ctx, recordLine(addDays(day, -1)));
 }
 function drawEdges(ctx, d){
   const es = edgePlays(d);
-  let y = frame(ctx, "Model vs. Vegas", "Biggest disagreements today", d);
-  const h = es.length <= 4 ? 196 : 158, barW = W - 2*PAD - 56 - 120;
+  header(ctx, d);
+  let y = titleBlock(ctx, "Biggest disagreements today", "Model vs. Vegas");
+  const room = Hh - PAD - 140 - y, h = Math.min(210, Math.floor((room - 16*(es.length-1)) / es.length)), barX = PAD + 150, barW = W - PAD - 130 - barX;
   for (const e of es){
-    if (y + h > Hh - PAD - 130) break;
-    rr(ctx, PAD, y, W - 2*PAD, h, 22); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
-    const cw = chip(ctx, PAD + 24, y + 22, e.sport);
-    ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; const t = shortSel(e.selection);
-    fitFont(ctx, t, 800, 36, BODY, W - 2*PAD - 48 - cw - 24); ctx.fillText(t, PAD + 24 + cw + 16, y + 43);
-    [["MODEL", e.model_prob, C.gold], ["BOOK", e.market_prob, C.muted]].forEach(([k, v, col], i) => {
-      const by = y + (h <= 158 ? 86 : 100) + i*(h <= 158 ? 36 : 46);
-      ctx.fillStyle = C.muted; ctx.font = `800 22px ${BODY}`; ctx.fillText(k, PAD + 24, by + 12);
-      rr(ctx, PAD + 120, by, barW, 24, 12); ctx.fillStyle = "#1c2030"; ctx.fill();
-      rr(ctx, PAD + 120, by, Math.max(24, barW * v), 24, 12); ctx.fillStyle = col; ctx.fill();
-      ctx.fillStyle = C.ink; ctx.font = `900 34px ${DISPLAY}`; ctx.textAlign = "right"; ctx.fillText(pct(v), W - PAD - 24, by + 13); ctx.textAlign = "left";
+    cardBox(ctx, PAD, y, W - 2*PAD, h, SPORT_COLOR[e.sport]);
+    const s = Math.min(70, h*0.4); matchup(ctx, e, PAD + 30, y + 22, s);
+    ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; const t = shortSel(e.selection), tx = PAD + 30 + s*1.5 + 16;
+    fitFont(ctx, t, 800, 36, BODY, W - PAD - 30 - tx, 24); ctx.fillText(clip(ctx, t, W - PAD - 30 - tx), tx, y + 22 + s/2);
+    [["MODEL", e.model_prob, true], ["BOOK", e.market_prob, false]].forEach(([k, v, isModel], i) => {
+      const by = y + 22 + s + 18 + i*Math.min(44, (h - s - 50)/2);
+      ctx.fillStyle = C.muted; ctx.font = `800 22px ${BODY}`; ctx.fillText(k, PAD + 40, by + 12);
+      rr(ctx, barX, by, barW, 24, 12); ctx.fillStyle = "rgba(255,255,255,.07)"; ctx.fill();
+      rr(ctx, barX, by, Math.max(24, barW * v), 24, 12); ctx.fillStyle = isModel ? goldGrad(ctx, barX, by, barW, 24) : "#5c667c"; ctx.fill();
+      ctx.fillStyle = isModel ? C.gold : C.ink2; ctx.font = `900 40px ${DISPLAY}`; ctx.textAlign = "right"; ctx.fillText(pct(v), W - PAD - 30, by + 14); ctx.textAlign = "left";
     });
-    y += h + 14;
+    y += h + 16;
   }
   footer(ctx, recordLine(addDays(d, -1)));
 }
 function drawSingle(ctx, d, e){
-  const f = feedPlay(e);
-  let y = frame(ctx, e.potd ? "Play of the Day" : `${units(e.stake)} ${e.sport} play`, `${e.sport} · ${units(e.stake)} · ${price(e.price)}`, d);
-  if (e.potd) star(ctx, W - PAD - 50, PAD + 210, 46, C.gold);
-  const why = whyOf(e), big = why.length === 0, selFs = big ? 104 : 84, boxH = big ? 210 : 150;
-  if (big) y += 40;
-  ctx.fillStyle = C.ink; ctx.font = `900 ${selFs}px ${DISPLAY}`; ctx.textBaseline = "alphabetic";
-  const sel = wrap(ctx, e.selection.toUpperCase(), W - 2*PAD).slice(0,3);
-  sel.forEach((l, i) => ctx.fillText(l, PAD, y + selFs*0.85 + i*selFs*1.02)); y += selFs*0.85 + (sel.length-1)*selFs*1.02 + 60;
-  ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`;
-  ctx.fillText([e.event, etTime(e.start || f.start)].filter(Boolean).join(" · "), PAD, y); y += big ? 70 : 44;
-  const boxW = (W - 2*PAD - 2*20) / 3;
+  const f = feedPlay(e), ts = teamsOf(e);
+  header(ctx, d);
+  let y = titleBlock(ctx, `${e.sport} · ${units(e.stake)} · ${price(e.price)}`, e.potd ? TOP : `${units(e.stake)} play`);
+  const why = whyOf(e), roomy = why.length === 0;
+  if (roomy) y += 50;
+  // big matchup logos
+  const s = roomy ? 190 : 150;
+  if (ts.length){
+    const total = ts.length === 2 ? s*2 + 110 : s, x0 = (W - total)/2;
+    logoBadge(ctx, ts[0], x0, y, s);
+    if (ts[1]){ ctx.fillStyle = C.muted; ctx.font = `900 64px ${DISPLAY}`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(/ vs /i.test(e.event) ? "VS" : "@", W/2, y + s/2 + 4); ctx.textAlign = "left";
+      logoBadge(ctx, ts[1], x0 + s + 110, y, s); }
+    y += s + 40;
+  }
+  ctx.fillStyle = C.ink; ctx.textBaseline = "alphabetic"; ctx.textAlign = "center";
+  ctx.font = `900 ${roomy ? 92 : 78}px ${DISPLAY}`;
+  const sel = wrap(ctx, e.selection.toUpperCase(), W - 2*PAD).slice(0, 2), lh = roomy ? 92 : 78;
+  y += lh;
+  sel.forEach((l, i) => ctx.fillText(l, W/2, y + i*lh)); y += (sel.length - 1)*lh + 46;
+  ctx.fillStyle = C.ink2; ctx.font = `700 30px ${BODY}`; ctx.fillText([e.event, etTime(e.start || f.start)].filter(Boolean).join(" · "), W/2, y); ctx.textAlign = "left";
+  y += 40;
+  const boxW = (W - 2*PAD - 2*18) / 3, boxH = roomy ? 170 : 140;
   [["MODEL", pct(e.model_prob)], ["BOOK", pct(e.market_prob)], ["EDGE", e.edge_display]].forEach(([k, v], i) => {
-    const x = PAD + i*(boxW + 20); rr(ctx, x, y, boxW, boxH, 20); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = i === 2 ? "rgba(227,176,75,.6)" : C.line; ctx.lineWidth = 2; ctx.stroke();
-    ctx.fillStyle = C.muted; ctx.font = `800 24px ${BODY}`; ctx.fillText(k, x + 24, y + 46);
-    ctx.fillStyle = i === 2 ? C.gold : C.ink; ctx.font = `900 ${big ? 92 : 64}px ${DISPLAY}`; ctx.fillText(v || "–", x + 24, y + boxH - 30);
+    const x = PAD + i*(boxW + 18); cardBox(ctx, x, y, boxW, boxH, null, i === 2);
+    ctx.fillStyle = C.muted; ctx.font = `800 22px ${BODY}`; ctx.textBaseline = "alphabetic"; ctx.fillText(k, x + 26, y + 44);
+    ctx.fillStyle = i === 2 ? goldGrad(ctx, x, y, boxW, boxH) : C.ink; ctx.font = `900 ${roomy ? 80 : 66}px ${DISPLAY}`; ctx.fillText(v || "–", x + 26, y + boxH - 28);
   });
-  y += boxH + 48;
+  y += boxH + 44;
   ctx.font = `600 30px ${BODY}`;
-  const maxY = Hh - PAD - 140;
   for (const w of why){
     const ls = wrap(ctx, w, W - 2*PAD - 40);
-    if (y + ls.length*40 > maxY) break;
-    ctx.fillStyle = C.gold; ctx.fillRect(PAD, y - 22, 6, 26);
-    ctx.fillStyle = C.ink2; ls.forEach((l, i) => ctx.fillText(l, PAD + 28, y + i*40)); y += ls.length*40 + 20;
+    if (y + ls.length*40 > Hh - PAD - 150) break;
+    rr(ctx, PAD, y - 26, 6, ls.length*40 - 6, 3); ctx.fillStyle = C.gold; ctx.fill();
+    ctx.fillStyle = C.ink2; ls.forEach((l, i) => ctx.fillText(l, PAD + 26, y + i*40)); y += ls.length*40 + 18;
   }
   footer(ctx, recordLine(addDays(d,-1)));
 }
@@ -432,12 +522,12 @@ function loadFonts(){
     .map(f => document.fonts.load(f))).catch(() => {});
   return fontsReady;
 }
-async function render(kind, d, e, page = 0){
-  await loadFonts();
+async function render(kind, d, e, page = 0, es = []){
+  await loadFonts(); await preloadLogos(e ? [e] : es);
   const story = fmt === "story", TOPSAFE = 150, BOTSAFE = 170;   // keep clear of Instagram/TikTok story buttons
   const cv = document.createElement("canvas"); cv.width = W; cv.height = story ? 1920 : 1350;
   const ctx = cv.getContext("2d");
-  ctx.fillStyle = C.bg; ctx.fillRect(0, 0, cv.width, cv.height);
+  background(ctx, cv.height);
   if (story){ ctx.translate(0, TOPSAFE); Hh = 1920 - TOPSAFE - BOTSAFE; }
   try {
     if (kind === "card") drawCard(ctx, d, page); else if (kind === "recap") drawRecap(ctx, d, page);
@@ -469,18 +559,16 @@ async function shareImage(cvs, name, text){
 function chips(){
   const d = tab === "recap" ? addDays(day, -1) : day;
   const mk = (attr, k, label, cur, n) => `<button class="chip ${cur === k ? "on" : ""}" data-${attr}="${k}">${label}${n != null ? `<small>${n}</small>` : ""}</button>`;
-  $("#srcChips").innerHTML = mk("src", "card", "Best plays card", src) + mk("src", "all", "Every 1U+ play", src);
+  $("#srcChips").innerHTML = mk("src", "all", "All plays", src) + mk("src", "card", "💎 VIP card", src);
   const saved = sport; sport = "all"; const onDay = playsOn(d); sport = saved;
   const sports = Object.keys(FOLDERS).filter(s => onDay.some(e => e.sport === s) || s === sport);
   $("#sportChips").innerHTML = mk("sp", "all", "All sports", sport, onDay.length) + sports.map(s => mk("sp", s, s, sport, onDay.filter(e => e.sport === s).length)).join("");
-  $("#recChips").innerHTML = mk("rec", "season", "Season (incl. backtest)", recMode) + mk("rec", "live", `Live since ${niceDay(liveStart(), {month:"short", day:"numeric"})}`, recMode);
   $("#fmtChips").innerHTML = mk("fmt", "post", "Post 4:5", fmt) + mk("fmt", "story", "Story 9:16", fmt) +
     `<button class="chip ${tagsOn ? "on" : ""}" id="tagChip">${tagsOn ? "✓ " : ""}Hashtags</button>`;
   document.querySelectorAll("#fmtChips [data-fmt]").forEach(c => c.onclick = () => { fmt = c.dataset.fmt; store.set("shareFmt", fmt); draw(); });
   $("#tagChip").onclick = () => { tagsOn = !tagsOn; store.set("shareTags", tagsOn); draw(); };
-  document.querySelectorAll("#srcChips .chip").forEach(c => c.onclick = () => { src = c.dataset.src; store.set("shareSrc", src); pickId = null; draw(); });
+  document.querySelectorAll("#srcChips .chip").forEach(c => c.onclick = () => { src = c.dataset.src; store.set("shareSrc2", src); pickId = null; draw(); });
   document.querySelectorAll("#sportChips .chip").forEach(c => c.onclick = () => { sport = c.dataset.sp; store.set("shareSport", sport); pickId = null; draw(); });
-  document.querySelectorAll("#recChips .chip").forEach(c => c.onclick = () => { recMode = c.dataset.rec; store.set("shareRec", recMode); draw(); });
 }
 async function draw(){
   chips();
@@ -491,18 +579,18 @@ async function draw(){
   let text = {card: () => cardText(d), single: () => singleText(d, one), recap: () => recapText(d), week: weekText, edges: () => edgesText(d)}[tab]();
   if (text && tagsOn) text += "\n\n" + hashtags(one ? [one] : es);
   const what = sport === "all" ? "" : sport + " ";
-  const title = {card: `${what}Card · ${niceDay(d)}`, single: "One play", recap: `${what}Recap · ${niceDay(d)}`,
-    week: `${what}Week · ${weekLabel()}`, edges: `${what}Model vs. Vegas · ${niceDay(d)}`}[tab];
+  const title = {card: `${what}${src === "card" ? "VIP card" : "Card"} · ${niceDay(d)}`, single: one && one.potd ? TOP : "One play", recap: `${what}Recap · ${niceDay(d)}`,
+    week: `${what}Week recap · ${weekLabel()}`, edges: `${what}Model vs. Vegas · ${niceDay(d)}`}[tab];
   if (!text){
-    const locked = src === "card" && d === etYmd(new Date()) && tab !== "recap";
-    const msg = locked ? "Today's card locks at 10:30 AM ET. Check back then, or switch to Every 1U+ play."
+    const locked = src === "card" && d === etYmd(new Date()) && tab !== "recap" && tab !== "week";
+    const msg = locked ? "The VIP card locks at 10:30 AM ET. Check back then, or switch to All plays."
       : tab === "week" ? `No graded ${what}plays from ${weekLabel()}.`
-      : `No ${what}${src === "card" ? "official " : "1U+ "}plays on ${niceDay(d)}.`;
+      : `No ${what}${src === "card" ? "VIP " : ""}plays on ${niceDay(d)}.`;
     $("#out").innerHTML = `<div class="card"><h2>${title}</h2><div class="empty">${msg}</div></div>`; return;
   }
   $("#out").innerHTML = `<div class="card"><h2>${title}</h2>
-      ${one ? `<label class="f" for="pick">Play</label><select id="pick">${es.map(e => `<option value="${e.id}" ${e.id === one.id ? "selected" : ""}>${e.potd && src === "card" ? "★ " : ""}${e.sport} · ${shortSel(e.selection)} · ${units(e.stake)}</option>`).join("")}</select>` : ""}
-      <div id="imgs"></div>
+      ${one ? `<label class="f" for="pick">Play</label><select id="pick">${es.map(e => `<option value="${e.id}" ${e.id === one.id ? "selected" : ""}>${e.potd ? "🐶 " : ""}${e.sport} · ${shortSel(e.selection)} · ${units(e.stake)}</option>`).join("")}</select>` : ""}
+      <div id="imgs"><div class="preview"></div></div>
       <div class="btns"><button class="btn gold" id="shareImg">Share image</button><button class="btn" id="copyTxt">Copy text</button></div></div>
     <div class="card"><h2>Post text</h2>
       ${one ? `<label class="f" for="take">Your take (optional, goes in the post and on the image)</label><textarea id="take" style="min-height:76px" placeholder="One or two lines in your own words…"></textarea><div style="height:12px"></div>` : ""}
@@ -521,8 +609,8 @@ async function draw(){
   const nPages = one || tab === "week" || tab === "edges" ? 1 : pagesOf(es);
   let cvs = [];
   const paint = async () => {
-    cvs = []; for (let i = 0; i < nPages; i++) cvs.push(await render(tab, d, one, i));
-    $("#imgs").innerHTML = cvs.map((c, i) => `<img class="preview" src="${c.toDataURL("image/png")}" alt="Share image ${i+1} of ${nPages}">`).join("") +
+    cvs = []; for (let i = 0; i < nPages; i++) cvs.push(await render(tab, d, one, i, es));
+    $("#imgs").innerHTML = cvs.map((c, i) => `<img class="preview" src="${c.toDataURL("image/png")}" alt="Share image ${i+1} of ${nPages}" style="aspect-ratio:${c.width}/${c.height}">`).join("") +
       (nPages > 1 ? `<div class="note" style="text-align:center;margin:-4px 0 12px">${nPages} images: Share sends them together as one post (a carousel on Instagram, up to 4 on X).</div>` : "");
   };
   await paint();
@@ -530,7 +618,7 @@ async function draw(){
   if (one){
     $("#pick").onchange = ev => { pickId = ev.target.value; draw(); };
     const tk = $("#take"); tk.value = takes[one.id] || "";
-    tk.oninput = async () => { takes[one.id] = tk.value; store.set("shareTakes", takes); ta.value = singleText(d, one); count();
+    tk.oninput = async () => { takes[one.id] = tk.value; store.set("shareTakes", takes); ta.value = singleText(d, one) + (tagsOn ? "\n\n" + hashtags([one]) : ""); count();
       await paint(); };
   }
   $("#shareImg").onclick = () => shareImage(cvs, `${tab}-${sport}-${d}.png`, ta.value);
@@ -545,9 +633,10 @@ document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => { tab =
 
 Promise.all([
   fetch("../hub/ledger.json", {cache: "no-store"}).then(r => r.json()),
+  fetch("../hub/teams.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {}).catch(() => ({})),
   ...Object.entries(FOLDERS).map(([code, f]) => fetch(`../${f}/plays.json`, {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).catch(() => ({plays: []}))
     .then(j => [code, Object.fromEntries((j.plays || []).map(p => [p.id, p]))]))
-]).then(([ledger, ...feeds]) => { H.ledger = ledger; H.feeds = Object.fromEntries(feeds); draw(); })
+]).then(([ledger, teams, ...feeds]) => { H.ledger = ledger; H.teams = teams; H.feeds = Object.fromEntries(feeds); draw(); })
   .catch(e => { $("#out").innerHTML = `<div class="card"><div class="empty">Couldn't load plays (${e.message}). Check your connection and reload.</div></div>`; });
 </script>
 </body>
