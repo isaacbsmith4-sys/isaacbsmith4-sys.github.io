@@ -618,7 +618,7 @@ function renderToday(){
     ${form ? `<div class="form">${form}<small>last ${formEs.length}</small></div>` : ""}
 
     <div class="sec">
-      <div class="sec-h"><h2>Today's card</h2><span>${S.picks_per_day} best plays</span></div>
+      <div class="sec-h"><h2>Today's card</h2><span>${todays.length ? `<a href="share/" style="color:var(--gold-ink);font-weight:800;text-decoration:none">Share card ›</a>` : `${S.picks_per_day} best plays`}</span></div>
       ${rest ? `<div class="list">${rest}</div>` : `<div class="empty">${todays.length ? "Just the Play of the Day today." : "Nothing else qualifies yet."}</div>`}
     </div>
 
@@ -1094,6 +1094,7 @@ function renderSports(){
       <div class="sports">
         <a class="sp-card" href="picks/" style="--c:var(--blue)"><h3>My Picks</h3><div class="line"><span>Log your bets, blind picks vs. the model, your record</span></div><span class="go">Open My Picks ›</span></a>
         <a class="sp-card" href="research/" style="--c:var(--gold)"><h3>Research</h3><div class="line"><span>Prop hit rates, trends and matchup data</span></div><span class="go">Open Research ›</span></a>
+        <a class="sp-card" href="share/" style="--c:var(--gold)"><h3>Share</h3><div class="line"><span>Ready-to-post card, Play of the Day and recap: images and text</span></div><span class="go">Open Share ›</span></a>
         <a class="sp-card" href="parlays/" style="--c:var(--ncaab)"><h3>Parlays</h3><div class="line"><span>Alt-line prop parlays built from the models</span></div><span class="go">Open Parlays ›</span></a>
       </div></div>`;
 }

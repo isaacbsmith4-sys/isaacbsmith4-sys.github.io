@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Share Plays</title>
+<meta name="theme-color" content="#0d0f15">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Share">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Share: ready-to-post drafts and images from the official card (hub/ledger.json).
+   Three posts: the morning card, the Play of the Day write-up, and yesterday's recap.
+   Records here are LIVE ONLY (plays locked at the time, never backfilled ones). */
+:root{
+  color-scheme:dark;
+  --bg:#0d0f15; --surface:#151821; --surface2:#1c2030; --sunk:#10131b; --line:#272c3d; --line-hi:#3b4258;
+  --ink:#eef0f6; --ink2:#b4bbcc; --muted:#808a9f; --faint:#586178;
+  --gold:#e3b04b; --gold-ink:#f2c66a; --gold-bg:rgba(227,176,75,.13); --on-gold:#1a1305;
+  --win:#3ddc84; --loss:#ff6b6b;
+  --font-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
+  --font-body:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  color-scheme:light;
+  --bg:#f3f1ec; --surface:#ffffff; --surface2:#f8f6f1; --sunk:#ece9e2; --line:#e0dcd2; --line-hi:#c9c3b5;
+  --ink:#16181f; --ink2:#3d4252; --muted:#6a7080; --faint:#9a9fac;
+  --gold:#a8750a; --gold-ink:#8a5f00; --gold-bg:rgba(201,141,18,.12); --on-gold:#fffaf0;
+  --win:#14864a; --loss:#c8323a;
+}}
+:root[data-theme="dark"]{ color-scheme:dark; }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);-webkit-text-size-adjust:100%}
+body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 40px)}
+.wrap{max-width:720px;margin:0 auto}
+a{color:inherit}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.back{display:inline-flex;align-items:center;min-height:44px;font-weight:800;font-size:14px;color:var(--muted);text-decoration:none}
+h1{font-family:var(--font-display);font-weight:900;font-size:34px;letter-spacing:.01em;margin:0;text-transform:uppercase;line-height:1}
+.sub{color:var(--muted);font-size:13px;margin:6px 0 16px;line-height:1.45}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+label.f{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+input[type=text],textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+textarea{min-height:120px;resize:vertical;line-height:1.45;font-size:15px}
+.settings{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-bottom:16px}
+.day{display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.day button{min-width:44px;min-height:44px;background:none;border:0;color:var(--ink);font-size:20px;cursor:pointer}
+.day span{font-weight:800;font-size:14px;min-width:92px;text-align:center}
+.scope{display:flex;background:var(--sunk);border:1px solid var(--line);border-radius:14px;padding:3px;margin-bottom:16px;gap:3px}
+.scope button{flex:1;min-height:42px;background:none;border:0;cursor:pointer;padding:0 6px;border-radius:11px;font:inherit;font-size:13px;font-weight:800;color:var(--muted);min-width:0}
+.scope button.on{background:var(--surface2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-hi)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
+.card h2{font-family:var(--font-display);font-weight:800;font-size:20px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.02em}
+.preview{display:block;width:100%;max-width:420px;margin:0 auto 12px;border-radius:12px;border:1px solid var(--line);aspect-ratio:4/5;background:var(--sunk)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{flex:1;min-height:46px;border-radius:12px;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:inherit;font-weight:800;font-size:14px;cursor:pointer;padding:0 14px;white-space:nowrap}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--on-gold)}
+.count{font-size:12px;color:var(--muted);margin:6px 0 10px;display:flex;justify-content:space-between;gap:8px}
+.count .over{color:var(--loss);font-weight:800}
+.empty{color:var(--muted);font-size:14px;line-height:1.5;padding:8px 0}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:10px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);background:var(--ink);color:var(--bg);font-weight:800;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+details.how{margin-top:18px;color:var(--ink2);font-size:13.5px;line-height:1.5}
+details.how summary{cursor:pointer;font-weight:800;min-height:44px;display:flex;align-items:center}
+@media (max-width:420px){ .settings{grid-template-columns:1fr} .day{justify-content:space-between} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="back" href="../#today">‹ Best Plays</a></div>
+  <h1>Share</h1>
+  <p class="sub">Ready-to-post drafts and images from the official card. Records shown are live only: plays posted at the time, never backfilled ones.</p>
+
+  <div class="settings">
+    <div><label class="f" for="handle">Your handle (shows on images)</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div><label class="f">Card day</label><div class="day"><button id="prev" aria-label="Previous day">‹</button><span id="dayLabel"></span><button id="next" aria-label="Next day">›</button></div></div>
+  </div>
+
+  <div class="scope" id="tabs">
+    <button data-k="card">Morning card</button><button data-k="potd">Play of the Day</button><button data-k="recap">Recap</button>
+  </div>
+  <div id="out"><div class="empty">Loading the card…</div></div>
+
+  <details class="how"><summary>Posting tips</summary><ul>
+    <li>Post the card before the first game. A pick posted after tip-off is worth nothing to followers.</li>
+    <li>Post the recap every day, losing days too. The live record is the whole pitch, and people trust it because the losses are in it.</li>
+    <li>Only quote the live record. The app's season numbers include plays backfilled from before Oct 19, so never post those as results.</li>
+    <li>Keep the 21+ / 1-800-GAMBLER line. Instagram and TikTok restrict gambling content, so expect lower reach there than on X.</li>
+    <li>Never promise wins or "locks". If you ever sell picks or use sportsbook affiliate links, you have to disclose that, and the rules vary by state.</li>
+  </ul></details>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const store = { get(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
+                set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} } };
+const FOLDERS = {NFL:"nfl", CFB:"cfb", NBA:"nba", NCAAB:"ncaab", NHL:"nhl"};
+const SPORT_COLOR = {NFL:"#5b8def", CFB:"#ff6b7d", NBA:"#ff8a3d", NCAAB:"#b39dff", NHL:"#3dd6c6"};
+const FINAL = ["win","loss","push","void"];
+const RG = "21+ · Gambling problem? Call 1-800-GAMBLER";
+
+// ---------- dates (all in Eastern time, like the hub)
+const etYmd = d => new Intl.DateTimeFormat("en-CA", {timeZone:"America/New_York", year:"numeric", month:"2-digit", day:"2-digit"}).format(d);
+const fromYmd = s => { const [y,m,d] = s.split("-").map(Number); return new Date(Date.UTC(y, m-1, d, 12)); };
+const addDays = (s, n) => new Date(fromYmd(s).getTime() + n*864e5).toISOString().slice(0,10);
+const niceDay = (s, opts={weekday:"short", month:"short", day:"numeric"}) => fromYmd(s).toLocaleDateString("en-US", {...opts, timeZone:"UTC"});
+const etTime = iso => { if (!iso) return ""; const d = new Date(iso); if (isNaN(d)) return "";
+  return d.toLocaleTimeString("en-US", {timeZone:"America/New_York", hour:"numeric", minute:"2-digit"}) + " ET"; };
+
+// ---------- formatting
+const price = p => p == null ? "-110" : (p > 0 ? "+" + p : String(p));
+const units = u => `${+u % 1 ? (+u).toFixed(1) : +u}U`;
+const sgnU = u => (u > 0 ? "+" : u < 0 ? "−" : "") + Math.abs(u).toFixed(1) + "u";
+const pct = p => p == null ? "–" : Math.round(p*100) + "%";
+const SHORT = [[/ rushing yards/i," rush yds"],[/ receiving yards/i," rec yds"],[/ passing yards/i," pass yds"],[/ passing touchdowns/i," pass TDs"],
+  [/ receptions/i," rec"],[/ rebounds/i," reb"],[/ assists/i," ast"],[/ points/i," pts"],[/ threes/i," 3PM"],[/ shots on goal/i," SOG"],
+  [/ pts\+reb\+ast/i," PRA"],[/\bunder (\d)/i,"u$1"],[/\bover (\d)/i,"o$1"]];
+const shortSel = s => SHORT.reduce((a,[r,t]) => a.replace(r,t), s);
+const profit = p => p == null ? 100/110 : (p < 0 ? 100/-p : p/100);
+
+let H = {ledger: [], feeds: {}}, day = etYmd(new Date()), tab = store.get("shareTab", "card");
+let handle = store.get("shareHandle", ""), takes = store.get("shareTakes", {});
+
+function liveRecord(upTo, onlyPotd){
+  const g = H.ledger.filter(e => !e.backfilled && e.date <= upTo && FINAL.includes(e.status) && e.status !== "void" && (!onlyPotd || e.potd));
+  const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length, p = g.filter(e=>e.status==="push").length;
+  return {n:g.length, w, l, p, u:g.reduce((a,e)=>a+(e.result_units||0),0), text:`${w}-${l}${p?"-"+p:""}`};
+}
+const liveSince = () => { const d = H.ledger.filter(e => !e.backfilled).map(e => e.date).sort()[0]; return d ? niceDay(d, {month:"short", day:"numeric"}) : ""; };
+const cardFor = d => H.ledger.filter(e => e.date === d).sort((a,b) => (b.potd?1:0)-(a.potd?1:0) || (a.slot||9)-(b.slot||9));
+const feedPlay = e => (H.feeds[e.sport] || {})[e.id] || {};
+const recordLine = upTo => { const r = liveRecord(upTo), p = liveRecord(upTo, true);
+  return r.n ? `Live record since ${liveSince()}: ${r.text}, ${sgnU(r.u)}${p.n ? ` · ★ ${p.text}` : ""}` : `Tracking every pick from day one.`; };
+
+// ---------- text drafts
+function cardText(d){
+  const es = cardFor(d);
+  if (!es.length) return null;
+  const lines = es.map(e => `${e.potd ? "⭐ POTD: " : "• "}${shortSel(e.selection)} (${price(e.price)}) · ${units(e.stake)} · ${e.sport}`);
+  return `📋 Today's card · ${niceDay(d)}\n\n${lines.join("\n")}\n\n${recordLine(addDays(d,-1))}. Every pick tracked, wins and losses.\n\n${RG}`;
+}
+function potdText(d){
+  const e = cardFor(d).find(x => x.potd);
+  if (!e) return null;
+  const f = feedPlay(e), why = (f.why || []).filter(w => !/^Model says/.test(w)).slice(0,3);
+  const take = (takes[e.id] || "").trim();
+  return `⭐ Play of the Day: ${e.selection} (${price(e.price)})\n${e.event}${etTime(e.start || f.start) ? " · " + etTime(e.start || f.start) : ""} · ${units(e.stake)}\n\n` +
+    `Model: ${pct(e.model_prob)} · Book: ${pct(e.market_prob)} · Edge: ${e.edge_display}\n` +
+    (why.length ? `\nWhy:\n${why.map(w => "- " + w).join("\n")}\n` : "") +
+    (take ? `\n${take}\n` : "") +
+    `\n${recordLine(addDays(d,-1))}\n${RG}`;
+}
+function recapText(d){
+  const es = cardFor(d);
+  if (!es.length) return null;
+  const done = es.filter(e => FINAL.includes(e.status));
+  const r = { w: done.filter(e=>e.status==="win").length, l: done.filter(e=>e.status==="loss").length, u: done.reduce((a,e)=>a+(e.result_units||0),0) };
+  const icon = s => ({win:"✅", loss:"❌", push:"➖", void:"➖"}[s] || "⏳");
+  const lines = es.map(e => `${icon(e.status)} ${shortSel(e.selection)}${e.potd ? " ⭐" : ""}${FINAL.includes(e.status) && e.result_units != null ? ` (${sgnU(e.result_units)})` : ""}`);
+  const waiting = es.length - done.length;
+  return `📊 Results · ${niceDay(d)}: ${r.w}-${r.l}, ${sgnU(r.u)}\n\n${lines.join("\n")}\n${waiting ? `\n${waiting} still waiting on a result.\n` : ""}\n${recordLine(d)}\n${RG}`;
+}
+
+// ---------- images (1080x1350, 4:5 — fits X and Instagram feeds)
+const W = 1080, Hh = 1350, PAD = 72;
+const C = {bg:"#0d0f15", surface:"#151821", line:"#272c3d", ink:"#eef0f6", ink2:"#b4bbcc", muted:"#808a9f", gold:"#e3b04b", win:"#3ddc84", loss:"#ff6b6b"};
+const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif', BODY = 'Manrope, system-ui, sans-serif';
+function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function wrap(ctx, text, maxW){
+  const words = String(text).split(/\s+/), lines = []; let cur = "";
+  for (const w of words){ const t = cur ? cur + " " + w : w; if (ctx.measureText(t).width > maxW && cur){ lines.push(cur); cur = w; } else cur = t; }
+  if (cur) lines.push(cur); return lines;
+}
+function star(ctx, cx, cy, r, color){
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++){ const a = -Math.PI/2 + i*Math.PI/5, rad = i % 2 ? r*0.45 : r; ctx.lineTo(cx + rad*Math.cos(a), cy + rad*Math.sin(a)); }
+  ctx.closePath(); ctx.fillStyle = color; ctx.fill();
+}
+function frame(ctx, title, kicker, d){
+  ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, Hh);
+  const g = ctx.createRadialGradient(W*0.85, 0, 0, W*0.85, 0, 900); g.addColorStop(0, "rgba(227,176,75,.16)"); g.addColorStop(1, "rgba(227,176,75,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, Hh);
+  rr(ctx, PAD, PAD, 76, 76, 18); ctx.fillStyle = C.gold; ctx.fill(); star(ctx, PAD+38, PAD+40, 24, "#1a1305");
+  ctx.fillStyle = C.ink; ctx.font = `900 46px ${DISPLAY}`; ctx.textBaseline = "middle";
+  ctx.fillText((handle || "BEST PLAYS").toUpperCase(), PAD + 100, PAD + 38);
+  ctx.textAlign = "right"; ctx.fillStyle = C.muted; ctx.font = `700 30px ${BODY}`;
+  ctx.fillText(niceDay(d, {weekday:"short", month:"short", day:"numeric"}).toUpperCase(), W - PAD, PAD + 38); ctx.textAlign = "left";
+  ctx.fillStyle = C.gold; ctx.font = `800 30px ${BODY}`; ctx.fillText(kicker.toUpperCase(), PAD, PAD + 160);
+  ctx.fillStyle = C.ink; ctx.font = `900 120px ${DISPLAY}`; ctx.fillText(title.toUpperCase(), PAD, PAD + 250);
+  return PAD + 330;
+}
+function footer(ctx, line){
+  const y = Hh - PAD - 150;
+  rr(ctx, PAD, y, W - 2*PAD, 96, 20); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = C.ink2; ctx.font = `700 30px ${BODY}`; ctx.textBaseline = "middle";
+  const t = wrap(ctx, line, W - 2*PAD - 56)[0]; ctx.fillText(t, PAD + 28, y + 48);
+  ctx.fillStyle = C.muted; ctx.font = `600 24px ${BODY}`; ctx.textAlign = "center"; ctx.fillText(RG, W/2, Hh - PAD - 14); ctx.textAlign = "left";
+}
+function chip(ctx, x, y, sport){
+  ctx.font = `800 24px ${BODY}`; const w = ctx.measureText(sport).width + 28;
+  rr(ctx, x, y, w, 40, 20); ctx.fillStyle = SPORT_COLOR[sport] || C.muted; ctx.globalAlpha = .18; ctx.fill(); ctx.globalAlpha = 1;
+  ctx.fillStyle = SPORT_COLOR[sport] || C.muted; ctx.textBaseline = "middle"; ctx.fillText(sport, x + 14, y + 21); return w;
+}
+function badge(ctx, xRight, y, text, color, filled){
+  ctx.font = `800 26px ${BODY}`; const w = ctx.measureText(text).width + 32;
+  rr(ctx, xRight - w, y, w, 48, 24);
+  if (filled){ ctx.fillStyle = color; ctx.globalAlpha = .18; ctx.fill(); ctx.globalAlpha = 1; } else { ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke(); }
+  ctx.fillStyle = color; ctx.textBaseline = "middle"; ctx.textAlign = "center"; ctx.fillText(text, xRight - w/2, y + 25); ctx.textAlign = "left"; return w;
+}
+function playRows(ctx, es, y, resultMode){
+  const maxY = Hh - PAD - 180, gap = es.length <= 3 ? 26 : 18;
+  const fs = es.length <= 2 ? 54 : es.length <= 3 ? 48 : 40, lh = Math.round(fs*1.2);  // fewer plays, bigger type
+  for (const e of es){
+    ctx.font = `800 ${fs}px ${BODY}`;
+    const right = resultMode ? 190 : 170, lines = wrap(ctx, shortSel(e.selection), W - 2*PAD - 56 - right).slice(0,2);
+    const h = 92 + lines.length*lh + 18;
+    if (y + h > maxY) break;
+    rr(ctx, PAD, y, W - 2*PAD, h, 22); ctx.fillStyle = C.surface; ctx.fill();
+    ctx.strokeStyle = e.potd ? "rgba(227,176,75,.6)" : C.line; ctx.lineWidth = e.potd ? 3 : 2; ctx.stroke();
+    let x = PAD + 28; x += chip(ctx, x, y + 24, e.sport) + 12;
+    if (e.potd){ star(ctx, x + 18, y + 44, 16, C.gold); ctx.fillStyle = C.gold; ctx.font = `800 24px ${BODY}`; ctx.fillText("PLAY OF THE DAY", x + 42, y + 45); }
+    ctx.fillStyle = C.ink; ctx.font = `800 ${fs}px ${BODY}`; ctx.textBaseline = "alphabetic";
+    lines.forEach((l, i) => ctx.fillText(l, PAD + 28, y + 92 + fs*0.85 + i*lh));
+    if (resultMode){
+      const st = e.status, col = st === "win" ? C.win : st === "loss" ? C.loss : C.muted;
+      badge(ctx, W - PAD - 28, y + 22, FINAL.includes(st) ? st.toUpperCase() : "PENDING", col, true);
+      if (e.result_units != null && FINAL.includes(st)){ ctx.fillStyle = col; ctx.font = `900 44px ${DISPLAY}`; ctx.textAlign = "right"; ctx.fillText(sgnU(e.result_units), W - PAD - 28, y + h - 24); ctx.textAlign = "left"; }
+    } else {
+      badge(ctx, W - PAD - 28, y + 22, units(e.stake), C.gold, true);
+      ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic"; ctx.fillText(price(e.price), W - PAD - 28, y + h - 24); ctx.textAlign = "left";
+    }
+    y += h + gap;
+  }
+  return y;
+}
+function drawCard(ctx, d){
+  const es = cardFor(d), y = frame(ctx, "Today's card", `${es.length} official play${es.length === 1 ? "" : "s"}`, d);
+  playRows(ctx, es, y, false); footer(ctx, recordLine(addDays(d,-1)));
+}
+function drawRecap(ctx, d){
+  const es = cardFor(d), done = es.filter(e => FINAL.includes(e.status));
+  const w = done.filter(e=>e.status==="win").length, l = done.filter(e=>e.status==="loss").length, u = done.reduce((a,e)=>a+(e.result_units||0),0);
+  const y = frame(ctx, `${w}-${l} · ${sgnU(u)}`, `Results · ${niceDay(d, {weekday:"long"})}`, d);
+  playRows(ctx, es, y, true); footer(ctx, recordLine(d));
+}
+function drawPotd(ctx, d){
+  const e = cardFor(d).find(x => x.potd), f = feedPlay(e);
+  let y = frame(ctx, "Play of the Day", `${e.sport} · ${units(e.stake)} · ${price(e.price)}`, d);
+  const take = (takes[e.id] || "").trim();
+  const why = take ? [take] : (f.why || []).filter(w => !/^Model says/.test(w)).slice(0,3);
+  const big = why.length === 0, selFs = big ? 104 : 84, boxH = big ? 210 : 150;
+  if (big) y += 40;
+  star(ctx, W - PAD - 50, PAD + 210, 46, C.gold);
+  ctx.fillStyle = C.ink; ctx.font = `900 ${selFs}px ${DISPLAY}`; ctx.textBaseline = "alphabetic";
+  const sel = wrap(ctx, e.selection.toUpperCase(), W - 2*PAD).slice(0,3);
+  sel.forEach((l, i) => ctx.fillText(l, PAD, y + selFs*0.85 + i*selFs*1.02)); y += selFs*0.85 + (sel.length-1)*selFs*1.02 + 60;
+  ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`;
+  ctx.fillText([e.event, etTime(e.start || f.start)].filter(Boolean).join(" · "), PAD, y); y += big ? 70 : 44;
+  const boxW = (W - 2*PAD - 2*20) / 3;
+  [["MODEL", pct(e.model_prob)], ["BOOK", pct(e.market_prob)], ["EDGE", e.edge_display]].forEach(([k, v], i) => {
+    const x = PAD + i*(boxW + 20); rr(ctx, x, y, boxW, boxH, 20); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = i === 2 ? "rgba(227,176,75,.6)" : C.line; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = C.muted; ctx.font = `800 24px ${BODY}`; ctx.fillText(k, x + 24, y + 46);
+    ctx.fillStyle = i === 2 ? C.gold : C.ink; ctx.font = `900 ${big ? 92 : 64}px ${DISPLAY}`; ctx.fillText(v, x + 24, y + boxH - 30);
+  });
+  y += boxH + 48;
+  ctx.font = `600 30px ${BODY}`;
+  const maxY = Hh - PAD - 190;
+  for (const w of why){
+    const ls = wrap(ctx, w, W - 2*PAD - 40);
+    if (y + ls.length*40 > maxY) break;
+    ctx.fillStyle = C.gold; ctx.fillRect(PAD, y - 22, 6, 26);
+    ctx.fillStyle = C.ink2; ls.forEach((l, i) => ctx.fillText(l, PAD + 28, y + i*40)); y += ls.length*40 + 20;
+  }
+  footer(ctx, recordLine(addDays(d,-1)));
+}
+
+let fontsReady = null;
+function loadFonts(){
+  if (!fontsReady) fontsReady = Promise.all([`900 80px "Big Shoulders Display"`, `800 40px "Big Shoulders Display"`, `800 40px Manrope`, `700 30px Manrope`, `600 30px Manrope`]
+    .map(f => document.fonts.load(f))).catch(() => {});
+  return fontsReady;
+}
+async function render(kind, d){
+  await loadFonts();
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = Hh;
+  const ctx = cv.getContext("2d");
+  ({card: drawCard, potd: drawPotd, recap: drawRecap})[kind](ctx, d);
+  return cv;
+}
+
+// ---------- share / copy
+function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 1600); }
+async function copy(text){
+  try { await navigator.clipboard.writeText(text); toast("Copied"); }
+  catch(e){ const ta = $("#draft"); ta.focus(); ta.select(); toast("Selected — tap Copy"); }
+}
+async function shareImage(cv, name, text){
+  const blob = await new Promise(r => cv.toBlob(r, "image/png"));
+  const file = new File([blob], name, {type: "image/png"});
+  if (navigator.canShare && navigator.canShare({files: [file]})){
+    try { await navigator.share({files: [file], text}); return; } catch(e){ if (e.name === "AbortError") return; }
+  }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  toast("Image saved");
+}
+
+// ---------- page
+async function draw(){
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.k === tab));
+  const recapDay = addDays(day, -1);
+  $("#dayLabel").textContent = day === etYmd(new Date()) ? "Today" : niceDay(day);
+  const d = tab === "recap" ? recapDay : day;
+  const text = tab === "card" ? cardText(d) : tab === "potd" ? potdText(d) : recapText(d);
+  const title = {card: "Morning card", potd: "Play of the Day write-up", recap: `Recap · ${niceDay(recapDay)}`}[tab];
+  if (!text){
+    const msg = tab === "recap" ? `No official plays on ${niceDay(recapDay)}, so there's nothing to recap.`
+      : d === etYmd(new Date()) ? "Today's card locks at 10:30 AM ET. Check back then." : `No official plays on ${niceDay(d)}.`;
+    $("#out").innerHTML = `<div class="card"><h2>${title}</h2><div class="empty">${msg}</div></div>`; return;
+  }
+  const potd = tab === "potd" ? cardFor(d).find(x => x.potd) : null;
+  $("#out").innerHTML = `<div class="card"><h2>${title}</h2>
+      <img class="preview" id="img" alt="Share image preview">
+      <div class="btns"><button class="btn gold" id="shareImg">Share image</button><button class="btn" id="copyTxt">Copy text</button></div></div>
+    <div class="card"><h2>Post text</h2>
+      ${potd ? `<label class="f" for="take">Your take (optional, goes in the post and on the image)</label><textarea id="take" style="min-height:76px" placeholder="One or two lines in your own words…"></textarea><div style="height:12px"></div>` : ""}
+      <label class="f" for="draft">Draft (edit before posting)</label><textarea id="draft" style="min-height:230px"></textarea>
+      <div class="count"><span id="cnt"></span><span>X allows 280 characters (more with Premium)</span></div>
+      <div class="btns"><button class="btn" id="copy2">Copy text</button></div>
+      ${tab !== "recap" ? `<div class="note">Post this before the first game starts.</div>` : ""}</div>`;
+  const ta = $("#draft"); ta.value = text;
+  const count = () => { const n = [...ta.value].length; $("#cnt").innerHTML = `<span class="${n > 280 ? "over" : ""}">${n}</span> characters`; };
+  ta.oninput = count; count();
+  let cv = await render(tab, d); $("#img").src = cv.toDataURL("image/png");
+  if (potd){
+    const tk = $("#take"); tk.value = takes[potd.id] || "";
+    tk.oninput = async () => { takes[potd.id] = tk.value; store.set("shareTakes", takes); ta.value = potdText(d); count();
+      cv = await render(tab, d); $("#img").src = cv.toDataURL("image/png"); };
+  }
+  $("#shareImg").onclick = () => shareImage(cv, `${tab}-${d}.png`, ta.value);
+  $("#copyTxt").onclick = $("#copy2").onclick = () => copy(ta.value);
+}
+
+$("#handle").value = handle;
+$("#handle").oninput = e => { handle = e.target.value.trim(); store.set("shareHandle", handle); clearTimeout(draw.t); draw.t = setTimeout(draw, 300); };
+$("#prev").onclick = () => { day = addDays(day, -1); draw(); };
+$("#next").onclick = () => { day = addDays(day, 1); draw(); };
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => { tab = b.dataset.k; store.set("shareTab", tab); draw(); });
+
+Promise.all([
+  fetch("../hub/ledger.json", {cache: "no-store"}).then(r => r.json()),
+  ...Object.entries(FOLDERS).map(([code, f]) => fetch(`../${f}/plays.json`, {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).catch(() => ({plays: []}))
+    .then(j => [code, Object.fromEntries((j.plays || []).map(p => [p.id, p]))]))
+]).then(([ledger, ...feeds]) => { H.ledger = ledger; H.feeds = Object.fromEntries(feeds); draw(); })
+  .catch(e => { $("#out").innerHTML = `<div class="card"><div class="empty">Couldn't load the card (${e.message}). Check your connection and reload.</div></div>`; });
+</script>
+</body>
+</html>
