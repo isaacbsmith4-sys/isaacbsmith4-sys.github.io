@@ -2,7 +2,7 @@
  "sport": "CFB",
  "app": "College Football Model",
  "format": 1,
- "generated_at": "2026-10-22T12:37Z",
+ "generated_at": "2026-10-22T16:30Z",
  "plays": [
   {
    "id": "cfb-401856766-total",
@@ -23,7 +23,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858206-total",
@@ -44,7 +45,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401858432-total",
@@ -65,7 +67,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856772-total",
@@ -86,7 +89,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862699-total",
@@ -107,7 +111,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858425-spread",
@@ -128,7 +133,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401869960-spread",
@@ -149,7 +155,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401858445-total",
@@ -170,7 +177,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856782-total",
@@ -191,7 +199,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858219-spread",
@@ -212,7 +221,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858224-total",
@@ -233,7 +243,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401866418-total",
@@ -254,7 +265,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401860883-spread",
@@ -275,7 +287,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401867796-spread",
@@ -296,7 +309,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401867796-total",
@@ -317,7 +331,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856788-total",
@@ -338,7 +353,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401860881-total",
@@ -359,7 +375,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401869955-total",
@@ -380,7 +397,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401860883-total",
@@ -401,7 +419,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856783-total",
@@ -422,7 +441,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858216-spread",
@@ -443,7 +463,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856670-total",
@@ -464,7 +485,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858443-total",
@@ -485,7 +507,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401864575-total",
@@ -506,7 +529,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856671-spread",
@@ -527,7 +551,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856790-total",
@@ -548,7 +573,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858219-total",
@@ -569,7 +595,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401864578-spread",
@@ -590,7 +617,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858444-spread",
@@ -611,7 +639,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401859184-spread",
@@ -632,7 +661,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401871045-spread",
@@ -653,7 +683,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856676-spread",
@@ -674,7 +705,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856783-spread",
@@ -695,7 +727,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401864571-spread",
@@ -716,7 +749,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862707-spread",
@@ -737,7 +771,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401860884-spread",
@@ -758,7 +793,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401862705-spread",
@@ -779,7 +815,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858225-total",
@@ -800,7 +837,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858226-total",
@@ -821,7 +859,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856811-spread",
@@ -842,7 +881,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858226-spread",
@@ -863,7 +903,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401864507-total",
@@ -884,7 +925,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858454-total",
@@ -905,7 +947,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856796-total",
@@ -926,7 +969,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401864507-spread",
@@ -947,7 +991,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401858449-total",
@@ -968,7 +1013,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401862774-spread",
@@ -989,7 +1035,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401862710-total",
@@ -1010,7 +1057,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401864443-spread",
@@ -1031,7 +1079,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862771-spread",
@@ -1052,7 +1101,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856797-total",
@@ -1073,7 +1123,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856800-total",
@@ -1094,7 +1145,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401860887-spread",
@@ -1115,7 +1167,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401862771-total",
@@ -1136,7 +1189,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401858229-total",
@@ -1157,7 +1211,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401860887-total",
@@ -1178,7 +1233,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401858231-total",
@@ -1199,7 +1255,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401864574-total",
@@ -1220,7 +1277,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856692-spread",
@@ -1241,7 +1299,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401858231-spread",
@@ -1262,7 +1321,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401856793-spread",
@@ -1283,7 +1343,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858457-spread",
@@ -1304,7 +1365,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401867804-spread",
@@ -1325,7 +1387,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401856800-spread",
@@ -1346,7 +1409,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856798-spread",
@@ -1367,7 +1431,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401858450-spread",
@@ -1388,7 +1453,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862773-spread",
@@ -1409,7 +1475,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858451-spread",
@@ -1430,7 +1497,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856693-spread",
@@ -1451,7 +1519,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401856690-spread",
@@ -1472,7 +1541,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858232-spread",
@@ -1493,7 +1563,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856795-spread",
@@ -1514,7 +1585,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858460-spread",
@@ -1535,7 +1607,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856694-spread",
@@ -1556,7 +1629,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856691-spread",
@@ -1577,7 +1651,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856792-spread",
@@ -1598,7 +1673,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401858234-total",
@@ -1619,7 +1695,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401860897-total",
@@ -1640,7 +1717,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856702-total",
@@ -1661,7 +1739,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858238-total",
@@ -1682,7 +1761,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856696-total",
@@ -1703,7 +1783,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856700-total",
@@ -1724,7 +1805,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858240-total",
@@ -1745,7 +1827,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401856698-total",
@@ -1766,7 +1849,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401861970-total",
@@ -1787,7 +1871,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856805-spread",
@@ -1808,7 +1893,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401864511-spread",
@@ -1829,7 +1915,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401860893-spread",
@@ -1850,7 +1937,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401864510-total",
@@ -1871,7 +1959,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401860893-total",
@@ -1892,7 +1981,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858469-spread",
@@ -1913,7 +2003,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858464-total",
@@ -1934,7 +2025,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858241-total",
@@ -1955,7 +2047,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401860897-spread",
@@ -1976,7 +2069,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858241-spread",
@@ -1997,7 +2091,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401864512-spread",
@@ -2018,7 +2113,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856804-spread",
@@ -2039,7 +2135,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862782-spread",
@@ -2060,7 +2157,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856814-total",
@@ -2081,7 +2179,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858470-total",
@@ -2102,7 +2201,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401856881-spread",
@@ -2123,7 +2223,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401860895-spread",
@@ -2144,7 +2245,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858465-spread",
@@ -2165,7 +2267,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858466-spread",
@@ -2186,7 +2289,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401862785-spread",
@@ -2207,7 +2311,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858462-spread",
@@ -2228,7 +2333,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856704-spread",
@@ -2249,7 +2355,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856816-spread",
@@ -2270,7 +2377,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856806-spread",
@@ -2291,7 +2399,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858245-total",
@@ -2312,7 +2421,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858245-spread",
@@ -2333,7 +2443,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858250-total",
@@ -2354,7 +2465,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401869962-spread",
@@ -2375,7 +2487,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862791-total",
@@ -2396,7 +2509,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401869842-total",
@@ -2417,7 +2531,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401860898-total",
@@ -2438,7 +2553,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858249-total",
@@ -2459,7 +2575,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401866433-spread",
@@ -2480,7 +2597,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856709-total",
@@ -2501,7 +2619,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862792-total",
@@ -2522,7 +2641,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858252-spread",
@@ -2543,7 +2663,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401856705-total",
@@ -2564,7 +2685,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862788-total",
@@ -2585,7 +2707,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856822-spread",
@@ -2606,7 +2729,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401866477-total",
@@ -2627,7 +2751,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401869956-total",
@@ -2648,7 +2773,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401862787-total",
@@ -2669,7 +2795,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401856820-total",
@@ -2690,7 +2817,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401866431-total",
@@ -2711,7 +2839,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858249-spread",
@@ -2732,7 +2861,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856819-spread",
@@ -2753,7 +2883,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862792-spread",
@@ -2774,7 +2905,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401866432-spread",
@@ -2795,7 +2927,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401860898-spread",
@@ -2816,7 +2949,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858472-spread",
@@ -2837,7 +2971,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401866477-spread",
@@ -2858,7 +2993,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858474-spread",
@@ -2879,7 +3015,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856820-spread",
@@ -2900,7 +3037,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401871090-total",
@@ -2921,7 +3059,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401871052-spread",
@@ -2942,7 +3081,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401860922-total",
@@ -2963,7 +3103,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401858487-total",
@@ -2984,7 +3125,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401864519-total",
@@ -3005,7 +3147,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856713-total",
@@ -3026,7 +3169,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856717-total",
@@ -3047,7 +3191,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858260-total",
@@ -3068,7 +3213,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858255-total",
@@ -3089,7 +3235,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401858256-total",
@@ -3110,7 +3257,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401862795-total",
@@ -3131,7 +3279,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401860902-total",
@@ -3152,7 +3301,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856824-spread",
@@ -3173,7 +3323,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858484-total",
@@ -3194,7 +3345,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856715-total",
@@ -3215,7 +3367,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858257-total",
@@ -3236,7 +3389,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401860901-spread",
@@ -3257,7 +3411,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401858256-spread",
@@ -3278,7 +3433,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856712-total",
@@ -3299,7 +3455,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401861964-total",
@@ -3320,7 +3477,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856712-spread",
@@ -3341,7 +3499,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "push",
-   "result_units": 0.0
+   "result_units": 0.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858483-spread",
@@ -3362,7 +3521,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401864517-spread",
@@ -3383,7 +3543,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401866437-spread",
@@ -3404,7 +3565,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401856714-spread",
@@ -3425,7 +3587,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856716-spread",
@@ -3446,7 +3609,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858257-spread",
@@ -3467,7 +3631,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862796-spread",
@@ -3488,7 +3653,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401869949-spread",
@@ -3509,7 +3675,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401862799-spread",
@@ -3530,7 +3697,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401862797-spread",
@@ -3551,7 +3719,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401860902-spread",
@@ -3572,7 +3741,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858485-spread",
@@ -3593,7 +3763,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401864516-spread",
@@ -3614,7 +3785,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401871067-total",
@@ -3635,7 +3807,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401871053-total",
@@ -3656,7 +3829,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401869950-spread",
@@ -3677,7 +3851,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858493-total",
@@ -3698,7 +3873,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401856722-total",
@@ -3719,7 +3895,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856809-total",
@@ -3740,7 +3917,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858490-total",
@@ -3761,7 +3939,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401860904-total",
@@ -3782,7 +3961,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401866478-total",
@@ -3803,7 +3983,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401869966-total",
@@ -3824,7 +4005,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401864522-total",
@@ -3845,7 +4027,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401866441-total",
@@ -3866,7 +4049,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856719-total",
@@ -3887,7 +4071,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862805-total",
@@ -3908,7 +4093,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401871091-total",
@@ -3929,7 +4115,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401866443-total",
@@ -3950,7 +4137,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "cfb-401869934-total",
@@ -3971,7 +4159,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858265-total",
@@ -3992,7 +4181,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401862802-total",
@@ -4013,7 +4203,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401864524-total",
@@ -4034,7 +4225,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401869957-total",
@@ -4055,7 +4247,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858266-total",
@@ -4076,7 +4269,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401858491-total",
@@ -4097,7 +4291,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401856831-spread",
@@ -4118,7 +4313,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401864521-total",
@@ -4139,7 +4335,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401866478-spread",
@@ -4160,7 +4357,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": null
   },
   {
    "id": "cfb-401858263-spread",
@@ -4181,7 +4379,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401866442-spread",
@@ -4202,7 +4401,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401869934-spread",
@@ -4223,7 +4423,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401858494-spread",
@@ -4244,7 +4445,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": false
   },
   {
    "id": "cfb-401856723-spread",
@@ -4265,7 +4467,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401862806-spread",
@@ -4286,7 +4489,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401871070-total",
@@ -4307,7 +4511,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.909
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401861965-total",
@@ -4328,7 +4533,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401864525-total",
@@ -4349,7 +4555,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401866476-total",
@@ -4370,7 +4577,8 @@
    "tier": "1U",
    "units": 1,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401858274-total",
@@ -4391,7 +4599,8 @@
    "tier": "1U",
    "units": 1,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856730-total",
@@ -4412,7 +4621,8 @@
    "tier": "1U",
    "units": 1,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401866450-total",
@@ -4433,7 +4643,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401864528-total",
@@ -4454,7 +4665,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401858275-total",
@@ -4475,7 +4687,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401858499-total",
@@ -4496,7 +4709,30 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "cfb-401858495-total",
+   "sport": "CFB",
+   "date": "2026-10-24",
+   "start": "2026-10-24T19:00Z",
+   "event": "Oregon @ Illinois",
+   "market": "total",
+   "selection": "Over 49.5",
+   "player": null,
+   "line": 49.5,
+   "price": -110,
+   "model_prob": 0.553,
+   "market_prob": 0.5,
+   "edge_prob": 0.053,
+   "ev": 0.055,
+   "edge_display": "5.3 pts",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856835-total",
@@ -4517,7 +4753,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401864527-total",
@@ -4538,28 +4775,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "cfb-401858495-total",
-   "sport": "CFB",
-   "date": "2026-10-24",
-   "start": "2026-10-24T19:00Z",
-   "event": "Oregon @ Illinois",
-   "market": "total",
-   "selection": "Over 50.5",
-   "player": null,
-   "line": 50.5,
-   "price": -110,
-   "model_prob": 0.543,
-   "market_prob": 0.5,
-   "edge_prob": 0.043,
-   "ev": 0.037,
-   "edge_display": "4.3 pts",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401860905-total",
@@ -4580,7 +4797,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401858496-total",
@@ -4601,7 +4819,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401862809-total",
@@ -4622,7 +4841,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856731-total",
@@ -4643,7 +4863,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401866448-total",
@@ -4664,7 +4885,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856729-total",
@@ -4685,7 +4907,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401866449-total",
@@ -4706,7 +4929,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401871094-total",
@@ -4727,7 +4951,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856731-spread",
@@ -4748,7 +4973,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856834-total",
@@ -4769,7 +4995,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856841-spread",
@@ -4790,7 +5017,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401858497-total",
@@ -4811,7 +5039,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401866447-spread",
@@ -4832,7 +5061,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401866450-spread",
@@ -4853,7 +5083,52 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "cfb-401871094-spread",
+   "sport": "CFB",
+   "date": "2026-10-24",
+   "start": "2026-10-24T20:00Z",
+   "event": "UL Monroe @ Troy",
+   "market": "spread",
+   "selection": "Troy -13.5",
+   "player": null,
+   "line": -13.5,
+   "price": -110,
+   "model_prob": 0.524,
+   "market_prob": 0.5,
+   "edge_prob": 0.024,
+   "ev": 0.001,
+   "edge_display": "4.9 pts",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "cfb-401862811-spread",
+   "sport": "CFB",
+   "date": "2026-10-24",
+   "start": "2026-10-25T00:00Z",
+   "event": "UTSA @ Tulane",
+   "market": "spread",
+   "selection": "Tulane +3",
+   "player": null,
+   "line": 3.0,
+   "price": -110,
+   "model_prob": 0.524,
+   "market_prob": 0.5,
+   "edge_prob": 0.024,
+   "ev": 0.001,
+   "edge_display": "4.9 pts",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401856730-spread",
@@ -4874,7 +5149,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401871093-spread",
@@ -4895,7 +5171,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401860907-spread",
@@ -4916,49 +5193,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "cfb-401871094-spread",
-   "sport": "CFB",
-   "date": "2026-10-24",
-   "start": "2026-10-24T20:00Z",
-   "event": "UL Monroe @ Troy",
-   "market": "spread",
-   "selection": "Troy -14",
-   "player": null,
-   "line": -14.0,
-   "price": -110,
-   "model_prob": 0.522,
-   "market_prob": 0.5,
-   "edge_prob": 0.022,
-   "ev": -0.003,
-   "edge_display": "4.4 pts",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "cfb-401862811-spread",
-   "sport": "CFB",
-   "date": "2026-10-24",
-   "start": "2026-10-25T00:00Z",
-   "event": "UTSA @ Tulane",
-   "market": "spread",
-   "selection": "Tulane +2.5",
-   "player": null,
-   "line": 2.5,
-   "price": -110,
-   "model_prob": 0.522,
-   "market_prob": 0.5,
-   "edge_prob": 0.022,
-   "ev": -0.004,
-   "edge_display": "4.4 pts",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   }
  ]
 }
