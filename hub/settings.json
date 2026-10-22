@@ -9,6 +9,6 @@
   "max_per_game": 1,
   "min_ev": 0.0,
   "min_stake": 1,
-  "rank": "3U/VIP always first, then highest expected value",
+  "rank": "Bigger plays first (3U/VIP, then 2U, then 1U); expected value breaks ties within a size",
   "lock_time_et": "10:30"
 }

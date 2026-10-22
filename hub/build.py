@@ -29,8 +29,8 @@ TOP_TIERS = ("VIP", "3U")  # always a best play
 
 
 def rank_key(p):
-    """3U/VIP plays first; after that, highest expected value (1U or 2U alike)."""
-    return (p.get("tier") not in TOP_TIERS, -(p.get("ev") or 0))
+    """Bigger plays first (VIP, 3U, 2U, 1U); expected value only breaks ties within a size."""
+    return (TIER_RANK.get(p.get("tier"), 9), -(p.get("ev") or 0))
 FINAL = ("win", "loss", "push", "void")
 
 

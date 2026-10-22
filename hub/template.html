@@ -386,7 +386,8 @@ const profit = pr => pr == null ? 100/110 : (pr < 0 ? 100/-pr : pr/100);
 const tip = s => { if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}); };
 const lockText = () => { const [h, m] = (S.lock_time_et || "10:30").split(":").map(Number); return `${h > 12 ? h-12 : h}:${String(m).padStart(2,"0")} ${h >= 12 ? "PM" : "AM"}`; };
 const store = { get(k, d){ try { return localStorage.getItem(k) ?? d; } catch(e){ return d; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} } };
-const rankSort = (a,b) => (TOP.includes(b.tier) - TOP.includes(a.tier)) || (b.ev||0) - (a.ev||0);
+const TIER_ORDER = {VIP:0, "3U":1, "2U":2, "1U":3, "Lean":4, "Light lean":5};
+const rankSort = (a,b) => ((TIER_ORDER[a.tier] ?? 9) - (TIER_ORDER[b.tier] ?? 9)) || (b.ev||0) - (a.ev||0);  // bigger plays first, EV breaks ties
 const cls = x => x > 0 ? "pos" : x < 0 ? "neg" : "";
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const winPct = r => r.w + r.l ? Math.round(100*r.w/(r.w+r.l)) + "%" : "–";
@@ -637,7 +638,7 @@ function renderToday(){
           <div class="side"><span class="ev"><b>${sgn(100*(p.ev||0),0)}%</b><span>EV</span></span>${unitsBadge({stake: Math.max(p.units||0,1)})}</div>${started(p.start) ? `<span class="res live">Live</span>` : addBtn(fromFeed(p))}
         </div>`).join("")}</div>` : liveLoaded ? `<div class="empty" style="margin-top:8px">No 1U+ plays posted for today.</div>` : `<div style="margin-top:8px"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>`}
     </div>
-    ${how([`<b>Best plays:</b> the top ${S.picks_per_day} plays across every sport model, locked each day at ${lockText()} ET. Every 3U/VIP play goes first, then the highest expected value (EV) among 1U and 2U plays. Leans never count. One bet per game (props on different players can share a game).`,
+    ${how([`<b>Best plays:</b> the top ${S.picks_per_day} plays across every sport model, locked each day at ${lockText()} ET. Bigger plays go first: 3U/VIP, then 2U, then 1U. Within the same size, the highest expected value (EV) wins. Leans never count. One bet per game (props on different players can share a game).`,
       `<b>Play of the Day (★):</b> the top-ranked pick. It's final once its game starts. A 3U/VIP play that posts after the lock bumps the weakest pick that hasn't started.`,
       `<b>Before the lock</b> the screen previews what would lock right now ("not locked yet").`,
       `<b>Your picks</b> (blue) come from the My Picks app and are never mixed into the Best Plays record. Tap + on a play to open My Picks with it filled in.`,
