@@ -2,7 +2,7 @@
  "sport": "NHL",
  "app": "NHL Model",
  "format": 1,
- "generated_at": "2026-10-22T10:59Z",
+ "generated_at": "2026-10-22T16:30Z",
  "plays": [
   {
    "id": "nhl-401891773-ml",
@@ -23,7 +23,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401891827-ml",
@@ -44,7 +45,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.9524
+   "result_units": 0.9524,
+   "beat_close": null
   },
   {
    "id": "nhl-401891804-ml",
@@ -65,7 +67,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 2.15
+   "result_units": 2.15,
+   "beat_close": false
   },
   {
    "id": "nhl-401892431-ml",
@@ -86,7 +89,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": false
   },
   {
    "id": "nhl-401891821-ml",
@@ -107,7 +111,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.2
+   "result_units": 1.2,
+   "beat_close": false
   },
   {
    "id": "nhl-401891780-ml",
@@ -128,7 +133,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.5405
+   "result_units": 0.5405,
+   "beat_close": true
   },
   {
    "id": "nhl-401891781-total",
@@ -149,7 +155,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.2
+   "result_units": 1.2,
+   "beat_close": true
   },
   {
    "id": "nhl-401891777-ml",
@@ -170,7 +177,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "nhl-401891817-ml",
@@ -191,7 +199,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.6452
+   "result_units": 0.6452,
+   "beat_close": true
   },
   {
    "id": "nhl-401891828-ml",
@@ -212,7 +221,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.5051
+   "result_units": 0.5051,
+   "beat_close": true
   },
   {
    "id": "nhl-401891782-ml",
@@ -233,7 +243,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 1.7
+   "result_units": 1.7,
+   "beat_close": true
   },
   {
    "id": "nhl-401891803-ml",
@@ -254,7 +265,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "nhl-401892432-ml",
@@ -275,7 +287,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892434-ml",
@@ -296,7 +309,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 2.2
+   "result_units": 2.2,
+   "beat_close": true
   },
   {
    "id": "nhl-401892438-ml",
@@ -317,7 +331,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 2.4
+   "result_units": 2.4,
+   "beat_close": null
   },
   {
    "id": "nhl-401892437-ml",
@@ -338,7 +353,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891826-ml",
@@ -359,7 +375,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 1.4085
+   "result_units": 1.4085,
+   "beat_close": true
   },
   {
    "id": "nhl-401892441-ml",
@@ -380,7 +397,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891776-total",
@@ -401,7 +419,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.24
+   "result_units": 1.24,
+   "beat_close": true
   },
   {
    "id": "nhl-401892440-ml",
@@ -422,7 +441,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892438-total",
@@ -443,7 +463,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.14
+   "result_units": 1.14,
+   "beat_close": false
   },
   {
    "id": "nhl-401891814-ml",
@@ -464,7 +485,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.5556
+   "result_units": 0.5556,
+   "beat_close": true
   },
   {
    "id": "nhl-401892437-total",
@@ -485,7 +507,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891822-ml",
@@ -506,7 +529,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.9091
+   "result_units": 0.9091,
+   "beat_close": false
   },
   {
    "id": "nhl-401892443-total",
@@ -527,7 +551,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891778-total",
@@ -548,7 +573,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.1
+   "result_units": 1.1,
+   "beat_close": true
   },
   {
    "id": "nhl-401891778-ml",
@@ -569,7 +595,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.1
+   "result_units": 1.1,
+   "beat_close": false
   },
   {
    "id": "nhl-401892444-ml",
@@ -590,7 +617,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.4348
+   "result_units": 0.4348,
+   "beat_close": true
   },
   {
    "id": "nhl-401892446-ml",
@@ -611,7 +639,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 1.1
+   "result_units": 1.1,
+   "beat_close": true
   },
   {
    "id": "nhl-401892447-ml",
@@ -632,7 +661,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892445-ml",
@@ -653,7 +683,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.5714
+   "result_units": 0.5714,
+   "beat_close": true
   },
   {
    "id": "nhl-401892448-ml",
@@ -674,7 +705,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.5714
+   "result_units": 0.5714,
+   "beat_close": true
   },
   {
    "id": "nhl-401891779-ml",
@@ -695,7 +727,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891806-ml",
@@ -716,7 +749,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891815-ml",
@@ -737,7 +771,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.8333
+   "result_units": 0.8333,
+   "beat_close": true
   },
   {
    "id": "nhl-401892450-ml",
@@ -758,7 +793,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.8696
+   "result_units": 0.8696,
+   "beat_close": true
   },
   {
    "id": "nhl-401892449-ml",
@@ -779,7 +815,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "nhl-401892451-ml",
@@ -800,7 +837,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.14
+   "result_units": 1.14,
+   "beat_close": true
   },
   {
    "id": "nhl-401891830-ml",
@@ -821,7 +859,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891825-ml",
@@ -842,7 +881,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892463-ml",
@@ -863,7 +903,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "nhl-401891820-ml",
@@ -884,7 +925,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 1.6
+   "result_units": 1.6,
+   "beat_close": true
   },
   {
    "id": "nhl-401892459-ml",
@@ -905,7 +947,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.64
+   "result_units": 1.64,
+   "beat_close": true
   },
   {
    "id": "nhl-401892464-ml",
@@ -926,7 +969,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.6173
+   "result_units": 0.6173,
+   "beat_close": true
   },
   {
    "id": "nhl-401892461-ml",
@@ -947,7 +991,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.3077
+   "result_units": 0.3077,
+   "beat_close": true
   },
   {
    "id": "nhl-401892467-ml",
@@ -968,7 +1013,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892465-ml",
@@ -989,7 +1035,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892480-ml",
@@ -1010,7 +1057,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892473-ml",
@@ -1031,7 +1079,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401891805-total",
@@ -1052,7 +1101,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.05
+   "result_units": 1.05,
+   "beat_close": true
   },
   {
    "id": "nhl-401891805-ml",
@@ -1073,7 +1123,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 1.24
+   "result_units": 1.24,
+   "beat_close": true
   },
   {
    "id": "nhl-401892478-ml",
@@ -1094,7 +1145,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892476-ml",
@@ -1115,7 +1167,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 0.9756
+   "result_units": 0.9756,
+   "beat_close": true
   },
   {
    "id": "nhl-401892470-total",
@@ -1136,7 +1189,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892469-ml",
@@ -1157,7 +1211,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.7692
+   "result_units": 0.7692,
+   "beat_close": true
   },
   {
    "id": "nhl-401892475-total",
@@ -1178,7 +1233,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.9524
+   "result_units": 0.9524,
+   "beat_close": true
   },
   {
    "id": "nhl-401892474-ml",
@@ -1199,7 +1255,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.6173
+   "result_units": 0.6173,
+   "beat_close": true
   },
   {
    "id": "nhl-401892471-ml",
@@ -1220,7 +1277,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.7042
+   "result_units": 0.7042,
+   "beat_close": true
   },
   {
    "id": "nhl-401892481-ml",
@@ -1241,7 +1299,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.6452
+   "result_units": 0.6452,
+   "beat_close": true
   },
   {
    "id": "nhl-401892484-ml",
@@ -1262,7 +1321,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 1.5385
+   "result_units": 1.5385,
+   "beat_close": true
   },
   {
    "id": "nhl-401892483-ml",
@@ -1283,7 +1343,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.3704
+   "result_units": 0.3704,
+   "beat_close": true
   },
   {
    "id": "nhl-401892485-ml",
@@ -1304,7 +1365,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.9259
+   "result_units": 0.9259,
+   "beat_close": true
   },
   {
    "id": "nhl-401892486-ml",
@@ -1325,7 +1387,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.1
+   "result_units": 1.1,
+   "beat_close": true
   },
   {
    "id": "nhl-401892501-ml",
@@ -1346,7 +1409,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 3.6
+   "result_units": 3.6,
+   "beat_close": true
   },
   {
    "id": "nhl-401892503-ml",
@@ -1367,7 +1431,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 2.04
+   "result_units": 2.04,
+   "beat_close": true
   },
   {
    "id": "nhl-401892494-ml",
@@ -1388,7 +1453,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 2.2
+   "result_units": 2.2,
+   "beat_close": true
   },
   {
    "id": "nhl-401892488-ml",
@@ -1409,7 +1475,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892489-ml",
@@ -1430,7 +1497,8 @@
    "tier": "2U",
    "units": 2,
    "status": "loss",
-   "result_units": -2.0
+   "result_units": -2.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892491-ml",
@@ -1451,7 +1519,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 1.4085
+   "result_units": 1.4085,
+   "beat_close": true
   },
   {
    "id": "nhl-401892493-total",
@@ -1472,7 +1541,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.14
+   "result_units": 1.14,
+   "beat_close": true
   },
   {
    "id": "nhl-401892500-ml",
@@ -1493,7 +1563,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.7042
+   "result_units": 0.7042,
+   "beat_close": true
   },
   {
    "id": "nhl-401892502-total",
@@ -1514,7 +1585,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892496-ml",
@@ -1535,7 +1607,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892498-ml",
@@ -1556,7 +1629,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.9259
+   "result_units": 0.9259,
+   "beat_close": false
   },
   {
    "id": "nhl-401892493-ml",
@@ -1577,7 +1651,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.42
+   "result_units": 1.42,
+   "beat_close": true
   },
   {
    "id": "nhl-401892492-ml",
@@ -1598,7 +1673,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.1
+   "result_units": 1.1,
+   "beat_close": true
   },
   {
    "id": "nhl-401892505-ml",
@@ -1619,7 +1695,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892504-ml",
@@ -1640,7 +1717,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892516-ml",
@@ -1661,7 +1739,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892506-ml",
@@ -1682,7 +1761,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 2.0
+   "result_units": 2.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892515-ml",
@@ -1703,7 +1783,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 1.24
+   "result_units": 1.24,
+   "beat_close": true
   },
   {
    "id": "nhl-401892510-ml",
@@ -1724,7 +1805,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892508-ml",
@@ -1745,7 +1827,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.7407
+   "result_units": 0.7407,
+   "beat_close": true
   },
   {
    "id": "nhl-401892517-ml",
@@ -1766,7 +1849,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892518-ml",
@@ -1787,7 +1871,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892523-ml",
@@ -1808,7 +1893,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 2.4
+   "result_units": 2.4,
+   "beat_close": true
   },
   {
    "id": "nhl-401892520-ml",
@@ -1829,7 +1915,8 @@
    "tier": "2U",
    "units": 2,
    "status": "win",
-   "result_units": 1.4085
+   "result_units": 1.4085,
+   "beat_close": true
   },
   {
    "id": "nhl-401892519-ml",
@@ -1850,7 +1937,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892526-ml",
@@ -1871,7 +1959,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892526-total",
@@ -1892,7 +1981,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.02
+   "result_units": 1.02,
+   "beat_close": true
   },
   {
    "id": "nhl-401892525-ml",
@@ -1913,7 +2003,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.7042
+   "result_units": 0.7042,
+   "beat_close": true
   },
   {
    "id": "nhl-401892530-ml",
@@ -1934,7 +2025,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892533-ml",
@@ -1955,7 +2047,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.5714
+   "result_units": 0.5714,
+   "beat_close": true
   },
   {
    "id": "nhl-401892538-total",
@@ -1976,7 +2069,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892537-total",
@@ -1997,7 +2091,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.2
+   "result_units": 1.2,
+   "beat_close": false
   },
   {
    "id": "nhl-401892538-ml",
@@ -2018,7 +2113,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892535-total",
@@ -2039,7 +2135,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892535-ml",
@@ -2060,7 +2157,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892546-ml",
@@ -2081,7 +2179,8 @@
    "tier": "1U",
    "units": 1,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892543-ml",
@@ -2102,7 +2201,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892547-ml",
@@ -2123,7 +2223,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892548-ml",
@@ -2144,7 +2245,8 @@
    "tier": "1U",
    "units": 1,
    "status": "win",
-   "result_units": 0.3597
+   "result_units": 0.3597,
+   "beat_close": null
   },
   {
    "id": "nhl-401892541-ml",
@@ -2165,7 +2267,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "win",
-   "result_units": 0.6452
+   "result_units": 0.6452,
+   "beat_close": null
   },
   {
    "id": "nhl-401892539-ml",
@@ -2186,7 +2289,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892545-ml",
@@ -2207,7 +2311,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "loss",
-   "result_units": -1.0
+   "result_units": -1.0,
+   "beat_close": null
   },
   {
    "id": "nhl-401892550-total",
@@ -2228,7 +2333,8 @@
    "tier": "Light lean",
    "units": 0,
    "status": "win",
-   "result_units": 1.14
+   "result_units": 1.14,
+   "beat_close": false
   },
   {
    "id": "nhl-401892561-ml",
@@ -2249,28 +2355,30 @@
    "tier": "2U",
    "units": 2,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
-   "id": "nhl-401892556-total",
+   "id": "nhl-401892555-ml",
    "sport": "NHL",
    "date": "2026-10-22",
    "start": "2026-10-22T23:00Z",
-   "event": "Panthers @ Penguins",
-   "market": "total",
-   "selection": "Under 6.5",
+   "event": "Ducks @ Devils",
+   "market": "moneyline",
+   "selection": "Ducks ML",
    "player": null,
-   "line": 6.5,
-   "price": 114.0,
-   "model_prob": 0.5157,
-   "market_prob": 0.4486,
-   "edge_prob": 0.0672,
-   "ev": 0.1037,
-   "edge_display": "6.7%",
+   "line": null,
+   "price": 180.0,
+   "model_prob": 0.392,
+   "market_prob": 0.3425,
+   "edge_prob": 0.0495,
+   "ev": 0.0976,
+   "edge_display": "4.9%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nhl-401892560-ml",
@@ -2291,7 +2399,8 @@
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nhl-401892556-ml",
@@ -2304,15 +2413,60 @@
    "player": null,
    "line": null,
    "price": -115.0,
-   "model_prob": 0.5767,
+   "model_prob": 0.5733,
    "market_prob": 0.5108,
-   "edge_prob": 0.0659,
-   "ev": 0.0782,
-   "edge_display": "6.6%",
+   "edge_prob": 0.0624,
+   "ev": 0.0718,
+   "edge_display": "6.2%",
    "tier": "1U",
    "units": 1,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nhl-401892557-ml",
+   "sport": "NHL",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:30Z",
+   "event": "Kings @ Islanders",
+   "market": "moneyline",
+   "selection": "Islanders ML",
+   "player": null,
+   "line": null,
+   "price": -105.0,
+   "model_prob": 0.5434,
+   "market_prob": 0.4892,
+   "edge_prob": 0.0543,
+   "ev": 0.061,
+   "edge_display": "5.4%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nhl-401892556-total",
+   "sport": "NHL",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:00Z",
+   "event": "Panthers @ Penguins",
+   "market": "total",
+   "selection": "Under 6.5",
+   "player": null,
+   "line": 6.5,
+   "price": 105.0,
+   "model_prob": 0.5144,
+   "market_prob": 0.4675,
+   "edge_prob": 0.0469,
+   "ev": 0.0546,
+   "edge_display": "4.7%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "nhl-401892563-ml",
@@ -2325,36 +2479,38 @@
    "player": null,
    "line": null,
    "price": -170.0,
-   "model_prob": 0.6611,
+   "model_prob": 0.6606,
    "market_prob": 0.6038,
-   "edge_prob": 0.0573,
-   "ev": 0.05,
+   "edge_prob": 0.0568,
+   "ev": 0.0491,
    "edge_display": "5.7%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   },
   {
-   "id": "nhl-401892557-ml",
+   "id": "nhl-401892564-ml",
    "sport": "NHL",
-   "date": "2026-10-22",
-   "start": "2026-10-22T23:30Z",
-   "event": "Kings @ Islanders",
+   "date": "2026-10-23",
+   "start": "2026-10-24T00:00Z",
+   "event": "Canadiens @ Blackhawks",
    "market": "moneyline",
-   "selection": "Islanders ML",
+   "selection": "Canadiens ML",
    "player": null,
    "line": null,
-   "price": -115.0,
-   "model_prob": 0.5507,
-   "market_prob": 0.5108,
-   "edge_prob": 0.0399,
-   "ev": 0.0296,
-   "edge_display": "4.0%",
-   "tier": "Light lean",
-   "units": 0,
+   "price": -142.0,
+   "model_prob": 0.6383,
+   "market_prob": 0.5635,
+   "edge_prob": 0.0748,
+   "ev": 0.0879,
+   "edge_display": "7.5%",
+   "tier": "1U",
+   "units": 1,
    "status": "pending",
-   "result_units": null
+   "result_units": null,
+   "beat_close": null
   }
  ]
 }
