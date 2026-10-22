@@ -2,7 +2,7 @@
  "sport": "NBA",
  "app": "NBA Model",
  "format": 1,
- "generated_at": "2026-10-22T00:52Z",
+ "generated_at": "2026-10-22T11:10Z",
  "plays": [
   {
    "id": "nba-401909088-4351852-reb",
@@ -673,8 +673,8 @@
    "edge_display": "4.1 pts",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.909
   },
   {
    "id": "nba-401909838-4065733-ast",
@@ -694,8 +694,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.14
   },
   {
    "id": "nba-401909835-spread",
@@ -715,8 +715,8 @@
    "edge_display": "3.2 pts",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909838-4397077-reb",
@@ -736,8 +736,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.13
   },
   {
    "id": "nba-401909836-4432194-reb",
@@ -757,8 +757,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.87
   },
   {
    "id": "nba-401909836-3150844-reb",
@@ -778,8 +778,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.98
   },
   {
    "id": "nba-401909836-3032979-ast",
@@ -799,8 +799,29 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.69
+  },
+  {
+   "id": "nba-401909092-4997536-reb",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Warriors vs Lakers",
+   "market": "prop",
+   "selection": "Gui Santos under 5.5 rebounds",
+   "player": "Gui Santos",
+   "line": 5.5,
+   "price": -102.0,
+   "model_prob": 0.556,
+   "market_prob": 0.473,
+   "edge_prob": 0.084,
+   "ev": 0.102,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.98
   },
   {
    "id": "nba-401909835-4278129-reb",
@@ -820,8 +841,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-4397136-reb",
@@ -841,8 +862,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.07
   },
   {
    "id": "nba-401909842-3064440-reb",
@@ -862,8 +883,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909841-4683021-ast",
@@ -883,8 +904,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909834-4566434-ast",
@@ -904,8 +925,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.662
   },
   {
    "id": "nba-401909091-3032977-ast",
@@ -925,8 +946,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.06
   },
   {
    "id": "nba-401909839-4395712-ast",
@@ -946,8 +967,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.909
   },
   {
    "id": "nba-401909092-3907498-reb",
@@ -967,8 +988,50 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909092-3945274-reb",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Lakers vs Warriors",
+   "market": "prop",
+   "selection": "Luka Doncic under 8.5 rebounds",
+   "player": "Luka Doncic",
+   "line": 8.5,
+   "price": -123.0,
+   "model_prob": 0.589,
+   "market_prob": 0.516,
+   "edge_prob": 0.073,
+   "ev": 0.068,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.813
+  },
+  {
+   "id": "nba-401909092-4397040-ast",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Warriors vs Lakers",
+   "market": "prop",
+   "selection": "Brandon Williams over 2.5 assists",
+   "player": "Brandon Williams",
+   "line": 2.5,
+   "price": -113.0,
+   "model_prob": 0.565,
+   "market_prob": 0.496,
+   "edge_prob": 0.069,
+   "ev": 0.064,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.885
   },
   {
    "id": "nba-401909836-5175643-ast",
@@ -988,8 +1051,50 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.09
+  },
+  {
+   "id": "nba-401909841-3995-ast",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Blazers vs Suns",
+   "market": "prop",
+   "selection": "Jrue Holiday over 3.5 assists",
+   "player": "Jrue Holiday",
+   "line": 3.5,
+   "price": -148.0,
+   "model_prob": 0.633,
+   "market_prob": 0.558,
+   "edge_prob": 0.074,
+   "ev": 0.06,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909092-4433137-reb",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Lakers vs Warriors",
+   "market": "prop",
+   "selection": "Ziaire Williams under 2.5 rebounds",
+   "player": "Ziaire Williams",
+   "line": 2.5,
+   "price": 114.0,
+   "model_prob": 0.495,
+   "market_prob": 0.437,
+   "edge_prob": 0.058,
+   "ev": 0.06,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-6442-ast",
@@ -1009,8 +1114,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.05
   },
   {
    "id": "nba-401909841-6606-reb",
@@ -1030,29 +1135,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909841-3995-ast",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Blazers vs Suns",
-   "market": "prop",
-   "selection": "Jrue Holiday over 3.5 assists",
-   "player": "Jrue Holiday",
-   "line": 3.5,
-   "price": -146.0,
-   "model_prob": 0.627,
-   "market_prob": 0.556,
-   "edge_prob": 0.071,
-   "ev": 0.057,
-   "edge_display": "7%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909835-4432848-ast",
@@ -1072,8 +1156,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909092-6589-reb",
@@ -1093,8 +1177,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.01
   },
   {
    "id": "nba-401909092-4278580-reb",
@@ -1114,15 +1198,15 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.893
   },
   {
    "id": "nba-401909841-4601023-ast",
    "sport": "NBA",
    "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Suns @ Blazers",
+   "start": null,
+   "event": "Suns vs Blazers",
    "market": "prop",
    "selection": "Oso Ighodaro over 2.5 assists",
    "player": "Oso Ighodaro",
@@ -1135,8 +1219,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.31
   },
   {
    "id": "nba-401909834-4701230-reb",
@@ -1156,8 +1240,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909091-4433247-reb",
@@ -1177,8 +1261,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.87
   },
   {
    "id": "nba-401909837-4432241-ast",
@@ -1198,8 +1282,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.22
   },
   {
    "id": "nba-401909840-4711272-ast",
@@ -1219,8 +1303,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.862
   },
   {
    "id": "nba-401909836-5175643-reb",
@@ -1240,8 +1324,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909834-6478-reb",
@@ -1261,8 +1345,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909835-4397475-fg3m",
@@ -1282,8 +1366,29 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909842-4396907-reb",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Clippers vs Kings",
+   "market": "prop",
+   "selection": "Darius Garland under 3.5 rebounds",
+   "player": "Darius Garland",
+   "line": 3.5,
+   "price": -144.0,
+   "model_prob": 0.617,
+   "market_prob": 0.552,
+   "edge_prob": 0.065,
+   "ev": 0.046,
+   "edge_display": "6%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.694
   },
   {
    "id": "nba-401909091-4601025-fg3m",
@@ -1303,29 +1408,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909842-4396907-ast",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:30Z",
-   "event": "Clippers vs Kings",
-   "market": "prop",
-   "selection": "Darius Garland under 8.5 assists",
-   "player": "Darius Garland",
-   "line": 8.5,
-   "price": -138.0,
-   "model_prob": 0.605,
-   "market_prob": 0.543,
-   "edge_prob": 0.061,
-   "ev": 0.043,
-   "edge_display": "6%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.5
   },
   {
    "id": "nba-401909840-2990992-ast",
@@ -1345,29 +1429,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909092-4997536-reb",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Warriors @ Lakers",
-   "market": "prop",
-   "selection": "Gui Santos under 5.5 rebounds",
-   "player": "Gui Santos",
-   "line": 5.5,
-   "price": -125.0,
-   "model_prob": 0.579,
-   "market_prob": 0.52,
-   "edge_prob": 0.059,
-   "ev": 0.042,
-   "edge_display": "6%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909835-4397475-reb",
@@ -1387,8 +1450,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909837-4433134-ast",
@@ -1408,8 +1471,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-4278078-ast",
@@ -1429,8 +1492,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909837-5044385-reb",
@@ -1450,8 +1513,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909836-4432194-ast",
@@ -1471,8 +1534,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-4432582-ast",
@@ -1492,8 +1555,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909838-4065733-fg3m",
@@ -1513,50 +1576,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909092-4397040-ast",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Warriors @ Lakers",
-   "market": "prop",
-   "selection": "Brandon Williams over 2.5 assists",
-   "player": "Brandon Williams",
-   "line": 2.5,
-   "price": -132.0,
-   "model_prob": 0.591,
-   "market_prob": 0.532,
-   "edge_prob": 0.059,
-   "ev": 0.039,
-   "edge_display": "6%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909092-4066457-ast",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Lakers vs Warriors",
-   "market": "prop",
-   "selection": "Austin Reaves under 5.5 assists",
-   "player": "Austin Reaves",
-   "line": 5.5,
-   "price": 111.0,
-   "model_prob": 0.492,
-   "market_prob": 0.444,
-   "edge_prob": 0.048,
-   "ev": 0.039,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909836-3064514-reb",
@@ -1576,8 +1597,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909838-4433627-ast",
@@ -1597,8 +1618,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.99
   },
   {
    "id": "nba-401909092-4066457-reb",
@@ -1618,8 +1639,29 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.637
+  },
+  {
+   "id": "nba-401909841-6606-ast",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Blazers vs Suns",
+   "market": "prop",
+   "selection": "Damian Lillard over 4.5 assists",
+   "player": "Damian Lillard",
+   "line": 4.5,
+   "price": -139.0,
+   "model_prob": 0.603,
+   "market_prob": 0.545,
+   "edge_prob": 0.058,
+   "ev": 0.036,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.719
   },
   {
    "id": "nba-401909839-5061589-reb",
@@ -1639,8 +1681,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-2991230-ast",
@@ -1660,8 +1702,29 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909842-4396907-ast",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Clippers vs Kings",
+   "market": "prop",
+   "selection": "Darius Garland under 8.5 assists",
+   "player": "Darius Garland",
+   "line": 8.5,
+   "price": -146.0,
+   "model_prob": 0.614,
+   "market_prob": 0.556,
+   "edge_prob": 0.058,
+   "ev": 0.035,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.685
   },
   {
    "id": "nba-401909837-4397189-ast",
@@ -1681,50 +1744,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909842-4396907-reb",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:30Z",
-   "event": "Clippers vs Kings",
-   "market": "prop",
-   "selection": "Darius Garland under 3.5 rebounds",
-   "player": "Darius Garland",
-   "line": 3.5,
-   "price": -150.0,
-   "model_prob": 0.62,
-   "market_prob": 0.562,
-   "edge_prob": 0.058,
-   "ev": 0.034,
-   "edge_display": "6%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909841-6606-ast",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Blazers vs Suns",
-   "market": "prop",
-   "selection": "Damian Lillard over 4.5 assists",
-   "player": "Damian Lillard",
-   "line": 4.5,
-   "price": -144.0,
-   "model_prob": 0.61,
-   "market_prob": 0.552,
-   "edge_prob": 0.058,
-   "ev": 0.034,
-   "edge_display": "6%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.73
   },
   {
    "id": "nba-401909839-4396993-fg3m",
@@ -1744,8 +1765,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.28
   },
   {
    "id": "nba-401909838-4600663-reb",
@@ -1765,8 +1786,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.952
   },
   {
    "id": "nba-401909837-4433134-reb",
@@ -1786,8 +1807,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.787
   },
   {
    "id": "nba-401909837-4397189-reb",
@@ -1807,8 +1828,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909834-4701230-ast",
@@ -1828,8 +1849,29 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.671
+  },
+  {
+   "id": "nba-401909841-4437244-ast",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Suns vs Blazers",
+   "market": "prop",
+   "selection": "Jalen Green under 3.5 assists",
+   "player": "Jalen Green",
+   "line": 3.5,
+   "price": -106.0,
+   "model_prob": 0.53,
+   "market_prob": 0.482,
+   "edge_prob": 0.049,
+   "ev": 0.031,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.943
   },
   {
    "id": "nba-401909836-3064514-ast",
@@ -1849,8 +1891,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-4396993-reb",
@@ -1870,8 +1912,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909838-4903027-reb",
@@ -1891,8 +1933,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-4683634-reb",
@@ -1912,8 +1954,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909842-2991139-reb",
@@ -1933,8 +1975,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909842-3936099-ast",
@@ -1954,8 +1996,29 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909092-4066457-ast",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Lakers vs Warriors",
+   "market": "prop",
+   "selection": "Austin Reaves under 5.5 assists",
+   "player": "Austin Reaves",
+   "line": 5.5,
+   "price": 105.0,
+   "model_prob": 0.502,
+   "market_prob": 0.457,
+   "edge_prob": 0.045,
+   "ev": 0.029,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909838-4433627-reb",
@@ -1975,29 +2038,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909092-3945274-reb",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Lakers vs Warriors",
-   "market": "prop",
-   "selection": "Luka Doncic under 7.5 rebounds",
-   "player": "Luka Doncic",
-   "line": 7.5,
-   "price": -111.0,
-   "model_prob": 0.54,
-   "market_prob": 0.493,
-   "edge_prob": 0.048,
-   "ev": 0.027,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.24
   },
   {
    "id": "nba-401909838-4873138-fg3m",
@@ -2017,29 +2059,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909092-4433137-reb",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Lakers vs Warriors",
-   "market": "prop",
-   "selection": "Ziaire Williams under 2.5 rebounds",
-   "player": "Ziaire Williams",
-   "line": 2.5,
-   "price": -105.0,
-   "model_prob": 0.526,
-   "market_prob": 0.48,
-   "edge_prob": 0.046,
-   "ev": 0.027,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.952
   },
   {
    "id": "nba-401909840-4278049-reb",
@@ -2059,8 +2080,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.09
   },
   {
    "id": "nba-401909840-3202-ast",
@@ -2080,8 +2101,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909091-4397002-ast",
@@ -2101,8 +2122,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909834-4702382-ast",
@@ -2122,8 +2143,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909835-4397475-ast",
@@ -2143,8 +2164,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-4432582-reb",
@@ -2164,8 +2185,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.694
   },
   {
    "id": "nba-401909837-2595516-fg3m",
@@ -2185,29 +2206,29 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.926
   },
   {
-   "id": "nba-401909841-4437244-ast",
+   "id": "nba-401909841-4066211-reb",
    "sport": "NBA",
    "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Suns @ Blazers",
+   "start": null,
+   "event": "Blazers vs Suns",
    "market": "prop",
-   "selection": "Jalen Green under 3.5 assists",
-   "player": "Jalen Green",
-   "line": 3.5,
-   "price": -111.0,
-   "model_prob": 0.539,
-   "market_prob": 0.492,
-   "edge_prob": 0.047,
+   "selection": "Robert Williams III under 8.5 rebounds",
+   "player": "Robert Williams III",
+   "line": 8.5,
+   "price": -140.0,
+   "model_prob": 0.597,
+   "market_prob": 0.546,
+   "edge_prob": 0.051,
    "ev": 0.024,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-3133603-reb",
@@ -2227,50 +2248,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909841-4066211-reb",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Blazers vs Suns",
-   "market": "prop",
-   "selection": "Robert Williams III under 7.5 rebounds",
-   "player": "Robert Williams III",
-   "line": 7.5,
-   "price": 103.0,
-   "model_prob": 0.504,
-   "market_prob": 0.461,
-   "edge_prob": 0.043,
-   "ev": 0.023,
-   "edge_display": "4%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909092-4997536-fg3m",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Warriors @ Lakers",
-   "market": "prop",
-   "selection": "Gui Santos under 1.5 threes",
-   "player": "Gui Santos",
-   "line": 1.5,
-   "price": -116.0,
-   "model_prob": 0.549,
-   "market_prob": 0.502,
-   "edge_prob": 0.047,
-   "ev": 0.022,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-4683634-ast",
@@ -2290,8 +2269,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.847
   },
   {
    "id": "nba-401909839-5144091-ast",
@@ -2311,8 +2290,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909092-4397014-fg3m",
@@ -2332,8 +2311,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.04
   },
   {
    "id": "nba-401909838-4903027-fg3m",
@@ -2353,8 +2332,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.13
   },
   {
    "id": "nba-401909839-4395628-reb",
@@ -2374,8 +2353,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.04
   },
   {
    "id": "nba-401909091-4432816-ast",
@@ -2395,8 +2374,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.709
   },
   {
    "id": "nba-401909837-4871145-ast",
@@ -2416,8 +2395,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 1.1
   },
   {
    "id": "nba-401909839-4017837-reb",
@@ -2437,8 +2416,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-4871144-fg3m",
@@ -2458,8 +2437,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-5106060-reb",
@@ -2479,8 +2458,29 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.637
+  },
+  {
+   "id": "nba-401909842-3936099-reb",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Clippers vs Kings",
+   "market": "prop",
+   "selection": "Derrick Jones Jr. under 4.5 rebounds",
+   "player": "Derrick Jones Jr.",
+   "line": 4.5,
+   "price": -149.0,
+   "model_prob": 0.61,
+   "market_prob": 0.56,
+   "edge_prob": 0.05,
+   "ev": 0.02,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-5106060-ast",
@@ -2500,8 +2500,29 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909092-4997536-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Warriors vs Lakers",
+   "market": "prop",
+   "selection": "Gui Santos under 1.5 threes",
+   "player": "Gui Santos",
+   "line": 1.5,
+   "price": -125.0,
+   "model_prob": 0.566,
+   "market_prob": 0.52,
+   "edge_prob": 0.046,
+   "ev": 0.019,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.8
   },
   {
    "id": "nba-401909836-3064514-fg3m",
@@ -2521,8 +2542,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909091-6475-reb",
@@ -2542,8 +2563,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.645
   },
   {
    "id": "nba-401909840-4432639-reb",
@@ -2563,29 +2584,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909841-5105565-reb",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Blazers vs Suns",
-   "market": "prop",
-   "selection": "Donovan Clingan under 11.5 rebounds",
-   "player": "Donovan Clingan",
-   "line": 11.5,
-   "price": -125.0,
-   "model_prob": 0.565,
-   "market_prob": 0.52,
-   "edge_prob": 0.045,
-   "ev": 0.018,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909091-3032977-reb",
@@ -2605,8 +2605,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.935
   },
   {
    "id": "nba-401909838-4065733-reb",
@@ -2626,8 +2626,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-4684740-reb",
@@ -2647,8 +2647,29 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909841-3995-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Blazers vs Suns",
+   "market": "prop",
+   "selection": "Jrue Holiday over 1.5 threes",
+   "player": "Jrue Holiday",
+   "line": 1.5,
+   "price": -138.0,
+   "model_prob": 0.589,
+   "market_prob": 0.543,
+   "edge_prob": 0.046,
+   "ev": 0.017,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909836-4278104-fg3m",
@@ -2668,8 +2689,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909837-4397189-fg3m",
@@ -2689,8 +2710,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.935
   },
   {
    "id": "nba-401909091-4278053-ast",
@@ -2710,8 +2731,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909091-3032976-reb",
@@ -2731,8 +2752,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909835-5174563-ast",
@@ -2752,8 +2773,29 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.599
+  },
+  {
+   "id": "nba-401909841-5105565-reb",
+   "sport": "NBA",
+   "date": "2026-10-21",
+   "start": null,
+   "event": "Blazers vs Suns",
+   "market": "prop",
+   "selection": "Donovan Clingan under 11.5 rebounds",
+   "player": "Donovan Clingan",
+   "line": 11.5,
+   "price": -126.0,
+   "model_prob": 0.565,
+   "market_prob": 0.522,
+   "edge_prob": 0.042,
+   "ev": 0.013,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "win",
+   "result_units": 0.794
   },
   {
    "id": "nba-401909840-5041939-ast",
@@ -2773,8 +2815,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.637
   },
   {
    "id": "nba-401909842-4065732-reb",
@@ -2794,15 +2836,15 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.84
   },
   {
    "id": "nba-401909842-3155942-reb",
    "sport": "NBA",
    "date": "2026-10-21",
-   "start": "2026-10-22T02:30Z",
-   "event": "Kings @ Clippers",
+   "start": null,
+   "event": "Kings vs Clippers",
    "market": "prop",
    "selection": "Domantas Sabonis under 13.5 rebounds",
    "player": "Domantas Sabonis",
@@ -2815,8 +2857,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909840-5211175-ast",
@@ -2836,8 +2878,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909092-4997536-ast",
@@ -2857,8 +2899,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.606
   },
   {
    "id": "nba-401909091-4397002-reb",
@@ -2878,8 +2920,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.667
   },
   {
    "id": "nba-401909842-4065732-ast",
@@ -2899,8 +2941,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.641
   },
   {
    "id": "nba-401909836-4702177-fg3m",
@@ -2920,8 +2962,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.578
   },
   {
    "id": "nba-401909836-4396971-ast",
@@ -2941,8 +2983,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909834-4431680-reb",
@@ -2962,8 +3004,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.763
   },
   {
    "id": "nba-401909836-4433287-ast",
@@ -2983,8 +3025,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.637
   },
   {
    "id": "nba-401909836-2583632-reb",
@@ -3004,8 +3046,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.654
   },
   {
    "id": "nba-401909092-4433136-reb",
@@ -3025,8 +3067,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.769
   },
   {
    "id": "nba-401909841-4066383-reb",
@@ -3046,8 +3088,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.654
   },
   {
    "id": "nba-401909092-4066457-fg3m",
@@ -3067,8 +3109,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.714
   },
   {
    "id": "nba-401909841-4437244-fg3m",
@@ -3088,29 +3130,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909842-3936099-reb",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:30Z",
-   "event": "Clippers vs Kings",
-   "market": "prop",
-   "selection": "Derrick Jones Jr. under 4.5 rebounds",
-   "player": "Derrick Jones Jr.",
-   "line": 4.5,
-   "price": -150.0,
-   "model_prob": 0.603,
-   "market_prob": 0.561,
-   "edge_prob": 0.042,
-   "ev": 0.005,
-   "edge_display": "4%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.725
   },
   {
    "id": "nba-401909838-5112087-reb",
@@ -3130,8 +3151,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909839-4395628-ast",
@@ -3151,8 +3172,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.658
   },
   {
    "id": "nba-401909836-2583632-fg3m",
@@ -3172,8 +3193,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.685
   },
   {
    "id": "nba-401909092-3213-ast",
@@ -3193,8 +3214,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.588
   },
   {
    "id": "nba-401909841-3136193-ast",
@@ -3214,8 +3235,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.671
   },
   {
    "id": "nba-401909842-3936099-fg3m",
@@ -3235,8 +3256,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.599
   },
   {
    "id": "nba-401909840-4711272-fg3m",
@@ -3256,29 +3277,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909841-3995-fg3m",
-   "sport": "NBA",
-   "date": "2026-10-21",
-   "start": "2026-10-22T02:00Z",
-   "event": "Blazers vs Suns",
-   "market": "prop",
-   "selection": "Jrue Holiday over 1.5 threes",
-   "player": "Jrue Holiday",
-   "line": 1.5,
-   "price": -155.0,
-   "model_prob": 0.61,
-   "market_prob": 0.569,
-   "edge_prob": 0.041,
-   "ev": 0.003,
-   "edge_display": "4%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909835-5160992-ast",
@@ -3298,8 +3298,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.568
   },
   {
    "id": "nba-401909841-3136193-reb",
@@ -3319,8 +3319,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "win",
+   "result_units": 0.625
   },
   {
    "id": "nba-401909836-4396971-fg3m",
@@ -3340,8 +3340,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null
+   "status": "loss",
+   "result_units": -1.0
   },
   {
    "id": "nba-401909835-5104155-ast",
@@ -3361,6 +3361,27 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
+   "status": "loss",
+   "result_units": -1.0
+  },
+  {
+   "id": "nba-401909093-3908809-ast",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:00Z",
+   "event": "Cavaliers @ 76ers",
+   "market": "prop",
+   "selection": "Donovan Mitchell under 4.5 assists",
+   "player": "Donovan Mitchell",
+   "line": 4.5,
+   "price": 102.0,
+   "model_prob": 0.531,
+   "market_prob": 0.464,
+   "edge_prob": 0.068,
+   "ev": 0.073,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
    "status": "pending",
    "result_units": null
   },
@@ -3368,17 +3389,17 @@
    "id": "nba-401909093-5124612-ast",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
+   "start": "2026-10-22T23:00Z",
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "VJ Edgecombe over 2.5 assists",
    "player": "VJ Edgecombe",
    "line": 2.5,
-   "price": -122.0,
-   "model_prob": 0.584,
-   "market_prob": 0.514,
+   "price": -109.0,
+   "model_prob": 0.558,
+   "market_prob": 0.489,
    "edge_prob": 0.07,
-   "ev": 0.063,
+   "ev": 0.071,
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
@@ -3389,61 +3410,19 @@
    "id": "nba-401909094-4278073-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
+   "start": "2026-10-23T01:30Z",
    "event": "Thunder vs Nuggets",
    "market": "prop",
    "selection": "Shai Gilgeous-Alexander under 1.5 threes",
    "player": "Shai Gilgeous-Alexander",
    "line": 1.5,
-   "price": 107.0,
-   "model_prob": 0.509,
-   "market_prob": 0.452,
-   "edge_prob": 0.057,
-   "ev": 0.054,
-   "edge_display": "6%",
+   "price": 104.0,
+   "model_prob": 0.512,
+   "market_prob": 0.459,
+   "edge_prob": 0.053,
+   "ev": 0.045,
+   "edge_display": "5%",
    "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909093-3908809-ast",
-   "sport": "NBA",
-   "date": "2026-10-22",
-   "start": null,
-   "event": "Cavaliers vs 76ers",
-   "market": "prop",
-   "selection": "Donovan Mitchell under 5.5 assists",
-   "player": "Donovan Mitchell",
-   "line": 5.5,
-   "price": -151.0,
-   "model_prob": 0.631,
-   "market_prob": 0.564,
-   "edge_prob": 0.067,
-   "ev": 0.05,
-   "edge_display": "7%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909094-4278073-reb",
-   "sport": "NBA",
-   "date": "2026-10-22",
-   "start": null,
-   "event": "Thunder vs Nuggets",
-   "market": "prop",
-   "selection": "Shai Gilgeous-Alexander under 4.5 rebounds",
-   "player": "Shai Gilgeous-Alexander",
-   "line": 4.5,
-   "price": -156.0,
-   "model_prob": 0.636,
-   "market_prob": 0.571,
-   "edge_prob": 0.065,
-   "ev": 0.043,
-   "edge_display": "7%",
-   "tier": "Lean",
    "units": 0,
    "status": "pending",
    "result_units": null
@@ -3452,17 +3431,17 @@
    "id": "nba-401909094-4593803-reb",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
+   "start": "2026-10-23T01:30Z",
    "event": "Thunder vs Nuggets",
    "market": "prop",
    "selection": "Jalen Williams under 4.5 rebounds",
    "player": "Jalen Williams",
    "line": 4.5,
-   "price": 105.0,
-   "model_prob": 0.508,
-   "market_prob": 0.457,
-   "edge_prob": 0.051,
-   "ev": 0.041,
+   "price": 104.0,
+   "model_prob": 0.509,
+   "market_prob": 0.459,
+   "edge_prob": 0.05,
+   "ev": 0.038,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
@@ -3470,20 +3449,20 @@
    "result_units": null
   },
   {
-   "id": "nba-401909094-3112335-fg3m",
+   "id": "nba-401909094-4278073-reb",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
-   "event": "Nuggets vs Thunder",
+   "start": "2026-10-23T01:30Z",
+   "event": "Thunder vs Nuggets",
    "market": "prop",
-   "selection": "Nikola Jokic under 1.5 threes",
-   "player": "Nikola Jokic",
-   "line": 1.5,
-   "price": 109.0,
-   "model_prob": 0.496,
-   "market_prob": 0.448,
+   "selection": "Shai Gilgeous-Alexander under 3.5 rebounds",
+   "player": "Shai Gilgeous-Alexander",
+   "line": 3.5,
+   "price": 104.0,
+   "model_prob": 0.508,
+   "market_prob": 0.46,
    "edge_prob": 0.048,
-   "ev": 0.038,
+   "ev": 0.035,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
@@ -3494,17 +3473,17 @@
    "id": "nba-401909093-1966-reb",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
+   "start": "2026-10-22T23:00Z",
    "event": "76ers vs Cavaliers",
    "market": "prop",
    "selection": "LeBron James under 6.5 rebounds",
    "player": "LeBron James",
    "line": 6.5,
-   "price": 102.0,
-   "model_prob": 0.511,
-   "market_prob": 0.464,
-   "edge_prob": 0.048,
-   "ev": 0.033,
+   "price": 101.0,
+   "model_prob": 0.512,
+   "market_prob": 0.466,
+   "edge_prob": 0.046,
+   "ev": 0.029,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
@@ -3533,20 +3512,125 @@
    "result_units": null
   },
   {
+   "id": "nba-401909093-1966-ast",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:00Z",
+   "event": "76ers vs Cavaliers",
+   "market": "prop",
+   "selection": "LeBron James under 7.5 assists",
+   "player": "LeBron James",
+   "line": 7.5,
+   "price": 100.0,
+   "model_prob": 0.513,
+   "market_prob": 0.468,
+   "edge_prob": 0.045,
+   "ev": 0.026,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909093-3059318-ast",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:00Z",
+   "event": "76ers vs Cavaliers",
+   "market": "prop",
+   "selection": "Joel Embiid over 3.5 assists",
+   "player": "Joel Embiid",
+   "line": 3.5,
+   "price": -125.0,
+   "model_prob": 0.568,
+   "market_prob": 0.52,
+   "edge_prob": 0.048,
+   "ev": 0.023,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
    "id": "nba-401909093-3992-ast",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
-   "event": "Cavaliers vs 76ers",
+   "start": "2026-10-22T23:00Z",
+   "event": "Cavaliers @ 76ers",
    "market": "prop",
    "selection": "James Harden under 6.5 assists",
    "player": "James Harden",
    "line": 6.5,
-   "price": 107.0,
-   "model_prob": 0.495,
-   "market_prob": 0.452,
-   "edge_prob": 0.042,
-   "ev": 0.024,
+   "price": 105.0,
+   "model_prob": 0.497,
+   "market_prob": 0.456,
+   "edge_prob": 0.041,
+   "ev": 0.019,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909093-4351851-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:00Z",
+   "event": "76ers vs Cavaliers",
+   "market": "prop",
+   "selection": "Anfernee Simons over 1.5 threes",
+   "player": "Anfernee Simons",
+   "line": 1.5,
+   "price": -166.0,
+   "model_prob": 0.635,
+   "market_prob": 0.585,
+   "edge_prob": 0.05,
+   "ev": 0.017,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909093-3917376-ast",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:00Z",
+   "event": "76ers vs Cavaliers",
+   "market": "prop",
+   "selection": "Jaylen Brown over 3.5 assists",
+   "player": "Jaylen Brown",
+   "line": 3.5,
+   "price": -127.0,
+   "model_prob": 0.569,
+   "market_prob": 0.523,
+   "edge_prob": 0.046,
+   "ev": 0.017,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909094-3112335-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-23T01:30Z",
+   "event": "Nuggets @ Thunder",
+   "market": "prop",
+   "selection": "Nikola Jokic under 1.5 threes",
+   "player": "Nikola Jokic",
+   "line": 1.5,
+   "price": -106.0,
+   "model_prob": 0.522,
+   "market_prob": 0.482,
+   "edge_prob": 0.041,
+   "ev": 0.015,
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
@@ -3575,22 +3659,127 @@
    "result_units": null
   },
   {
-   "id": "nba-401909093-3059318-ast",
+   "id": "nba-401909094-4593803-fg3m",
    "sport": "NBA",
    "date": "2026-10-22",
-   "start": null,
+   "start": "2026-10-23T01:30Z",
+   "event": "Thunder vs Nuggets",
+   "market": "prop",
+   "selection": "Jalen Williams under 1.5 threes",
+   "player": "Jalen Williams",
+   "line": 1.5,
+   "price": -220.0,
+   "model_prob": 0.696,
+   "market_prob": 0.646,
+   "edge_prob": 0.05,
+   "ev": 0.012,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909093-2581018-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-22T23:00Z",
    "event": "76ers vs Cavaliers",
    "market": "prop",
-   "selection": "Joel Embiid over 3.5 assists",
-   "player": "Joel Embiid",
-   "line": 3.5,
-   "price": -122.0,
-   "model_prob": 0.555,
-   "market_prob": 0.514,
-   "edge_prob": 0.041,
-   "ev": 0.011,
+   "selection": "Kentavious Caldwell-Pope under 1.5 threes",
+   "player": "Kentavious Caldwell-Pope",
+   "line": 1.5,
+   "price": -177.0,
+   "model_prob": 0.643,
+   "market_prob": 0.599,
+   "edge_prob": 0.044,
+   "ev": 0.007,
    "edge_display": "4%",
    "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909094-4900671-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-23T01:30Z",
+   "event": "Thunder vs Nuggets",
+   "market": "prop",
+   "selection": "Ajay Mitchell under 1.5 threes",
+   "player": "Ajay Mitchell",
+   "line": 1.5,
+   "price": -218.0,
+   "model_prob": 0.689,
+   "market_prob": 0.643,
+   "edge_prob": 0.046,
+   "ev": 0.005,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909094-4683778-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-22",
+   "start": "2026-10-23T01:30Z",
+   "event": "Thunder vs Nuggets",
+   "market": "prop",
+   "selection": "Jared McCain under 2.5 threes",
+   "player": "Jared McCain",
+   "line": 2.5,
+   "price": -191.0,
+   "model_prob": 0.656,
+   "market_prob": 0.616,
+   "edge_prob": 0.04,
+   "ev": -0.001,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-3078576-ast",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Celtics vs Knicks",
+   "market": "prop",
+   "selection": "Derrick White under 4.5 assists",
+   "player": "Derrick White",
+   "line": 4.5,
+   "price": 113.0,
+   "model_prob": 0.536,
+   "market_prob": 0.44,
+   "edge_prob": 0.097,
+   "ev": 0.142,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-3078576-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Celtics vs Knicks",
+   "market": "prop",
+   "selection": "Derrick White under 2.5 threes",
+   "player": "Derrick White",
+   "line": 2.5,
+   "price": 105.0,
+   "model_prob": 0.532,
+   "market_prob": 0.456,
+   "edge_prob": 0.076,
+   "ev": 0.09,
+   "edge_display": "8%",
+   "tier": "Lean",
    "units": 0,
    "status": "pending",
    "result_units": null
@@ -3599,18 +3788,39 @@
    "id": "nba-401909095-3136195-ast",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": null,
-   "event": "Knicks vs Celtics",
+   "start": "2026-10-23T23:00Z",
+   "event": "Knicks @ Celtics",
    "market": "prop",
    "selection": "Karl-Anthony Towns under 4.5 assists",
    "player": "Karl-Anthony Towns",
    "line": 4.5,
-   "price": -130.0,
-   "model_prob": 0.606,
-   "market_prob": 0.529,
-   "edge_prob": 0.076,
-   "ev": 0.072,
+   "price": -132.0,
+   "model_prob": 0.613,
+   "market_prob": 0.532,
+   "edge_prob": 0.08,
+   "ev": 0.076,
    "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-6585-reb",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Knicks @ Celtics",
+   "market": "prop",
+   "selection": "Andre Drummond under 6.5 rebounds",
+   "player": "Andre Drummond",
+   "line": 6.5,
+   "price": 106.0,
+   "model_prob": 0.517,
+   "market_prob": 0.455,
+   "edge_prob": 0.062,
+   "ev": 0.064,
+   "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
@@ -3620,18 +3830,123 @@
    "id": "nba-401909095-3136195-reb",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": null,
-   "event": "Knicks vs Celtics",
+   "start": "2026-10-23T23:00Z",
+   "event": "Knicks @ Celtics",
    "market": "prop",
-   "selection": "Karl-Anthony Towns under 10.5 rebounds",
+   "selection": "Karl-Anthony Towns under 11.5 rebounds",
    "player": "Karl-Anthony Towns",
-   "line": 10.5,
-   "price": 101.0,
-   "model_prob": 0.524,
-   "market_prob": 0.466,
-   "edge_prob": 0.058,
-   "ev": 0.053,
-   "edge_display": "6%",
+   "line": 11.5,
+   "price": -128.0,
+   "model_prob": 0.596,
+   "market_prob": 0.526,
+   "edge_prob": 0.07,
+   "ev": 0.062,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-4351852-reb",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Celtics vs Knicks",
+   "market": "prop",
+   "selection": "Mitchell Robinson under 7.5 rebounds",
+   "player": "Mitchell Robinson",
+   "line": 7.5,
+   "price": -146.0,
+   "model_prob": 0.629,
+   "market_prob": 0.556,
+   "edge_prob": 0.073,
+   "ev": 0.06,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-4065648-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Celtics vs Knicks",
+   "market": "prop",
+   "selection": "Jayson Tatum under 2.5 threes",
+   "player": "Jayson Tatum",
+   "line": 2.5,
+   "price": 130.0,
+   "model_prob": 0.459,
+   "market_prob": 0.407,
+   "edge_prob": 0.052,
+   "ev": 0.055,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-3934719-ast",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Knicks @ Celtics",
+   "market": "prop",
+   "selection": "OG Anunoby under 1.5 assists",
+   "player": "OG Anunoby",
+   "line": 1.5,
+   "price": 116.0,
+   "model_prob": 0.486,
+   "market_prob": 0.434,
+   "edge_prob": 0.052,
+   "ev": 0.049,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-4251-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Celtics vs Knicks",
+   "market": "prop",
+   "selection": "Paul George under 2.5 threes",
+   "player": "Paul George",
+   "line": 2.5,
+   "price": 131.0,
+   "model_prob": 0.448,
+   "market_prob": 0.405,
+   "edge_prob": 0.042,
+   "ev": 0.034,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null
+  },
+  {
+   "id": "nba-401909095-3136195-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-23",
+   "start": "2026-10-23T23:00Z",
+   "event": "Knicks @ Celtics",
+   "market": "prop",
+   "selection": "Karl-Anthony Towns under 1.5 threes",
+   "player": "Karl-Anthony Towns",
+   "line": 1.5,
+   "price": -112.0,
+   "model_prob": 0.541,
+   "market_prob": 0.495,
+   "edge_prob": 0.046,
+   "ev": 0.024,
+   "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
@@ -3641,38 +3956,17 @@
    "id": "nba-401909095-3934672-ast",
    "sport": "NBA",
    "date": "2026-10-23",
-   "start": null,
-   "event": "Knicks vs Celtics",
+   "start": "2026-10-23T23:00Z",
+   "event": "Knicks @ Celtics",
    "market": "prop",
    "selection": "Jalen Brunson under 6.5 assists",
    "player": "Jalen Brunson",
    "line": 6.5,
-   "price": -118.0,
-   "model_prob": 0.566,
-   "market_prob": 0.507,
-   "edge_prob": 0.059,
-   "ev": 0.046,
-   "edge_display": "6%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null
-  },
-  {
-   "id": "nba-401909095-4065648-fg3m",
-   "sport": "NBA",
-   "date": "2026-10-23",
-   "start": null,
-   "event": "Celtics vs Knicks",
-   "market": "prop",
-   "selection": "Jayson Tatum under 2.5 threes",
-   "player": "Jayson Tatum",
-   "line": 2.5,
-   "price": 125.0,
-   "model_prob": 0.461,
-   "market_prob": 0.416,
-   "edge_prob": 0.044,
-   "ev": 0.037,
+   "price": -140.0,
+   "model_prob": 0.589,
+   "market_prob": 0.546,
+   "edge_prob": 0.043,
+   "ev": 0.009,
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
