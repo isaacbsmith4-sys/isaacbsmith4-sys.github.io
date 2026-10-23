@@ -89,6 +89,11 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
 .chip.on{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
 .scope button.on{color:var(--gold-ink)}
 .preview{box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.btn.vid{background:linear-gradient(135deg,#2a2140,#1c2030);border-color:#4b3f72}
+.vidwrap,.vidout{display:block;width:100%;max-width:300px;margin:12px auto;border-radius:14px;overflow:hidden;border:1px solid var(--line);aspect-ratio:9/16;background:#000}
+.vidwrap canvas{width:100%;height:100%;display:block}
+.bar{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden;max-width:300px;margin:0 auto}
+.bar i{display:block;height:100%;width:0;background:var(--gold)}
 </style>
 </head>
 <body>
@@ -102,7 +107,8 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
 
   <div class="opts">
     <div class="settings">
-      <div><label class="f" for="handle">Your handle (on every image)</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <div><label class="f" for="handle">Your handle (on every image)</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <div style="height:10px"></div><label class="f" for="topName">Name for your best play of the day</label><input type="text" id="topName" placeholder="Play of the Day" autocomplete="off" spellcheck="false"></div>
       <div><label class="f">Day</label><div class="day"><button id="prev" aria-label="Previous day">‹</button><span id="dayLabel"></span><button id="next" aria-label="Next day">›</button></div></div>
     </div>
     <div style="height:12px"></div>
@@ -122,7 +128,7 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
   <details class="how"><summary>Posting tips</summary><ul>
     <li>Post plays before the game starts. A pick posted after tip-off is worth nothing to followers.</li>
     <li>Post the recap every day, losing days too. People trust a record when they can see the losses in it.</li>
-    <li>The record on posts counts the plays you've posted since you started (Oct 19). Pick one sport and it shows just that sport's record.</li>
+    <li>The record on posts is the full season. When it includes the model's backtested plays (before you started posting on Oct 19), it says "incl. backtest" so nobody can say you hid it. Pick one sport and it shows just that sport's record. NBA has no backtested plays, so its record shows plain.</li>
     <li>Never promise wins or "locks". If you ever sell picks or use sportsbook affiliate links, you have to disclose that, and the rules vary by state.</li>
   </ul></details>
 </div>
@@ -136,7 +142,7 @@ const FOLDERS = {NFL:"nfl", CFB:"cfb", NBA:"nba", NCAAB:"ncaab", NHL:"nhl"};
 const SPORT_COLOR = {NFL:"#5b8def", CFB:"#ff6b7d", NBA:"#ff8a3d", NCAAB:"#b39dff", NHL:"#3dd6c6"};
 const FINAL = ["win","loss","push","void"];
 const TIER_RANK = {VIP:0, "3U":1, "2U":2, "1U":3};
-const TOP = "Top Dog";
+let TOP = store.get("shareTopName", "Play of the Day");  // the day's single best play; the name is a setting
 
 // ---------- dates (Eastern time, like the hub)
 const etYmd = d => new Intl.DateTimeFormat("en-CA", {timeZone:"America/New_York", year:"numeric", month:"2-digit", day:"2-digit"}).format(d);
@@ -183,12 +189,13 @@ function playsOn(d){
 function tally(es){ const g = es.filter(e => FINAL.includes(e.status) && e.status !== "void");
   const w = g.filter(e=>e.status==="win").length, l = g.filter(e=>e.status==="loss").length, p = g.filter(e=>e.status==="push").length;
   return {n: g.length, w, l, p, u: g.reduce((a,e)=>a+(e.result_units||0),0), text: `${w}-${l}${p?"-"+p:""}`}; }
-function record(upTo){ const es = pool().filter(e => e.posted && e.date <= upTo); return {all: tally(es), top: tally(es.filter(e => e.potd))}; }
-const recordName = () => `${sport === "all" ? "" : sport + " "}${src === "card" ? "VIP record" : "Record"}`;
+function record(upTo){ const es = pool().filter(e => e.date <= upTo);   // every graded play, backtest included (and labeled)
+  return {all: tally(es), top: tally(es.filter(e => e.potd)), bt: es.some(e => !e.posted && FINAL.includes(e.status))}; }
+const recordName = () => sport === "all" ? (src === "card" ? "VIP record" : "Record") : `${sport} ${src === "card" ? "VIP record" : "record"}`;
 function recordLine(upTo){
   const r = record(upTo);
   if (!r.all.n) return "Every play tracked, wins and losses.";
-  return `${recordName()}: ${r.all.text}, ${sgnU(r.all.u)}${sport === "all" && r.top.n ? ` · ${TOP}: ${r.top.text}` : ""}`;
+  return `${recordName()}${r.bt ? " (incl. backtest)" : ""}: ${r.all.text}, ${sgnU(r.all.u)}${sport === "all" && r.top.n ? ` · ${TOP}: ${r.top.text}` : ""}`;
 }
 const feedPlay = e => (H.feeds[e.sport] || {})[e.id] || e;
 const whyOf = e => { const t = (takes[e.id] || "").trim(); return t ? [t] : (feedPlay(e).why || []).filter(w => !/^Model says/.test(w)).slice(0,3); };
@@ -214,7 +221,7 @@ const logoCache = new Map();
 async function preloadLogos(es){ await Promise.all(es.flatMap(teamsOf).map(t => t.l ? loadImg(t.l).then(im => logoCache.set(t.l, im)) : null)); }
 
 // ---------- text drafts
-const topTag = e => e.potd ? `🐶 ${TOP}: ` : "• ";
+const topTag = e => e.potd ? `⭐ ${TOP}: ` : "• ";
 function cardText(d){
   const es = playsOn(d); if (!es.length) return null;
   const lines = es.map(e => `${topTag(e)}${shortSel(e.selection)} (${price(e.price)}) · ${units(e.stake)}${sport === "all" ? " · " + e.sport : ""}`);
@@ -223,7 +230,7 @@ function cardText(d){
 function singleText(d, e){
   if (!e) return null;
   const f = feedPlay(e), why = whyOf(e), t = etTime(e.start || f.start);
-  const head = e.potd ? `🐶 ${TOP}` : `${e.sport} ${units(e.stake)} play`;
+  const head = e.potd ? `⭐ ${TOP}` : `${e.sport} ${units(e.stake)} play`;
   return `${head}: ${e.selection} (${price(e.price)})\n${e.event}${t ? " · " + t : ""} · ${units(e.stake)}\n\n` +
     `Model: ${pct(e.model_prob)} · Book: ${pct(e.market_prob)} · Edge: ${e.edge_display}\n` +
     (why.length ? `\n${why.length === 1 && takes[e.id] ? why[0] : "Why:\n" + why.map(w => "- " + w).join("\n")}\n` : "") +
@@ -233,11 +240,11 @@ const icon = s => ({win:"✅", loss:"❌", push:"➖", void:"➖"}[s] || "⏳");
 function recapText(d){
   const es = playsOn(d); if (!es.length) return null;
   const t = tally(es), waiting = es.filter(e => !FINAL.includes(e.status)).length;
-  const lines = es.map(e => `${icon(e.status)} ${shortSel(e.selection)}${e.potd ? " 🐶" : ""}${FINAL.includes(e.status) && e.result_units != null ? ` (${sgnU(e.result_units)})` : ""}`);
+  const lines = es.map(e => `${icon(e.status)} ${shortSel(e.selection)}${e.potd ? " ⭐" : ""}${FINAL.includes(e.status) && e.result_units != null ? ` (${sgnU(e.result_units)})` : ""}`);
   return `📊 ${sport === "all" ? "" : sport + " "}${src === "card" ? "VIP " : ""}Recap · ${niceDay(d)}: ${t.text}, ${sgnU(t.u)}\n\n${lines.join("\n")}\n${waiting ? `\n${waiting} still waiting on a result.\n` : ""}\n${recordLine(d)}`;
 }
 function weekRange(){ return [addDays(day, -7), addDays(day, -1)]; }
-function weekPlays(){ const [a, b] = weekRange(); return pool().filter(e => e.date >= a && e.date <= b && e.posted && FINAL.includes(e.status) && e.status !== "void"); }
+function weekPlays(){ const [a, b] = weekRange(); return pool().filter(e => e.date >= a && e.date <= b && FINAL.includes(e.status) && e.status !== "void"); }
 function weekGroups(){
   const es = weekPlays();
   if (sport === "all") return Object.keys(FOLDERS).map(s => [s, tally(es.filter(e => e.sport === s))]).filter(([, t]) => t.n);
@@ -303,7 +310,10 @@ function background(ctx, total){
   for (let x = -total; x < W; x += 34){ ctx.beginPath(); ctx.moveTo(x, -400); ctx.lineTo(x + total + 800, total + 400); ctx.stroke(); }
   ctx.restore();
 }
+let REG = null;  // when set, drawing records where each piece lands: [{kind, x, y, w, h, color}]
+function mark(kind, x, y, w, h, color){ if (REG) REG.push({kind, x, y, w, h, color}); }
 function header(ctx, d){
+  mark("head", 0, 0, W, PAD + 100);
   rr(ctx, PAD, PAD, 70, 70, 18); ctx.fillStyle = goldGrad(ctx, PAD, PAD, 70, 70); ctx.fill(); star(ctx, PAD+35, PAD+37, 22, "#1a1305");
   ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, (handle || "BEST PLAYS").toUpperCase(), 900, 46, DISPLAY, 520);
   ctx.fillText((handle || "BEST PLAYS").toUpperCase(), PAD + 92, PAD + 36);
@@ -321,6 +331,7 @@ function titleBlock(ctx, kicker, title, opts = {}){
   if (opts.colorTitle){ ctx.fillStyle = opts.colorTitle; } else { ctx.fillStyle = C.ink; }
   ctx.fillText(title.toUpperCase(), PAD - 4, y);
   rr(ctx, PAD, y + 22, 130, 10, 5); ctx.fillStyle = goldGrad(ctx, PAD, y + 22, 130, 10); ctx.fill();
+  mark("title", 0, PAD + 100, W, y + 64 - (PAD + 100));
   return y + 64;
 }
 function logoBadge(ctx, t, x, y, s){
@@ -358,6 +369,7 @@ function ribbon(ctx, xRight, y, text){
 }
 function footer(ctx, line){
   const h = 112, y = Hh - PAD - h;
+  mark("foot", 0, y - 12, W, h + 24);
   rr(ctx, PAD, y, W - 2*PAD, h, 26); ctx.fillStyle = "rgba(255,255,255,.04)"; ctx.fill(); ctx.strokeStyle = "rgba(240,184,71,.35)"; ctx.lineWidth = 2; ctx.stroke();
   const [label, rest] = line.includes(":") ? [line.slice(0, line.indexOf(":")), line.slice(line.indexOf(":") + 1).trim()] : ["", line];
   ctx.textBaseline = "alphabetic";
@@ -371,6 +383,7 @@ const perPage = es => Math.ceil(es.length / pagesOf(es));
 function resultColor(st){ return st === "win" ? C.win : st === "loss" ? C.loss : C.muted; }
 function bigRow(ctx, e, y, h, resultMode){
   const top = e.potd, acc = resultMode ? resultColor(e.status) : SPORT_COLOR[e.sport];
+  mark("row", 0, y - 24, W, h + 30, acc);
   cardBox(ctx, PAD, y, W - 2*PAD, h, acc, top);
   const s = 96; matchup(ctx, e, PAD + 34, y + (h - s)/2, s);
   const x = PAD + 34 + s*1.5 + 24, right = 200, maxW = W - PAD - right - x;
@@ -390,15 +403,16 @@ function bigRow(ctx, e, y, h, resultMode){
     ctx.fillStyle = C.ink2; ctx.font = `800 28px ${BODY}`; ctx.fillText(price(e.price), W - PAD - 34, y + h/2 + 50);
   }
   ctx.textAlign = "left";
-  if (top) ribbon(ctx, W - PAD - 30, y, `🐶 ${TOP.toUpperCase()}`);
+  if (top) ribbon(ctx, W - PAD - 30, y, `⭐ ${TOP.toUpperCase()}`);
 }
 function smallRow(ctx, e, y, h, resultMode){
   const top = e.potd, acc = resultMode ? resultColor(e.status) : SPORT_COLOR[e.sport];
+  mark("row", 0, y - 4, W, h + 8, acc);
   cardBox(ctx, PAD, y, W - 2*PAD, h, acc, top);
   const s = h - 34; matchup(ctx, e, PAD + 28, y + 17, s);
   const x = PAD + 28 + s*1.5 + 18, right = resultMode ? 170 : 210, maxW = W - PAD - right - x;
   ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, shortSel(e.selection), 800, 34, BODY, maxW, 26);
-  ctx.fillText(clip(ctx, (top ? "🐶 " : "") + shortSel(e.selection), maxW), x, y + h/2 + 2);
+  ctx.fillText(clip(ctx, (top ? "⭐ " : "") + shortSel(e.selection), maxW), x, y + h/2 + 2);
   ctx.textAlign = "right";
   if (resultMode){
     ctx.fillStyle = resultColor(e.status); ctx.font = `900 46px ${DISPLAY}`;
@@ -412,8 +426,9 @@ function smallRow(ctx, e, y, h, resultMode){
 function playRows(ctx, es, y, resultMode, page = 0){
   const room = Hh - PAD - 112 - 28 - y;
   if (es.length <= COMPACT_OVER){
-    const gap = 22, h = Math.min(220, Math.floor((room - gap*(es.length - 1)) / Math.max(es.length, 1)));
-    es.forEach((e, i) => bigRow(ctx, e, y + i*(h + gap), h, resultMode));
+    const tall = Hh > 1400, gap = tall ? 30 : 22, h = Math.min(tall ? 250 : 220, Math.floor((room - gap*(es.length - 1)) / Math.max(es.length, 1)));
+    const used = es.length*h + (es.length - 1)*gap, y0 = y + (tall ? Math.max(0, (room - used) / 2 - 20) : 0);   // stories: center the rows
+    es.forEach((e, i) => bigRow(ctx, e, y0 + i*(h + gap), h, resultMode));
     return;
   }
   const part = es.slice(page*perPage(es), (page+1)*perPage(es)), gap = 14;
@@ -442,6 +457,7 @@ function drawWeek(ctx){
   const rows = groups.concat(top.n && sport === "all" ? [[TOP, top]] : []);
   const h = hits.length ? (rows.length <= 3 ? 100 : 84) : (rows.length <= 4 ? 112 : 92);
   for (const [k, g] of rows){
+    mark("row", 0, y - 4, W, h + 8, g.u >= 0 ? C.win : C.loss);
     cardBox(ctx, PAD, y, W - 2*PAD, h, FOLDERS[k] ? SPORT_COLOR[k] : C.gold, k === TOP);
     ctx.textBaseline = "middle"; ctx.fillStyle = FOLDERS[k] ? SPORT_COLOR[k] : C.gold; ctx.font = `900 54px ${DISPLAY}`; ctx.fillText(k.toUpperCase(), PAD + 40, y + h/2 + 3);
     ctx.fillStyle = C.ink; ctx.font = `800 44px ${BODY}`; ctx.fillText(g.text, PAD + 330, y + h/2 + 2);
@@ -462,6 +478,7 @@ function drawEdges(ctx, d){
   let y = titleBlock(ctx, "Biggest disagreements today", "Model vs. Vegas");
   const room = Hh - PAD - 140 - y, h = Math.min(210, Math.floor((room - 16*(es.length-1)) / es.length)), barX = PAD + 150, barW = W - PAD - 130 - barX;
   for (const e of es){
+    mark("row", 0, y - 4, W, h + 8, C.gold);
     cardBox(ctx, PAD, y, W - 2*PAD, h, SPORT_COLOR[e.sport]);
     const s = Math.min(70, h*0.4); matchup(ctx, e, PAD + 30, y + 22, s);
     ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; const t = shortSel(e.selection), tx = PAD + 30 + s*1.5 + 16;
@@ -487,6 +504,7 @@ function drawSingle(ctx, d, e){
   const s = roomy ? 190 : 150;
   if (ts.length){
     const total = ts.length === 2 ? s*2 + 110 : s, x0 = (W - total)/2;
+    mark("pop", 0, y - 10, W, s + 20);
     logoBadge(ctx, ts[0], x0, y, s);
     if (ts[1]){ ctx.fillStyle = C.muted; ctx.font = `900 64px ${DISPLAY}`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(/ vs /i.test(e.event) ? "VS" : "@", W/2, y + s/2 + 4); ctx.textAlign = "left";
       logoBadge(ctx, ts[1], x0 + s + 110, y, s); }
@@ -496,12 +514,13 @@ function drawSingle(ctx, d, e){
   ctx.font = `900 ${roomy ? 92 : 78}px ${DISPLAY}`;
   const sel = wrap(ctx, e.selection.toUpperCase(), W - 2*PAD).slice(0, 2), lh = roomy ? 92 : 78;
   y += lh;
+  mark("title", 0, y - lh, W, sel.length*lh + 60);
   sel.forEach((l, i) => ctx.fillText(l, W/2, y + i*lh)); y += (sel.length - 1)*lh + 46;
   ctx.fillStyle = C.ink2; ctx.font = `700 30px ${BODY}`; ctx.fillText([e.event, etTime(e.start || f.start)].filter(Boolean).join(" · "), W/2, y); ctx.textAlign = "left";
   y += 40;
   const boxW = (W - 2*PAD - 2*18) / 3, boxH = roomy ? 170 : 140;
   [["MODEL", pct(e.model_prob)], ["BOOK", pct(e.market_prob)], ["EDGE", e.edge_display]].forEach(([k, v], i) => {
-    const x = PAD + i*(boxW + 18); cardBox(ctx, x, y, boxW, boxH, null, i === 2);
+    const x = PAD + i*(boxW + 18); mark("pop", x - 6, y - 6, boxW + 12, boxH + 12, i === 2 ? C.gold : null); cardBox(ctx, x, y, boxW, boxH, null, i === 2);
     ctx.fillStyle = C.muted; ctx.font = `800 22px ${BODY}`; ctx.textBaseline = "alphabetic"; ctx.fillText(k, x + 26, y + 44);
     ctx.fillStyle = i === 2 ? goldGrad(ctx, x, y, boxW, boxH) : C.ink; ctx.font = `900 ${roomy ? 80 : 66}px ${DISPLAY}`; ctx.fillText(v || "–", x + 26, y + boxH - 28);
   });
@@ -510,6 +529,7 @@ function drawSingle(ctx, d, e){
   for (const w of why){
     const ls = wrap(ctx, w, W - 2*PAD - 40);
     if (y + ls.length*40 > Hh - PAD - 150) break;
+    mark("row", 0, y - 34, W, ls.length*40 + 10);
     rr(ctx, PAD, y - 26, 6, ls.length*40 - 6, 3); ctx.fillStyle = C.gold; ctx.fill();
     ctx.fillStyle = C.ink2; ls.forEach((l, i) => ctx.fillText(l, PAD + 26, y + i*40)); y += ls.length*40 + 18;
   }
@@ -522,18 +542,138 @@ function loadFonts(){
     .map(f => document.fonts.load(f))).catch(() => {});
   return fontsReady;
 }
-async function render(kind, d, e, page = 0, es = []){
+const TOPSAFE = 150, BOTSAFE = 170;   // story safe zones: keep clear of Instagram/TikTok buttons
+async function render(kind, d, e, page = 0, es = [], opts = {}){
   await loadFonts(); await preloadLogos(e ? [e] : es);
-  const story = fmt === "story", TOPSAFE = 150, BOTSAFE = 170;   // keep clear of Instagram/TikTok story buttons
+  const story = (opts.fmt || fmt) === "story";
   const cv = document.createElement("canvas"); cv.width = W; cv.height = story ? 1920 : 1350;
   const ctx = cv.getContext("2d");
-  background(ctx, cv.height);
+  if (!opts.noBg) background(ctx, cv.height);
+  REG = opts.regions || null;
   if (story){ ctx.translate(0, TOPSAFE); Hh = 1920 - TOPSAFE - BOTSAFE; }
   try {
     if (kind === "card") drawCard(ctx, d, page); else if (kind === "recap") drawRecap(ctx, d, page);
     else if (kind === "week") drawWeek(ctx); else if (kind === "edges") drawEdges(ctx, d); else drawSingle(ctx, d, e);
-  } finally { Hh = 1350; }
+  } finally { Hh = 1350; REG = null; }
+  if (opts.regions) opts.regions.forEach(r => r.y += story ? TOPSAFE : 0);
   return cv;
+}
+
+// ---------- video maker: animates the same design piece by piece, records it in the browser (no accounts or keys)
+const ease = t => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
+const easeBack = t => { t = Math.min(Math.max(t, 0), 1); const c = 1.70158; return 1 + (c + 1)*Math.pow(t - 1, 3) + c*Math.pow(t - 1, 2); };
+function videoMime(){
+  const opts = ["video/mp4;codecs=avc1.42E01E", "video/mp4;codecs=avc1", "video/mp4", "video/webm;codecs=vp9", "video/webm"];
+  return window.MediaRecorder ? opts.find(m => MediaRecorder.isTypeSupported(m)) : null;
+}
+async function buildScenes(kind, d, one, es, nPages){
+  const scenes = [];
+  for (let i = 0; i < nPages; i++){
+    const regions = [];
+    const layer = await render(kind, d, one, i, es, {fmt: "story", noBg: true, regions});
+    let t = 0.15; const many = regions.filter(r => r.kind === "row").length > 5;
+    for (const r of regions){
+      if (r.kind === "head") r.t0 = 0.1;
+      else if (r.kind === "title"){ r.t0 = Math.max(t, 0.45); t = r.t0 + 0.45; }
+      else if (r.kind === "foot") r.t0 = null;   // after the rows (set below)
+      else { r.t0 = Math.max(t, 0.9); t = r.t0 + (r.kind === "pop" ? 0.22 : many ? 0.26 : 0.42); }
+    }
+    regions.filter(r => r.kind === "foot").forEach(r => { r.t0 = t + 0.25; t = r.t0; });
+    scenes.push({layer, regions, dur: t + (i === nPages - 1 ? 2.6 : 1.8)});
+  }
+  return scenes;
+}
+function drawRegion(ctx, layer, r, t){
+  const p = (t - r.t0) / (r.kind === "pop" ? 0.5 : 0.55);
+  if (p <= 0) return;
+  const a = ease(p);
+  ctx.save(); ctx.globalAlpha = Math.min(1, p * 1.6);
+  if (r.kind === "row"){ ctx.drawImage(layer, r.x, r.y, r.w, r.h, r.x + (1 - a)*160, r.y, r.w, r.h); }
+  else if (r.kind === "pop"){ const k = 0.55 + 0.45*easeBack(p), cx = r.x + r.w/2, cy = r.y + r.h/2;
+    ctx.translate(cx, cy); ctx.scale(k, k); ctx.drawImage(layer, r.x, r.y, r.w, r.h, -r.w/2, -r.h/2, r.w, r.h); }
+  else { ctx.drawImage(layer, r.x, r.y, r.w, r.h, r.x, r.y + (1 - a)*50, r.w, r.h); }
+  ctx.restore();
+  if (r.color && p > 0.7 && p < 1.9){   // a quick glow as each row lands
+    const g = 1 - (p - 0.7) / 1.2; ctx.save(); ctx.globalAlpha = Math.max(0, g) * 0.55; ctx.strokeStyle = r.color; ctx.lineWidth = 6;
+    ctx.shadowColor = r.color; ctx.shadowBlur = 30; rr(ctx, PAD, r.y + 4, W - 2*PAD, r.h - 8, 24); ctx.stroke(); ctx.restore();
+  }
+}
+function drawOutro(ctx, t, line){
+  const a = ease(t / 0.6);
+  ctx.save(); ctx.globalAlpha = a; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  rr(ctx, W/2 - 70, 640, 140, 140, 34); ctx.fillStyle = goldGrad(ctx, W/2 - 70, 640, 140, 140); ctx.fill(); star(ctx, W/2, 714, 44, "#1a1305");
+  ctx.fillStyle = C.ink; fitFont(ctx, (handle || "Every play. Every result.").toUpperCase(), 900, 120, DISPLAY, W - 2*PAD, 60);
+  ctx.fillText((handle || "Every play. Every result.").toUpperCase(), W/2, 940 + (1 - a)*40);
+  ctx.fillStyle = C.gold; ctx.font = `800 34px ${BODY}`; if ("letterSpacing" in ctx) ctx.letterSpacing = "6px";
+  ctx.fillText(handle ? "FOLLOW FOR EVERY PLAY" : "TRACKED, WINS AND LOSSES", W/2, 1020); if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+  ctx.fillStyle = C.ink2; fitFont(ctx, line, 800, 40, BODY, W - 2*PAD - 40); ctx.fillText(line, W/2, 1120);
+  ctx.restore();
+}
+function loadScript(url){ return new Promise((res, rej) => { const sc = document.createElement("script"); sc.src = url; sc.onload = res; sc.onerror = () => rej(new Error("couldn't load the video library")); document.head.appendChild(sc); }); }
+async function avcConfig(){
+  for (const codec of ["avc1.640028", "avc1.4d0028", "avc1.42003e"]){
+    const cfg = {codec, width: W, height: 1920, bitrate: 8_000_000, framerate: 30};
+    try { if ((await VideoEncoder.isConfigSupported(cfg)).supported) return cfg; } catch(e){}
+  }
+  return null;
+}
+async function makeVideo(kind, d, one, es, nPages, ui){
+  const scenes = await buildScenes(kind, d, one, es, nPages);
+  const bg = document.createElement("canvas"); bg.width = W; bg.height = 1920; background(bg.getContext("2d"), 1920);
+  const cv = ui.canvas; cv.width = W; cv.height = 1920; const ctx = cv.getContext("2d");
+  const OUTRO = 2.4, FADE = 0.35, total = scenes.reduce((a, s) => a + s.dur, 0) + OUTRO;
+  const outroLine = recordLine(kind === "recap" ? d : addDays(kind === "week" ? day : d, -1));
+  const frame = t => {
+    const z = 1 + 0.05 * (t / total);   // slow push-in on the background
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, 1920);
+    ctx.save(); ctx.translate(W/2, 960); ctx.scale(z, z); ctx.drawImage(bg, -W/2, -960); ctx.restore();
+    let acc = 0;
+    for (const sc of scenes){
+      if (t < acc + sc.dur){
+        const lt = t - acc, out = lt > sc.dur - FADE && sc !== scenes[scenes.length - 1] ? (lt - (sc.dur - FADE)) / FADE : 0;
+        ctx.save(); ctx.globalAlpha = 1 - out; ctx.translate(-out * 120, 0);
+        for (const r of sc.regions) drawRegion(ctx, sc.layer, r, lt);
+        ctx.restore(); return;
+      }
+      acc += sc.dur;
+    }
+    const last = scenes[scenes.length - 1], lt = t - acc;     // outro: last scene fades out, end card fades in
+    ctx.save(); ctx.globalAlpha = Math.max(0, 1 - lt / 0.4); ctx.drawImage(last.layer, 0, 0); ctx.restore();
+    drawOutro(ctx, lt, outroLine);
+  };
+  // Preferred: encode frame by frame (exact 30 fps timing on any phone, real .mp4). Fallback: record live.
+  const cfg = window.VideoEncoder ? await avcConfig() : null;
+  if (cfg){
+    if (!window.Mp4Muxer) await loadScript("https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.min.js");
+    const muxer = new Mp4Muxer.Muxer({target: new Mp4Muxer.ArrayBufferTarget(), video: {codec: "avc", width: W, height: 1920}, fastStart: "in-memory"});
+    let failed = null;
+    const enc = new VideoEncoder({output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: e => { failed = e; }});
+    enc.configure(cfg);
+    const FPS = 30, N = Math.ceil(total * FPS);
+    for (let i = 0; i < N && !failed; i++){
+      frame(i / FPS);
+      const vf = new VideoFrame(cv, {timestamp: Math.round(i * 1e6 / FPS), duration: Math.round(1e6 / FPS)});
+      enc.encode(vf, {keyFrame: i % 60 === 0}); vf.close();
+      if (enc.encodeQueueSize > 8 || i % 6 === 0){ ui.progress(i / N); await new Promise(r => setTimeout(r, 0)); }
+    }
+    if (failed) throw failed;
+    await enc.flush(); enc.close(); muxer.finalize(); ui.progress(1);
+    return new Blob([muxer.target.buffer], {type: "video/mp4"});
+  }
+  const mime = videoMime();
+  if (!mime){ ui.status("This browser can't make video. Open the page in Safari or Chrome."); return null; }
+  frame(0);
+  const stream = cv.captureStream(30), chunks = [];
+  const rec = new MediaRecorder(stream, {mimeType: mime, videoBitsPerSecond: 8_000_000});
+  rec.ondataavailable = ev => { if (ev.data && ev.data.size) chunks.push(ev.data); };
+  const done = new Promise(res => rec.onstop = res);
+  rec.start(250);
+  const t0 = performance.now();
+  await new Promise(res => { const tick = () => { const t = (performance.now() - t0) / 1000;
+    frame(Math.min(t, total)); ui.progress(Math.min(1, t / total));
+    if (t < total + 0.15) requestAnimationFrame(tick); else res(); }; requestAnimationFrame(tick); });
+  rec.stop(); await done; stream.getTracks().forEach(tr => tr.stop());
+  return new Blob(chunks, {type: mime.split(";")[0]});
 }
 
 // ---------- share / copy
@@ -589,9 +729,11 @@ async function draw(){
     $("#out").innerHTML = `<div class="card"><h2>${title}</h2><div class="empty">${msg}</div></div>`; return;
   }
   $("#out").innerHTML = `<div class="card"><h2>${title}</h2>
-      ${one ? `<label class="f" for="pick">Play</label><select id="pick">${es.map(e => `<option value="${e.id}" ${e.id === one.id ? "selected" : ""}>${e.potd ? "🐶 " : ""}${e.sport} · ${shortSel(e.selection)} · ${units(e.stake)}</option>`).join("")}</select>` : ""}
+      ${one ? `<label class="f" for="pick">Play</label><select id="pick">${es.map(e => `<option value="${e.id}" ${e.id === one.id ? "selected" : ""}>${e.potd ? "⭐ " : ""}${e.sport} · ${shortSel(e.selection)} · ${units(e.stake)}</option>`).join("")}</select>` : ""}
       <div id="imgs"><div class="preview"></div></div>
-      <div class="btns"><button class="btn gold" id="shareImg">Share image</button><button class="btn" id="copyTxt">Copy text</button></div></div>
+      <div class="btns"><button class="btn gold" id="shareImg">Share image</button><button class="btn" id="copyTxt">Copy text</button></div>
+      <div class="btns" style="margin-top:8px"><button class="btn vid" id="mkVid">🎬 Make video (TikTok / Reels / Stories)</button></div>
+      <div id="vid"></div></div>
     <div class="card"><h2>Post text</h2>
       ${one ? `<label class="f" for="take">Your take (optional, goes in the post and on the image)</label><textarea id="take" style="min-height:76px" placeholder="One or two lines in your own words…"></textarea><div style="height:12px"></div>` : ""}
       <label class="f" for="draft">Draft (edit before posting)</label><textarea id="draft" style="min-height:230px"></textarea>
@@ -622,10 +764,35 @@ async function draw(){
       await paint(); };
   }
   $("#shareImg").onclick = () => shareImage(cvs, `${tab}-${sport}-${d}.png`, ta.value);
+  $("#mkVid").onclick = async () => {
+    const btn = $("#mkVid"); btn.disabled = true; btn.textContent = "Making video…";
+    $("#vid").innerHTML = `<div class="vidwrap"><canvas id="vidCv"></canvas></div><div class="bar"><i id="vidBar"></i></div><div class="note" id="vidNote">Making the video. Keep this screen open, it takes a few seconds.</div>`;
+    const keep = fmt; fmt = "story";       // videos are always 9:16
+    let blob = null;
+    try {
+      const pages = one || tab === "week" || tab === "edges" ? 1 : pagesOf(es);
+      blob = await makeVideo(tab, d, one, es, pages, {canvas: $("#vidCv"), progress: p => { const b = $("#vidBar"); if (b) b.style.width = (p*100).toFixed(1) + "%"; },
+        status: m => { $("#vidNote").textContent = m; }});
+    } catch(err){ $("#vidNote").textContent = "Video failed: " + err.message; }
+    finally { fmt = keep; btn.disabled = false; btn.textContent = "🎬 Make video again"; }
+    if (!blob) return;
+    const ext = blob.type.includes("mp4") ? "mp4" : "webm", url = URL.createObjectURL(blob);
+    $("#vid").innerHTML = `<video class="vidout" src="${url}" controls playsinline loop muted autoplay></video>
+      <div class="btns"><button class="btn gold" id="shareVid">Share video</button><button class="btn" id="saveVid">Save video</button></div>
+      <div class="note">${ext === "webm" ? "This browser saves .webm video, which some apps won't take. On your iPhone, Safari saves .mp4. " : ""}Add music inside TikTok or Instagram when you post.</div>`;
+    const file = new File([blob], `${tab}-${sport}-${d}.${ext}`, {type: blob.type});
+    $("#saveVid").onclick = () => { const a = document.createElement("a"); a.href = url; a.download = file.name; document.body.appendChild(a); a.click(); a.remove(); };
+    $("#shareVid").onclick = async () => {
+      if (navigator.canShare && navigator.canShare({files: [file]})){ try { await navigator.share({files: [file], text: ta.value}); } catch(e){} }
+      else $("#saveVid").click();
+    };
+  };
   $("#copyTxt").onclick = $("#copy2").onclick = () => copy(ta.value);
 }
 
 $("#handle").value = handle;
+$("#topName").value = TOP;
+$("#topName").oninput = e => { TOP = e.target.value.trim() || "Play of the Day"; store.set("shareTopName", TOP); clearTimeout(draw.t); draw.t = setTimeout(draw, 300); };
 $("#handle").oninput = e => { handle = e.target.value.trim(); store.set("shareHandle", handle); clearTimeout(draw.t); draw.t = setTimeout(draw, 300); };
 $("#prev").onclick = () => { day = addDays(day, -1); pickId = null; draw(); };
 $("#next").onclick = () => { day = addDays(day, 1); pickId = null; draw(); };
