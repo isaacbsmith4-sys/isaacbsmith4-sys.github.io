@@ -102,13 +102,13 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
   <div class="hero">
     <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg></div>
     <h1>Share</h1>
-    <p class="sub">Post-ready images and captions: your VIP card, every play, the Top Dog, and daily or weekly recaps.</p>
+    <p class="sub">Post-ready images and captions: your VIP card, every play, the Diamond Play, daily and weekly recaps, and videos.</p>
   </div>
 
   <div class="opts">
     <div class="settings">
       <div><label class="f" for="handle">Your handle (on every image)</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false">
-        <div style="height:10px"></div><label class="f" for="topName">Name for your best play of the day</label><input type="text" id="topName" placeholder="Play of the Day" autocomplete="off" spellcheck="false"></div>
+        <div style="height:10px"></div><label class="f" for="topName">Name for your best play of the day</label><input type="text" id="topName" placeholder="Diamond Play" autocomplete="off" spellcheck="false"></div>
       <div><label class="f">Day</label><div class="day"><button id="prev" aria-label="Previous day">‹</button><span id="dayLabel"></span><button id="next" aria-label="Next day">›</button></div></div>
     </div>
     <div style="height:12px"></div>
@@ -128,7 +128,7 @@ select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--
   <details class="how"><summary>Posting tips</summary><ul>
     <li>Post plays before the game starts. A pick posted after tip-off is worth nothing to followers.</li>
     <li>Post the recap every day, losing days too. People trust a record when they can see the losses in it.</li>
-    <li>The record on posts is the full season. When it includes the model's backtested plays (before you started posting on Oct 19), it says "incl. backtest" so nobody can say you hid it. Pick one sport and it shows just that sport's record. NBA has no backtested plays, so its record shows plain.</li>
+    <li>The record on posts is the full season. When it includes the model's backtested plays (before you started posting on Oct 19), it gets a small asterisk and one line of fine print. Pick one sport and it shows just that sport's record. NBA has no backtested plays, so its record shows plain.</li>
     <li>Never promise wins or "locks". If you ever sell picks or use sportsbook affiliate links, you have to disclose that, and the rules vary by state.</li>
   </ul></details>
 </div>
@@ -142,7 +142,7 @@ const FOLDERS = {NFL:"nfl", CFB:"cfb", NBA:"nba", NCAAB:"ncaab", NHL:"nhl"};
 const SPORT_COLOR = {NFL:"#5b8def", CFB:"#ff6b7d", NBA:"#ff8a3d", NCAAB:"#b39dff", NHL:"#3dd6c6"};
 const FINAL = ["win","loss","push","void"];
 const TIER_RANK = {VIP:0, "3U":1, "2U":2, "1U":3};
-let TOP = store.get("shareTopName", "Play of the Day");  // the day's single best play; the name is a setting
+let TOP = store.get("shareTopName", "Diamond Play"); if (TOP === "Play of the Day") TOP = "Diamond Play";  // the day's single best play; the name is a setting
 
 // ---------- dates (Eastern time, like the hub)
 const etYmd = d => new Intl.DateTimeFormat("en-CA", {timeZone:"America/New_York", year:"numeric", month:"2-digit", day:"2-digit"}).format(d);
@@ -191,11 +191,12 @@ function tally(es){ const g = es.filter(e => FINAL.includes(e.status) && e.statu
   return {n: g.length, w, l, p, u: g.reduce((a,e)=>a+(e.result_units||0),0), text: `${w}-${l}${p?"-"+p:""}`}; }
 function record(upTo){ const es = pool().filter(e => e.date <= upTo);   // every graded play, backtest included (and labeled)
   return {all: tally(es), top: tally(es.filter(e => e.potd)), bt: es.some(e => !e.posted && FINAL.includes(e.status))}; }
-const recordName = () => sport === "all" ? (src === "card" ? "VIP record" : "Record") : `${sport} ${src === "card" ? "VIP record" : "record"}`;
+const recordName = () => sport === "all" ? (src === "card" ? "VIP season record" : "Season record") : `${sport} ${src === "card" ? "VIP season record" : "season record"}`;
+const FOOTNOTE = "*Includes the model's backtest before Oct 19";
 function recordLine(upTo){
   const r = record(upTo);
   if (!r.all.n) return "Every play tracked, wins and losses.";
-  return `${recordName()}${r.bt ? " (incl. backtest)" : ""}: ${r.all.text}, ${sgnU(r.all.u)}${sport === "all" && r.top.n ? ` · ${TOP}: ${r.top.text}` : ""}`;
+  return `${recordName()}${r.bt ? "*" : ""}: ${r.all.text}, ${sgnU(r.all.u)}${sport === "all" && r.top.n ? ` · ${TOP}: ${r.top.text}` : ""}`;
 }
 const feedPlay = e => (H.feeds[e.sport] || {})[e.id] || e;
 const whyOf = e => { const t = (takes[e.id] || "").trim(); return t ? [t] : (feedPlay(e).why || []).filter(w => !/^Model says/.test(w)).slice(0,3); };
@@ -221,7 +222,7 @@ const logoCache = new Map();
 async function preloadLogos(es){ await Promise.all(es.flatMap(teamsOf).map(t => t.l ? loadImg(t.l).then(im => logoCache.set(t.l, im)) : null)); }
 
 // ---------- text drafts
-const topTag = e => e.potd ? `⭐ ${TOP}: ` : "• ";
+const topTag = e => e.potd ? `💎 ${TOP}: ` : "• ";
 function cardText(d){
   const es = playsOn(d); if (!es.length) return null;
   const lines = es.map(e => `${topTag(e)}${shortSel(e.selection)} (${price(e.price)}) · ${units(e.stake)}${sport === "all" ? " · " + e.sport : ""}`);
@@ -230,7 +231,7 @@ function cardText(d){
 function singleText(d, e){
   if (!e) return null;
   const f = feedPlay(e), why = whyOf(e), t = etTime(e.start || f.start);
-  const head = e.potd ? `⭐ ${TOP}` : `${e.sport} ${units(e.stake)} play`;
+  const head = e.potd ? `💎 ${TOP}` : `${e.sport} ${units(e.stake)} play`;
   return `${head}: ${e.selection} (${price(e.price)})\n${e.event}${t ? " · " + t : ""} · ${units(e.stake)}\n\n` +
     `Model: ${pct(e.model_prob)} · Book: ${pct(e.market_prob)} · Edge: ${e.edge_display}\n` +
     (why.length ? `\n${why.length === 1 && takes[e.id] ? why[0] : "Why:\n" + why.map(w => "- " + w).join("\n")}\n` : "") +
@@ -240,7 +241,7 @@ const icon = s => ({win:"✅", loss:"❌", push:"➖", void:"➖"}[s] || "⏳");
 function recapText(d){
   const es = playsOn(d); if (!es.length) return null;
   const t = tally(es), waiting = es.filter(e => !FINAL.includes(e.status)).length;
-  const lines = es.map(e => `${icon(e.status)} ${shortSel(e.selection)}${e.potd ? " ⭐" : ""}${FINAL.includes(e.status) && e.result_units != null ? ` (${sgnU(e.result_units)})` : ""}`);
+  const lines = es.map(e => `${icon(e.status)} ${shortSel(e.selection)}${e.potd ? " 💎" : ""}${FINAL.includes(e.status) && e.result_units != null ? ` (${sgnU(e.result_units)})` : ""}`);
   return `📊 ${sport === "all" ? "" : sport + " "}${src === "card" ? "VIP " : ""}Recap · ${niceDay(d)}: ${t.text}, ${sgnU(t.u)}\n\n${lines.join("\n")}\n${waiting ? `\n${waiting} still waiting on a result.\n` : ""}\n${recordLine(d)}`;
 }
 function weekRange(){ return [addDays(day, -7), addDays(day, -1)]; }
@@ -375,6 +376,7 @@ function footer(ctx, line){
   ctx.textBaseline = "alphabetic";
   if (label){ ctx.fillStyle = C.gold; ctx.font = `800 22px ${BODY}`; if ("letterSpacing" in ctx) ctx.letterSpacing = "3px"; ctx.fillText(label.toUpperCase(), PAD + 30, y + 42); if ("letterSpacing" in ctx) ctx.letterSpacing = "0px"; }
   ctx.fillStyle = C.ink; fitFont(ctx, rest, 900, 46, DISPLAY, W - 2*PAD - 60); ctx.fillText(rest, PAD + 30, y + (label ? 90 : 68));
+  if (label.endsWith("*")){ ctx.fillStyle = C.muted; ctx.font = `600 18px ${BODY}`; ctx.fillText(FOOTNOTE, PAD + 30, y + h + 30); }
 }
 const PER_PAGE = 7, COMPACT_OVER = 4;  // up to 4 plays: big rows; more: compact rows, 7 per image (10 on stories)
 const perImage = () => fmt === "story" ? 10 : PER_PAGE;
@@ -403,7 +405,7 @@ function bigRow(ctx, e, y, h, resultMode){
     ctx.fillStyle = C.ink2; ctx.font = `800 28px ${BODY}`; ctx.fillText(price(e.price), W - PAD - 34, y + h/2 + 50);
   }
   ctx.textAlign = "left";
-  if (top) ribbon(ctx, W - PAD - 30, y, `⭐ ${TOP.toUpperCase()}`);
+  if (top) ribbon(ctx, W - PAD - 30, y, `💎 ${TOP.toUpperCase()}`);
 }
 function smallRow(ctx, e, y, h, resultMode){
   const top = e.potd, acc = resultMode ? resultColor(e.status) : SPORT_COLOR[e.sport];
@@ -412,7 +414,7 @@ function smallRow(ctx, e, y, h, resultMode){
   const s = h - 34; matchup(ctx, e, PAD + 28, y + 17, s);
   const x = PAD + 28 + s*1.5 + 18, right = resultMode ? 170 : 210, maxW = W - PAD - right - x;
   ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, shortSel(e.selection), 800, 34, BODY, maxW, 26);
-  ctx.fillText(clip(ctx, (top ? "⭐ " : "") + shortSel(e.selection), maxW), x, y + h/2 + 2);
+  ctx.fillText(clip(ctx, (top ? "💎 " : "") + shortSel(e.selection), maxW), x, y + h/2 + 2);
   ctx.textAlign = "right";
   if (resultMode){
     ctx.fillStyle = resultColor(e.status); ctx.font = `900 46px ${DISPLAY}`;
@@ -459,7 +461,7 @@ function drawWeek(ctx){
   for (const [k, g] of rows){
     mark("row", 0, y - 4, W, h + 8, g.u >= 0 ? C.win : C.loss);
     cardBox(ctx, PAD, y, W - 2*PAD, h, FOLDERS[k] ? SPORT_COLOR[k] : C.gold, k === TOP);
-    ctx.textBaseline = "middle"; ctx.fillStyle = FOLDERS[k] ? SPORT_COLOR[k] : C.gold; ctx.font = `900 54px ${DISPLAY}`; ctx.fillText(k.toUpperCase(), PAD + 40, y + h/2 + 3);
+    ctx.textBaseline = "middle"; ctx.fillStyle = FOLDERS[k] ? SPORT_COLOR[k] : C.gold; fitFont(ctx, k.toUpperCase(), 900, 54, DISPLAY, 260, 30); ctx.fillText(k.toUpperCase(), PAD + 40, y + h/2 + 3);
     ctx.fillStyle = C.ink; ctx.font = `800 44px ${BODY}`; ctx.fillText(g.text, PAD + 330, y + h/2 + 2);
     ctx.fillStyle = g.u > 0 ? C.win : g.u < 0 ? C.loss : C.muted; ctx.font = `900 60px ${DISPLAY}`; ctx.textAlign = "right";
     ctx.fillText(sgnU(g.u), W - PAD - 34, y + h/2 + 4); ctx.textAlign = "left";
@@ -717,6 +719,7 @@ async function draw(){
   const d = tab === "recap" ? addDays(day, -1) : day, es = tab === "week" ? weekPlays() : tab === "edges" ? edgePlays(day) : playsOn(d);
   const one = tab === "single" ? (es.find(e => e.id === pickId) || es.find(e => e.potd) || es[0]) : null;
   let text = {card: () => cardText(d), single: () => singleText(d, one), recap: () => recapText(d), week: weekText, edges: () => edgesText(d)}[tab]();
+  if (text && text.includes("record*:")) text += "\n" + FOOTNOTE;
   if (text && tagsOn) text += "\n\n" + hashtags(one ? [one] : es);
   const what = sport === "all" ? "" : sport + " ";
   const title = {card: `${what}${src === "card" ? "VIP card" : "Card"} · ${niceDay(d)}`, single: one && one.potd ? TOP : "One play", recap: `${what}Recap · ${niceDay(d)}`,
@@ -729,7 +732,7 @@ async function draw(){
     $("#out").innerHTML = `<div class="card"><h2>${title}</h2><div class="empty">${msg}</div></div>`; return;
   }
   $("#out").innerHTML = `<div class="card"><h2>${title}</h2>
-      ${one ? `<label class="f" for="pick">Play</label><select id="pick">${es.map(e => `<option value="${e.id}" ${e.id === one.id ? "selected" : ""}>${e.potd ? "⭐ " : ""}${e.sport} · ${shortSel(e.selection)} · ${units(e.stake)}</option>`).join("")}</select>` : ""}
+      ${one ? `<label class="f" for="pick">Play</label><select id="pick">${es.map(e => `<option value="${e.id}" ${e.id === one.id ? "selected" : ""}>${e.potd ? "💎 " : ""}${e.sport} · ${shortSel(e.selection)} · ${units(e.stake)}</option>`).join("")}</select>` : ""}
       <div id="imgs"><div class="preview"></div></div>
       <div class="btns"><button class="btn gold" id="shareImg">Share image</button><button class="btn" id="copyTxt">Copy text</button></div>
       <div class="btns" style="margin-top:8px"><button class="btn vid" id="mkVid">🎬 Make video (TikTok / Reels / Stories)</button></div>
@@ -760,7 +763,7 @@ async function draw(){
   if (one){
     $("#pick").onchange = ev => { pickId = ev.target.value; draw(); };
     const tk = $("#take"); tk.value = takes[one.id] || "";
-    tk.oninput = async () => { takes[one.id] = tk.value; store.set("shareTakes", takes); ta.value = singleText(d, one) + (tagsOn ? "\n\n" + hashtags([one]) : ""); count();
+    tk.oninput = async () => { takes[one.id] = tk.value; store.set("shareTakes", takes); ta.value = singleText(d, one) + (singleText(d, one).includes("record*:") ? "\n" + FOOTNOTE : "") + (tagsOn ? "\n\n" + hashtags([one]) : ""); count();
       await paint(); };
   }
   $("#shareImg").onclick = () => shareImage(cvs, `${tab}-${sport}-${d}.png`, ta.value);
@@ -792,7 +795,7 @@ async function draw(){
 
 $("#handle").value = handle;
 $("#topName").value = TOP;
-$("#topName").oninput = e => { TOP = e.target.value.trim() || "Play of the Day"; store.set("shareTopName", TOP); clearTimeout(draw.t); draw.t = setTimeout(draw, 300); };
+$("#topName").oninput = e => { TOP = e.target.value.trim() || "Diamond Play"; store.set("shareTopName", TOP); clearTimeout(draw.t); draw.t = setTimeout(draw, 300); };
 $("#handle").oninput = e => { handle = e.target.value.trim(); store.set("shareHandle", handle); clearTimeout(draw.t); draw.t = setTimeout(draw, 300); };
 $("#prev").onclick = () => { day = addDays(day, -1); pickId = null; draw(); };
 $("#next").onclick = () => { day = addDays(day, 1); pickId = null; draw(); };
