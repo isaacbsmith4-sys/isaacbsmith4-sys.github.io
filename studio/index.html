@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Video Studio</title>
+<meta name="theme-color" content="#0d0f15">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Studio">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Video Studio: your footage + an ElevenLabs voice (or none) + captions timed to the voice + the
+   pick banner and end card, made into a 9:16 MP4 right on the phone. Nothing is uploaded anywhere
+   except the script text, which goes to ElevenLabs to be spoken. The ElevenLabs key stays on this phone. */
+:root{
+  color-scheme:dark;
+  --bg:#0d0f15; --surface:#151821; --surface2:#1c2030; --sunk:#10131b; --line:#272c3d; --line-hi:#3b4258;
+  --ink:#eef0f6; --ink2:#b4bbcc; --muted:#808a9f; --faint:#586178;
+  --gold:#e3b04b; --gold-ink:#f2c66a; --gold-bg:rgba(227,176,75,.13); --on-gold:#1a1305;
+  --win:#3ddc84; --loss:#ff6b6b;
+  --font-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
+  --font-body:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  color-scheme:light;
+  --bg:#f3f1ec; --surface:#ffffff; --surface2:#f8f6f1; --sunk:#ece9e2; --line:#e0dcd2; --line-hi:#c9c3b5;
+  --ink:#16181f; --ink2:#3d4252; --muted:#6a7080; --faint:#9a9fac;
+  --gold:#a8750a; --gold-ink:#8a5f00; --gold-bg:rgba(201,141,18,.12); --on-gold:#fffaf0;
+  --win:#14864a; --loss:#c8323a;
+}}
+:root[data-theme="dark"]{ color-scheme:dark; }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);-webkit-text-size-adjust:100%}
+body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 40px)}
+.wrap{max-width:720px;margin:0 auto}
+.back{display:inline-flex;align-items:center;min-height:44px;font-weight:800;font-size:14px;color:var(--muted);text-decoration:none}
+.hero{position:relative;overflow:hidden;border-radius:20px;padding:18px;margin:6px 0 14px;
+  background:radial-gradient(120% 140% at 100% 0%, rgba(139,92,246,.30), rgba(139,92,246,0) 55%), linear-gradient(160deg, var(--surface2), var(--surface));border:1px solid var(--line)}
+.hero h1{font-family:var(--font-display);font-weight:900;font-size:40px;margin:0;text-transform:uppercase;line-height:1}
+.hero p{color:var(--muted);font-size:13px;margin:8px 0 0;line-height:1.45}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
+.step h2{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:22px;text-transform:uppercase;margin:0 0 10px}
+.step h2 i{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--on-gold);display:grid;place-items:center;font-size:16px;font-family:var(--font-body)}
+label.f{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 6px}
+input[type=text],input[type=password],textarea,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:11px 12px;min-height:46px}
+textarea{min-height:150px;resize:vertical;line-height:1.45}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.btn{flex:1;min-height:46px;border-radius:12px;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:inherit;font-weight:800;font-size:14px;cursor:pointer;padding:0 14px;white-space:nowrap}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--on-gold)}
+.btn.big{min-height:56px;font-size:16px}
+.btn:disabled{opacity:.5}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{min-height:40px;background:var(--surface2);border:1px solid var(--line);color:var(--ink2);font:inherit;font-size:13px;font-weight:800;padding:0 14px;border-radius:999px;cursor:pointer}
+.chip.on{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:8px}
+.ok{color:var(--win)} .bad{color:var(--loss)}
+.clips{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.clip{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:8px}
+.clip video{width:54px;height:96px;object-fit:cover;border-radius:8px;background:#000}
+.clip .m{flex:1;min-width:0;font-size:13px}.clip .m b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.clip button{min-width:44px;min-height:44px;border:0;background:none;color:var(--muted);font-size:20px;cursor:pointer}
+.file{display:flex;align-items:center;justify-content:center;min-height:56px;border:2px dashed var(--line-hi);border-radius:14px;font-weight:800;color:var(--ink2);cursor:pointer}
+.file input{display:none}
+details.setup{background:var(--sunk);border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin-top:6px}
+details.setup summary{min-height:44px;display:flex;align-items:center;font-weight:800;cursor:pointer}
+.stage{display:block;width:100%;max-width:300px;margin:12px auto;border-radius:14px;overflow:hidden;border:1px solid var(--line);aspect-ratio:9/16;background:#000}
+.stage canvas,.stage video{width:100%;height:100%;display:block}
+.bar{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden;max-width:300px;margin:0 auto}
+.bar i{display:block;height:100%;width:0;background:var(--gold)}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);background:var(--ink);color:var(--bg);font-weight:800;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../share/">‹ Share</a>
+  <div class="hero"><h1>Video Studio</h1>
+    <p>Your footage + an AI voice + captions timed to every word + the pick graphics, made into a TikTok / Reels video right on this phone.</p></div>
+
+  <section class="step"><h2><i>1</i>The play</h2>
+    <select id="play"></select>
+    <label class="f" for="handle">Your handle</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false">
+  </section>
+
+  <section class="step"><h2><i>2</i>Footage</h2>
+    <label class="file">＋ Add clips from your phone<input type="file" id="files" accept="video/*" multiple></label>
+    <div class="clips" id="clips"></div>
+    <div class="note">Clips play in this order, cropped to vertical and looped if the voice runs longer. Their own sound is muted. No clips? You get a branded background with the team logos.</div>
+  </section>
+
+  <section class="step"><h2><i>3</i>Script</h2>
+    <div class="chips" id="styles"></div>
+    <textarea id="script" placeholder="What the voice says…"></textarea>
+    <div class="note" id="scriptNote"></div>
+  </section>
+
+  <section class="step"><h2><i>4</i>Voice</h2>
+    <div class="chips" id="voiceMode"></div>
+    <div id="elBox">
+      <select id="voice" style="margin-top:10px"><option>Add your ElevenLabs key below to load voices</option></select>
+      <label class="f">Speed</label><div class="chips" id="speed"></div>
+      <div class="btns"><button class="btn" id="preview">▶ Hear it</button></div>
+      <details class="setup" id="setup"><summary>ElevenLabs setup</summary>
+        <div class="note">1. Make an account at elevenlabs.io (the $5/month Starter plan includes the rights to post the audio). 2. Go to your profile → API Keys → create a key. 3. Paste it here. It's saved on this phone only and only ever sent to ElevenLabs. Don't paste it in chat.</div>
+        <label class="f" for="key">ElevenLabs API key</label><input type="password" id="key" autocomplete="off" spellcheck="false">
+        <div class="btns"><button class="btn gold" id="saveKey">Save key</button><button class="btn" id="clearKey">Remove</button></div>
+        <div class="note" id="keyNote"></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="step"><h2><i>5</i>Make it</h2>
+    <button class="btn gold big" id="make" style="width:100%">🎬 Make video</button>
+    <div id="result"></div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const store = { get(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
+                set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+                del(k){ try { localStorage.removeItem(k); } catch(e){} } };
+function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 2200); }
+const FOLDERS = {NFL:"nfl", CFB:"cfb", NBA:"nba", NCAAB:"ncaab", NHL:"nhl"};
+const SPORT_COLOR = {NFL:"#5b8def", CFB:"#ff6b7d", NBA:"#ff8a3d", NCAAB:"#b39dff", NHL:"#3dd6c6"};
+const FINAL = ["win","loss","push"];
+const TOP = store.get("shareTopName", "Diamond Play");
+const etYmd = d => new Intl.DateTimeFormat("en-CA", {timeZone:"America/New_York", year:"numeric", month:"2-digit", day:"2-digit"}).format(d);
+const fromYmd = s => { const [y,m,d] = s.split("-").map(Number); return new Date(Date.UTC(y, m-1, d, 12)); };
+const addDays = (s, n) => new Date(fromYmd(s).getTime() + n*864e5).toISOString().slice(0,10);
+const niceDay = s => fromYmd(s).toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric", timeZone:"UTC"});
+const price = p => p == null ? "-110" : (p > 0 ? "+" + p : String(p));
+const units = u => `${+u % 1 ? (+u).toFixed(1) : +u}U`;
+const pct = p => p == null ? "–" : Math.round(p*100) + "%";
+
+// ---------- state
+let H = {ledger: [], feeds: {}, teams: {}}, plays = [], clips = [];   // clips: [{file, url, el, dur}]
+let handle = store.get("shareHandle", ""), style = store.get("studioStyle", "hype"), speed = store.get("studioSpeed", 1.05);
+let voiceMode = store.get("studioVoiceMode", "eleven"), voiceId = store.get("studioVoice", ""), KEY = store.get("elevenKey", "");
+let voiceCache = {text: null, voice: null, speed: null, result: null};
+
+// ---------- plays (today's and tomorrow's: the official card first, then every 1U+ play)
+function buildPlays(){
+  const today = etYmd(new Date()), days = [today, addDays(today, 1)];
+  const P = new Set(H.ledger.filter(e => e.potd).map(e => e.id)), seen = new Set(), out = [];
+  for (const e of H.ledger.filter(e => days.includes(e.date))){ out.push({...e, vip: true}); seen.add(e.id); }
+  for (const f of Object.values(H.feeds)) for (const p of Object.values(f))
+    if (days.includes(p.date) && (p.units || 0) >= 1 && !seen.has(p.id) && p.status === "pending") out.push({...p, stake: p.units, potd: P.has(p.id)});
+  out.sort((a,b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0) || (b.potd?1:0)-(a.potd?1:0) || (b.vip?1:0)-(a.vip?1:0) || (b.ev||0)-(a.ev||0));
+  return out;
+}
+function record(){
+  const g = H.ledger.filter(e => FINAL.includes(e.status)), w = g.filter(e => e.status === "win").length, l = g.filter(e => e.status === "loss").length;
+  const u = g.reduce((a, e) => a + (e.result_units || 0), 0);
+  return {text: `${w}-${l}, ${u >= 0 ? "+" : "−"}${Math.abs(u).toFixed(1)}u`, bt: g.some(e => e.backfilled)};
+}
+const curPlay = () => plays[+$("#play").value] || null;
+function teamOf(sp, name){
+  const T = H.teams[sp] || {}, n = String(name || "").trim(), lo = n.toLowerCase();
+  if (T[n]) return {name: n, ...T[n]};
+  for (const [k, v] of Object.entries(T)) if (k.toLowerCase() === lo || lo.endsWith(" " + k.toLowerCase()) || k.toLowerCase().endsWith(" " + lo)) return {name: k, ...v};
+  return n ? {name: n, a: n.replace(/[^A-Za-z ]/g, "").split(/\s+/).map(w => w[0]).join("").slice(0,3).toUpperCase() || "?"} : null;
+}
+const teamsOf = e => String(e.event || "").split(/\s+(?:@|vs\.?|at)\s+/i).slice(0,2).map(t => teamOf(e.sport, t)).filter(Boolean);
+
+// ---------- script styles (spoken words: "minus 118", "moneyline", so the voice reads it right)
+const SAY = [[/\bML\b/g,"moneyline"],[/(^|\s)-(\d)/g,"$1minus $2"],[/(^|\s)\+(\d)/g,"$1plus $2"],[/\bu(\d)/g,"under $1"],[/\bo(\d)/g,"over $1"],[/(\d)U\b/g,"$1 units"],[/\b1 units\b/g,"1 unit"],[/ @ /g," at "]];
+const spoken = s => SAY.reduce((a, [r, t]) => a.replace(r, t), s);
+function scriptFor(p, st){
+  if (!p) return "";
+  const sel = spoken(p.selection), pr = spoken(price(p.price)), m = Math.round((p.model_prob||0)*100), b = Math.round((p.market_prob||0)*100);
+  const u = spoken(units(p.stake || p.units)), name = p.potd ? TOP : `our ${p.sport} play`;
+  const why = ((H.feeds[p.sport] || {})[p.id] || p).why || [];
+  if (st === "quick") return `${p.potd ? TOP : "Play"} tonight: ${sel}, ${pr}. ${u}. Every play tracked. Follow for the rest.`;
+  if (st === "breakdown") return `Here's ${name} for tonight. ${sel}, at ${pr}. ` +
+    (why[0] ? `${why[0].replace(/\s*;\s*/g, ". ")}. ` : "") + `The model has it at ${m} percent. The book is at ${b}. That gap is the edge. We're on it for ${u}. Every play is tracked, wins and losses. Follow so you don't miss the next one.`;
+  return `Vegas is wrong on this one. ${name}: ${sel}, ${pr}. Our model gives it a ${m} percent chance. The book only gives it ${b}. We're on it for ${u}. Follow for every play.`;
+}
+
+// ---------- ElevenLabs
+const EL = "https://api.elevenlabs.io/v1";
+async function loadVoices(){
+  if (!KEY){ $("#voice").innerHTML = `<option>Add your ElevenLabs key below to load voices</option>`; return; }
+  $("#voice").innerHTML = `<option>Loading voices…</option>`;
+  try {
+    const r = await fetch(`${EL}/voices`, {headers: {"xi-api-key": KEY}});
+    if (!r.ok) throw new Error(r.status === 401 ? "ElevenLabs didn't accept that key" : `ElevenLabs error ${r.status}`);
+    const vs = (await r.json()).voices || [];
+    vs.sort((a, b) => (a.category === "premade") - (b.category === "premade") || a.name.localeCompare(b.name));
+    $("#voice").innerHTML = vs.map(v => `<option value="${v.voice_id}" ${v.voice_id === voiceId ? "selected" : ""}>${v.name}${v.labels && v.labels.accent ? " · " + v.labels.accent : ""}${v.labels && v.labels.description ? " · " + v.labels.description : ""}</option>`).join("");
+    if (!vs.some(v => v.voice_id === voiceId) && vs[0]){ voiceId = vs[0].voice_id; store.set("studioVoice", voiceId); }
+    $("#keyNote").innerHTML = `<span class="ok">Key works. ${vs.length} voices loaded.</span>`;
+  } catch(e){ $("#voice").innerHTML = `<option>Couldn't load voices</option>`; $("#keyNote").innerHTML = `<span class="bad">${e.message}.</span>`; $("#setup").open = true; }
+}
+async function speak(text){
+  if (voiceCache.result && voiceCache.text === text && voiceCache.voice === voiceId && voiceCache.speed === speed) return voiceCache.result;
+  const r = await fetch(`${EL}/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
+    method: "POST", headers: {"xi-api-key": KEY, "Content-Type": "application/json"},
+    body: JSON.stringify({text, model_id: "eleven_multilingual_v2",
+      voice_settings: {stability: 0.4, similarity_boost: 0.8, style: 0.35, use_speaker_boost: true, speed}})});
+  if (!r.ok){ let m = `ElevenLabs error ${r.status}`; try { const j = await r.json(); m = (j.detail && (j.detail.message || j.detail)) || m; } catch(e){} throw new Error(typeof m === "string" ? m : JSON.stringify(m)); }
+  const j = await r.json();
+  const bytes = Uint8Array.from(atob(j.audio_base64), c => c.charCodeAt(0));
+  const actx = new (window.AudioContext || window.webkitAudioContext)();
+  const buf = await actx.decodeAudioData(bytes.buffer.slice(0)); actx.close();
+  const a = j.alignment || j.normalized_alignment;
+  const result = {buf, words: wordsFrom(a), mp3: bytes};
+  voiceCache = {text, voice: voiceId, speed, result};
+  return result;
+}
+function wordsFrom(a){   // character timings -> [{w, t0, t1}]
+  const out = []; if (!a) return out;
+  let cur = "", t0 = null, t1 = 0;
+  a.characters.forEach((ch, i) => {
+    if (/\s/.test(ch)){ if (cur){ out.push({w: cur, t0, t1}); cur = ""; t0 = null; } return; }
+    if (t0 === null) t0 = a.character_start_times_seconds[i];
+    cur += ch; t1 = a.character_end_times_seconds[i];
+  });
+  if (cur) out.push({w: cur, t0, t1});
+  return out;
+}
+function evenWords(text, secs){   // no voice: spread the words over the video so captions still play
+  const ws = text.split(/\s+/).filter(Boolean), per = secs / Math.max(ws.length, 1);
+  return ws.map((w, i) => ({w, t0: i*per, t1: (i+1)*per}));
+}
+function captionGroups(words){   // 2–4 words per caption, breaking at punctuation
+  const g = []; let cur = [];
+  for (const w of words){
+    cur.push(w);
+    if (cur.length >= 4 || /[.,!?;:]$/.test(w.w) && cur.length >= 2){ g.push(cur); cur = []; }
+  }
+  if (cur.length) g.push(cur);
+  return g.map(ws => ({words: ws, t0: ws[0].t0, t1: ws[ws.length - 1].t1}));
+}
+
+// ---------- drawing
+const W = 1080, H2 = 1920, PAD = 64;
+const C = {bg:"#08090e", card:"#12151e", card2:"#0e1118", line:"#232838", ink:"#f4f5fa", ink2:"#c3c8d6", muted:"#7f889c", gold:"#f0b847", gold2:"#c98a1a"};
+const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif', BODY = 'Manrope, system-ui, sans-serif';
+function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function fitFont(ctx, text, weight, size, family, maxW, min = 24){ let s = size; ctx.font = `${weight} ${s}px ${family}`; while (ctx.measureText(text).width > maxW && s > min){ s -= 2; ctx.font = `${weight} ${s}px ${family}`; } return s; }
+function wrap(ctx, text, maxW){ const ws = String(text).split(/\s+/), L = []; let c = ""; for (const w of ws){ const t = c ? c + " " + w : w; if (ctx.measureText(t).width > maxW && c){ L.push(c); c = w; } else c = t; } if (c) L.push(c); return L; }
+const goldGrad = (ctx, x, y, w, h) => { const g = ctx.createLinearGradient(x, y, x + w, y + h); g.addColorStop(0, "#ffd77a"); g.addColorStop(.5, C.gold); g.addColorStop(1, C.gold2); return g; };
+function star(ctx, cx, cy, r, color){ ctx.beginPath(); for (let i = 0; i < 10; i++){ const a = -Math.PI/2 + i*Math.PI/5, rad = i % 2 ? r*0.45 : r; ctx.lineTo(cx + rad*Math.cos(a), cy + rad*Math.sin(a)); } ctx.closePath(); ctx.fillStyle = color; ctx.fill(); }
+function diamond(ctx, cx, cy, r, color){ ctx.beginPath(); ctx.moveTo(cx, cy - r); ctx.lineTo(cx + r*.8, cy - r*.2); ctx.lineTo(cx, cy + r); ctx.lineTo(cx - r*.8, cy - r*.2); ctx.closePath(); ctx.fillStyle = color; ctx.fill(); }
+const IMG = new Map();
+function loadImg(url){ if (!url) return Promise.resolve(null); if (!IMG.has(url)) IMG.set(url, new Promise(res => { const im = new Image(); im.crossOrigin = "anonymous"; im.onload = () => res(im); im.onerror = () => res(null); im.src = url; setTimeout(() => res(null), 4000); })); return IMG.get(url); }
+function logo(ctx, t, im, x, y, s){
+  ctx.save(); ctx.beginPath(); ctx.arc(x + s/2, y + s/2, s/2, 0, Math.PI*2); ctx.fillStyle = im ? "#f3f1ec" : ((t && t.c) || "#2a3042"); ctx.fill();
+  if (im){ ctx.clip(); const p = s*.12; ctx.drawImage(im, x + p, y + p, s - 2*p, s - 2*p); }
+  else { ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; fitFont(ctx, (t && t.a) || "?", 900, s*.42, DISPLAY, s*.8, 12); ctx.fillText((t && t.a) || "?", x + s/2, y + s/2 + 2); }
+  ctx.restore();
+}
+function brandBg(ctx, logos){
+  ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H2);
+  let g = ctx.createRadialGradient(W*.95, -40, 0, W*.95, -40, 1100); g.addColorStop(0, "rgba(240,184,71,.30)"); g.addColorStop(1, "rgba(240,184,71,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H2);
+  g = ctx.createRadialGradient(0, H2, 0, 0, H2, 1000); g.addColorStop(0, "rgba(91,141,239,.14)"); g.addColorStop(1, "rgba(91,141,239,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H2);
+  ctx.save(); ctx.globalAlpha = .14; logos.forEach((im, i) => { if (im) ctx.drawImage(im, -160 + i*460, 360 + i*620, 820, 820); }); ctx.restore();
+  ctx.save(); ctx.strokeStyle = "rgba(255,255,255,.028)"; ctx.lineWidth = 2; for (let x = -H2; x < W; x += 34){ ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + H2, H2); ctx.stroke(); } ctx.restore();
+}
+function drawCover(ctx, video){   // fill 1080x1920 with the clip, cropped from the center, a touch darker
+  const vw = video.videoWidth, vh = video.videoHeight; if (!vw) return;
+  const k = Math.max(W / vw, H2 / vh), dw = vw*k, dh = vh*k;
+  ctx.drawImage(video, (W - dw)/2, (H2 - dh)/2, dw, dh);
+  ctx.fillStyle = "rgba(0,0,0,.14)"; ctx.fillRect(0, 0, W, H2);
+}
+function banner(ctx, p, a){
+  ctx.save(); ctx.globalAlpha = a;
+  const g = ctx.createLinearGradient(0, 0, 0, 560); g.addColorStop(0, "rgba(0,0,0,.72)"); g.addColorStop(1, "rgba(0,0,0,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, 560);
+  let x = PAD, y = 170;
+  rr(ctx, x, y, 64, 64, 16); ctx.fillStyle = goldGrad(ctx, x, y, 64, 64); ctx.fill(); star(ctx, x + 32, y + 34, 20, "#1a1305");
+  ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, (handle || "BEST PLAYS").toUpperCase(), 900, 44, DISPLAY, 600); ctx.fillText((handle || "BEST PLAYS").toUpperCase(), x + 82, y + 33);
+  y += 92;
+  const label = (p.potd ? TOP : `${p.sport} play`).toUpperCase(); ctx.font = `800 26px ${BODY}`; const lw = ctx.measureText(label).width + 72;
+  rr(ctx, x, y, lw, 46, 23); ctx.fillStyle = "rgba(26,19,5,.8)"; ctx.fill(); ctx.strokeStyle = C.gold; ctx.lineWidth = 2; ctx.stroke();
+  diamond(ctx, x + 26, y + 23, 13, C.gold); ctx.fillStyle = C.gold; ctx.fillText(label, x + 48, y + 24);
+  y += 66;
+  const sel = `${p.selection}  ${price(p.price)}`.toUpperCase();
+  ctx.textBaseline = "top"; fitFont(ctx, sel, 900, 72, DISPLAY, W - 2*PAD - 150, 40);
+  ctx.lineWidth = 8; ctx.strokeStyle = "rgba(0,0,0,.8)"; ctx.strokeText(sel, x, y); ctx.fillStyle = C.ink; ctx.fillText(sel, x, y);
+  ctx.font = `900 82px ${DISPLAY}`; ctx.textAlign = "right"; ctx.strokeText(units(p.stake || p.units), W - PAD, y - 8); ctx.fillStyle = goldGrad(ctx, W - 200, y, 200, 80); ctx.fillText(units(p.stake || p.units), W - PAD, y - 8);
+  ctx.restore(); ctx.textAlign = "left";
+}
+function caption(ctx, group, t){
+  if (!group) return;
+  const k = Math.min(1, (t - group.t0) / 0.12), s = 0.85 + 0.15*k;      // quick pop-in
+  ctx.save(); ctx.translate(W/2, 1330); ctx.scale(s, s);
+  ctx.font = `900 92px ${DISPLAY}`; ctx.textBaseline = "middle";
+  const words = group.words.map(w => w.w.toUpperCase()), gap = 22;
+  const widths = words.map(w => ctx.measureText(w).width), lines = [[]]; let lw = 0;
+  words.forEach((w, i) => { if (lw + widths[i] > W - 160 && lines[lines.length-1].length){ lines.push([]); lw = 0; } lines[lines.length-1].push(i); lw += widths[i] + gap; });
+  lines.forEach((ln, li) => {
+    const tw = ln.reduce((a, i) => a + widths[i], 0) + gap*(ln.length - 1); let x = -tw/2; const y = (li - (lines.length - 1)/2) * 100;
+    ln.forEach(i => { const w = group.words[i], on = t >= w.t0 && t < w.t1 + 0.05;
+      ctx.lineWidth = 14; ctx.strokeStyle = "rgba(0,0,0,.9)"; ctx.lineJoin = "round"; ctx.strokeText(words[i], x, y);
+      ctx.fillStyle = on ? C.gold : (/\d/.test(words[i]) ? "#ffe3a3" : "#ffffff"); ctx.fillText(words[i], x, y); x += widths[i] + gap; });
+  });
+  ctx.restore();
+}
+function endCard(ctx, p, a, logos, rec){
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.fillStyle = "rgba(8,9,14,.94)"; ctx.fillRect(0, 0, W, H2);
+  const g = ctx.createRadialGradient(W*.9, 0, 0, W*.9, 0, 1000); g.addColorStop(0, "rgba(240,184,71,.28)"); g.addColorStop(1, "rgba(240,184,71,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H2);
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  let y = 300; ctx.fillStyle = C.gold; ctx.font = `800 30px ${BODY}`; ctx.fillText((p.potd ? TOP : `${p.sport} play`).toUpperCase(), W/2, y);
+  y += 50; const ts = teamsOf(p), s = 210;
+  if (ts.length){ const xs = ts.length === 2 ? [W/2 - s - 60, W/2 + 60] : [(W - s)/2]; ts.forEach((t, i) => logo(ctx, t, logos[i], xs[i], y, s));
+    if (ts.length === 2){ ctx.fillStyle = C.muted; ctx.font = `900 64px ${DISPLAY}`; ctx.fillText(/ vs /i.test(p.event) ? "VS" : "@", W/2, y + s/2 + 22); } y += s + 110; }
+  let fs = 100, ls; do { ctx.font = `900 ${fs}px ${DISPLAY}`; ls = wrap(ctx, p.selection.toUpperCase(), W - 140); fs -= 6; } while (ls.length > 2 && fs > 56);
+  ctx.fillStyle = C.ink; ls.slice(0, 3).forEach(l => { ctx.fillText(l, W/2, y); y += fs + 6; });
+  ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`; ctx.fillText(`${p.event}  ·  ${price(p.price)}  ·  ${units(p.stake || p.units)}`, W/2, y); y += 50;
+  const bw = (W - 2*PAD - 36)/3;
+  [["MODEL", pct(p.model_prob)], ["BOOK", pct(p.market_prob)], ["EDGE", p.edge_display || "–"]].forEach(([k, v], i) => {
+    const x = PAD + i*(bw + 18); rr(ctx, x, y, bw, 180, 24); ctx.fillStyle = C.card; ctx.fill(); ctx.lineWidth = i === 2 ? 4 : 2; ctx.strokeStyle = i === 2 ? C.gold : C.line; ctx.stroke();
+    ctx.textAlign = "left"; ctx.fillStyle = C.muted; ctx.font = `800 24px ${BODY}`; ctx.fillText(k, x + 26, y + 46);
+    ctx.fillStyle = i === 2 ? C.gold : C.ink; fitFont(ctx, v, 900, 88, DISPLAY, bw - 50); ctx.fillText(v, x + 26, y + 150); ctx.textAlign = "center"; });
+  y += 250;
+  rr(ctx, PAD, y, W - 2*PAD, 128, 28); ctx.fillStyle = "#16181f"; ctx.fill(); ctx.strokeStyle = "rgba(240,184,71,.5)"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.textAlign = "left"; ctx.fillStyle = C.gold; ctx.font = `800 24px ${BODY}`; ctx.fillText("SEASON RECORD" + (rec.bt ? "*" : ""), PAD + 34, y + 46);
+  ctx.fillStyle = C.ink; ctx.font = `900 58px ${DISPLAY}`; ctx.fillText(rec.text, PAD + 34, y + 106);
+  if (rec.bt){ ctx.fillStyle = C.muted; ctx.font = `600 22px ${BODY}`; ctx.fillText("*Includes the model's backtest before Oct 19", PAD + 34, y + 160); }
+  ctx.textAlign = "center"; y += 290;
+  ctx.fillStyle = C.ink; fitFont(ctx, (handle || "Every play. Every result.").toUpperCase(), 900, 100, DISPLAY, W - 160, 50); ctx.fillText((handle || "Every play. Every result.").toUpperCase(), W/2, y);
+  ctx.fillStyle = C.gold; ctx.font = `800 34px ${BODY}`; ctx.fillText("FOLLOW FOR EVERY PLAY", W/2, y + 64);
+  ctx.restore(); ctx.textAlign = "left";
+}
+
+// ---------- making the video
+function loadScript(url){ return new Promise((res, rej) => { const s = document.createElement("script"); s.src = url; s.onload = res; s.onerror = () => rej(new Error("couldn't load the video library")); document.head.appendChild(s); }); }
+async function avcConfig(){
+  for (const codec of ["avc1.640028", "avc1.4d0028", "avc1.42003e"]){
+    const cfg = {codec, width: W, height: H2, bitrate: 8_000_000, framerate: 30};
+    try { if ((await VideoEncoder.isConfigSupported(cfg)).supported) return cfg; } catch(e){}
+  }
+  return null;
+}
+async function aacConfig(rate){
+  if (!window.AudioEncoder) return null;
+  const cfg = {codec: "mp4a.40.2", sampleRate: rate, numberOfChannels: 1, bitrate: 128000};
+  try { return (await AudioEncoder.isConfigSupported(cfg)).supported ? cfg : null; } catch(e){ return null; }
+}
+const seekTo = (v, t) => new Promise(res => { if (Math.abs(v.currentTime - t) < 0.001 && v.readyState >= 2) return res(); const done = () => { v.removeEventListener("seeked", done); res(); }; v.addEventListener("seeked", done); v.currentTime = t; setTimeout(done, 1500); });
+function timeline(total){   // which clip and where in it for every moment, clips in order, looped
+  const segs = []; let t = 0, i = 0;
+  if (!clips.length) return segs;
+  while (t < total && i < 500){ const c = clips[i % clips.length], d = Math.max(0.3, c.dur || 3); segs.push({c, t0: t, t1: Math.min(total, t + d)}); t += d; i++; }
+  return segs;
+}
+async function makeVideo(ui){
+  const p = curPlay(); if (!p) throw new Error("Pick a play first");
+  const text = $("#script").value.trim(); if (!text) throw new Error("Write a script first");
+  await document.fonts.ready;
+  ui.status("Getting the voice…");
+  let voice = null;
+  if (voiceMode === "eleven"){
+    if (!KEY){ $("#setup").open = true; throw new Error("Add your ElevenLabs key in step 4 (or pick No voice)"); }
+    voice = await speak(text);
+  }
+  const LEAD = 0.35, END = 3.4;
+  const talk = voice ? voice.buf.duration : Math.max(6, text.split(/\s+/).length / 2.6);
+  const words = (voice ? voice.words : evenWords(text, talk)).map(w => ({...w, t0: w.t0 + LEAD, t1: w.t1 + LEAD}));
+  const groups = captionGroups(words), vend = LEAD + talk + 0.25, total = vend + END;
+  const logos = await Promise.all(teamsOf(p).map(t => loadImg(t.l)));
+  const rec = record(), segs = timeline(vend);
+  const cv = ui.canvas; cv.width = W; cv.height = H2; const ctx = cv.getContext("2d");
+  const bg = document.createElement("canvas"); bg.width = W; bg.height = H2; brandBg(bg.getContext("2d"), logos);
+  const draw = async (t, live) => {
+    const seg = segs.find(s => t >= s.t0 && t < s.t1) || segs[segs.length - 1];
+    if (seg && t < vend + 0.6){
+      const lt = Math.min(t - seg.t0, Math.max(0, (seg.c.dur || 1) - 0.05));
+      if (!live) await seekTo(seg.c.el, lt);
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H2); drawCover(ctx, seg.c.el);
+    } else { const z = 1 + 0.04*t/total; ctx.save(); ctx.translate(W/2, H2/2); ctx.scale(z, z); ctx.drawImage(bg, -W/2, -H2/2); ctx.restore(); }
+    if (t < vend) banner(ctx, p, Math.min(1, t / 0.4));
+    if (t < vend) caption(ctx, groups.find(g => t >= g.t0 && t < g.t1 + 0.15), t);
+    if (t >= vend) endCard(ctx, p, Math.min(1, (t - vend) / 0.45), logos, rec);
+  };
+
+  const FPS = 30, N = Math.ceil(total * FPS), vcfg = window.VideoEncoder ? await avcConfig() : null;
+  const RATE = 44100, acfg = voice ? await aacConfig(RATE) : null;
+  // the voice as mono samples at 44.1 kHz, with the lead-in silence
+  let pcm = null;
+  if (voice){
+    const off = new OfflineAudioContext(1, Math.ceil(total * RATE), RATE), src = off.createBufferSource();
+    src.buffer = voice.buf; src.connect(off.destination); src.start(LEAD); pcm = (await off.startRendering()).getChannelData(0);
+  }
+  if (vcfg && (!voice || acfg)){
+    ui.status("Building the video…");
+    if (!window.Mp4Muxer) await loadScript("https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.min.js");
+    const muxer = new Mp4Muxer.Muxer({target: new Mp4Muxer.ArrayBufferTarget(), video: {codec: "avc", width: W, height: H2},
+      ...(voice ? {audio: {codec: "aac", sampleRate: RATE, numberOfChannels: 1}} : {}), fastStart: "in-memory"});
+    let failed = null;
+    const venc = new VideoEncoder({output: (c, m) => muxer.addVideoChunk(c, m), error: e => failed = e}); venc.configure(vcfg);
+    if (voice){
+      const aenc = new AudioEncoder({output: (c, m) => muxer.addAudioChunk(c, m), error: e => failed = e}); aenc.configure(acfg);
+      for (let i = 0; i < pcm.length; i += 1024){
+        const chunk = pcm.subarray(i, Math.min(pcm.length, i + 1024));
+        const ad = new AudioData({format: "f32-planar", sampleRate: RATE, numberOfFrames: chunk.length, numberOfChannels: 1, timestamp: Math.round(i / RATE * 1e6), data: chunk});
+        aenc.encode(ad); ad.close();
+      }
+      await aenc.flush(); aenc.close();
+    }
+    let i = 0;
+    const emit = async live => {
+      await draw(i / FPS, live);
+      const vf = new VideoFrame(cv, {timestamp: Math.round(i * 1e6 / FPS), duration: Math.round(1e6 / FPS)});
+      venc.encode(vf, {keyFrame: i % 60 === 0}); vf.close(); i++;
+      if (i % 3 === 0){ ui.progress(i / N); await new Promise(r => setTimeout(r, 0)); }
+    };
+    // footage: play each clip once and take frames as they're shown (no frame-by-frame seeking: that's slow on phones)
+    for (const seg of segs){
+      const v = seg.c.el, lastI = Math.min(N, Math.ceil(seg.t1 * FPS));
+      if (i >= lastI) continue;
+      await seekTo(v, 0);
+      if (v.requestVideoFrameCallback){
+        v.playbackRate = 0.5; await v.play().catch(() => {});   // half speed gives slower phones time to keep up
+        while (i < lastI && !failed){
+          const media = await new Promise(res => { let done = false; const fin = m => { if (!done){ done = true; res(m); } };
+            v.requestVideoFrameCallback((now, md) => fin(md.mediaTime)); setTimeout(() => fin(v.currentTime), 250); });
+          const reached = v.ended || v.paused ? Infinity : media;
+          while (i < lastI && i / FPS - seg.t0 <= reached + 0.001 && !failed) await emit(true);
+          if (v.ended) break;
+        }
+        v.pause();
+      }
+      while (i < lastI && !failed) await emit(false);     // no frame callbacks: fall back to seeking
+    }
+    while (i < N && !failed) await emit(false);           // after the footage: background + end card
+    if (failed) throw failed;
+    await venc.flush(); venc.close(); muxer.finalize(); ui.progress(1);
+    return new Blob([muxer.target.buffer], {type: "video/mp4"});
+  }
+  // fallback: play it in real time and record the screen and voice together
+  const mime = ["video/mp4;codecs=avc1,mp4a.40.2", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm"].find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m));
+  if (!mime) throw new Error("This browser can't make video. Use Safari or Chrome");
+  ui.status("Recording in real time. Keep this screen open…");
+  const stream = cv.captureStream(30), actx = new AudioContext(), dest = actx.createMediaStreamDestination();
+  if (voice){ const b = actx.createBuffer(1, pcm.length, RATE); b.copyToChannel(pcm, 0); const s = actx.createBufferSource(); s.buffer = b; s.connect(dest); s.start(); }
+  dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
+  const chunks = [], mr = new MediaRecorder(stream, {mimeType: mime, videoBitsPerSecond: 8_000_000}); mr.ondataavailable = e => e.data.size && chunks.push(e.data);
+  const stopped = new Promise(r => mr.onstop = r); mr.start(250);
+  let curSeg = null; const t0 = performance.now();
+  await new Promise(res => { const tick = async () => { const t = (performance.now() - t0) / 1000;
+    const seg = segs.find(s => t >= s.t0 && t < s.t1);
+    if (seg && seg !== curSeg){ if (curSeg) curSeg.c.el.pause(); curSeg = seg; seg.c.el.currentTime = 0; seg.c.el.play().catch(() => {}); }
+    await draw(Math.min(t, total), true); ui.progress(Math.min(1, t / total));
+    if (t < total) requestAnimationFrame(tick); else res(); }; requestAnimationFrame(tick); });
+  if (curSeg) curSeg.c.el.pause();
+  mr.stop(); await stopped; actx.close();
+  return new Blob(chunks, {type: mime.split(";")[0]});
+}
+
+// ---------- UI
+function renderPlays(){
+  plays = buildPlays();
+  $("#play").innerHTML = plays.length ? plays.map((p, i) => `<option value="${i}">${p.date === etYmd(new Date()) ? "" : niceDay(p.date) + " · "}${p.potd ? "💎 " : p.vip ? "VIP · " : ""}${p.sport} · ${p.selection} ${price(p.price)} · ${units(p.stake || p.units)}</option>`).join("")
+    : `<option>No plays posted yet today</option>`;
+}
+function renderStyles(){
+  const S = [["hype","Hype"],["breakdown","Breakdown"],["quick","Quick"]];
+  $("#styles").innerHTML = S.map(([k, l]) => `<button class="chip ${style === k ? "on" : ""}" data-s="${k}">${l}</button>`).join("");
+  document.querySelectorAll("#styles .chip").forEach(c => c.onclick = () => { style = c.dataset.s; store.set("studioStyle", style); renderStyles(); $("#script").value = scriptFor(curPlay(), style); scriptNote(); });
+}
+function scriptNote(){ const n = $("#script").value.trim().split(/\s+/).filter(Boolean).length; $("#scriptNote").textContent = `${n} words ≈ ${Math.round(n / 2.6)} seconds of voice. Edit anything; tap a style to start over.`; }
+function renderVoiceMode(){
+  $("#voiceMode").innerHTML = [["eleven","ElevenLabs voice"],["none","No voice (captions only)"]].map(([k, l]) => `<button class="chip ${voiceMode === k ? "on" : ""}" data-v="${k}">${l}</button>`).join("");
+  document.querySelectorAll("#voiceMode .chip").forEach(c => c.onclick = () => { voiceMode = c.dataset.v; store.set("studioVoiceMode", voiceMode); renderVoiceMode(); });
+  $("#elBox").hidden = voiceMode !== "eleven";
+  $("#speed").innerHTML = [[0.95,"Calm"],[1.05,"Normal"],[1.15,"Fast"]].map(([k, l]) => `<button class="chip ${speed === k ? "on" : ""}" data-sp="${k}">${l}</button>`).join("");
+  document.querySelectorAll("#speed .chip").forEach(c => c.onclick = () => { speed = +c.dataset.sp; store.set("studioSpeed", speed); renderVoiceMode(); });
+}
+function renderClips(){
+  $("#clips").innerHTML = clips.map((c, i) => `<div class="clip"><video src="${c.url}" muted playsinline preload="metadata"></video><div class="m"><b>${c.file.name}</b>${c.dur ? c.dur.toFixed(1) + "s" : "…"}</div>
+    <button data-up="${i}" aria-label="Move up" ${i ? "" : "disabled"}>↑</button><button data-rm="${i}" aria-label="Remove">✕</button></div>`).join("");
+  document.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { const [c] = clips.splice(+b.dataset.rm, 1); c.el.remove(); URL.revokeObjectURL(c.url); renderClips(); });
+  document.querySelectorAll("[data-up]").forEach(b => b.onclick = () => { const i = +b.dataset.up; [clips[i-1], clips[i]] = [clips[i], clips[i-1]]; renderClips(); });
+}
+$("#files").onchange = ev => {
+  for (const f of ev.target.files){
+    const url = URL.createObjectURL(f), el = document.createElement("video"); el.muted = true; el.playsInline = true; el.preload = "auto"; el.src = url;
+    el.setAttribute("playsinline", ""); el.style.cssText = "position:fixed;left:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none"; document.body.appendChild(el);
+    const c = {file: f, url, el, dur: 0}; clips.push(c);
+    el.onloadedmetadata = () => { c.dur = el.duration; renderClips(); };
+  }
+  ev.target.value = ""; renderClips();
+};
+$("#play").onchange = () => { $("#script").value = scriptFor(curPlay(), style); scriptNote(); };
+$("#script").oninput = scriptNote;
+$("#handle").value = handle; $("#handle").oninput = e => { handle = e.target.value.trim(); store.set("shareHandle", handle); };
+$("#voice").onchange = e => { voiceId = e.target.value; store.set("studioVoice", voiceId); };
+$("#key").value = KEY ? "••••••••••••" : "";
+$("#saveKey").onclick = () => { const v = $("#key").value.trim(); if (!v || v.startsWith("•")) return toast("Paste your key first"); KEY = v; store.set("elevenKey", KEY); $("#key").value = "••••••••••••"; loadVoices(); };
+$("#clearKey").onclick = () => { KEY = ""; store.del("elevenKey"); $("#key").value = ""; $("#keyNote").textContent = "Key removed from this phone."; loadVoices(); };
+$("#preview").onclick = async () => {
+  const b = $("#preview"); b.disabled = true; b.textContent = "Getting voice…";
+  try { if (!KEY) throw new Error("Add your ElevenLabs key first"); const r = await speak($("#script").value.trim());
+    const actx = new AudioContext(), s = actx.createBufferSource(); s.buffer = r.buf; s.connect(actx.destination); s.start(); s.onended = () => actx.close();
+  } catch(e){ toast(e.message); $("#setup").open = !KEY; }
+  finally { b.disabled = false; b.textContent = "▶ Hear it"; }
+};
+$("#make").onclick = async () => {
+  const btn = $("#make"); btn.disabled = true; btn.textContent = "Making video…";
+  $("#result").innerHTML = `<div class="stage"><canvas id="cv"></canvas></div><div class="bar"><i id="bar"></i></div><div class="note" id="status" style="text-align:center"></div>`;
+  let blob = null;
+  try { blob = await makeVideo({canvas: $("#cv"), progress: p => { const b = $("#bar"); if (b) b.style.width = (p*100).toFixed(1) + "%"; }, status: m => { $("#status").textContent = m; }}); }
+  catch(e){ $("#status").innerHTML = `<span class="bad">${e.message || e}</span>`; }
+  finally { btn.disabled = false; btn.textContent = "🎬 Make video again"; }
+  if (!blob) return;
+  const ext = blob.type.includes("mp4") ? "mp4" : "webm", url = URL.createObjectURL(blob), p = curPlay();
+  const name = `${(p ? p.selection : "video").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.${ext}`, file = new File([blob], name, {type: blob.type});
+  $("#result").innerHTML = `<div class="stage"><video src="${url}" controls playsinline autoplay></video></div>
+    <div class="btns"><button class="btn gold" id="shareV">Share video</button><button class="btn" id="saveV">Save</button></div>
+    <div class="note">Add music inside TikTok or Instagram when you post.${ext === "webm" ? " This browser made a .webm file; on your iPhone, Safari makes .mp4." : ""}</div>`;
+  $("#saveV").onclick = () => { const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); };
+  $("#shareV").onclick = async () => { if (navigator.canShare && navigator.canShare({files: [file]})){ try { await navigator.share({files: [file]}); } catch(e){} } else $("#saveV").click(); };
+};
+
+renderStyles(); renderVoiceMode();
+Promise.all([
+  fetch("../hub/ledger.json", {cache: "no-store"}).then(r => r.json()),
+  fetch("../hub/teams.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+  ...Object.entries(FOLDERS).map(([code, f]) => fetch(`../${f}/plays.json`, {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).catch(() => ({plays: []}))
+    .then(j => [code, Object.fromEntries((j.plays || []).map(p => [p.id, p]))]))
+]).then(([ledger, teams, ...feeds]) => { H.ledger = ledger; H.teams = teams; H.feeds = Object.fromEntries(feeds);
+  renderPlays(); $("#script").value = scriptFor(curPlay(), style); scriptNote(); loadVoices(); })
+  .catch(e => toast("Couldn't load plays: " + e.message));
+</script>
+</body>
+</html>
