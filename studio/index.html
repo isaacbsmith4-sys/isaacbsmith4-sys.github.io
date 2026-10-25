@@ -138,7 +138,7 @@ const units = u => `${+u % 1 ? (+u).toFixed(1) : +u}U`;
 const pct = p => p == null ? "–" : Math.round(p*100) + "%";
 
 // ---------- state
-let H = {ledger: [], feeds: {}, teams: {}}, plays = [], clips = [];   // clips: [{file, url, el, dur}]
+let H = {ledger: [], feeds: {}, teams: {}, nfl: {}}, plays = [], clips = [];   // clips: [{file, url, el, dur}]
 let handle = store.get("shareHandle", ""), style = store.get("studioStyle", "hype"), speed = store.get("studioSpeed", 1.05);
 let voiceMode = store.get("studioVoiceMode", "eleven"), voiceId = store.get("studioVoice", ""), KEY = store.get("elevenKey", "");
 let voiceCache = {text: null, voice: null, speed: null, result: null};
@@ -167,6 +167,27 @@ function teamOf(sp, name){
 }
 const teamsOf = e => String(e.event || "").split(/\s+(?:@|vs\.?|at)\s+/i).slice(0,2).map(t => teamOf(e.sport, t)).filter(Boolean);
 
+// ---------- the model's numbers behind a play: its projection vs. the line, where the line opened, recent games
+const statName = sel => { const m = String(sel).match(/\d+(?:\.\d+)?\s+(.+)$/); return m ? m[1] : ""; };
+const num1 = x => (Math.round(x * 10) / 10).toString();
+function nums(p){
+  if (!p) return null;
+  const f = {...((H.feeds[p.sport] || {})[p.id] || {})}; for (const [k, v] of Object.entries(p)) if (v != null) f[k] = v;
+  const over = /\bover\b/i.test(f.selection), under = /\bunder\b/i.test(f.selection);
+  if (f.proj != null && f.line != null) return {line: +f.line, proj: +f.proj, open: f.open_line, recent: f.recent, label: statName(f.selection), over, under};
+  if (f.sport === "NFL" && f.market === "prop"){
+    const m = /^nfl-[^-]+-(\d\d-\d+)-(.+)$/.exec(f.id), x = m && H.nfl[m[1] + "|" + m[2]];
+    if (x && x.proj != null) return {line: +x.line, proj: +x.proj, open: x.open, label: statName(f.selection), over, under};
+  }
+  const e = parseFloat(f.edge_display);
+  if (/pts/.test(f.edge_display || "") && f.line != null && !isNaN(e)){
+    if (f.market === "total") return {line: +f.line, proj: over ? +f.line + e : +f.line - e, label: "total points", over, under};
+    if (f.market === "spread") return {line: +f.line, proj: +f.line - e, label: "spread", spread: true, team: f.selection.replace(/\s[+-]?\d.*$/, "")};
+  }
+  return null;
+}
+const fmtLine = (n, v) => n.spread ? `${v > 0 ? "+" : ""}${num1(v)}` : num1(v);
+
 // ---------- script styles (spoken words: "minus 118", "moneyline", so the voice reads it right)
 const SAY = [[/\bML\b/g,"moneyline"],[/(^|\s)-(\d)/g,"$1minus $2"],[/(^|\s)\+(\d)/g,"$1plus $2"],[/\bu(\d)/g,"under $1"],[/\bo(\d)/g,"over $1"],[/(\d)U\b/g,"$1 units"],[/\b1 units\b/g,"1 unit"],[/ @ /g," at "]];
 const spoken = s => SAY.reduce((a, [r, t]) => a.replace(r, t), s);
@@ -174,11 +195,13 @@ function scriptFor(p, st){
   if (!p) return "";
   const sel = spoken(p.selection), pr = spoken(price(p.price)), m = Math.round((p.model_prob||0)*100), b = Math.round((p.market_prob||0)*100);
   const u = spoken(units(p.stake || p.units)), name = p.potd ? TOP : `our ${p.sport} play`;
-  const why = ((H.feeds[p.sport] || {})[p.id] || p).why || [];
+  const why = ((H.feeds[p.sport] || {})[p.id] || p).why || [], n0 = nums(p), n = n0 && scenesFor(p).some(s => s.kind === "proj") ? n0 : null;
+  const projLine = !n ? "" : n.spread ? `Vegas has ${n.team} at ${spoken(fmtLine(n, n.line))}. Our model makes it ${spoken(fmtLine(n, n.proj))}. `
+    : `Vegas set the line at ${num1(n.line)}. Our model projects ${num1(n.proj)}. `;
   if (st === "quick") return `${p.potd ? TOP : "Play"} tonight: ${sel}, ${pr}. ${u}. Every play tracked. Follow for the rest.`;
   if (st === "breakdown") return `Here's ${name} for tonight. ${sel}, at ${pr}. ` +
-    (why[0] ? `${why[0].replace(/\s*;\s*/g, ". ")}. ` : "") + `The model has it at ${m} percent. The book is at ${b}. That gap is the edge. We're on it for ${u}. Every play is tracked, wins and losses. Follow so you don't miss the next one.`;
-  return `Vegas is wrong on this one. ${name}: ${sel}, ${pr}. Our model gives it a ${m} percent chance. The book only gives it ${b}. We're on it for ${u}. Follow for every play.`;
+    projLine + (why[0] ? `${why[0].replace(/\s*;\s*/g, ". ")}. ` : "") + `The model has it at ${m} percent. The book is at ${b}. That gap is the edge. We're on it for ${u}. Every play is tracked, wins and losses. Follow so you don't miss the next one.`;
+  return `Vegas is wrong on this one. ${p.potd ? TOP : `Our ${p.sport} play`}: ${sel}, ${pr}. The book gives it a ${b} percent chance. Our model gives it ${m}. ${projLine}We're on it for ${u}. Follow for every play.`;
 }
 
 // ---------- ElevenLabs
@@ -301,6 +324,117 @@ function caption(ctx, group, t){
   });
   ctx.restore();
 }
+// ---------- graphics that pop up over the footage (up to 3 per video)
+function scenesFor(p){
+  const n = nums(p), S = [];
+  if (p.model_prob != null && p.market_prob != null) S.push({kind: "prob"});
+  // projection only when it clearly sits on our side of the line (a mean right on the line reads as "−0")
+  const tol = n ? Math.max(0.3, Math.abs(n.line) * 0.03) : 0;
+  const projOk = n && (n.spread ? Math.abs(n.proj - n.line) >= 0.5 : (n.over ? n.proj >= n.line + tol : n.under ? n.proj <= n.line - tol : false));
+  if (projOk) S.push({kind: "proj", n});
+  const hitRate = n && n.recent && n.recent.length >= 5 ? n.recent.filter(r => n.under ? +r.val < n.line : +r.val > n.line).length / n.recent.length : 0;
+  if (hitRate >= 0.5) S.push({kind: "recent", n});
+  else if (n && n.open != null && +n.open !== n.line) S.push({kind: "move", n});
+  else S.push({kind: "edge"});
+  return S.slice(0, 3);
+}
+const ease = x => 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3);
+function panel(ctx, title, a, rise){
+  const x = PAD - 8, y = 540 + rise, w = W - 2*PAD + 16, h = 620;
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.shadowColor = "rgba(0,0,0,.6)"; ctx.shadowBlur = 40; rr(ctx, x, y, w, h, 34); ctx.fillStyle = "rgba(10,12,18,.9)"; ctx.fill(); ctx.shadowBlur = 0;
+  ctx.lineWidth = 3; ctx.strokeStyle = "rgba(240,184,71,.55)"; ctx.stroke();
+  rr(ctx, x + 36, y + 34, 10, 34, 5); ctx.fillStyle = goldGrad(ctx, x, y, 10, 34); ctx.fill();
+  ctx.fillStyle = C.gold; ctx.font = `800 30px ${BODY}`; ctx.textBaseline = "middle"; ctx.fillText(title, x + 62, y + 52);
+  return {x: x + 36, y: y + 100, w: w - 72, h: h - 130};
+}
+function sceneProb(ctx, p, k, a, rise){
+  const b = panel(ctx, "VEGAS vs. THE MODEL", a, rise), m = p.model_prob, v = p.market_prob;
+  ctx.textBaseline = "alphabetic"; ctx.fillStyle = C.ink; ctx.font = `900 64px ${DISPLAY}`;
+  ctx.fillText("CHANCE IT HITS", b.x, b.y + 50);
+  [["VEGAS", v, false], ["MODEL", m, true]].forEach(([lbl, val, gold], i) => {
+    const y = b.y + 130 + i*170, bx = b.x + 190, bw = b.w - 190 - 170, f = ease((k - 0.15 - i*0.25) / 0.8);
+    ctx.fillStyle = gold ? C.gold : C.ink2; ctx.font = `900 44px ${DISPLAY}`; ctx.fillText(lbl, b.x, y + 40);
+    rr(ctx, bx, y, bw, 56, 28); ctx.fillStyle = "rgba(255,255,255,.08)"; ctx.fill();
+    rr(ctx, bx, y, Math.max(56, bw * val * f), 56, 28); ctx.fillStyle = gold ? goldGrad(ctx, bx, y, bw, 56) : "#6b7489"; ctx.fill();
+    ctx.textAlign = "right"; ctx.fillStyle = gold ? C.gold : C.ink; ctx.font = `900 96px ${DISPLAY}`; ctx.fillText(Math.round(val * 100 * f) + "%", b.x + b.w, y + 58); ctx.textAlign = "left";
+  });
+  const gap = Math.round((m - v) * 100);
+  if (k > 1.2){ ctx.globalAlpha = a * ease((k - 1.2) / 0.4); ctx.fillStyle = C.gold; ctx.font = `800 34px ${BODY}`; ctx.fillText(`${gap > 0 ? "+" : ""}${gap} points in our favor`, b.x, b.y + b.h - 10); ctx.globalAlpha = a; }
+  ctx.restore();
+}
+function sceneProj(ctx, p, n, k, a, rise){
+  const b = panel(ctx, n.spread ? "THE SPREAD vs. THE MODEL" : "THE LINE vs. THE MODEL", a, rise);
+  ctx.textBaseline = "alphabetic";
+  const L = n.line, P = n.proj, lo = Math.min(L, P), hi = Math.max(L, P), pad = Math.max((hi - lo) * 0.7, Math.abs(hi) * 0.08, 1);
+  const x0 = b.x + 30, x1 = b.x + b.w - 30, X = v => x0 + (v - (lo - pad)) / (hi + pad - (lo - pad)) * (x1 - x0);
+  // the two numbers, big
+  ctx.fillStyle = C.ink2; ctx.font = `800 30px ${BODY}`; ctx.fillText(n.spread ? `VEGAS · ${n.team.toUpperCase()}` : "VEGAS LINE", b.x, b.y + 30);
+  ctx.textAlign = "right"; ctx.fillStyle = C.gold; ctx.fillText(n.spread ? "MODEL'S LINE" : "MODEL PROJECTS", b.x + b.w, b.y + 30); ctx.textAlign = "left";
+  const f = ease((k - 0.2) / 0.9), shown = L + (P - L) * f;
+  ctx.fillStyle = C.ink; ctx.font = `900 120px ${DISPLAY}`; ctx.fillText(fmtLine(n, L), b.x, b.y + 150);
+  ctx.textAlign = "right"; ctx.fillStyle = C.gold; ctx.fillText(fmtLine(n, shown), b.x + b.w, b.y + 150); ctx.textAlign = "left";
+  // the number line
+  const ay = b.y + 330;
+  ctx.strokeStyle = "rgba(255,255,255,.25)"; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(x0, ay); ctx.lineTo(x1, ay); ctx.stroke();
+  const xa = X(L), xb = X(shown);
+  ctx.fillStyle = "rgba(240,184,71,.28)"; ctx.fillRect(Math.min(xa, xb), ay - 26, Math.abs(xb - xa), 52);
+  ctx.fillStyle = C.ink; ctx.fillRect(xa - 4, ay - 60, 8, 120);
+  ctx.font = `800 26px ${BODY}`; ctx.textAlign = "center"; ctx.fillText("LINE", xa, ay + 92);
+  ctx.beginPath(); ctx.arc(xb, ay, 30, 0, Math.PI*2); ctx.fillStyle = goldGrad(ctx, xb - 30, ay - 30, 60, 60); ctx.fill();
+  ctx.fillStyle = C.gold; ctx.fillText("MODEL", xb, ay - 60);
+  if (k > 1.1){ const d = P - L; ctx.globalAlpha = a * ease((k - 1.1) / 0.4); ctx.font = `900 52px ${DISPLAY}`; ctx.fillStyle = C.gold;
+    ctx.fillText(n.spread ? `${num1(Math.abs(d))} PTS OF VALUE` : `${d > 0 ? "+" : "−"}${num1(Math.abs(d))} ${n.label.toUpperCase()}`, W/2, ay + 165); ctx.globalAlpha = a; }
+  ctx.textAlign = "left"; ctx.restore();
+}
+function sceneRecent(ctx, p, n, k, a, rise){
+  const b = panel(ctx, `LAST ${n.recent.length} GAMES`, a, rise);
+  const vals = n.recent.map(r => +r.val), hit = v => n.under ? v < n.line : v > n.line, hits = vals.filter(hit).length;
+  ctx.textBaseline = "alphabetic"; ctx.fillStyle = C.ink; ctx.font = `900 64px ${DISPLAY}`;
+  ctx.fillText(`${hits} OF ${vals.length} ${n.under ? "UNDER" : "OVER"} ${num1(n.line)}`, b.x, b.y + 50);
+  const top = b.y + 110, base = b.y + b.h - 50, hmax = base - top, max = Math.max(...vals, n.line) * 1.15 || 1;
+  const gw = b.w / vals.length, bw = gw * 0.62;
+  vals.forEach((v, i) => {
+    const g = ease((k - 0.15 - i*0.06) / 0.5), h = Math.max(6, (v / max) * hmax * g), x = b.x + i*gw + (gw - bw)/2;
+    rr(ctx, x, base - h, bw, h, 10); ctx.fillStyle = hit(v) ? goldGrad(ctx, x, base - h, bw, h) : "rgba(255,255,255,.22)"; ctx.fill();
+    if (g > .9){ ctx.fillStyle = hit(v) ? C.gold : C.ink2; ctx.font = `900 34px ${DISPLAY}`; ctx.textAlign = "center"; ctx.fillText(String(v), x + bw/2, base - h - 12); ctx.textAlign = "left"; }
+  });
+  const ly = base - (n.line / max) * hmax;
+  ctx.setLineDash([16, 12]); ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(b.x, ly); ctx.lineTo(b.x + b.w, ly); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = "#fff"; ctx.font = `800 24px ${BODY}`; ctx.textAlign = "right"; ctx.fillText(`LINE ${num1(n.line)}`, b.x + b.w, ly - 10); ctx.textAlign = "left";
+  ctx.restore();
+}
+function sceneMove(ctx, p, n, k, a, rise){
+  const b = panel(ctx, "LINE MOVEMENT", a, rise);
+  ctx.textBaseline = "alphabetic"; const f = ease((k - 0.2) / 0.8);
+  ctx.fillStyle = C.ink2; ctx.font = `800 32px ${BODY}`; ctx.fillText("OPENED", b.x + 20, b.y + 110); ctx.textAlign = "right"; ctx.fillText("NOW", b.x + b.w - 20, b.y + 110); ctx.textAlign = "left";
+  ctx.fillStyle = C.ink; ctx.font = `900 150px ${DISPLAY}`; ctx.fillText(fmtLine(n, +n.open), b.x + 20, b.y + 260);
+  ctx.textAlign = "right"; ctx.fillStyle = C.gold; ctx.globalAlpha = a * f; ctx.fillText(fmtLine(n, n.line), b.x + b.w - 20, b.y + 260); ctx.globalAlpha = a; ctx.textAlign = "left";
+  const ax0 = b.x + 330, ax1 = ax0 + (b.w - 660) * f, ay = b.y + 205;
+  ctx.strokeStyle = C.gold; ctx.lineWidth = 10; ctx.beginPath(); ctx.moveTo(ax0, ay); ctx.lineTo(ax1, ay); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ax1 + 28, ay); ctx.lineTo(ax1 - 6, ay - 26); ctx.lineTo(ax1 - 6, ay + 26); ctx.closePath(); ctx.fillStyle = C.gold; ctx.fill();
+  ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`; ctx.fillText(`Model projects ${fmtLine(n, n.proj)} ${n.spread ? "" : n.label}`.trim(), b.x + 20, b.y + b.h - 30);
+  ctx.restore();
+}
+function sceneEdge(ctx, p, k, a, rise){
+  const b = panel(ctx, "THE EDGE", a, rise), cx = W/2, cy = b.y + 230, r = 170, f = ease((k - 0.15) / 0.9);
+  const e = Math.min(1, Math.abs(p.edge_prob || 0.1) * 3);
+  ctx.lineWidth = 34; ctx.lineCap = "round"; ctx.strokeStyle = "rgba(255,255,255,.1)"; ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI*0.75, Math.PI*2.25); ctx.stroke();
+  ctx.strokeStyle = goldGrad(ctx, cx - r, cy - r, 2*r, 2*r); ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI*0.75, Math.PI*0.75 + Math.PI*1.5*e*f); ctx.stroke(); ctx.lineCap = "butt";
+  ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = C.gold; fitFont(ctx, p.edge_display || "", 900, 120, DISPLAY, 260); ctx.fillText(p.edge_display || "", cx, cy);
+  ctx.fillStyle = C.ink; ctx.font = `900 64px ${DISPLAY}`; ctx.fillText(`${units(p.stake || p.units)} PLAY`, cx, b.y + b.h - 40);
+  ctx.textAlign = "left"; ctx.restore();
+}
+function drawScene(ctx, sc, p, t){
+  const k = t - sc.t0, dur = sc.t1 - sc.t0;
+  if (k < 0 || k > dur) return;
+  const a = Math.min(ease(k / 0.3), ease((dur - k) / 0.25)), rise = (1 - ease(k / 0.35)) * 60;
+  if (sc.kind === "prob") sceneProb(ctx, p, k, a, rise);
+  else if (sc.kind === "proj") sceneProj(ctx, p, sc.n, k, a, rise);
+  else if (sc.kind === "recent") sceneRecent(ctx, p, sc.n, k, a, rise);
+  else if (sc.kind === "move") sceneMove(ctx, p, sc.n, k, a, rise);
+  else sceneEdge(ctx, p, k, a, rise);
+}
 function endCard(ctx, p, a, logos, rec){
   ctx.save(); ctx.globalAlpha = a;
   ctx.fillStyle = "rgba(8,9,14,.94)"; ctx.fillRect(0, 0, W, H2);
@@ -366,6 +500,14 @@ async function makeVideo(ui){
   const groups = captionGroups(words), vend = LEAD + talk + 0.25, total = vend + END;
   const logos = await Promise.all(teamsOf(p).map(t => loadImg(t.l)));
   const rec = record(), segs = timeline(vend);
+  // each graphic pops up when the voice gets to it ("…percent chance…", "…projects…"); otherwise spaced evenly
+  const scenes = scenesFor(p), s0 = 1.5, per = Math.max(2.4, (vend - 0.4 - s0) / Math.max(scenes.length, 1));
+  const cue = re => { const w = words.find(x => re.test(x.w) && x.t0 > 0.8); return w ? Math.max(0.8, w.t0 - 0.25) : null; };
+  const CUES = {prob: /^(percent|chance|book|vegas)/i, proj: /^(projects?|makes|line)/i};
+  let tPrev = s0;
+  scenes.forEach((sc, i) => { const c = CUES[sc.kind] ? cue(CUES[sc.kind]) : null; sc.t0 = Math.max(tPrev, c != null ? c : s0 + i*per); tPrev = sc.t0 + 2.4; });
+  scenes.forEach((sc, i) => { const next = scenes[i + 1]; sc.t1 = Math.min(vend - 0.15, next ? next.t0 - 0.15 : sc.t0 + Math.max(2.6, per), sc.t0 + 4.2); });
+  const shown = scenes.filter(sc => sc.t1 - sc.t0 > 1.2);
   const cv = ui.canvas; cv.width = W; cv.height = H2; const ctx = cv.getContext("2d");
   const bg = document.createElement("canvas"); bg.width = W; bg.height = H2; brandBg(bg.getContext("2d"), logos);
   const draw = async (t, live) => {
@@ -376,6 +518,7 @@ async function makeVideo(ui){
       ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H2); drawCover(ctx, seg.c.el);
     } else { const z = 1 + 0.04*t/total; ctx.save(); ctx.translate(W/2, H2/2); ctx.scale(z, z); ctx.drawImage(bg, -W/2, -H2/2); ctx.restore(); }
     if (t < vend) banner(ctx, p, Math.min(1, t / 0.4));
+    if (t < vend) shown.forEach(sc => drawScene(ctx, sc, p, t));
     if (t < vend) caption(ctx, groups.find(g => t >= g.t0 && t < g.t1 + 0.15), t);
     if (t >= vend) endCard(ctx, p, Math.min(1, (t - vend) / 0.45), logos, rec);
   };
@@ -523,9 +666,13 @@ renderStyles(); renderVoiceMode();
 Promise.all([
   fetch("../hub/ledger.json", {cache: "no-store"}).then(r => r.json()),
   fetch("../hub/teams.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+  fetch("../nfl/props.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {}).catch(() => ({})),
   ...Object.entries(FOLDERS).map(([code, f]) => fetch(`../${f}/plays.json`, {cache: "no-store"}).then(r => r.ok ? r.json() : {plays: []}).catch(() => ({plays: []}))
     .then(j => [code, Object.fromEntries((j.plays || []).map(p => [p.id, p]))]))
-]).then(([ledger, teams, ...feeds]) => { H.ledger = ledger; H.teams = teams; H.feeds = Object.fromEntries(feeds);
+]).then(([ledger, teams, nflProps, ...feeds]) => { H.ledger = ledger; H.teams = teams; H.feeds = Object.fromEntries(feeds);
+  H.nfl = {};   // "playerId|market" -> {line, open, proj}
+  for (const g of Object.values((nflProps && nflProps.games) || {})) for (const pl of (Array.isArray(g) ? g : []))
+    for (const [mk, ln] of Object.entries(pl.lines || {})) H.nfl[pl.id + "|" + mk] = {line: ln.line, open: ln.open, proj: ln.proj};
   renderPlays(); $("#script").value = scriptFor(curPlay(), style); scriptNote(); loadVoices(); })
   .catch(e => toast("Couldn't load plays: " + e.message));
 </script>
