@@ -2,7 +2,7 @@
  "sport": "NBA",
  "app": "NBA Model",
  "format": 1,
- "generated_at": "2026-10-25T00:31Z",
+ "generated_at": "2026-10-25T01:34Z",
  "plays": [
   {
    "id": "nba-401909088-4351852-reb",
@@ -7106,8 +7106,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.961,
    "beat_close": null
   },
   {
@@ -7128,8 +7128,8 @@
    "edge_display": "12%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.02,
    "beat_close": true
   },
   {
@@ -7172,8 +7172,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -7216,37 +7216,9 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
-  },
-  {
-   "id": "nba-401909856-3202-ast",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
-   "event": "Rockets @ Hawks",
-   "market": "prop",
-   "selection": "Kevin Durant over 4.5 assists",
-   "player": "Kevin Durant",
-   "line": 4.5,
-   "price": 122.0,
-   "model_prob": 0.51,
-   "market_prob": 0.422,
-   "edge_prob": 0.087,
-   "ev": 0.131,
-   "edge_display": "9%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Alperen Sengun in, Amen Thompson in tonight; 70 of his past games match that",
-    "Went over 4.5 in 7 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "About 86 minutes of teammates out tonight"
-   ],
-   "flags": []
   },
   {
    "id": "nba-401909857-4397189-reb",
@@ -7310,8 +7282,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.24,
    "beat_close": null
   },
   {
@@ -7332,8 +7304,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -7354,8 +7326,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.15,
    "beat_close": true
   },
   {
@@ -7379,6 +7351,28 @@
    "status": "pending",
    "result_units": null,
    "beat_close": true
+  },
+  {
+   "id": "nba-401909856-4701230-reb",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Hawks vs Rockets",
+   "market": "prop",
+   "selection": "Jalen Johnson under 9.5 rebounds",
+   "player": "Jalen Johnson",
+   "line": 9.5,
+   "price": -115.0,
+   "model_prob": 0.588,
+   "market_prob": 0.501,
+   "edge_prob": 0.087,
+   "ev": 0.099,
+   "edge_display": "9%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": false
   },
   {
    "id": "nba-401909858-5037871-ast",
@@ -7420,8 +7414,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.725,
    "beat_close": true
   },
   {
@@ -7442,8 +7436,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.617,
    "beat_close": null
   },
   {
@@ -7530,37 +7524,9 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.781,
    "beat_close": true
-  },
-  {
-   "id": "nba-401909860-4397040-ast",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T02:00Z",
-   "event": "Warriors @ Suns",
-   "market": "prop",
-   "selection": "Brandon Williams under 4.5 assists",
-   "player": "Brandon Williams",
-   "line": 4.5,
-   "price": 101.0,
-   "model_prob": 0.537,
-   "market_prob": 0.467,
-   "edge_prob": 0.07,
-   "ev": 0.079,
-   "edge_display": "7%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Stephen Curry out, Brandin Podziemski out tonight; 0 of his past games match that",
-    "Went over 4.5 in 6 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "About 120 minutes of teammates out tonight"
-   ],
-   "flags": []
   },
   {
    "id": "nba-401909855-5124612-ast",
@@ -7629,6 +7595,28 @@
    "beat_close": null
   },
   {
+   "id": "nba-401909859-5144091-ast",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Pelicans vs Nuggets",
+   "market": "prop",
+   "selection": "Jeremiah Fears over 2.5 assists",
+   "player": "Jeremiah Fears",
+   "line": 2.5,
+   "price": 100.0,
+   "model_prob": 0.535,
+   "market_prob": 0.469,
+   "edge_prob": 0.067,
+   "ev": 0.071,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": true
+  },
+  {
    "id": "nba-401909853-4433249-reb",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -7646,8 +7634,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.901,
    "beat_close": true
   },
   {
@@ -7695,34 +7683,6 @@
    "beat_close": false
   },
   {
-   "id": "nba-401909860-4997536-reb",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T02:00Z",
-   "event": "Warriors @ Suns",
-   "market": "prop",
-   "selection": "Gui Santos under 5.5 rebounds",
-   "player": "Gui Santos",
-   "line": 5.5,
-   "price": -110.0,
-   "model_prob": 0.56,
-   "market_prob": 0.491,
-   "edge_prob": 0.069,
-   "ev": 0.069,
-   "edge_display": "7%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Stephen Curry out, Brandin Podziemski out tonight; 1 of his past games match that",
-    "Went over 5.5 in 4 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "About 120 minutes of teammates out tonight"
-   ],
-   "flags": []
-  },
-  {
    "id": "nba-401909854-4702177-reb",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -7745,32 +7705,70 @@
    "beat_close": null
   },
   {
-   "id": "nba-401909859-5144091-ast",
+   "id": "nba-401909856-3202-ast",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Pelicans @ Nuggets",
+   "start": null,
+   "event": "Rockets vs Hawks",
    "market": "prop",
-   "selection": "Jeremiah Fears over 2.5 assists",
-   "player": "Jeremiah Fears",
-   "line": 2.5,
-   "price": -103.0,
-   "model_prob": 0.539,
-   "market_prob": 0.475,
+   "selection": "Kevin Durant over 4.5 assists",
+   "player": "Kevin Durant",
+   "line": 4.5,
+   "price": 102.0,
+   "model_prob": 0.527,
+   "market_prob": 0.463,
    "edge_prob": 0.064,
-   "ev": 0.061,
+   "ev": 0.064,
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "why": [
-    "Role: Dejounte Murray in, Trey Murphy III in tonight; 12 of his past games match that, where his assists ran 24% lower",
-    "Went over 2.5 in 7 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Nuggets allow 8% more assists than average"
-   ],
-   "flags": []
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909859-4397688-ast",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Pelicans vs Nuggets",
+   "market": "prop",
+   "selection": "Trey Murphy III over 2.5 assists",
+   "player": "Trey Murphy III",
+   "line": 2.5,
+   "price": -116.0,
+   "model_prob": 0.569,
+   "market_prob": 0.502,
+   "edge_prob": 0.067,
+   "ev": 0.059,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": true
+  },
+  {
+   "id": "nba-401909859-4397688-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Pelicans vs Nuggets",
+   "market": "prop",
+   "selection": "Trey Murphy III over 2.5 threes",
+   "player": "Trey Murphy III",
+   "line": 2.5,
+   "price": 125.0,
+   "model_prob": 0.471,
+   "market_prob": 0.416,
+   "edge_prob": 0.054,
+   "ev": 0.059,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": true
   },
   {
    "id": "nba-401909859-4431767-fg3m",
@@ -7839,60 +7837,130 @@
    "beat_close": false
   },
   {
-   "id": "nba-401909860-4437244-ast",
+   "id": "nba-401909859-3907497-ast",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T02:00Z",
-   "event": "Suns vs Warriors",
+   "start": null,
+   "event": "Pelicans vs Nuggets",
    "market": "prop",
-   "selection": "Jalen Green under 3.5 assists",
-   "player": "Jalen Green",
-   "line": 3.5,
-   "price": 115.0,
-   "model_prob": 0.489,
-   "market_prob": 0.435,
-   "edge_prob": 0.054,
-   "ev": 0.052,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Devin Booker in, Dillon Brooks in tonight; 17 of his past games match that",
-    "Went over 3.5 in 4 of his last 10 games",
-    "Early season: 62% weighted to the book's expected number",
-    "Warriors allow 11% more assists than average"
-   ],
-   "flags": []
-  },
-  {
-   "id": "nba-401909859-4397688-ast",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Pelicans @ Nuggets",
-   "market": "prop",
-   "selection": "Trey Murphy III over 2.5 assists",
-   "player": "Trey Murphy III",
-   "line": 2.5,
+   "selection": "Dejounte Murray over 5.5 assists",
+   "player": "Dejounte Murray",
+   "line": 5.5,
    "price": -121.0,
-   "model_prob": 0.574,
+   "model_prob": 0.576,
    "market_prob": 0.512,
-   "edge_prob": 0.062,
-   "ev": 0.048,
+   "edge_prob": 0.064,
+   "ev": 0.053,
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
+   "beat_close": true
+  },
+  {
+   "id": "nba-401909856-4278039-reb",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Hawks vs Rockets",
+   "market": "prop",
+   "selection": "Nickeil Alexander-Walker under 3.5 rebounds",
+   "player": "Nickeil Alexander-Walker",
+   "line": 3.5,
+   "price": -154.0,
+   "model_prob": 0.637,
+   "market_prob": 0.568,
+   "edge_prob": 0.069,
+   "ev": 0.051,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909860-4397040-ast",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": "2026-10-25T02:00Z",
+   "event": "Warriors @ Suns",
+   "market": "prop",
+   "selection": "Brandon Williams under 4.5 assists",
+   "player": "Brandon Williams",
+   "line": 4.5,
+   "price": -110.0,
+   "model_prob": 0.551,
+   "market_prob": 0.491,
+   "edge_prob": 0.06,
+   "ev": 0.051,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
    "why": [
-    "Role: Dejounte Murray in, Zion Williamson in tonight; 16 of his past games match that, where his assists ran 11% lower",
-    "Went over 2.5 in 5 of his last 10 games",
+    "Role: Stephen Curry out, Brandin Podziemski out tonight; 0 of his past games match that",
+    "Went over 4.5 in 6 of his last 10 games",
     "Early season: 55% weighted to the book's expected number",
-    "Nuggets allow 8% more assists than average"
+    "About 120 minutes of teammates out tonight"
    ],
-   "flags": []
+   "flags": [],
+   "proj": 4.5,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-03-15",
+     "opp": "Cleveland Cavaliers",
+     "val": 5
+    },
+    {
+     "date": "2026-03-16",
+     "opp": "New Orleans Pelicans",
+     "val": 1
+    },
+    {
+     "date": "2026-03-25",
+     "opp": "Denver Nuggets",
+     "val": 6
+    },
+    {
+     "date": "2026-03-27",
+     "opp": "Portland Trail Blazers",
+     "val": 5
+    },
+    {
+     "date": "2026-03-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 7
+    },
+    {
+     "date": "2026-03-31",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-04-03",
+     "opp": "Orlando Magic",
+     "val": 5
+    },
+    {
+     "date": "2026-04-05",
+     "opp": "Los Angeles Lakers",
+     "val": 5
+    },
+    {
+     "date": "2026-10-21",
+     "opp": "Los Angeles Lakers",
+     "val": 3
+    },
+    {
+     "date": "2026-10-23",
+     "opp": "Memphis Grizzlies",
+     "val": 1
+    }
+   ]
   },
   {
    "id": "nba-401909856-4684740-reb",
@@ -7956,37 +8024,91 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
-   "id": "nba-401909856-4701230-reb",
+   "id": "nba-401909860-4437244-ast",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
-   "event": "Hawks vs Rockets",
+   "start": "2026-10-25T02:00Z",
+   "event": "Suns vs Warriors",
    "market": "prop",
-   "selection": "Jalen Johnson under 9.5 rebounds",
-   "player": "Jalen Johnson",
-   "line": 9.5,
-   "price": -142.0,
-   "model_prob": 0.615,
-   "market_prob": 0.55,
-   "edge_prob": 0.065,
-   "ev": 0.047,
-   "edge_display": "6%",
-   "tier": "Lean",
+   "selection": "Jalen Green under 3.5 assists",
+   "player": "Jalen Green",
+   "line": 3.5,
+   "price": 112.0,
+   "model_prob": 0.494,
+   "market_prob": 0.442,
+   "edge_prob": 0.051,
+   "ev": 0.046,
+   "edge_display": "5%",
+   "tier": "Light lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
    "why": [
-    "Role: Nickeil Alexander-Walker in, CJ McCollum in tonight; 44 of his past games match that",
-    "Went over 9.5 in 4 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Rockets allow 9% less rebounds than average"
+    "Role: Devin Booker in, Dillon Brooks in tonight; 17 of his past games match that",
+    "Went over 3.5 in 4 of his last 10 games",
+    "Early season: 62% weighted to the book's expected number",
+    "Warriors allow 11% more assists than average"
    ],
-   "flags": []
+   "flags": [],
+   "proj": 3.8,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-04-05",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-04-07",
+     "opp": "Houston Rockets",
+     "val": 1
+    },
+    {
+     "date": "2026-04-08",
+     "opp": "Dallas Mavericks",
+     "val": 0
+    },
+    {
+     "date": "2026-04-14",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    },
+    {
+     "date": "2026-04-17",
+     "opp": "Golden State Warriors",
+     "val": 4
+    },
+    {
+     "date": "2026-04-19",
+     "opp": "Oklahoma City Thunder",
+     "val": 1
+    },
+    {
+     "date": "2026-04-22",
+     "opp": "Oklahoma City Thunder",
+     "val": 3
+    },
+    {
+     "date": "2026-04-25",
+     "opp": "Oklahoma City Thunder",
+     "val": 6
+    },
+    {
+     "date": "2026-04-27",
+     "opp": "Oklahoma City Thunder",
+     "val": 4
+    },
+    {
+     "date": "2026-10-21",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    }
+   ]
   },
   {
    "id": "nba-401909853-4602025-reb",
@@ -8006,8 +8128,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -8050,8 +8172,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -8075,6 +8197,88 @@
    "status": "pending",
    "result_units": null,
    "beat_close": true
+  },
+  {
+   "id": "nba-401909860-4997536-reb",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": "2026-10-25T02:00Z",
+   "event": "Warriors @ Suns",
+   "market": "prop",
+   "selection": "Gui Santos under 5.5 rebounds",
+   "player": "Gui Santos",
+   "line": 5.5,
+   "price": -122.0,
+   "model_prob": 0.573,
+   "market_prob": 0.514,
+   "edge_prob": 0.059,
+   "ev": 0.043,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephen Curry out, Brandin Podziemski out tonight; 1 of his past games match that",
+    "Went over 5.5 in 4 of his last 10 games",
+    "Early season: 55% weighted to the book's expected number",
+    "About 120 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 5.3,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-03-27",
+     "opp": "Washington Wizards",
+     "val": 4
+    },
+    {
+     "date": "2026-03-29",
+     "opp": "Denver Nuggets",
+     "val": 10
+    },
+    {
+     "date": "2026-04-02",
+     "opp": "Cleveland Cavaliers",
+     "val": 4
+    },
+    {
+     "date": "2026-04-05",
+     "opp": "Houston Rockets",
+     "val": 4
+    },
+    {
+     "date": "2026-04-10",
+     "opp": "Sacramento Kings",
+     "val": 3
+    },
+    {
+     "date": "2026-04-12",
+     "opp": "Los Angeles Clippers",
+     "val": 7
+    },
+    {
+     "date": "2026-04-15",
+     "opp": "Los Angeles Clippers",
+     "val": 6
+    },
+    {
+     "date": "2026-04-17",
+     "opp": "Phoenix Suns",
+     "val": 6
+    },
+    {
+     "date": "2026-10-21",
+     "opp": "Los Angeles Lakers",
+     "val": 5
+    },
+    {
+     "date": "2026-10-23",
+     "opp": "Memphis Grizzlies",
+     "val": 4
+    }
+   ]
   },
   {
    "id": "nba-401909857-5174563-ast",
@@ -8121,34 +8325,6 @@
    "beat_close": null
   },
   {
-   "id": "nba-401909860-4278585-ast",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T02:00Z",
-   "event": "Suns vs Warriors",
-   "market": "prop",
-   "selection": "Collin Gillespie over 3.5 assists",
-   "player": "Collin Gillespie",
-   "line": 3.5,
-   "price": 129.0,
-   "model_prob": 0.454,
-   "market_prob": 0.409,
-   "edge_prob": 0.045,
-   "ev": 0.041,
-   "edge_display": "4%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Devin Booker in, Jalen Green in tonight; 34 of his past games match that",
-    "Went over 3.5 in 2 of his last 10 games",
-    "Early season: 62% weighted to the book's expected number",
-    "Warriors allow 11% more assists than average"
-   ],
-   "flags": []
-  },
-  {
    "id": "nba-401909855-4351851-fg3m",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -8171,62 +8347,26 @@
    "beat_close": null
   },
   {
-   "id": "nba-401909859-4397688-fg3m",
+   "id": "nba-401909856-4431680-reb",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Pelicans @ Nuggets",
+   "start": null,
+   "event": "Hawks vs Rockets",
    "market": "prop",
-   "selection": "Trey Murphy III over 2.5 threes",
-   "player": "Trey Murphy III",
-   "line": 2.5,
-   "price": 113.0,
-   "model_prob": 0.488,
-   "market_prob": 0.44,
-   "edge_prob": 0.049,
+   "selection": "Onyeka Okongwu under 6.5 rebounds",
+   "player": "Onyeka Okongwu",
+   "line": 6.5,
+   "price": -121.0,
+   "model_prob": 0.57,
+   "market_prob": 0.512,
+   "edge_prob": 0.057,
    "ev": 0.04,
-   "edge_display": "5%",
+   "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "why": [
-    "Role: Dejounte Murray in, Zion Williamson in tonight; 16 of his past games match that, where his 3-pointers ran 5% lower",
-    "Went over 2.5 in 4 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Model says 49%; book says 44%; realistic \u2248 48% (the model runs overconfident)"
-   ],
-   "flags": []
-  },
-  {
-   "id": "nba-401909859-3936299-reb",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Nuggets vs Pelicans",
-   "market": "prop",
-   "selection": "Jamal Murray over 4.5 rebounds",
-   "player": "Jamal Murray",
-   "line": 4.5,
-   "price": 110.0,
-   "model_prob": 0.495,
-   "market_prob": 0.446,
-   "edge_prob": 0.049,
-   "ev": 0.039,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Nikola Jokic in, DeMar DeRozan in tonight; 1 of his past games match that, where his rebounds ran 17% higher",
-    "Went over 4.5 in 6 of his last 10 games",
-    "Early season: 62% weighted to the book's expected number",
-    "About 89 minutes of teammates out tonight"
-   ],
-   "flags": [
-    "DeMar DeRozan plays tonight; 9 of his last 10 games were without him (rebounds up 17% with him)"
-   ]
+   "beat_close": true
   },
   {
    "id": "nba-401909856-4871144-reb",
@@ -8273,11 +8413,33 @@
    "beat_close": true
   },
   {
+   "id": "nba-401909859-3112335-fg3m",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Nuggets vs Pelicans",
+   "market": "prop",
+   "selection": "Nikola Jokic under 1.5 threes",
+   "player": "Nikola Jokic",
+   "line": 1.5,
+   "price": 105.0,
+   "model_prob": 0.507,
+   "market_prob": 0.456,
+   "edge_prob": 0.051,
+   "ev": 0.039,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": true
+  },
+  {
    "id": "nba-401909859-4869780-reb",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Pelicans @ Nuggets",
+   "start": null,
+   "event": "Pelicans vs Nuggets",
    "market": "prop",
    "selection": "Derik Queen under 7.5 rebounds",
    "player": "Derik Queen",
@@ -8292,41 +8454,29 @@
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "why": [
-    "Role: Dejounte Murray in, Trey Murphy III in tonight; 12 of his past games match that, where his rebounds ran 22% lower",
-    "Went over 7.5 in 5 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Model says 57%; book says 52%; realistic \u2248 50% (the model runs overconfident)"
-   ],
-   "flags": []
+   "beat_close": null
   },
   {
-   "id": "nba-401909856-2490149-reb",
+   "id": "nba-401909856-4701230-ast",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
+   "start": null,
    "event": "Hawks vs Rockets",
    "market": "prop",
-   "selection": "CJ McCollum under 2.5 rebounds",
-   "player": "CJ McCollum",
-   "line": 2.5,
-   "price": 111.0,
-   "model_prob": 0.491,
-   "market_prob": 0.444,
-   "edge_prob": 0.047,
-   "ev": 0.035,
+   "selection": "Jalen Johnson under 6.5 assists",
+   "player": "Jalen Johnson",
+   "line": 6.5,
+   "price": -111.0,
+   "model_prob": 0.545,
+   "market_prob": 0.493,
+   "edge_prob": 0.052,
+   "ev": 0.036,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "why": [
-    "Role: Jalen Johnson in, Nickeil Alexander-Walker in tonight; 44 of his past games match that",
-    "Went over 2.5 in 7 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Rockets allow 9% less rebounds than average"
-   ],
-   "flags": []
+   "beat_close": true
   },
   {
    "id": "nba-401909854-3992-ast",
@@ -8349,34 +8499,6 @@
    "status": "pending",
    "result_units": null,
    "beat_close": true
-  },
-  {
-   "id": "nba-401909856-4701230-ast",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
-   "event": "Hawks vs Rockets",
-   "market": "prop",
-   "selection": "Jalen Johnson under 6.5 assists",
-   "player": "Jalen Johnson",
-   "line": 6.5,
-   "price": -112.0,
-   "model_prob": 0.546,
-   "market_prob": 0.495,
-   "edge_prob": 0.051,
-   "ev": 0.034,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Nickeil Alexander-Walker in, CJ McCollum in tonight; 44 of his past games match that",
-    "Went over 6.5 in 2 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Model says 55%; book says 49%; realistic \u2248 49% (the model runs overconfident)"
-   ],
-   "flags": []
   },
   {
    "id": "nba-401909858-4395630-ast",
@@ -8443,34 +8565,6 @@
    "status": "pending",
    "result_units": null,
    "beat_close": null
-  },
-  {
-   "id": "nba-401909859-3907497-ast",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Pelicans @ Nuggets",
-   "market": "prop",
-   "selection": "Dejounte Murray over 5.5 assists",
-   "player": "Dejounte Murray",
-   "line": 5.5,
-   "price": -132.0,
-   "model_prob": 0.587,
-   "market_prob": 0.533,
-   "edge_prob": 0.054,
-   "ev": 0.032,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Trey Murphy III in, Zion Williamson in tonight; 16 of his past games match that",
-    "Went over 5.5 in 7 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Nuggets allow 8% more assists than average"
-   ],
-   "flags": []
   },
   {
    "id": "nba-401909860-3136193-reb",
@@ -8561,34 +8655,6 @@
    "beat_close": null
   },
   {
-   "id": "nba-401909856-4278039-reb",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
-   "event": "Hawks vs Rockets",
-   "market": "prop",
-   "selection": "Nickeil Alexander-Walker under 3.5 rebounds",
-   "player": "Nickeil Alexander-Walker",
-   "line": 3.5,
-   "price": -171.0,
-   "model_prob": 0.65,
-   "market_prob": 0.591,
-   "edge_prob": 0.059,
-   "ev": 0.03,
-   "edge_display": "6%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Jalen Johnson in, CJ McCollum in tonight; 44 of his past games match that, where his rebounds ran 8% lower",
-    "Went over 3.5 in 4 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Rockets allow 9% less rebounds than average"
-   ],
-   "flags": []
-  },
-  {
    "id": "nba-401909854-3064514-fg3m",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -8614,8 +8680,8 @@
    "id": "nba-401909856-4432639-reb",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
-   "event": "Rockets @ Hawks",
+   "start": null,
+   "event": "Rockets vs Hawks",
    "market": "prop",
    "selection": "Jabari Smith Jr. over 5.5 rebounds",
    "player": "Jabari Smith Jr.",
@@ -8630,13 +8696,7 @@
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "why": [
-    "Role: Kevin Durant in, Alperen Sengun in tonight; 68 of his past games match that",
-    "Went over 5.5 in 7 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "About 86 minutes of teammates out tonight"
-   ],
-   "flags": []
+   "beat_close": null
   },
   {
    "id": "nba-401909858-4066259-ast",
@@ -8661,34 +8721,6 @@
    "beat_close": true
   },
   {
-   "id": "nba-401909859-3112335-fg3m",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Nuggets vs Pelicans",
-   "market": "prop",
-   "selection": "Nikola Jokic under 1.5 threes",
-   "player": "Nikola Jokic",
-   "line": 1.5,
-   "price": 101.0,
-   "model_prob": 0.51,
-   "market_prob": 0.466,
-   "edge_prob": 0.045,
-   "ev": 0.026,
-   "edge_display": "4%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Jamal Murray in, DeMar DeRozan in tonight; 1 of his past games match that, where his 3-pointers ran 5% lower",
-    "Went over 1.5 in 2 of his last 10 games",
-    "Early season: 62% weighted to the book's expected number",
-    "About 89 minutes of teammates out tonight"
-   ],
-   "flags": []
-  },
-  {
    "id": "nba-401909860-4066383-reb",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -8709,34 +8741,6 @@
    "status": "pending",
    "result_units": null,
    "beat_close": null
-  },
-  {
-   "id": "nba-401909856-4431680-reb",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
-   "event": "Hawks vs Rockets",
-   "market": "prop",
-   "selection": "Onyeka Okongwu under 6.5 rebounds",
-   "player": "Onyeka Okongwu",
-   "line": 6.5,
-   "price": -130.0,
-   "model_prob": 0.579,
-   "market_prob": 0.529,
-   "edge_prob": 0.05,
-   "ev": 0.025,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Jalen Johnson in, Nickeil Alexander-Walker in tonight; 73 of his past games match that, where his rebounds ran 5% lower",
-    "Went over 6.5 in 3 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Rockets allow 9% less rebounds than average"
-   ],
-   "flags": []
   },
   {
    "id": "nba-401909854-4683747-ast",
@@ -8761,34 +8765,6 @@
    "beat_close": null
   },
   {
-   "id": "nba-401909859-4395628-reb",
-   "sport": "NBA",
-   "date": "2026-10-24",
-   "start": "2026-10-25T01:00Z",
-   "event": "Pelicans @ Nuggets",
-   "market": "prop",
-   "selection": "Zion Williamson under 5.5 rebounds",
-   "player": "Zion Williamson",
-   "line": 5.5,
-   "price": -132.0,
-   "model_prob": 0.582,
-   "market_prob": 0.532,
-   "edge_prob": 0.05,
-   "ev": 0.022,
-   "edge_display": "5%",
-   "tier": "Light lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Dejounte Murray in, Trey Murphy III in tonight; 16 of his past games match that, where his rebounds ran 12% lower",
-    "Went over 5.5 in 5 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "Model says 58%; book says 53%; realistic \u2248 50% (the model runs overconfident)"
-   ],
-   "flags": []
-  },
-  {
    "id": "nba-401909853-4602025-fg3m",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -8806,8 +8782,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.667,
    "beat_close": false
   },
   {
@@ -8855,6 +8831,50 @@
    "beat_close": true
   },
   {
+   "id": "nba-401909856-2490149-reb",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Hawks vs Rockets",
+   "market": "prop",
+   "selection": "CJ McCollum under 2.5 rebounds",
+   "player": "CJ McCollum",
+   "line": 2.5,
+   "price": 105.0,
+   "model_prob": 0.498,
+   "market_prob": 0.457,
+   "edge_prob": 0.041,
+   "ev": 0.021,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401909859-3936299-reb",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Nuggets vs Pelicans",
+   "market": "prop",
+   "selection": "Jamal Murray over 4.5 rebounds",
+   "player": "Jamal Murray",
+   "line": 4.5,
+   "price": 107.0,
+   "model_prob": 0.493,
+   "market_prob": 0.452,
+   "edge_prob": 0.041,
+   "ev": 0.021,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": false
+  },
+  {
    "id": "nba-401909860-4437244-fg3m",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -8877,6 +8897,28 @@
    "beat_close": true
   },
   {
+   "id": "nba-401909859-4395628-reb",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": null,
+   "event": "Pelicans vs Nuggets",
+   "market": "prop",
+   "selection": "Zion Williamson under 5.5 rebounds",
+   "player": "Zion Williamson",
+   "line": 5.5,
+   "price": -141.0,
+   "model_prob": 0.597,
+   "market_prob": 0.548,
+   "edge_prob": 0.049,
+   "ev": 0.02,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": false
+  },
+  {
    "id": "nba-401909853-4278053-ast",
    "sport": "NBA",
    "date": "2026-10-24",
@@ -8894,8 +8936,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -8941,6 +8983,88 @@
    "status": "pending",
    "result_units": null,
    "beat_close": null
+  },
+  {
+   "id": "nba-401909860-4278585-ast",
+   "sport": "NBA",
+   "date": "2026-10-24",
+   "start": "2026-10-25T02:00Z",
+   "event": "Suns vs Warriors",
+   "market": "prop",
+   "selection": "Collin Gillespie over 2.5 assists",
+   "player": "Collin Gillespie",
+   "line": 2.5,
+   "price": -167.0,
+   "model_prob": 0.637,
+   "market_prob": 0.586,
+   "edge_prob": 0.051,
+   "ev": 0.018,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Devin Booker in, Jalen Green in tonight; 34 of his past games match that",
+    "Went over 2.5 in 3 of his last 10 games",
+    "Early season: 62% weighted to the book's expected number",
+    "Warriors allow 11% more assists than average"
+   ],
+   "flags": [],
+   "proj": 3.5,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-04-07",
+     "opp": "Houston Rockets",
+     "val": 0
+    },
+    {
+     "date": "2026-04-08",
+     "opp": "Dallas Mavericks",
+     "val": 2
+    },
+    {
+     "date": "2026-04-10",
+     "opp": "Los Angeles Lakers",
+     "val": 3
+    },
+    {
+     "date": "2026-04-14",
+     "opp": "Portland Trail Blazers",
+     "val": 0
+    },
+    {
+     "date": "2026-04-17",
+     "opp": "Golden State Warriors",
+     "val": 2
+    },
+    {
+     "date": "2026-04-19",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-04-22",
+     "opp": "Oklahoma City Thunder",
+     "val": 6
+    },
+    {
+     "date": "2026-04-25",
+     "opp": "Oklahoma City Thunder",
+     "val": 5
+    },
+    {
+     "date": "2026-04-27",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-10-21",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    }
+   ]
   },
   {
    "id": "nba-401909855-4432848-reb",
@@ -8990,8 +9114,8 @@
    "id": "nba-401909856-4432639-fg3m",
    "sport": "NBA",
    "date": "2026-10-24",
-   "start": "2026-10-25T00:30Z",
-   "event": "Rockets @ Hawks",
+   "start": null,
+   "event": "Rockets vs Hawks",
    "market": "prop",
    "selection": "Jabari Smith Jr. over 1.5 threes",
    "player": "Jabari Smith Jr.",
@@ -9006,13 +9130,7 @@
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "why": [
-    "Role: Kevin Durant in, Alperen Sengun in tonight; 68 of his past games match that",
-    "Went over 1.5 in 7 of his last 10 games",
-    "Early season: 55% weighted to the book's expected number",
-    "About 86 minutes of teammates out tonight"
-   ],
-   "flags": []
+   "beat_close": null
   },
   {
    "id": "nba-401909860-4997536-fg3m",
@@ -9211,6 +9329,32 @@
    "status": "pending",
    "result_units": null,
    "beat_close": null
+  },
+  {
+   "id": "nba-401909867-spread",
+   "sport": "NBA",
+   "date": "2026-10-25",
+   "start": "2026-10-26T01:00Z",
+   "event": "Grizzlies @ Kings",
+   "market": "spread",
+   "selection": "Kings +3.5",
+   "player": null,
+   "line": 3.5,
+   "price": -110,
+   "model_prob": 0.63,
+   "market_prob": 0.5,
+   "edge_prob": 0.13,
+   "ev": 0.203,
+   "edge_display": "4.2 pts",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Team rating: Grizzlies +0.5 better",
+    "Roster strength tonight: Grizzlies +11.3 better",
+    "Early season: line is 63% the market's view of these teams"
+   ]
   }
  ]
 }
