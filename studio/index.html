@@ -105,7 +105,7 @@ details.setup summary{min-height:44px;display:flex;align-items:center;font-weigh
       <div class="btns"><button class="btn" id="preview">▶ Hear it</button></div>
       <details class="setup" id="setup"><summary>ElevenLabs setup</summary>
         <div class="note">1. Make an account at elevenlabs.io (the $5/month Starter plan includes the rights to post the audio). 2. Go to your profile → API Keys → create a key. 3. Paste it here. It's saved on this phone only and only ever sent to ElevenLabs. Don't paste it in chat.</div>
-        <label class="f" for="key">ElevenLabs API key</label><input type="password" id="key" autocomplete="off" spellcheck="false">
+        <label class="f" for="key">ElevenLabs API key</label><input type="text" id="key" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" placeholder="sk_…" style="-webkit-text-security:disc">
         <div class="btns"><button class="btn gold" id="saveKey">Save key</button><button class="btn" id="clearKey">Remove</button></div>
         <div class="note" id="keyNote"></div>
       </details>
@@ -219,18 +219,40 @@ function scriptFor(p, st){
 
 // ---------- ElevenLabs
 const EL = "https://api.elevenlabs.io/v1";
+// ElevenLabs' own reason, in plain English
+async function elError(r){
+  let d = {}; try { d = (await r.json()).detail || {}; } catch(e){}
+  const st = d.status || d.code || "", msg = d.message || (typeof d === "string" ? d : "");
+  if (/invalid_api_key/.test(st)) return "ElevenLabs says this key isn't valid. Copy it again from elevenlabs.io (it starts with sk_), or make a new key, and paste it with nothing before or after.";
+  if (/missing_permissions/.test(st)) return "The key works, but it isn't allowed to do this. In ElevenLabs, edit the key and turn on Text to Speech and Voices (read), or make a new key with no restrictions.";
+  if (/quota|credits|payment|subscription/i.test(st + msg)) return "ElevenLabs says your plan is out of credits or isn't active yet: " + msg;
+  return `ElevenLabs error ${r.status}${msg ? ": " + msg : ""}`;
+}
+const keyInfo = () => KEY ? `Saved key: ${KEY.slice(0, 5)}…${KEY.slice(-4)} (${KEY.length} characters).` : "";
+// ElevenLabs' standard voices, used when the key can't list voices but can still speak
+const STOCK = [["JBFqnCBsd6RMkjVDRZzb","George · warm, mature"],["pNInz6obpgDQGcFmaJgB","Adam · deep"],["TX3LPaxmHKxFdv7VOQHJ","Liam · energetic"],["nPczCjzI2devNBz1zQrb","Brian · deep, narrator"],["cjVigY5qzO86Huf0OWal","Eric · friendly"],["21m00Tcm4TlvDq8ikWAM","Rachel · calm"],["EXAVITQu4vr4xnSDxMaL","Sarah · soft"]];
 async function loadVoices(){
   if (!KEY){ $("#voice").innerHTML = `<option>Add your ElevenLabs key below to load voices</option>`; return; }
   $("#voice").innerHTML = `<option>Loading voices…</option>`;
   try {
     const r = await fetch(`${EL}/voices`, {headers: {"xi-api-key": KEY}});
-    if (!r.ok) throw new Error(r.status === 401 ? "ElevenLabs didn't accept that key" : `ElevenLabs error ${r.status}`);
+    if (!r.ok){
+      const why = await elError(r);
+      if (r.status === 401 && /isn't allowed/.test(why)){   // can't list voices: offer the standard ones
+        $("#voice").innerHTML = STOCK.map(([id, n]) => `<option value="${id}" ${id === voiceId ? "selected" : ""}>${n}</option>`).join("");
+        if (!STOCK.some(([id]) => id === voiceId)){ voiceId = STOCK[0][0]; store.set("studioVoice", voiceId); }
+        $("#keyNote").innerHTML = `<span class="ok">Key saved. It can't list your voices, so here are ElevenLabs' standard voices. Tap ▶ Hear it to test.</span> ${keyInfo()}`;
+        return;
+      }
+      throw new Error(why);
+    }
     const vs = (await r.json()).voices || [];
     vs.sort((a, b) => (a.category === "premade") - (b.category === "premade") || a.name.localeCompare(b.name));
     $("#voice").innerHTML = vs.map(v => `<option value="${v.voice_id}" ${v.voice_id === voiceId ? "selected" : ""}>${v.name}${v.labels && v.labels.accent ? " · " + v.labels.accent : ""}${v.labels && v.labels.description ? " · " + v.labels.description : ""}</option>`).join("");
     if (!vs.some(v => v.voice_id === voiceId) && vs[0]){ voiceId = vs[0].voice_id; store.set("studioVoice", voiceId); }
-    $("#keyNote").innerHTML = `<span class="ok">Key works. ${vs.length} voices loaded.</span>`;
-  } catch(e){ $("#voice").innerHTML = `<option>Couldn't load voices</option>`; $("#keyNote").innerHTML = `<span class="bad">${e.message}.</span>`; $("#setup").open = true; }
+    $("#keyNote").innerHTML = `<span class="ok">Key works. ${vs.length} voices loaded.</span> ${keyInfo()}`;
+  } catch(e){ $("#voice").innerHTML = `<option>Couldn't load voices</option>`;
+    $("#keyNote").innerHTML = `<span class="bad">${/fetch|load failed|network/i.test(e.message) ? "Couldn't reach ElevenLabs. Check your connection and try again." : e.message}</span> ${keyInfo()}`; $("#setup").open = true; }
 }
 async function speak(text){
   if (voiceCache.result && voiceCache.text === text && voiceCache.voice === voiceId && voiceCache.speed === speed) return voiceCache.result;
@@ -238,7 +260,7 @@ async function speak(text){
     method: "POST", headers: {"xi-api-key": KEY, "Content-Type": "application/json"},
     body: JSON.stringify({text, model_id: "eleven_multilingual_v2",
       voice_settings: {stability: 0.4, similarity_boost: 0.8, style: 0.35, use_speaker_boost: true, speed}})});
-  if (!r.ok){ let m = `ElevenLabs error ${r.status}`; try { const j = await r.json(); m = (j.detail && (j.detail.message || j.detail)) || m; } catch(e){} throw new Error(typeof m === "string" ? m : JSON.stringify(m)); }
+  if (!r.ok) throw new Error(await elError(r));
   const j = await r.json();
   const bytes = Uint8Array.from(atob(j.audio_base64), c => c.charCodeAt(0));
   const actx = new (window.AudioContext || window.webkitAudioContext)();
@@ -655,7 +677,7 @@ $("#script").oninput = scriptNote;
 $("#handle").value = handle; $("#handle").oninput = e => { handle = e.target.value.trim(); store.set("shareHandle", handle); };
 $("#voice").onchange = e => { voiceId = e.target.value; store.set("studioVoice", voiceId); };
 $("#key").value = KEY ? "••••••••••••" : "";
-$("#saveKey").onclick = () => { const v = $("#key").value.trim(); if (!v || v.startsWith("•")) return toast("Paste your key first"); KEY = v; store.set("elevenKey", KEY); $("#key").value = "••••••••••••"; loadVoices(); };
+$("#saveKey").onclick = () => { const v = $("#key").value.replace(/\s+/g, "").replace(/^xi-api-key:?/i, "").replace(/^["'“”‘’]+|["'“”‘’]+$/g, ""); if (!v || v.startsWith("•")) return toast("Paste your key first"); KEY = v; store.set("elevenKey", KEY); $("#key").value = "••••••••••••"; loadVoices(); };
 $("#clearKey").onclick = () => { KEY = ""; store.del("elevenKey"); $("#key").value = ""; $("#keyNote").textContent = "Key removed from this phone."; loadVoices(); };
 $("#preview").onclick = async () => {
   const b = $("#preview"); b.disabled = true; b.textContent = "Getting voice…";
