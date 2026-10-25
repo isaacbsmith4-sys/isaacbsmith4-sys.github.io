@@ -80,8 +80,16 @@ details.setup summary{min-height:44px;display:flex;align-items:center;font-weigh
   <div class="hero"><h1>Video Studio</h1>
     <p>Your footage + an AI voice + captions timed to every word + the pick graphics, made into a TikTok / Reels video right on this phone.</p></div>
 
-  <section class="step"><h2><i>1</i>The play</h2>
-    <select id="play"></select>
+  <section class="step"><h2><i>1</i>What to make</h2>
+    <div class="chips" id="kinds"></div>
+    <div id="kSingle" style="margin-top:10px"><select id="play"></select></div>
+    <div id="kMulti" hidden style="margin-top:10px">
+      <label class="f">Day</label>
+      <div class="chips"><button class="chip" id="mPrev" aria-label="Previous day">‹</button><span class="chip on" id="mDay" style="pointer-events:none"></span><button class="chip" id="mNext" aria-label="Next day">›</button></div>
+      <label class="f">Which plays</label><div class="chips" id="mSrc"></div>
+      <label class="f">Sport</label><div class="chips" id="mSport"></div>
+      <div class="note" id="mInfo"></div>
+    </div>
     <label class="f" for="handle">Your handle</label><input type="text" id="handle" placeholder="@yourhandle" autocomplete="off" autocapitalize="off" spellcheck="false">
   </section>
 
@@ -498,6 +506,145 @@ function endCard(ctx, p, a, logos, rec){
   ctx.restore(); ctx.textAlign = "left";
 }
 
+// ---------- multi-play videos: the card, a day's recap, a week's recap
+let kind = store.get("studioKind", "single"), mSrc = store.get("studioMSrc", "vip"), mSport = "all", mDay = null;
+const KINDS = [["single","One play"],["card","Card"],["recap","Recap"],["week","Week recap"]];
+function poolM(){   // the official VIP card, or every 1U+ play (the card's copy wins when both have it)
+  const P = new Set(H.ledger.filter(e => e.potd).map(e => e.id)), live = H.ledger.filter(e => !e.backfilled).map(e => e.date).sort()[0] || "9999";
+  let out;
+  if (mSrc === "vip") out = H.ledger.map(e => ({...e, vip: true}));
+  else {
+    const m = new Map();
+    for (const f of Object.values(H.feeds)) for (const q of Object.values(f)) if ((q.units || 0) >= 1) m.set(q.id, {...q, stake: q.units, potd: P.has(q.id), backfilled: q.date < live});
+    for (const e of H.ledger) m.set(e.id, {...(m.get(e.id) || {}), ...e, vip: true});
+    out = [...m.values()];
+  }
+  return out.filter(e => mSport === "all" || e.sport === mSport);
+}
+const ORDER = (a, b) => (b.potd?1:0) - (a.potd?1:0) || ({VIP:0,"3U":1,"2U":2,"1U":3}[a.tier] ?? 9) - ({VIP:0,"3U":1,"2U":2,"1U":3}[b.tier] ?? 9) || (b.ev||0) - (a.ev||0);
+const GRADED = e => ["win","loss","push"].includes(e.status);
+function multiItems(){
+  const pool = poolM();
+  if (kind === "card") return pool.filter(e => e.date === mDay).sort(ORDER);
+  if (kind === "recap") return pool.filter(e => e.date === mDay && GRADED(e)).sort((a, b) => (b.result_units||0) - (a.result_units||0));
+  const a = addDays(mDay, -6); return pool.filter(e => e.date >= a && e.date <= mDay && GRADED(e)).sort((x, y) => (y.result_units||0) - (x.result_units||0));
+}
+// what fits on screen: the top wins AND the losses, never just the wins
+function showOrder(items, nWins = 5, nLoss = 3){
+  const w = items.filter(e => e.status === "win"), l = items.filter(e => e.status === "loss"), o = items.filter(e => e.status !== "win" && e.status !== "loss");
+  const head = w.slice(0, nWins).concat(l.slice(0, nLoss));
+  return head.concat(w.slice(nWins), l.slice(nLoss), o);
+}
+function tallyM(es){ const w = es.filter(e => e.status === "win").length, l = es.filter(e => e.status === "loss").length, p = es.filter(e => e.status === "push").length, u = es.reduce((x, e) => x + (e.result_units || 0), 0);
+  return {w, l, p, u, text: `${w}-${l}${p ? "-" + p : ""}`, units: `${u >= 0 ? "+" : "−"}${Math.abs(u).toFixed(1)}U`}; }
+function recordM(){ const g = poolM().filter(GRADED), t = tallyM(g); return {text: `${t.text}, ${t.units.replace("U", "u")}`, bt: g.some(e => e.backfilled)}; }
+const brief = e => { let s = e.selection; if (e.player) s = s.replace(e.player, e.player.split(" ").slice(-1)[0]); return s; };
+const sayU = u => `${u >= 0 ? "up" : "down"} ${Math.abs(u).toFixed(1)} units`;
+const dayWord = d => d === etYmd(new Date()) ? "tonight" : d === addDays(etYmd(new Date()), 1) ? "tomorrow" : d === addDays(etYmd(new Date()), -1) ? "yesterday" : niceDay(d);
+const who = () => mSrc === "vip" ? "VIP card" : mSport === "all" ? "card" : `${mSport} card`;
+function multiTitle(items){
+  if (kind === "card") return {label: mSrc === "vip" ? "VIP CARD" : `${mSport === "all" ? "" : mSport + " "}PLAYS`, big: niceDay(mDay).toUpperCase()};
+  const t = tallyM(items);
+  return {label: kind === "recap" ? `${mSport === "all" ? "" : mSport + " "}RECAP · ${niceDay(mDay).toUpperCase()}` : `WEEK RECAP · ${niceDay(addDays(mDay, -6)).toUpperCase()} – ${niceDay(mDay).toUpperCase()}`, big: `${t.text}  ${t.units}`, u: t.u};
+}
+function multiScript(){
+  const items = multiItems(); if (!items.length) return "";
+  if (kind === "card"){
+    const ord = ["First", "Next", "Then", "Next up", "Also", "And", "Plus"], said = items.slice(0, 6);
+    return `Here's the ${who()} for ${dayWord(mDay)}. ` + said.map((e, i) => `${e.potd ? `${TOP}` : ord[Math.min(i, ord.length - 1)]}: ${spoken(e.selection)}, ${spoken(price(e.price))}${(e.stake || e.units) > 1 ? `, ${spoken(units(e.stake || e.units))}` : ""}.`).join(" ") +
+      (items.length > 6 ? ` Plus ${items.length - 6} more on the card.` : "") + " Every play tracked. Follow for every play.";
+  }
+  const t = tallyM(items), wins = items.filter(e => e.status === "win"), losses = items.filter(e => e.status === "loss");
+  if (kind === "recap") return `${dayWord(mDay)[0].toUpperCase() + dayWord(mDay).slice(1)} we went ${t.w} and ${t.l}${t.p ? `, with ${t.p} push` : ""}, ${sayU(t.u)}. ` +
+    (wins.length ? `Cashed: ${wins.slice(0, 5).map(e => spoken(brief(e))).join(", ")}${wins.length > 5 ? `, and ${wins.length - 5} more` : ""}. ` : "") +
+    (losses.length ? `Missed: ${losses.slice(0, 4).map(e => spoken(brief(e))).join(", ")}${losses.length > 4 ? `, and ${losses.length - 4} more` : ""}. ` : "") +
+    "Every play tracked, wins and losses. Follow for the next card.";
+  const sports = [...new Set(items.map(e => e.sport))].map(sp => [sp, tallyM(items.filter(e => e.sport === sp))]);
+  return `This week: ${t.w} and ${t.l}, ${sayU(t.u)}. ` + (sports.length > 1 ? sports.map(([sp, g]) => `${sp} went ${g.w} and ${g.l}.`).join(" ") + " " : "") +
+    (wins[0] ? `Best hit: ${spoken(brief(wins[0]))}. ` : "") + "Every play tracked, wins and losses. Follow for every play.";
+}
+function bannerMulti(ctx, T, a){
+  ctx.save(); ctx.globalAlpha = a;
+  const g = ctx.createLinearGradient(0, 0, 0, 560); g.addColorStop(0, "rgba(0,0,0,.72)"); g.addColorStop(1, "rgba(0,0,0,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, 560);
+  let x = PAD, y = 170;
+  rr(ctx, x, y, 64, 64, 16); ctx.fillStyle = goldGrad(ctx, x, y, 64, 64); ctx.fill(); star(ctx, x + 32, y + 34, 20, "#1a1305");
+  ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, (handle || "BEST PLAYS").toUpperCase(), 900, 44, DISPLAY, 600); ctx.fillText((handle || "BEST PLAYS").toUpperCase(), x + 82, y + 33);
+  y += 92; ctx.font = `800 26px ${BODY}`; const lw = Math.min(W - 2*PAD, ctx.measureText(T.label).width + 48);
+  rr(ctx, x, y, lw, 46, 23); ctx.fillStyle = "rgba(26,19,5,.8)"; ctx.fill(); ctx.strokeStyle = C.gold; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = C.gold; ctx.fillText(T.label, x + 24, y + 24);
+  y += 66; ctx.textBaseline = "top"; fitFont(ctx, T.big, 900, 96, DISPLAY, W - 2*PAD, 50);
+  ctx.lineWidth = 8; ctx.strokeStyle = "rgba(0,0,0,.8)"; ctx.strokeText(T.big, x, y); ctx.fillStyle = T.u == null ? C.ink : T.u > 0 ? "#3ddc84" : T.u < 0 ? "#ff6b6b" : C.ink; ctx.fillText(T.big, x, y);
+  ctx.restore();
+}
+function scenePlayCard(ctx, e, i, n, k, a, rise, logoMap){
+  const b = panel(ctx, e.potd ? TOP.toUpperCase() : `PLAY ${i + 1} OF ${n}`, a, rise), ts = teamsOf(e), s = 132;
+  ts.forEach((t, j) => logo(ctx, t, logoMap.get(t.l), b.x + j*(s*0.78), b.y + 6, s));
+  ctx.textAlign = "right"; ctx.textBaseline = "alphabetic"; ctx.fillStyle = goldGrad(ctx, b.x + b.w - 200, b.y, 200, 120); ctx.font = `900 120px ${DISPLAY}`;
+  ctx.fillText(units(e.stake || e.units), b.x + b.w, b.y + 112); ctx.fillStyle = C.ink2; ctx.font = `800 34px ${BODY}`; ctx.fillText(price(e.price), b.x + b.w, b.y + 156); ctx.textAlign = "left";
+  let fs = 84, ls; do { ctx.font = `900 ${fs}px ${DISPLAY}`; ls = wrap(ctx, e.selection.toUpperCase(), b.w); fs -= 6; } while (ls.length > 2 && fs > 50);
+  ctx.fillStyle = C.ink; let y = b.y + 200 + fs; ls.slice(0, 2).forEach(l => { ctx.fillText(l, b.x, y); y += fs + 4; });
+  ctx.fillStyle = C.muted; ctx.font = `700 28px ${BODY}`; ctx.fillText(`${e.sport} · ${e.event || ""}`, b.x, y + 4);
+  if (e.model_prob != null && e.market_prob != null){
+    const f = ease((k - 0.2) / 0.7), by = b.y + b.h - 40, half = (b.w - 30) / 2;
+    [["VEGAS", e.market_prob, false], ["MODEL", e.model_prob, true]].forEach(([l, v, gold], j) => {
+      const x = b.x + j*(half + 30);
+      ctx.fillStyle = gold ? C.gold : C.ink2; ctx.font = `800 24px ${BODY}`; ctx.fillText(`${l} ${Math.round(v*100*f)}%`, x, by - 18);
+      rr(ctx, x, by, half, 18, 9); ctx.fillStyle = "rgba(255,255,255,.08)"; ctx.fill(); rr(ctx, x, by, Math.max(18, half*v*f), 18, 9); ctx.fillStyle = gold ? goldGrad(ctx, x, by, half, 18) : "#6b7489"; ctx.fill();
+    });
+  }
+  ctx.restore();
+}
+function sceneBoard(ctx, rows, title, t, a, rise){   // rows: [{text, right, color, t0}] revealing one by one
+  const b = panel(ctx, title, a, rise), shown = rows.slice(0, 8), rh = Math.min(84, (b.h - 10) / Math.max(shown.length, 1));
+  shown.forEach((r, i) => {
+    const y = b.y + i*rh, on = t >= r.t0, pop = on ? ease((t - r.t0) / 0.25) : 0;
+    ctx.fillStyle = i % 2 ? "rgba(255,255,255,.03)" : "rgba(255,255,255,.06)"; rr(ctx, b.x - 10, y, b.w + 20, rh - 8, 14); ctx.fill();
+    ctx.textBaseline = "middle"; ctx.fillStyle = C.ink; fitFont(ctx, r.text, 800, 34, BODY, b.w - 230, 22); ctx.fillText(r.text, b.x + 8, y + (rh - 8)/2 + 1);
+    ctx.textAlign = "right";
+    if (on){ ctx.save(); const cx = b.x + b.w - 8, cy = y + (rh - 8)/2; ctx.translate(cx, cy); ctx.scale(0.6 + 0.4*pop, 0.6 + 0.4*pop); ctx.globalAlpha = a * pop;
+      ctx.fillStyle = r.color; ctx.font = `900 46px ${DISPLAY}`; ctx.fillText(r.right, 0, 2); ctx.restore(); }
+    else { ctx.fillStyle = C.faint || "#586178"; ctx.font = `900 40px ${DISPLAY}`; ctx.fillText("·", b.x + b.w - 8, y + (rh - 8)/2); }
+    ctx.textAlign = "left";
+  });
+  if (rows.length > 8){ ctx.fillStyle = C.muted; ctx.font = `700 26px ${BODY}`; ctx.textBaseline = "alphabetic"; ctx.fillText(`+ ${rows.length - 8} more`, b.x, b.y + b.h + 6); }
+  ctx.restore();
+}
+function endCardMulti(ctx, items, T, a, rec, jk, jsrc){   // jk/jsrc: this video's own kind and source (batches keep their settings)
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.fillStyle = "rgba(8,9,14,.95)"; ctx.fillRect(0, 0, W, H2);
+  const g = ctx.createRadialGradient(W*.9, 0, 0, W*.9, 0, 1000); g.addColorStop(0, "rgba(240,184,71,.28)"); g.addColorStop(1, "rgba(240,184,71,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H2);
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; let y = 280;
+  ctx.fillStyle = C.gold; ctx.font = `800 30px ${BODY}`; ctx.fillText(T.label, W/2, y); y += 110;
+  ctx.fillStyle = T.u == null ? C.ink : T.u > 0 ? "#3ddc84" : T.u < 0 ? "#ff6b6b" : C.ink; fitFont(ctx, T.big, 900, 120, DISPLAY, W - 140, 60); ctx.fillText(T.big, W/2, y); y += 60;
+  ctx.textAlign = "left";
+  // week: one row per sport; recap: wins and losses; card: the plays
+  const rowsOf = jk === "week" ? [...new Set(items.map(e => e.sport))].map(sp => { const g = tallyM(items.filter(e => e.sport === sp)); return {selection: `${sp}  ${g.text}`, status: g.u >= 0 ? "win" : "loss", result_units: g.u}; })
+    : items.some(GRADED) ? showOrder(items, 6, 3) : items;
+  const list = rowsOf.slice(0, 9), rh = 72;
+  list.forEach((e, i) => { const yy = y + i*rh;
+    rr(ctx, PAD, yy, W - 2*PAD, rh - 10, 16); ctx.fillStyle = C.card; ctx.fill();
+    ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, (e.potd ? "💎 " : "") + e.selection, 800, 32, BODY, W - 2*PAD - 220, 20); ctx.fillText((e.potd ? "💎 " : "") + e.selection, PAD + 24, yy + (rh - 10)/2);
+    ctx.textAlign = "right"; const graded = GRADED(e);
+    ctx.fillStyle = graded ? (e.status === "win" ? "#3ddc84" : e.status === "loss" ? "#ff6b6b" : C.ink2) : C.gold; ctx.font = `900 40px ${DISPLAY}`;
+    ctx.fillText(graded ? (e.result_units != null ? `${e.result_units >= 0 ? "+" : "−"}${Math.abs(e.result_units).toFixed(1)}u` : e.status.toUpperCase()) : units(e.stake || e.units), W - PAD - 24, yy + (rh - 10)/2 + 2); ctx.textAlign = "left"; });
+  y += list.length*rh + (rowsOf.length > 9 ? 40 : 10);
+  if (rowsOf.length > 9){ ctx.fillStyle = C.muted; ctx.font = `700 26px ${BODY}`; ctx.textBaseline = "alphabetic"; ctx.fillText(`+ ${rowsOf.length - 9} more`, PAD, y - 10); }
+  rr(ctx, PAD, y + 10, W - 2*PAD, 120, 26); ctx.fillStyle = "#16181f"; ctx.fill(); ctx.strokeStyle = "rgba(240,184,71,.5)"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.textBaseline = "alphabetic"; ctx.fillStyle = C.gold; ctx.font = `800 24px ${BODY}`; ctx.fillText((jsrc === "vip" ? "VIP SEASON RECORD" : "SEASON RECORD") + (rec.bt ? "*" : ""), PAD + 30, y + 52);
+  ctx.fillStyle = C.ink; ctx.font = `900 54px ${DISPLAY}`; ctx.fillText(rec.text, PAD + 30, y + 110);
+  if (rec.bt){ ctx.fillStyle = C.muted; ctx.font = `600 22px ${BODY}`; ctx.fillText("*Includes the model's backtest before Oct 19", PAD + 30, y + 160); }
+  ctx.textAlign = "center"; y += 250;
+  ctx.fillStyle = C.ink; fitFont(ctx, (handle || "Every play. Every result.").toUpperCase(), 900, 92, DISPLAY, W - 160, 50); ctx.fillText((handle || "Every play. Every result.").toUpperCase(), W/2, Math.min(y, H2 - 180));
+  ctx.fillStyle = C.gold; ctx.font = `800 32px ${BODY}`; ctx.fillText("FOLLOW FOR EVERY PLAY", W/2, Math.min(y, H2 - 180) + 60);
+  ctx.restore(); ctx.textAlign = "left";
+}
+// when the voice says each play's name (player's last name or team), so graphics land on cue
+function cueFor(e, words, after){
+  const key = (e.player ? e.player.split(" ").slice(-1)[0] : (e.selection.match(/^[A-Za-z.' ]+?(?=\s[+-]?\d|\sML|$)/) || [""])[0].split(" ").slice(-1)[0] || "").toLowerCase().replace(/[^a-z]/g, "");
+  if (!key || /^(over|under)$/.test(key)) return null;
+  const w = words.find(x => x.t0 > after && x.w.toLowerCase().replace(/[^a-z]/g, "").startsWith(key.slice(0, 6)));
+  return w ? w.t0 : null;
+}
+
 // ---------- making the video
 function loadScript(url){ return new Promise((res, rej) => { const s = document.createElement("script"); s.src = url; s.onload = res; s.onerror = () => rej(new Error("couldn't load the video library")); document.head.appendChild(s); }); }
 async function avcConfig(){
@@ -519,9 +666,12 @@ function timeline(total, clips){   // which clip and where in it for every momen
   while (t < total && i < 500){ const c = clips[i % clips.length], d = Math.max(0.3, c.dur || 3); segs.push({c, t0: t, t1: Math.min(total, t + d)}); t += d; i++; }
   return segs;
 }
-const currentJob = () => ({p: curPlay(), text: $("#script").value.trim(), clips: clips.slice(), voiceMode, voiceId, speed});
+const currentJob = () => ({kind, src: mSrc, items: kind === "single" ? null : multiItems(), title: kind === "single" ? null : multiTitle(multiItems()), rec: kind === "single" ? null : recordM(),
+  p: kind === "single" ? curPlay() : (multiItems()[0] || null), text: $("#script").value.trim(), clips: clips.slice(), voiceMode, voiceId, speed});
 async function makeVideo(ui, job){
   job = job || currentJob();
+  const multi = job.kind && job.kind !== "single";
+  if (multi && !(job.items || []).length) throw new Error(job.kind === "card" ? "No plays on that day yet" : "No graded plays for that day yet");
   const p = job.p; if (!p) throw new Error("Pick a play first");
   const text = job.text; if (!text) throw new Error("Write a script first");
   await document.fonts.ready;
@@ -532,11 +682,12 @@ async function makeVideo(ui, job){
     if (!KEY){ $("#setup").open = true; throw new Error("Add your ElevenLabs key in step 4 (or pick No voice)"); }
     voice = await speak(text);
   }
-  const LEAD = 0.35, END = 3.4;
+  const LEAD = 0.35, END = multi ? 4.2 : 3.4;
   const talk = voice ? voice.buf.duration : Math.max(6, text.split(/\s+/).length / 2.6);
   const words = (voice ? voice.words : evenWords(text, talk)).map(w => ({...w, t0: w.t0 + LEAD, t1: w.t1 + LEAD}));
   const groups = captionGroups(words), vend = LEAD + talk + 0.25, total = vend + END;
   const logos = await Promise.all(teamsOf(p).map(t => loadImg(t.l)));
+  const logoMap = new Map(); if (multi) await Promise.all(job.items.slice(0, 9).flatMap(teamsOf).map(t => t.l && loadImg(t.l).then(im => logoMap.set(t.l, im))));
   const rec = record(), segs = timeline(vend, job.clips);
   // each graphic pops up when the voice gets to it ("…percent chance…", "…projects…"); otherwise spaced evenly
   const scenes = scenesFor(p), s0 = 1.5, per = Math.max(2.4, (vend - 0.4 - s0) / Math.max(scenes.length, 1));
@@ -545,7 +696,26 @@ async function makeVideo(ui, job){
   let tPrev = s0;
   scenes.forEach((sc, i) => { const c = CUES[sc.kind] ? cue(CUES[sc.kind]) : null; sc.t0 = Math.max(tPrev, c != null ? c : s0 + i*per); tPrev = sc.t0 + 2.4; });
   scenes.forEach((sc, i) => { const next = scenes[i + 1]; sc.t1 = Math.min(vend - 0.15, next ? next.t0 - 0.15 : sc.t0 + Math.max(2.6, per), sc.t0 + 4.2); });
-  const shown = scenes.filter(sc => sc.t1 - sc.t0 > 1.2);
+  let shown = scenes.filter(sc => sc.t1 - sc.t0 > 1.2);
+  let boardRows = null;
+  if (multi){
+    shown = [];
+    if (job.kind === "card"){   // one play card per play, landing when the voice names it
+      const its = job.items.slice(0, 6); let after = 0.5;
+      its.forEach((e, i) => { const c = cueFor(e, words, after); const t0 = c != null ? Math.max(after, c - 0.2) : 1.2 + i * (vend - 1.6) / its.length; shown.push({kind: "card", e, i, n: job.items.length, t0}); after = t0 + 0.8; });
+      shown.forEach((sc, i) => { sc.t1 = Math.min(vend - 0.1, shown[i + 1] ? shown[i + 1].t0 - 0.1 : vend - 0.1); });
+      shown = shown.filter(sc => sc.t1 - sc.t0 > 0.9);
+    } else if (job.kind === "recap"){
+      let after = 0.5;
+      boardRows = showOrder(job.items).map((e, i) => { const c = cueFor(e, words, 0.5); return {text: (e.potd ? "💎 " : "") + brief(e), right: e.status === "push" ? "PUSH" : `${e.status === "win" ? "WIN" : "LOSS"} ${e.result_units != null ? (e.result_units >= 0 ? "+" : "−") + Math.abs(e.result_units).toFixed(1) : ""}`.trim(),
+        color: e.status === "win" ? "#3ddc84" : e.status === "loss" ? "#ff6b6b" : C.ink2, t0: c != null ? c : 1.4 + i * 0.45}; });
+      shown.push({kind: "board", title: "RESULTS", t0: 1.0, t1: vend - 0.1});
+    } else {
+      const groups = [...new Set(job.items.map(e => e.sport))].map(sp => [sp, tallyM(job.items.filter(e => e.sport === sp))]);
+      boardRows = groups.map(([sp, g], i) => { const w = words.find(x => x.t0 > 1 && x.w.replace(/[^A-Za-z]/g, "") === sp); return {text: `${sp}   ${g.text}`, right: g.units.replace("U", "u"), color: g.u > 0 ? "#3ddc84" : g.u < 0 ? "#ff6b6b" : C.ink2, t0: w ? w.t0 : 1.6 + i*0.6}; });
+      shown.push({kind: "board", title: "BY SPORT", t0: 1.0, t1: vend - 0.1});
+    }
+  }
   const cv = ui.canvas; cv.width = W; cv.height = H2; const ctx = cv.getContext("2d");
   const bg = document.createElement("canvas"); bg.width = W; bg.height = H2; brandBg(bg.getContext("2d"), logos);
   const draw = async (t, live) => {
@@ -555,6 +725,15 @@ async function makeVideo(ui, job){
       if (!live) await seekTo(seg.c.el, lt);
       ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H2); drawCover(ctx, seg.c.el);
     } else { const z = 1 + 0.04*t/total; ctx.save(); ctx.translate(W/2, H2/2); ctx.scale(z, z); ctx.drawImage(bg, -W/2, -H2/2); ctx.restore(); }
+    if (multi){
+      if (t < vend) bannerMulti(ctx, job.title, Math.min(1, t / 0.4));
+      if (t < vend) shown.forEach(sc => { const k = t - sc.t0, dur = sc.t1 - sc.t0; if (k < 0 || k > dur) return;
+        const a = Math.min(ease(k / 0.3), ease((dur - k) / 0.25)), rise = (1 - ease(k / 0.35)) * 60;
+        if (sc.kind === "card") scenePlayCard(ctx, sc.e, sc.i, sc.n, k, a, rise, logoMap); else sceneBoard(ctx, boardRows, sc.title, t, a, rise); });
+      if (t < vend) caption(ctx, groups.find(g => t >= g.t0 && t < g.t1 + 0.15), t);
+      if (t >= vend) endCardMulti(ctx, job.items, job.title, Math.min(1, (t - vend) / 0.45), job.rec, job.kind, job.src);
+      return;
+    }
     if (t < vend) banner(ctx, p, Math.min(1, t / 0.4));
     if (t < vend) shown.forEach(sc => drawScene(ctx, sc, p, t));
     if (t < vend) caption(ctx, groups.find(g => t >= g.t0 && t < g.t1 + 0.15), t);
@@ -644,10 +823,30 @@ function renderPlays(){
     (leans.length ? `<optgroup label="Model leans (no units)">${leans.map(([p, i]) => opt(p, i)).join("")}</optgroup>` : "")
     : `<option>No plays posted yet today</option>`;
 }
+function refreshScript(){ $("#script").value = kind === "single" ? scriptFor(curPlay(), style) : multiScript(); scriptNote(); }
+function renderKind(){
+  $("#kinds").innerHTML = KINDS.map(([k, l]) => `<button class="chip ${kind === k ? "on" : ""}" data-k="${k}">${l}</button>`).join("");
+  document.querySelectorAll("#kinds .chip").forEach(c => c.onclick = () => { kind = c.dataset.k; store.set("studioKind", kind);
+    const today = etYmd(new Date()); mDay = kind === "card" ? today : addDays(today, -1); renderKind(); refreshScript(); });
+  $("#kSingle").hidden = kind !== "single"; $("#kMulti").hidden = kind === "single"; $("#styles").hidden = kind !== "single";
+  if (kind === "single") return;
+  if (!mDay) mDay = kind === "card" ? etYmd(new Date()) : addDays(etYmd(new Date()), -1);
+  $("#mDay").textContent = kind === "week" ? `Week ending ${niceDay(mDay)}` : niceDay(mDay);
+  $("#mSrc").innerHTML = [["vip","💎 VIP card"],["all","Every 1U+ play"]].map(([k, l]) => `<button class="chip ${mSrc === k ? "on" : ""}" data-s="${k}">${l}</button>`).join("");
+  const sports = [...new Set(H.ledger.concat(...Object.values(H.feeds).map(f => Object.values(f))).map(e => e.sport))].filter(Boolean);
+  $("#mSport").innerHTML = ["all", ...sports].map(sp => `<button class="chip ${mSport === sp ? "on" : ""}" data-sp="${sp}">${sp === "all" ? "All sports" : sp}</button>`).join("");
+  document.querySelectorAll("#mSrc .chip").forEach(c => c.onclick = () => { mSrc = c.dataset.s; store.set("studioMSrc", mSrc); renderKind(); refreshScript(); });
+  document.querySelectorAll("#mSport .chip").forEach(c => c.onclick = () => { mSport = c.dataset.sp; renderKind(); refreshScript(); });
+  const items = multiItems(), T = items.length ? multiTitle(items) : null;
+  $("#mInfo").innerHTML = items.length ? `${items.length} play${items.length === 1 ? "" : "s"}${T && T.u != null ? ` · ${T.big}` : ""}. ${kind === "card" ? "The voice names up to 6; the end card lists up to 9." : "Results light up as the voice reads them."}`
+    : `<span class="bad">${kind === "card" ? "No plays for that day yet. The VIP card locks at 10:30 AM ET." : "No graded plays for that day yet."}</span>`;
+}
+$("#mPrev").onclick = () => { mDay = addDays(mDay, -1); renderKind(); refreshScript(); };
+$("#mNext").onclick = () => { mDay = addDays(mDay, 1); renderKind(); refreshScript(); };
 function renderStyles(){
   const S = [["hype","Hype"],["breakdown","Breakdown"],["quick","Quick"]];
   $("#styles").innerHTML = S.map(([k, l]) => `<button class="chip ${style === k ? "on" : ""}" data-s="${k}">${l}</button>`).join("");
-  document.querySelectorAll("#styles .chip").forEach(c => c.onclick = () => { style = c.dataset.s; store.set("studioStyle", style); renderStyles(); $("#script").value = scriptFor(curPlay(), style); scriptNote(); });
+  document.querySelectorAll("#styles .chip").forEach(c => c.onclick = () => { style = c.dataset.s; store.set("studioStyle", style); renderStyles(); refreshScript(); });
 }
 function scriptNote(){ const n = $("#script").value.trim().split(/\s+/).filter(Boolean).length; $("#scriptNote").textContent = `${n} words ≈ ${Math.round(n / 2.6)} seconds of voice. Edit anything; tap a style to start over.`; }
 function renderVoiceMode(){
@@ -672,7 +871,7 @@ $("#files").onchange = ev => {
   }
   ev.target.value = ""; renderClips();
 };
-$("#play").onchange = () => { $("#script").value = scriptFor(curPlay(), style); scriptNote(); };
+$("#play").onchange = () => refreshScript();
 $("#script").oninput = scriptNote;
 $("#handle").value = handle; $("#handle").oninput = e => { handle = e.target.value.trim(); store.set("shareHandle", handle); };
 $("#voice").onchange = e => { voiceId = e.target.value; store.set("studioVoice", voiceId); };
@@ -713,7 +912,7 @@ $("#make").onclick = async () => {
 // ---------- batch: line up several videos (each keeps its own play, script and clips), then make them all
 let batch = [];
 function renderBatch(){
-  $("#batchList").innerHTML = batch.map((j, i) => `<div class="clip" style="flex-wrap:wrap"><div class="m"><b>${j.p.lean ? "Lean · " : j.p.potd ? "💎 " : ""}${j.p.sport} · ${j.p.selection}</b>${j.clips.length} clip${j.clips.length === 1 ? "" : "s"} · ${j.text.split(/\s+/).length} words${j.status ? ` · <span class="${j.status === "done" ? "ok" : j.status === "failed" ? "bad" : ""}">${j.status}</span>` : ""}</div>
+  $("#batchList").innerHTML = batch.map((j, i) => `<div class="clip" style="flex-wrap:wrap"><div class="m"><b>${j.kind && j.kind !== "single" ? `${j.title.label} · ${j.items.length} plays` : `${j.p.lean ? "Lean · " : j.p.potd ? "💎 " : ""}${j.p.sport} · ${j.p.selection}`}</b>${j.clips.length} clip${j.clips.length === 1 ? "" : "s"} · ${j.text.split(/\s+/).length} words${j.status ? ` · <span class="${j.status === "done" ? "ok" : j.status === "failed" ? "bad" : ""}">${j.status}</span>` : ""}</div>
     ${j.status ? "" : `<button data-rmj="${i}" aria-label="Remove">✕</button>`}<div class="jbox" id="job${i}" style="flex-basis:100%"></div></div>`).join("");
   document.querySelectorAll("[data-rmj]").forEach(b => b.onclick = () => { batch.splice(+b.dataset.rmj, 1); renderBatch(); });
   $("#makeAll").textContent = batch.length ? `🎬 Make all ${batch.length}` : "🎬 Make all";
@@ -748,7 +947,7 @@ Promise.all([
   H.nfl = {};   // "playerId|market" -> {line, open, proj}
   for (const g of Object.values((nflProps && nflProps.games) || {})) for (const pl of (Array.isArray(g) ? g : []))
     for (const [mk, ln] of Object.entries(pl.lines || {})) H.nfl[pl.id + "|" + mk] = {line: ln.line, open: ln.open, proj: ln.proj};
-  renderPlays(); $("#script").value = scriptFor(curPlay(), style); scriptNote(); loadVoices(); })
+  renderPlays(); renderKind(); refreshScript(); loadVoices(); })
   .catch(e => toast("Couldn't load plays: " + e.message));
 </script>
 </body>
