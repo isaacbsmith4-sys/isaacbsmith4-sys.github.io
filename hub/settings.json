@@ -10,5 +10,13 @@
   "min_ev": 0.0,
   "min_stake": 1,
   "rank": "Bigger plays first (3U/VIP, then 2U, then 1U); expected value breaks ties within a size",
-  "lock_time_et": "10:30"
+  "lock_time_et": "10:30",
+  "pulled": [
+    {
+      "id": "nfl-2026_07_IND_MIN-00-0033293-rushing_yards",
+      "date": "2026-10-25",
+      "play": "Aaron Jones over 38.5 rushing yards",
+      "why": "Pulled before kickoff: Jordan Mason is back, so Jones isn't the lead back; the model's projection (81 yds) assumed he was"
+    }
+  ]
 }

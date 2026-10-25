@@ -91,11 +91,12 @@ def select(day, now, feeds, ledger, settings, backfill=False):
     taken_games = {(e["sport"], e["event"], e.get("player") if e["market"] == "prop" else None)
                    for e in todays}
     chosen_ids = {e["id"] for e in ledger}
+    pulled = {x["id"] for x in settings.get("pulled", [])}   # plays taken off the card by hand (e.g. injury news the model missed)
     cands = []
     for code, feed in feeds.items():
         for p in feed["plays"]:
             start = parse_start(p.get("start"))
-            if (p.get("date") != day or p["id"] in chosen_ids
+            if (p.get("date") != day or p["id"] in chosen_ids or p["id"] in pulled
                     or p.get("tier") not in settings["allowed_tiers"]
                     or (p.get("ev") or 0) <= settings["min_ev"]):
                 continue
