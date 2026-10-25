@@ -132,8 +132,12 @@ tag.src = 'https://www.youtube.com/iframe_api';
 document.head.appendChild(tag);
 window.onYouTubeIframeAPIReady = () => {
   yt = new YT.Player('yt', {
-    playerVars: { playsinline: 1, rel: 0, modestbranding: 1, controls: 0, disablekb: 1, iv_load_policy: 3, fs: 0 },
-    events: { onReady: () => { ytReady = true; if (pendingLoad) { pendingLoad(); pendingLoad = null; } } },
+    playerVars: { playsinline: 1, rel: 0, modestbranding: 1, controls: 0, disablekb: 1, cc_load_policy: 0, iv_load_policy: 3, fs: 0 },
+    events: {
+      onReady: () => { ytReady = true; if (pendingLoad) { pendingLoad(); pendingLoad = null; } },
+      // Auto-captions include the broadcast call ("pull up jumper"), which gives away the answer.
+      onStateChange: e => { if (e.data === YT.PlayerState.PLAYING) { try { yt.unloadModule('captions'); yt.unloadModule('cc'); } catch {} } },
+    },
   });
 };
 
