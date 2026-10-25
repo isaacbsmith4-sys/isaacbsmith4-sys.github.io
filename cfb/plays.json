@@ -2,7 +2,7 @@
  "sport": "CFB",
  "app": "College Football Model",
  "format": 1,
- "generated_at": "2026-10-24T22:50Z",
+ "generated_at": "2026-10-25T01:23Z",
  "plays": [
   {
    "id": "cfb-401856766-total",
@@ -4620,9 +4620,9 @@
    "edge_display": "6.3 pts",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "loss",
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "cfb-401864528-total",
@@ -4642,8 +4642,8 @@
    "edge_display": "6.0 pts",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -4667,6 +4667,28 @@
    "status": "win",
    "result_units": 0.909,
    "beat_close": true
+  },
+  {
+   "id": "cfb-401858275-total",
+   "sport": "CFB",
+   "date": "2026-10-24",
+   "start": "2026-10-24T23:30Z",
+   "event": "Syracuse @ North Carolina",
+   "market": "total",
+   "selection": "Over 46.5",
+   "player": null,
+   "line": 46.5,
+   "price": -110,
+   "model_prob": 0.558,
+   "market_prob": 0.5,
+   "edge_prob": 0.058,
+   "ev": 0.065,
+   "edge_display": "5.8 pts",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   },
   {
    "id": "cfb-401866476-total",
@@ -4708,8 +4730,8 @@
    "edge_display": "5.3 pts",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.909,
    "beat_close": null
   },
   {
@@ -4730,9 +4752,9 @@
    "edge_display": "4.5 pts",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "loss",
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "cfb-401858495-total",
@@ -4840,8 +4862,8 @@
    "edge_display": "3.8 pts",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.909,
    "beat_close": null
   },
   {
@@ -4906,9 +4928,9 @@
    "edge_display": "3.5 pts",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "win",
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401856729-total",
@@ -4950,8 +4972,8 @@
    "edge_display": "6.1 pts",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -4972,8 +4994,8 @@
    "edge_display": "3.0 pts",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -5027,15 +5049,15 @@
    "start": "2026-10-25T00:00Z",
    "event": "UTSA @ Tulane",
    "market": "spread",
-   "selection": "Tulane +3",
+   "selection": "Tulane +2.5",
    "player": null,
-   "line": 3.0,
+   "line": 2.5,
    "price": -110,
-   "model_prob": 0.525,
+   "model_prob": 0.522,
    "market_prob": 0.5,
-   "edge_prob": 0.025,
-   "ev": 0.001,
-   "edge_display": "4.9 pts",
+   "edge_prob": 0.022,
+   "ev": -0.003,
+   "edge_display": "4.5 pts",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
@@ -5060,9 +5082,9 @@
    "edge_display": "4.5 pts",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "win",
+   "result_units": 0.909,
+   "beat_close": true
   },
   {
    "id": "cfb-401860907-spread",
