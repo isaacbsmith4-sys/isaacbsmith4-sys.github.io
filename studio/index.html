@@ -114,7 +114,11 @@ details.setup summary{min-height:44px;display:flex;align-items:center;font-weigh
 
   <section class="step"><h2><i>5</i>Make it</h2>
     <button class="btn gold big" id="make" style="width:100%">🎬 Make video</button>
+    <div class="btns"><button class="btn" id="addBatch">＋ Add to batch</button></div>
+    <div class="note">Making a lot? Set up a video (play, clips, script), tap Add to batch, repeat, then make them all at once.</div>
     <div id="result"></div>
+    <div id="batchBox" hidden><label class="f" style="margin-top:16px">Batch</label><div class="clips" id="batchList"></div>
+      <button class="btn gold big" id="makeAll" style="width:100%;margin-top:10px">🎬 Make all</button></div>
   </section>
 </div>
 <div class="toast" id="toast"></div>
@@ -151,8 +155,15 @@ function buildPlays(){
   for (const f of Object.values(H.feeds)) for (const p of Object.values(f))
     if (days.includes(p.date) && (p.units || 0) >= 1 && !seen.has(p.id) && p.status === "pending") out.push({...p, stake: p.units, potd: P.has(p.id)});
   out.sort((a,b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0) || (b.potd?1:0)-(a.potd?1:0) || (b.vip?1:0)-(a.vip?1:0) || (b.ev||0)-(a.ev||0));
-  return out;
+  // model leans (no units): good for games with no official play, always labeled as leans
+  const leans = [];
+  for (const f of Object.values(H.feeds)) for (const p of Object.values(f))
+    if (days.includes(p.date) && ["Lean", "Light lean"].includes(p.tier) && !seen.has(p.id) && p.status === "pending"
+        && !(p.start && new Date(p.start) < new Date())) leans.push({...p, stake: 0, lean: true});   // skip games already underway
+  leans.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0) || (a.tier === "Lean" ? 0 : 1) - (b.tier === "Lean" ? 0 : 1) || (b.ev||0) - (a.ev||0));
+  return out.concat(leans.slice(0, 150));
 }
+const size = p => p.lean ? "LEAN" : units(p.stake || p.units);
 function record(){
   const g = H.ledger.filter(e => FINAL.includes(e.status)), w = g.filter(e => e.status === "win").length, l = g.filter(e => e.status === "loss").length;
   const u = g.reduce((a, e) => a + (e.result_units || 0), 0);
@@ -194,13 +205,15 @@ const spoken = s => SAY.reduce((a, [r, t]) => a.replace(r, t), s);
 function scriptFor(p, st){
   if (!p) return "";
   const sel = spoken(p.selection), pr = spoken(price(p.price)), m = Math.round((p.model_prob||0)*100), b = Math.round((p.market_prob||0)*100);
-  const u = spoken(units(p.stake || p.units)), name = p.potd ? TOP : `our ${p.sport} play`;
+  const u = spoken(units(p.stake || p.units)), name = p.lean ? `the model's lean` : p.potd ? TOP : `our ${p.sport} play`;
+  const onIt = p.lean ? "It's a model lean, not an official play." : `We're on it for ${u}.`;
   const why = ((H.feeds[p.sport] || {})[p.id] || p).why || [], n0 = nums(p), n = n0 && scenesFor(p).some(s => s.kind === "proj") ? n0 : null;
   const projLine = !n ? "" : n.spread ? `Vegas has ${n.team} at ${spoken(fmtLine(n, n.line))}. Our model makes it ${spoken(fmtLine(n, n.proj))}. `
     : `Vegas set the line at ${num1(n.line)}. Our model projects ${num1(n.proj)}. `;
-  if (st === "quick") return `${p.potd ? TOP : "Play"} tonight: ${sel}, ${pr}. ${u}. Every play tracked. Follow for the rest.`;
+  if (st === "quick") return `${p.lean ? "Model lean" : p.potd ? TOP : "Play"} tonight: ${sel}, ${pr}. ${p.lean ? "No units, just the lean." : u + "."} Every play tracked. Follow for the rest.`;
   if (st === "breakdown") return `Here's ${name} for tonight. ${sel}, at ${pr}. ` +
-    projLine + (why[0] ? `${why[0].replace(/\s*;\s*/g, ". ")}. ` : "") + `The model has it at ${m} percent. The book is at ${b}. That gap is the edge. We're on it for ${u}. Every play is tracked, wins and losses. Follow so you don't miss the next one.`;
+    projLine + (why[0] ? `${why[0].replace(/\s*;\s*/g, ". ")}. ` : "") + `The model has it at ${m} percent. The book is at ${b}. That gap is the edge. ${onIt} Every play is tracked, wins and losses. Follow so you don't miss the next one.`;
+  if (p.lean) return `Here's what the model sees. ${sel}, ${pr}. The book gives it a ${b} percent chance. Our model gives it ${m}. ${projLine}${onIt} Follow for every play.`;
   return `Vegas is wrong on this one. ${p.potd ? TOP : `Our ${p.sport} play`}: ${sel}, ${pr}. The book gives it a ${b} percent chance. Our model gives it ${m}. ${projLine}We're on it for ${u}. Follow for every play.`;
 }
 
@@ -298,14 +311,14 @@ function banner(ctx, p, a){
   rr(ctx, x, y, 64, 64, 16); ctx.fillStyle = goldGrad(ctx, x, y, 64, 64); ctx.fill(); star(ctx, x + 32, y + 34, 20, "#1a1305");
   ctx.fillStyle = C.ink; ctx.textBaseline = "middle"; fitFont(ctx, (handle || "BEST PLAYS").toUpperCase(), 900, 44, DISPLAY, 600); ctx.fillText((handle || "BEST PLAYS").toUpperCase(), x + 82, y + 33);
   y += 92;
-  const label = (p.potd ? TOP : `${p.sport} play`).toUpperCase(); ctx.font = `800 26px ${BODY}`; const lw = ctx.measureText(label).width + 72;
+  const label = (p.lean ? `${p.sport} model lean` : p.potd ? TOP : `${p.sport} play`).toUpperCase(); ctx.font = `800 26px ${BODY}`; const lw = ctx.measureText(label).width + 72;
   rr(ctx, x, y, lw, 46, 23); ctx.fillStyle = "rgba(26,19,5,.8)"; ctx.fill(); ctx.strokeStyle = C.gold; ctx.lineWidth = 2; ctx.stroke();
   diamond(ctx, x + 26, y + 23, 13, C.gold); ctx.fillStyle = C.gold; ctx.fillText(label, x + 48, y + 24);
   y += 66;
   const sel = `${p.selection}  ${price(p.price)}`.toUpperCase();
-  ctx.textBaseline = "top"; fitFont(ctx, sel, 900, 72, DISPLAY, W - 2*PAD - 150, 40);
+  ctx.textBaseline = "top"; fitFont(ctx, sel, 900, 72, DISPLAY, W - 2*PAD - (p.lean ? 250 : 160), 40);
   ctx.lineWidth = 8; ctx.strokeStyle = "rgba(0,0,0,.8)"; ctx.strokeText(sel, x, y); ctx.fillStyle = C.ink; ctx.fillText(sel, x, y);
-  ctx.font = `900 82px ${DISPLAY}`; ctx.textAlign = "right"; ctx.strokeText(units(p.stake || p.units), W - PAD, y - 8); ctx.fillStyle = goldGrad(ctx, W - 200, y, 200, 80); ctx.fillText(units(p.stake || p.units), W - PAD, y - 8);
+  ctx.font = `900 82px ${DISPLAY}`; ctx.textAlign = "right"; ctx.strokeText(size(p), W - PAD, y - 8); ctx.fillStyle = goldGrad(ctx, W - 200, y, 200, 80); ctx.fillText(size(p), W - PAD, y - 8);
   ctx.restore(); ctx.textAlign = "left";
 }
 function caption(ctx, group, t){
@@ -422,7 +435,7 @@ function sceneEdge(ctx, p, k, a, rise){
   ctx.lineWidth = 34; ctx.lineCap = "round"; ctx.strokeStyle = "rgba(255,255,255,.1)"; ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI*0.75, Math.PI*2.25); ctx.stroke();
   ctx.strokeStyle = goldGrad(ctx, cx - r, cy - r, 2*r, 2*r); ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI*0.75, Math.PI*0.75 + Math.PI*1.5*e*f); ctx.stroke(); ctx.lineCap = "butt";
   ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = C.gold; fitFont(ctx, p.edge_display || "", 900, 120, DISPLAY, 260); ctx.fillText(p.edge_display || "", cx, cy);
-  ctx.fillStyle = C.ink; ctx.font = `900 64px ${DISPLAY}`; ctx.fillText(`${units(p.stake || p.units)} PLAY`, cx, b.y + b.h - 40);
+  ctx.fillStyle = C.ink; ctx.font = `900 64px ${DISPLAY}`; ctx.fillText(p.lean ? "MODEL LEAN" : `${units(p.stake || p.units)} PLAY`, cx, b.y + b.h - 40);
   ctx.textAlign = "left"; ctx.restore();
 }
 function drawScene(ctx, sc, p, t){
@@ -440,13 +453,13 @@ function endCard(ctx, p, a, logos, rec){
   ctx.fillStyle = "rgba(8,9,14,.94)"; ctx.fillRect(0, 0, W, H2);
   const g = ctx.createRadialGradient(W*.9, 0, 0, W*.9, 0, 1000); g.addColorStop(0, "rgba(240,184,71,.28)"); g.addColorStop(1, "rgba(240,184,71,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H2);
   ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
-  let y = 300; ctx.fillStyle = C.gold; ctx.font = `800 30px ${BODY}`; ctx.fillText((p.potd ? TOP : `${p.sport} play`).toUpperCase(), W/2, y);
+  let y = 300; ctx.fillStyle = C.gold; ctx.font = `800 30px ${BODY}`; ctx.fillText((p.lean ? `${p.sport} model lean` : p.potd ? TOP : `${p.sport} play`).toUpperCase(), W/2, y);
   y += 50; const ts = teamsOf(p), s = 210;
   if (ts.length){ const xs = ts.length === 2 ? [W/2 - s - 60, W/2 + 60] : [(W - s)/2]; ts.forEach((t, i) => logo(ctx, t, logos[i], xs[i], y, s));
     if (ts.length === 2){ ctx.fillStyle = C.muted; ctx.font = `900 64px ${DISPLAY}`; ctx.fillText(/ vs /i.test(p.event) ? "VS" : "@", W/2, y + s/2 + 22); } y += s + 110; }
   let fs = 100, ls; do { ctx.font = `900 ${fs}px ${DISPLAY}`; ls = wrap(ctx, p.selection.toUpperCase(), W - 140); fs -= 6; } while (ls.length > 2 && fs > 56);
   ctx.fillStyle = C.ink; ls.slice(0, 3).forEach(l => { ctx.fillText(l, W/2, y); y += fs + 6; });
-  ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`; ctx.fillText(`${p.event}  ·  ${price(p.price)}  ·  ${units(p.stake || p.units)}`, W/2, y); y += 50;
+  ctx.fillStyle = C.ink2; ctx.font = `700 32px ${BODY}`; ctx.fillText(`${p.event}  ·  ${price(p.price)}  ·  ${p.lean ? "Lean" : units(p.stake || p.units)}`, W/2, y); y += 50;
   const bw = (W - 2*PAD - 36)/3;
   [["MODEL", pct(p.model_prob)], ["BOOK", pct(p.market_prob)], ["EDGE", p.edge_display || "–"]].forEach(([k, v], i) => {
     const x = PAD + i*(bw + 18); rr(ctx, x, y, bw, 180, 24); ctx.fillStyle = C.card; ctx.fill(); ctx.lineWidth = i === 2 ? 4 : 2; ctx.strokeStyle = i === 2 ? C.gold : C.line; ctx.stroke();
@@ -478,19 +491,22 @@ async function aacConfig(rate){
   try { return (await AudioEncoder.isConfigSupported(cfg)).supported ? cfg : null; } catch(e){ return null; }
 }
 const seekTo = (v, t) => new Promise(res => { if (Math.abs(v.currentTime - t) < 0.001 && v.readyState >= 2) return res(); const done = () => { v.removeEventListener("seeked", done); res(); }; v.addEventListener("seeked", done); v.currentTime = t; setTimeout(done, 1500); });
-function timeline(total){   // which clip and where in it for every moment, clips in order, looped
+function timeline(total, clips){   // which clip and where in it for every moment, clips in order, looped
   const segs = []; let t = 0, i = 0;
   if (!clips.length) return segs;
   while (t < total && i < 500){ const c = clips[i % clips.length], d = Math.max(0.3, c.dur || 3); segs.push({c, t0: t, t1: Math.min(total, t + d)}); t += d; i++; }
   return segs;
 }
-async function makeVideo(ui){
-  const p = curPlay(); if (!p) throw new Error("Pick a play first");
-  const text = $("#script").value.trim(); if (!text) throw new Error("Write a script first");
+const currentJob = () => ({p: curPlay(), text: $("#script").value.trim(), clips: clips.slice(), voiceMode, voiceId, speed});
+async function makeVideo(ui, job){
+  job = job || currentJob();
+  const p = job.p; if (!p) throw new Error("Pick a play first");
+  const text = job.text; if (!text) throw new Error("Write a script first");
   await document.fonts.ready;
   ui.status("Getting the voice…");
   let voice = null;
-  if (voiceMode === "eleven"){
+  voiceId = job.voiceId; speed = job.speed;
+  if (job.voiceMode === "eleven"){
     if (!KEY){ $("#setup").open = true; throw new Error("Add your ElevenLabs key in step 4 (or pick No voice)"); }
     voice = await speak(text);
   }
@@ -499,7 +515,7 @@ async function makeVideo(ui){
   const words = (voice ? voice.words : evenWords(text, talk)).map(w => ({...w, t0: w.t0 + LEAD, t1: w.t1 + LEAD}));
   const groups = captionGroups(words), vend = LEAD + talk + 0.25, total = vend + END;
   const logos = await Promise.all(teamsOf(p).map(t => loadImg(t.l)));
-  const rec = record(), segs = timeline(vend);
+  const rec = record(), segs = timeline(vend, job.clips);
   // each graphic pops up when the voice gets to it ("…percent chance…", "…projects…"); otherwise spaced evenly
   const scenes = scenesFor(p), s0 = 1.5, per = Math.max(2.4, (vend - 0.4 - s0) / Math.max(scenes.length, 1));
   const cue = re => { const w = words.find(x => re.test(x.w) && x.t0 > 0.8); return w ? Math.max(0.8, w.t0 - 0.25) : null; };
@@ -600,7 +616,10 @@ async function makeVideo(ui){
 // ---------- UI
 function renderPlays(){
   plays = buildPlays();
-  $("#play").innerHTML = plays.length ? plays.map((p, i) => `<option value="${i}">${p.date === etYmd(new Date()) ? "" : niceDay(p.date) + " · "}${p.potd ? "💎 " : p.vip ? "VIP · " : ""}${p.sport} · ${p.selection} ${price(p.price)} · ${units(p.stake || p.units)}</option>`).join("")
+  const opt = (p, i) => `<option value="${i}">${p.date === etYmd(new Date()) ? "" : niceDay(p.date) + " · "}${p.potd ? "💎 " : p.vip ? "VIP · " : ""}${p.sport} · ${p.selection} ${price(p.price)} · ${p.lean ? p.tier : units(p.stake || p.units)}${p.event ? " · " + p.event : ""}</option>`;
+  const official = plays.map((p, i) => [p, i]).filter(([p]) => !p.lean), leans = plays.map((p, i) => [p, i]).filter(([p]) => p.lean);
+  $("#play").innerHTML = plays.length ? `<optgroup label="Plays">${official.map(([p, i]) => opt(p, i)).join("")}</optgroup>` +
+    (leans.length ? `<optgroup label="Model leans (no units)">${leans.map(([p, i]) => opt(p, i)).join("")}</optgroup>` : "")
     : `<option>No plays posted yet today</option>`;
 }
 function renderStyles(){
@@ -645,21 +664,55 @@ $("#preview").onclick = async () => {
   } catch(e){ toast(e.message); $("#setup").open = !KEY; }
   finally { b.disabled = false; b.textContent = "▶ Hear it"; }
 };
+// one finished video: preview + Share + Save
+function showResult(box, blob, p, autoplay){
+  const ext = blob.type.includes("mp4") ? "mp4" : "webm", url = URL.createObjectURL(blob);
+  const name = `${(p ? p.selection : "video").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.${ext}`, file = new File([blob], name, {type: blob.type});
+  box.innerHTML = `<div class="stage"><video src="${url}" controls playsinline ${autoplay ? "autoplay" : "preload=\"metadata\""}></video></div>
+    <div class="btns"><button class="btn gold" data-a="share">Share video</button><button class="btn" data-a="save">Save</button></div>
+    <div class="note">Add music inside TikTok or Instagram when you post.${ext === "webm" ? " This browser made a .webm file; on your iPhone, Safari makes .mp4." : ""}</div>`;
+  const save = () => { const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); };
+  box.querySelector('[data-a="save"]').onclick = save;
+  box.querySelector('[data-a="share"]').onclick = async () => { if (navigator.canShare && navigator.canShare({files: [file]})){ try { await navigator.share({files: [file]}); } catch(e){} } else save(); };
+}
+const progressUI = (box) => {
+  box.innerHTML = `<div class="stage"><canvas></canvas></div><div class="bar"><i></i></div><div class="note" style="text-align:center"></div>`;
+  const bar = box.querySelector(".bar i"), note = box.querySelector(".note");
+  return {canvas: box.querySelector("canvas"), progress: p => { bar.style.width = (p*100).toFixed(1) + "%"; }, status: m => { note.textContent = m; }, fail: m => { note.innerHTML = `<span class="bad">${m}</span>`; }};
+};
 $("#make").onclick = async () => {
   const btn = $("#make"); btn.disabled = true; btn.textContent = "Making video…";
-  $("#result").innerHTML = `<div class="stage"><canvas id="cv"></canvas></div><div class="bar"><i id="bar"></i></div><div class="note" id="status" style="text-align:center"></div>`;
-  let blob = null;
-  try { blob = await makeVideo({canvas: $("#cv"), progress: p => { const b = $("#bar"); if (b) b.style.width = (p*100).toFixed(1) + "%"; }, status: m => { $("#status").textContent = m; }}); }
-  catch(e){ $("#status").innerHTML = `<span class="bad">${e.message || e}</span>`; }
+  const ui = progressUI($("#result")); let blob = null;
+  try { blob = await makeVideo(ui); } catch(e){ ui.fail(e.message || e); }
   finally { btn.disabled = false; btn.textContent = "🎬 Make video again"; }
-  if (!blob) return;
-  const ext = blob.type.includes("mp4") ? "mp4" : "webm", url = URL.createObjectURL(blob), p = curPlay();
-  const name = `${(p ? p.selection : "video").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.${ext}`, file = new File([blob], name, {type: blob.type});
-  $("#result").innerHTML = `<div class="stage"><video src="${url}" controls playsinline autoplay></video></div>
-    <div class="btns"><button class="btn gold" id="shareV">Share video</button><button class="btn" id="saveV">Save</button></div>
-    <div class="note">Add music inside TikTok or Instagram when you post.${ext === "webm" ? " This browser made a .webm file; on your iPhone, Safari makes .mp4." : ""}</div>`;
-  $("#saveV").onclick = () => { const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); };
-  $("#shareV").onclick = async () => { if (navigator.canShare && navigator.canShare({files: [file]})){ try { await navigator.share({files: [file]}); } catch(e){} } else $("#saveV").click(); };
+  if (blob) showResult($("#result"), blob, curPlay(), true);
+};
+
+// ---------- batch: line up several videos (each keeps its own play, script and clips), then make them all
+let batch = [];
+function renderBatch(){
+  $("#batchList").innerHTML = batch.map((j, i) => `<div class="clip" style="flex-wrap:wrap"><div class="m"><b>${j.p.lean ? "Lean · " : j.p.potd ? "💎 " : ""}${j.p.sport} · ${j.p.selection}</b>${j.clips.length} clip${j.clips.length === 1 ? "" : "s"} · ${j.text.split(/\s+/).length} words${j.status ? ` · <span class="${j.status === "done" ? "ok" : j.status === "failed" ? "bad" : ""}">${j.status}</span>` : ""}</div>
+    ${j.status ? "" : `<button data-rmj="${i}" aria-label="Remove">✕</button>`}<div class="jbox" id="job${i}" style="flex-basis:100%"></div></div>`).join("");
+  document.querySelectorAll("[data-rmj]").forEach(b => b.onclick = () => { batch.splice(+b.dataset.rmj, 1); renderBatch(); });
+  $("#makeAll").textContent = batch.length ? `🎬 Make all ${batch.length}` : "🎬 Make all";
+  $("#makeAll").disabled = !batch.some(j => !j.status);
+  $("#batchBox").hidden = !batch.length;
+}
+$("#addBatch").onclick = () => {
+  const j = currentJob(); if (!j.p) return toast("Pick a play first"); if (!j.text) return toast("Write a script first");
+  batch.push(j); renderBatch(); toast(`Added. ${batch.length} in the batch`);
+};
+$("#makeAll").onclick = async () => {
+  $("#makeAll").disabled = true;
+  for (let i = 0; i < batch.length; i++){
+    const j = batch[i]; if (j.status) continue;
+    j.status = "making…"; renderBatch(); for (let k = 0; k < i; k++) if (batch[k].blob) showResult($("#job" + k), batch[k].blob, batch[k].p, false);
+    const box = $("#job" + i), ui = progressUI(box);
+    try { j.blob = await makeVideo(ui, j); j.status = "done"; } catch(e){ j.status = "failed"; j.err = e.message || String(e); }
+    renderBatch();
+    batch.forEach((b, k) => { if (b.blob) showResult($("#job" + k), b.blob, b.p, false); else if (b.err) $("#job" + k).innerHTML = `<div class="note bad">${b.err}</div>`; });
+  }
+  toast("Batch done");
 };
 
 renderStyles(); renderVoiceMode();
