@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Film Room</title>
+<style>
+  :root {
+    --bg: #0d0f12; --panel: #161a20; --panel2: #1e232b; --line: #2a303a;
+    --text: #eef1f5; --muted: #8b95a3; --accent: #ff8a1f; --good: #2fbf71; --bad: #e5484d;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; }
+  body { padding: env(safe-area-inset-top) 0 calc(72px + env(safe-area-inset-bottom)); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; padding: 18px 0 10px; }
+  h1 { font-size: 24px; margin: 0; letter-spacing: -0.02em; }
+  h1 span { color: var(--accent); }
+  .sub { color: var(--muted); font-size: 13px; }
+  h2 { font-size: 18px; margin: 22px 0 10px; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; border: 1px solid var(--line); background: var(--panel); color: var(--text);
+    border-radius: 999px; padding: 7px 13px; font-size: 14px; cursor: pointer; }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #1a1003; font-weight: 600; }
+  .player { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: var(--radius); overflow: hidden; }
+  .player > div, .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .freeze { position: absolute; inset: 0; display: none; align-items: flex-start; justify-content: flex-start;
+    padding: 8px; box-shadow: inset 0 0 0 3px var(--accent); border-radius: var(--radius); pointer-events: none; }
+  .freeze.on { display: flex; }
+  .freeze b { background: var(--accent); color: #1a1003; padding: 4px 9px; border-radius: 6px; font-size: 12px; letter-spacing: .08em; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; margin-top: 12px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .tag { font-size: 12px; color: var(--muted); background: var(--panel2); border-radius: 6px; padding: 2px 8px; }
+  .q { font-weight: 600; font-size: 17px; margin: 4px 0 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: left; background: var(--panel2); border: 1px solid var(--line); color: var(--text);
+    border-radius: 12px; padding: 12px 14px; font-size: 15px; cursor: pointer; }
+  .opt:disabled { cursor: default; }
+  .opt.right { border-color: var(--good); background: rgba(47,191,113,.15); }
+  .opt.wrong { border-color: var(--bad); background: rgba(229,72,77,.15); }
+  .opt .n { color: var(--accent); font-weight: 700; margin-right: 8px; }
+  .verdict { font-weight: 700; margin: 12px 0 2px; }
+  .verdict.good { color: var(--good); } .verdict.bad { color: var(--bad); }
+  .bd h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin: 14px 0 4px; }
+  .bd p { margin: 0; }
+  .row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .btn { flex: 1; border: 0; border-radius: 12px; padding: 12px 14px; font-size: 15px; font-weight: 600; cursor: pointer;
+    background: var(--panel2); color: var(--text); border: 1px solid var(--line); }
+  .btn.primary { background: var(--accent); color: #1a1003; border-color: var(--accent); }
+  textarea { width: 100%; min-height: 70px; background: var(--panel2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px; font: inherit; font-size: 15px; resize: vertical; }
+  .list { display: grid; gap: 8px; }
+  .item { display: flex; gap: 12px; align-items: center; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 10px 12px; cursor: pointer; }
+  .item .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); flex: none; }
+  .item .dot.good { background: var(--good); } .item .dot.bad { background: var(--bad); }
+  .item .t { font-weight: 600; font-size: 15px; }
+  .item .s { color: var(--muted); font-size: 13px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .stat b { display: block; font-size: 24px; }
+  .stat span { color: var(--muted); font-size: 12px; }
+  .bar { height: 8px; background: var(--panel2); border-radius: 4px; overflow: hidden; margin-top: 6px; }
+  .bar i { display: block; height: 100%; background: var(--accent); }
+  .skillrow { margin: 10px 0; }
+  .skillrow .top { display: flex; justify-content: space-between; font-size: 14px; }
+  nav { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(13,15,18,.94); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line); display: flex; padding-bottom: env(safe-area-inset-bottom); z-index: 5; }
+  nav button { flex: 1; background: none; border: 0; color: var(--muted); padding: 12px 0 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  nav button.on { color: var(--accent); }
+  .hidden { display: none !important; }
+  .empty { color: var(--muted); text-align: center; padding: 30px 0; }
+  .progress { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Film <span>Room</span></h1>
+    <div class="sub" id="count"></div>
+  </header>
+
+  <!-- QUIZ -->
+  <section id="tab-quiz">
+    <div class="chips" id="quizFilters"></div>
+    <div class="player"><div id="yt"></div><div class="freeze" id="freeze"><b>FREEZE · MAKE THE READ</b></div></div>
+    <div class="card" id="quizCard"></div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section id="tab-library" class="hidden">
+    <div class="chips" id="libFilters"></div>
+    <div class="list" id="libList"></div>
+  </section>
+
+  <!-- STATS -->
+  <section id="tab-stats" class="hidden">
+    <div id="statsBody"></div>
+  </section>
+</div>
+
+<nav>
+  <button data-tab="quiz" class="on">Read &amp; React</button>
+  <button data-tab="library">Library</button>
+  <button data-tab="stats">My Reads</button>
+</nav>
+
+<script src="clips.js"></script>
+<script>
+const SKILLS = window.SKILLS;
+const CLIPS = window.CLIPS;
+const VIDEOS = window.VIDEOS;
+
+// ---------- saved progress (this phone only) ----------
+const store = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem('fr.' + k)) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('fr.' + k, JSON.stringify(v)); } catch {} },
+};
+let answers = store.get('answers', {});   // clipId -> {pick, correct, at}
+let notes = store.get('notes', {});       // clipId -> text
+
+// ---------- YouTube player ----------
+let yt, ytReady = false, watcher = null, pendingLoad = null;
+const tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+window.onYouTubeIframeAPIReady = () => {
+  yt = new YT.Player('yt', {
+    playerVars: { playsinline: 1, rel: 0, modestbranding: 1, controls: 0, disablekb: 1, iv_load_policy: 3, fs: 0 },
+    events: { onReady: () => { ytReady = true; if (pendingLoad) { pendingLoad(); pendingLoad = null; } } },
+  });
+};
+
+// Play videoId from `from` and call onStop when it reaches `to`.
+function playSegment(clip, from, to, onStop) {
+  const go = () => {
+    clearInterval(watcher);
+    const vid = VIDEOS[clip.video].id;
+    const cur = yt.getVideoData && yt.getVideoData().video_id;
+    if (cur !== vid) yt.loadVideoById({ videoId: vid, startSeconds: from });
+    else { yt.seekTo(from, true); yt.playVideo(); }
+    yt.mute && document.body.dataset.muted === '1' && yt.mute();
+    watcher = setInterval(() => {
+      const t = yt.getCurrentTime ? yt.getCurrentTime() : 0;
+      if (t >= to) { yt.pauseVideo(); clearInterval(watcher); onStop && onStop(); }
+    }, 80);
+  };
+  ytReady ? go() : (pendingLoad = go);
+}
+
+// ---------- filters ----------
+let quizFilter = store.get('quizFilter', 'all');
+let libFilter = 'all';
+function filterChips(el, current, onPick) {
+  const counts = {};
+  CLIPS.forEach(c => c.skills.forEach(s => counts[s] = (counts[s] || 0) + 1));
+  const opts = [['all', `All (${CLIPS.length})`], ['missed', 'Missed reads']]
+    .concat(Object.keys(SKILLS).filter(k => counts[k]).map(k => [k, `${SKILLS[k]} (${counts[k]})`]));
+  el.replaceChildren(...opts.map(([k, label]) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (k === current ? ' on' : '');
+    b.textContent = label;
+    b.onclick = () => onPick(k);
+    return b;
+  }));
+}
+function pool(f) {
+  if (f === 'all') return CLIPS;
+  if (f === 'missed') return CLIPS.filter(c => answers[c.id] && !answers[c.id].correct);
+  return CLIPS.filter(c => c.skills.includes(f));
+}
+
+// ---------- quiz ----------
+let current = null;
+function nextClip() {
+  const p = pool(quizFilter);
+  if (!p.length) { current = null; renderQuiz(); return; }
+  // unanswered first, then missed, then the rest
+  const unseen = p.filter(c => !answers[c.id]);
+  const missed = p.filter(c => answers[c.id] && !answers[c.id].correct);
+  const from = unseen.length ? unseen : missed.length ? missed : p;
+  const choices = from.filter(c => !current || c.id !== current.id);
+  current = (choices.length ? choices : from)[Math.floor(Math.random() * (choices.length || from.length))];
+  startQuiz();
+}
+
+function startQuiz() {
+  renderQuiz('watching');
+  document.getElementById('freeze').classList.remove('on');
+  playSegment(current, current.start, current.freeze, () => {
+    document.getElementById('freeze').classList.add('on');
+    renderQuiz('ask');
+  });
+}
+
+function pick(i) {
+  const correct = i === current.answer;
+  answers[current.id] = { pick: i, correct, at: Date.now() };
+  store.set('answers', answers);
+  document.getElementById('freeze').classList.remove('on');
+  renderQuiz('reveal', i);
+  playSegment(current, current.freeze, current.end);
+}
+
+function el(html) { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content; }
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]); }
+
+// Skill tags give away the answer, so they only show after the pick.
+function clipMeta(c, showSkills) {
+  return `<div class="meta"><span class="tag">Clip ${c.num}</span><span class="tag">${esc(VIDEOS[c.video].player)}</span><span class="tag">${esc(c.coverage)}</span>`
+    + (showSkills ? c.skills.map(s => `<span class="tag">${esc(SKILLS[s])}</span>`).join('') : '') + `</div>`;
+}
+
+function breakdown(c) {
+  return `<div class="bd">
+    <h3>The read</h3><p>${esc(c.read)}</p>
+    <h3>Why it worked</h3><p>${esc(c.why)}</p>
+    <h3>For your game</h3><p>${esc(c.forYou)}</p>
+  </div>`;
+}
+
+function notesBox(c) {
+  return `<h3 style="font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:16px 0 6px">My notes</h3>
+    <textarea id="note" placeholder="What did you see? What will you try in practice?">${esc(notes[c.id] || '')}</textarea>`;
+}
+
+function bindNotes(c) {
+  const ta = document.getElementById('note');
+  if (ta) ta.oninput = () => { notes[c.id] = ta.value; store.set('notes', notes); };
+}
+
+function renderQuiz(stage, picked) {
+  const card = document.getElementById('quizCard');
+  const answered = Object.keys(answers).length;
+  document.getElementById('count').textContent = `${answered}/${CLIPS.length} clips studied`;
+  if (!current) {
+    const intro = quizFilter === 'missed' && !pool('missed').length
+      ? '<div class="empty">No missed reads. Nice.</div>'
+      : `<div class="q">Read &amp; React</div>
+         <p style="color:var(--muted);margin:0">Each clip plays up to the moment before the decision and freezes. Pick what you'd do, then watch what happened and why.
+         Every clip in this set is a Brunson bucket, so the question is <i>how</i> he scores.</p>`;
+    card.replaceChildren(el(`${intro}<div class="row"><button class="btn primary" id="go">Start</button></div>`));
+    document.getElementById('go').onclick = nextClip;
+    return;
+  }
+  const c = current;
+  let html = clipMeta(c, stage === 'reveal') + `<div class="q">${esc(c.setup)}</div>`;
+  if (stage === 'watching') {
+    html += `<div class="progress">Watch the action… the clip freezes right before the read.</div>
+      <div class="row"><button class="btn" id="skip">Skip to freeze</button></div>`;
+  } else {
+    html += `<div class="q" style="margin-top:0">${esc(c.question)}</div><div class="opts">`
+      + c.options.map((o, i) => {
+        let cls = 'opt';
+        if (stage === 'reveal') cls += i === c.answer ? ' right' : i === picked ? ' wrong' : '';
+        return `<button class="${cls}" data-i="${i}" ${stage === 'reveal' ? 'disabled' : ''}><span class="n">${i + 1}</span>${esc(o)}</button>`;
+      }).join('') + `</div>`;
+    if (stage === 'ask') html += `<div class="row"><button class="btn" id="rewatch">Rewatch setup</button></div>`;
+  }
+  if (stage === 'reveal') {
+    const ok = picked === c.answer;
+    html += `<div class="verdict ${ok ? 'good' : 'bad'}">${ok ? 'Good read.' : 'Not this time.'} He went with option ${c.answer + 1}.</div>`
+      + breakdown(c) + notesBox(c)
+      + `<div class="row"><button class="btn" id="replay">Replay full clip</button><button class="btn primary" id="next">Next clip</button></div>`;
+  }
+  card.replaceChildren(el(html));
+  card.querySelectorAll('.opt:not(:disabled)').forEach(b => b.onclick = () => pick(+b.dataset.i));
+  const on = (id, fn) => { const b = document.getElementById(id); if (b) b.onclick = fn; };
+  on('skip', () => { yt.seekTo(c.freeze - 0.3, true); });
+  on('rewatch', startQuiz);
+  on('replay', () => playSegment(c, c.start, c.end));
+  on('next', nextClip);
+  bindNotes(c);
+}
+
+// ---------- library ----------
+function renderLibrary() {
+  filterChips(document.getElementById('libFilters'), libFilter, k => { libFilter = k; renderLibrary(); });
+  const list = document.getElementById('libList');
+  const p = pool(libFilter);
+  if (!p.length) { list.replaceChildren(el('<div class="empty">Nothing here yet.</div>')); return; }
+  list.replaceChildren(...p.map(c => {
+    const a = answers[c.id];
+    const node = el(`<div class="item"><div class="dot ${a ? (a.correct ? 'good' : 'bad') : ''}"></div>
+      <div><div class="t">${esc(c.title)}</div><div class="s">${esc(VIDEOS[c.video].player)} · ${esc(c.coverage)} · ${c.skills.map(s => SKILLS[s]).join(', ')}</div></div></div>`);
+    node.firstElementChild.onclick = () => { current = c; showTab('quiz'); startQuiz(); };
+    return node;
+  }));
+}
+
+// ---------- stats ----------
+function renderStats() {
+  const done = CLIPS.filter(c => answers[c.id]);
+  const right = done.filter(c => answers[c.id].correct).length;
+  const pct = done.length ? Math.round(100 * right / done.length) : 0;
+  let html = `<h2>My reads</h2><div class="stats">
+    <div class="stat"><b>${done.length}</b><span>clips studied</span></div>
+    <div class="stat"><b>${pct}%</b><span>reads correct</span></div>
+    <div class="stat"><b>${done.length - right}</b><span>to review</span></div></div>
+    <h2>By situation</h2>`;
+  const by = {};
+  done.forEach(c => [c.coverage].concat(c.skills.map(s => SKILLS[s])).forEach(k => {
+    by[k] = by[k] || [0, 0]; by[k][1]++; if (answers[c.id].correct) by[k][0]++;
+  }));
+  const keys = Object.keys(by).sort((a, b) => by[b][1] - by[a][1]);
+  html += keys.length ? keys.map(k => {
+    const [r, n] = by[k]; const p = Math.round(100 * r / n);
+    return `<div class="skillrow"><div class="top"><span>${esc(k)}</span><span>${r}/${n} · ${p}%</span></div><div class="bar"><i style="width:${p}%"></i></div></div>`;
+  }).join('') : '<div class="empty">Do some Read &amp; React clips and your numbers show up here.</div>';
+  const noted = CLIPS.filter(c => (notes[c.id] || '').trim());
+  if (noted.length) {
+    html += `<h2>My notes</h2><div class="list">` + noted.map(c =>
+      `<div class="card" style="margin:0"><div class="t" style="font-weight:600">${esc(c.title)}</div><div class="s" style="color:var(--muted);white-space:pre-wrap">${esc(notes[c.id])}</div></div>`).join('') + `</div>`;
+  }
+  html += `<div class="row" style="margin-top:28px"><button class="btn" id="reset">Reset my answers</button></div>`;
+  const body = document.getElementById('statsBody');
+  body.replaceChildren(el(html));
+  document.getElementById('reset').onclick = () => {
+    if (confirm('Clear all your quiz answers? Notes stay.')) { answers = {}; store.set('answers', answers); renderStats(); }
+  };
+}
+
+// ---------- tabs ----------
+function showTab(t) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+  ['quiz', 'library', 'stats'].forEach(k => document.getElementById('tab-' + k).classList.toggle('hidden', k !== t));
+  if (t !== 'quiz' && yt && yt.pauseVideo) { clearInterval(watcher); yt.pauseVideo(); }
+  if (t === 'library') renderLibrary();
+  if (t === 'stats') renderStats();
+}
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => showTab(b.dataset.tab));
+
+function renderQuizFilters() {
+  filterChips(document.getElementById('quizFilters'), quizFilter, k => {
+    quizFilter = k; store.set('quizFilter', k); renderQuizFilters(); nextClip();
+  });
+}
+renderQuizFilters();
+renderQuiz();
+</script>
+</body>
+</html>
