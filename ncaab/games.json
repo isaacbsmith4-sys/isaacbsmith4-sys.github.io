@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-29T11:59Z",
+ "generated_at": "2026-10-29T18:44Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -47,7 +47,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 148.5,
@@ -111,7 +111,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 154.5,
