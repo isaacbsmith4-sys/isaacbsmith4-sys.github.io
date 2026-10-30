@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-30T11:53Z",
+ "generated_at": "2026-10-30T18:21Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -47,19 +47,19 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -7.5,
     "spread_open": -7.5,
-    "total": 148.5,
+    "total": 147.5,
     "total_open": 149.5,
-    "home_ml": -310.0,
-    "away_ml": 250.0,
+    "home_ml": -305.0,
+    "away_ml": 245.0,
     "home_ml_open": -305.0,
     "away_ml_open": 245.0
    },
    "model": {
     "spread": -6.9,
-    "total": 147.0,
+    "total": 146.7,
     "home_win_prob": 0.735
    },
    "notes": [
@@ -111,7 +111,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 154.5,
@@ -903,10 +903,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -5.5,
     "spread_open": -5.5,
-    "total": 160.5,
+    "total": 159.5,
     "total_open": 159.5,
     "home_ml": -218.0,
     "away_ml": 180.0,
@@ -915,7 +915,7 @@
    },
    "model": {
     "spread": -6.9,
-    "total": 156.0,
+    "total": 155.7,
     "home_win_prob": 0.736
    },
    "notes": [
@@ -1851,13 +1851,13 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -13.5,
     "spread_open": -13.5,
     "total": 155.5,
     "total_open": 152.5,
-    "home_ml": -850.0,
-    "away_ml": 575.0,
+    "home_ml": -1000.0,
+    "away_ml": 650.0,
     "home_ml_open": -900.0,
     "away_ml_open": 600.0
    },
@@ -4937,7 +4937,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 4.5,
     "spread_open": 4.5,
     "total": 155.5,
@@ -7539,7 +7539,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -2.5,
     "spread_open": -1.5,
     "total": 159.5,
@@ -8187,8 +8187,8 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": 5.5,
+    "book": "Draft Kings",
+    "spread": 4.5,
     "spread_open": 4.5,
     "total": 150.5,
     "total_open": 150.5,
@@ -8198,9 +8198,9 @@
     "away_ml_open": -218.0
    },
    "model": {
-    "spread": 6.0,
+    "spread": 5.3,
     "total": 149.7,
-    "home_win_prob": 0.293
+    "home_win_prob": 0.315
    },
    "notes": [
     "Neutral site: Hall of Fame Series - Las Vegas",
