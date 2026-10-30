@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-30T18:21Z",
+ "generated_at": "2026-10-30T22:44Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -47,7 +47,7 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 147.5,
@@ -111,7 +111,7 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 154.5,
@@ -763,50 +763,6 @@
    "notes": []
   },
   {
-   "id": "ncaab-401928858",
-   "date": "2026-11-02",
-   "start": "2026-11-02T22:00Z",
-   "status": "pre",
-   "status_text": null,
-   "neutral": false,
-   "away": {
-    "name": "St. Francis (IL)",
-    "short": "St. Francis (IL)",
-    "abbr": "SFIL",
-    "record": null,
-    "score": null,
-    "rest_days": 7,
-    "b2b": false,
-    "injuries": [],
-    "stats": {}
-   },
-   "home": {
-    "name": "UIC",
-    "short": "UIC",
-    "abbr": "UIC",
-    "record": null,
-    "score": null,
-    "rest_days": 7,
-    "b2b": false,
-    "injuries": [],
-    "stats": {
-     "Conference": "MVC",
-     "Model rank": 105,
-     "Overall rating (pts/100 vs avg)": 4.8,
-     "Adj. offense (pts/100 vs avg)": 2.6,
-     "Adj. defense (pts/100 vs avg)": 2.2,
-     "Tempo (possessions)": 66.7
-    }
-   },
-   "lines": null,
-   "model": {
-    "spread": -48.1,
-    "total": 151.7,
-    "home_win_prob": 1.0
-   },
-   "notes": []
-  },
-  {
    "id": "ncaab-401919014",
    "date": "2026-11-02",
    "start": "2026-11-02T22:30Z",
@@ -903,10 +859,10 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -5.5,
     "spread_open": -5.5,
-    "total": 159.5,
+    "total": 160.5,
     "total_open": 159.5,
     "home_ml": -218.0,
     "away_ml": 180.0,
@@ -915,7 +871,7 @@
    },
    "model": {
     "spread": -6.9,
-    "total": 155.7,
+    "total": 156.0,
     "home_win_prob": 0.736
    },
    "notes": [
@@ -1169,6 +1125,50 @@
     "spread": 6.3,
     "total": 141.9,
     "home_win_prob": 0.284
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401928858",
+   "date": "2026-11-02",
+   "start": "2026-11-02T23:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "St. Francis (IL)",
+    "short": "St. Francis (IL)",
+    "abbr": "SFIL",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "UIC",
+    "short": "UIC",
+    "abbr": "UIC",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "MVC",
+     "Model rank": 105,
+     "Overall rating (pts/100 vs avg)": 4.8,
+     "Adj. offense (pts/100 vs avg)": 2.6,
+     "Adj. defense (pts/100 vs avg)": 2.2,
+     "Tempo (possessions)": 66.7
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -48.1,
+    "total": 151.7,
+    "home_win_prob": 1.0
    },
    "notes": []
   },
@@ -1851,7 +1851,7 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -13.5,
     "spread_open": -13.5,
     "total": 155.5,
@@ -4937,19 +4937,19 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": 4.5,
     "spread_open": 4.5,
-    "total": 155.5,
+    "total": 154.5,
     "total_open": 156.5,
-    "home_ml": 170.0,
-    "away_ml": -205.0,
+    "home_ml": 185.0,
+    "away_ml": -225.0,
     "home_ml_open": 164.0,
     "away_ml_open": -198.0
    },
    "model": {
     "spread": 1.9,
-    "total": 150.9,
+    "total": 150.6,
     "home_win_prob": 0.43
    },
    "notes": [
@@ -7539,10 +7539,10 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -2.5,
     "spread_open": -1.5,
-    "total": 159.5,
+    "total": 160.5,
     "total_open": 160.5,
     "home_ml": -142.0,
     "away_ml": 120.0,
@@ -7551,7 +7551,7 @@
    },
    "model": {
     "spread": -1.7,
-    "total": 156.0,
+    "total": 156.2,
     "home_win_prob": 0.561
    },
    "notes": [
@@ -8187,13 +8187,13 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": 4.5,
     "spread_open": 4.5,
     "total": 150.5,
     "total_open": 150.5,
-    "home_ml": 180.0,
-    "away_ml": -218.0,
+    "home_ml": 170.0,
+    "away_ml": -205.0,
     "home_ml_open": 180.0,
     "away_ml_open": -218.0
    },
