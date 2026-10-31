@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-31T17:27Z",
+ "generated_at": "2026-10-31T22:04Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -47,13 +47,13 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 147.5,
     "total_open": 149.5,
-    "home_ml": -325.0,
-    "away_ml": 260.0,
+    "home_ml": -305.0,
+    "away_ml": 245.0,
     "home_ml_open": -305.0,
     "away_ml_open": 245.0
    },
@@ -111,19 +111,19 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -6.5,
     "spread_open": -7.5,
-    "total": 154.5,
+    "total": 155.5,
     "total_open": 154.5,
-    "home_ml": -325.0,
-    "away_ml": 260.0,
+    "home_ml": -298.0,
+    "away_ml": 240.0,
     "home_ml_open": -325.0,
     "away_ml_open": 260.0
    },
    "model": {
     "spread": -5.9,
-    "total": 152.9,
+    "total": 153.2,
     "home_win_prob": 0.703
    },
    "notes": [
@@ -174,14 +174,25 @@
      "Tempo (possessions)": 66.2
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "DraftKings",
+    "spread": -5.5,
+    "spread_open": -5.5,
+    "total": 147.5,
+    "total_open": 147.5,
+    "home_ml": -238.0,
+    "away_ml": 195.0,
+    "home_ml_open": -238.0,
+    "away_ml_open": 195.0
+   },
    "model": {
-    "spread": 0.6,
-    "total": 141.6,
-    "home_win_prob": 0.477
+    "spread": -3.7,
+    "total": 143.2,
+    "home_win_prob": 0.63
    },
    "notes": [
-    "Neutral site: Field of 68 Opening Day Marathon"
+    "Neutral site: Field of 68 Opening Day Marathon",
+    "Early season: model line is 70% the market's view of these teams"
    ]
   },
   {
@@ -227,14 +238,25 @@
      "Tempo (possessions)": 62.9
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "DraftKings",
+    "spread": -3.5,
+    "spread_open": -3.5,
+    "total": 134.5,
+    "total_open": 134.5,
+    "home_ml": -170.0,
+    "away_ml": 142.0,
+    "home_ml_open": -185.0,
+    "away_ml_open": 154.0
+   },
    "model": {
-    "spread": -0.6,
-    "total": 134.2,
-    "home_win_prob": 0.522
+    "spread": -2.6,
+    "total": 134.3,
+    "home_win_prob": 0.595
    },
    "notes": [
-    "Neutral site: Field of 68 Opening Day Marathon"
+    "Neutral site: Field of 68 Opening Day Marathon",
+    "Early season: model line is 70% the market's view of these teams"
    ]
   },
   {
@@ -280,14 +302,25 @@
      "Tempo (possessions)": 71.9
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "DraftKings",
+    "spread": -1.5,
+    "spread_open": -1.5,
+    "total": 165.5,
+    "total_open": 165.5,
+    "home_ml": -130.0,
+    "away_ml": 110.0,
+    "home_ml_open": -130.0,
+    "away_ml_open": 110.0
+   },
    "model": {
-    "spread": 3.9,
-    "total": 163.4,
-    "home_win_prob": 0.361
+    "spread": 0.1,
+    "total": 162.3,
+    "home_win_prob": 0.496
    },
    "notes": [
-    "Neutral site: Field of 68 Opening Day Marathon"
+    "Neutral site: Field of 68 Opening Day Marathon",
+    "Early season: model line is 70% the market's view of these teams"
    ]
   },
   {
@@ -421,14 +454,25 @@
      "Tempo (possessions)": 70.8
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "DraftKings",
+    "spread": 8.5,
+    "spread_open": 8.5,
+    "total": 161.5,
+    "total_open": 161.5,
+    "home_ml": 260.0,
+    "away_ml": -325.0,
+    "home_ml_open": 260.0,
+    "away_ml_open": -325.0
+   },
    "model": {
-    "spread": 2.9,
-    "total": 158.2,
-    "home_win_prob": 0.395
+    "spread": 6.8,
+    "total": 157.6,
+    "home_win_prob": 0.267
    },
    "notes": [
-    "Neutral site: Field of 68 Opening Day Marathon"
+    "Neutral site: Field of 68 Opening Day Marathon",
+    "Early season: model line is 70% the market's view of these teams"
    ]
   },
   {
@@ -606,14 +650,25 @@
      "Tempo (possessions)": 71.1
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "DraftKings",
+    "spread": 2.5,
+    "spread_open": 2.5,
+    "total": 148.5,
+    "total_open": 148.5,
+    "home_ml": 114.0,
+    "away_ml": -135.0,
+    "home_ml_open": 120.0,
+    "away_ml_open": -142.0
+   },
    "model": {
-    "spread": -2.4,
-    "total": 150.1,
-    "home_win_prob": 0.586
+    "spread": 1.0,
+    "total": 147.8,
+    "home_win_prob": 0.463
    },
    "notes": [
-    "Neutral site: Field of 68 Opening Day Marathon"
+    "Neutral site: Field of 68 Opening Day Marathon",
+    "Early season: model line is 70% the market's view of these teams"
    ]
   },
   {
@@ -805,14 +860,25 @@
      "Tempo (possessions)": 65.9
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "DraftKings",
+    "spread": -3.5,
+    "spread_open": -3.5,
+    "total": 148.5,
+    "total_open": 148.5,
+    "home_ml": -180.0,
+    "away_ml": 150.0,
+    "home_ml_open": -180.0,
+    "away_ml_open": 150.0
+   },
    "model": {
-    "spread": -4.3,
-    "total": 149.0,
-    "home_win_prob": 0.651
+    "spread": -3.7,
+    "total": 148.3,
+    "home_win_prob": 0.633
    },
    "notes": [
-    "Neutral site: Field of 68 Opening Day Marathon"
+    "Neutral site: Field of 68 Opening Day Marathon",
+    "Early season: model line is 70% the market's view of these teams"
    ]
   },
   {
@@ -859,7 +925,7 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -4.5,
     "spread_open": -5.5,
     "total": 161.5,
@@ -871,7 +937,7 @@
    },
    "model": {
     "spread": -6.2,
-    "total": 156.2,
+    "total": 156.3,
     "home_win_prob": 0.714
    },
    "notes": [
@@ -961,7 +1027,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 163,
+     "Model rank": 164,
      "Overall rating (pts/100 vs avg)": 0.0,
      "Adj. offense (pts/100 vs avg)": -6.0,
      "Adj. defense (pts/100 vs avg)": 6.0,
@@ -1095,7 +1161,7 @@
     "b2b": false,
     "injuries": [],
     "stats": {
-     "Model rank": 165,
+     "Model rank": 162,
      "Overall rating (pts/100 vs avg)": 0.0,
      "Adj. offense (pts/100 vs avg)": -6.0,
      "Adj. defense (pts/100 vs avg)": 6.0,
@@ -1851,7 +1917,7 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": -13.5,
     "spread_open": -13.5,
     "total": 155.5,
@@ -4937,7 +5003,7 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
+    "book": "DraftKings",
     "spread": 5.5,
     "spread_open": 4.5,
     "total": 155.5,
@@ -7436,13 +7502,25 @@
      "Tempo (possessions)": 64.3
     }
    },
-   "lines": null,
-   "model": {
-    "spread": -30.0,
-    "total": 145.9,
-    "home_win_prob": 0.997
+   "lines": {
+    "book": "DraftKings",
+    "spread": -38.5,
+    "spread_open": -35.5,
+    "total": 147.5,
+    "total_open": 147.5,
+    "home_ml": null,
+    "away_ml": null,
+    "home_ml_open": null,
+    "away_ml_open": null
    },
-   "notes": []
+   "model": {
+    "spread": -35.9,
+    "total": 145.9,
+    "home_win_prob": 0.999
+   },
+   "notes": [
+    "Early season: model line is 70% the market's view of these teams"
+   ]
   },
   {
    "id": "ncaab-401916303",
@@ -7539,20 +7617,20 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
-    "spread": -2.5,
+    "book": "DraftKings",
+    "spread": -3.5,
     "spread_open": -1.5,
     "total": 160.5,
     "total_open": 160.5,
-    "home_ml": -142.0,
-    "away_ml": 120.0,
+    "home_ml": -148.0,
+    "away_ml": 124.0,
     "home_ml_open": -135.0,
     "away_ml_open": 114.0
    },
    "model": {
-    "spread": -1.7,
+    "spread": -2.4,
     "total": 156.2,
-    "home_win_prob": 0.561
+    "home_win_prob": 0.586
    },
    "notes": [
     "Neutral site: Bad Boy Mowers Series",
@@ -8187,10 +8265,10 @@
     }
    },
    "lines": {
-    "book": "Draft Kings",
-    "spread": 5.5,
+    "book": "DraftKings",
+    "spread": 4.5,
     "spread_open": 4.5,
-    "total": 150.5,
+    "total": 149.5,
     "total_open": 150.5,
     "home_ml": 170.0,
     "away_ml": -205.0,
@@ -8198,9 +8276,9 @@
     "away_ml_open": -218.0
    },
    "model": {
-    "spread": 6.0,
-    "total": 149.7,
-    "home_win_prob": 0.293
+    "spread": 5.3,
+    "total": 149.4,
+    "home_win_prob": 0.315
    },
    "notes": [
     "Neutral site: Hall of Fame Series - Las Vegas",
