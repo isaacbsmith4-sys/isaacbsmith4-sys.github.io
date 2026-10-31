@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-30T22:44Z",
+ "generated_at": "2026-10-31T01:42Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -860,19 +860,19 @@
    },
    "lines": {
     "book": "DraftKings",
-    "spread": -5.5,
+    "spread": -4.5,
     "spread_open": -5.5,
-    "total": 160.5,
+    "total": 161.5,
     "total_open": 159.5,
-    "home_ml": -218.0,
-    "away_ml": 180.0,
+    "home_ml": -198.0,
+    "away_ml": 164.0,
     "home_ml_open": -230.0,
     "away_ml_open": 190.0
    },
    "model": {
-    "spread": -6.9,
-    "total": 156.0,
-    "home_win_prob": 0.736
+    "spread": -6.2,
+    "total": 156.2,
+    "home_win_prob": 0.714
    },
    "notes": [
     "Neutral site: Orion180 Tipoff Classic",
@@ -961,7 +961,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 163,
+     "Model rank": 164,
      "Overall rating (pts/100 vs avg)": 0.0,
      "Adj. offense (pts/100 vs avg)": -6.0,
      "Adj. defense (pts/100 vs avg)": 6.0,
@@ -1095,7 +1095,7 @@
     "b2b": false,
     "injuries": [],
     "stats": {
-     "Model rank": 165,
+     "Model rank": 162,
      "Overall rating (pts/100 vs avg)": 0.0,
      "Adj. offense (pts/100 vs avg)": -6.0,
      "Adj. defense (pts/100 vs avg)": 6.0,
@@ -4938,19 +4938,19 @@
    },
    "lines": {
     "book": "DraftKings",
-    "spread": 4.5,
+    "spread": 5.5,
     "spread_open": 4.5,
     "total": 154.5,
     "total_open": 156.5,
-    "home_ml": 185.0,
-    "away_ml": -225.0,
+    "home_ml": 200.0,
+    "away_ml": -245.0,
     "home_ml_open": 164.0,
     "away_ml_open": -198.0
    },
    "model": {
-    "spread": 1.9,
+    "spread": 2.6,
     "total": 150.6,
-    "home_win_prob": 0.43
+    "home_win_prob": 0.405
    },
    "notes": [
     "Neutral site: Hall of Fame Series - Las Vegas",
