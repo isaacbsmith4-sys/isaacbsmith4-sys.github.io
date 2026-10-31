@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-31T15:52Z",
+ "generated_at": "2026-10-31T17:27Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -52,8 +52,8 @@
     "spread_open": -7.5,
     "total": 147.5,
     "total_open": 149.5,
-    "home_ml": -305.0,
-    "away_ml": 245.0,
+    "home_ml": -325.0,
+    "away_ml": 260.0,
     "home_ml_open": -305.0,
     "away_ml_open": 245.0
    },
@@ -961,7 +961,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 164,
+     "Model rank": 163,
      "Overall rating (pts/100 vs avg)": 0.0,
      "Adj. offense (pts/100 vs avg)": -6.0,
      "Adj. defense (pts/100 vs avg)": 6.0,
@@ -1095,7 +1095,7 @@
     "b2b": false,
     "injuries": [],
     "stats": {
-     "Model rank": 162,
+     "Model rank": 165,
      "Overall rating (pts/100 vs avg)": 0.0,
      "Adj. offense (pts/100 vs avg)": -6.0,
      "Adj. defense (pts/100 vs avg)": 6.0,
@@ -4940,7 +4940,7 @@
     "book": "Draft Kings",
     "spread": 5.5,
     "spread_open": 4.5,
-    "total": 154.5,
+    "total": 155.5,
     "total_open": 156.5,
     "home_ml": 200.0,
     "away_ml": -245.0,
@@ -4949,7 +4949,7 @@
    },
    "model": {
     "spread": 2.6,
-    "total": 150.6,
+    "total": 150.9,
     "home_win_prob": 0.405
    },
    "notes": [
