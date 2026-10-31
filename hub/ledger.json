@@ -2870,8 +2870,8 @@
   "stake": 2.0,
   "locked_at": "2026-10-30 14:27 ET",
   "backfilled": false,
-  "status": "pending",
-  "result_units": null,
+  "status": "win",
+  "result_units": 1.439,
   "potd": true
  },
  {
@@ -2895,8 +2895,8 @@
   "stake": 2.0,
   "locked_at": "2026-10-30 14:27 ET",
   "backfilled": false,
-  "status": "pending",
-  "result_units": null,
+  "status": "loss",
+  "result_units": -2.0,
   "potd": false
  },
  {
@@ -2920,8 +2920,8 @@
   "stake": 2.0,
   "locked_at": "2026-10-30 14:27 ET",
   "backfilled": false,
-  "status": "pending",
-  "result_units": null,
+  "status": "win",
+  "result_units": 2.14,
   "potd": false
  }
 ]
