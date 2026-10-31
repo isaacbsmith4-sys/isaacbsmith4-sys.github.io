@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-31T01:42Z",
+ "generated_at": "2026-10-31T11:27Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -47,7 +47,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 147.5,
@@ -111,7 +111,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 154.5,
@@ -859,7 +859,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -4.5,
     "spread_open": -5.5,
     "total": 161.5,
@@ -1851,10 +1851,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -13.5,
     "spread_open": -13.5,
-    "total": 155.5,
+    "total": 154.5,
     "total_open": 152.5,
     "home_ml": -1000.0,
     "away_ml": 650.0,
@@ -1863,7 +1863,7 @@
    },
    "model": {
     "spread": -14.6,
-    "total": 150.2,
+    "total": 149.9,
     "home_win_prob": 0.907
    },
    "notes": [
@@ -4937,7 +4937,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 5.5,
     "spread_open": 4.5,
     "total": 154.5,
@@ -7539,7 +7539,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -2.5,
     "spread_open": -1.5,
     "total": 160.5,
@@ -8187,8 +8187,8 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": 4.5,
+    "book": "Draft Kings",
+    "spread": 5.5,
     "spread_open": 4.5,
     "total": 150.5,
     "total_open": 150.5,
@@ -8198,9 +8198,9 @@
     "away_ml_open": -218.0
    },
    "model": {
-    "spread": 5.3,
+    "spread": 6.0,
     "total": 149.7,
-    "home_win_prob": 0.315
+    "home_win_prob": 0.293
    },
    "notes": [
     "Neutral site: Hall of Fame Series - Las Vegas",
@@ -9080,6 +9080,1415 @@
     "spread": -3.0,
     "total": 141.5,
     "home_win_prob": 0.607
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401906848",
+   "date": "2026-11-03",
+   "start": "2026-11-03T23:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Wofford",
+    "short": "Wofford",
+    "abbr": "WOF",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SoCon",
+     "Model rank": 217,
+     "Overall rating (pts/100 vs avg)": -3.2,
+     "Adj. offense (pts/100 vs avg)": 1.2,
+     "Adj. defense (pts/100 vs avg)": -4.4,
+     "Tempo (possessions)": 67.9
+    }
+   },
+   "home": {
+    "name": "Tennessee",
+    "short": "Tennessee",
+    "abbr": "TENN",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 10,
+     "Overall rating (pts/100 vs avg)": 22.3,
+     "Adj. offense (pts/100 vs avg)": 9.0,
+     "Adj. defense (pts/100 vs avg)": 13.3,
+     "Tempo (possessions)": 68.8
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -22.0,
+    "total": 149.5,
+    "home_win_prob": 0.977
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401909551",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Wagner",
+    "short": "Wagner",
+    "abbr": "WAG",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "NEC",
+     "Model rank": 315,
+     "Overall rating (pts/100 vs avg)": -9.4,
+     "Adj. offense (pts/100 vs avg)": -6.1,
+     "Adj. defense (pts/100 vs avg)": -3.3,
+     "Tempo (possessions)": 64.8
+    }
+   },
+   "home": {
+    "name": "Boston College",
+    "short": "Boston College",
+    "abbr": "BC",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "ACC",
+     "Model rank": 127,
+     "Overall rating (pts/100 vs avg)": 2.2,
+     "Adj. offense (pts/100 vs avg)": -2.5,
+     "Adj. defense (pts/100 vs avg)": 4.7,
+     "Tempo (possessions)": 68.1
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -11.7,
+    "total": 139.2,
+    "home_win_prob": 0.856
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920061",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Holy Cross",
+    "short": "Holy Cross",
+    "abbr": "HC",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Patriot",
+     "Model rank": 328,
+     "Overall rating (pts/100 vs avg)": -11.1,
+     "Adj. offense (pts/100 vs avg)": -4.6,
+     "Adj. defense (pts/100 vs avg)": -6.6,
+     "Tempo (possessions)": 63.4
+    }
+   },
+   "home": {
+    "name": "Rhode Island",
+    "short": "Rhode Island",
+    "abbr": "URI",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "A-10",
+     "Model rank": 129,
+     "Overall rating (pts/100 vs avg)": 2.1,
+     "Adj. offense (pts/100 vs avg)": 0.5,
+     "Adj. defense (pts/100 vs avg)": 1.6,
+     "Tempo (possessions)": 63.8
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -12.3,
+    "total": 140.2,
+    "home_win_prob": 0.868
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920304",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Hampton",
+    "short": "Hampton",
+    "abbr": "HAMP",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "CAA",
+     "Model rank": 269,
+     "Overall rating (pts/100 vs avg)": -5.3,
+     "Adj. offense (pts/100 vs avg)": -4.2,
+     "Adj. defense (pts/100 vs avg)": -1.2,
+     "Tempo (possessions)": 66.2
+    }
+   },
+   "home": {
+    "name": "Georgia Tech",
+    "short": "Georgia Tech",
+    "abbr": "GT",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "ACC",
+     "Model rank": 125,
+     "Overall rating (pts/100 vs avg)": 2.5,
+     "Adj. offense (pts/100 vs avg)": 0.7,
+     "Adj. defense (pts/100 vs avg)": 1.7,
+     "Tempo (possessions)": 71.5
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -9.4,
+    "total": 147.2,
+    "home_win_prob": 0.803
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920376",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Coppin State",
+    "short": "Coppin State",
+    "abbr": "COPP",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "MEAC",
+     "Model rank": 367,
+     "Overall rating (pts/100 vs avg)": -20.6,
+     "Adj. offense (pts/100 vs avg)": -10.4,
+     "Adj. defense (pts/100 vs avg)": -10.2,
+     "Tempo (possessions)": 66.0
+    }
+   },
+   "home": {
+    "name": "Virginia Tech",
+    "short": "Virginia Tech",
+    "abbr": "VT",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "ACC",
+     "Model rank": 69,
+     "Overall rating (pts/100 vs avg)": 9.3,
+     "Adj. offense (pts/100 vs avg)": 5.9,
+     "Adj. defense (pts/100 vs avg)": 3.4,
+     "Tempo (possessions)": 68.8
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -24.7,
+    "total": 148.1,
+    "home_win_prob": 0.988
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401921153",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Warren Wilson",
+    "short": "Warren Wilson",
+    "abbr": "WNWL",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "North Carolina A&T",
+    "short": "North Carolina A&T",
+    "abbr": "NCAT",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "CAA",
+     "Model rank": 294,
+     "Overall rating (pts/100 vs avg)": -7.5,
+     "Adj. offense (pts/100 vs avg)": -2.9,
+     "Adj. defense (pts/100 vs avg)": -4.6,
+     "Tempo (possessions)": 68.8
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -39.5,
+    "total": 154.5,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401921801",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Manhattan",
+    "short": "Manhattan",
+    "abbr": "MAN",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Metro",
+     "Model rank": 317,
+     "Overall rating (pts/100 vs avg)": -9.5,
+     "Adj. offense (pts/100 vs avg)": -4.2,
+     "Adj. defense (pts/100 vs avg)": -5.3,
+     "Tempo (possessions)": 69.9
+    }
+   },
+   "home": {
+    "name": "Kentucky",
+    "short": "Kentucky",
+    "abbr": "UK",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 19,
+     "Overall rating (pts/100 vs avg)": 18.7,
+     "Adj. offense (pts/100 vs avg)": 10.3,
+     "Adj. defense (pts/100 vs avg)": 8.4,
+     "Tempo (possessions)": 71.2
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -24.7,
+    "total": 154.7,
+    "home_win_prob": 0.988
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401921819",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Stetson",
+    "short": "Stetson",
+    "abbr": "STET",
+    "record": null,
+    "score": null,
+    "rest_days": 1,
+    "b2b": true,
+    "injuries": [],
+    "stats": {
+     "Conference": "Atlantic Sun",
+     "Model rank": 332,
+     "Overall rating (pts/100 vs avg)": -11.5,
+     "Adj. offense (pts/100 vs avg)": -2.5,
+     "Adj. defense (pts/100 vs avg)": -9.1,
+     "Tempo (possessions)": 66.7
+    }
+   },
+   "home": {
+    "name": "South Carolina",
+    "short": "South Carolina",
+    "abbr": "SC",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 77,
+     "Overall rating (pts/100 vs avg)": 8.7,
+     "Adj. offense (pts/100 vs avg)": 4.8,
+     "Adj. defense (pts/100 vs avg)": 3.8,
+     "Tempo (possessions)": 67.9
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -19.8,
+    "total": 151.1,
+    "home_win_prob": 0.964
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401925779",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Purdue Fort Wayne",
+    "short": "Purdue Fort Wayne",
+    "abbr": "PFW",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Horizon",
+     "Model rank": 249,
+     "Overall rating (pts/100 vs avg)": -4.4,
+     "Adj. offense (pts/100 vs avg)": 0.9,
+     "Adj. defense (pts/100 vs avg)": -5.3,
+     "Tempo (possessions)": 67.0
+    }
+   },
+   "home": {
+    "name": "Duquesne",
+    "short": "Duquesne",
+    "abbr": "DUQ",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "A-10",
+     "Model rank": 117,
+     "Overall rating (pts/100 vs avg)": 3.0,
+     "Adj. offense (pts/100 vs avg)": 2.7,
+     "Adj. defense (pts/100 vs avg)": 0.2,
+     "Tempo (possessions)": 67.1
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -8.8,
+    "total": 151.3,
+    "home_win_prob": 0.788
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401926180",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Milligan",
+    "short": "Milligan",
+    "abbr": "MILG",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "UNC Greensboro",
+    "short": "UNC Greensboro",
+    "abbr": "UNCG",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SoCon",
+     "Model rank": 272,
+     "Overall rating (pts/100 vs avg)": -5.8,
+     "Adj. offense (pts/100 vs avg)": -0.1,
+     "Adj. defense (pts/100 vs avg)": -5.7,
+     "Tempo (possessions)": 69.0
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -40.9,
+    "total": 157.1,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401906757",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:30Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Sam Houston",
+    "short": "Sam Houston",
+    "abbr": "SHSU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "CUSA",
+     "Model rank": 128,
+     "Overall rating (pts/100 vs avg)": 2.2,
+     "Adj. offense (pts/100 vs avg)": 1.9,
+     "Adj. defense (pts/100 vs avg)": 0.3,
+     "Tempo (possessions)": 71.7
+    }
+   },
+   "home": {
+    "name": "Alabama",
+    "short": "Alabama",
+    "abbr": "ALA",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 11,
+     "Overall rating (pts/100 vs avg)": 22.0,
+     "Adj. offense (pts/100 vs avg)": 12.8,
+     "Adj. defense (pts/100 vs avg)": 9.2,
+     "Tempo (possessions)": 80.2
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -19.9,
+    "total": 166.5,
+    "home_win_prob": 0.965
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920422",
+   "date": "2026-11-03",
+   "start": "2026-11-04T00:30Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Drexel",
+    "short": "Drexel",
+    "abbr": "DREX",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "CAA",
+     "Model rank": 199,
+     "Overall rating (pts/100 vs avg)": -2.0,
+     "Adj. offense (pts/100 vs avg)": -3.6,
+     "Adj. defense (pts/100 vs avg)": 1.6,
+     "Tempo (possessions)": 63.5
+    }
+   },
+   "home": {
+    "name": "Virginia",
+    "short": "Virginia",
+    "abbr": "UVA",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "ACC",
+     "Model rank": 29,
+     "Overall rating (pts/100 vs avg)": 17.1,
+     "Adj. offense (pts/100 vs avg)": 8.0,
+     "Adj. defense (pts/100 vs avg)": 9.0,
+     "Tempo (possessions)": 67.8
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -16.7,
+    "total": 140.0,
+    "home_win_prob": 0.935
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401909796",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "South Dakota State",
+    "short": "South Dakota State",
+    "abbr": "SDST",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Summit",
+     "Model rank": 245,
+     "Overall rating (pts/100 vs avg)": -4.3,
+     "Adj. offense (pts/100 vs avg)": -0.9,
+     "Adj. defense (pts/100 vs avg)": -3.4,
+     "Tempo (possessions)": 67.2
+    }
+   },
+   "home": {
+    "name": "Kansas State",
+    "short": "Kansas State",
+    "abbr": "KSU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Big 12",
+     "Model rank": 85,
+     "Overall rating (pts/100 vs avg)": 7.8,
+     "Adj. offense (pts/100 vs avg)": 4.9,
+     "Adj. defense (pts/100 vs avg)": 2.9,
+     "Tempo (possessions)": 72.5
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -12.6,
+    "total": 154.2,
+    "home_win_prob": 0.874
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920702",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Lipscomb",
+    "short": "Lipscomb",
+    "abbr": "LIP",
+    "record": null,
+    "score": null,
+    "rest_days": 1,
+    "b2b": true,
+    "injuries": [],
+    "stats": {
+     "Conference": "Atlantic Sun",
+     "Model rank": 204,
+     "Overall rating (pts/100 vs avg)": -2.3,
+     "Adj. offense (pts/100 vs avg)": 0.9,
+     "Adj. defense (pts/100 vs avg)": -3.2,
+     "Tempo (possessions)": 68.3
+    }
+   },
+   "home": {
+    "name": "Iowa",
+    "short": "Iowa",
+    "abbr": "IOWA",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Big Ten",
+     "Model rank": 20,
+     "Overall rating (pts/100 vs avg)": 18.7,
+     "Adj. offense (pts/100 vs avg)": 14.4,
+     "Adj. defense (pts/100 vs avg)": 4.3,
+     "Tempo (possessions)": 59.5
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -19.4,
+    "total": 148.0,
+    "home_win_prob": 0.961
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920806",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Alabama State",
+    "short": "Alabama State",
+    "abbr": "ALST",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SWAC",
+     "Model rank": 342,
+     "Overall rating (pts/100 vs avg)": -13.0,
+     "Adj. offense (pts/100 vs avg)": -8.1,
+     "Adj. defense (pts/100 vs avg)": -5.0,
+     "Tempo (possessions)": 70.2
+    }
+   },
+   "home": {
+    "name": "Texas A&M",
+    "short": "Texas A&M",
+    "abbr": "TA&M",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 31,
+     "Overall rating (pts/100 vs avg)": 16.6,
+     "Adj. offense (pts/100 vs avg)": 9.2,
+     "Adj. defense (pts/100 vs avg)": 7.4,
+     "Tempo (possessions)": 74.5
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -26.4,
+    "total": 155.3,
+    "home_win_prob": 0.992
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401921165",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Cleveland State",
+    "short": "Cleveland State",
+    "abbr": "CLE",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Horizon",
+     "Model rank": 308,
+     "Overall rating (pts/100 vs avg)": -8.8,
+     "Adj. offense (pts/100 vs avg)": 0.7,
+     "Adj. defense (pts/100 vs avg)": -9.5,
+     "Tempo (possessions)": 69.2
+    }
+   },
+   "home": {
+    "name": "Missouri",
+    "short": "Missouri",
+    "abbr": "MIZ",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 38,
+     "Overall rating (pts/100 vs avg)": 14.5,
+     "Adj. offense (pts/100 vs avg)": 10.1,
+     "Adj. defense (pts/100 vs avg)": 4.3,
+     "Tempo (possessions)": 67.9
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -20.5,
+    "total": 158.7,
+    "home_win_prob": 0.969
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401921808",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "LSU New Orleans",
+    "short": "LSU New Orleans",
+    "abbr": "NOLA",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Southland",
+     "Model rank": 237,
+     "Overall rating (pts/100 vs avg)": -4.1,
+     "Adj. offense (pts/100 vs avg)": -2.7,
+     "Adj. defense (pts/100 vs avg)": -1.4,
+     "Tempo (possessions)": 71.7
+    }
+   },
+   "home": {
+    "name": "LSU",
+    "short": "LSU",
+    "abbr": "LSU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 55,
+     "Overall rating (pts/100 vs avg)": 11.6,
+     "Adj. offense (pts/100 vs avg)": 7.4,
+     "Adj. defense (pts/100 vs avg)": 4.3,
+     "Tempo (possessions)": 72.2
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -15.8,
+    "total": 156.6,
+    "home_win_prob": 0.924
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401924950",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Louisiana Christian",
+    "short": "Louisiana Christian",
+    "abbr": "LCHR",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "Houston Christian",
+    "short": "Houston Christian",
+    "abbr": "HCU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Southland",
+     "Model rank": 307,
+     "Overall rating (pts/100 vs avg)": -8.7,
+     "Adj. offense (pts/100 vs avg)": -4.4,
+     "Adj. defense (pts/100 vs avg)": -4.4,
+     "Tempo (possessions)": 62.0
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -36.8,
+    "total": 147.1,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401927385",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Cornell (IA)",
+    "short": "Cornell (IA)",
+    "abbr": "CNIA",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "Northern Iowa",
+    "short": "Northern Iowa",
+    "abbr": "UNI",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "MVC",
+     "Model rank": 76,
+     "Overall rating (pts/100 vs avg)": 8.7,
+     "Adj. offense (pts/100 vs avg)": 4.1,
+     "Adj. defense (pts/100 vs avg)": 4.7,
+     "Tempo (possessions)": 59.3
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -48.3,
+    "total": 144.2,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401928621",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Lincoln (MO)",
+    "short": "Lincoln (MO)",
+    "abbr": "LNMO",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "Missouri State",
+    "short": "Missouri State",
+    "abbr": "MOST",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "CUSA",
+     "Model rank": 207,
+     "Overall rating (pts/100 vs avg)": -2.6,
+     "Adj. offense (pts/100 vs avg)": -0.1,
+     "Adj. defense (pts/100 vs avg)": -2.5,
+     "Tempo (possessions)": 65.7
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -42.3,
+    "total": 152.0,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401929372",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Arkansas-Pine Bluff",
+    "short": "Arkansas-Pine Bluff",
+    "abbr": "UAPB",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SWAC",
+     "Model rank": 350,
+     "Overall rating (pts/100 vs avg)": -14.0,
+     "Adj. offense (pts/100 vs avg)": -4.9,
+     "Adj. defense (pts/100 vs avg)": -9.1,
+     "Tempo (possessions)": 69.5
+    }
+   },
+   "home": {
+    "name": "Arkansas",
+    "short": "Arkansas",
+    "abbr": "ARK",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SEC",
+     "Model rank": 14,
+     "Overall rating (pts/100 vs avg)": 20.7,
+     "Adj. offense (pts/100 vs avg)": 13.7,
+     "Adj. defense (pts/100 vs avg)": 6.9,
+     "Tempo (possessions)": 76.0
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -30.4,
+    "total": 163.9,
+    "home_win_prob": 0.997
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401924920",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:30Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Regis University",
+    "short": "Regis University",
+    "abbr": "REGU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "Wyoming",
+    "short": "Wyoming",
+    "abbr": "WYO",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Mountain West",
+     "Model rank": 113,
+     "Overall rating (pts/100 vs avg)": 3.6,
+     "Adj. offense (pts/100 vs avg)": 3.1,
+     "Adj. defense (pts/100 vs avg)": 0.6,
+     "Tempo (possessions)": 65.7
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -46.9,
+    "total": 152.0,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401928787",
+   "date": "2026-11-03",
+   "start": "2026-11-04T01:30Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Western New Mexico",
+    "short": "Western New Mexico",
+    "abbr": "WNMU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "New Mexico State",
+    "short": "New Mexico State",
+    "abbr": "NMSU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "CUSA",
+     "Model rank": 193,
+     "Overall rating (pts/100 vs avg)": -1.3,
+     "Adj. offense (pts/100 vs avg)": -3.1,
+     "Adj. defense (pts/100 vs avg)": 1.9,
+     "Tempo (possessions)": 69.9
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -44.6,
+    "total": 151.3,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401917511",
+   "date": "2026-11-03",
+   "start": "2026-11-04T03:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Bethesda",
+    "short": "Bethesda",
+    "abbr": "BTHS",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "Pacific",
+    "short": "Pacific",
+    "abbr": "PAC",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "WCC",
+     "Model rank": 134,
+     "Overall rating (pts/100 vs avg)": 1.9,
+     "Adj. offense (pts/100 vs avg)": 1.0,
+     "Adj. defense (pts/100 vs avg)": 0.8,
+     "Tempo (possessions)": 63.5
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -44.9,
+    "total": 148.5,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920155",
+   "date": "2026-11-03",
+   "start": "2026-11-04T03:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Cal State Fullerton",
+    "short": "Cal State Fullerton",
+    "abbr": "CSUF",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Big West",
+     "Model rank": 253,
+     "Overall rating (pts/100 vs avg)": -4.5,
+     "Adj. offense (pts/100 vs avg)": -0.2,
+     "Adj. defense (pts/100 vs avg)": -4.4,
+     "Tempo (possessions)": 71.8
+    }
+   },
+   "home": {
+    "name": "San Diego State",
+    "short": "San Diego State",
+    "abbr": "SDSU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Pac-12",
+     "Model rank": 64,
+     "Overall rating (pts/100 vs avg)": 9.4,
+     "Adj. offense (pts/100 vs avg)": 3.6,
+     "Adj. defense (pts/100 vs avg)": 5.8,
+     "Tempo (possessions)": 68.2
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -14.0,
+    "total": 153.0,
+    "home_win_prob": 0.899
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401920343",
+   "date": "2026-11-03",
+   "start": "2026-11-04T03:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "North Florida",
+    "short": "North Florida",
+    "abbr": "UNF",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Atlantic Sun",
+     "Model rank": 337,
+     "Overall rating (pts/100 vs avg)": -12.2,
+     "Adj. offense (pts/100 vs avg)": -2.2,
+     "Adj. defense (pts/100 vs avg)": -10.0,
+     "Tempo (possessions)": 73.8
+    }
+   },
+   "home": {
+    "name": "California Baptist",
+    "short": "California Baptist",
+    "abbr": "CBU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Big West",
+     "Model rank": 135,
+     "Overall rating (pts/100 vs avg)": 1.8,
+     "Adj. offense (pts/100 vs avg)": -2.9,
+     "Adj. defense (pts/100 vs avg)": 4.7,
+     "Tempo (possessions)": 68.7
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -14.2,
+    "total": 154.2,
+    "home_win_prob": 0.902
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401924911",
+   "date": "2026-11-03",
+   "start": "2026-11-04T03:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Northern Arizona",
+    "short": "Northern Arizona",
+    "abbr": "NAU",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Big Sky",
+     "Model rank": 326,
+     "Overall rating (pts/100 vs avg)": -10.7,
+     "Adj. offense (pts/100 vs avg)": -1.9,
+     "Adj. defense (pts/100 vs avg)": -8.9,
+     "Tempo (possessions)": 62.8
+    }
+   },
+   "home": {
+    "name": "UNLV",
+    "short": "UNLV",
+    "abbr": "UNLV",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Mountain West",
+     "Model rank": 107,
+     "Overall rating (pts/100 vs avg)": 4.5,
+     "Adj. offense (pts/100 vs avg)": 4.3,
+     "Adj. defense (pts/100 vs avg)": 0.2,
+     "Tempo (possessions)": 68.9
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -14.1,
+    "total": 150.2,
+    "home_win_prob": 0.9
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401925914",
+   "date": "2026-11-03",
+   "start": "2026-11-04T03:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Lewis & Clark",
+    "short": "Lewis & Clark",
+    "abbr": "LC",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "Portland State",
+    "short": "Portland State",
+    "abbr": "PRST",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Big Sky",
+     "Model rank": 190,
+     "Overall rating (pts/100 vs avg)": -1.1,
+     "Adj. offense (pts/100 vs avg)": -1.9,
+     "Adj. defense (pts/100 vs avg)": 0.8,
+     "Tempo (possessions)": 67.2
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -43.9,
+    "total": 150.2,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
+   "id": "ncaab-401929624",
+   "date": "2026-11-03",
+   "start": "2026-11-04T03:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Chapman",
+    "short": "Chapman",
+    "abbr": "CHAP",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "UC Irvine",
+    "short": "UC Irvine",
+    "abbr": "UCI",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Big West",
+     "Model rank": 124,
+     "Overall rating (pts/100 vs avg)": 2.7,
+     "Adj. offense (pts/100 vs avg)": -2.6,
+     "Adj. defense (pts/100 vs avg)": 5.2,
+     "Tempo (possessions)": 71.0
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -47.9,
+    "total": 150.5,
+    "home_win_prob": 1.0
    },
    "notes": []
   }
