@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-31T11:27Z",
+ "generated_at": "2026-10-31T15:52Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -112,7 +112,7 @@
    },
    "lines": {
     "book": "Draft Kings",
-    "spread": -7.5,
+    "spread": -6.5,
     "spread_open": -7.5,
     "total": 154.5,
     "total_open": 154.5,
@@ -122,9 +122,9 @@
     "away_ml_open": 260.0
    },
    "model": {
-    "spread": -6.6,
+    "spread": -5.9,
     "total": 152.9,
-    "home_win_prob": 0.724
+    "home_win_prob": 0.703
    },
    "notes": [
     "Neutral site: Field of 68 Opening Day Marathon",
@@ -1854,7 +1854,7 @@
     "book": "Draft Kings",
     "spread": -13.5,
     "spread_open": -13.5,
-    "total": 154.5,
+    "total": 155.5,
     "total_open": 152.5,
     "home_ml": -1000.0,
     "away_ml": 650.0,
@@ -1863,7 +1863,7 @@
    },
    "model": {
     "spread": -14.6,
-    "total": 149.9,
+    "total": 150.2,
     "home_win_prob": 0.907
    },
    "notes": [
