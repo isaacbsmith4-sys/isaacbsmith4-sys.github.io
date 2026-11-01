@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-10-31T22:04Z",
+ "generated_at": "2026-11-01T01:19Z",
  "games": [
   {
    "id": "ncaab-401920982",
@@ -47,7 +47,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -7.5,
     "spread_open": -7.5,
     "total": 147.5,
@@ -111,10 +111,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -6.5,
+    "book": "Draft Kings",
+    "spread": -7.5,
     "spread_open": -7.5,
-    "total": 155.5,
+    "total": 154.5,
     "total_open": 154.5,
     "home_ml": -298.0,
     "away_ml": 240.0,
@@ -122,9 +122,9 @@
     "away_ml_open": 260.0
    },
    "model": {
-    "spread": -5.9,
-    "total": 153.2,
-    "home_win_prob": 0.703
+    "spread": -6.6,
+    "total": 152.9,
+    "home_win_prob": 0.724
    },
    "notes": [
     "Neutral site: Field of 68 Opening Day Marathon",
@@ -175,7 +175,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -5.5,
     "spread_open": -5.5,
     "total": 147.5,
@@ -239,10 +239,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -3.5,
     "spread_open": -3.5,
-    "total": 134.5,
+    "total": 135.5,
     "total_open": 134.5,
     "home_ml": -170.0,
     "away_ml": 142.0,
@@ -251,7 +251,7 @@
    },
    "model": {
     "spread": -2.6,
-    "total": 134.3,
+    "total": 134.6,
     "home_win_prob": 0.595
    },
    "notes": [
@@ -303,7 +303,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -1.5,
     "spread_open": -1.5,
     "total": 165.5,
@@ -455,19 +455,19 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 8.5,
     "spread_open": 8.5,
-    "total": 161.5,
+    "total": 160.5,
     "total_open": 161.5,
-    "home_ml": 260.0,
-    "away_ml": -325.0,
+    "home_ml": 275.0,
+    "away_ml": -345.0,
     "home_ml_open": 260.0,
     "away_ml_open": -325.0
    },
    "model": {
     "spread": 6.8,
-    "total": 157.6,
+    "total": 157.3,
     "home_win_prob": 0.267
    },
    "notes": [
@@ -651,8 +651,8 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": 2.5,
+    "book": "Draft Kings",
+    "spread": 1.5,
     "spread_open": 2.5,
     "total": 148.5,
     "total_open": 148.5,
@@ -662,9 +662,9 @@
     "away_ml_open": -142.0
    },
    "model": {
-    "spread": 1.0,
+    "spread": 0.3,
     "total": 147.8,
-    "home_win_prob": 0.463
+    "home_win_prob": 0.488
    },
    "notes": [
     "Neutral site: Field of 68 Opening Day Marathon",
@@ -861,7 +861,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -3.5,
     "spread_open": -3.5,
     "total": 148.5,
@@ -925,7 +925,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -4.5,
     "spread_open": -5.5,
     "total": 161.5,
@@ -1917,20 +1917,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -13.5,
+    "book": "Draft Kings",
+    "spread": -12.5,
     "spread_open": -13.5,
     "total": 155.5,
     "total_open": 152.5,
-    "home_ml": -1000.0,
-    "away_ml": 650.0,
+    "home_ml": -1050.0,
+    "away_ml": 675.0,
     "home_ml_open": -900.0,
     "away_ml_open": 600.0
    },
    "model": {
-    "spread": -14.6,
+    "spread": -13.9,
     "total": 150.2,
-    "home_win_prob": 0.907
+    "home_win_prob": 0.896
    },
    "notes": [
     "Neutral site",
@@ -5003,7 +5003,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 5.5,
     "spread_open": 4.5,
     "total": 155.5,
@@ -7503,7 +7503,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -38.5,
     "spread_open": -35.5,
     "total": 147.5,
@@ -7617,7 +7617,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -3.5,
     "spread_open": -1.5,
     "total": 160.5,
@@ -8265,7 +8265,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 4.5,
     "spread_open": 4.5,
     "total": 149.5,
