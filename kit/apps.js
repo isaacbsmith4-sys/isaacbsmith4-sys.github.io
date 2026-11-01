@@ -27,7 +27,7 @@
     {id: "train", name: "Train", color: "#3fd3ff", path: "../train/", built: true, blurb: "Lifting, progressive overload, PRs"},
     {id: "habits", name: "Habits", color: "#ff7eb6", path: "../habits/", built: true, blurb: "Routines, streaks, non-negotiables"},
     {id: "school", name: "School", color: "#f2c14e", phase: 3, blurb: "Assignments, grades, study tools"},
-    {id: "focus", name: "Focus", color: "#6aa8ff", phase: 3, blurb: "Focus timer and study hours"},
+    {id: "focus", name: "Focus", color: "#6aa8ff", path: "../focus/", built: true, blurb: "Focus timer and study hours"},
     {id: "mindset", name: "Mindset", color: "#d29bff", phase: 3, blurb: "Journal, reflections, weekly review"},
     {id: "recovery", name: "Recovery", color: "#46d1c4", phase: 4, blurb: "Readiness, soreness, training load"},
     {id: "basketball", name: "Basketball", color: "#e0955a", phase: 4, blurb: "Shooting charts and skill work"},
@@ -207,6 +207,31 @@
     };
   })();
 
+  /* ---------- Focus ---------- */
+  const focus = (() => {
+    const sessions = Life.col("focus/sessions", {months: 4}), settings = Life.doc("focus/settings"), state = Life.doc("focus/state");
+    const goal = () => ((settings.get() || {}).goal) || 120;
+    const all = () => Object.values(sessions.all());
+    return {
+      has: () => !!settings.get() || all().length > 0,
+      today(k) {
+        const list = all().filter(x => x.date === k), a = (state.get() || {}).active;
+        return {min: list.reduce((t, x) => t + x.min, 0), goal: goal(), count: list.length, active: a || null};
+      },
+      events(from, to) {
+        return all().filter(x => x.date >= from && x.date <= to).map(x => ({date: x.date, time: new Date(x.start), end: new Date(x.end), app: "focus",
+          title: `Focus · ${dur(x.min)}`, detail: [x.label || x.cat, x.label ? x.cat : "", x.distractions && x.distractions.length ? plural(x.distractions.length, "distraction") : "no distractions"].filter(Boolean).join(" · ")}));
+      },
+      series(from, to) {
+        const by = {}, school = {};
+        for (const x of all()) if (x.date >= from && x.date <= to) { by[x.date] = (by[x.date] || 0) + x.min; if (x.cat === "School") school[x.date] = (school[x.date] || 0) + x.min; }
+        return {"focus.min": Object.entries(by).sort().map(([date, v]) => ({date, v})), "focus.school": Object.entries(school).sort().map(([date, v]) => ({date, v}))};
+      },
+      goal,
+      load: months => sessions.load(months),
+    };
+  })();
+
   // agg: how a stretch of days adds up (avg of logged days, sum, or the latest value); better: 1 up, -1 down, 0 depends
   const METRICS = {
     "sleep.asleep": {app: "sleep", label: "Sleep", unit: "h", agg: "avg", better: 1, dp: 1},
@@ -219,10 +244,12 @@
     "train.workouts": {app: "train", label: "Workouts", unit: "per week", agg: "sum", better: 1, dp: 0},
     "train.sets": {app: "train", label: "Hard sets", unit: "per week", agg: "sum", better: 1, dp: 0},
     "habits.pct": {app: "habits", label: "Habits done", unit: "%", agg: "avg", better: 1, dp: 0},
+    "focus.min": {app: "focus", label: "Focus time", unit: "min", agg: "sum", better: 1, dp: 0},
+    "focus.school": {app: "focus", label: "Study time", unit: "min", agg: "sum", better: 1, dp: 0},
   };
   const metricInfo = id => METRICS[id] || (id.startsWith("train.lift:") ? {app: "train", label: id.slice(11) + " est. max", unit: "lb", agg: "last", better: 1, dp: 0} : null);
 
-  const adapters = {sleep, fuel, train, habits};
+  const adapters = {sleep, fuel, train, habits, focus};
   /** daily points for one metric id between two dates (inclusive) */
   function metric(id, from, to) { const a = adapters[(metricInfo(id) || {}).app]; return a && a.series ? (a.series(from, to)[id] || []) : []; }
   window.LifeApps = {APPS, adapters, METRICS, metricInfo, metric, util: {ymd, parseKey, addDays, dur, time}};

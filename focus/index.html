@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070a12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Focus">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Focus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one screen per tab (Timer / History / Report / Settings), bottom tab bar. The timer screen is
+   the hero: one big countdown ring and mono digits, nothing else competing while a session runs.
+   Deep navy ground, sky blue as the one accent; each focus category keeps its own small color. */
+:root{
+  color-scheme:dark;
+  --bg:#070a12; --surface:#0f1420; --surface2:#151c2b; --sunk:#0b0f19; --line:#212a3c; --line-hi:#33405a;
+  --ink:#ecf1fb; --ink2:#c0cadc; --muted:#8592ab; --faint:#56627a;
+  --accent:#6aa8ff; --accent-bg:rgba(106,168,255,.13); --on-accent:#04101f;
+  --good:#5fe0a0; --warn:#f5b85a; --bad:#ff6b7d;
+  --display:"Instrument Sans","Avenir Next",system-ui,sans-serif;
+  --body:"Instrument Sans","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --tabh:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);min-height:100vh;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(var(--tabh) + 24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(90% 50% at 50% -10%,rgba(106,168,255,.12),transparent 65%)}
+body.running::before{background:radial-gradient(90% 60% at 50% 30%,rgba(106,168,255,.08),transparent 70%)}
+.wrap{position:relative;max-width:620px;margin:0 auto}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:18px 0 14px;flex-wrap:wrap}
+header h1{font:700 27px var(--display);margin:0;letter-spacing:-.01em}
+header p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.screen{display:grid;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;min-width:0}
+.card h2{font:700 17px var(--display);margin:0}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sub,.note{color:var(--muted);font-size:12.5px}
+.eyebrow{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hero{display:grid;justify-items:center;gap:14px;padding:22px 16px}
+.ringbox{position:relative;width:min(270px,76vw);aspect-ratio:1}
+.ringbox svg{width:100%;height:100%;display:block}
+.ringbox .c{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.clock{font:300 clamp(46px,15vw,64px) var(--mono);letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.arc{filter:drop-shadow(0 0 8px var(--c,var(--accent)))}
+.phase{font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--c,var(--accent));margin-bottom:8px}
+.today{display:flex;gap:16px;align-items:center}
+.mini{position:relative;width:64px;flex:none;aspect-ratio:1}
+.mini svg{width:100%;height:100%}
+.btn{appearance:none;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:700 14px var(--body);padding:11px 16px;border-radius:14px;cursor:pointer;white-space:nowrap}
+.btn.go{background:var(--accent);color:var(--on-accent);border-color:var(--accent);box-shadow:0 0 26px -8px var(--accent)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.wide{width:100%;padding:15px;font-size:16px}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:11px}
+.btn:disabled{opacity:.45}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible,select:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{min-width:0}
+.between{justify-content:space-between}
+.ctl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;max-width:420px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:11px;padding:10px 11px;min-width:0}
+input[type=number],input[type=time],input[type=date]{font-family:var(--mono)}
+label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 110px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:999px;padding:8px 12px;font:600 13px var(--body);cursor:pointer}
+.chip.on{border-color:var(--c,var(--accent));background:color-mix(in srgb,var(--c,var(--accent)) 16%,transparent);color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c);display:inline-block}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;width:100%}
+.seg button{flex:1;border:0;background:none;color:var(--muted);font:700 13px var(--body);padding:10px 4px;cursor:pointer}
+.seg button.on{background:var(--accent-bg);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;padding:4px 0}
+.sw{flex:none;width:44px;height:26px;border-radius:13px;background:var(--line-hi);position:relative}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--ink);transition:transform .2s}
+.toggle.on .sw{background:var(--accent)}
+.toggle.on .sw::after{transform:translateX(18px);background:var(--on-accent)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:2px}
+.stat .v{font:700 24px var(--display);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat .s{font-size:12px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font:10px var(--mono)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.item{display:flex;align-items:center;gap:12px;padding:11px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.item:last-child{border-bottom:0}
+.item .m{flex:1;min-width:0}
+.item .m b{font-weight:600}
+.item .t{font:600 14px var(--mono)}
+.bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden}
+.bar b{display:block;height:100%;background:var(--c);border-radius:5px}
+.crow{display:grid;grid-template-columns:110px minmax(0,1fr) 62px;gap:10px;align-items:center;font-size:13.5px;padding:5px 0}
+.crow span:last-child{font:600 12.5px var(--mono);text-align:right}
+.empty{color:var(--muted);font-size:14px;padding:16px;border:1px dashed var(--line-hi);border-radius:14px;text-align:center}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(7,10,18,.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+nav.tabs .in{display:flex;width:100%;max-width:620px}
+.tab{flex:1;border:0;background:none;color:var(--faint);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:6px 0;cursor:pointer}
+.tab svg{width:22px;height:22px}
+.tab[aria-selected=true]{color:var(--accent)}
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(2,4,9,.72);backdrop-filter:blur(5px);display:grid;align-items:end;justify-items:center}
+.sheet .in{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;display:grid;gap:14px;align-content:start;
+  padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));animation:up .22s ease-out}
+.sheet h3{margin:0;font:700 20px var(--display)}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--surface2);border:1px solid var(--line-hi);border-radius:13px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:calc(100vw - 32px)}
+.toast button{border:0;background:none;color:var(--accent);font:700 13px var(--body);cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div><h1 id="title">Focus</h1><p id="sub"></p></div><div id="sync"></div></header>
+  <main id="main" class="screen"></main>
+</div>
+<nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
+<div id="overlay"></div>
+<script src="../kit/kit.js?v=6"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rid = () => Math.random().toString(36).slice(2, 10);
+const pad = n => String(n).padStart(2, "0");
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const dayOf = d => ymd(new Date(d.getTime() - 3 * 3600e3)); // sessions before 3 AM count toward the day before
+const todayKey = () => dayOf(new Date());
+const parseKey = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return ymd(d); };
+const weekStart = k => addDays(k, -parseKey(k).getDay());
+const hm = min => { min = Math.max(0, Math.round(min)); const h = Math.floor(min / 60), m = min % 60; return h ? `${h}h ${pad(m)}m` : `${m}m`; };
+const clockOf = ms => { const s = Math.max(0, Math.round(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return (h ? h + ":" + pad(m) : m) + ":" + pad(s % 60); };
+const tOf = iso => new Date(iso).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"});
+const CATS = {School: "#f2c14e", Basketball: "#e0955a", Reading: "#d29bff", "Personal projects": "#5fe0a0", Other: "#8592ab"};
+const WHY = ["Phone", "Texts", "Social media", "Noise / people", "Mind wandered", "Hungry / tired", "Other"];
+const DEFAULT_SETTINGS = {goal: 120, focus: 25, short: 5, long: 15, every: 4, phoneGoal: 90, wake: true, autoBreak: true, lastCat: "School"};
+
+/* ---------- state + shared LIFE HQ data ---------- */
+const KEY = "focusapp:v1";
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+if (!S || !S.settings) S = {settings: {...DEFAULT_SETTINGS}, sessions: {}, active: null};
+S.settings = {...DEFAULT_SETTINGS, ...S.settings};
+const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const SESS = Life.col("focus/sessions", {months: 4}), SET = Life.doc("focus/settings"), STATE = Life.doc("focus/state");
+const save = () => { localSave(); SET.set(S.settings); STATE.set({active: S.active || null}); SESS.replace(S.sessions); };
+function adopt() {
+  const st = SET.get(); if (st) S.settings = {...DEFAULT_SETTINGS, ...st};
+  S.sessions = SESS.all();
+  const sa = STATE.get(); if (sa) S.active = sa.active || null;
+  localSave();
+}
+SESS.seed(S.sessions); SET.seed(S.settings); STATE.seed({active: S.active || null}); adopt();
+
+/* ---------- the running session ----------
+   Everything is stored as timestamps (start, pauses), so the timer is right even if the phone locks or
+   the app is closed mid-session. `phase` is focus or break; breaks are never counted as focus time. */
+const now = () => Date.now();
+const pausedMs = a => (a.pauses || []).reduce((t, p) => t + ((p.until ? new Date(p.until).getTime() : now()) - new Date(p.at).getTime()), 0);
+const elapsed = a => now() - new Date(a.phaseStart).getTime() - pausedMs(a);
+const isPaused = a => (a.pauses || []).some(p => !p.until);
+const plannedMs = a => a.phase === "focus" ? (a.mode === "free" ? null : a.len * 60000) : a.len * 60000;
+function startSession(mode, len) {
+  const st = S.settings;
+  S.active = {id: rid(), mode, cat: picker.cat, label: picker.label.trim(), phone: picker.phone, phase: "focus", len: mode === "free" ? null : len,
+    phaseStart: new Date().toISOString(), pauses: [], distractions: [], round: 1, focusMs: 0, firstStart: new Date().toISOString(), longest: 0, lastBreak: new Date().toISOString()};
+  st.lastCat = picker.cat; save(); keepAwake(); render();
+}
+/** close the current focus stretch: add its time to the session; returns the stretch in ms */
+function closeFocusPhase(a, endAt) {
+  const ms = Math.max(0, (endAt || now()) - new Date(a.phaseStart).getTime() - pausedMs(a));
+  a.focusMs += ms;
+  // longest unbroken = longest gap between the phase start, distractions and pauses
+  const marks = [new Date(a.phaseStart).getTime(), ...a.distractions.filter(d => d.phase === a.round).map(d => new Date(d.t).getTime()), ...(a.pauses || []).map(p => new Date(p.at).getTime()), endAt || now()].sort((x, y) => x - y);
+  for (let i = 1; i < marks.length; i++) a.longest = Math.max(a.longest, marks[i] - marks[i - 1]);
+  return ms;
+}
+function logSession(a, endAt) {
+  const end = new Date(endAt || now()), min = Math.round(a.focusMs / 60000);
+  if (min >= 1) S.sessions[a.id] = {date: dayOf(new Date(a.firstStart)), start: a.firstStart, end: end.toISOString(), min, cat: a.cat, label: a.label, mode: a.mode,
+    rounds: a.mode === "pomodoro" ? a.round : 1, distractions: a.distractions.map(d => ({t: d.t, why: d.why})), longest: Math.round(a.longest / 60000), phone: !!a.phone};
+  S.active = null; releaseAwake();
+  return min;
+}
+/** called on every tick and when the app comes back: moves a pomodoro from focus to break and back when its time is up */
+function advance() {
+  const a = S.active; if (!a || isPaused(a)) return;
+  const st = S.settings, plan = plannedMs(a);
+  if (plan == null || elapsed(a) < plan) return;
+  const endAt = new Date(a.phaseStart).getTime() + pausedMs(a) + plan;
+  if (a.phase === "focus") {
+    closeFocusPhase(a, endAt);
+    chime();
+    if (a.mode === "single") { const m = logSession(a, endAt); save(); render(); toast(`Done: ${m} min of focus saved.`); return; }
+    const long = a.round % st.every === 0;
+    Object.assign(a, {phase: "break", len: long ? st.long : st.short, phaseStart: new Date(endAt).toISOString(), pauses: []});
+    if (!st.autoBreak) a.pauses = [{at: new Date(endAt).toISOString()}];
+    save(); render(); toast(long ? `Round ${a.round} done. Long break: ${st.long} min.` : `Round ${a.round} done. ${st.short}-minute break.`);
+  } else {
+    chime();
+    Object.assign(a, {phase: "focus", len: st.focus, phaseStart: new Date(endAt).toISOString(), pauses: [{at: new Date(endAt).toISOString()}], round: a.round + 1});
+    save(); render(); toast("Break's over. Tap Resume when you're ready.");
+  }
+}
+let audio;
+function chime() {
+  try { audio ||= new (window.AudioContext || window.webkitAudioContext)();
+    [660, 880].forEach((f, i) => { const o = audio.createOscillator(), g = audio.createGain(); o.frequency.value = f; const t0 = audio.currentTime + i * .22;
+      g.gain.setValueAtTime(.16, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + .5); o.connect(g).connect(audio.destination); o.start(t0); o.stop(t0 + .5); }); } catch (e) {}
+}
+let wakeLock = null;
+async function keepAwake() { if (!S.settings.wake || !("wakeLock" in navigator)) return; try { wakeLock = await navigator.wakeLock.request("screen"); } catch (e) {} }
+function releaseAwake() { try { wakeLock?.release(); } catch (e) {} wakeLock = null; }
+
+/* ---------- numbers ---------- */
+const sessions = () => Object.entries(S.sessions).map(([id, s]) => ({...s, id})).sort((a, b) => a.start.localeCompare(b.start));
+const minsOn = k => sessions().filter(s => s.date === k).reduce((t, s) => t + s.min, 0) + (S.active && dayOf(new Date(S.active.firstStart)) === k ? Math.round(liveFocusMs() / 60000) : 0);
+const liveFocusMs = () => { const a = S.active; if (!a) return 0; return a.focusMs + (a.phase === "focus" ? Math.max(0, Math.min(elapsed(a), plannedMs(a) ?? Infinity)) : 0); };
+const phoneFreeOn = k => sessions().filter(s => s.date === k && s.phone).reduce((t, s) => t + s.min, 0);
+function streakDays() { let k = todayKey(), n = 0; if (minsOn(k) < S.settings.goal) k = addDays(k, -1); while (minsOn(k) >= S.settings.goal && n < 999) { n++; k = addDays(k, -1); } return n; }
+
+/* ---------- ui bits ---------- */
+let toastT;
+function toast(msg, undo) {
+  document.querySelectorAll(".toast").forEach(t => t.remove());
+  const o = document.createElement("div"); o.className = "toast"; o.setAttribute("role", "status");
+  o.innerHTML = `<span>${esc(msg)}</span>${undo ? "<button>Undo</button>" : ""}`; document.body.appendChild(o);
+  if (undo) o.querySelector("button").onclick = () => { undo(); save(); o.remove(); render(); };
+  clearTimeout(toastT); toastT = setTimeout(() => o.remove(), 4500);
+}
+function ring(size, sw, frac, color, glow = true) {
+  const r = (size - sw) / 2, C = 2 * Math.PI * r, c = size / 2;
+  return `<svg viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="var(--line)" stroke-width="${sw}"/><circle ${glow ? 'class="arc"' : ""} style="--c:${color}" cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - clamp(frac, 0, 1))).toFixed(1)}" transform="rotate(-90 ${c} ${c})"/></svg>`;
+}
+const sheet = html => { $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog">${html}</div></div>`; };
+const closeSheet = () => { $("#overlay").innerHTML = ""; };
+const ICONS = {
+  timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/>',
+  history: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  report: '<path d="M3 20h18M5 16l4-5 4 3 6-8"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+};
+const TABS = [["timer", "Timer"], ["history", "History"], ["report", "Report"], ["settings", "Settings"]];
+let tab = TABS.some(t => t[0] === location.hash.slice(1)) ? location.hash.slice(1) : "timer";
+function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0, 0); }
+
+/* ================= TIMER ================= */
+const picker = {cat: S.settings.lastCat || "School", label: "", mode: "pomodoro", len: S.settings.focus, phone: true};
+function viewTimer() {
+  const a = S.active;
+  document.body.classList.toggle("running", !!a);
+  if (a) {
+    const plan = plannedMs(a), el = elapsed(a), c = a.phase === "break" ? "var(--good)" : CATS[a.cat] || "var(--accent)";
+    const shown = plan == null ? el : plan - el, frac = plan == null ? (el % 3600000) / 3600000 : el / plan, paused = isPaused(a);
+    return `<section class="card hero" style="--c:${c}">
+      <div class="ringbox">${ring(270, 12, frac, c)}<div class="c"><div>
+        <div class="phase">${paused ? "Paused" : a.phase === "break" ? "Break" : a.mode === "pomodoro" ? "Focus · round " + a.round : "Focus"}</div>
+        <div class="clock" id="clock">${clockOf(shown)}</div>
+        <div class="sub" style="margin-top:8px">${esc(a.cat)}${a.label ? " · " + esc(a.label) : ""}</div></div></div></div>
+      <div class="sub">${hm(liveFocusMs() / 60000)} focused this session · ${a.distractions.length} distraction${a.distractions.length === 1 ? "" : "s"}</div>
+      <div class="ctl">
+        <button class="btn" data-act="${paused ? "resume" : "pause"}">${paused ? "Resume" : "Pause"}</button>
+        ${a.phase === "focus" ? `<button class="btn" data-act="distract">Distracted</button>` : `<button class="btn" data-act="skipBreak">Skip break</button>`}
+        <button class="btn go" data-act="finish">Finish</button>
+      </div>
+      ${a.phone ? `<p class="note" style="margin:0">Phone-free session. Put it face down and away.</p>` : ""}
+    </section>`;
+  }
+  const k = todayKey(), done = minsOn(k), goal = S.settings.goal, st = S.settings;
+  return `<section class="card"><div class="today"><div class="mini">${ring(64, 7, done / goal, "var(--accent)", false)}</div>
+      <div><div class="eyebrow">Today</div><div style="font:700 20px var(--display)">${hm(done)} <span class="sub">of ${hm(goal)}</span></div><div class="sub">${streakDays() ? "🔥 " + streakDays() + "-day goal streak · " : ""}${hm(phoneFreeOn(k))} phone-free</div></div></div></section>
+    <section class="card"><div class="ch"><h2>New session</h2></div>
+      <div class="eyebrow" style="margin-bottom:6px">What for</div>
+      <div class="chips">${Object.keys(CATS).map(cn => `<button class="chip ${picker.cat === cn ? "on" : ""}" data-act="pcat" data-v="${cn}" style="--c:${CATS[cn]}"><span class="dot"></span> ${cn}</button>`).join("")}</div>
+      <input id="pLabel" value="${esc(picker.label)}" placeholder="Optional: chem worksheet, film study…" style="width:100%;margin-top:10px" aria-label="What you're working on">
+      <div class="eyebrow" style="margin:14px 0 6px">How</div>
+      <div class="seg">${[["pomodoro", `Pomodoro ${st.focus}/${st.short}`], ["single", "One block"], ["free", "Open-ended"]].map(([m, l]) => `<button class="${picker.mode === m ? "on" : ""}" data-act="pmode" data-v="${m}">${l}</button>`).join("")}</div>
+      ${picker.mode === "single" ? `<div class="chips" style="margin-top:10px">${[15, 30, 45, 60, 90].map(n => `<button class="chip ${picker.len === n ? "on" : ""}" data-act="plen" data-v="${n}">${n} min</button>`).join("")}</div>` : ""}
+      <p class="note" style="margin:8px 0 0">${picker.mode === "pomodoro" ? `${st.focus} min focus, ${st.short} min break; every ${st.every}th break is ${st.long} min. Runs until you tap Finish.` : picker.mode === "single" ? "One block of focus, then it saves itself." : "Counts up until you tap Finish. Good for deep work."}</p>
+      <div class="toggle ${picker.phone ? "on" : ""}" data-act="pphone" role="switch" aria-checked="${picker.phone}" tabindex="0" style="margin-top:10px"><span>Phone away (counts toward your phone-free goal)</span><span class="sw"></span></div>
+      <button class="btn go wide" style="margin-top:14px" data-act="start">Start focusing</button>
+    </section>
+    ${todayList()}`;
+}
+function todayList() {
+  const list = sessions().filter(s => s.date === todayKey()).reverse();
+  return list.length ? `<section class="card"><div class="ch"><h2>Today's sessions</h2><span class="sub">${list.length}</span></div>${list.map(sessionRow).join("")}</section>` : "";
+}
+function sessionRow(s) {
+  return `<div class="item" data-act="openS" data-id="${s.id}" role="button" tabindex="0" style="--c:${CATS[s.cat] || "var(--muted)"}"><span class="dot"></span>
+    <div class="m"><b>${esc(s.label || s.cat)}</b><div class="sub">${tOf(s.start)} · ${s.label ? esc(s.cat) + " · " : ""}${s.distractions.length} distraction${s.distractions.length === 1 ? "" : "s"}${s.longest ? ` · best stretch ${s.longest}m` : ""}${s.phone ? " · phone-free" : ""}</div></div><span class="t">${hm(s.min)}</span></div>`;
+}
+
+/* ================= HISTORY ================= */
+function viewHistory() {
+  const all = sessions().reverse();
+  const days = {}; all.forEach(s => (days[s.date] ||= []).push(s));
+  return `<button class="btn wide" data-act="manual">+ Add a session you didn't time</button>
+    ${all.length ? Object.entries(days).slice(0, 30).map(([k, list]) => `<section class="card"><div class="ch"><h2>${parseKey(k).toLocaleDateString([], {weekday: "long", month: "short", day: "numeric"})}</h2><span class="sub num">${hm(list.reduce((t, s) => t + s.min, 0))}</span></div>${list.map(sessionRow).join("")}</section>`).join("")
+      : '<div class="empty">Finished sessions save here automatically.</div>'}`;
+}
+function openSession(id) {
+  const s = {...S.sessions[id], id}, why = {};
+  s.distractions.forEach(d => why[d.why] = (why[d.why] || 0) + 1);
+  sheet(`<div class="row between"><h3>${esc(s.label || s.cat)}</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+    <div class="stats"><div class="stat"><span class="eyebrow">Focused</span><span class="v">${hm(s.min)}</span><span class="s">${tOf(s.start)} – ${tOf(s.end)}</span></div><div class="stat"><span class="eyebrow">Best stretch</span><span class="v">${s.longest ? s.longest + "m" : "–"}</span><span class="s">without a distraction</span></div></div>
+    <div class="sub">${esc(s.cat)} · ${s.mode === "pomodoro" ? s.rounds + " pomodoro round" + (s.rounds === 1 ? "" : "s") : s.mode === "free" ? "open-ended" : "one block"}${s.phone ? " · phone-free" : ""}</div>
+    ${s.distractions.length ? `<div><div class="eyebrow" style="margin-bottom:6px">Distractions</div>${Object.entries(why).map(([w, n]) => `<div class="row between" style="padding:4px 0"><span>${esc(w)}</span><span class="num">${n}</span></div>`).join("")}</div>` : `<p class="note" style="margin:0">No distractions logged.</p>`}
+    <div class="row"><label class="f">Minutes<input id="eMin" type="number" value="${s.min}" min="1"></label><label class="f">Category<select id="eCat">${Object.keys(CATS).map(c => `<option ${c === s.cat ? "selected" : ""}>${c}</option>`).join("")}</select></label></div>
+    <div class="row"><button class="btn go" data-act="saveS" data-id="${id}">Save changes</button><button class="btn ghost" style="color:var(--bad)" data-act="delS" data-id="${id}">Delete</button></div>`);
+}
+
+/* ================= REPORT ================= */
+function viewReport() {
+  const all = sessions(), k = todayKey();
+  if (!all.length) return '<div class="empty">Your weekly report fills in after your first few sessions.</div>';
+  const ws = weekStart(k), lws = addDays(ws, -7), inR = (a, b) => all.filter(s => s.date >= a && s.date <= b);
+  const thisW = inR(ws, k), lastW = inR(lws, addDays(ws, -1)), sum = l => l.reduce((t, s) => t + s.min, 0);
+  const elapsedDays = Math.round((parseKey(k) - parseKey(ws)) / 864e5) + 1, goalW = S.settings.goal * 7;
+  // last 14 days, stacked by category
+  const days = []; for (let i = 13; i >= 0; i--) { const d = addDays(k, -i), by = {}; all.filter(s => s.date === d).forEach(s => by[s.cat] = (by[s.cat] || 0) + s.min); days.push({d, by, t: Object.values(by).reduce((a, b) => a + b, 0)}); }
+  const W = 330, H = 150, pl = 30, pb = 18, maxM = Math.max(S.settings.goal * 1.2, ...days.map(x => x.t)), bw = (W - pl) / 14, Y = m => H - pb - m / maxM * (H - pb - 10);
+  const bars = days.map((x, i) => { let y = H - pb; return Object.keys(CATS).filter(c => x.by[c]).map(c => { const h = x.by[c] / maxM * (H - pb - 10); y -= h; return `<rect x="${pl + i * bw + bw * .18}" y="${y}" width="${bw * .64}" height="${h}" fill="${CATS[c]}" rx="2"/>`; }).join("") + `<text x="${pl + i * bw + bw / 2}" y="${H - 4}" text-anchor="middle">${"SMTWTFS"[parseKey(x.d).getDay()]}</text>`; }).join("");
+  const grid = [60, 120, 180, 240].filter(m => m <= maxM).map(m => `<line x1="${pl}" x2="${W}" y1="${Y(m)}" y2="${Y(m)}" stroke="var(--line)"/><text x="${pl - 4}" y="${Y(m) + 3}" text-anchor="end">${m / 60}h</text>`).join("");
+  const chart = `<svg class="chart" viewBox="0 0 ${W} ${H}">${grid}<line x1="${pl}" x2="${W}" y1="${Y(S.settings.goal)}" y2="${Y(S.settings.goal)}" stroke="var(--accent)" stroke-dasharray="4 4"/>${bars}</svg>`;
+  const byCat = (l) => { const o = {}; l.forEach(s => o[s.cat] = (o[s.cat] || 0) + s.min); return o; };
+  const cw = byCat(thisW), cl = byCat(lastW), maxC = Math.max(1, ...Object.values(cw), ...Object.values(cl));
+  const last30 = inR(addDays(k, -29), k), dist = last30.reduce((t, s) => t + s.distractions.length, 0), min30 = sum(last30);
+  const why = {}; last30.forEach(s => s.distractions.forEach(d => why[d.why] = (why[d.why] || 0) + 1));
+  const topWhy = Object.entries(why).sort((a, b) => b[1] - a[1])[0];
+  const avgLen = last30.length ? min30 / last30.length : 0, best = Math.max(0, ...last30.map(s => s.longest || 0));
+  const delta = sum(lastW) ? Math.round((sum(thisW) - sum(lastW)) / 60 * 10) / 10 : null;
+  return `<section class="stats">
+      <div class="stat"><span class="eyebrow">This week</span><span class="v">${hm(sum(thisW))}</span><span class="s">${delta != null ? (delta >= 0 ? "▲ " : "▼ ") + Math.abs(delta) + "h vs all of last week" : `goal pace ${hm(S.settings.goal * elapsedDays)}`}</span></div>
+      <div class="stat"><span class="eyebrow">Weekly goal</span><span class="v">${Math.round(sum(thisW) / goalW * 100)}%</span><span class="s">of ${hm(goalW)}</span></div>
+      <div class="stat"><span class="eyebrow">Avg session</span><span class="v">${hm(avgLen)}</span><span class="s">last 30 days</span></div>
+      <div class="stat"><span class="eyebrow">Best stretch</span><span class="v">${best ? best + "m" : "–"}</span><span class="s">without a distraction</span></div></section>
+    <section class="card"><div class="ch"><h2>Last 14 days</h2><span class="sub">dashed = daily goal</span></div>${chart}
+      <div class="legend">${Object.keys(CATS).filter(c => days.some(x => x.by[c])).map(c => `<span><i class="dot" style="--c:${CATS[c]}"></i>${c}</span>`).join("")}</div></section>
+    <section class="card"><div class="ch"><h2>By category</h2><span class="sub">this week · last week</span></div>
+      ${Object.keys(CATS).filter(c => cw[c] || cl[c]).map(c => `<div class="crow" style="--c:${CATS[c]}"><span>${c}</span><div style="display:grid;gap:3px"><div class="bar"><b style="width:${(cw[c] || 0) / maxC * 100}%"></b></div><div class="bar" style="height:4px;opacity:.5"><b style="width:${(cl[c] || 0) / maxC * 100}%"></b></div></div><span>${hm(cw[c] || 0)}</span></div>`).join("") || '<p class="note">Nothing this week or last yet.</p>'}</section>
+    <section class="card"><div class="ch"><h2>Distractions</h2><span class="sub">last 30 days</span></div>
+      <div class="stats"><div class="stat"><span class="eyebrow">Per hour</span><span class="v">${min30 ? (dist / (min30 / 60)).toFixed(1) : "–"}</span><span class="s">${dist} total</span></div><div class="stat"><span class="eyebrow">Biggest one</span><span class="v" style="font-size:19px">${topWhy ? esc(topWhy[0]) : "–"}</span><span class="s">${topWhy ? topWhy[1] + " times" : "none logged"}</span></div></div>
+      ${topWhy && /Phone|Texts|Social/.test(topWhy[0]) ? `<p class="note" style="margin:10px 0 0">Your phone is the main pull. Sessions marked phone-free put it in another room, not just face down.</p>` : ""}</section>`;
+}
+
+/* ================= SETTINGS ================= */
+function viewSettings() {
+  const st = S.settings;
+  return `<section class="card"><div class="ch"><h2>Goals</h2></div>
+      <div class="row"><label class="f">Daily focus goal (min)<input type="number" data-set="goal" value="${st.goal}" min="10" step="10"></label><label class="f">Phone-free goal (min/day)<input type="number" data-set="phoneGoal" value="${st.phoneGoal}" min="0" step="10"></label></div></section>
+    <section class="card"><div class="ch"><h2>Pomodoro</h2></div>
+      <div class="row"><label class="f">Focus (min)<input type="number" data-set="focus" value="${st.focus}" min="5"></label><label class="f">Short break<input type="number" data-set="short" value="${st.short}" min="1"></label><label class="f">Long break<input type="number" data-set="long" value="${st.long}" min="1"></label><label class="f">Long break every<input type="number" data-set="every" value="${st.every}" min="2"></label></div>
+      <div class="toggle ${st.autoBreak ? "on" : ""}" data-act="tset" data-k="autoBreak" role="switch" aria-checked="${st.autoBreak}" tabindex="0" style="margin-top:10px"><span>Start breaks automatically</span><span class="sw"></span></div>
+      <div class="toggle ${st.wake ? "on" : ""}" data-act="tset" data-k="wake" role="switch" aria-checked="${st.wake}" tabindex="0"><span>Keep the screen on during a session</span><span class="sw"></span></div>
+      <p class="note" style="margin:8px 0 0">The timer keeps correct time even if your phone locks. Web apps can't buzz you while locked, so keep the screen on, or set an iPhone timer to match.</p></section>
+    <section class="card"><div class="ch"><h2>Backup</h2><span class="sub">${Object.keys(S.sessions).length} sessions</span></div>
+      <div class="row"><button class="btn" data-act="export">Save backup</button><label class="btn ghost" style="position:relative;overflow:hidden">Restore backup<input type="file" accept="application/json,.json" id="importFile" style="position:absolute;inset:0;opacity:0"></label></div></section>
+    <p class="note" style="text-align:center">Open this from LIFE HQ so all your apps share the same data.</p>`;
+}
+
+/* ---------- render + tick ---------- */
+function render() {
+  $("#title").textContent = {timer: S.active ? "Focusing" : "Focus", history: "History", report: "Report", settings: "Settings"}[tab];
+  $("#sub").textContent = new Date().toLocaleDateString([], {weekday: "long", month: "long", day: "numeric"});
+  $("#tabs").innerHTML = TABS.map(([id, l]) => `<button class="tab" role="tab" aria-selected="${id === tab}" data-act="tab" data-id="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]}</svg>${l}</button>`).join("");
+  $("#main").innerHTML = {timer: viewTimer, history: viewHistory, report: viewReport, settings: viewSettings}[tab]();
+  document.title = S.active && !isPaused(S.active) ? `${clockOf(plannedMs(S.active) == null ? elapsed(S.active) : plannedMs(S.active) - elapsed(S.active))} · Focus` : "Focus";
+}
+setInterval(() => {
+  if (!S.active) return;
+  advance();
+  if (!S.active) return;
+  const a = S.active, plan = plannedMs(a), el = elapsed(a), c = $("#clock");
+  if (c && tab === "timer" && !$("#overlay").innerHTML) {
+    c.textContent = clockOf(plan == null ? el : plan - el);
+    const arc = document.querySelector(".ringbox .arc"); if (arc) { const C = +arc.getAttribute("stroke-dasharray"); arc.setAttribute("stroke-dashoffset", (C * (1 - clamp(plan == null ? (el % 3600000) / 3600000 : el / plan, 0, 1))).toFixed(1)); }
+  }
+  if (!isPaused(a)) document.title = `${clockOf(plan == null ? el : plan - el)} · Focus`;
+}, 500);
+
+/* ---------- actions ---------- */
+const A = {
+  tab: el => go(el.dataset.id),
+  pcat(el) { picker.cat = el.dataset.v; render(); },
+  pmode(el) { picker.mode = el.dataset.v; if (picker.mode === "single" && ![15, 30, 45, 60, 90].includes(picker.len)) picker.len = 30; render(); },
+  plen(el) { picker.len = +el.dataset.v; render(); },
+  pphone() { picker.phone = !picker.phone; render(); },
+  start() { picker.label = $("#pLabel")?.value || ""; startSession(picker.mode, picker.mode === "pomodoro" ? S.settings.focus : picker.len); picker.label = ""; chime(); },
+  pause() { S.active.pauses.push({at: new Date().toISOString()}); save(); render(); },
+  resume() { const a = S.active, p = a.pauses.find(x => !x.until); if (p) p.until = new Date().toISOString(); save(); keepAwake(); render(); },
+  skipBreak() { const a = S.active, st = S.settings; Object.assign(a, {phase: "focus", len: st.focus, phaseStart: new Date().toISOString(), pauses: [], round: a.round + 1}); save(); render(); },
+  distract() {
+    sheet(`<div class="row between"><h3>What pulled you away?</h3><button class="btn sm" data-act="closeSheet">Back</button></div>
+      <div class="chips">${WHY.map(w => `<button class="chip" data-act="why" data-v="${esc(w)}">${esc(w)}</button>`).join("")}</div>
+      <p class="note" style="margin:0">Logging it is the point: you'll see what keeps breaking your focus. The timer keeps running.</p>`);
+  },
+  why(el) { const a = S.active; a.distractions.push({t: new Date().toISOString(), why: el.dataset.v, phase: a.round}); save(); closeSheet(); render(); toast("Logged. Back to it."); },
+  finish() {
+    const a = S.active; if (a.phase === "focus") closeFocusPhase(a);
+    const m = logSession(a); save(); render();
+    toast(m >= 1 ? `Saved ${hm(m)} of focus.` : "Under a minute, so nothing was saved.");
+  },
+  openS(el) { openSession(el.dataset.id); },
+  saveS(el) { const s = S.sessions[el.dataset.id]; s.min = Math.max(1, Math.round(+$("#eMin").value) || s.min); s.cat = $("#eCat").value; save(); closeSheet(); render(); toast("Saved"); },
+  delS(el) { const id = el.dataset.id, s = S.sessions[id]; delete S.sessions[id]; save(); closeSheet(); render(); toast("Session deleted", () => { S.sessions[id] = s; }); },
+  manual() {
+    sheet(`<div class="row between"><h3>Add a session</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+      <div class="row"><label class="f">Day<input type="date" id="mDate" value="${todayKey()}" max="${todayKey()}"></label><label class="f">Started<input type="time" id="mTime" value="16:00"></label><label class="f">Minutes<input type="number" id="mMin" value="45" min="1"></label></div>
+      <div class="row"><label class="f">Category<select id="mCat">${Object.keys(CATS).map(c => `<option>${c}</option>`).join("")}</select></label><label class="f">What (optional)<input id="mLabel"></label></div>
+      <button class="btn go wide" data-act="saveManual">Add session</button>`);
+  },
+  saveManual() {
+    const d = $("#mDate").value || todayKey(), [h, mi] = ($("#mTime").value || "16:00").split(":").map(Number), min = Math.max(1, Math.round(+$("#mMin").value) || 0);
+    const start = parseKey(d); start.setHours(h, mi);
+    S.sessions[rid()] = {date: d, start: start.toISOString(), end: new Date(start.getTime() + min * 60000).toISOString(), min, cat: $("#mCat").value, label: $("#mLabel").value.trim(), mode: "manual", rounds: 1, distractions: [], longest: 0, phone: false};
+    save(); closeSheet(); render(); toast("Added " + hm(min));
+  },
+  tset(el) { const k = el.dataset.k; S.settings[k] = !S.settings[k]; save(); render(); },
+  closeSheet(el, ev) { if (ev.target === el || el.tagName === "BUTTON") closeSheet(); },
+  export() {
+    const blob = new Blob([JSON.stringify(S)], {type: "application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "focus-backup-" + todayKey() + ".json";
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  },
+};
+document.addEventListener("click", ev => {
+  const el = ev.target.closest("[data-act]");
+  if (!el || el.tagName === "INPUT" || el.tagName === "SELECT" || el.disabled) return;
+  A[el.dataset.act]?.(el, ev);
+});
+document.addEventListener("keydown", ev => {
+  if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches("[data-act][tabindex]")) { ev.preventDefault(); A[ev.target.dataset.act](ev.target, ev); }
+  if (ev.key === "Escape") closeSheet();
+});
+document.addEventListener("input", ev => { if (ev.target.id === "pLabel") picker.label = ev.target.value; });
+document.addEventListener("change", ev => {
+  const t = ev.target;
+  if (t.dataset.set) { const lim = {goal: [10, 900], phoneGoal: [0, 900], focus: [5, 120], short: [1, 60], long: [1, 90], every: [2, 10]}[t.dataset.set]; S.settings[t.dataset.set] = clamp(Math.round(+t.value) || lim[0], ...lim); save(); }
+  if (t.id === "importFile" && t.files[0]) t.files[0].text().then(txt => { const d = JSON.parse(txt); if (!d.settings || !d.sessions) throw 0; S = d; save(); render(); toast("Backup restored"); }).catch(() => toast("That file isn't a Focus backup."));
+});
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { advance(); if (S.active && !isPaused(S.active)) keepAwake(); if (!$("#overlay").innerHTML) render(); } });
+
+Life.mountStatus($("#sync"));
+Life.onChange(() => { adopt(); if (!$("#overlay").innerHTML && document.activeElement?.tagName !== "INPUT") render(); });
+advance();
+render();
+Life.start();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>

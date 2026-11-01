@@ -1,6 +1,6 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "hq-v5";
-const SHELL = ["./", "index.html", "manifest.webmanifest", "../kit/kit.js?v=5", "../kit/apps.js?v=5"];
+const CACHE = "hq-v6";
+const SHELL = ["./", "index.html", "manifest.webmanifest", "../kit/kit.js?v=6", "../kit/apps.js?v=6"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

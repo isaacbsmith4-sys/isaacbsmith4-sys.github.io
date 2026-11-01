@@ -454,7 +454,7 @@ function viewAnalytics() {
   if (sl.length) {
     const beds = metric("sleep.bedtime", from, to).map(p => p.v), m = avgOf(beds), sd = beds.length > 1 ? Math.sqrt(avgOf(beds.map(b => (b - m) ** 2))) : null;
     const bt = mm => { const d = new Date(2000, 0, 1); d.setMinutes(Math.round(mm) % 1440); return time(d); };
-    cards.push(`<section class="card" style="--c:${APP.sleep.color}"><div class="tag"><i></i>Sleep · ${sl.length} nights</div>
+    cards.push(`<section class="card" style="--c:${APP.sleep.color}"><div class="tag"><i></i>Sleep · ${plural(sl.length, "night")}</div>
       ${lineChart(sl, {color: APP.sleep.color, target: adapters.sleep.goalHours(), from, to, fmt: v => v.toFixed(1) + "h"})}
       <div class="mrow">${statBox("sleep.asleep", "Avg sleep", from, to, pFrom, pTo)}${statBox("sleep.rested", "Avg rested", from, to, pFrom, pTo)}
         <div><span>Avg bedtime</span><b>${m != null ? bt(m) : "–"}</b><em class="muted">${sd != null ? "±" + Math.round(sd) + " min " + (sd <= 30 ? "(steady)" : sd <= 60 ? "(drifting)" : "(all over)") : ""}</em></div></div></section>`);
@@ -463,7 +463,7 @@ function viewAnalytics() {
   const cal = metric("fuel.cal", from, to), wt = metric("fuel.weight", from, to);
   if (cal.length || wt.length) {
     const g = adapters.fuel.goals(), pr = metric("fuel.protein", from, to), hit = pr.filter(p => p.v >= g.p * .9).length;
-    cards.push(`<section class="card" style="--c:${APP.fuel.color}"><div class="tag"><i></i>Fuel · ${cal.length} days logged</div>
+    cards.push(`<section class="card" style="--c:${APP.fuel.color}"><div class="tag"><i></i>Fuel · ${plural(cal.length, "day")} logged</div>
       ${cal.length ? lineChart(cal, {color: APP.fuel.color, target: g.cal, from, to, bars: true, fmt: v => (v / 1000).toFixed(1) + "k"}) : ""}
       <div class="mrow">${statBox("fuel.cal", "Avg calories", from, to, pFrom, pTo)}${statBox("fuel.protein", "Avg protein", from, to, pFrom, pTo)}
         <div><span>Protein goal hit</span><b>${pr.length ? hit + "/" + pr.length : "–"}</b><em class="muted">days within 10%</em></div>
@@ -476,19 +476,19 @@ function viewAnalytics() {
     const ws = adapters.train.workouts().filter(w => w.date >= from && w.date <= to), prs = ws.reduce((a, w) => a + (w.prs || []).length, 0);
     const wk = {}; wo.forEach(p => { const d = parseKey(p.date); d.setDate(d.getDate() - d.getDay()); wk[ymd(d)] = (wk[ymd(d)] || 0) + p.v; });
     const weekly = Object.entries(wk).sort().map(([date, v]) => ({date, v}));
-    cards.push(`<section class="card" style="--c:${APP.train.color}"><div class="tag"><i></i>Train · ${ws.length} sessions</div>
+    cards.push(`<section class="card" style="--c:${APP.train.color}"><div class="tag"><i></i>Train · ${plural(ws.length, "session")}</div>
       ${lineChart(weekly, {color: APP.train.color, from: weekly[0].date, to: weekly[weekly.length - 1].date, bars: true, fmt: v => Math.round(v)})}
       <div class="mrow">${statBox("train.workouts", "Workouts / week", from, to, pFrom, pTo)}${statBox("train.sets", "Hard sets / week", from, to, pFrom, pTo)}
         <div><span>PRs</span><b>${prs}</b><em class="muted">in range</em></div></div></section>`);
   }
   // Focus
   const fm = metric("focus.min", from, to);
-  if (fm.length) cards.push(`<section class="card" style="--c:${APP.focus.color}"><div class="tag"><i></i>Focus · ${fm.length} days</div>
+  if (fm.length) cards.push(`<section class="card" style="--c:${APP.focus.color}"><div class="tag"><i></i>Focus · ${plural(fm.length, "day")}</div>
       ${lineChart(fm, {color: APP.focus.color, target: adapters.focus.goal(), from, to, bars: true, fmt: v => (v / 60).toFixed(1) + "h"})}
       <div class="mrow"><div><span>Total</span><b>${dur(fm.reduce((a, p) => a + p.v, 0))}</b><em class="muted">in range</em></div>${statBox("focus.min", "Per week", from, to, pFrom, pTo, {fmt: v => v == null ? "–" : dur(v)})}${statBox("focus.school", "Study / week", from, to, pFrom, pTo, {fmt: v => v == null ? "–" : dur(v)})}</div></section>`);
   // Habits
   const hp = metric("habits.pct", from, to);
-  if (hp.length) cards.push(`<section class="card" style="--c:${APP.habits.color}"><div class="tag"><i></i>Habits · ${hp.length} days</div>
+  if (hp.length) cards.push(`<section class="card" style="--c:${APP.habits.color}"><div class="tag"><i></i>Habits · ${plural(hp.length, "day")}</div>
       ${lineChart(hp, {color: APP.habits.color, target: 100, from, to, fmt: v => Math.round(v) + "%"})}
       <div class="mrow">${statBox("habits.pct", "Avg done", from, to, pFrom, pTo)}<div><span>Perfect days</span><b>${hp.filter(p => p.v === 100).length}</b><em class="muted">every habit done</em></div></div></section>`);
   return `<div class="seg">${segs.map(([v, l]) => `<button class="${range === v ? "on" : ""}" data-act="range" data-r="${v}">${l}</button>`).join("")}</div>
