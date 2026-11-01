@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KI Post Maker</title>
+<meta name="description" content="Make branded Instagram posts for Kingdom Inclusion.">
+<meta name="theme-color" content="#1f3f36">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KI Posts">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Cinzel:wght@600;700&family=Montserrat:ital,wght@0,400;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2f5d50; --deep:#1f3f36; --mint:#dcefe8; --mint2:#eef7f3; --cream:#f6f3ea;
+    --ink:#14261f; --muted:#5b6f67; --line:#c9ddd5; --card:#ffffff; --bg:#f3f8f5;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --mint:#23413a; --mint2:#1b3530; --cream:#16231f; --ink:#e9f2ee; --muted:#9db3aa;
+      --line:#33524a; --card:#1d302a; --bg:#111c18;
+    }
+  }
+  :root[data-theme="dark"]{
+    --mint:#23413a; --mint2:#1b3530; --cream:#16231f; --ink:#e9f2ee; --muted:#9db3aa;
+    --line:#33524a; --card:#1d302a; --bg:#111c18;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.4 Montserrat,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+  header{background:var(--deep);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;display:flex;align-items:center;gap:12px}
+  header img{width:40px;height:40px;border-radius:10px}
+  header h1{font:400 26px/1 Anton,sans-serif;letter-spacing:.5px;margin:0}
+  header p{margin:2px 0 0;font-size:13px;opacity:.8}
+  main{max-width:560px;margin:0 auto;padding:12px 16px 80px}
+  .types{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none}
+  .types::-webkit-scrollbar{display:none}
+  .types button{flex:0 0 auto;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:10px 16px;font:600 15px Montserrat,sans-serif;min-height:44px}
+  .types button.on{background:var(--green);border-color:var(--green);color:#fff}
+  .preview{background:var(--card);border-radius:16px;padding:10px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+  canvas{width:100%;height:auto;display:block;border-radius:8px;background:#ccc}
+  .actions{display:flex;gap:10px;margin:12px 0}
+  .btn{flex:1;border:0;border-radius:12px;padding:14px 12px;font:700 16px Montserrat,sans-serif;min-height:52px;cursor:pointer}
+  .btn.primary{background:var(--green);color:#fff}
+  .btn.secondary{background:var(--mint);color:var(--ink)}
+  .btn.small{flex:0 0 auto;padding:8px 14px;min-height:40px;font-size:14px}
+  h2{font:400 22px Anton,sans-serif;letter-spacing:.3px;margin:22px 0 8px;color:var(--green)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) h2{color:#8fcbb6}}
+  .card{background:var(--card);border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  label.f{display:block;margin:0 0 14px}
+  label.f > span{display:block;font-weight:700;font-size:15px;margin-bottom:6px}
+  label.f small{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+  input[type=text],input[type=number],input[type=date],select,textarea{width:100%;font:16px Montserrat,sans-serif;padding:12px;border:2px solid var(--line);border-radius:10px;background:var(--mint2);color:var(--ink)}
+  textarea{min-height:90px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips button{border:2px solid var(--line);background:var(--mint2);color:var(--ink);border-radius:10px;padding:10px 14px;font:600 15px Montserrat,sans-serif;min-height:44px}
+  .chips button.on{border-color:var(--green);background:var(--green);color:#fff}
+  .photo{border:2px dashed var(--line);border-radius:12px;padding:12px;margin-bottom:14px}
+  .photo .row{display:flex;align-items:center;gap:12px}
+  .photo img{width:64px;height:64px;object-fit:cover;border-radius:8px;background:var(--mint)}
+  .photo .name{font-weight:700;font-size:15px;flex:1}
+  .photo input[type=file]{display:none}
+  .sliders{margin-top:10px;display:grid;gap:6px}
+  .sliders label{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+  .sliders label span{width:84px}
+  .sliders input{flex:1}
+  details{margin-top:18px}
+  summary{font:400 22px Anton,sans-serif;color:var(--green);cursor:pointer;padding:6px 0}
+  .help ol{padding-left:22px;margin:6px 0}
+  .help li{margin-bottom:8px}
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--deep);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <img src="icon-192.png" alt="">
+  <div><h1>KI POST MAKER</h1><p>Kingdom Inclusion · ready-to-post graphics</p></div>
+</header>
+<main>
+  <div class="types" id="types"></div>
+  <div class="preview"><canvas id="cv" width="1080" height="1350"></canvas></div>
+  <div class="actions">
+    <button class="btn primary" id="save">Save image</button>
+    <button class="btn secondary" id="copy">Copy caption</button>
+  </div>
+
+  <h2 id="formTitle">Details</h2>
+  <div class="card" id="form"></div>
+
+  <h2>Caption</h2>
+  <div class="card">
+    <textarea id="caption" rows="8"></textarea>
+    <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn secondary small" id="resetCap">Rewrite caption</button></div>
+  </div>
+
+  <details id="setDetails">
+    <summary>Settings (set once)</summary>
+    <div class="card" id="settings"></div>
+  </details>
+
+  <details class="help">
+    <summary>How to post or schedule</summary>
+    <div class="card">
+      <ol>
+        <li>Pick a post type at the top and fill in the boxes. The picture updates as you type.</li>
+        <li>Tap <b>Save image</b>, then <b>Save Image</b> in the menu that pops up. It goes to your Photos.</li>
+        <li>Tap <b>Copy caption</b>.</li>
+        <li>Open Instagram, tap <b>+</b>, pick the picture, and paste the caption.</li>
+        <li><b>To schedule it for later (free):</b> on the last screen tap <b>More options</b> → <b>Schedule this post</b> and pick a day and time. Or use the free <b>Meta Business Suite</b> app → <b>Create post</b> → <b>Schedule</b>.</li>
+      </ol>
+      <p style="color:var(--muted);font-size:14px">Your photos stay on your phone. Nothing is posted until you post it.</p>
+    </div>
+  </details>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+const W = 1080, H = 1350;
+const C = { green:'#2f5d50', deep:'#1f3f36', darker:'#13281f', teal:'#3b7a69', mint:'#dcefe8', cream:'#f4efe2', ink:'#10261f' };
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+
+// ---------- storage ----------
+const KEY = 'ki-posts-v1';
+let store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
+const DEFAULT_SETTINGS = {
+  eventName: 'Great Banquet', presenter: "Kingdom Inclusion's", partner: 'in partnership with Young Life Capernaum',
+  eventDate: '', handle: '@kingdom_inclusion', link: 'Link in bio!',
+  hashtags: '#KingdomInclusion #GreatBanquet #CreatedOnPurpose #Belonging', logo: ''
+};
+store.settings = Object.assign({}, DEFAULT_SETTINGS, store.settings || {});
+store.fields = store.fields || {};
+const S = store.settings;
+
+// ---------- helpers ----------
+function rng(seed){ let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function rr(c, x, y, w, h, r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+function fit(c, text, fontFn, maxW, size, min = 10){ while (size > min){ c.font = fontFn(size); if (c.measureText(text).width <= maxW) break; size -= 2; } c.font = fontFn(size); return size; }
+function wrap(c, text, maxW){
+  const out = [];
+  for (const para of String(text).split('\n')){
+    const words = para.split(/\s+/).filter(Boolean); let line = '';
+    if (!words.length){ out.push(''); continue; }
+    for (const w of words){ const t = line ? line + ' ' + w : w; if (c.measureText(t).width > maxW && line){ out.push(line); line = w; } else line = t; }
+    out.push(line);
+  }
+  return out;
+}
+// Shrinks the font until the wrapped text fits in maxLines.
+function wrapFit(c, text, fontFn, maxW, size, maxLines, min = 18){
+  let lines;
+  while (true){ c.font = fontFn(size); lines = wrap(c, text, maxW); if ((lines.length <= maxLines && lines.every(l => c.measureText(l).width <= maxW)) || size <= min) break; size -= 2; }
+  return { lines, size };
+}
+function spaced(c, text, x, y, sp, align = 'center'){
+  const chars = [...text]; const ws = chars.map(ch => c.measureText(ch).width);
+  const total = ws.reduce((a, b) => a + b, 0) + sp * (chars.length - 1);
+  let cx = align === 'center' ? x - total / 2 : align === 'right' ? x - total : x;
+  const prev = c.textAlign; c.textAlign = 'left';
+  chars.forEach((ch, i) => { c.fillText(ch, cx, y); cx += ws[i] + sp; });
+  c.textAlign = prev; return total;
+}
+function shadow(c, blur = 18, a = .45){ c.shadowColor = `rgba(0,0,0,${a})`; c.shadowBlur = blur; c.shadowOffsetY = blur / 4; }
+function noShadow(c){ c.shadowColor = 'transparent'; c.shadowBlur = 0; c.shadowOffsetY = 0; }
+// Draws a photo cropped to fill the box, using the zoom/position sliders.
+function cover(c, p, x, y, w, h, r = 0){
+  if (!p || !p.img) return false;
+  const iw = p.img.width, ih = p.img.height, s = Math.max(w / iw, h / ih) * (p.zoom || 1);
+  const dw = iw * s, dh = ih * s;
+  const ox = x + (w - dw) / 2 - (p.x || 0) * (dw - w) / 2, oy = y + (h - dh) / 2 - (p.y || 0) * (dh - h) / 2;
+  c.save(); rr(c, x, y, w, h, r); c.clip(); c.drawImage(p.img, ox, oy, dw, dh); c.restore(); return true;
+}
+function contain(c, img, x, y, w, h){
+  const s = Math.min(w / img.width, h / img.height), dw = img.width * s, dh = img.height * s;
+  c.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+}
+function ordinal(n){ const s = ['th','st','nd','rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+function prettyDate(iso){ if (!iso) return ''; const d = new Date(iso + 'T12:00'); return `${MONTHS[d.getMonth()]} ${ordinal(d.getDate())}`; }
+function daysUntil(iso){ if (!iso) return null; const t = new Date(); t.setHours(12,0,0,0); return Math.round((new Date(iso + 'T12:00') - t) / 864e5); }
+function firstName(n){ return String(n || '').trim().split(/\s+/)[0] || ''; }
+
+// ---------- brand pieces ----------
+function lattice(c, cx, cy, w, h, color, lw = 4){
+  c.save(); c.strokeStyle = color; c.lineWidth = lw;
+  const x0 = cx - w / 2, top = cy - h / 2, r = w / 2;
+  c.beginPath(); c.moveTo(x0, cy + h / 2); c.lineTo(x0, top + r); c.arc(cx, top + r, r, Math.PI, 0); c.lineTo(x0 + w, cy + h / 2); c.closePath();
+  c.stroke(); c.clip();
+  const step = w / 4.5; c.lineWidth = lw * .8;
+  for (let k = -h; k < w + h; k += step){
+    c.beginPath(); c.moveTo(x0 + k, top); c.lineTo(x0 + k - h, top + h); c.stroke();
+    c.beginPath(); c.moveTo(x0 + k - h, top); c.lineTo(x0 + k, top + h); c.stroke();
+  }
+  c.restore();
+}
+let logoImg = null;
+function logo(c, cx, cy, size, color){
+  if (logoImg){ contain(c, logoImg, cx - size / 2, cy - size / 2, size, size); return; }
+  lattice(c, cx, cy, size * .62, size * .82, color, Math.max(2, size / 28));
+}
+// "KINGDOM INCLUSION'S / GREAT / BANQUET / in partnership with..." wordmark. Returns bottom y.
+function wordmark(c, cx, top, s, color){
+  c.fillStyle = color; c.textBaseline = 'alphabetic';
+  let y = top + 20 * s;
+  if (S.presenter){ c.font = `700 ${19 * s}px Montserrat`; spaced(c, S.presenter.toUpperCase(), cx, y, 3 * s); y += 12 * s; }
+  const words = (S.eventName || '').toUpperCase().split(/\s+/).filter(Boolean);
+  const lines = words.length >= 2 ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')] : words;
+  const longest = lines.reduce((a, b) => a.length > b.length ? a : b, '');
+  const size = fit(c, longest, z => `700 ${z}px Cinzel`, 900 * s, 104 * s, 30);
+  for (const l of lines){ y += size * .9; c.font = `700 ${size}px Cinzel`; c.textAlign = 'center'; c.fillText(l, cx, y); }
+  if (S.partner){ y += 30 * s; c.font = `italic 500 ${17 * s}px Montserrat`; c.textAlign = 'center'; c.fillText(S.partner, cx, y); }
+  return y + 8 * s;
+}
+
+// ---------- backgrounds ----------
+const cache = new Map();
+function cached(key, make){ if (!cache.has(key)){ if (cache.size > 24) cache.clear(); cache.set(key, make()); } return cache.get(key); }
+function patternCanvas(kind, seed){
+  return cached('p' + kind + seed, () => {
+    const w = 540, h = 675, oc = document.createElement('canvas'); oc.width = w; oc.height = h;
+    const c = oc.getContext('2d'), R = rng(seed * 7919 + kind.length);
+    if (kind === 'giraffe' || kind === 'zebra'){
+      const im = c.createImageData(w, h), d = im.data;
+      if (kind === 'giraffe'){
+        const pts = [], cell = 105;
+        for (let gy = -1; gy <= h / cell + 1; gy++) for (let gx = -1; gx <= w / cell + 1; gx++)
+          pts.push([gx * cell + R() * cell * .8 + (gy % 2) * cell * .4, gy * cell + R() * cell * .8, 150 + R() * 40, 75 + R() * 25, 25 + R() * 15]);
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++){
+          let d1 = 1e9, d2 = 1e9, best = 0;
+          for (let i = 0; i < pts.length; i++){ const dx = pts[i][0] - x, dy = pts[i][1] - y, dd = dx * dx + dy * dy; if (dd < d1){ d2 = d1; d1 = dd; best = i; } else if (dd < d2) d2 = dd; }
+          const edge = Math.sqrt(d2) - Math.sqrt(d1), o = (y * w + x) * 4, t = Math.min(1, Math.max(0, (edge - 7) / 3)), p = pts[best];
+          d[o] = 241 + (p[2] - 241) * t; d[o + 1] = 228 + (p[3] - 228) * t; d[o + 2] = 200 + (p[4] - 200) * t; d[o + 3] = 255;
+        }
+      } else {
+        const s1 = R() * 6, s2 = R() * 6, s3 = R() * 6;
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++){
+          const t = x * .085 + 2.4 * Math.sin(y * .011 + x * .003 + s1) + 1.3 * Math.sin(y * .029 + s2) + .7 * Math.sin((x + y) * .018 + s3) + y * .025;
+          const v = Math.min(1, Math.max(0, Math.sin(t) * 3 + .5)), o = (y * w + x) * 4, g = 242 - v * 226;
+          d[o] = g; d[o + 1] = g; d[o + 2] = g; d[o + 3] = 255;
+        }
+      }
+      c.putImageData(im, 0, 0);
+    } else {
+      const g = c.createRadialGradient(w / 2, h / 2, 50, w / 2, h / 2, 520);
+      g.addColorStop(0, kind === 'leopard' ? '#dca55a' : '#e2b66e'); g.addColorStop(1, kind === 'leopard' ? '#b9803c' : '#c6914a');
+      c.fillStyle = g; c.fillRect(0, 0, w, h);
+      if (kind === 'leopard'){
+        for (let i = 0; i < 75; i++){
+          const cx = R() * w, cy = R() * h, r = 16 + R() * 12;
+          c.fillStyle = '#ad6a2a'; c.beginPath(); c.ellipse(cx, cy, r * .8, r * .7, R() * 3, 0, 7); c.fill();
+          const k = 4 + Math.floor(R() * 3);
+          c.fillStyle = '#2b1b10';
+          for (let j = 0; j < k; j++){
+            if (R() < .15) continue;
+            const a = j / k * 6.283 + R() * .4;
+            c.beginPath(); c.ellipse(cx + Math.cos(a) * r, cy + Math.sin(a) * r, r * .42, r * .2, a + 1.57, 0, 7); c.fill();
+          }
+        }
+        c.fillStyle = '#2b1b10';
+        for (let i = 0; i < 70; i++){ c.beginPath(); c.ellipse(R() * w, R() * h, 3 + R() * 4, 2 + R() * 3, R() * 3, 0, 7); c.fill(); }
+      } else {
+        c.fillStyle = '#1e140c';
+        for (let i = 0; i < 260; i++){ c.beginPath(); c.ellipse(R() * w, R() * h, 5 + R() * 5, 4 + R() * 4, R() * 3, 0, 7); c.fill(); }
+      }
+    }
+    return oc;
+  });
+}
+function leaf(c, x, y, len, ang, col, slits, R){
+  c.save(); c.translate(x, y); c.rotate(ang);
+  const wd = len * .42, p = new Path2D();
+  p.moveTo(0, 0); p.bezierCurveTo(wd, -len * .2, wd * .85, -len * .85, 0, -len); p.bezierCurveTo(-wd * .85, -len * .85, -wd, -len * .2, 0, 0);
+  const g = c.createLinearGradient(0, 0, 0, -len); g.addColorStop(0, col[0]); g.addColorStop(1, col[1]);
+  c.fillStyle = g; c.fill(p);
+  if (slits){
+    c.save(); c.clip(p); c.globalCompositeOperation = 'destination-out'; c.lineCap = 'round';
+    for (let t = .22; t < .9; t += .11){
+      for (const side of [-1, 1]){
+        if (R() < .25) continue;
+        c.lineWidth = len * .025; c.beginPath(); c.moveTo(side * len * .07, -len * t); c.lineTo(side * wd * 1.1, -len * (t + .12)); c.stroke();
+      }
+    }
+    c.restore();
+  }
+  c.strokeStyle = 'rgba(255,255,255,.16)'; c.lineWidth = len * .012;
+  c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(len * .03, -len * .5, 0, -len * .97); c.stroke();
+  c.restore();
+}
+const LEAF_COLS = [['#123a22','#24603a'],['#1b4a2b','#3a8448'],['#215a31','#4f9a52'],['#163f27','#2f7140']];
+function leaves(mode, seed){
+  return cached('l' + mode + seed, () => {
+    const oc = document.createElement('canvas'); oc.width = W; oc.height = H; const c = oc.getContext('2d'), R = rng(seed * 31 + 5);
+    const n = mode === 'bottom' ? 18 : 26;
+    for (let i = 0; i < n; i++){
+      const col = LEAF_COLS[Math.floor(R() * LEAF_COLS.length)], len = mode === 'bottom' ? 190 + R() * 150 : 240 + R() * 220;
+      if (mode === 'bottom'){ leaf(c, -60 + R() * (W + 120), H + 40 + R() * 60, len, (R() - .5) * 1.9, col, R() < .55, R); }
+      else {
+        const side = i % 3;
+        if (side === 0) leaf(c, -40, R() * H, len, .7 + R() * 1.2, col, R() < .5, R);
+        else if (side === 1) leaf(c, W + 40, R() * H, len, -.7 - R() * 1.2, col, R() < .5, R);
+        else leaf(c, R() * W, H + 40, len, (R() - .5) * 1.6, col, R() < .5, R);
+      }
+    }
+    return oc;
+  });
+}
+function jungle(c, seed){
+  const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#0b1a13'); g.addColorStop(.5, '#16301f'); g.addColorStop(1, '#0d1d15');
+  c.fillStyle = g; c.fillRect(0, 0, W, H);
+  c.globalAlpha = .55; c.drawImage(leaves('frame', seed), 0, 0); c.globalAlpha = 1;
+  const v = c.createRadialGradient(W / 2, H * .45, 150, W / 2, H * .45, 760); v.addColorStop(0, 'rgba(8,18,13,.55)'); v.addColorStop(1, 'rgba(8,18,13,0)');
+  c.fillStyle = v; c.fillRect(0, 0, W, H);
+}
+function confetti(c, seed){
+  const R = rng(seed + 99), cols = ['#f2a7c3','#f7c948','#7cc6e8','#e86f6f','#9b87f5','#5fbf8f','#f39a4c'];
+  for (let i = 0; i < 160; i++){
+    c.save(); c.translate(R() * W, R() * H); c.rotate(R() * 6.28); c.fillStyle = cols[Math.floor(R() * cols.length)];
+    if (R() < .5) c.fillRect(-9, -4, 18, 8); else { c.beginPath(); c.arc(0, 0, 5 + R() * 4, 0, 7); c.fill(); }
+    c.restore();
+  }
+  for (const [x, y, col] of [[110, 140, '#f7c948'], [210, 90, '#7cc6e8'], [960, 130, '#f2a7c3'], [880, 80, '#5fbf8f']]){
+    c.strokeStyle = 'rgba(0,0,0,.25)'; c.lineWidth = 2; c.beginPath(); c.moveTo(x, y + 70); c.quadraticCurveTo(x + 20, y + 140, x - 10, y + 220); c.stroke();
+    const g = c.createRadialGradient(x - 18, y - 22, 6, x, y, 75); g.addColorStop(0, '#fff'); g.addColorStop(.25, col); g.addColorStop(1, col);
+    c.fillStyle = g; c.beginPath(); c.ellipse(x, y, 58, 70, 0, 0, 7); c.fill();
+  }
+}
+
+// ---------- templates ----------
+const PATTERNS = [['giraffe','Giraffe'],['zebra','Zebra'],['leopard','Leopard'],['cheetah','Cheetah']];
+const photoFields = (n, label) => Array.from({ length: n }, (_, i) => ({ k: 'p' + (i + 1), t: 'photo', label: n > 1 ? `${label} ${i + 1}${i ? ' (optional)' : ''}` : label }));
+const TEMPLATES = {
+  countdown: {
+    name: 'Countdown',
+    fields: () => [
+      { k: 'days', t: 'number', label: 'Days until the event', hint: S.eventDate ? `Your event date is ${prettyDate(S.eventDate)}. Today that's ${Math.max(0, daysUntil(S.eventDate))} days away.` : 'Tip: put the event date in Settings and this fills in by itself.' },
+      { k: 'pattern', t: 'chips', label: 'Background', options: PATTERNS },
+      { k: 'shuffle', t: 'button', label: 'Shuffle the pattern' },
+    ],
+    defaults: () => ({ days: S.eventDate ? String(Math.max(0, daysUntil(S.eventDate))) : '5', pattern: 'giraffe', seed: 1 }),
+    draw(c, f){
+      c.drawImage(patternCanvas(f.pattern, f.seed), 0, 0, W, H);
+      const g = c.createLinearGradient(0, 760, 0, H); g.addColorStop(0, 'rgba(10,28,20,0)'); g.addColorStop(1, 'rgba(10,28,20,.8)');
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+      const n = Math.max(0, parseInt(f.days, 10) || 0);
+      c.textAlign = 'center'; c.lineJoin = 'round';
+      if (n === 0){
+        c.font = '400 250px Anton'; shadow(c, 24); c.strokeStyle = C.cream; c.lineWidth = 16; c.strokeText('TODAY', W / 2, 600); noShadow(c);
+        c.fillStyle = C.green; c.fillText('TODAY', W / 2, 600);
+        c.font = '400 70px Anton'; c.fillStyle = '#fff'; shadow(c); c.fillText("IT'S", W / 2, 300); noShadow(c);
+      } else {
+        const size = fit(c, String(n), z => `400 ${z}px "Archivo Black"`, 800, 640, 200);
+        shadow(c, 30, .5); c.strokeStyle = C.cream; c.lineWidth = 22; c.strokeText(String(n), W / 2, 150 + size * .72); noShadow(c);
+        c.fillStyle = C.green; c.fillText(String(n), W / 2, 150 + size * .72);
+        const label = n === 1 ? 'DAY' : 'DAYS';
+        c.font = '400 86px Anton'; const lw = c.measureText(label).width; c.font = '500 40px Montserrat'; const uw = c.measureText('Until').width;
+        const bx = W / 2 - (lw + uw + 70) / 2, by = 770;
+        c.fillStyle = 'rgba(31,63,54,.92)'; rr(c, bx, by - 72, lw + uw + 70, 98, 18); c.fill();
+        c.fillStyle = C.cream; c.textAlign = 'left'; c.font = '400 86px Anton'; c.fillText(label, bx + 25, by + 8);
+        c.font = '500 40px Montserrat'; c.fillText('Until', bx + 45 + lw, by);
+      }
+      c.drawImage(leaves('bottom', f.seed), 0, 0);
+      shadow(c, 20, .7); wordmark(c, W / 2, 880, 1, '#fff'); noShadow(c);
+    },
+    caption(f){
+      const n = Math.max(0, parseInt(f.days, 10) || 0), ev = S.eventName;
+      if (n === 0) return `IT'S HERE! 🎉 Today is the ${ev}! We can't wait to celebrate with every one of you tonight. 💚`;
+      return `${n} ${n === 1 ? 'DAY' : 'DAYS'} until the ${ev}! 🎉\n\n${n === 1 ? 'Tomorrow is the big night!' : 'The countdown is on!'} We can't wait to celebrate every guest, buddy, and volunteer. 💚${S.link ? '\n\n' + S.link : ''}`;
+    }
+  },
+  sponsor: {
+    name: 'Sponsor thank-you',
+    fields: () => [
+      { k: 'name', t: 'text', label: 'Sponsor name', ph: 'Chick-fil-A' },
+      { k: 'tier', t: 'text', label: 'Sponsor level', ph: 'Champion Sponsor', list: ['Champion Sponsor','Red Carpet Sponsor','Experience Sponsor','Table Sponsor','Community Sponsor'] },
+      { k: 'logo', t: 'photo', label: 'Sponsor logo', contain: true },
+      { k: 'msg', t: 'textarea', label: 'Short line under it (optional)' },
+    ],
+    defaults: () => ({ name: '', tier: 'Champion Sponsor', msg: 'The Great Banquet is made possible by a community that believes everyone deserves to be celebrated.', seed: 3 }),
+    draw(c, f, P){
+      jungle(c, f.seed);
+      shadow(c, 16, .6); const y = wordmark(c, W / 2, 70, .82, '#fff'); noShadow(c);
+      const bx = 280, by = Math.max(y + 40, 380), bs = 520;
+      shadow(c, 30, .5); c.fillStyle = '#fff'; rr(c, bx, by, bs, bs, 10); c.fill(); noShadow(c);
+      if (P.logo && P.logo.img){ const z = P.logo.zoom || 1, pad = 50 / z; contain(c, P.logo.img, bx + pad, by + pad, bs - pad * 2, bs - pad * 2); }
+      else { c.fillStyle = C.deep; c.textAlign = 'center'; const { lines, size } = wrapFit(c, f.name || 'Sponsor logo', z => `700 ${z}px "Playfair Display"`, bs - 80, 80, 4, 30); lines.forEach((l, i) => c.fillText(l, W / 2, by + bs / 2 - (lines.length - 1) * size * .55 + i * size * 1.1 + size * .35)); }
+      let ty = by + bs + 105;
+      c.fillStyle = '#fff'; c.textAlign = 'center'; shadow(c, 12, .6);
+      fit(c, f.tier || '', z => `600 ${z}px "Playfair Display"`, 900, 70, 30); c.fillText(f.tier || '', W / 2, ty);
+      if (f.msg){ ty += 70; const r = wrapFit(c, f.msg, z => `500 ${z}px Montserrat`, 820, 32, 3, 22); r.lines.forEach((l, i) => c.fillText(l, W / 2, ty + i * r.size * 1.35)); }
+      noShadow(c);
+    },
+    caption(f){
+      const name = f.name || 'our sponsor';
+      return `THANK YOU to ${name} for being a ${f.tier || 'sponsor'} of the ${S.eventName}! 💚\n\n${f.msg || ''}\n\nWe are so grateful for partners who help make this night possible.`.replace(/\n\n\n/g, '\n\n');
+    }
+  },
+  spotlight: {
+    name: 'Participant spotlight',
+    fields: () => [
+      { k: 'month', t: 'select', label: 'Month', options: MONTHS.map(m => [m, m]) },
+      { k: 'name', t: 'text', label: 'Name', ph: 'Ben' },
+      { k: 'q1', t: 'text', label: 'Question' },
+      { k: 'a1', t: 'textarea', label: 'Their answer', ph: 'Being with friends and the praise music.' },
+      { k: 'q2', t: 'text', label: 'Second question (optional)' },
+      { k: 'a2', t: 'textarea', label: 'Second answer (optional)' },
+      ...photoFields(1, 'Photo'),
+    ],
+    defaults: () => ({ month: MONTHS[new Date().getMonth()], name: '', q1: 'What do you enjoy most about Kingdom Inclusion?', a1: '', q2: '', a2: '' }),
+    draw(c, f, P){
+      c.fillStyle = C.teal; c.fillRect(0, 0, W, H);
+      c.globalAlpha = .12; for (let i = 0; i < 6; i++) lattice(c, 90 + i * 180, H - 40, 150, 200, '#fff', 6); c.globalAlpha = 1;
+      c.fillStyle = C.ink; c.textAlign = 'left';
+      const title = [f.month || '', 'Participant', 'Spotlight'];
+      title.forEach((t, i) => { c.font = '400 108px Anton'; c.fillText(t, 70, 170 + i * 112); });
+      logo(c, W - 140, 160, 170, '#fff');
+      const px = 440, py = 470, pw = 570, ph = 760;
+      if (!cover(c, P.p1, px, py, pw, ph, 6)){ c.fillStyle = 'rgba(255,255,255,.25)'; rr(c, px, py, pw, ph, 6); c.fill(); c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '600 34px Montserrat'; c.fillText('Add a photo', px + pw / 2, py + ph / 2); }
+      // Q&A card, sized to its text
+      const cx = 70, cw = 450, pad = 30, inner = cw - pad * 2; const rows = [];
+      c.font = '700 34px Montserrat'; rows.push({ f: '700 34px Montserrat', col: C.ink, lines: [(f.name || 'Name').toUpperCase()], lh: 40, after: 24, rule: true });
+      for (const [q, a] of [[f.q1, f.a1], [f.q2, f.a2]]){
+        if (!q && !a) continue;
+        if (q){ c.font = '600 27px Montserrat'; rows.push({ f: '600 27px Montserrat', col: '#33463f', lines: wrap(c, q, inner), lh: 35, after: 6 }); }
+        if (a){ c.font = 'italic 500 29px Montserrat'; rows.push({ f: 'italic 500 29px Montserrat', col: C.ink, lines: wrap(c, `“${a}”`, inner), lh: 38, after: 22 }); }
+      }
+      rows.push({ f: '600 25px Montserrat', col: C.teal, lines: [`Nice to meet you${f.name ? ', ' + firstName(f.name) : ''}!`], lh: 32, after: 0 });
+      const ch = pad * 2 + rows.reduce((s, r) => s + r.lines.length * r.lh + r.after, 0);
+      const cy = Math.min(560, H - 90 - ch);
+      shadow(c, 28, .35); c.fillStyle = '#fff'; rr(c, cx, cy, cw, ch, 8); c.fill(); noShadow(c);
+      let y = cy + pad; c.textAlign = 'left';
+      for (const r of rows){
+        c.font = r.f; c.fillStyle = r.col;
+        for (const l of r.lines){ y += r.lh; c.fillText(l, cx + pad, y - 8); }
+        if (r.rule){ c.fillStyle = '#d6e3de'; c.fillRect(cx + pad, y + 6, inner, 3); }
+        y += r.after;
+      }
+    },
+    caption(f){
+      const n = f.name || 'our friend';
+      let s = `Meet ${n}, our ${f.month} Participant Spotlight! 💚\n\n`;
+      if (f.q1) s += `${f.q1}\n“${f.a1 || ''}”\n\n`;
+      if (f.q2) s += `${f.q2}\n“${f.a2 || ''}”\n\n`;
+      return s + `Nice to meet you, ${firstName(n) || 'friend'}! We're so glad you're part of the Kingdom Inclusion family.`;
+    }
+  },
+  birthday: {
+    name: 'Happy birthday',
+    fields: () => [
+      { k: 'name', t: 'text', label: 'Name(s)', ph: 'Sarah & Megan' },
+      { k: 'date', t: 'date', label: 'Birthday' },
+      { k: 'line', t: 'text', label: 'Short line (optional)', ph: 'Two staff members, one birthday!' },
+      ...photoFields(4, 'Photo'),
+    ],
+    defaults: () => ({ name: '', date: '', line: '', seed: 4 }),
+    draw(c, f, P){
+      c.fillStyle = '#e9f5f0'; c.fillRect(0, 0, W, H); confetti(c, f.seed || 4);
+      const ph = [P.p1, P.p2, P.p3, P.p4].filter(p => p && p.img);
+      c.fillStyle = 'rgba(220,239,232,.96)'; rr(c, 90, ph.length ? 90 : 230, W - 180, ph.length ? H - 170 : H - 460, 26); c.fill();
+      let y;
+      if (ph.length){
+        const bx = 130, by = 130, bw = W - 260, bh = 560, g = 14;
+        const boxes = ph.length === 1 ? [[bx, by, bw, bh]] : ph.length === 2 ? [[bx, by, (bw - g) / 2, bh], [bx + (bw + g) / 2, by, (bw - g) / 2, bh]]
+          : ph.length === 3 ? [[bx, by, (bw - g) / 2, bh], [bx + (bw + g) / 2, by, (bw - g) / 2, (bh - g) / 2], [bx + (bw + g) / 2, by + (bh + g) / 2, (bw - g) / 2, (bh - g) / 2]]
+          : [0, 1, 2, 3].map(i => [bx + (i % 2) * (bw + g) / 2, by + Math.floor(i / 2) * (bh + g) / 2, (bw - g) / 2, (bh - g) / 2]);
+        ph.forEach((p, i) => cover(c, p, ...boxes[i], 14));
+        y = by + bh + 120;
+      } else y = 430;
+      c.fillStyle = C.deep; c.textAlign = 'center';
+      c.font = `400 ${ph.length ? 96 : 130}px Anton`; c.fillText('Happy', W / 2, y);
+      y += ph.length ? 160 : 230; c.font = `400 ${ph.length ? 140 : 200}px Anton`; c.fillText('Birthday', W / 2, y);
+      if (f.name){ y += ph.length ? 80 : 110; fit(c, f.name, z => `italic 600 ${z}px "Playfair Display"`, 800, ph.length ? 66 : 84, 30); c.fillStyle = C.green; c.fillText(f.name, W / 2, y); }
+      if (f.line){ y += 58; c.fillStyle = C.ink; const r = wrapFit(c, f.line, z => `600 ${z}px Montserrat`, 780, 32, 2, 22); r.lines.forEach((l, i) => c.fillText(l, W / 2, y + i * r.size * 1.3)); y += (r.lines.length - 1) * r.size * 1.3; }
+      if (f.date){
+        y += 82; const t = prettyDate(f.date); c.font = '500 40px Montserrat'; const tw = c.measureText(t).width + 80;
+        c.strokeStyle = C.deep; c.lineWidth = 3; c.beginPath();
+        c.moveTo(W / 2 - tw / 2, y - 42); c.lineTo(W / 2 + tw / 2, y - 42); c.lineTo(W / 2 + tw / 2 - 22, y - 14); c.lineTo(W / 2 + tw / 2, y + 14);
+        c.lineTo(W / 2 - tw / 2, y + 14); c.lineTo(W / 2 - tw / 2 + 22, y - 14); c.closePath(); c.stroke();
+        c.fillStyle = C.deep; c.fillText(t, W / 2, y);
+      }
+      if (!ph.length){ c.fillStyle = '#fff'; c.beginPath(); c.arc(W / 2, H - 150, 70, 0, 7); c.fill(); c.strokeStyle = C.green; c.lineWidth = 4; c.stroke(); logo(c, W / 2, H - 150, 90, C.green); }
+    },
+    caption(f){
+      const n = f.name || 'friend';
+      return `Happy birthday, ${n}! 🎉🎂${f.date ? ` (${prettyDate(f.date)})` : ''}\n\n${f.line ? f.line + '\n\n' : ''}We are so thankful for you and the joy you bring to Kingdom Inclusion. Help us celebrate by dropping some birthday love in the comments! 💚`;
+    }
+  },
+  quote: {
+    name: 'Volunteer quote',
+    fields: () => [
+      { k: 'quote', t: 'textarea', label: 'Their quote', ph: 'My mom invited me to start volunteering, and I decided to come along. It was the best decision I\'ve ever made.' },
+      { k: 'name', t: 'text', label: 'Name', ph: 'Everett' },
+      { k: 'role', t: 'text', label: 'Role (optional)', ph: 'Buddy since 2024' },
+      ...photoFields(1, 'Photo'),
+    ],
+    defaults: () => ({ quote: '', name: '', role: '' }),
+    draw(c, f, P){
+      c.fillStyle = C.darker; c.fillRect(0, 0, W, H);
+      c.globalAlpha = .18; lattice(c, W - 120, 640, 420, 560, C.teal, 10); c.globalAlpha = 1;
+      c.fillStyle = '#fff'; c.textAlign = 'center';
+      const q = f.quote ? `“${f.quote}”` : '“Their words go here.”';
+      const r = wrapFit(c, q, z => `500 ${z}px Montserrat`, 900, 44, 6, 26);
+      const qTop = 110; r.lines.forEach((l, i) => c.fillText(l, W / 2, qTop + i * r.size * 1.35));
+      let y = qTop + (r.lines.length - 1) * r.size * 1.35 + 64;
+      c.font = '600 36px Montserrat'; c.fillStyle = '#bfe0d4'; c.fillText(`— ${f.name || 'Name'}${f.role ? ', ' + f.role : ''}`, W / 2, y);
+      const py = y + 50, ph = H - py - 210;
+      if (!cover(c, P.p1, 90, py, W - 180, ph, 18)){ c.fillStyle = 'rgba(255,255,255,.08)'; rr(c, 90, py, W - 180, ph, 18); c.fill(); c.fillStyle = '#bfe0d4'; c.font = '600 34px Montserrat'; c.fillText('Add a photo', W / 2, py + ph / 2); }
+      const label = `Meet ${f.name || 'Name'}`; c.font = '400 96px Anton'; const lw = Math.min(c.measureText(label).width, 820);
+      c.fillStyle = C.green; rr(c, -40, H - 190, lw + 150, 140, 70); c.fill();
+      c.fillStyle = C.cream; c.textAlign = 'left'; fit(c, label, z => `400 ${z}px Anton`, 820, 96, 40); c.fillText(label, 50, H - 85);
+    },
+    caption(f){
+      const n = f.name || 'our volunteer';
+      return `Meet ${n}! 💚\n\n“${f.quote || ''}”\n— ${n}${f.role ? ', ' + f.role : ''}\n\nOur volunteers make belonging possible. Want to serve with us? ${S.link || ''}`.trim();
+    }
+  },
+  reminder: {
+    name: 'Registration reminder',
+    fields: () => [
+      { k: 'kind', t: 'chips', label: 'Message', options: [['final','Final day'],['left','Days left'],['open','Registration open'],['custom','My own words']] },
+      { k: 'days', t: 'number', label: 'Days left (for "Days left")' },
+      { k: 'custom', t: 'text', label: 'Your own headline (for "My own words")', ph: 'Last call for volunteers!' },
+      { k: 'details', t: 'textarea', label: 'Details line (optional)', ph: 'Saturday, Nov 7 · 6 PM · Crossroads East Side' },
+      ...photoFields(1, 'Background photo (optional)'),
+    ],
+    defaults: () => ({ kind: 'final', days: '5', custom: '', details: '', seed: 6 }),
+    draw(c, f, P){
+      if (P.p1 && P.p1.img){ cover(c, P.p1, 0, 0, W, H); } else jungle(c, f.seed || 6);
+      const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(8,20,15,.55)'); g.addColorStop(.45, 'rgba(8,20,15,.25)'); g.addColorStop(1, 'rgba(8,20,15,.85)');
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+      shadow(c, 16, .7); logo(c, 150, 150, 170, '#fff'); c.textAlign = 'center';
+      c.fillStyle = '#fff';
+      const words = ('The ' + S.eventName).toUpperCase(); fit(c, words, z => `700 ${z}px Cinzel`, 680, 76, 30); c.textAlign = 'left'; c.fillText(words, 270, 175);
+      c.textAlign = 'center';
+      if (f.kind === 'left'){
+        const n = Math.max(0, parseInt(f.days, 10) || 0);
+        c.font = '400 420px "Archivo Black"'; c.fillText(String(n), W / 2, 850);
+        c.font = '400 120px Anton'; c.fillText(n === 1 ? 'DAY LEFT' : 'DAYS LEFT', W / 2, 1000);
+        c.font = '700 44px Montserrat'; spaced(c, 'TO REGISTER', W / 2, 1065, 8);
+      } else {
+        const text = f.kind === 'final' ? 'FINAL DAY TO REGISTER' : f.kind === 'open' ? 'REGISTRATION IS OPEN' : (f.custom || 'Your headline').toUpperCase();
+        const r = wrapFit(c, text, z => `400 ${z}px Anton`, 900, 170, 3, 60);
+        const top = 720 - (r.lines.length - 1) * r.size * .55;
+        r.lines.forEach((l, i) => c.fillText(l, W / 2, top + i * r.size * 1.05));
+      }
+      if (f.details){ const r = wrapFit(c, f.details, z => `600 ${z}px Montserrat`, 900, 38, 2, 24); r.lines.forEach((l, i) => c.fillText(l, W / 2, 1180 + i * r.size * 1.35)); }
+      c.font = '700 30px Montserrat'; c.fillStyle = '#cfe9df'; c.fillText(S.handle || '', W / 2, H - 50);
+      noShadow(c);
+    },
+    caption(f){
+      const ev = S.eventName, link = S.link || '';
+      const head = f.kind === 'final' ? `⏰ FINAL DAY to register for the ${ev}!` : f.kind === 'left' ? `Only ${f.days} ${+f.days === 1 ? 'day' : 'days'} left to register for the ${ev}!` : f.kind === 'open' ? `Registration for the ${ev} is OPEN! 🎉` : (f.custom || '');
+      return `${head}\n\n${f.details ? f.details + '\n\n' : ''}Don't miss a night made to celebrate every guest. ${link}`.trim();
+    }
+  },
+  event: {
+    name: 'Event / hangout',
+    fields: () => [
+      { k: 'title', t: 'text', label: 'Event name', ph: 'Halloween Hangout' },
+      { k: 'date', t: 'date', label: 'Date' },
+      { k: 'time', t: 'text', label: 'Time', ph: '6–8 PM' },
+      { k: 'place', t: 'text', label: 'Place', ph: 'Crossroads East Side' },
+      { k: 'details', t: 'textarea', label: 'Details (optional)', ph: 'Costumes encouraged! Food, games and worship.' },
+      { k: 'theme', t: 'chips', label: 'Colors', options: [['green','Green'],['mint','Mint'],['dark','Dark']] },
+      ...photoFields(1, 'Photo (optional)'),
+    ],
+    defaults: () => ({ title: '', date: '', time: '', place: 'Crossroads East Side', details: '', theme: 'green' }),
+    draw(c, f, P){
+      const th = { green: [C.green, '#fff', '#cde9de'], mint: [C.mint, C.deep, C.green], dark: [C.darker, '#fff', '#9fd3c0'] }[f.theme || 'green'];
+      c.fillStyle = th[0]; c.fillRect(0, 0, W, H);
+      c.globalAlpha = .1; lattice(c, W - 60, 300, 380, 520, th[1], 10); lattice(c, 40, H - 120, 300, 420, th[1], 10); c.globalAlpha = 1;
+      logo(c, 120, 120, 130, th[1]);
+      c.fillStyle = th[1]; c.textAlign = 'left'; c.font = '700 26px Montserrat'; spaced(c, 'KINGDOM INCLUSION', 200, 132, 5, 'left');
+      const hasPhoto = cover(c, P.p1, 90, 220, W - 180, 540, 20);
+      let y = hasPhoto ? 880 : 470; c.textAlign = 'center'; c.fillStyle = th[1];
+      const r = wrapFit(c, (f.title || 'Event name').toUpperCase(), z => `400 ${z}px Anton`, 920, hasPhoto ? 120 : 180, 2, 60);
+      r.lines.forEach((l, i) => c.fillText(l, W / 2, y + i * r.size * 1.02)); y += (r.lines.length - 1) * r.size * 1.02 + 85;
+      const when = [f.date && (new Date(f.date + 'T12:00').toLocaleDateString('en-US', { weekday: 'long' }) + ', ' + prettyDate(f.date)), f.time].filter(Boolean).join(' · ');
+      c.fillStyle = th[2]; c.font = '700 44px Montserrat';
+      if (when){ fit(c, when, z => `700 ${z}px Montserrat`, 920, 44, 24); c.fillText(when, W / 2, y); y += 60; }
+      if (f.place){ fit(c, f.place, z => `600 ${z}px Montserrat`, 920, 38, 22); c.fillText(f.place, W / 2, y); y += 70; }
+      if (f.details){ c.fillStyle = th[1]; const d = wrapFit(c, f.details, z => `500 ${z}px Montserrat`, 880, 34, 3, 22); d.lines.forEach((l, i) => c.fillText(l, W / 2, y + i * d.size * 1.35)); }
+    },
+    caption(f){
+      const when = [f.date && prettyDate(f.date), f.time].filter(Boolean).join(', ');
+      return `${f.title || 'Join us'}! 💚\n\n${when ? '📅 ' + when + '\n' : ''}${f.place ? '📍 ' + f.place + '\n' : ''}\n${f.details || ''}\n\nWe can't wait to see you there!`.replace(/\n{3,}/g, '\n\n');
+    }
+  },
+  thanks: {
+    name: 'Thank you',
+    fields: () => [
+      { k: 'who', t: 'text', label: 'Who are you thanking?', ph: 'Great Banquet Committee' },
+      { k: 'note', t: 'textarea', label: 'Note (optional)', ph: 'So grateful for the hearts around this table.' },
+      ...photoFields(1, 'Photo'),
+    ],
+    defaults: () => ({ who: '', note: '' }),
+    draw(c, f, P){
+      c.fillStyle = C.mint; c.fillRect(0, 0, W, H);
+      c.strokeStyle = C.deep; c.lineWidth = 4; c.lineCap = 'round'; c.beginPath();
+      c.moveTo(250, 120); c.bezierCurveTo(400, 150, 470, 110, 520, 70); c.bezierCurveTo(470, 20, 420, 60, 540, 115); c.bezierCurveTo(660, 60, 610, 20, 560, 70);
+      c.bezierCurveTo(610, 110, 680, 150, 830, 120); c.stroke();
+      c.fillStyle = C.deep; c.textAlign = 'center'; c.font = '400 112px Anton'; c.fillText('Thank you,', W / 2, 270);
+      const py = 320, ph = 640;
+      if (!cover(c, P.p1, 0, py, W, ph)){ c.fillStyle = 'rgba(47,93,80,.15)'; c.fillRect(0, py, W, ph); c.fillStyle = C.green; c.font = '600 34px Montserrat'; c.fillText('Add a photo', W / 2, py + ph / 2); }
+      if (f.note){
+        c.font = '500 30px Montserrat'; const lines = wrap(c, f.note, 280), h = lines.length * 40 + 50;
+        shadow(c, 20, .3); c.fillStyle = '#fff'; c.fillRect(W - 400, py + ph - h - 40, 340, h); noShadow(c);
+        c.fillStyle = C.ink; lines.forEach((l, i) => c.fillText(l, W - 230, py + ph - h - 40 + 55 + i * 40));
+      }
+      c.fillStyle = C.green; const r = wrapFit(c, f.who || 'Name', z => `400 ${z}px Anton`, 940, 110, 2, 50);
+      const ty = 1140 - (r.lines.length - 1) * r.size * .5; r.lines.forEach((l, i) => c.fillText(l, W / 2, ty + i * r.size * 1.05));
+      c.font = '700 28px Montserrat'; c.fillStyle = C.deep; c.fillText(S.handle || '', W / 2, H - 50);
+    },
+    caption(f){ return `Thank you, ${f.who || 'friends'}! 💚\n\n${f.note ? f.note + '\n\n' : ''}We couldn't do this without you.`; }
+  },
+};
+
+// ---------- state ----------
+let cur = store.current && TEMPLATES[store.current] ? store.current : 'countdown';
+const photos = {}; // per template: { key: {img, zoom, x, y} } (kept in memory only)
+let captionEdited = false;
+function fields(t){ store.fields[t] = Object.assign(TEMPLATES[t].defaults(), store.fields[t] || {}); return store.fields[t]; }
+
+// ---------- render ----------
+let pending = false, blob = null;
+function render(){
+  if (pending) return; pending = true;
+  requestAnimationFrame(() => {
+    pending = false;
+    const T = TEMPLATES[cur], f = fields(cur);
+    ctx.save(); ctx.clearRect(0, 0, W, H); ctx.textBaseline = 'alphabetic';
+    try { T.draw(ctx, f, photos[cur] || {}); } catch (e) { console.error(e); }
+    ctx.restore(); noShadow(ctx);
+    if (!captionEdited) capEl.value = buildCaption();
+    blob = null; cv.toBlob(b => { blob = b; }, 'image/jpeg', .92);
+  });
+}
+function buildCaption(){
+  const base = TEMPLATES[cur].caption(fields(cur)).trim();
+  return base + (S.hashtags ? '\n\n' + S.hashtags : '');
+}
+
+// ---------- UI ----------
+const $ = id => document.getElementById(id);
+const capEl = $('caption');
+function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2200); }
+function el(tag, attrs = {}, ...kids){ const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)){ if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (v != null) e.setAttribute(k, v); } e.append(...kids); return e; }
+
+function buildTypes(){
+  const box = $('types'); box.innerHTML = '';
+  for (const [k, T] of Object.entries(TEMPLATES)){
+    box.append(el('button', { class: k === cur ? 'on' : '', onclick: () => { cur = k; store.current = k; save(); captionEdited = false; buildTypes(); buildForm(); render(); } }, T.name));
+  }
+  const on = box.querySelector('.on'); if (on) on.scrollIntoView({ inline: 'center', block: 'nearest' });
+}
+
+function loadImage(file, maxSide = 2000){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => {
+      const s = Math.min(1, maxSide / Math.max(im.width, im.height)), oc = document.createElement('canvas');
+      oc.width = Math.round(im.width * s); oc.height = Math.round(im.height * s); oc.getContext('2d').drawImage(im, 0, 0, oc.width, oc.height);
+      URL.revokeObjectURL(url); res(oc);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Could not open that picture')); };
+    im.src = url;
+  });
+}
+
+function photoField(spec){
+  const tp = cur; photos[tp] = photos[tp] || {};
+  const box = el('div', { class: 'photo' });
+  const draw = () => {
+    box.innerHTML = '';
+    const p = photos[tp][spec.k];
+    const input = el('input', { type: 'file', accept: 'image/*' });
+    input.addEventListener('change', async () => {
+      const file = input.files[0]; if (!file) return;
+      try { photos[tp][spec.k] = { img: await loadImage(file), zoom: 1, x: 0, y: 0 }; draw(); render(); } catch (e) { toast(e.message); }
+    });
+    const thumb = el('img', { alt: '' }); if (p) thumb.src = p.img.toDataURL('image/jpeg', .6);
+    const row = el('div', { class: 'row' }, thumb, el('div', { class: 'name' }, spec.label),
+      el('button', { class: 'btn secondary small', onclick: () => input.click() }, p ? 'Change' : 'Add'), input);
+    if (p) row.append(el('button', { class: 'btn secondary small', onclick: () => { delete photos[tp][spec.k]; draw(); render(); } }, '✕'));
+    box.append(row);
+    if (p){
+      const sl = el('div', { class: 'sliders' });
+      const mk = (label, key, min, max, step) => {
+        const r = el('input', { type: 'range', min, max, step, value: p[key] });
+        r.addEventListener('input', () => { p[key] = parseFloat(r.value); render(); });
+        sl.append(el('label', {}, el('span', {}, label), r));
+      };
+      mk(spec.contain ? 'Size' : 'Zoom', 'zoom', spec.contain ? .5 : 1, spec.contain ? 1.6 : 3, .01);
+      if (!spec.contain){ mk('Left / right', 'x', -1, 1, .01); mk('Up / down', 'y', -1, 1, .01); }
+      box.append(sl);
+    }
+  };
+  draw(); return box;
+}
+
+function buildForm(){
+  const T = TEMPLATES[cur], f = fields(cur), box = $('form'); box.innerHTML = '';
+  $('formTitle').textContent = T.name;
+  for (const spec of T.fields()){
+    if (spec.t === 'photo'){ box.append(photoField(spec)); continue; }
+    if (spec.t === 'button'){
+      box.append(el('div', { style: 'margin:-4px 0 14px' }, el('button', { class: 'btn secondary small', onclick: () => { f.seed = (f.seed || 1) + 1; save(); render(); } }, spec.label)));
+      continue;
+    }
+    let input;
+    const set = v => { f[spec.k] = v; save(); render(); };
+    if (spec.t === 'textarea'){ input = el('textarea', { placeholder: spec.ph || '', rows: 3 }); input.value = f[spec.k] || ''; input.addEventListener('input', () => set(input.value)); }
+    else if (spec.t === 'select'){ input = el('select'); for (const [v, l] of spec.options) input.append(el('option', { value: v }, l)); input.value = f[spec.k]; input.addEventListener('change', () => set(input.value)); }
+    else if (spec.t === 'chips'){
+      input = el('div', { class: 'chips' });
+      for (const [v, l] of spec.options){
+        const b = el('button', { class: f[spec.k] === v ? 'on' : '', onclick: () => { set(v); input.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); } }, l);
+        input.append(b);
+      }
+    } else {
+      input = el('input', { type: spec.t, placeholder: spec.ph || '', inputmode: spec.t === 'number' ? 'numeric' : null, min: spec.t === 'number' ? '0' : null });
+      input.value = f[spec.k] || '';
+      if (spec.list){ const id = 'dl-' + cur + spec.k; input.setAttribute('list', id); box.append(el('datalist', { id }, ...spec.list.map(v => el('option', { value: v })))); }
+      input.addEventListener('input', () => set(input.value));
+    }
+    box.append(el('label', { class: 'f' }, el('span', {}, spec.label), input, spec.hint ? el('small', {}, spec.hint) : ''));
+  }
+}
+
+function buildSettings(){
+  const box = $('settings'); box.innerHTML = '';
+  const rows = [
+    ['eventName', 'Big event name', 'text', 'Used on countdowns and captions.'],
+    ['eventDate', 'Big event date', 'date', 'Countdowns use this to fill in the number of days.'],
+    ['presenter', 'Small line above the event name', 'text'],
+    ['partner', 'Partner line', 'text'],
+    ['handle', 'Instagram handle', 'text'],
+    ['link', 'Where to sign up (goes in captions)', 'text', 'For example "Link in bio!"'],
+    ['hashtags', 'Hashtags added to every caption', 'textarea'],
+  ];
+  for (const [k, label, type, hint] of rows){
+    const input = type === 'textarea' ? el('textarea', { rows: 2 }) : el('input', { type });
+    input.value = S[k] || '';
+    input.addEventListener('input', () => { S[k] = input.value; save(); if (k === 'eventDate' && cur === 'countdown'){ const d = daysUntil(S.eventDate); if (d != null) fields('countdown').days = String(Math.max(0, d)); buildForm(); } render(); });
+    box.append(el('label', { class: 'f' }, el('span', {}, label), input, hint ? el('small', {}, hint) : ''));
+  }
+  const li = el('input', { type: 'file', accept: 'image/*', style: 'display:none' });
+  li.addEventListener('change', async () => {
+    const file = li.files[0]; if (!file) return;
+    const oc = await loadImage(file, 600); S.logo = oc.toDataURL('image/png'); save(); await loadLogo(); buildSettings(); render();
+  });
+  box.append(el('div', { class: 'photo' }, el('div', { class: 'row' },
+    el('div', { class: 'name' }, S.logo ? 'Your logo (uploaded)' : 'Logo: using the built-in arch. Upload your real logo (a PNG with a see-through background looks best).'),
+    el('button', { class: 'btn secondary small', onclick: () => li.click() }, S.logo ? 'Change' : 'Upload'),
+    S.logo ? el('button', { class: 'btn secondary small', onclick: () => { S.logo = ''; logoImg = null; save(); buildSettings(); render(); } }, '✕') : '', li)));
+}
+function loadLogo(){
+  return new Promise(res => { if (!S.logo){ logoImg = null; return res(); } const im = new Image(); im.onload = () => { logoImg = im; res(); }; im.onerror = () => res(); im.src = S.logo; });
+}
+
+capEl.addEventListener('input', () => { captionEdited = true; });
+$('resetCap').addEventListener('click', () => { captionEdited = false; capEl.value = buildCaption(); });
+$('copy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(capEl.value); toast('Caption copied ✓'); }
+  catch (e) { capEl.select(); document.execCommand('copy'); toast('Caption copied ✓'); }
+});
+$('save').addEventListener('click', async () => {
+  const b = blob || await new Promise(r => cv.toBlob(r, 'image/jpeg', .92));
+  const file = new File([b], `kingdom-inclusion-${cur}-${new Date().toISOString().slice(0, 10)}.jpg`, { type: 'image/jpeg' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })){
+    try { await navigator.share({ files: [file] }); return; } catch (e) { if (e.name === 'AbortError') return; }
+  }
+  const a = el('a', { href: URL.createObjectURL(b), download: file.name }); document.body.append(a); a.click(); a.remove();
+  toast('Image saved ✓');
+});
+
+// ---------- start ----------
+const FONTS = ['400 40px Anton', '400 40px "Archivo Black"', '700 40px Cinzel', '400 40px Montserrat', '600 40px Montserrat', '700 40px Montserrat', 'italic 500 40px Montserrat', '600 40px "Playfair Display"', 'italic 600 40px "Playfair Display"'];
+if (store.current === 'countdown' || !store.current){ const d = daysUntil(S.eventDate); if (d != null && d >= 0) fields('countdown').days = String(d); }
+buildTypes(); buildForm(); buildSettings();
+Promise.all([loadLogo(), ...FONTS.map(f => document.fonts.load(f).catch(() => {}))]).then(render);
+document.fonts.ready.then(render);
+render();
+window.__ki = { TEMPLATES, render, photos, fields, setCur: k => { cur = k; buildTypes(); buildForm(); render(); } };
+})();
+</script>
+</body>
+</html>
