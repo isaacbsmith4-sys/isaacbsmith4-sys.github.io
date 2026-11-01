@@ -1,6 +1,6 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "dynasty-v1";
-const SHELL = ["./", "index.html", "manifest.webmanifest"];
+const CACHE = "dynasty-v2";
+const SHELL = ["./", "index.html", "teams.js", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
