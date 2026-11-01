@@ -30,7 +30,7 @@
     {id: "focus", name: "Focus", color: "#6aa8ff", path: "../focus/", built: true, blurb: "Focus timer and study hours"},
     {id: "mindset", name: "Mindset", color: "#d29bff", phase: 3, blurb: "Journal, reflections, weekly review"},
     {id: "recovery", name: "Recovery", color: "#46d1c4", path: "../recovery/", built: true, blurb: "Readiness, soreness, training load"},
-    {id: "basketball", name: "Basketball", color: "#e0955a", phase: 4, blurb: "Shooting charts and skill work"},
+    {id: "basketball", name: "Basketball", color: "#e0955a", path: "../basketball/", built: true, blurb: "Shooting charts and skill work"},
     {id: "finance", name: "Finance", color: "#7bd88f", phase: 4, blurb: "Budget, spending, savings"},
   ];
 
@@ -264,6 +264,48 @@
     };
   })();
 
+  /* ---------- Basketball ---------- */
+  const basketball = (() => {
+    const sessions = Life.col("basketball/sessions", {months: 6}), tests = Life.col("basketball/tests", {months: 24}), state = Life.doc("basketball/state");
+    const THREE = new Set(["lc3", "rc3", "lw3", "rw3", "top3"]);
+    const sum = (shots, f = () => true) => (shots || []).filter(f).reduce((t, x) => ({m: t.m + x.m, a: t.a + x.a}), {m: 0, a: 0});
+    const TEST = {vert: ["Vertical", "in"], reach: ["Max touch", "in"], sprint34: ["3/4-court sprint", "sec"], yd40: ["40-yard dash", "sec"], lane: ["Lane agility", "sec"]};
+    const all = () => Object.values(sessions.all());
+    return {
+      has: () => all().length > 0 || Object.keys(tests.all()).length > 0 || !!(state.get() || {}).active,
+      today(k) {
+        const list = all().filter(x => x.date === k), sh = sum(list.flatMap(x => x.shots || []));
+        const ws = addDays(k, -parseKey(k).getDay()), wk = sum(all().filter(x => x.date >= ws && x.date <= k).flatMap(x => x.shots || []));
+        return {count: list.length, shots: sh, week: wk, active: (state.get() || {}).active || null};
+      },
+      events(from, to) {
+        const out = [];
+        for (const x of all()) if (x.date >= from && x.date <= to) {
+          const sh = sum(x.shots), th = sum(x.shots, s => THREE.has(s.z)), ft = sum(x.shots, s => s.z === "ft");
+          const mins = x.end ? Math.round((new Date(x.end) - new Date(x.start)) / 60000) : null;
+          out.push({date: x.date, time: new Date(x.start), app: "basketball", title: sh.a ? `Shooting · ${sh.m}/${sh.a}` : "Skill work" + (mins ? ` · ${mins} min` : ""),
+            detail: [sh.a ? Math.round(sh.m / sh.a * 100) + "%" : "", th.a ? `3PT ${th.m}/${th.a}` : "", ft.a ? `FT ${ft.m}/${ft.a}` : "", (x.drills || []).length ? plural(x.drills.length, "drill") : ""].filter(Boolean).join(" · ")});
+        }
+        for (const t of Object.values(tests.all())) if (t.date >= from && t.date <= to) out.push({date: t.date, app: "basketball", title: `${TEST[t.test][0]}: ${t.v} ${TEST[t.test][1]}`, detail: t.pr ? "personal record" : "test"});
+        return out;
+      },
+      series(from, to) {
+        const by = {};
+        for (const x of all()) if (x.date >= from && x.date <= to) (by[x.date] ||= []).push(...(x.shots || []));
+        const out = {"bb.shots": [], "bb.pct": [], "bb.three": [], "bb.ft": [], "bb.vert": [], "bb.sprint34": []};
+        for (const [k, sh] of Object.entries(by).sort()) {
+          const a = sum(sh), th = sum(sh, s => THREE.has(s.z)), ft = sum(sh, s => s.z === "ft");
+          if (a.a) { out["bb.shots"].push({date: k, v: a.a}); out["bb.pct"].push({date: k, v: Math.round(a.m / a.a * 100)}); }
+          if (th.a >= 10) out["bb.three"].push({date: k, v: Math.round(th.m / th.a * 100)});
+          if (ft.a >= 10) out["bb.ft"].push({date: k, v: Math.round(ft.m / ft.a * 100)});
+        }
+        for (const t of Object.values(tests.all()).sort((a, b) => a.date.localeCompare(b.date))) if (t.date >= from && t.date <= to && (t.test === "vert" || t.test === "sprint34")) out["bb." + t.test].push({date: t.date, v: t.v});
+        return out;
+      },
+      load: months => Promise.all([sessions.load(months), tests.load(months)]),
+    };
+  })();
+
   // agg: how a stretch of days adds up (avg of logged days, sum, or the latest value); better: 1 up, -1 down, 0 depends
   const METRICS = {
     "sleep.asleep": {app: "sleep", label: "Sleep", unit: "h", agg: "avg", better: 1, dp: 1},
@@ -281,12 +323,18 @@
     "recovery.soreness": {app: "recovery", label: "Soreness", unit: "/5", agg: "avg", better: -1, dp: 1},
     "recovery.rhr": {app: "recovery", label: "Resting heart rate", unit: "bpm", agg: "avg", better: -1, dp: 0},
     "recovery.hrv": {app: "recovery", label: "HRV", unit: "ms", agg: "avg", better: 1, dp: 0},
+    "bb.shots": {app: "basketball", label: "Shots", unit: "per week", agg: "sum", better: 1, dp: 0},
+    "bb.pct": {app: "basketball", label: "Shooting %", unit: "%", agg: "avg", better: 1, dp: 0},
+    "bb.three": {app: "basketball", label: "3-point %", unit: "%", agg: "avg", better: 1, dp: 0},
+    "bb.ft": {app: "basketball", label: "Free throw %", unit: "%", agg: "avg", better: 1, dp: 0},
+    "bb.vert": {app: "basketball", label: "Vertical jump", unit: "in", agg: "last", better: 1, dp: 1},
+    "bb.sprint34": {app: "basketball", label: "3/4-court sprint", unit: "sec", agg: "last", better: -1, dp: 2},
     "focus.min": {app: "focus", label: "Focus time", unit: "min", agg: "sum", better: 1, dp: 0},
     "focus.school": {app: "focus", label: "Study time", unit: "min", agg: "sum", better: 1, dp: 0},
   };
   const metricInfo = id => METRICS[id] || (id.startsWith("train.lift:") ? {app: "train", label: id.slice(11) + " est. max", unit: "lb", agg: "last", better: 1, dp: 0} : null);
 
-  const adapters = {sleep, fuel, train, habits, focus, recovery};
+  const adapters = {sleep, fuel, train, habits, focus, recovery, basketball};
   /** daily points for one metric id between two dates (inclusive) */
   function metric(id, from, to) { const a = adapters[(metricInfo(id) || {}).app]; return a && a.series ? (a.series(from, to)[id] || []) : []; }
   window.LifeApps = {APPS, adapters, METRICS, metricInfo, metric, util: {ymd, parseKey, addDays, dur, time}};

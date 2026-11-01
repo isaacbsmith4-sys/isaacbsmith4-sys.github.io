@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e0a07">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Basketball">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Basketball</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one screen per tab (Workout / Shot chart / Progress / History), bottom tab bar. The half court is
+   the main surface: tap a spot, then tap Make or Miss, so a whole workout is logged one-handed between reps.
+   Dark hardwood ground, leather orange as the accent; shooting % uses good/warn/bad against each zone's own bar. */
+:root{
+  color-scheme:dark;
+  --bg:#0e0a07; --surface:#18120d; --surface2:#211912; --sunk:#120d09; --line:#33271c; --line-hi:#4b3a2a;
+  --ink:#f8efe6; --ink2:#d8c6b4; --muted:#a08a75; --faint:#6e5c4b;
+  --accent:#e0955a; --accent-bg:rgba(224,149,90,.14); --on-accent:#1d0d02;
+  --court:#1c140e; --court-line:#5a4634;
+  --good:#5fe0a0; --warn:#f5b85a; --bad:#ff6b7d;
+  --display:"Big Shoulders Display","Avenir Next Condensed",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --tabh:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);min-height:100vh;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(var(--tabh) + 24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(100% 50% at 80% -10%,rgba(224,149,90,.14),transparent 60%)}
+.wrap{position:relative;max-width:620px;margin:0 auto}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:18px 0 14px;flex-wrap:wrap}
+header h1{font:900 34px var(--display);margin:0;letter-spacing:.01em;text-transform:uppercase;line-height:.95}
+header p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.screen{display:grid;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;min-width:0}
+.card h2{font:800 21px var(--display);margin:0;text-transform:uppercase;letter-spacing:.02em}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sub,.note{color:var(--muted);font-size:12.5px}
+.eyebrow{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.big{font:900 40px var(--display);line-height:1;font-variant-numeric:tabular-nums}
+.court{width:100%;display:block;border-radius:16px;background:var(--court);touch-action:manipulation}
+.court .ln{fill:none;stroke:var(--court-line);stroke-width:3}
+.court .spot{cursor:pointer}
+.court .spot circle{stroke:var(--bg);stroke-width:3;transition:r .15s}
+.court .spot.sel circle{stroke:var(--ink);stroke-width:4}
+.court .spot text{font:700 19px var(--mono);fill:var(--ink);text-anchor:middle;pointer-events:none}
+.court .spot text.s{font:600 13px var(--mono);fill:var(--ink2)}
+.mm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mm button{height:68px;border-radius:16px;font:900 26px var(--display);text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border:1.5px solid}
+.mm .mk{background:color-mix(in srgb,var(--good) 16%,var(--surface));border-color:var(--good);color:var(--good)}
+.mm .ms{background:color-mix(in srgb,var(--bad) 12%,var(--surface));border-color:color-mix(in srgb,var(--bad) 70%,transparent);color:var(--bad)}
+.mm button:active{transform:scale(.97)}
+.zline{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.zline b{font:800 22px var(--display);text-transform:uppercase;letter-spacing:.02em}
+.btn{appearance:none;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:700 14px var(--body);padding:11px 15px;border-radius:13px;cursor:pointer;white-space:nowrap}
+.btn.go{background:var(--accent);color:var(--on-accent);border-color:var(--accent);box-shadow:0 0 24px -8px var(--accent)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.wide{width:100%;padding:14px;font-size:15.5px}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:11px}
+.btn:disabled{opacity:.45}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible,select:focus-visible,.tab:focus-visible,.mm button:focus-visible,.spot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{min-width:0}
+.between{justify-content:space-between}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:11px;padding:10px 11px;min-width:0}
+input[type=number],input[type=date]{font-family:var(--mono)}
+textarea{width:100%;min-height:60px;resize:vertical}
+label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 110px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:999px;padding:8px 12px;font:600 13px var(--body);cursor:pointer}
+.chip.on{border-color:var(--accent);background:var(--accent-bg);color:var(--ink)}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{flex:1;border:0;background:none;color:var(--muted);font:700 13px var(--body);padding:10px 4px;cursor:pointer}
+.seg button.on{background:var(--accent-bg);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.zt{display:grid;grid-template-columns:minmax(0,1fr) 70px 54px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.zt:last-child{border-bottom:0}
+.zt span:not(:first-child){font:600 13px var(--mono);text-align:right}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:2px}
+.stat .v{font:900 30px var(--display);font-variant-numeric:tabular-nums;line-height:1}
+.stat .s{font-size:12px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font:10px var(--mono)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.legend i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.item{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.item:last-child{border-bottom:0}
+.item .m{flex:1;min-width:0}
+.item .m b{display:block;font:800 19px var(--display);text-transform:uppercase;letter-spacing:.02em}
+.item .k{font:700 15px var(--mono)}
+.callout{display:flex;gap:10px;padding:11px 12px;border-radius:13px;background:color-mix(in srgb,var(--c) 9%,var(--surface2));border:1px solid color-mix(in srgb,var(--c) 35%,transparent);font-size:14px}
+.callout i{flex:none;width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--c)}
+.pr{font:700 10px var(--mono);color:#04140c;background:var(--good);border-radius:6px;padding:2px 6px;margin-left:6px;letter-spacing:.06em}
+.empty{color:var(--muted);font-size:14px;padding:16px;border:1px dashed var(--line-hi);border-radius:14px;text-align:center}
+.x{border:0;background:none;color:var(--faint);font-size:18px;cursor:pointer;padding:2px 6px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(14,10,7,.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+nav.tabs .in{display:flex;width:100%;max-width:620px}
+.tab{flex:1;border:0;background:none;color:var(--faint);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:6px 0;cursor:pointer}
+.tab svg{width:22px;height:22px}
+.tab[aria-selected=true]{color:var(--accent)}
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(5,3,2,.72);backdrop-filter:blur(5px);display:grid;align-items:end;justify-items:center}
+.sheet .in{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;display:grid;gap:14px;align-content:start;
+  padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));animation:up .22s ease-out}
+.sheet h3{margin:0;font:800 26px var(--display);text-transform:uppercase}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--surface2);border:1px solid var(--line-hi);border-radius:13px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:calc(100vw - 32px)}
+.toast button{border:0;background:none;color:var(--accent);font:700 13px var(--body);cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div><h1 id="title">Basketball</h1><p id="sub"></p></div><div id="sync"></div></header>
+  <main id="main" class="screen"></main>
+</div>
+<nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
+<div id="overlay"></div>
+<script src="../kit/kit.js?v=8"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rid = () => Math.random().toString(36).slice(2, 10);
+const pad = n => String(n).padStart(2, "0");
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const todayKey = () => ymd(new Date(Date.now() - 3 * 3600e3));
+const parseKey = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return ymd(d); };
+const weekStart = k => addDays(k, -parseKey(k).getDay());
+const niceDate = k => parseKey(k).toLocaleDateString([], {weekday: "short", month: "short", day: "numeric"});
+const pct = (m, a) => a ? Math.round(m / a * 100) : null;
+
+/* ---------- the court ----------
+   Half court in tenths of a foot (50 × 47 ft), baseline at the top, high school 19'9" three-point arc.
+   Spots are where you tap; "kind" decides what counts as a good percentage for that spot. */
+const ZONES = [
+  {id: "rim", name: "At the rim", x: 250, y: 85, kind: "rim"},
+  {id: "paint", name: "Paint / floater", x: 250, y: 150, kind: "rim"},
+  {id: "lbase", name: "Left baseline", x: 120, y: 60, kind: "mid"}, {id: "rbase", name: "Right baseline", x: 380, y: 60, kind: "mid"},
+  {id: "lelbow", name: "Left elbow", x: 160, y: 205, kind: "mid"}, {id: "relbow", name: "Right elbow", x: 340, y: 205, kind: "mid"},
+  {id: "ft", name: "Free throw", x: 250, y: 205, kind: "ft"},
+  {id: "topmid", name: "Top of key (mid)", x: 250, y: 262, kind: "mid"},
+  {id: "lc3", name: "Left corner 3", x: 28, y: 42, kind: "three"}, {id: "rc3", name: "Right corner 3", x: 472, y: 42, kind: "three"},
+  {id: "lw3", name: "Left wing 3", x: 82, y: 225, kind: "three"}, {id: "rw3", name: "Right wing 3", x: 418, y: 225, kind: "three"},
+  {id: "top3", name: "Top 3", x: 250, y: 320, kind: "three"},
+];
+const ZONE = Object.fromEntries(ZONES.map(z => [z.id, z]));
+// rough high school guard benchmarks: [good, okay]
+const BAR = {rim: [65, 55], mid: [45, 38], three: [38, 32], ft: [78, 68]};
+const tone = (kind, p) => p == null ? "var(--line-hi)" : p >= BAR[kind][0] ? "var(--good)" : p >= BAR[kind][1] ? "var(--warn)" : "var(--bad)";
+const SHOT_TYPES = [["cs", "Catch & shoot"], ["od", "Off the dribble"]];
+const FINISHES = ["Right-hand layup", "Left-hand layup", "Reverse", "Floater", "Euro step", "Through contact", "Off two feet"];
+const DRILLS = ["Ball-handling", "Pick & roll reads", "Footwork", "Closeouts / defense", "Passing", "Free-form"];
+const TESTS = {vert: {name: "Vertical jump", unit: "in", better: 1}, reach: {name: "Max touch", unit: "in", better: 1}, sprint34: {name: "3/4-court sprint", unit: "sec", better: -1}, yd40: {name: "40-yard dash", unit: "sec", better: -1}, lane: {name: "Lane agility", unit: "sec", better: -1}};
+
+function courtSVG({stats = {}, sel = null, mode = "pct"} = {}) {
+  const spot = z => { const s = stats[z.id], p = s ? pct(s.m, s.a) : null, c = tone(z.kind, p), r = s && s.a ? 30 : 24;
+    return `<g class="spot ${sel === z.id ? "sel" : ""}" data-act="zone" data-z="${z.id}" role="button" tabindex="0" aria-label="${z.name}${s ? `: ${s.m} of ${s.a}` : ""}">
+      <circle cx="${z.x}" cy="${z.y}" r="${r}" fill="${s && s.a ? c : "var(--surface2)"}" fill-opacity="${s && s.a ? .85 : 1}"/>
+      <text x="${z.x}" y="${z.y + 6}" ${s && s.a ? 'style="fill:#120a04"' : ""}>${s && s.a ? (mode === "pct" ? p + "%" : `${s.m}/${s.a}`) : "+"}</text>
+      ${s && s.a && mode === "pct" ? `<text class="s" x="${z.x}" y="${z.y + r + 17}">${s.m}/${s.a}</text>` : ""}</g>`; };
+  return `<svg class="court" viewBox="0 0 500 380" aria-label="Half court">
+    <rect class="ln" x="2" y="2" width="496" height="376" rx="6"/>
+    <path class="ln" d="M190 2 V192 H310 V2"/><circle class="ln" cx="250" cy="192" r="60"/>
+    <path class="ln" d="M52.5 2 V52.5 A197.5 197.5 0 0 0 447.5 52.5 V2"/>
+    <line class="ln" x1="220" y1="40" x2="280" y2="40"/><circle class="ln" cx="250" cy="52.5" r="9"/>
+    ${ZONES.map(spot).join("")}</svg>`;
+}
+const tally = (shots, filter) => { const out = {}; (shots || []).forEach(s => { if (filter && filter !== "all" && s.t !== filter && s.z !== "ft") return; if (filter && filter !== "all" && s.z === "ft") return; const o = out[s.z] ||= {m: 0, a: 0}; o.m += s.m; o.a += s.a; }); return out; };
+const sumShots = (shots, test = () => true) => (shots || []).filter(test).reduce((t, s) => ({m: t.m + s.m, a: t.a + s.a}), {m: 0, a: 0});
+
+/* ---------- state + shared LIFE HQ data ---------- */
+const KEY = "bballapp:v1";
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+if (!S || !S.sessions) S = {sessions: {}, tests: {}, active: null};
+const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const SESS = Life.col("basketball/sessions", {months: 6}), TESTSC = Life.col("basketball/tests", {months: 24}), STATE = Life.doc("basketball/state");
+const save = () => { localSave(); SESS.replace(S.sessions); TESTSC.replace(S.tests); STATE.set({active: S.active || null}); };
+function adopt() { S.sessions = SESS.all(); S.tests = TESTSC.all(); const st = STATE.get(); if (st) S.active = st.active || null; localSave(); }
+SESS.seed(S.sessions); TESTSC.seed(S.tests); STATE.seed({active: S.active || null}); adopt();
+const sessions = () => Object.entries(S.sessions).map(([id, s]) => ({...s, id})).sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
+
+/* ---------- ui bits ---------- */
+let toastT;
+function toast(msg, undo) {
+  document.querySelectorAll(".toast").forEach(t => t.remove());
+  const o = document.createElement("div"); o.className = "toast"; o.setAttribute("role", "status");
+  o.innerHTML = `<span>${esc(msg)}</span>${undo ? "<button>Undo</button>" : ""}`; document.body.appendChild(o);
+  if (undo) o.querySelector("button").onclick = () => { undo(); save(); o.remove(); render(); };
+  clearTimeout(toastT); toastT = setTimeout(() => o.remove(), 3500);
+}
+const sheet = html => { $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog">${html}</div></div>`; };
+const closeSheet = () => { $("#overlay").innerHTML = ""; };
+const ICONS = {
+  workout: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  chart: '<path d="M4 4v6a8 8 0 0 0 16 0V4"/><circle cx="12" cy="9" r="1.5"/>',
+  progress: '<path d="M3 20h18M5 16l4-5 4 3 6-8"/>',
+  history: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+};
+const TABS = [["workout", "Workout"], ["chart", "Shot chart"], ["progress", "Progress"], ["history", "History"]];
+let tab = TABS.some(t => t[0] === location.hash.slice(1)) ? location.hash.slice(1) : "workout";
+function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0, 0); }
+
+/* ================= WORKOUT ================= */
+let ui = {zone: "lw3", type: "cs", part: "shoot", move: FINISHES[0]};
+function viewWorkout() {
+  const a = S.active;
+  if (!a) {
+    const k = todayKey(), ws = weekStart(k), wk = sessions().filter(s => s.date >= ws), shots = sumShots(wk.flatMap(s => s.shots || []));
+    const last = sessions().slice(-1)[0];
+    return `<section class="card"><div class="eyebrow">This week</div>
+        <div class="row" style="gap:22px;margin-top:6px"><div><div class="big">${shots.a.toLocaleString()}</div><div class="sub">shots</div></div><div><div class="big">${shots.a ? pct(shots.m, shots.a) + "%" : "–"}</div><div class="sub">made</div></div><div><div class="big">${wk.length}</div><div class="sub">workouts</div></div></div>
+        <button class="btn go wide" style="margin-top:14px" data-act="start">Start a workout</button>
+        <p class="note" style="margin:10px 0 0">Tap a spot on the court, then Make or Miss after each shot. Finishing and drills are in the same workout.</p></section>
+      ${last ? `<section class="card"><div class="ch"><h2>Last workout</h2><span class="sub">${niceDate(last.date)}</span></div>${summary(last)}</section>` : ""}
+      <section class="card"><div class="ch"><h2>Test day</h2><button class="btn sm" data-act="addTest">+ Log a test</button></div>${testBoard()}</section>
+      <section class="card"><div class="ch"><h2>Film & IQ</h2></div><p class="note" style="margin:0 0 10px">Reps build the skill; film builds the reads.</p><a class="btn" href="../film/" style="text-decoration:none;display:inline-block">Open Film Room</a></section>`;
+  }
+  const all = sumShots(a.shots), started = new Date(a.start), el = Math.round((Date.now() - started) / 60000);
+  const zs = tally(a.shots), z = ZONE[ui.zone], zt = zs[ui.zone] || {m: 0, a: 0};
+  const zType = a.shots.filter(s => s.z === ui.zone && s.t === ui.type).reduce((t, s) => ({m: t.m + s.m, a: t.a + s.a}), {m: 0, a: 0});
+  const part = ui.part;
+  return `<section class="card" style="border-color:var(--accent);padding:12px 16px"><div class="row between"><div><span class="eyebrow">Workout · ${el} min</span><div style="font:800 22px var(--display)">${all.m}/${all.a} <span class="sub">${all.a ? pct(all.m, all.a) + "%" : ""}</span></div></div><button class="btn go sm" data-act="finish">Finish</button></div></section>
+    <div class="seg">${[["shoot", "Shooting"], ["finish", "Finishing"], ["drill", "Drills"]].map(([p, l]) => `<button class="${part === p ? "on" : ""}" data-act="part" data-v="${p}">${l}</button>`).join("")}</div>
+    ${part === "shoot" ? `
+      ${courtSVG({stats: zs, sel: ui.zone, mode: "count"})}
+      <div class="zline"><b>${esc(z.name)}</b><span class="num sub">${zt.a ? `${zt.m}/${zt.a} · ${pct(zt.m, zt.a)}%` : "no shots yet"}</span></div>
+      ${z.kind !== "ft" && z.kind !== "rim" ? `<div class="seg">${SHOT_TYPES.map(([t, l]) => `<button class="${ui.type === t ? "on" : ""}" data-act="stype" data-v="${t}">${l}</button>`).join("")}</div>` : ""}
+      <div class="mm"><button class="mk" data-act="shot" data-m="1">Make</button><button class="ms" data-act="shot" data-m="0">Miss</button></div>
+      <div class="row"><button class="btn sm" data-act="batch">Enter a set (7 of 10)</button><button class="btn sm ghost" data-act="undo" ${a.log.length ? "" : "disabled"}>Undo last</button>${z.kind !== "ft" && z.kind !== "rim" && zType.a ? `<span class="sub">${SHOT_TYPES.find(t => t[0] === ui.type)[1]}: ${zType.m}/${zType.a}</span>` : ""}</div>`
+    : part === "finish" ? `
+      <div class="chips">${FINISHES.map(f => { const t = a.finishes.filter(x => x.move === f).reduce((s, x) => ({m: s.m + x.m, a: s.a + x.a}), {m: 0, a: 0}); return `<button class="chip ${ui.move === f ? "on" : ""}" data-act="move" data-v="${esc(f)}">${esc(f)}${t.a ? ` · ${t.m}/${t.a}` : ""}</button>`; }).join("")}</div>
+      <div class="mm"><button class="mk" data-act="fin" data-m="1">Make</button><button class="ms" data-act="fin" data-m="0">Miss</button></div>
+      <div class="row"><button class="btn sm ghost" data-act="undo" ${a.log.length ? "" : "disabled"}>Undo last</button></div>`
+    : `
+      <div class="chips">${DRILLS.map((d, i) => `<button class="chip ${i ? "" : "on"}" data-act="pickDrill" data-v="${esc(d)}">${esc(d)}</button>`).join("")}</div>
+      <div class="row"><label class="f">Minutes<input id="dMin" type="number" inputmode="numeric" value="10"></label><label class="f">Reps (optional)<input id="dReps" type="number" inputmode="numeric"></label></div>
+      <input id="dNote" placeholder="What you worked on: hesi-crossover, snake dribble reads…">
+      <button class="btn" data-act="addDrill">Add drill</button>
+      ${a.drills.length ? `<div>${a.drills.map((d, i) => `<div class="row between" style="padding:6px 0;border-bottom:1px solid var(--line)"><span>${esc(d.drill)} · ${d.min} min${d.reps ? " · " + d.reps + " reps" : ""}${d.note ? ` <span class="sub">${esc(d.note)}</span>` : ""}</span><button class="x" data-act="delDrill" data-i="${i}" aria-label="Remove">×</button></div>`).join("")}</div>` : ""}`}
+    <button class="btn ghost" data-act="discard">Discard workout</button>`;
+}
+function summary(s) {
+  const sh = sumShots(s.shots), three = sumShots(s.shots, x => ZONE[x.z].kind === "three"), ft = sumShots(s.shots, x => x.z === "ft"), fin = (s.finishes || []).reduce((t, x) => ({m: t.m + x.m, a: t.a + x.a}), {m: 0, a: 0});
+  const parts = [sh.a ? `${sh.m}/${sh.a} shots (${pct(sh.m, sh.a)}%)` : "", three.a ? `3PT ${three.m}/${three.a}` : "", ft.a ? `FT ${ft.m}/${ft.a}` : "", fin.a ? `finishing ${fin.m}/${fin.a}` : "", (s.drills || []).length ? `${(s.drills || []).reduce((t, d) => t + d.min, 0)} min of drills` : ""].filter(Boolean);
+  return `<div class="sub">${parts.join(" · ") || "Nothing logged"}</div>`;
+}
+function testBoard() {
+  const by = {}; Object.entries(S.tests).forEach(([id, t]) => (by[t.test] ||= []).push({...t, id}));
+  const rows = Object.keys(TESTS).filter(k => by[k]).map(k => { const L = by[k].sort((a, b) => a.date.localeCompare(b.date)), T = TESTS[k], best = L.reduce((b, x) => (T.better > 0 ? x.v > b.v : x.v < b.v) ? x : b, L[0]), last = L[L.length - 1];
+    return `<div class="zt"><span>${T.name}</span><span>${last.v} ${T.unit}</span><span style="color:var(--good)">${best.v}</span></div>`; });
+  return rows.length ? `<div class="zt"><span class="eyebrow">Test</span><span class="eyebrow" style="text-align:right">Latest</span><span class="eyebrow" style="text-align:right">Best</span></div>${rows.join("")}` : `<p class="note" style="margin:0">Vertical, max touch, 3/4-court sprint, 40-yard dash, lane agility. Retest every 4–6 weeks to see real change.</p>`;
+}
+
+/* ================= SHOT CHART ================= */
+let chartRange = "30", chartType = "all";
+function viewChart() {
+  const k = todayKey(), from = chartRange === "all" ? "2000-01-01" : addDays(k, -(+chartRange - 1));
+  const list = sessions().filter(s => s.date >= from), shots = list.flatMap(s => s.shots || []);
+  const st = tally(shots, chartType);
+  const rows = ZONES.filter(z => st[z.id]).map(z => ({z, ...st[z.id], p: pct(st[z.id].m, st[z.id].a)}));
+  const solid = rows.filter(r => r.a >= 20);
+  const weak = solid.filter(r => r.p < BAR[r.z.kind][1]).sort((a, b) => (a.p - BAR[a.z.kind][1]) - (b.p - BAR[b.z.kind][1])).slice(0, 3);
+  const strong = solid.filter(r => r.p >= BAR[r.z.kind][0]).sort((a, b) => b.p - a.p).slice(0, 3);
+  // catch & shoot vs off the dribble, jumpers only
+  const cs = sumShots(shots, s => s.t === "cs" && ["mid", "three"].includes(ZONE[s.z].kind)), od = sumShots(shots, s => s.t === "od" && ["mid", "three"].includes(ZONE[s.z].kind));
+  return `<div class="seg">${[["7", "7D"], ["30", "30D"], ["90", "90D"], ["all", "All"]].map(([v, l]) => `<button class="${chartRange === v ? "on" : ""}" data-act="crange" data-v="${v}">${l}</button>`).join("")}</div>
+    <div class="seg">${[["all", "All shots"], ["cs", "Catch & shoot"], ["od", "Off the dribble"]].map(([v, l]) => `<button class="${chartType === v ? "on" : ""}" data-act="ctype" data-v="${v}">${l}</button>`).join("")}</div>
+    ${shots.length ? `${courtSVG({stats: st})}
+      <div class="legend"><span style="--c:var(--good)"><i></i>strong</span><span style="--c:var(--warn)"><i></i>okay</span><span style="--c:var(--bad)"><i></i>needs work</span><span class="note">vs. rough high school guard benchmarks</span></div>
+      ${weak.length || strong.length ? `<div style="display:grid;gap:8px">${weak.map(r => `<div class="callout" style="--c:var(--bad)"><i></i><div><b>${esc(r.z.name)}</b>: ${r.p}% on ${r.a} shots. Put extra reps here.</div></div>`).join("")}${strong.map(r => `<div class="callout" style="--c:var(--good)"><i></i><div><b>${esc(r.z.name)}</b>: ${r.p}% on ${r.a}. ${r.z.kind === "ft" ? "Money at the line." : "A weapon. Hunt this shot in games."}</div></div>`).join("")}</div>` : `<p class="note" style="margin:0">Spots need 20+ shots before they're called strong or weak.</p>`}
+      ${chartType === "all" && (cs.a || od.a) ? `<section class="card"><div class="ch"><h2>Catch & shoot vs off the dribble</h2></div><div class="stats"><div class="stat"><span class="eyebrow">Catch & shoot</span><span class="v">${cs.a ? pct(cs.m, cs.a) + "%" : "–"}</span><span class="s">${cs.m}/${cs.a} jumpers</span></div><div class="stat"><span class="eyebrow">Off the dribble</span><span class="v">${od.a ? pct(od.m, od.a) + "%" : "–"}</span><span class="s">${od.m}/${od.a} jumpers</span></div></div></section>` : ""}
+      <section class="card"><div class="ch"><h2>By spot</h2></div>${rows.sort((a, b) => b.a - a.a).map(r => `<div class="zt"><span><span style="color:${tone(r.z.kind, r.p)}">●</span> ${esc(r.z.name)}</span><span>${r.m}/${r.a}</span><span>${r.p}%</span></div>`).join("")}</section>`
+      : `<div class="empty">No shots in this range yet.</div>`}`;
+}
+
+/* ================= PROGRESS ================= */
+function viewProgress() {
+  const all = sessions(), k = todayKey();
+  if (!all.length && !Object.keys(S.tests).length) return '<div class="empty">Log a few workouts and your progress shows up here.</div>';
+  const weeks = []; for (let i = 11; i >= 0; i--) { const s = addDays(weekStart(k), -7 * i), e = addDays(s, 6), sh = all.filter(x => x.date >= s && x.date <= e).flatMap(x => x.shots || []);
+    weeks.push({s, all: sumShots(sh), three: sumShots(sh, x => ZONE[x.z].kind === "three"), ft: sumShots(sh, x => x.z === "ft"), mid: sumShots(sh, x => ZONE[x.z].kind === "mid")}); }
+  const W = 330, H = 150, pl = 30, pb = 18, bw = (W - pl) / 12;
+  const maxA = Math.max(50, ...weeks.map(w => w.all.a)), Yv = v => H - pb - v / maxA * (H - pb - 10);
+  const vol = `<svg class="chart" viewBox="0 0 ${W} ${H}">${[maxA / 2, maxA].map(v => `<line x1="${pl}" x2="${W}" y1="${Yv(v)}" y2="${Yv(v)}" stroke="var(--line)"/><text x="${pl - 4}" y="${Yv(v) + 3}" text-anchor="end">${Math.round(v)}</text>`).join("")}
+    ${weeks.map((w, i) => `<rect x="${pl + i * bw + bw * .18}" y="${Yv(w.all.a)}" width="${bw * .64}" height="${H - pb - Yv(w.all.a)}" rx="3" fill="var(--accent)" opacity="${w.all.a ? 1 : .2}"/><text x="${pl + i * bw + bw / 2}" y="${H - 4}" text-anchor="middle">${parseKey(w.s).getMonth() + 1}/${parseKey(w.s).getDate()}</text>`).join("")}</svg>`;
+  const Yp = v => 8 + (1 - v / 100) * (H - pb - 8), X = i => pl + i * bw + bw / 2;
+  const line = (key, c) => { const pts = weeks.map((w, i) => ({i, p: w[key].a >= 10 ? w[key].m / w[key].a * 100 : null})).filter(p => p.p != null); return pts.length ? `<path d="${pts.map((p, j) => `${j ? "L" : "M"}${X(p.i)},${Yp(p.p)}`).join(" ")}" fill="none" stroke="${c}" stroke-width="2.3"/>${pts.map(p => `<circle cx="${X(p.i)}" cy="${Yp(p.p)}" r="2.8" fill="${c}"/>`).join("")}` : ""; };
+  const pctChart = `<svg class="chart" viewBox="0 0 ${W} ${H}">${[25, 50, 75, 100].map(v => `<line x1="${pl}" x2="${W}" y1="${Yp(v)}" y2="${Yp(v)}" stroke="var(--line)"/><text x="${pl - 4}" y="${Yp(v) + 3}" text-anchor="end">${v}</text>`).join("")}${line("ft", "var(--good)")}${line("mid", "var(--warn)")}${line("three", "var(--accent)")}</svg>`;
+  // most improved spot: last 14 days vs the 30 before, 15+ shots in each
+  const shotsIn = (a, b) => all.filter(x => x.date >= a && x.date <= b).flatMap(x => x.shots || []);
+  const now = tally(shotsIn(addDays(k, -13), k)), before = tally(shotsIn(addDays(k, -43), addDays(k, -14)));
+  const moves = ZONES.filter(z => now[z.id]?.a >= 15 && before[z.id]?.a >= 15).map(z => ({z, d: pct(now[z.id].m, now[z.id].a) - pct(before[z.id].m, before[z.id].a)})).sort((a, b) => b.d - a.d);
+  const tests = Object.entries(S.tests).map(([id, t]) => ({...t, id})).sort((a, b) => b.date.localeCompare(a.date));
+  return `<section class="card"><div class="ch"><h2>Shots per week</h2><span class="sub">last 12 weeks</span></div>${vol}</section>
+    <section class="card"><div class="ch"><h2>Make % by week</h2><span class="sub">weeks with 10+ of that shot</span></div>${pctChart}
+      <div class="legend"><span style="--c:var(--accent)"><i></i>3PT</span><span style="--c:var(--warn)"><i></i>Midrange</span><span style="--c:var(--good)"><i></i>Free throws</span></div></section>
+    <section class="card"><div class="ch"><h2>Moving</h2><span class="sub">last 2 weeks vs the month before</span></div>
+      ${moves.length ? moves.slice(0, 4).map(m => `<div class="zt"><span>${esc(m.z.name)}</span><span></span><span style="color:${m.d >= 0 ? "var(--good)" : "var(--bad)"}">${m.d >= 0 ? "+" : ""}${m.d} pts</span></div>`).join("") : '<p class="note" style="margin:0">Needs 15+ shots from a spot in both stretches to compare.</p>'}</section>
+    <section class="card"><div class="ch"><h2>Athletic tests</h2><button class="btn sm" data-act="addTest">+ Log</button></div>${testBoard()}
+      ${tests.length ? `<div style="margin-top:10px">${tests.slice(0, 12).map(t => `<div class="row between" style="padding:6px 0;border-bottom:1px solid var(--line)"><span>${TESTS[t.test].name} <span class="sub">· ${niceDate(t.date)}</span>${t.pr ? '<span class="pr">PR</span>' : ""}</span><span class="row"><span class="num">${t.v} ${TESTS[t.test].unit}</span><button class="x" data-act="delTest" data-id="${t.id}" aria-label="Delete">×</button></span></div>`).join("")}</div>` : ""}</section>`;
+}
+
+/* ================= HISTORY ================= */
+function viewHistory() {
+  const list = sessions().reverse();
+  return `${list.length ? `<section class="card">${list.slice(0, 80).map(s => { const sh = sumShots(s.shots); const min = s.end ? Math.round((new Date(s.end) - new Date(s.start)) / 60000) : null;
+      return `<div class="item" data-act="openS" data-id="${s.id}" role="button" tabindex="0"><div class="m"><b>${niceDate(s.date)}</b>${summary(s)}</div><span class="k">${sh.a ? pct(sh.m, sh.a) + "%" : min ? min + "m" : ""}</span></div>`; }).join("")}</section>`
+    : '<div class="empty">Finished workouts show up here.</div>'}
+    <section class="card"><div class="ch"><h2>Backup</h2></div><div class="row"><button class="btn" data-act="export">Save backup</button><label class="btn ghost" style="position:relative;overflow:hidden">Restore backup<input type="file" accept="application/json,.json" id="importFile" style="position:absolute;inset:0;opacity:0"></label></div></section>
+    <p class="note" style="text-align:center">Open this from LIFE HQ so all your apps share the same data.</p>`;
+}
+function openSession(id) {
+  const s = {...S.sessions[id], id}, st = tally(s.shots), fin = {};
+  (s.finishes || []).forEach(f => { const o = fin[f.move] ||= {m: 0, a: 0}; o.m += f.m; o.a += f.a; });
+  sheet(`<div class="row between"><h3>${niceDate(s.date)}</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+    ${summary(s)}
+    ${Object.keys(st).length ? courtSVG({stats: st}) : ""}
+    ${Object.keys(fin).length ? `<div><div class="eyebrow" style="margin-bottom:6px">Finishing</div>${Object.entries(fin).map(([m, t]) => `<div class="zt"><span>${esc(m)}</span><span>${t.m}/${t.a}</span><span>${pct(t.m, t.a)}%</span></div>`).join("")}</div>` : ""}
+    ${(s.drills || []).length ? `<div><div class="eyebrow" style="margin-bottom:6px">Drills</div>${s.drills.map(d => `<div class="sub" style="padding:3px 0">${esc(d.drill)} · ${d.min} min${d.reps ? " · " + d.reps + " reps" : ""}${d.note ? " · " + esc(d.note) : ""}</div>`).join("")}</div>` : ""}
+    ${s.note ? `<p class="note" style="margin:0">${esc(s.note)}</p>` : ""}
+    <button class="btn ghost" style="color:var(--bad)" data-act="delS" data-id="${id}">Delete workout</button>`);
+}
+
+/* ---------- render ---------- */
+function render() {
+  $("#title").textContent = {workout: S.active ? "Workout" : "Basketball", chart: "Shot chart", progress: "Progress", history: "History"}[tab];
+  $("#sub").textContent = new Date().toLocaleDateString([], {weekday: "long", month: "long", day: "numeric"});
+  $("#tabs").innerHTML = TABS.map(([id, l]) => `<button class="tab" role="tab" aria-selected="${id === tab}" data-act="tab" data-id="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]}</svg>${l}</button>`).join("");
+  $("#main").innerHTML = {workout: viewWorkout, chart: viewChart, progress: viewProgress, history: viewHistory}[tab]();
+}
+
+/* ---------- actions ---------- */
+function addShot(z, t, m, a) {
+  const S0 = S.active; const type = ["ft", "rim"].includes(ZONE[z].kind) ? (ZONE[z].kind === "ft" ? "ft" : "rim") : t;
+  const row = S0.shots.find(s => s.z === z && s.t === type);
+  if (row) { row.m += m; row.a += a; } else S0.shots.push({z, t: type, m, a});
+  S0.log.push({k: "shot", z, t: type, m, a});
+}
+const A = {
+  tab: el => go(el.dataset.id),
+  start() { S.active = {id: rid(), date: todayKey(), start: new Date().toISOString(), shots: [], finishes: [], drills: [], log: [], note: ""}; ui.part = "shoot"; save(); render(); },
+  part(el) { ui.part = el.dataset.v; render(); },
+  zone(el) { if (S.active && tab === "workout") { ui.zone = el.dataset.z; render(); } },
+  stype(el) { ui.type = el.dataset.v; render(); },
+  shot(el) { const m = +el.dataset.m; addShot(ui.zone, ui.type, m, 1); save(); render(); if (navigator.vibrate) navigator.vibrate(m ? 15 : [10, 40, 10]); },
+  batch() {
+    sheet(`<div class="row between"><h3>${esc(ZONE[ui.zone].name)}</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+      <div class="row"><label class="f">Made<input id="bM" type="number" inputmode="numeric" min="0"></label><label class="f">Out of<input id="bA" type="number" inputmode="numeric" min="1" value="10"></label></div>
+      <button class="btn go wide" data-act="saveBatch">Add set</button>`);
+    setTimeout(() => $("#bM")?.focus(), 50);
+  },
+  saveBatch() { const m = Math.round(+$("#bM").value), a = Math.round(+$("#bA").value); if (!(a > 0) || !(m >= 0) || m > a) { toast("Made has to be between 0 and the shots taken."); return; } addShot(ui.zone, ui.type, m, a); save(); closeSheet(); render(); toast(`${m}/${a} added`); },
+  move(el) { ui.move = el.dataset.v; render(); },
+  fin(el) { const m = +el.dataset.m, a = S.active, row = a.finishes.find(f => f.move === ui.move); if (row) { row.m += m; row.a += 1; } else a.finishes.push({move: ui.move, m, a: 1}); a.log.push({k: "fin", move: ui.move, m}); save(); render(); },
+  undo() {
+    const a = S.active, last = a.log.pop(); if (!last) return;
+    if (last.k === "shot") { const row = a.shots.find(s => s.z === last.z && s.t === last.t); row.m -= last.m; row.a -= last.a; if (!row.a) a.shots.splice(a.shots.indexOf(row), 1); }
+    else { const row = a.finishes.find(f => f.move === last.move); row.m -= last.m; row.a -= 1; if (!row.a) a.finishes.splice(a.finishes.indexOf(row), 1); }
+    save(); render();
+  },
+  pickDrill(el) { el.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === el)); },
+  addDrill() { const d = document.querySelector(".chips .chip.on")?.dataset.v || "Free-form", min = Math.round(+$("#dMin").value) || 0; if (!min) { toast("Enter the minutes."); return; }
+    S.active.drills.push({drill: d, min, reps: Math.round(+$("#dReps").value) || null, note: $("#dNote").value.trim()}); save(); render(); toast("Added " + d); },
+  delDrill(el) { S.active.drills.splice(+el.dataset.i, 1); save(); render(); },
+  finish() {
+    const a = S.active;
+    if (!a.shots.length && !a.finishes.length && !a.drills.length) { toast("Nothing logged yet."); return; }
+    const {log, id, ...rest} = a;
+    S.sessions[id] = {...rest, end: new Date().toISOString()}; S.active = null; save(); go("history");
+    const sh = sumShots(rest.shots); toast(sh.a ? `Saved: ${sh.m}/${sh.a} (${pct(sh.m, sh.a)}%)` : "Workout saved");
+  },
+  discard() { const a = S.active; S.active = null; save(); render(); toast("Workout discarded", () => { S.active = a; }); },
+  crange(el) { chartRange = el.dataset.v; render(); },
+  ctype(el) { chartType = el.dataset.v; render(); },
+  openS(el) { openSession(el.dataset.id); },
+  delS(el) { const id = el.dataset.id, s = S.sessions[id]; delete S.sessions[id]; save(); closeSheet(); render(); toast("Workout deleted", () => { S.sessions[id] = s; }); },
+  addTest() {
+    sheet(`<div class="row between"><h3>Log a test</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+      <div class="chips">${Object.entries(TESTS).map(([k, t], i) => `<button class="chip ${i ? "" : "on"}" data-act="pickTest" data-v="${k}">${t.name}</button>`).join("")}</div>
+      <div class="row"><label class="f">Result<input id="tV" type="number" inputmode="decimal" step="0.01" placeholder="inches or seconds"></label><label class="f">Date<input id="tD" type="date" value="${todayKey()}" max="${todayKey()}"></label></div>
+      <p class="note" style="margin:0">Same setup every time (same surface, same warm-up, best of 3) so the numbers are comparable.</p>
+      <button class="btn go wide" data-act="saveTest">Save</button>`);
+  },
+  pickTest(el) { el.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === el)); },
+  saveTest() {
+    const k = document.querySelector(".sheet .chip.on").dataset.v, v = +$("#tV").value, d = $("#tD").value || todayKey(), T = TESTS[k];
+    if (!(v > 0)) { toast("Enter a result."); return; }
+    const prev = Object.values(S.tests).filter(t => t.test === k).map(t => t.v), pr = prev.length > 0 && (T.better > 0 ? v > Math.max(...prev) : v < Math.min(...prev));
+    S.tests[rid()] = {date: d, test: k, v, pr}; save(); closeSheet(); render(); toast(pr ? `New PR: ${T.name} ${v} ${T.unit}` : `Saved ${T.name}`);
+  },
+  delTest(el) { const id = el.dataset.id, t = S.tests[id]; delete S.tests[id]; save(); render(); toast("Deleted", () => { S.tests[id] = t; }); },
+  closeSheet(el, ev) { if (ev.target === el || el.tagName === "BUTTON") closeSheet(); },
+  export() {
+    const blob = new Blob([JSON.stringify(S)], {type: "application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "basketball-backup-" + todayKey() + ".json";
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  },
+};
+document.addEventListener("click", ev => {
+  const el = ev.target.closest("[data-act]");
+  if (!el || el.tagName === "INPUT" || el.tagName === "SELECT" || el.disabled) return;
+  A[el.dataset.act]?.(el, ev);
+});
+document.addEventListener("keydown", ev => {
+  if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches(".item[data-act],.spot")) { ev.preventDefault(); A[ev.target.dataset.act](ev.target, ev); }
+  if (ev.key === "Enter" && (ev.target.id === "bM" || ev.target.id === "bA")) A.saveBatch();
+  if (ev.key === "Escape") closeSheet();
+});
+document.addEventListener("change", ev => {
+  const t = ev.target;
+  if (t.id === "importFile" && t.files[0]) t.files[0].text().then(txt => { const d = JSON.parse(txt); if (!d.sessions) throw 0; S = d; save(); render(); toast("Backup restored"); }).catch(() => toast("That file isn't a Basketball backup."));
+});
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && !$("#overlay").innerHTML) render(); });
+
+Life.mountStatus($("#sync"));
+Life.onChange(() => { adopt(); if (!$("#overlay").innerHTML) render(); });
+render();
+Life.start();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>
