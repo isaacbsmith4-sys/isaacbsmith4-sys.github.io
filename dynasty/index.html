@@ -283,8 +283,8 @@ function uiColor(hex) {
 /* =====================================================================================
    NEW CAREER
    ===================================================================================== */
-function newCareer(teamIdx, coach) {
-  S = {v: 2, coach, season: 1, year: 2026, phase: "season", week: 0, teams: [], players: {}, recruits: [], schedule: [], news: [], nextId: 1,
+function newCareer(teamIdx, coach, slot = 1) {
+  S = {v: 2, slot, coach, season: 1, year: 2026, phase: "season", week: 0, teams: [], players: {}, recruits: [], schedule: [], news: [], nextId: 1,
     user: teamIdx, pts: 0, history: [], security: 60, tourn: null, offStep: 0, portal: [], requests: [], careerW: 0, careerL: 0, titles: 0, finals: 0};
   TEAMS.forEach((row, i) => S.teams.push(buildTeam(i, row)));
   for (const t of S.teams) t.elo = 1500 + (teamOvr(t) - 65) * 12;
@@ -300,7 +300,8 @@ function startSeason(first) {
   S.schedule = makeSchedule();
   S.regGames = S.schedule.filter(g => g.some(x => x.h === S.user || x.a === S.user)).length;
   S.recruits = makeClass();
-  S.pts = rpw(me().prest);
+  if (S.recWeek == null) S.recWeek = 0;
+  closePeriod(); newPeriod();
   S.budget = nilBudget(me());
   if (!first) news(`Season ${S.season} tips off. Expectations: about ${expWins(me())} wins.`, true);
 }
@@ -473,12 +474,32 @@ const MIN_WEEK = {5: 12, 4: 7, 3: 3, 2: 0};
 function topSchools(r, n = 3) { return Object.entries(r.interest).sort((a, b) => b[1] - a[1]).slice(0, n).map(([tid, v]) => ({tid: +tid, v})); }
 
 const COST = {scout: 8, call: 5, visit: 25};
+// your points come as a 4-week budget: spend them whenever, they refill when the period ends
+const PERIOD = 4;
+const periodBudget = () => rpw(me().prest) * PERIOD;
+function newPeriod() {
+  const n = S.period ? S.period.n + 1 : 1;
+  S.period = {n, start: S.recWeek, budget: periodBudget(), used: 0, log: [], commits: 0};
+  S.pts = S.period.budget;
+}
+function closePeriod() {
+  const p = S.period; if (!p) return;
+  (S.periods ||= []).unshift({n: p.n, season: S.season, budget: p.budget, used: p.used, commits: p.commits,
+    calls: p.log.filter(x => x.what === "call").length, scouts: p.log.filter(x => x.what === "scout").length, visits: p.log.filter(x => x.what === "visit").length});
+  S.periods = S.periods.slice(0, 16);
+}
+const periodWeek = () => S.recWeek - S.period.start + 1;          // 1..4
+const resetsIn = () => PERIOD - (S.recWeek - S.period.start);      // weeks until the refill
+function spend(cost, what, r) {
+  S.pts -= cost; S.period.used += cost;
+  S.period.log.unshift({wk: periodWeek(), what, name: `${r.fn} ${r.ln}`, stars: r.stars, pos: r.pos, cost});
+}
 function act(rid, what) {
   const r = R(rid), t = me();
   if (!r || r.committed != null || S.phase === "off") return;
-  if (what === "scout") { if (r.scouted || S.pts < COST.scout) return; S.pts -= COST.scout; r.scouted = true; }
-  else if (what === "call") { if (r.called === S.week || S.pts < COST.call) return; S.pts -= COST.call; r.called = S.week; addInt(r, t.id, 7 * fit(t, r)); }
-  else if (what === "visit") { if (r.visited || S.pts < COST.visit) return; S.pts -= COST.visit; r.visited = true; addInt(r, t.id, 30 * fit(t, r)); }
+  if (what === "scout") { if (r.scouted || S.pts < COST.scout) return; spend(COST.scout, "scout", r); r.scouted = true; }
+  else if (what === "call") { if (r.called === S.recWeek || S.pts < COST.call) return; spend(COST.call, "call", r); r.called = S.recWeek; addInt(r, t.id, 7 * fit(t, r)); }
+  else if (what === "visit") { if (r.visited || S.pts < COST.visit) return; spend(COST.visit, "visit", r); r.visited = true; addInt(r, t.id, 30 * fit(t, r)); }
   else if (what === "offer") { if (r.offers[t.id] != null) return; r.offers[t.id] = 0; addInt(r, t.id, 18 * fit(t, r)); }
   save();
 }
@@ -551,6 +572,7 @@ function commit(r, t) {
   r.committed = t.id; t.commits.push(r.id); t.nilSpent += r.offers[t.id] || 0;
   if (needCache) needCache.delete(t.id);
   const tag = `${"★".repeat(r.stars)} ${r.pos} ${r.fn} ${r.ln}`;
+  if (t.id === S.user && S.period) S.period.commits++;
   if (t.id === S.user) news(`${tag} commits to you!${r.offers[t.id] ? " (NIL " + money(r.offers[t.id]) + ")" : ""}`, true);
   else if (r.stars === 5 || r.interest[S.user] > 20) news(`${tag} commits to ${t.name}.${r.interest[S.user] > 20 ? " You were in the mix." : ""}`, r.interest[S.user] > 20);
 }
@@ -580,7 +602,8 @@ function playWeek() {
     if (S.phase !== "off") recruitWeek();
   }
   rankCache = null;
-  S.pts = rpw(me().prest);
+  S.recWeek++;
+  if (S.phase !== "off" && S.recWeek - S.period.start >= PERIOD) { closePeriod(); newPeriod(); news(`New recruiting period: ${S.pts} points to spend over the next ${PERIOD} weeks.`, true); }
   save();
 }
 function seedConf(c) { return S.teams.filter(t => t.conf === c).sort((a, b) => (b.cw - b.cl) - (a.cw - a.cl) || b.elo - a.elo).map(t => t.id); }
@@ -805,9 +828,38 @@ const DB = {
   async set(k, v) { const db = await this.open(); return new Promise(ok => { const tx = db.transaction("kv", "readwrite"); tx.objectStore("kv").put(v, k); tx.oncomplete = () => ok(); tx.onerror = () => ok(); }); },
   async del(k) { const db = await this.open(); return new Promise(ok => { const tx = db.transaction("kv", "readwrite"); tx.objectStore("kv").delete(k); tx.oncomplete = () => ok(); }); }
 };
+/* ---------- career slots: three separate careers; slot 1 is the original save ---------- */
+const SLOTS = [1, 2, 3];
+const slotKey = n => n === 1 ? "career" : "career" + n;
+let summaries = {};   // slot -> {coach, team, espn, abbr, year, w, l, season}
+let pendingSlot = null;
+function summarize() { const t = me(); return {coach: S.coach, team: t.name, espn: t.espn, abbr: t.abbr, year: S.year, season: S.season, w: t.w, l: t.l, prest: t.prest, titles: S.titles}; }
 let saveTimer = 0;
 function save() { clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 600); }
-function saveNow() { clearTimeout(saveTimer); if (S) DB.set("career", JSON.stringify(S)).catch(() => {}); }
+function saveNow() {
+  clearTimeout(saveTimer); if (!S) return;
+  S.slot = S.slot || 1;
+  summaries[S.slot] = summarize();
+  DB.set(slotKey(S.slot), JSON.stringify(S)).catch(() => {});
+  DB.set("summaries", summaries).catch(() => {}); DB.set("active", S.slot).catch(() => {});
+}
+// older saves get any new fields filled in, so an update never throws away a career
+function migrate(s) {
+  if (!s || !s.teams || !s.players) return null;
+  s.slot = s.slot || 1;
+  if (s.recWeek == null) s.recWeek = 0;
+  s.periods = s.periods || [];
+  if (!s.period) {
+    const t = s.teams[s.user];
+    s.period = {n: 1, start: s.recWeek, budget: rpw(t.prest) * PERIOD, used: 0, log: [], commits: 0};
+    s.pts = s.period.budget;
+  }
+  s.finals = s.finals || 0; s.titles = s.titles || 0;
+  return s;
+}
+async function loadSlot(n) {
+  try { const raw = await DB.get(slotKey(n)); return raw ? migrate(JSON.parse(raw)) : null; } catch { return null; }
+}
 document.addEventListener("visibilitychange", () => { if (document.hidden) saveNow(); });
 
 /* =====================================================================================
@@ -857,7 +909,8 @@ function renderJobs() {
     }).join("");
   }
   $("#main").innerHTML = `<div class="screen">
-    <section class="card"><h2>Your career</h2>
+    ${window._back ? `<button class="btn wide ghost" data-act="jobBack">‹ Back to my career</button>` : ""}
+    <section class="card"><h2>Your career<small>Slot ${pendingSlot || 1}</small></h2>
       <div class="eyebrow" style="margin-bottom:6px">Coach name</div>
       <input type="text" id="coachName" value="${esc(window._coach || "Coach Smith")}" maxlength="24">
       <p class="sub" style="margin:10px 0 12px">All 367 Division I teams in their real conferences. Recruit, spend your NIL collective, work the portal, and win in March. Lose too much and you're fired.</p>
@@ -884,7 +937,7 @@ function myNext() {
   return null;
 }
 function viewHome() {
-  if (S.fired) return `<div class="screen"><section class="card"><h2>You're fired</h2><p class="sub">After ${plural(S.history.length, "season")} and a ${S.careerW}-${S.careerL} record, ${esc(me().name)} is going in a different direction.</p>${historyTable()}<button class="btn go wide" data-act="newCareer" style="margin-top:12px">Start a new career</button></section></div>`;
+  if (S.fired) return `<div class="screen"><section class="card"><h2>You're fired</h2><p class="sub">After ${plural(S.history.length, "season")} and a ${S.careerW}-${S.careerL} record, ${esc(me().name)} is going in a different direction.</p>${historyTable()}<button class="btn go wide" data-act="slotNew" data-k="${S.slot}" style="margin-top:12px">Start a new career</button></section></div>`;
   if (S.phase === "off") return viewOffseason();
   const t = me(), n = myNext();
   let game = "";
@@ -900,7 +953,8 @@ function viewHome() {
   }
   const commits = t.commits.map(R).filter(Boolean), exp = expWins(t);
   return `<div class="screen">${game}
-    <section class="card"><h2>Recruiting<small>${S.pts} pts left this week</small></h2>
+    <section class="card"><h2>Recruiting<small>${S.pts}/${S.period.budget} pts · refills in ${plural(resetsIn(), "week")}</small></h2>
+      <div class="bar" style="margin-bottom:12px"><b style="width:${clamp(S.pts / S.period.budget * 100, 0, 100)}%"></b></div>
       <div class="row between"><div><div class="big">${commits.length}</div><div class="sub">commits</div></div><div><div class="big">${Math.max(0, slotsOpen(t))}</div><div class="sub">${slotsOpen(t) === 1 ? "scholarship" : "scholarships"} open</div></div><div><div class="big" style="font-size:26px">${money(nilLeft())}</div><div class="sub">NIL left</div></div></div>
       ${commits.length ? `<div class="sub" style="margin-top:8px">${commits.map(r => `${"★".repeat(r.stars)} ${r.pos} ${esc(r.ln)}`).join(" · ")}</div>` : ""}
       <button class="btn wide" data-tab="recruit" style="margin-top:10px">Recruiting board</button></section>
@@ -979,12 +1033,27 @@ function viewRecruit() {
   list = list.slice().sort((a, b) => b.stars - a.stars || (b.estHi + b.estLo) - (a.estHi + a.estLo));
   const off = S.phase === "off";
   return `<div class="screen">
-    <section class="card"><div class="row between"><div><div class="big">${S.pts}</div><div class="sub">points this week</div></div><div><div class="big">${Math.max(0, slotsOpen(t))}</div><div class="sub">open spots</div></div><div><div class="big" style="font-size:26px">${money(nilLeft())}</div><div class="sub">NIL left</div></div></div>
-      <p class="sub" style="margin:10px 0 0">Scout ${COST.scout} · Call ${COST.call} (weekly) · Home visit ${COST.visit} (once) · Offers are free. Points refill every game.${off ? " Recruiting is closed in the offseason." : ""}${isIvy(t) ? " Ivy tip: academics-minded kids love you." : ""}</p></section>
+    ${pointsTracker(off)}
+    <section class="card"><div class="row between"><div><div class="big">${Math.max(0, slotsOpen(t))}</div><div class="sub">open spots</div></div><div><div class="big">${t.commits.length}</div><div class="sub">commits</div></div><div><div class="big" style="font-size:26px">${money(nilLeft())}</div><div class="sub">NIL left</div></div></div>
+      <p class="sub" style="margin:10px 0 0">Scout ${COST.scout} · Call ${COST.call} (once a week per kid) · Home visit ${COST.visit} (once) · Offers are free.${off ? " Recruiting is closed in the offseason." : ""}${isIvy(t) ? " Ivy tip: academics-minded kids love you." : ""}</p></section>
     <div class="chips">${[["open", "Uncommitted"], ["board", "My board"], ["all", "Everyone"], ["commits", "My commits"]].map(([k, l]) => `<button class="chip ${rFilter === k ? "on" : ""}" data-act="rf" data-k="${k}">${l}</button>`).join("")}</div>
     <div class="chips">${[0, 5, 4, 3, 2].map(s => `<button class="chip ${rStars === s ? "on" : ""}" data-act="rs" data-k="${s}">${s ? s + "★" : "All stars"}</button>`).join("")}${["All", ...POS].map(p => `<button class="chip ${rPos === p ? "on" : ""}" data-act="rp" data-k="${p}">${p}</button>`).join("")}</div>
     <section class="card">${list.slice(0, 60).map(recruitRow).join("") || `<div class="empty">${rFilter === "board" ? "Your board is empty. Check Uncommitted and start calling." : "Nobody here."}</div>`}
       ${list.length > 60 ? `<div class="sub" style="padding-top:8px">Showing 60 of ${list.length}. Use the filters to narrow it down.</div>` : ""}</section></div>`;
+}
+let showPast = false;
+function pointsTracker(off) {
+  const p = S.period, log = p.log, used = p.used;
+  const sum = w => { const xs = log.filter(x => x.what === w); return {n: xs.length, pts: xs.reduce((a, x) => a + x.cost, 0)}; };
+  const c = sum("call"), sc = sum("scout"), v = sum("visit");
+  const label = {call: "Called", scout: "Scouted", visit: "Home visit"};
+  return `<section class="card"><h2>Recruiting period ${p.n}<small>${off ? "Paused for the offseason" : `Week ${Math.min(periodWeek(), PERIOD)} of ${PERIOD} · refills in ${plural(resetsIn(), "week")}`}</small></h2>
+    <div class="row between" style="align-items:flex-end"><div><span class="big">${S.pts}</span><span class="sub"> / ${p.budget} points left</span></div><span class="sub">${used} used</span></div>
+    <div class="bar" style="height:10px;margin:8px 0 10px"><b style="width:${clamp(used / p.budget * 100, 0, 100)}%"></b></div>
+    <div class="stat3">${[["Calls", c], ["Scouts", sc], ["Visits", v]].map(([l, x]) => `<div><b>${x.n}</b><span>${l}</span><em class="sub" style="display:block;font-style:normal;margin-top:2px">${x.pts} pts</em></div>`).join("")}</div>
+    ${log.length ? `<div class="eyebrow" style="margin:12px 0 4px">This period</div>${log.slice(0, 8).map(x => `<div class="row between" style="padding:5px 0;border-top:1px solid var(--line);font-size:13px;flex-wrap:nowrap"><span class="sub" style="width:44px;flex:none">Wk ${x.wk}</span><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${label[x.what]} <b>${esc(x.name)}</b> <span class="stars">${"★".repeat(x.stars)}</span> ${x.pos}</span><span class="num" style="flex:none">−${x.cost}</span></div>`).join("")}${log.length > 8 ? `<div class="sub" style="padding-top:4px">+ ${log.length - 8} more</div>` : ""}` : `<p class="sub" style="margin:10px 0 0">Nothing spent yet this period. Unused points don't carry over, so use them.</p>`}
+    ${(S.periods || []).length ? `<button class="btn wide ghost" data-act="past" style="margin-top:8px">${showPast ? "Hide" : "Show"} past periods</button>${showPast ? `<div class="scroll"><table><tr><th>Period</th><th>Used</th><th>Calls</th><th>Scouts</th><th>Visits</th><th>Commits</th></tr>${S.periods.map(x => `<tr><td>S${x.season} · #${x.n}</td><td>${x.used}/${x.budget}</td><td>${x.calls}</td><td>${x.scouts}</td><td>${x.visits}</td><td>${x.commits}</td></tr>`).join("")}</table></div>` : ""}` : ""}
+  </section>`;
 }
 function recruitRow(r) {
   const mine = r.interest[S.user] || 0, top = topSchools(r, 1)[0], lead = top && top.tid === S.user;
@@ -1009,7 +1078,7 @@ function recruitSheet(id) {
     ${tops.length ? tops.map(x => `<div class="row between" style="margin-bottom:6px;flex-wrap:nowrap">${logo(T(x.tid), 26)}<span style="flex:1;${x.tid === S.user ? "font-weight:700" : ""}">${esc(T(x.tid).name)}${r.offers[x.tid] != null ? ' <span class="pill">offer</span>' : ""}</span><div class="bar" style="width:38%"><b style="width:${clamp(x.v / Math.max(commitNeed(r), tops[0].v) * 100, 2, 100)}%;background:${x.tid === S.user ? "var(--good)" : "var(--line-hi)"}"></b></div></div>`).join("") : '<div class="empty">Nobody has shown interest yet.</div>'}
     ${closed ? "" : `<div class="acts" style="margin-top:12px">
       <button class="btn" data-act="ract" data-w="scout" data-id="${r.id}" ${r.scouted || S.pts < COST.scout ? "disabled" : ""}>${r.scouted ? "Scouted" : `Scout · ${COST.scout}`}</button>
-      <button class="btn" data-act="ract" data-w="call" data-id="${r.id}" ${r.called === S.week || S.pts < COST.call ? "disabled" : ""}>${r.called === S.week ? "Called" : `Call · ${COST.call}`}</button>
+      <button class="btn" data-act="ract" data-w="call" data-id="${r.id}" ${r.called === S.recWeek || S.pts < COST.call ? "disabled" : ""}>${r.called === S.recWeek ? "Called this week" : `Call · ${COST.call}`}</button>
       <button class="btn" data-act="ract" data-w="visit" data-id="${r.id}" ${r.visited || S.pts < COST.visit ? "disabled" : ""}>${r.visited ? "Visited" : `Home visit · ${COST.visit}`}</button>
       <button class="btn ${offered ? "" : "go"}" data-act="ract" data-w="offer" data-id="${r.id}" ${offered ? "disabled" : ""}>${offered ? "Offered" : "Offer scholarship"}</button></div>
       <div class="card" style="margin-top:10px;background:var(--surface2)"><div class="row between"><span class="eyebrow">NIL offer</span><b>${money(myNil)}/yr</b></div>
@@ -1092,7 +1161,12 @@ function viewOffice() {
       <div class="bar" style="margin-top:8px"><b style="width:${clamp((t.nilSpent + nilReserved()) / S.budget * 100, 0, 100)}%"></b></div>
       <p class="sub" style="margin:10px 0 0">Current roster deals: ${money(payroll)}/yr (already paid). The collective grows with prestige.${isIvy(t) ? " Ivy schools don't give athletic scholarships, so your collective is small." : ""}</p></section>
     <section class="card"><h2>Career</h2>${historyTable()}</section>
-    <section class="card"><h2>Settings</h2><button class="btn wide" data-act="newCareer">Start a new career</button><p class="sub" style="margin:8px 0 0">Your career saves on this phone automatically.</p></section></div>`;
+    <section class="card"><h2>Career slots<small>Saved on this phone</small></h2>
+      ${SLOTS.map(n => { const x = summaries[n], cur = S.slot === n; return `<div class="li" style="cursor:default">${x ? logo({espn: x.espn, abbr: x.abbr || "?"}, 36) : `<span class="logo" style="width:36px;height:36px;background:var(--surface2)"><b style="color:var(--muted)">${n}</b></span>`}
+        <div class="name"><b>Slot ${n}${cur ? ' <span class="pill team">Playing</span>' : ""}</b><span>${x ? `${esc(x.coach)} · ${esc(x.team)} · ${x.year}-${String(x.year + 1).slice(2)} · ${x.w}-${x.l}` : "Empty"}</span></div>
+        <div class="right" style="display:flex;gap:4px">${x && !cur ? `<button class="btn sm go" data-act="slotGo" data-k="${n}">Play</button><button class="btn sm ghost" data-act="slotDel" data-k="${n}" aria-label="Delete">✕</button>` : ""}${!x ? `<button class="btn sm" data-act="slotNew" data-k="${n}">New career</button>` : ""}</div></div>`; }).join("")}
+      <p class="sub" style="margin:8px 0 0">Each slot is its own career. Updates to the game keep your saves.</p>
+      ${S ? `<button class="btn wide ghost" data-act="slotNew" data-k="${S.slot}" style="margin-top:8px">Restart this slot</button>` : ""}</section></div>`;
 }
 
 /* ---------- sheets + game result ---------- */
@@ -1151,8 +1225,24 @@ document.addEventListener("click", e => {
   if (a === "closeBg") { if (e.target === el) closeSheet(); return; }
   if (a === "close") { closeSheet(); render(); return; }
   if (a === "jobMore") { window._coach = $("#coachName").value; jobOpen[el.dataset.k] = !jobOpen[el.dataset.k]; renderJobs(); return; }
-  if (a === "job") { const name = ($("#coachName").value || "Coach").trim().slice(0, 24); busy(() => { newCareer(+el.dataset.i, name); tab = "home"; saveNow(); render(); scrollTo(0, 0); }); return; }
-  if (a === "newCareer") { if (confirm("Start over? Your current career will be erased.")) { DB.del("career"); S = null; closeSheet(); render(); } return; }
+  if (a === "job") { const name = ($("#coachName").value || "Coach").trim().slice(0, 24), slot = pendingSlot || 1; busy(() => { newCareer(+el.dataset.i, name, slot); pendingSlot = null; tab = "home"; saveNow(); render(); scrollTo(0, 0); }); return; }
+  if (a === "slotNew") {
+    const n = +el.dataset.k;
+    if (summaries[n] && !confirm(`Erase the career in Slot ${n} (${summaries[n].team}) and start over there?`)) return;
+    if (S) saveNow();
+    pendingSlot = n; window._back = S; S = null; closeSheet(); render(); scrollTo(0, 0); return;
+  }
+  if (a === "slotGo") {
+    const n = +el.dataset.k; if (S && S.slot === n) return;
+    if (S) saveNow();
+    busy(async () => { const s = await loadSlot(n); if (s) { S = s; S.slot = n; tab = "home"; DB.set("active", n); } render(); scrollTo(0, 0); }); return;
+  }
+  if (a === "slotDel") {
+    const n = +el.dataset.k; if (!summaries[n] || (S && S.slot === n)) return;
+    if (!confirm(`Delete the career in Slot ${n} (${summaries[n].team})? This can't be undone.`)) return;
+    DB.del(slotKey(n)); delete summaries[n]; DB.set("summaries", summaries); render(); return;
+  }
+  if (a === "jobBack") { S = window._back; pendingSlot = null; window._back = null; render(); return; }
   if (a === "play") { busy(() => { playWeek(); render(); if (lastGame) showGame(lastGame, true); }); return; }
   if (a === "sim4") { const stop = S.week + 4; simWhile(() => S.phase === "season" && S.week < stop, "Simming 4 weeks"); return; }
   if (a === "simReg") { simWhile(() => S.phase === "season", "Simming to March"); return; }
@@ -1165,6 +1255,7 @@ document.addEventListener("click", e => {
   if (a === "up" || a === "down") { const o = me().order, i = o.indexOf(id), j = a === "up" ? i - 1 : i + 1; if (j >= 0 && j < o.length) { [o[i], o[j]] = [o[j], o[i]]; save(); render(); } return; }
   if (a === "autoOrder") { autoOrder(me()); save(); render(); return; }
   if (a === "rf") { rFilter = el.dataset.k; render(); return; }
+  if (a === "past") { showPast = !showPast; render(); return; }
   if (a === "rp") { rPos = el.dataset.k; render(); return; }
   if (a === "rs") { rStars = +el.dataset.k; render(); return; }
   if (a === "recruit") { recruitSheet(id); return; }
@@ -1176,7 +1267,15 @@ document.addEventListener("click", e => {
   if (a === "box") { const g = S.schedule[+el.dataset.w].find(g => g.h === S.user || g.a === S.user); showGame({h: g.h, a: g.a, hs: g.hs, as: g.as, ot: g.ot, box: g.box, label: `Week ${+el.dataset.w + 1}`}, false); return; }
 });
 
-DB.get("career").then(raw => { try { const s = raw && JSON.parse(raw); if (s && s.v === 2) S = s; } catch {} render(); }).catch(() => render());
+(async () => {
+  try {
+    summaries = (await DB.get("summaries")) || {};
+    const active = (await DB.get("active")) || 1;
+    S = await loadSlot(active) || (active !== 1 ? await loadSlot(1) : null);
+    if (S) { S.slot = S.slot || active; if (!summaries[S.slot]) { summaries[S.slot] = summarize(); DB.set("summaries", summaries); } }
+  } catch {}
+  render();
+})();
 if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
 </script>
 </body>
