@@ -1,5 +1,5 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "hq-v1";
+const CACHE = "hq-v2";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "../kit/kit.js", "../kit/apps.js"];
 
 self.addEventListener("install", (e) => {

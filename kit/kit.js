@@ -248,6 +248,8 @@
   .lk-pill i{width:7px;height:7px;border-radius:50%;background:#7a7f95}
   .lk-pill.synced i{background:#5fd8a0;box-shadow:0 0 8px #5fd8a0}.lk-pill.syncing i{background:#f2b45c;animation:lkb 1s infinite}.lk-pill.error i,.lk-pill.offline i{background:#ff6a7c}
   @keyframes lkb{50%{opacity:.3}}
+  .lk-bar{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .lk-home{color:var(--ink,#eef0fb);font:700 12.5px var(--body,system-ui);text-decoration:none;border:1px solid var(--line,#2a2f45);background:var(--surface2,#1a1e36);padding:6px 11px;border-radius:999px;white-space:nowrap}
   .lk-sheet{position:fixed;inset:0;z-index:90;background:rgba(3,4,10,.72);backdrop-filter:blur(5px);display:grid;align-items:end;justify-items:center}
   .lk-in{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--surface,#12152a);color:var(--ink,#eef0fb);border:1px solid var(--line,#2a2f45);border-bottom:0;border-radius:24px 24px 0 0;display:grid;gap:14px;font:15px/1.5 var(--body,system-ui);
     padding:20px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
@@ -261,10 +263,12 @@
   .lk-err{color:#ff8a98;font-size:13.5px;margin:0}`;
   const style = document.createElement("style"); style.textContent = css; document.head.appendChild(style);
 
-  const LABEL = {local: "This phone only", syncing: "Syncing…", synced: "Synced", offline: "Offline · saved here", error: "Sync problem"};
+  const LABEL = {local: "On this phone", syncing: "Syncing…", synced: "Synced", offline: "Offline · saved here", error: "Sync problem"};
   function mountStatus(el) {
     if (!el) return;
-    const draw = () => { el.innerHTML = `<button class="lk-pill ${status}" type="button" aria-label="Sync: ${LABEL[status]}"><i></i>${LABEL[status]}</button>`; };
+    // apps opened from LIFE HQ get a way back (an installed web app has no back button)
+    const home = /\/hq\//.test(location.pathname) ? "" : `<a class="lk-home" href="../hq/">‹ LIFE HQ</a>`;
+    const draw = () => { el.innerHTML = `<span class="lk-bar">${home}<button class="lk-pill ${status}" type="button" aria-label="Backup: ${LABEL[status]}"><i></i>${LABEL[status]}</button></span>`; };
     draw(); statusFns.add(draw);
     el.addEventListener("click", e => { if (e.target.closest(".lk-pill")) openConnect(); });
   }
@@ -278,9 +282,9 @@
         ${lastError ? `<p class="lk-err">${esc(lastError)}</p>` : ""}
         <div class="lk-row"><button class="lk-go" data-lk="sync">Sync now</button><button data-lk="copy">Copy key for another app</button><button data-lk="off">Disconnect</button><button data-lk="close">Close</button></div>
         <p class="lk-note">Each app on your home screen keeps its own storage, so paste the same key once in each one.</p>`
-      : `<h3>Connect to LIFE HQ</h3>
-        <p class="lk-note">Right now this app saves to this phone only. Connect it once and your data syncs to your private life-data repo, shows up in LIFE HQ, and is backed up.</p>
-        <p class="lk-note"><b>Already have a key?</b> Open LIFE HQ › Setup › Copy key, then paste it here.</p>
+      : `<h3>Saved on this phone</h3>
+        <p class="lk-note">Everything you log is saved on this phone and shows up in LIFE HQ. Nothing else is needed.</p>
+        <p class="lk-note"><b>Optional:</b> connect a GitHub key to back everything up to your private life-data repo and see it on your computer too.</p>
         <details><summary class="lk-note" style="cursor:pointer">First time: make a key (2 minutes)</summary>
         <ol style="margin-top:8px">
           <li>Open <b>github.com/settings/personal-access-tokens/new</b> and sign in.</li>

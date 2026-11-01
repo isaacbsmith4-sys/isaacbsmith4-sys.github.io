@@ -15,13 +15,14 @@
   const hm = s => { const [h, m] = String(s || "0:0").split(":").map(Number); return (h || 0) * 60 + (m || 0); };
   const at = (k, t) => { const d = parseKey(k); d.setMinutes(hm(t)); return d; };
   const dur = min => { min = Math.max(0, Math.round(min)); const h = Math.floor(min / 60), m = min % 60; return h ? h + "h " + pad(m) + "m" : m + "m"; };
+  const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
   const time = d => d.toLocaleTimeString([], {hour: "numeric", minute: "2-digit"});
 
   // phase = roadmap stage it's built in; path is relative to /hq/
   const APPS = [
     {id: "sleep", name: "Sleep", color: "#8f86ff", path: "../sleep/", built: true, blurb: "Bedtime, wind-down, sleep log"},
     {id: "fuel", name: "Fuel", color: "#ff6a3d", path: "../fuel/", built: true, blurb: "Food, macros, water, weight"},
-    {id: "train", name: "Train", color: "#3fd3ff", phase: 2, blurb: "Lifting, progressive overload, PRs"},
+    {id: "train", name: "Train", color: "#3fd3ff", path: "../train/", built: true, blurb: "Lifting, progressive overload, PRs"},
     {id: "habits", name: "Habits", color: "#ff7eb6", phase: 2, blurb: "Routines, streaks, non-negotiables"},
     {id: "school", name: "School", color: "#f2c14e", phase: 3, blurb: "Assignments, grades, study tools"},
     {id: "focus", name: "Focus", color: "#6aa8ff", phase: 3, blurb: "Focus timer and study hours"},
@@ -98,5 +99,34 @@
     };
   })();
 
-  window.LifeApps = {APPS, adapters: {sleep, fuel}, util: {ymd, parseKey, addDays, dur, time}};
+  /* ---------- Train ---------- */
+  const train = (() => {
+    const workouts = Life.col("train/workouts", {months: 6}), settings = Life.doc("train/settings"), state = Life.doc("train/state");
+    const set = () => ({plan: {}, templates: [], ...(settings.get() || {})});
+    const label = w => w.type === "strength" ? `${plural((w.ex || []).length, "exercise")} · ${plural((w.ex || []).reduce((n, x) => n + x.sets.length, 0), "set")}${(w.prs || []).length ? ` · ${w.prs.length} PR` : ""}`
+      : w.type === "cond" ? `${w.cond.min} min${w.cond.dist ? " · " + w.cond.dist + " mi" : ""}` : `${(w.mob || {}).min || 0} min mobility`;
+    const plannedOn = k => { const s = set(), id = s.plan[parseKey(k).getDay()]; return id ? s.templates.find(t => t.id === id) : null; };
+    return {
+      has: () => !!settings.get() || Object.keys(workouts.all()).length > 0,
+      today(k) {
+        const all = Object.values(workouts.all()), done = all.filter(w => w.date === k);
+        const ws = addDays(k, -parseKey(k).getDay()), week = all.filter(w => w.date >= ws && w.date <= k).length;
+        const s = set(), plannedWeek = Object.values(s.plan).filter(Boolean).length, a = (state.get() || {}).active;
+        return {done, planned: plannedOn(k), week, plannedWeek, active: a || null};
+      },
+      events(from, to) {
+        const out = [], all = workouts.all(), today = ymd(new Date(Date.now() - 3 * 3600e3));
+        for (const w of Object.values(all)) if (w.date >= from && w.date <= to)
+          out.push({date: w.date, time: w.start ? new Date(w.start) : null, app: "train", title: w.name + (w.start && w.end ? ` · ${Math.round((new Date(w.end) - new Date(w.start)) / 60000)} min` : ""), detail: label(w)});
+        for (let k = from > today ? from : today; k <= to; k = addDays(k, 1)) {
+          const t = plannedOn(k);
+          if (t && !Object.values(all).some(w => w.date === k)) out.push({date: k, app: "train", planned: true, title: t.name, detail: `${t.ex.length} exercises`});
+        }
+        return out;
+      },
+      load: months => workouts.load(months),
+    };
+  })();
+
+  window.LifeApps = {APPS, adapters: {sleep, fuel, train}, util: {ymd, parseKey, addDays, dur, time}};
 })();

@@ -165,12 +165,22 @@ function viewToday() {
       <div class="mini"><div><b>${Math.round(f.t.p)}/${g.p}g</b><span>protein</span></div><div><b>${f.water}/${g.water}</b><span>cups water</span></div><div><b>${f.weight ? f.weight.lb : "–"}</b><span>${f.weight ? "lb, " + parseKey(f.weight.date).toLocaleDateString([], {month: "short", day: "numeric"}) : "weight"}</span></div></div>
       ${!f.items ? `<div class="empty">Nothing logged today yet.</div>` : left < 0 ? `<div class="empty">${Math.round(-left)} kcal over.</div>` : ""}</a>`);
   } else cards.push(emptyCard("fuel"));
+  // Train
+  const ta = adapters.train;
+  if (ta.has()) {
+    const t = ta.today(k), d = t.done[0];
+    cards.push(`<a class="card" href="${APP.train.path}" style="--c:${APP.train.color}"><div class="tag"><i></i>Train<span class="go">›</span></div>
+      <div class="big">${t.active ? esc(t.active.name) + "<small>in progress</small>" : d ? esc(t.done.map(w => w.name).join(" + ")) + "<small>done</small>" : t.planned ? esc(t.planned.name) + "<small>planned</small>" : "Rest day"}</div>
+      <div class="sub">${t.week} workout${t.week === 1 ? "" : "s"} this week${t.plannedWeek ? ` of ${t.plannedWeek} planned` : ""}</div>
+      ${t.plannedWeek ? bar(t.week / t.plannedWeek, APP.train.color) : ""}
+      ${d && (d.prs || []).length ? `<div class="empty" style="color:var(--good)">New PR: ${esc(d.prs.map(p => p.n).join(", "))}</div>` : ""}</a>`);
+  } else cards.push(emptyCard("train"));
   // Coming up: the rest of today's planned items from every app
   const evs = allEvents(k, k).filter(e => e.planned && (!e.time || e.time > now)).sort(byTime);
   return `<div class="wide2">${cards.join("")}</div>
     <section class="card"><div class="mhead"><h2>Coming up today</h2><button class="btn sm" data-act="tab" data-id="calendar">Calendar</button></div>
       ${evs.length ? `<div class="agenda">${evs.map(evRow).join("")}</div>` : `<div class="empty">Nothing else planned today.</div>`}</section>
-    ${!Life.connected ? `<section class="card"><b>This device only</b><p class="note" style="margin:6px 0 10px">LIFE HQ reads what your apps save to your private life-data repo. Connect it to see Sleep and Fuel from your other apps.</p><button class="btn solid" data-act="connect">Connect</button></section>` : ""}`;
+`;
 }
 function emptyCard(id) {
   const a = APP[id];
@@ -226,17 +236,17 @@ function viewApps() {
   return `<section><div class="eyebrow" style="margin-bottom:10px">Your apps</div><div class="apps">${built.map(tile).join("")}
       <a class="app" href="../film/" style="--c:${APP.basketball.color}"><span class="ic">F</span><b>Film Room</b><span>Basketball read-and-react quiz</span></a></div></section>
     <section><div class="eyebrow" style="margin:6px 0 10px">On the roadmap</div><div class="apps">${soon.map(tile).join("")}</div></section>
-    <p class="note">Tip: open each app in Safari and use Share › Add to Home Screen to give it its own icon. Each one asks for your LIFE HQ key once (Setup › Copy key).</p>`;
+    <p class="note">Only LIFE HQ needs to be on your home screen. Open the apps from here and they all share the same data; each has a "‹ LIFE HQ" button to come back.</p>`;
 }
 
 /* ================= SETUP ================= */
 function viewSetup() {
   const files = (() => { try { return Object.keys(JSON.parse(localStorage.getItem("life:cache") || "{}")); } catch (e) { return []; } })();
   const byApp = {}; files.forEach(p => { const a = p.split("/")[0]; byApp[a] = (byApp[a] || 0) + 1; });
-  return `<section class="card"><div class="mhead"><h2>Sync</h2></div>
+  return `<section class="card"><div class="mhead"><h2>Backup</h2></div>
       ${Life.connected ? `<p class="note" style="margin:0 0 12px">Connected to your private <b>${Life.OWNER}/${Life.REPO}</b> repo. Every save is a commit, so the repo's history is a full backup.</p>
         <div class="status"><button class="btn solid" data-act="syncNow">Sync now</button><button class="btn" data-act="copyKey">Copy key for another app</button><button class="btn" data-act="connect">Details</button></div>`
-      : `<p class="note" style="margin:0 0 12px">Not connected. Connect once with your LIFE HQ key and this dashboard reads Sleep, Fuel and every app that's added later.</p><button class="btn solid" data-act="connect">Connect</button>`}
+      : `<p class="note" style="margin:0 0 12px">Your data is saved on this phone, and every app you open from LIFE HQ shares it. Optional: connect a GitHub key to back it up to your private life-data repo and see it on your computer.</p><button class="btn" data-act="connect">Set up backup</button>`}
       ${Life.lastError ? `<p class="note" style="color:var(--bad)">${esc(Life.lastError)}</p>` : ""}
     </section>
     <section class="card"><div class="mhead"><h2>On this device</h2></div>
