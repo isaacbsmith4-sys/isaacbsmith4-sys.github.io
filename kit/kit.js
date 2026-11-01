@@ -26,7 +26,9 @@
   let cache = {};
   try { cache = JSON.parse(lsGet(K.cache) || "{}") || {}; } catch (e) {}
   const persist = () => lsSet(K.cache, JSON.stringify(cache));
-  const strip = o => { if (!o) return o; const {_u, _d, ...rest} = o; return rest; };
+  // records are always copied in and out, so an app editing its own objects later can't silently change (or skip saving) what's stored
+  const clone = o => o == null ? o : JSON.parse(JSON.stringify(o));
+  const strip = o => { if (!o) return o; const {_u, _d, ...rest} = clone(o); return rest; };
   const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
   /* ---------- status ---------- */
@@ -78,7 +80,7 @@
   function write(name, id, rec) {
     const p = shardPath(name, monthOf(id, rec));
     const f = cache[p] || (cache[p] = {kind: "col", data: {}, sha: null});
-    f.data[id] = rec; f.dirty = 1; f.v = (f.v || 0) + 1;
+    f.data[id] = clone(rec); f.dirty = 1; f.v = (f.v || 0) + 1;
   }
 
   function doc(name) {
@@ -90,12 +92,12 @@
       set(obj) {
         if (cache[p] && same(strip(cache[p].data), obj)) return;
         const f = cache[p] || (cache[p] = {kind: "doc", sha: null});
-        f.data = {...obj, _u: Date.now()}; f.dirty = 1; f.v = (f.v || 0) + 1;
+        f.data = {...clone(obj), _u: Date.now()}; f.dirty = 1; f.v = (f.v || 0) + 1;
         persist(); schedulePush();
       },
       seed(obj) {
         if (lsGet(K.seeded + name)) return;
-        if (!cache[p]) { cache[p] = {kind: "doc", sha: null, data: {...obj, _u: 1}, dirty: 1, v: 1}; persist(); schedulePush(); }
+        if (!cache[p]) { cache[p] = {kind: "doc", sha: null, data: {...clone(obj), _u: 1}, dirty: 1, v: 1}; persist(); schedulePush(); }
         lsSet(K.seeded + name, "1");
       },
     };

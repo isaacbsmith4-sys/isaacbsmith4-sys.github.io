@@ -156,8 +156,8 @@ label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 130px}
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
 <div id="overlay"></div>
-<script src="../kit/kit.js?v=3"></script>
-<script src="../kit/apps.js?v=3"></script>
+<script src="../kit/kit.js?v=5"></script>
+<script src="../kit/apps.js?v=5"></script>
 <script>
 (() => {
 "use strict";
@@ -216,6 +216,14 @@ function viewToday() {
       ${t.plannedWeek ? bar(t.week / t.plannedWeek, APP.train.color) : ""}
       ${d && (d.prs || []).length ? `<div class="empty" style="color:var(--good)">New PR: ${esc(d.prs.map(p => p.n).join(", "))}</div>` : ""}</a>`);
   } else cards.push(emptyCard("train"));
+  // Habits
+  const ha = adapters.habits;
+  if (ha.has()) {
+    const h = ha.today(k);
+    cards.push(`<a class="card" href="${APP.habits.path}" style="--c:${APP.habits.color}"><div class="tag"><i></i>Habits<span class="go">›</span></div>
+      <div class="big">${h.done}/${h.due}<small>done today</small></div>${bar(h.due ? h.done / h.due : 0, APP.habits.color)}
+      <div class="sub" style="margin-top:8px">${!h.due ? "Nothing scheduled today." : h.done === h.due ? "All done." : h.mustLeft.length ? "Still to do: " + esc(h.mustLeft.join(", ")) : h.left.length + " left"}</div></a>`);
+  } else cards.push(emptyCard("habits"));
   // Coming up: the rest of today's planned items from every app
   const evs = allEvents(k, k).filter(e => e.planned && (!e.time || e.time > now)).sort(byTime);
   return `<div class="wide2">${cards.join("")}</div>
@@ -387,7 +395,7 @@ function newGoalSheet() {
   const opt = (kind, title, sub) => `<button data-act="goalKind" data-k="${esc(kind)}">${esc(title)}<span>${esc(sub)}</span></button>`;
   sheet(`<div class="row" style="justify-content:space-between"><h3>New goal</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
     <div class="eyebrow">Updates by itself</div>
-    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}
+    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}${opt("habits.pct", "Habit consistency", "from Habits, 7-day average %")}
       ${lifts.map(n => opt("train.lift:" + n, n + " max", "from Train, estimated 1-rep max")).join("")}</div>
     <div class="eyebrow">You update it</div>
     <div class="pick">${opt("", "Custom goal", "GPA, vertical, sprint time, savings, anything")}</div>`);
@@ -464,6 +472,11 @@ function viewAnalytics() {
       <div class="mrow">${statBox("train.workouts", "Workouts / week", from, to, pFrom, pTo)}${statBox("train.sets", "Hard sets / week", from, to, pFrom, pTo)}
         <div><span>PRs</span><b>${prs}</b><em class="muted">in range</em></div></div></section>`);
   }
+  // Habits
+  const hp = metric("habits.pct", from, to);
+  if (hp.length) cards.push(`<section class="card" style="--c:${APP.habits.color}"><div class="tag"><i></i>Habits · ${hp.length} days</div>
+      ${lineChart(hp, {color: APP.habits.color, target: 100, from, to, fmt: v => Math.round(v) + "%"})}
+      <div class="mrow">${statBox("habits.pct", "Avg done", from, to, pFrom, pTo)}<div><span>Perfect days</span><b>${hp.filter(p => p.v === 100).length}</b><em class="muted">every habit done</em></div></div></section>`);
   return `<div class="seg">${segs.map(([v, l]) => `<button class="${range === v ? "on" : ""}" data-act="range" data-r="${v}">${l}</button>`).join("")}</div>
     ${range === "custom" ? `<div class="row"><label class="f">From<input type="date" id="rFrom" value="${custom.from}"></label><label class="f">To<input type="date" id="rTo" value="${custom.to}"></label></div>` : ""}
     <p class="sub" style="margin:0">${parseKey(from).toLocaleDateString([], {month: "short", day: "numeric"})} – ${parseKey(to).toLocaleDateString([], {month: "short", day: "numeric", year: "numeric"})} · arrows compare with the ${n} days before</p>
@@ -540,10 +553,10 @@ const A = {
   newGoal() { newGoalSheet(); },
   goalKind(el) {
     const m = el.dataset.k, info = m ? metricInfo(m) : null;
-    const cat = !m ? "Personal" : m.startsWith("sleep") ? "Sleep" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
+    const cat = !m ? "Personal" : m.startsWith("sleep") ? "Sleep" : m.startsWith("habits") ? "Habits" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
     const keep = !!info && info.agg !== "last";
     const fg = adapters.fuel.goals ? adapters.fuel.goals() : {};
-    const target = m === "sleep.asleep" ? adapters.sleep.goalHours() : m === "fuel.protein" ? fg.p : m === "fuel.cal" ? fg.cal : m === "train.workouts" ? 4 : "";
+    const target = m === "sleep.asleep" ? adapters.sleep.goalHours() : m === "fuel.protein" ? fg.p : m === "fuel.cal" ? fg.cal : m === "train.workouts" ? 4 : m === "habits.pct" ? 85 : "";
     goalForm({metric: m || null, mode: keep ? "keep" : "reach", title: info ? (m.startsWith("train.lift:") ? m.slice(11) + " max" : info.label) : "", cat, target, dir: info && info.better < 0 ? -1 : 1});
   },
   editGoal(el) { goalForm(goalsAll().find(g => g.id === el.dataset.id)); },

@@ -25,7 +25,7 @@
     {id: "sleep", name: "Sleep", color: "#8f86ff", path: "../sleep/", built: true, blurb: "Bedtime, wind-down, sleep log"},
     {id: "fuel", name: "Fuel", color: "#ff6a3d", path: "../fuel/", built: true, blurb: "Food, macros, water, weight"},
     {id: "train", name: "Train", color: "#3fd3ff", path: "../train/", built: true, blurb: "Lifting, progressive overload, PRs"},
-    {id: "habits", name: "Habits", color: "#ff7eb6", phase: 2, blurb: "Routines, streaks, non-negotiables"},
+    {id: "habits", name: "Habits", color: "#ff7eb6", path: "../habits/", built: true, blurb: "Routines, streaks, non-negotiables"},
     {id: "school", name: "School", color: "#f2c14e", phase: 3, blurb: "Assignments, grades, study tools"},
     {id: "focus", name: "Focus", color: "#6aa8ff", phase: 3, blurb: "Focus timer and study hours"},
     {id: "mindset", name: "Mindset", color: "#d29bff", phase: 3, blurb: "Journal, reflections, weekly review"},
@@ -65,7 +65,7 @@
           out.push({date: k, time: new Date(n.bed), end: new Date(n.wake), app: "sleep", title: "Slept " + dur(m), detail: `${time(new Date(n.bed))} → ${time(new Date(n.wake))}${n.q ? " · rested " + n.q + "/5" : ""}`});
         }
         const today = ymd(new Date(Date.now() - 4 * 3600e3));
-        if (today >= from && today <= to && !(nights.all()[today] || {}).wake) {
+        if (today >= from && today <= to && settings.get() && !(nights.all()[today] || {}).wake) { // planned bedtime only once Sleep is set up
           const p = plan(today);
           out.push({date: today, time: p.wind, app: "sleep", planned: true, title: "Wind-down", detail: "starts " + time(p.wind)});
           out.push({date: today, time: p.bed, app: "sleep", planned: true, title: "Bedtime", detail: `${time(p.bed)} for ${s.goal}h before ${time(p.wake)}`});
@@ -170,6 +170,43 @@
     };
   })();
 
+  /* ---------- Habits ---------- */
+  const habits = (() => {
+    const days = Life.col("habits/days", {months: 4}), settings = Life.doc("habits/settings");
+    const live = () => ((settings.get() || {}).habits || []).filter(h => !h.archived);
+    const val = (h, k) => ((days.all()[k] || {}).done || {})[h.id];
+    const isDone = (h, k) => h.kind === "count" ? (val(h, k) || 0) >= h.target : !!val(h, k);
+    const weekStart = k => addDays(k, -parseKey(k).getDay());
+    // same rules as the Habits app: set days, or "N times a week" stays due until the week's count is met
+    function isDue(h, k) {
+      if (k < (h.created || "2000-01-01")) return false;
+      const s = h.sched || {type: "daily"};
+      if (s.type === "days") return (s.days || []).includes(parseKey(k).getDay());
+      if (s.type === "weekly") { let n = 0; for (let d = weekStart(k); d < k; d = addDays(d, 1)) if (isDone(h, d)) n++; return n < s.times || isDone(h, k); }
+      return true;
+    }
+    const score = k => { const due = live().filter(h => isDue(h, k)); return due.length ? {done: due.filter(h => isDone(h, k)).length, due: due.length, left: due.filter(h => !isDone(h, k))} : null; };
+    return {
+      has: () => live().length > 0,
+      today(k) { const s = score(k) || {done: 0, due: 0, left: []}; return {...s, mustLeft: s.left.filter(h => h.nonneg).map(h => h.name)}; },
+      events(from, to) {
+        const out = [], today = ymd(new Date(Date.now() - 3 * 3600e3));
+        for (let k = from; k <= to && k <= today; k = addDays(k, 1)) {
+          const s = score(k); if (!s || (!s.done && k !== today)) continue;
+          if (s.done) out.push({date: k, app: "habits", title: `Habits ${s.done}/${s.due}`, detail: s.done === s.due ? "all done" : `${s.due - s.done} missed${k === today ? " so far" : ""}`});
+          if (k === today) for (const h of s.left) if (h.time) { const [hh, mm] = h.time.split(":").map(Number), t = parseKey(k); t.setHours(hh, mm); out.push({date: k, time: t, app: "habits", planned: true, title: h.name, detail: h.nonneg ? "non-negotiable" : ""}); }
+        }
+        return out;
+      },
+      series(from, to) {
+        const out = {"habits.pct": []}, today = ymd(new Date(Date.now() - 3 * 3600e3));
+        for (let k = from; k <= to && k <= today; k = addDays(k, 1)) { const s = score(k); if (s && (k < today || s.done === s.due)) out["habits.pct"].push({date: k, v: Math.round(s.done / s.due * 100)}); }
+        return out;
+      },
+      load: months => days.load(months),
+    };
+  })();
+
   // agg: how a stretch of days adds up (avg of logged days, sum, or the latest value); better: 1 up, -1 down, 0 depends
   const METRICS = {
     "sleep.asleep": {app: "sleep", label: "Sleep", unit: "h", agg: "avg", better: 1, dp: 1},
@@ -181,10 +218,11 @@
     "fuel.weight": {app: "fuel", label: "Bodyweight", unit: "lb", agg: "last", better: 0, dp: 1},
     "train.workouts": {app: "train", label: "Workouts", unit: "per week", agg: "sum", better: 1, dp: 0},
     "train.sets": {app: "train", label: "Hard sets", unit: "per week", agg: "sum", better: 1, dp: 0},
+    "habits.pct": {app: "habits", label: "Habits done", unit: "%", agg: "avg", better: 1, dp: 0},
   };
   const metricInfo = id => METRICS[id] || (id.startsWith("train.lift:") ? {app: "train", label: id.slice(11) + " est. max", unit: "lb", agg: "last", better: 1, dp: 0} : null);
 
-  const adapters = {sleep, fuel, train};
+  const adapters = {sleep, fuel, train, habits};
   /** daily points for one metric id between two dates (inclusive) */
   function metric(id, from, to) { const a = adapters[(metricInfo(id) || {}).app]; return a && a.series ? (a.series(from, to)[id] || []) : []; }
   window.LifeApps = {APPS, adapters, METRICS, metricInfo, metric, util: {ymd, parseKey, addDays, dur, time}};
