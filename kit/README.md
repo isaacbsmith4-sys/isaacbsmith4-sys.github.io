@@ -35,3 +35,7 @@ also syncs everything to the private life-data repo, for backup and the computer
 Phase 2: Habits. Phase 3: School, Focus, Mindset. Phase 4: Recovery, Basketball, Finance.
 Phase 5: AI daily briefing and weekly report (GitHub Actions in life-data with an Anthropic API
 key secret), cross-app analytics, ntfy reminders. Phase 6: polish, security and sync testing.
+
+## Updating kit files
+Pages load `../kit/kit.js?v=N` and `../kit/apps.js?v=N` so phones don't keep an old cached copy.
+After changing a kit file, bump `N` in every app's `<script>` tag and `sw.js` SHELL list, and bump each `sw.js` CACHE name.

@@ -100,6 +100,44 @@ nav.tabs .in{display:flex;width:100%;max-width:760px}
 .tab{flex:1;border:0;background:none;color:var(--faint);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:6px 0;cursor:pointer}
 .tab svg{width:22px;height:22px}
 .tab[aria-selected=true]{color:var(--ink)}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{flex:1;border:0;background:none;color:var(--muted);font:700 12.5px var(--body);padding:9px 4px;cursor:pointer}
+.seg button.on{background:var(--surface2);color:var(--ink);box-shadow:inset 0 -2px 0 var(--ink)}
+.goal{display:grid;gap:8px;cursor:pointer}
+.goal .gt{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.goal .gt b{font-size:16px;line-height:1.3}
+.chip{display:inline-block;font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;border-radius:6px;padding:2px 6px;border:1px solid var(--line-hi);color:var(--muted);white-space:nowrap}
+.chip.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent)}
+.chip.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent)}
+.gnum{font:700 22px var(--display);font-variant-numeric:tabular-nums}
+.gnum small{font:500 12.5px var(--body);color:var(--muted);margin-left:4px}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font:10px var(--mono)}
+.mrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,120px),1fr));gap:10px;margin-top:12px}
+.mrow div{background:var(--surface2);border:1px solid var(--line);border-radius:13px;padding:10px 11px;display:grid;gap:1px}
+.mrow b{font:600 17px var(--mono)}
+.mrow span{font-size:11.5px;color:var(--muted)}
+.mrow em{font-style:normal;font-size:11.5px}
+.conn{padding:12px 0;border-bottom:1px solid var(--line);display:grid;gap:6px}
+.conn:last-child{border-bottom:0}
+.conn .vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.conn .vs div{background:var(--surface2);border-radius:11px;padding:9px 10px}
+.conn .vs b{display:block;font:600 16px var(--mono)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:11px;padding:10px 11px;min-width:0}
+input[type=number],input[type=date]{font-family:var(--mono)}
+label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 130px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pick{display:grid;gap:8px}
+.pick button{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:13px;padding:12px 13px;font:600 14px var(--body);cursor:pointer}
+.pick button span{font:500 12px var(--body);color:var(--muted)}
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(3,4,8,.72);backdrop-filter:blur(5px);display:grid;align-items:end;justify-items:center}
+.sheet .in{width:min(640px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;display:grid;gap:14px;align-content:start;
+  padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));animation:up .22s ease-out}
+.sheet h3{margin:0;font:700 18px var(--display)}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--surface2);border:1px solid var(--line-hi);border-radius:13px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:calc(100vw - 32px)}
+.toast button{border:0;background:none;color:var(--accent);font:700 13px var(--body);cursor:pointer}
+@media (max-width:380px){.tab{font-size:10px}}
 @media (min-width:900px){
   body{padding-bottom:40px;padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
   nav.tabs{top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding:8px 16px}
@@ -117,14 +155,15 @@ nav.tabs .in{display:flex;width:100%;max-width:760px}
   <main id="main" class="screen"></main>
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
-<script src="../kit/kit.js"></script>
-<script src="../kit/apps.js"></script>
+<div id="overlay"></div>
+<script src="../kit/kit.js?v=3"></script>
+<script src="../kit/apps.js?v=3"></script>
 <script>
 (() => {
 "use strict";
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const {APPS, adapters, util} = LifeApps;
+const {APPS, adapters, util, METRICS, metricInfo, metric} = LifeApps;
 const {ymd, parseKey, addDays, dur, time} = util;
 const APP = Object.fromEntries(APPS.map(a => [a.id, a]));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -133,11 +172,13 @@ const bar = (f, c) => `<div class="bar" style="--c:${c}"><b style="width:${(clam
 
 const ICONS = {
   today: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  goals: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  analytics: '<path d="M3 20h18M5 16l4-5 4 3 6-8"/>',
   calendar: '<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/>',
   apps: '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
   setup: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
 };
-const TABS = [["today", "Today"], ["calendar", "Calendar"], ["apps", "Apps"], ["setup", "Setup"]];
+const TABS = [["today", "Today"], ["calendar", "Calendar"], ["goals", "Goals"], ["analytics", "Analytics"], ["apps", "Apps"], ["setup", "Setup"]];
 let tab = TABS.some(t => t[0] === location.hash.slice(1)) ? location.hash.slice(1) : "today";
 function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0, 0); }
 
@@ -229,6 +270,234 @@ function ensureMonth(mon) {
   Promise.all(Object.values(adapters).map(a => a.load([prev, mon, next]))).then(() => { if (tab === "calendar") render(); }).catch(() => {});
 }
 
+
+/* ================= shared chart + numbers ================= */
+const fmtV = (v, info) => v == null || !isFinite(v) ? "–" : info && info.unit === "h" ? dur(v * 60) : (Math.round(v * 10 ** (info ? info.dp ?? 1 : 1)) / 10 ** (info ? info.dp ?? 1 : 1)).toLocaleString();
+const fmtUnit = info => info && info.unit && info.unit !== "h" ? (info.unit[0] === "/" ? "" : " ") + info.unit : "";
+const avgOf = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+/** a stretch of points reduced the way the metric adds up; "sum" metrics are scaled to a 7-day week */
+function aggregate(points, info, days) {
+  if (!points.length) return null;
+  if (info.agg === "last") return points[points.length - 1].v;
+  if (info.agg === "sum") return points.reduce((a, p) => a + p.v, 0) / days * 7;
+  return avgOf(points.map(p => p.v));
+}
+/** line chart of {date, v}; long ranges are averaged per week so the line stays readable */
+function lineChart(points, {color = "var(--ink)", target = null, from, to, fmt = v => Math.round(v), bars = false} = {}) {
+  if (points.length > 70) { const wk = {}; points.forEach(p => { const d = parseKey(p.date); d.setDate(d.getDate() - d.getDay()); (wk[ymd(d)] ||= []).push(p.v); }); points = Object.entries(wk).sort().map(([date, vs]) => ({date, v: avgOf(vs)})); }
+  if (!points.length) return "";
+  const W = 340, H = 150, pl = 36, pb = 20, t0 = parseKey(from || points[0].date).getTime(), t1 = parseKey(to || points[points.length - 1].date).getTime();
+  const vs = points.map(p => p.v).concat(target != null ? [target] : []);
+  let lo = Math.min(...vs), hi = Math.max(...vs); if (bars) lo = 0; const pad = (hi - lo) * .12 || Math.abs(hi) * .1 || 1; lo = bars ? 0 : lo - pad; hi += pad;
+  const X = d => pl + ((parseKey(d).getTime() - t0) / (t1 - t0 || 1)) * (W - pl - 8), Y = v => 8 + (1 - (v - lo) / (hi - lo)) * (H - pb - 8);
+  const grid = [lo + (hi - lo) * .15, (lo + hi) / 2, hi - (hi - lo) * .15].map(v => `<line x1="${pl}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pl - 5}" y="${Y(v) + 3}" text-anchor="end">${fmt(v)}</text>`).join("");
+  const tl = target != null ? `<line x1="${pl}" x2="${W}" y1="${Y(target)}" y2="${Y(target)}" stroke="${color}" stroke-dasharray="4 4" opacity=".7"/>` : "";
+  let marks;
+  if (bars) { const bw = Math.max(2, Math.min(18, (W - pl) / ((t1 - t0) / 864e5 + 1) * .7)); marks = points.map(p => `<rect x="${X(p.date) - bw / 2}" y="${Y(p.v)}" width="${bw}" height="${Y(lo) - Y(p.v)}" rx="${Math.min(3, bw / 2)}" fill="${color}"/>`).join(""); }
+  else { const d = points.map((p, i) => `${i ? "L" : "M"}${X(p.date).toFixed(1)},${Y(p.v).toFixed(1)}`).join(" ");
+    marks = `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round"/>` + (points.length <= 40 ? points.map(p => `<circle cx="${X(p.date)}" cy="${Y(p.v)}" r="2.6" fill="${color}"/>`).join("") : "") + `<circle cx="${X(points[points.length - 1].date)}" cy="${Y(points[points.length - 1].v)}" r="4.5" fill="${color}"/>`; }
+  const lab = k => parseKey(k).toLocaleDateString([], {month: "short", day: "numeric"});
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Chart">${grid}${tl}${marks}<text x="${pl}" y="${H - 4}">${lab(from || points[0].date)}</text><text x="${W}" y="${H - 4}" text-anchor="end">${lab(to || points[points.length - 1].date)}</text></svg>`;
+}
+let toastT;
+function toast(msg, undo) {
+  document.querySelectorAll(".toast").forEach(t => t.remove());
+  const o = document.createElement("div"); o.className = "toast"; o.setAttribute("role", "status");
+  o.innerHTML = `<span>${esc(msg)}</span>${undo ? "<button>Undo</button>" : ""}`; document.body.appendChild(o);
+  if (undo) o.querySelector("button").onclick = () => { undo(); o.remove(); render(); };
+  clearTimeout(toastT); toastT = setTimeout(() => o.remove(), 4500);
+}
+const sheet = html => { $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog">${html}</div></div>`; };
+const closeSheet = () => { $("#overlay").innerHTML = ""; };
+
+/* ================= GOALS ================= */
+// goals live in one LIFE HQ doc; hand-logged progress for custom goals in a monthly collection
+const GOALS = Life.doc("hq/goals"), GLOG = Life.col("hq/goal-log", {months: 12});
+const CATS = {Physical: "#3fd3ff", Nutrition: "#ff6a3d", Sleep: "#8f86ff", School: "#f2c14e", Productivity: "#6aa8ff", Habits: "#ff7eb6", Basketball: "#e0955a", Finance: "#7bd88f", Personal: "#d29bff"};
+const goalsAll = () => Object.entries((GOALS.get() || {}).goals || {}).map(([id, g]) => ({...g, id}));
+function saveGoal(g) { const cur = (GOALS.get() || {}).goals || {}; const {id, ...rest} = g; GOALS.set({goals: {...cur, [id]: rest}}); }
+function dropGoal(id) { const cur = {...((GOALS.get() || {}).goals || {})}; delete cur[id]; GOALS.set({goals: cur}); }
+const logsFor = id => Object.values(GLOG.all()).filter(l => l.goal === id).sort((a, b) => (a.date + (a.t || 0)).localeCompare(b.date + (b.t || 0)));
+const ginfo = g => g.metric ? metricInfo(g.metric) : {unit: g.unit || "", dp: 2, agg: "last"};
+/** where a goal stands right now: current value, % done, status label */
+function goalState(g) {
+  const k = todayKey(), info = ginfo(g);
+  let cur = null, pts = [];
+  if (g.metric && g.mode === "keep") { const from = addDays(k, -6); pts = metric(g.metric, from, k); cur = aggregate(pts, info, 7); }
+  else if (g.metric) { pts = metric(g.metric, "2000-01-01", k); cur = pts.length ? pts[pts.length - 1].v : null; }
+  else { const ls = logsFor(g.id); cur = ls.length ? ls[ls.length - 1].v : g.start; }
+  const start = startOf(g);
+  let pct = null;
+  if (cur != null) {
+    if (g.mode === "keep") pct = g.dir > 0 ? cur / g.target : g.target / Math.max(cur, 1e-9);
+    else pct = start == null ? 0 : g.target === start ? (cur === g.target ? 1 : 0) : (cur - start) / (g.target - start);
+    pct = clamp(pct, 0, 1);
+  }
+  let status, tone = "";
+  if (g.done) { status = "Completed"; tone = "good"; }
+  else if (cur == null) status = "No data yet";
+  else if (pct >= 1) { status = g.mode === "keep" ? "Hitting it" : "Reached"; tone = "good"; }
+  else if (g.mode === "keep") { status = g.dir > 0 ? "Below target" : "Above target"; tone = "warn"; }
+  else if (g.deadline) {
+    const t0 = parseKey(g.startDate).getTime(), t1 = parseKey(g.deadline).getTime(), now = parseKey(k).getTime();
+    const expect = clamp((now - t0) / (t1 - t0 || 1), 0, 1);
+    if (now > t1) { status = "Past deadline"; tone = "warn"; } else if (pct + .05 >= expect) { status = "On pace"; tone = "good"; } else { status = "Behind pace"; tone = "warn"; }
+  } else status = Math.round(pct * 100) + "% there";
+  return {cur, pct, status, tone, info};
+}
+// a connected goal created before any data starts from its first entry
+const startOf = g => g.start != null ? g.start : g.metric ? (metric(g.metric, g.startDate, todayKey())[0] || {}).v ?? null : null;
+function goalHistory(g) {
+  const k = todayKey(), info = ginfo(g);
+  if (g.metric && g.mode === "keep") {
+    const from = addDays(k, -29) > g.startDate ? addDays(k, -29) : g.startDate, pts = metric(g.metric, addDays(from, -6), k), out = [];
+    for (let d = from; d <= k; d = addDays(d, 1)) { const win = pts.filter(p => p.date > addDays(d, -7) && p.date <= d); const v = aggregate(win, info, 7); if (v != null) out.push({date: d, v}); }
+    return {points: out, from, to: k};
+  }
+  if (g.metric) { const pts = metric(g.metric, g.startDate, k), s0 = startOf(g); return {points: [...(s0 != null ? [{date: g.startDate, v: s0}] : []), ...pts.filter(p => p.date > g.startDate)], from: g.startDate, to: g.deadline && g.deadline > k ? g.deadline : k}; }
+  return {points: [{date: g.startDate, v: g.start}, ...logsFor(g.id).map(l => ({date: l.date, v: l.v}))], from: g.startDate, to: g.deadline && g.deadline > k ? g.deadline : k};
+}
+function goalCard(g) {
+  const st = goalState(g), c = CATS[g.cat] || "var(--ink)", u = fmtUnit(st.info), left = g.deadline ? Math.round((parseKey(g.deadline) - parseKey(todayKey())) / 864e5) : null;
+  return `<section class="card goal" data-act="openGoal" data-id="${g.id}" role="button" tabindex="0" style="--c:${c}">
+    <div class="gt"><div><div class="tag"><i></i>${esc(g.cat)}${g.metric ? ` · ${APP[st.info.app].name}` : ""}</div><b>${esc(g.title)}</b></div><span class="chip ${st.tone}">${st.status}</span></div>
+    <div class="gnum">${fmtV(st.cur, st.info)}<small>${st.info.unit === "h" ? "" : u} / ${fmtV(g.target, st.info)}${st.info.unit === "h" ? "" : u}${g.mode === "keep" ? (st.info.agg === "sum" ? " this week" : " 7-day avg") : ""}</small></div>
+    ${bar(st.pct ?? 0, c)}
+    <div class="sub">${st.pct != null ? Math.round(st.pct * 100) + "%" : "–"}${left != null ? ` · ${left >= 0 ? left + " days left" : "deadline passed"}` : ""}</div></section>`;
+}
+function viewGoals() {
+  const gs = goalsAll(), active = gs.filter(g => !g.done), done = gs.filter(g => g.done);
+  return `<div class="row" style="justify-content:space-between"><span class="sub">${active.length} active${done.length ? ` · ${done.length} completed` : ""}</span><button class="btn solid" data-act="newGoal">+ New goal</button></div>
+    ${active.length ? `<div class="wide2">${active.map(goalCard).join("")}</div>` : `<section class="card"><b>No goals yet</b><p class="note" style="margin:6px 0 0">Goals connected to an app (average sleep, daily protein, bodyweight, workouts a week, a lift's max) update by themselves from what you log. Anything else (GPA, vertical, sprint time, savings) you update by hand.</p></section>`}
+    ${done.length ? `<div class="eyebrow" style="margin-top:6px">Completed</div><div class="wide2">${done.map(goalCard).join("")}</div>` : ""}`;
+}
+function openGoal(id) {
+  const g = goalsAll().find(x => x.id === id); if (!g) return;
+  const st = goalState(g), h = goalHistory(g), c = CATS[g.cat] || "var(--ink)", logs = g.metric ? [] : logsFor(g.id).slice().reverse();
+  sheet(`<div class="row" style="justify-content:space-between"><h3>${esc(g.title)}</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+    <div class="row"><span class="chip ${st.tone}">${st.status}</span><span class="sub">${g.mode === "keep" ? (g.dir > 0 ? "At least " : "At most ") + fmtV(g.target, st.info) + fmtUnit(st.info) + (st.info.agg === "sum" ? " a week" : " on average") : `From ${fmtV(startOf(g), st.info)} to ${fmtV(g.target, st.info)}${fmtUnit(st.info)}`}${g.deadline ? " by " + parseKey(g.deadline).toLocaleDateString([], {month: "short", day: "numeric", year: "numeric"}) : ""}</span></div>
+    ${h.points.length > 1 ? lineChart(h.points, {color: c, target: g.target, from: h.from, to: h.to, fmt: v => st.info.unit === "h" ? v.toFixed(1) : +v.toFixed(st.info.dp ?? 1)}) : `<p class="note" style="margin:0">The chart fills in as ${g.metric ? "you log in " + APP[st.info.app].name : "you add updates"}.</p>`}
+    ${!g.metric ? `<div class="row"><input id="glogV" type="number" inputmode="decimal" step="any" placeholder="New value${g.unit ? " (" + esc(g.unit) + ")" : ""}" style="flex:1 1 140px" aria-label="New value"><button class="btn solid" data-act="logGoal" data-id="${g.id}">Update</button></div>
+      ${logs.length ? logs.slice(0, 8).map(l => `<div class="kv"><span>${parseKey(l.date).toLocaleDateString([], {month: "short", day: "numeric"})}</span><span>${fmtV(l.v, st.info)} ${esc(g.unit || "")}</span></div>`).join("") : ""}` : `<p class="note" style="margin:0">Updates by itself from ${APP[st.info.app].name}.</p>`}
+    <div class="row"><button class="btn" data-act="toggleDone" data-id="${g.id}">${g.done ? "Mark active again" : "Mark completed"}</button><button class="btn" data-act="editGoal" data-id="${g.id}">Edit</button><button class="btn" style="color:var(--bad)" data-act="delGoal" data-id="${g.id}">Delete</button></div>`);
+}
+/* new / edit goal: pick a connected goal or a custom one, then fill in the target */
+function newGoalSheet() {
+  const lifts = adapters.train.lifts ? adapters.train.lifts().slice(0, 8) : [];
+  const opt = (kind, title, sub) => `<button data-act="goalKind" data-k="${esc(kind)}">${esc(title)}<span>${esc(sub)}</span></button>`;
+  sheet(`<div class="row" style="justify-content:space-between"><h3>New goal</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+    <div class="eyebrow">Updates by itself</div>
+    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}
+      ${lifts.map(n => opt("train.lift:" + n, n + " max", "from Train, estimated 1-rep max")).join("")}</div>
+    <div class="eyebrow">You update it</div>
+    <div class="pick">${opt("", "Custom goal", "GPA, vertical, sprint time, savings, anything")}</div>`);
+}
+function goalForm(g) {
+  const info = g.metric ? metricInfo(g.metric) : null, isKeep = g.mode === "keep";
+  const curLatest = g.metric && !isKeep ? (metric(g.metric, "2000-01-01", todayKey()).slice(-1)[0] || {}).v : null;
+  sheet(`<div class="row" style="justify-content:space-between"><h3>${g.id ? "Edit goal" : info ? info.label : "Custom goal"}</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+    <label class="f">Name<input id="gTitle" value="${esc(g.title || "")}" placeholder="${info ? esc(info.label) : "Vertical jump 30 in"}"></label>
+    <div class="row"><label class="f">Category<select id="gCat">${Object.keys(CATS).map(cn => `<option ${cn === g.cat ? "selected" : ""}>${cn}</option>`).join("")}</select></label>
+      ${info && isKeep && info.better === 0 ? `<label class="f">Target is<select id="gDir"><option value="1" ${g.dir > 0 ? "selected" : ""}>at least</option><option value="-1" ${g.dir < 0 ? "selected" : ""}>at most</option></select></label>` : ""}</div>
+    ${!info ? `<div class="row"><label class="f">Where you are now<input id="gStart" type="number" step="any" inputmode="decimal" value="${g.start ?? ""}"></label><label class="f">Unit<input id="gUnit" value="${esc(g.unit || "")}" placeholder="in, sec, $, GPA"></label></div>` : ""}
+    <div class="row"><label class="f">Target${info ? ` (${info.unit === "h" ? "hours" : esc(info.unit)})` : ""}<input id="gTarget" type="number" step="any" inputmode="decimal" value="${g.target ?? ""}"></label><label class="f">Deadline (optional)<input id="gDead" type="date" value="${g.deadline || ""}"></label></div>
+    ${info && !isKeep ? `<p class="note" style="margin:0">${curLatest != null ? `Starting from your latest: ${fmtV(curLatest, info)} ${esc(info.unit)}.` : `No ${esc(info.label.toLowerCase())} logged yet; it starts from your first entry.`}</p>` : ""}
+    ${info && isKeep ? `<p class="note" style="margin:0">Checked against your ${info.agg === "sum" ? "last 7 days" : "7-day average"}.</p>` : ""}
+    <button class="btn solid" data-act="saveGoal">${g.id ? "Save" : "Add goal"}</button>`);
+  pendingGoal = g;
+}
+let pendingGoal = null;
+
+/* ================= ANALYTICS ================= */
+let range = "30", custom = {from: addDays(todayKey(), -29), to: todayKey()};
+function rangeDates() {
+  const k = todayKey();
+  if (range === "custom") return custom.from <= custom.to ? custom : {from: custom.to, to: custom.from};
+  return {from: addDays(k, -(+range - 1)), to: k};
+}
+const daysIn = (a, b) => Math.round((parseKey(b) - parseKey(a)) / 864e5) + 1;
+function delta(cur, prev, info) {
+  if (cur == null || prev == null) return "";
+  const d = cur - prev; if (Math.abs(d) < (info.unit === "h" ? .05 : 1e-9)) return `<em class="muted">same as before</em>`;
+  const good = info.better === 0 ? null : (d > 0) === (info.better > 0);
+  return `<em style="color:${good == null ? "var(--muted)" : good ? "var(--good)" : "var(--bad)"}">${d > 0 ? "▲" : "▼"} ${info.unit === "h" ? dur(Math.abs(d) * 60) : Math.abs(+d.toFixed(info.dp ?? 1)).toLocaleString()} vs prior</em>`;
+}
+function statBox(id, label, from, to, pFrom, pTo, opt = {}) {
+  const info = metricInfo(id), pts = metric(id, from, to), prev = metric(id, pFrom, pTo);
+  const v = opt.value ? opt.value(pts) : aggregate(pts, info, daysIn(from, to)), pv = opt.value ? opt.value(prev) : aggregate(prev, info, daysIn(pFrom, pTo));
+  return `<div><span>${label}</span><b>${opt.fmt ? opt.fmt(v) : fmtV(v, info) + (info.unit === "h" || v == null ? "" : fmtUnit(info))}</b>${opt.noDelta ? "" : delta(v, pv, info)}</div>`;
+}
+function viewAnalytics() {
+  const {from, to} = rangeDates(), n = daysIn(from, to), pTo = addDays(from, -1), pFrom = addDays(pTo, -(n - 1));
+  ensureRange(pFrom, to);
+  const segs = [["7", "7D"], ["30", "30D"], ["90", "90D"], ["365", "1Y"], ["custom", "Custom"]];
+  const cards = [];
+  // Sleep
+  const sl = metric("sleep.asleep", from, to);
+  if (sl.length) {
+    const beds = metric("sleep.bedtime", from, to).map(p => p.v), m = avgOf(beds), sd = beds.length > 1 ? Math.sqrt(avgOf(beds.map(b => (b - m) ** 2))) : null;
+    const bt = mm => { const d = new Date(2000, 0, 1); d.setMinutes(Math.round(mm) % 1440); return time(d); };
+    cards.push(`<section class="card" style="--c:${APP.sleep.color}"><div class="tag"><i></i>Sleep · ${sl.length} nights</div>
+      ${lineChart(sl, {color: APP.sleep.color, target: adapters.sleep.goalHours(), from, to, fmt: v => v.toFixed(1) + "h"})}
+      <div class="mrow">${statBox("sleep.asleep", "Avg sleep", from, to, pFrom, pTo)}${statBox("sleep.rested", "Avg rested", from, to, pFrom, pTo)}
+        <div><span>Avg bedtime</span><b>${m != null ? bt(m) : "–"}</b><em class="muted">${sd != null ? "±" + Math.round(sd) + " min " + (sd <= 30 ? "(steady)" : sd <= 60 ? "(drifting)" : "(all over)") : ""}</em></div></div></section>`);
+  }
+  // Fuel
+  const cal = metric("fuel.cal", from, to), wt = metric("fuel.weight", from, to);
+  if (cal.length || wt.length) {
+    const g = adapters.fuel.goals(), pr = metric("fuel.protein", from, to), hit = pr.filter(p => p.v >= g.p * .9).length;
+    cards.push(`<section class="card" style="--c:${APP.fuel.color}"><div class="tag"><i></i>Fuel · ${cal.length} days logged</div>
+      ${cal.length ? lineChart(cal, {color: APP.fuel.color, target: g.cal, from, to, bars: true, fmt: v => (v / 1000).toFixed(1) + "k"}) : ""}
+      <div class="mrow">${statBox("fuel.cal", "Avg calories", from, to, pFrom, pTo)}${statBox("fuel.protein", "Avg protein", from, to, pFrom, pTo)}
+        <div><span>Protein goal hit</span><b>${pr.length ? hit + "/" + pr.length : "–"}</b><em class="muted">days within 10%</em></div>
+        ${wt.length ? `<div><span>Bodyweight</span><b>${wt[wt.length - 1].v} lb</b><em class="muted">${wt.length > 1 ? (wt[wt.length - 1].v - wt[0].v >= 0 ? "+" : "") + (wt[wt.length - 1].v - wt[0].v).toFixed(1) + " lb in range" : "1 weigh-in"}</em></div>` : ""}</div>
+      ${wt.length > 1 ? `<div class="eyebrow" style="margin-top:12px">Bodyweight</div>${lineChart(wt, {color: APP.fuel.color, from, to, fmt: v => v.toFixed(0)})}` : ""}</section>`);
+  }
+  // Train
+  const wo = metric("train.workouts", from, to);
+  if (wo.length) {
+    const ws = adapters.train.workouts().filter(w => w.date >= from && w.date <= to), prs = ws.reduce((a, w) => a + (w.prs || []).length, 0);
+    const wk = {}; wo.forEach(p => { const d = parseKey(p.date); d.setDate(d.getDate() - d.getDay()); wk[ymd(d)] = (wk[ymd(d)] || 0) + p.v; });
+    const weekly = Object.entries(wk).sort().map(([date, v]) => ({date, v}));
+    cards.push(`<section class="card" style="--c:${APP.train.color}"><div class="tag"><i></i>Train · ${ws.length} sessions</div>
+      ${lineChart(weekly, {color: APP.train.color, from: weekly[0].date, to: weekly[weekly.length - 1].date, bars: true, fmt: v => Math.round(v)})}
+      <div class="mrow">${statBox("train.workouts", "Workouts / week", from, to, pFrom, pTo)}${statBox("train.sets", "Hard sets / week", from, to, pFrom, pTo)}
+        <div><span>PRs</span><b>${prs}</b><em class="muted">in range</em></div></div></section>`);
+  }
+  return `<div class="seg">${segs.map(([v, l]) => `<button class="${range === v ? "on" : ""}" data-act="range" data-r="${v}">${l}</button>`).join("")}</div>
+    ${range === "custom" ? `<div class="row"><label class="f">From<input type="date" id="rFrom" value="${custom.from}"></label><label class="f">To<input type="date" id="rTo" value="${custom.to}"></label></div>` : ""}
+    <p class="sub" style="margin:0">${parseKey(from).toLocaleDateString([], {month: "short", day: "numeric"})} – ${parseKey(to).toLocaleDateString([], {month: "short", day: "numeric", year: "numeric"})} · arrows compare with the ${n} days before</p>
+    ${cards.length ? `<div class="wide2">${cards.join("")}</div>` : `<section class="card"><div class="empty">Nothing logged in this range yet. Log in Sleep, Fuel or Train and it shows up here.</div></section>`}
+    <section class="card"><div class="mhead"><h2>How things connect</h2></div>${connections(from, to)}</section>`;
+}
+/* honest side-by-side comparisons, with the number of days behind each side */
+function connections(from, to) {
+  const out = [], goalH = adapters.sleep.goalHours(), sleepBy = Object.fromEntries(metric("sleep.asleep", addDays(from, -1), to).map(p => [p.date, p.v]));
+  const ws = adapters.train.workouts().filter(w => w.date >= from && w.date <= to && w.type === "strength");
+  const pair = (title, aLbl, bLbl, a, b, fmt, minN = 3) => {
+    if (a.length < minN || b.length < minN) return `<div class="conn"><b>${title}</b><span class="note">Needs at least ${minN} days on each side (now ${a.length} and ${b.length}).</span></div>`;
+    return `<div class="conn"><b>${title}</b><div class="vs"><div><span class="note">${aLbl} · ${a.length}</span><b>${fmt(avgOf(a))}</b></div><div><span class="note">${bLbl} · ${b.length}</span><b>${fmt(avgOf(b))}</b></div></div></div>`;
+  };
+  // 1) sleep the night before vs PRs per strength session
+  const good = [], short = [];
+  ws.forEach(w => { const s = sleepBy[addDays(w.date, -1)]; if (s == null) return; (s >= goalH - .5 ? good : short).push((w.prs || []).length); });
+  out.push(pair("Sleep the night before → PRs per lift session", `${(goalH - .5).toFixed(1)}h+ sleep`, "Shorter nights", good, short, v => v.toFixed(2)));
+  // 2) protein on training days vs rest days
+  const trainDays = new Set(adapters.train.workouts().map(w => w.date)), pr = metric("fuel.protein", from, to);
+  out.push(pair("Protein on training days vs rest days", "Training days", "Rest days", pr.filter(p => trainDays.has(p.date)).map(p => p.v), pr.filter(p => !trainDays.has(p.date)).map(p => p.v), v => Math.round(v) + " g"));
+  // 3) sleep after a training day vs after a rest day
+  const sl = metric("sleep.asleep", from, to);
+  out.push(pair("Sleep after training days vs rest days", "After training", "After rest", sl.filter(p => trainDays.has(p.date)).map(p => p.v), sl.filter(p => !trainDays.has(p.date)).map(p => p.v), v => dur(v * 60)));
+  return out.join("") + `<p class="note" style="margin:10px 0 0">These are patterns in your own logs, not proof of cause. They get more trustworthy the more days you log.</p>`;
+}
+const loadedRanges = new Set();
+function ensureRange(from, to) {
+  if (!Life.connected) return;
+  const months = []; for (let d = from.slice(0, 7) + "-01"; d <= to; d = ymd(new Date(parseKey(d).getFullYear(), parseKey(d).getMonth() + 1, 1))) months.push(d.slice(0, 7));
+  const key = months.join(","); if (loadedRanges.has(key)) return; loadedRanges.add(key);
+  Promise.all(Object.values(adapters).map(a => a.load(months))).then(() => { if (tab === "analytics") render(); }).catch(() => {});
+}
+
 /* ================= APPS ================= */
 function viewApps() {
   const built = APPS.filter(a => a.built), soon = APPS.filter(a => !a.built);
@@ -261,11 +530,40 @@ function viewSetup() {
 function render() {
   const now = new Date(), h = now.getHours();
   $("#title").textContent = tab === "today" ? (h < 4 ? "Late night" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening") + ", Isaac"
-    : {calendar: "Calendar", apps: "Apps", setup: "Setup"}[tab];
+    : {calendar: "Calendar", goals: "Goals", analytics: "Analytics", apps: "Apps", setup: "Setup"}[tab];
   $("#tabs").innerHTML = TABS.map(([id, l]) => `<button class="tab" role="tab" aria-selected="${id === tab}" data-act="tab" data-id="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]}</svg>${l}</button>`).join("");
-  $("#main").innerHTML = {today: viewToday, calendar: viewCalendar, apps: viewApps, setup: viewSetup}[tab]();
+  $("#main").innerHTML = {today: viewToday, calendar: viewCalendar, goals: viewGoals, analytics: viewAnalytics, apps: viewApps, setup: viewSetup}[tab]();
 }
 const A = {
+  closeSheet(el, ev) { if (ev.target === el || el.tagName === "BUTTON") closeSheet(); },
+  newGoal() { newGoalSheet(); },
+  goalKind(el) {
+    const m = el.dataset.k, info = m ? metricInfo(m) : null;
+    const cat = !m ? "Personal" : m.startsWith("sleep") ? "Sleep" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
+    const keep = !!info && info.agg !== "last";
+    const fg = adapters.fuel.goals ? adapters.fuel.goals() : {};
+    const target = m === "sleep.asleep" ? adapters.sleep.goalHours() : m === "fuel.protein" ? fg.p : m === "fuel.cal" ? fg.cal : m === "train.workouts" ? 4 : "";
+    goalForm({metric: m || null, mode: keep ? "keep" : "reach", title: info ? (m.startsWith("train.lift:") ? m.slice(11) + " max" : info.label) : "", cat, target, dir: info && info.better < 0 ? -1 : 1});
+  },
+  editGoal(el) { goalForm(goalsAll().find(g => g.id === el.dataset.id)); },
+  saveGoal() {
+    const g = {...pendingGoal}, v = id => ($("#" + id)?.value ?? "").trim(), info = g.metric ? metricInfo(g.metric) : null;
+    g.title = v("gTitle") || (info ? info.label : ""); g.cat = v("gCat") || g.cat; g.deadline = v("gDead") || null;
+    const t = parseFloat(v("gTarget")); if (!isFinite(t)) { toast("Enter a target number."); return; } g.target = t;
+    if (!g.title) { toast("Give the goal a name."); return; }
+    if (!g.id) { g.id = Math.random().toString(36).slice(2, 10); g.startDate = todayKey(); g.done = false; }
+    if (!info) { const s0 = parseFloat(v("gStart")); if (!isFinite(s0)) { toast("Enter where you are now."); return; } g.start = s0; g.unit = v("gUnit"); g.mode = "reach"; }
+    else if (g.mode === "keep") { g.dir = $("#gDir") ? +v("gDir") : (info.better < 0 ? -1 : 1); }
+    else if (g.start == null) { const last = metric(g.metric, "2000-01-01", todayKey()).slice(-1)[0]; g.start = last ? last.v : null; }
+    if (g.mode === "reach") g.dir = g.start == null || g.target >= g.start ? 1 : -1;
+    saveGoal(g); closeSheet(); render(); toast(pendingGoal.id ? "Goal saved" : "Goal added");
+  },
+  openGoal(el) { openGoal(el.dataset.id); },
+  logGoal(el) { const v = parseFloat($("#glogV").value); if (!isFinite(v)) return; const id = Math.random().toString(36).slice(2, 10), k = todayKey();
+    const all = GLOG.all(); all[id] = {date: k, goal: el.dataset.id, v, t: Date.now()}; GLOG.replace(all); openGoal(el.dataset.id); render(); toast("Updated"); },
+  toggleDone(el) { const g = goalsAll().find(x => x.id === el.dataset.id); g.done = !g.done; saveGoal(g); closeSheet(); render(); toast(g.done ? "Nice. Goal completed." : "Goal is active again"); },
+  delGoal(el) { const g = goalsAll().find(x => x.id === el.dataset.id); dropGoal(g.id); closeSheet(); render(); toast("Goal deleted", () => saveGoal(g)); },
+  range(el) { range = el.dataset.r; render(); },
   tab: el => go(el.dataset.id),
   month(el) { const [y, m] = calMonth.split("-").map(Number); calMonth = ymd(new Date(y, m - 1 + +el.dataset.d, 1)).slice(0, 7); render(); },
   pick(el) { sel = el.dataset.k; if (sel.slice(0, 7) !== calMonth) calMonth = sel.slice(0, 7); render(); },
@@ -280,15 +578,17 @@ const A = {
     document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   },
 };
-document.addEventListener("click", ev => { const el = ev.target.closest("[data-act]"); if (el) A[el.dataset.act]?.(el, ev); });
+document.addEventListener("click", ev => { const el = ev.target.closest("[data-act]"); if (!el || el.tagName === "INPUT" || el.tagName === "SELECT") return; A[el.dataset.act]?.(el, ev); });
+document.addEventListener("keydown", ev => { if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches(".goal[data-act]")) { ev.preventDefault(); A.openGoal(ev.target); } if (ev.key === "Escape") closeSheet(); });
+document.addEventListener("change", ev => { const t = ev.target; if (t.id === "rFrom" || t.id === "rTo") { custom[t.id === "rFrom" ? "from" : "to"] = t.value || custom.from; render(); } });
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
 
 Life.mountStatus($("#sync"));
-Life.onChange(render);
+Life.onChange(() => { if (!$("#overlay").innerHTML) render(); });
 Life.onStatus(s => { if (s === "synced" || s === "local") { if (!document.querySelector(".lk-sheet")) render(); } });
 render();
 Life.start();
-setInterval(() => { if (tab === "today") render(); }, 60000);
+setInterval(() => { if (tab === "today" && !$("#overlay").innerHTML) render(); }, 60000);
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();
 </script>

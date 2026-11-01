@@ -4,6 +4,8 @@
    questions in one common shape, so LIFE HQ never copies data out of an app:
      today(dayKey)  -> the numbers for the Today screen
      events(from, to) -> calendar entries: {date, time?, end?, title, detail?, app, planned?}
+     series(from, to) -> {metricId: [{date, v}]}, the daily numbers behind Goals and Analytics
+   METRICS describes each metric id once (label, unit, how a week of it adds up, which way is better).
    `planned: true` marks things that haven't happened yet (a bedtime, a due date) so they're
    never shown as logged. Adding an app = one entry in APPS + one adapter here. */
 (function () {
@@ -70,6 +72,18 @@
         }
         return out;
       },
+      series(from, to) {
+        const s = set(), out = {"sleep.asleep": [], "sleep.rested": [], "sleep.bedtime": []};
+        for (const [k, n] of Object.entries(nights.all()).sort()) {
+          if (k < from || k > to || !n.wake) continue;
+          out["sleep.asleep"].push({date: k, v: asleep(n, s) / 60});
+          if (n.q) out["sleep.rested"].push({date: k, v: n.q});
+          const b = new Date(n.bed); let m = b.getHours() * 60 + b.getMinutes(); if (m < 720) m += 1440; // minutes after midnight, past-midnight wraps forward
+          out["sleep.bedtime"].push({date: k, v: m});
+        }
+        return out;
+      },
+      goalHours: () => set().goal,
       load: months => nights.load(months),
     };
   })();
@@ -95,6 +109,17 @@
         for (const [k, w] of Object.entries(weights.all())) if (k >= from && k <= to) out.push({date: k, app: "fuel", title: `Weighed ${w.lb} lb`});
         return out;
       },
+      series(from, to) {
+        const out = {"fuel.cal": [], "fuel.protein": [], "fuel.water": [], "fuel.weight": []};
+        for (const [k, d] of Object.entries(days.all()).sort()) {
+          if (k < from || k > to) continue;
+          if ((d.items || []).length) { const t = totals(d); out["fuel.cal"].push({date: k, v: t.cal}); out["fuel.protein"].push({date: k, v: t.p}); }
+          if (d.water) out["fuel.water"].push({date: k, v: d.water});
+        }
+        for (const [k, w] of Object.entries(weights.all()).sort()) if (k >= from && k <= to) out["fuel.weight"].push({date: k, v: w.lb});
+        return out;
+      },
+      goals,
       load: months => Promise.all([days.load(months), weights.load(months)]),
     };
   })();
@@ -124,9 +149,43 @@
         }
         return out;
       },
+      series(from, to) {
+        const out = {"train.workouts": [], "train.sets": []}, per = {};
+        const e1 = (w, r) => w > 0 && r > 0 ? w * (1 + r / 30) : 0;
+        for (const w of Object.values(workouts.all()).sort((a, b) => (a.date + (a.start || "")).localeCompare(b.date + (b.start || "")))) {
+          if (w.date < from || w.date > to) continue;
+          const d = per[w.date] ||= {n: 0, sets: 0}; d.n++;
+          for (const x of w.ex || []) {
+            d.sets += x.sets.length;
+            const best = Math.max(0, ...x.sets.map(st => e1(+st.w || 0, +st.r || 0)));
+            if (best) (out["train.lift:" + x.n] ||= []).push({date: w.date, v: Math.round(best)});
+          }
+        }
+        for (const [k, d] of Object.entries(per).sort()) { out["train.workouts"].push({date: k, v: d.n}); out["train.sets"].push({date: k, v: d.sets}); }
+        return out;
+      },
+      workouts: () => Object.values(workouts.all()),
+      lifts() { const n = {}; for (const w of Object.values(workouts.all())) for (const x of w.ex || []) n[x.n] = (n[x.n] || 0) + 1; return Object.keys(n).sort((a, b) => n[b] - n[a]); },
       load: months => workouts.load(months),
     };
   })();
 
-  window.LifeApps = {APPS, adapters: {sleep, fuel, train}, util: {ymd, parseKey, addDays, dur, time}};
+  // agg: how a stretch of days adds up (avg of logged days, sum, or the latest value); better: 1 up, -1 down, 0 depends
+  const METRICS = {
+    "sleep.asleep": {app: "sleep", label: "Sleep", unit: "h", agg: "avg", better: 1, dp: 1},
+    "sleep.rested": {app: "sleep", label: "Rested score", unit: "/5", agg: "avg", better: 1, dp: 1},
+    "sleep.bedtime": {app: "sleep", label: "Bedtime", unit: "min", agg: "avg", better: 0, dp: 0, hidden: true},
+    "fuel.cal": {app: "fuel", label: "Calories", unit: "kcal", agg: "avg", better: 0, dp: 0},
+    "fuel.protein": {app: "fuel", label: "Protein", unit: "g", agg: "avg", better: 1, dp: 0},
+    "fuel.water": {app: "fuel", label: "Water", unit: "cups", agg: "avg", better: 1, dp: 1},
+    "fuel.weight": {app: "fuel", label: "Bodyweight", unit: "lb", agg: "last", better: 0, dp: 1},
+    "train.workouts": {app: "train", label: "Workouts", unit: "per week", agg: "sum", better: 1, dp: 0},
+    "train.sets": {app: "train", label: "Hard sets", unit: "per week", agg: "sum", better: 1, dp: 0},
+  };
+  const metricInfo = id => METRICS[id] || (id.startsWith("train.lift:") ? {app: "train", label: id.slice(11) + " est. max", unit: "lb", agg: "last", better: 1, dp: 0} : null);
+
+  const adapters = {sleep, fuel, train};
+  /** daily points for one metric id between two dates (inclusive) */
+  function metric(id, from, to) { const a = adapters[(metricInfo(id) || {}).app]; return a && a.series ? (a.series(from, to)[id] || []) : []; }
+  window.LifeApps = {APPS, adapters, METRICS, metricInfo, metric, util: {ymd, parseKey, addDays, dur, time}};
 })();
