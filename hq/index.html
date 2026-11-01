@@ -156,8 +156,8 @@ label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 130px}
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
 <div id="overlay"></div>
-<script src="../kit/kit.js?v=6"></script>
-<script src="../kit/apps.js?v=6"></script>
+<script src="../kit/kit.js?v=7"></script>
+<script src="../kit/apps.js?v=7"></script>
 <script>
 (() => {
 "use strict";
@@ -186,6 +186,14 @@ function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); win
 /* ================= TODAY ================= */
 function viewToday() {
   const k = todayKey(), now = new Date(), cards = [];
+  // Recovery leads the morning: readiness frames everything else
+  const ra = adapters.recovery;
+  if (ra.has()) {
+    const r = ra.today(k), col = r.score == null ? "var(--muted)" : r.score >= 75 ? "var(--good)" : r.score >= 55 ? "var(--warn)" : "var(--bad)";
+    cards.push(`<a class="card" href="${APP.recovery.path}" style="--c:${APP.recovery.color}"><div class="tag"><i></i>Recovery<span class="go">›</span></div>
+      ${r.checkin ? `<div class="big" style="color:${col}">${r.score ?? "–"}<small>readiness · ${esc(r.band)}</small></div>${bar((r.score || 0) / 100, col)}<div class="sub" style="margin-top:8px">energy ${r.checkin.energy}/5 · soreness ${r.checkin.sore}/5 · stress ${r.checkin.stress}/5</div>`
+        : `<div class="big">Check in<small>30 seconds</small></div><div class="empty">How's your body today? Get your readiness score.</div>`}</a>`);
+  } else cards.push(emptyCard("recovery"));
   // Sleep
   const sa = adapters.sleep;
   if (sa.has()) {
@@ -404,7 +412,7 @@ function newGoalSheet() {
   const opt = (kind, title, sub) => `<button data-act="goalKind" data-k="${esc(kind)}">${esc(title)}<span>${esc(sub)}</span></button>`;
   sheet(`<div class="row" style="justify-content:space-between"><h3>New goal</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
     <div class="eyebrow">Updates by itself</div>
-    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}${opt("habits.pct", "Habit consistency", "from Habits, 7-day average %")}${opt("focus.min", "Focus time per week", "from Focus, minutes")}${opt("focus.school", "Study time per week", "from Focus, School sessions")}
+    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}${opt("habits.pct", "Habit consistency", "from Habits, 7-day average %")}${opt("focus.min", "Focus time per week", "from Focus, minutes")}${opt("recovery.readiness", "Average readiness", "from Recovery, 7-day average")}${opt("recovery.rhr", "Resting heart rate", "from Recovery check-ins")}${opt("focus.school", "Study time per week", "from Focus, School sessions")}
       ${lifts.map(n => opt("train.lift:" + n, n + " max", "from Train, estimated 1-rep max")).join("")}</div>
     <div class="eyebrow">You update it</div>
     <div class="pick">${opt("", "Custom goal", "GPA, vertical, sprint time, savings, anything")}</div>`);
@@ -481,6 +489,11 @@ function viewAnalytics() {
       <div class="mrow">${statBox("train.workouts", "Workouts / week", from, to, pFrom, pTo)}${statBox("train.sets", "Hard sets / week", from, to, pFrom, pTo)}
         <div><span>PRs</span><b>${prs}</b><em class="muted">in range</em></div></div></section>`);
   }
+  // Recovery
+  const rr = metric("recovery.readiness", from, to);
+  if (rr.length) cards.push(`<section class="card" style="--c:${APP.recovery.color}"><div class="tag"><i></i>Recovery · ${plural(rr.length, "check-in")}</div>
+      ${lineChart(rr, {color: APP.recovery.color, from, to, fmt: v => Math.round(v)})}
+      <div class="mrow">${statBox("recovery.readiness", "Avg readiness", from, to, pFrom, pTo)}${statBox("recovery.soreness", "Avg soreness", from, to, pFrom, pTo)}${metric("recovery.rhr", from, to).length ? statBox("recovery.rhr", "Resting HR", from, to, pFrom, pTo) : ""}</div></section>`);
   // Focus
   const fm = metric("focus.min", from, to);
   if (fm.length) cards.push(`<section class="card" style="--c:${APP.focus.color}"><div class="tag"><i></i>Focus · ${plural(fm.length, "day")}</div>
@@ -567,7 +580,7 @@ const A = {
   newGoal() { newGoalSheet(); },
   goalKind(el) {
     const m = el.dataset.k, info = m ? metricInfo(m) : null;
-    const cat = !m ? "Personal" : m.startsWith("sleep") ? "Sleep" : m.startsWith("habits") ? "Habits" : m === "focus.school" ? "School" : m.startsWith("focus") ? "Productivity" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
+    const cat = !m ? "Personal" : m.startsWith("recovery") ? "Physical" : m.startsWith("sleep") ? "Sleep" : m.startsWith("habits") ? "Habits" : m === "focus.school" ? "School" : m.startsWith("focus") ? "Productivity" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
     const keep = !!info && info.agg !== "last";
     const fg = adapters.fuel.goals ? adapters.fuel.goals() : {};
     const target = m === "sleep.asleep" ? adapters.sleep.goalHours() : m === "fuel.protein" ? fg.p : m === "fuel.cal" ? fg.cal : m === "train.workouts" ? 4 : m === "habits.pct" ? 85 : m === "focus.min" ? (adapters.focus.goal ? adapters.focus.goal() * 7 : 840) : m === "focus.school" ? 300 : "";

@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060d0e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Recovery">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Recovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one screen per tab (Today / Load / Trends / History), bottom tab bar. Today leads with the
+   readiness gauge and what it's made of, so the number is never a black box. Deep teal-black ground,
+   teal as the accent; readiness bands use good/warn/bad, which never double as decoration. */
+:root{
+  color-scheme:dark;
+  --bg:#060d0e; --surface:#0e1718; --surface2:#142021; --sunk:#0a1213; --line:#1f2f30; --line-hi:#304546;
+  --ink:#eaf6f5; --ink2:#bfd3d2; --muted:#82a09e; --faint:#55706e;
+  --accent:#46d1c4; --accent-bg:rgba(70,209,196,.12); --on-accent:#021412;
+  --good:#5fe0a0; --warn:#f5b85a; --bad:#ff6b7d;
+  --display:"Sora","Avenir Next",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --tabh:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);min-height:100vh;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(var(--tabh) + 24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(100% 55% at 15% -10%,rgba(70,209,196,.12),transparent 60%)}
+.wrap{position:relative;max-width:620px;margin:0 auto}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:18px 0 14px;flex-wrap:wrap}
+header h1{font:800 26px var(--display);margin:0;letter-spacing:-.02em}
+header p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.screen{display:grid;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;min-width:0}
+.card h2{font:700 16px var(--display);margin:0}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sub,.note{color:var(--muted);font-size:12.5px}
+.eyebrow{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.gauge{position:relative;width:min(280px,80vw);margin:0 auto}
+.gauge svg{width:100%;display:block}
+.gauge .c{position:absolute;left:0;right:0;bottom:4px;text-align:center}
+.score{font:800 56px var(--display);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.band{font:700 14px var(--display);margin-top:4px}
+.comp{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 10px;align-items:baseline;font-size:13.5px;padding:7px 0}
+.comp .b{grid-column:1/-1;height:7px;border-radius:5px;background:var(--line);overflow:hidden}
+.comp .b b{display:block;height:100%;border-radius:5px;background:var(--c)}
+.comp .val{font:12px var(--mono);color:var(--muted);text-align:right}
+.comp.miss{opacity:.45}
+.tagm{font:600 9px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-left:4px}
+.flag{display:flex;gap:10px;padding:11px 12px;border-radius:13px;background:color-mix(in srgb,var(--c) 9%,var(--surface2));border:1px solid color-mix(in srgb,var(--c) 35%,transparent);font-size:14px}
+.flag i{flex:none;width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--c)}
+.rate{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.rate button{height:46px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:700 16px var(--mono);cursor:pointer}
+.rate button.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent);box-shadow:0 0 14px -3px var(--accent)}
+.ends{display:flex;justify-content:space-between;font-size:11.5px;color:var(--faint);margin-top:4px}
+.q{display:grid;gap:6px}
+.q .lbl{font-weight:700}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:999px;padding:8px 12px;font:600 13px var(--body);cursor:pointer}
+.chip.on{border-color:var(--accent);background:var(--accent-bg);color:var(--ink)}
+.btn{appearance:none;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:700 14px var(--body);padding:11px 15px;border-radius:13px;cursor:pointer;white-space:nowrap}
+.btn.go{background:var(--accent);color:var(--on-accent);border-color:var(--accent);box-shadow:0 0 24px -8px var(--accent)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.wide{width:100%;padding:14px}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:11px}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible,select:focus-visible,.tab:focus-visible,.rate button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{min-width:0}
+.between{justify-content:space-between}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:11px;padding:10px 11px;min-width:0}
+input[type=number],input[type=date]{font-family:var(--mono)}
+textarea{width:100%;min-height:60px;resize:vertical}
+label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 120px}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:2px}
+.stat .v{font:800 24px var(--display);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat .s{font-size:12px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font:10px var(--mono)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.legend i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.item{display:flex;align-items:center;gap:12px;padding:11px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.item:last-child{border-bottom:0}
+.item .m{flex:1;min-width:0}
+.pill{font:700 13px var(--mono);padding:4px 9px;border-radius:9px;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c)}
+.empty{color:var(--muted);font-size:14px;padding:16px;border:1px dashed var(--line-hi);border-radius:14px;text-align:center}
+.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.vs div{background:var(--surface2);border-radius:11px;padding:9px 10px}
+.vs b{display:block;font:600 17px var(--mono)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(6,13,14,.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+nav.tabs .in{display:flex;width:100%;max-width:620px}
+.tab{flex:1;border:0;background:none;color:var(--faint);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:6px 0;cursor:pointer}
+.tab svg{width:22px;height:22px}
+.tab[aria-selected=true]{color:var(--accent)}
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(2,6,6,.72);backdrop-filter:blur(5px);display:grid;align-items:end;justify-items:center}
+.sheet .in{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;display:grid;gap:16px;align-content:start;
+  padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));animation:up .22s ease-out}
+.sheet h3{margin:0;font:700 20px var(--display)}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--surface2);border:1px solid var(--line-hi);border-radius:13px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:calc(100vw - 32px)}
+.toast button{border:0;background:none;color:var(--accent);font:700 13px var(--body);cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div><h1 id="title">Recovery</h1><p id="sub"></p></div><div id="sync"></div></header>
+  <main id="main" class="screen"></main>
+</div>
+<nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
+<div id="overlay"></div>
+<script src="../kit/kit.js?v=7"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rid = () => Math.random().toString(36).slice(2, 10);
+const pad = n => String(n).padStart(2, "0");
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const todayKey = () => ymd(new Date(Date.now() - 3 * 3600e3));
+const parseKey = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return ymd(d); };
+const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+const hm = min => { min = Math.max(0, Math.round(min)); const h = Math.floor(min / 60), m = min % 60; return h ? `${h}h ${pad(m)}m` : `${m}m`; };
+const niceDate = k => parseKey(k).toLocaleDateString([], {weekday: "short", month: "short", day: "numeric"});
+const AREAS = ["Legs", "Knees", "Feet / ankles", "Back", "Shoulders", "Arms", "Chest", "Core"];
+const RTYPES = ["Stretching", "Foam rolling", "Ice bath / cold", "Hot tub / sauna", "Massage", "Nap", "Easy walk", "Yoga", "Other"];
+const LIFT_EFFORT = 6; // lifting sessions don't record effort, so they count as 6/10
+
+/* ---------- state + shared LIFE HQ data ---------- */
+const KEY = "recoveryapp:v1";
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+if (!S || !S.checkins) S = {checkins: {}, sessions: {}};
+const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const CHECK = Life.col("recovery/checkins", {months: 4}), RSESS = Life.col("recovery/sessions", {months: 4});
+// read-only from other apps: sleep and training feed readiness and load
+const NIGHTS = Life.col("sleep/nights", {months: 2}), SLEEPSET = Life.doc("sleep/settings"), WORKOUTS = Life.col("train/workouts", {months: 3});
+const save = () => { localSave(); CHECK.replace(S.checkins); RSESS.replace(S.sessions); };
+function adopt() { S.checkins = CHECK.all(); S.sessions = RSESS.all(); localSave(); }
+CHECK.seed(S.checkins); RSESS.seed(S.sessions); adopt();
+
+/* ---------- inputs from Sleep and Train ---------- */
+function sleepFor(k) { // the night that ended on morning k
+  const n = NIGHTS.all()[addDays(k, -1)], st = {goal: 8.5, latency: 15, ...(SLEEPSET.get() || {})};
+  if (!n || !n.bed || !n.wake) return null;
+  return {min: Math.max(0, (new Date(n.wake) - new Date(n.bed)) / 60000 - st.latency), goal: st.goal * 60, q: n.q || null};
+}
+/** daily training load = minutes × effort (1-10). Lifting counts as 6/10; conditioning uses its logged effort; mobility counts as 0. */
+function loadByDay() {
+  const out = {};
+  for (const w of Object.values(WORKOUTS.all())) {
+    const min = w.type === "cond" ? (w.cond || {}).min || 0 : w.start && w.end ? Math.round((new Date(w.end) - new Date(w.start)) / 60000) : (w.ex || []).reduce((n, x) => n + x.sets.length, 0) * 3;
+    const eff = w.type === "cond" ? ((w.cond || {}).effort || 6) : w.type === "mob" ? 0 : LIFT_EFFORT;
+    out[w.date] = (out[w.date] || 0) + min * eff;
+  }
+  return out;
+}
+/** acute (last 7 days) vs chronic (average week over the last 28) training load */
+function acwr(k) {
+  const L = loadByDay(), dates = Object.keys(L).sort();
+  if (!dates.length) return null;
+  const sum = (a, b) => { let t = 0; for (let d = a; d <= b; d = addDays(d, 1)) t += L[d] || 0; return t; };
+  const acute = sum(addDays(k, -6), k), chronic = sum(addDays(k, -27), k) / 4;
+  const span = (parseKey(k) - parseKey(dates[0])) / 864e5;
+  return {acute, chronic, ratio: chronic ? acute / chronic : null, enough: span >= 21};
+}
+/* ---------- readiness ----------
+   Each part is scored 0-100 and averaged with these weights over whatever is available.
+   Measured numbers (sleep, heart rate) and self-ratings are labeled as such on screen. */
+const WEIGHTS = {sleep: 25, rested: 10, energy: 20, soreness: 15, stress: 10, load: 10, rhr: 5, hrv: 5};
+function baseline(field, k) {
+  const vals = Object.entries(S.checkins).filter(([d, c]) => d < k && d >= addDays(k, -14) && c[field] > 0).map(([, c]) => c[field]);
+  return vals.length >= 5 ? avg(vals) : null;
+}
+function readiness(k) {
+  const c = S.checkins[k]; if (!c) return null;
+  const parts = [], sl = sleepFor(k), lr = acwr(k);
+  const add = (id, label, score, detail, kind) => parts.push({id, label, score: score == null ? null : clamp(Math.round(score), 0, 100), detail, kind});
+  add("sleep", "Sleep", sl ? (sl.min / sl.goal - .5) / .5 * 100 : null, sl ? `${hm(sl.min)} of ${hm(sl.goal)}` : "not logged", "from Sleep");
+  add("rested", "Woke rested", sl && sl.q ? (sl.q - 1) / 4 * 100 : null, sl && sl.q ? sl.q + "/5" : "not rated", "from Sleep");
+  add("energy", "Energy", c.energy ? (c.energy - 1) / 4 * 100 : null, c.energy ? c.energy + "/5" : "–", "you rated");
+  add("soreness", "Soreness", c.sore ? (5 - c.sore) / 4 * 100 : null, c.sore ? c.sore + "/5" + (c.areas && c.areas.length ? " · " + c.areas.join(", ") : "") : "–", "you rated");
+  add("stress", "Stress", c.stress ? (5 - c.stress) / 4 * 100 : null, c.stress ? c.stress + "/5" : "–", "you rated");
+  add("load", "Training load", lr && lr.enough && lr.ratio != null ? (lr.ratio <= 1.3 ? (lr.ratio < .8 ? 85 : 100) : (2 - lr.ratio) / .7 * 100) : null, lr && lr.enough && lr.ratio != null ? `${lr.ratio.toFixed(2)}× your usual week` : "needs 3 weeks of Train", "from Train");
+  const rb = baseline("rhr", k), hb = baseline("hrv", k);
+  add("rhr", "Resting HR", c.rhr && rb ? 100 - (c.rhr - rb) * 10 : null, c.rhr ? `${c.rhr} bpm${rb ? ` (usual ${Math.round(rb)})` : ", building baseline"}` : "not entered", "measured");
+  add("hrv", "HRV", c.hrv && hb ? (c.hrv / hb - .75) / .25 * 100 : null, c.hrv ? `${c.hrv} ms${hb ? ` (usual ${Math.round(hb)})` : ", building baseline"}` : "not entered", "measured");
+  const have = parts.filter(p => p.score != null);
+  const w = have.reduce((t, p) => t + WEIGHTS[p.id], 0);
+  const score = w ? Math.round(have.reduce((t, p) => t + p.score * WEIGHTS[p.id], 0) / w) : null;
+  return {score, parts, coverage: w / Object.values(WEIGHTS).reduce((a, b) => a + b, 0)};
+}
+const band = s => s == null ? {t: "–", c: "var(--muted)"} : s >= 75 ? {t: "Ready to push", c: "var(--good)"} : s >= 55 ? {t: "Moderate: train, but listen to your body", c: "var(--warn)"} : {t: "Take it easier today", c: "var(--bad)"};
+/** keep the stored score current (LIFE HQ reads it), e.g. when last night's sleep gets logged after the check-in */
+function refreshScore(k) {
+  const c = S.checkins[k], r = c && readiness(k); if (!r) return;
+  if (c.score !== r.score) { c.score = r.score; save(); }
+}
+/** warnings, each with the numbers behind it; informational only */
+function flags(k) {
+  const out = [], days = [0, 1, 2].map(i => addDays(k, -i));
+  const low = days.map(d => (readiness(d) || {}).score).filter(v => v != null);
+  if (low.length === 3 && low.every(v => v < 55)) out.push({c: "var(--bad)", t: `Readiness has been under 55 three days running (${low.slice().reverse().join(", ")}). Consider a lighter day or extra sleep.`});
+  const lr = acwr(k);
+  if (lr && lr.enough && lr.ratio > 1.5) out.push({c: "var(--bad)", t: `This week's training load is ${lr.ratio.toFixed(1)}× your usual week. Big jumps like this are when injuries tend to happen.`});
+  let debt = 0, nights = 0; for (let i = 0; i < 7; i++) { const s = sleepFor(addDays(k, -i)); if (s) { debt += Math.max(0, s.goal - s.min); nights++; } }
+  if (nights >= 4 && debt > 180) out.push({c: "var(--warn)", t: `About ${hm(debt)} short on sleep over the last ${nights} logged nights.`});
+  const sore = {}; days.forEach(d => (S.checkins[d]?.sore >= 4 ? S.checkins[d].areas || [] : []).forEach(a => sore[a] = (sore[a] || 0) + 1));
+  Object.entries(sore).filter(([, n]) => n === 3).forEach(([a]) => out.push({c: "var(--warn)", t: `${a} sore (4+/5) three days in a row. If it's pain rather than soreness, get it checked.`}));
+  const c = S.checkins[k], rb = baseline("rhr", k);
+  if (c && c.rhr && rb && c.rhr >= rb + 7) out.push({c: "var(--warn)", t: `Resting heart rate is ${Math.round(c.rhr - rb)} bpm above your usual. That can mean fatigue or getting sick.`});
+  return out;
+}
+function suggestions(r) {
+  if (!r || r.score == null) return [];
+  const by = Object.fromEntries(r.parts.map(p => [p.id, p.score])), out = [];
+  if (by.sleep != null && by.sleep < 60) out.push("Short night: an early bedtime tonight matters more than anything else on this list.");
+  if (by.soreness != null && by.soreness < 50) out.push("Very sore: 10 minutes of easy movement and foam rolling usually beats full rest.");
+  if (by.stress != null && by.stress < 50) out.push("High stress: a 10-minute walk or 5 slow breaths (in 4, out 6) brings it down.");
+  if (by.load != null && by.load < 60) out.push("Load spike: keep today's training short and crisp rather than long.");
+  if (r.score >= 75) out.push("Good day for a hard session or a heavy lift.");
+  return out.slice(0, 3);
+}
+
+/* ---------- ui bits ---------- */
+let toastT;
+function toast(msg, undo) {
+  document.querySelectorAll(".toast").forEach(t => t.remove());
+  const o = document.createElement("div"); o.className = "toast"; o.setAttribute("role", "status");
+  o.innerHTML = `<span>${esc(msg)}</span>${undo ? "<button>Undo</button>" : ""}`; document.body.appendChild(o);
+  if (undo) o.querySelector("button").onclick = () => { undo(); save(); o.remove(); render(); };
+  clearTimeout(toastT); toastT = setTimeout(() => o.remove(), 4500);
+}
+function gauge(score) {
+  const W = 280, H = 160, cx = 140, cy = 145, r = 120, f = score == null ? 0 : score / 100;
+  const pt = t => [cx - r * Math.cos(Math.PI * t), cy - r * Math.sin(Math.PI * t)];
+  const [x1, y1] = pt(f), b = band(score);
+  return `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><path d="M20 145 A120 120 0 0 1 260 145" fill="none" stroke="var(--line)" stroke-width="16" stroke-linecap="round"/>
+    ${f > 0 ? `<path d="M20 145 A120 120 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}" fill="none" stroke="${b.c}" stroke-width="16" stroke-linecap="round" style="filter:drop-shadow(0 0 8px ${b.c})"/>` : ""}</svg>`;
+}
+const sheet = html => { $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog">${html}</div></div>`; };
+const closeSheet = () => { $("#overlay").innerHTML = ""; };
+const ICONS = {
+  today: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',
+  load: '<path d="M3 20h18M6 16v-4M10 16V8M14 16v-6M18 16V5"/>',
+  trends: '<path d="M3 20h18M5 16l4-5 4 3 6-8"/>',
+  history: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+};
+const TABS = [["today", "Today"], ["load", "Load"], ["trends", "Trends"], ["history", "History"]];
+let tab = TABS.some(t => t[0] === location.hash.slice(1)) ? location.hash.slice(1) : "today";
+function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0, 0); }
+
+/* ================= TODAY ================= */
+function viewToday() {
+  const k = todayKey(), c = S.checkins[k];
+  refreshScore(k);
+  const todaySess = Object.entries(S.sessions).filter(([, s]) => s.date === k);
+  const rsess = `<section class="card"><div class="ch"><h2>Recovery work</h2><button class="btn sm" data-act="logSess">+ Log</button></div>
+    ${todaySess.length ? todaySess.map(([id, s]) => `<div class="item" data-act="delSess" data-id="${id}"><div class="m"><b>${esc(s.type)}</b><div class="sub">${s.min} min${s.note ? " · " + esc(s.note) : ""}</div></div><span class="sub">tap to delete</span></div>`).join("") : '<p class="note" style="margin:0">Stretching, foam rolling, cold tub, naps… Mobility sessions in Train count too.</p>'}</section>`;
+  if (!c) return `<section class="card"><div class="eyebrow">Morning check-in</div><div style="font:700 22px var(--display);margin:6px 0 4px">How's your body today?</div>
+      <p class="note" style="margin:0 0 14px">30 seconds. Combined with last night's sleep and your training, it gives you a readiness score.</p>
+      <button class="btn go wide" data-act="checkin">Start check-in</button></section>${sleepNote(k)}${rsess}`;
+  const r = readiness(k), b = band(r.score), fl = flags(k), sug = suggestions(r);
+  return `<section class="card" style="padding-top:22px">
+      <div class="gauge">${gauge(r.score)}<div class="c"><div class="score" style="color:${b.c}">${r.score ?? "–"}</div></div></div>
+      <div class="band" style="text-align:center;color:${b.c}">${b.t}</div>
+      <p class="note" style="text-align:center;margin:6px 0 0">Readiness out of 100 · based on ${Math.round(r.coverage * 100)}% of the possible inputs</p></section>
+    ${fl.length ? `<div style="display:grid;gap:8px">${fl.map(f => `<div class="flag" style="--c:${f.c}"><i></i><div>${esc(f.t)}</div></div>`).join("")}</div>` : ""}
+    <section class="card"><div class="ch"><h2>What it's made of</h2><button class="btn sm" data-act="checkin">Edit check-in</button></div>
+      ${r.parts.map(p => `<div class="comp ${p.score == null ? "miss" : ""}" style="--c:${p.score == null ? "var(--line)" : p.score >= 75 ? "var(--good)" : p.score >= 50 ? "var(--warn)" : "var(--bad)"}"><span>${p.label}<span class="tagm">${p.kind}</span></span><span class="val">${esc(p.detail)}</span><div class="b"><b style="width:${p.score ?? 0}%"></b></div></div>`).join("")}
+      ${sug.length ? `<div style="margin-top:12px;display:grid;gap:6px">${sug.map(s => `<div class="note" style="color:var(--ink2)">• ${esc(s)}</div>`).join("")}</div>` : ""}
+      <p class="note" style="margin:12px 0 0">This is a guide built from your own logs, not a medical reading. It never changes your workouts; you decide.</p></section>
+    ${rsess}`;
+}
+function sleepNote(k) { return sleepFor(k) ? "" : `<p class="note" style="margin:0 4px">Last night's sleep isn't in the Sleep app yet. Readiness works without it, but it's the biggest input.</p>`; }
+let draft = null;
+function checkinSheet() {
+  const k = todayKey(), c = S.checkins[k];
+  draft = c ? structuredClone(c) : {energy: null, sore: null, areas: [], stress: null, rhr: "", hrv: "", note: ""};
+  drawCheckin();
+}
+function drawCheckin() {
+  const d = draft, rate = (field, lo, hi) => `<div class="rate">${[1, 2, 3, 4, 5].map(n => `<button class="${d[field] === n ? "on" : ""}" data-act="rate" data-f="${field}" data-v="${n}" aria-label="${field} ${n}">${n}</button>`).join("")}</div><div class="ends"><span>${lo}</span><span>${hi}</span></div>`;
+  sheet(`<div class="row between"><h3>Morning check-in</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+    <div class="q"><span class="lbl">Energy</span>${rate("energy", "drained", "fired up")}</div>
+    <div class="q"><span class="lbl">Muscle soreness</span>${rate("sore", "none", "very sore")}
+      ${d.sore >= 2 ? `<div class="chips" style="margin-top:6px">${AREAS.map(a => `<button class="chip ${d.areas.includes(a) ? "on" : ""}" data-act="area" data-v="${a}">${a}</button>`).join("")}</div>` : ""}</div>
+    <div class="q"><span class="lbl">Stress</span>${rate("stress", "calm", "maxed out")}</div>
+    <details ${d.rhr || d.hrv ? "open" : ""}><summary class="note" style="cursor:pointer">From a watch (optional): resting heart rate, HRV</summary>
+      <div class="row" style="margin-top:10px"><label class="f">Resting HR (bpm)<input id="cRhr" type="number" inputmode="numeric" value="${d.rhr || ""}"></label><label class="f">HRV (ms)<input id="cHrv" type="number" inputmode="numeric" value="${d.hrv || ""}"></label></div>
+      <p class="note" style="margin:8px 0 0">On iPhone: Health app › Browse › Heart. After 5 mornings these compare against your own usual.</p></details>
+    <label class="f">Anything else (optional)<textarea id="cNote" placeholder="Tight hamstring, big game tonight…">${esc(d.note || "")}</textarea></label>
+    <button class="btn go wide" data-act="saveCheckin">Save check-in</button>`);
+}
+
+/* ================= LOAD ================= */
+function viewLoad() {
+  const k = todayKey(), L = loadByDay(), lr = acwr(k);
+  if (!lr) return `<div class="empty">Training load comes from your workouts in Train. Log a few and it shows up here.</div>`;
+  const days = []; for (let i = 27; i >= 0; i--) { const d = addDays(k, -i); days.push({d, v: L[d] || 0}); }
+  const W = 330, H = 140, pl = 34, pb = 18, mx = Math.max(100, ...days.map(x => x.v)), bw = (W - pl) / 28, Y = v => H - pb - v / mx * (H - pb - 8);
+  const chart = `<svg class="chart" viewBox="0 0 ${W} ${H}">${[mx / 2, mx].map(v => `<line x1="${pl}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pl - 4}" y="${Y(v) + 3}" text-anchor="end">${Math.round(v)}</text>`).join("")}
+    ${days.map((x, i) => x.v ? `<rect x="${pl + i * bw + bw * .15}" y="${Y(x.v)}" width="${bw * .7}" height="${H - pb - Y(x.v)}" rx="2" fill="${i >= 21 ? "var(--accent)" : "var(--line-hi)"}"/>` : "").join("")}
+    <text x="${pl}" y="${H - 4}">${parseKey(days[0].d).toLocaleDateString([], {month: "short", day: "numeric"})}</text><text x="${W}" y="${H - 4}" text-anchor="end">today</text></svg>`;
+  const ratio = lr.ratio, zone = !lr.enough || ratio == null ? {t: "Building your baseline", c: "var(--muted)"} : ratio > 1.5 ? {t: "Spike: well above your usual", c: "var(--bad)"} : ratio > 1.3 ? {t: "Heavier than usual", c: "var(--warn)"} : ratio < .8 ? {t: "Lighter than usual", c: "var(--accent)"} : {t: "In your normal range", c: "var(--good)"};
+  return `<section class="stats">
+      <div class="stat"><span class="eyebrow">This week</span><span class="v">${Math.round(lr.acute)}</span><span class="s">load, last 7 days</span></div>
+      <div class="stat"><span class="eyebrow">Usual week</span><span class="v">${Math.round(lr.chronic)}</span><span class="s">average of last 4 weeks</span></div></section>
+    <section class="card"><div class="eyebrow">This week vs usual</div><div style="font:800 34px var(--display);color:${zone.c};margin-top:4px">${lr.enough && ratio != null ? ratio.toFixed(2) + "×" : "–"}</div><div style="font-weight:700;color:${zone.c}">${zone.t}</div>
+      <p class="note" style="margin:8px 0 0">${lr.enough ? "0.8–1.3× is the usual safe range. Jumps above 1.5× in a week are linked with more injuries in athletes." : "Needs about 3 weeks of workouts in Train before this ratio means anything."}</p></section>
+    <section class="card"><div class="ch"><h2>Daily load, 4 weeks</h2><span class="sub">bright = last 7 days</span></div>${chart}
+      <p class="note" style="margin:8px 0 0">Load = minutes × effort (1–10). Conditioning uses the effort you logged; lifting counts as ${LIFT_EFFORT}/10; mobility doesn't add load.</p></section>`;
+}
+
+/* ================= TRENDS ================= */
+function lineChart(series, {lo = 0, hi = 100, from, to}) {
+  const W = 330, H = 150, pl = 30, pb = 18, t0 = parseKey(from).getTime(), t1 = parseKey(to).getTime();
+  const X = d => pl + (parseKey(d).getTime() - t0) / (t1 - t0 || 1) * (W - pl - 8), Y = v => 8 + (1 - (v - lo) / (hi - lo || 1)) * (H - pb - 8);
+  const grid = [lo, (lo + hi) / 2, hi].map(v => `<line x1="${pl}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pl - 4}" y="${Y(v) + 3}" text-anchor="end">${Math.round(v)}</text>`).join("");
+  const lines = series.filter(s => s.pts.length).map(s => `<path d="${s.pts.map((p, i) => `${i ? "L" : "M"}${X(p.d).toFixed(1)},${Y(p.v).toFixed(1)}`).join(" ")}" fill="none" stroke="${s.c}" stroke-width="2.3" stroke-linejoin="round"/>${s.pts.length <= 31 ? s.pts.map(p => `<circle cx="${X(p.d)}" cy="${Y(p.v)}" r="2.4" fill="${s.c}"/>`).join("") : ""}`).join("");
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}">${grid}${lines}<text x="${pl}" y="${H - 4}">${parseKey(from).toLocaleDateString([], {month: "short", day: "numeric"})}</text><text x="${W}" y="${H - 4}" text-anchor="end">today</text></svg>`;
+}
+function viewTrends() {
+  const k = todayKey(), from = addDays(k, -29), ds = Object.keys(S.checkins).filter(d => d >= from && d <= k).sort();
+  if (ds.length < 2) return '<div class="empty">Check in a few mornings and your trends show up here.</div>';
+  const rd = ds.map(d => ({d, v: (readiness(d) || {}).score})).filter(p => p.v != null);
+  const field = (f, scale = x => x) => ds.filter(d => S.checkins[d][f]).map(d => ({d, v: scale(S.checkins[d][f])}));
+  const rhr = field("rhr"), hrv = field("hrv");
+  // readiness after good vs short sleep
+  const good = [], short = [];
+  ds.forEach(d => { const s = sleepFor(d), r = (readiness(d) || {}).score; if (!s || r == null) return; (s.min >= s.goal - 30 ? good : short).push(r); });
+  const ag = avg(good), as = avg(short);
+  return `<section class="card"><div class="ch"><h2>Readiness, 30 days</h2><span class="sub">avg ${Math.round(avg(rd.map(p => p.v)) || 0)}</span></div>${lineChart([{pts: rd, c: "var(--accent)"}], {from, to: k})}</section>
+    <section class="card"><div class="ch"><h2>How you felt</h2><span class="sub">1–5</span></div>
+      ${lineChart([{pts: field("energy"), c: "var(--good)"}, {pts: field("sore"), c: "var(--bad)"}, {pts: field("stress"), c: "var(--warn)"}], {lo: 1, hi: 5, from, to: k})}
+      <div class="legend"><span style="--c:var(--good)"><i></i>Energy</span><span style="--c:var(--bad)"><i></i>Soreness</span><span style="--c:var(--warn)"><i></i>Stress</span></div></section>
+    <section class="card"><div class="ch"><h2>Sleep → readiness</h2></div>
+      ${good.length >= 3 && short.length >= 3 ? `<div class="vs"><div><span class="note">Slept near goal · ${good.length}</span><b>${Math.round(ag)}</b></div><div><span class="note">Short nights · ${short.length}</span><b>${Math.round(as)}</b></div></div>
+        <p class="note" style="margin:8px 0 0">Average readiness the next morning. Sleep is part of the score, so some of this gap is built in; watch how your energy and soreness move with it too.</p>`
+        : `<p class="note" style="margin:0">Needs at least 3 mornings after good sleep and 3 after short sleep (now ${good.length} and ${short.length}).</p>`}</section>
+    ${rhr.length >= 2 || hrv.length >= 2 ? `<section class="card"><div class="ch"><h2>Heart</h2><span class="sub">from your watch</span></div>
+      ${rhr.length >= 2 ? `<div class="eyebrow">Resting HR (bpm) · lower is better</div>${lineChart([{pts: rhr, c: "var(--bad)"}], {lo: Math.min(...rhr.map(p => p.v)) - 3, hi: Math.max(...rhr.map(p => p.v)) + 3, from, to: k})}` : ""}
+      ${hrv.length >= 2 ? `<div class="eyebrow" style="margin-top:10px">HRV (ms) · higher is better</div>${lineChart([{pts: hrv, c: "var(--good)"}], {lo: Math.min(...hrv.map(p => p.v)) - 5, hi: Math.max(...hrv.map(p => p.v)) + 5, from, to: k})}` : ""}</section>` : ""}`;
+}
+
+/* ================= HISTORY ================= */
+function viewHistory() {
+  const ds = Object.keys(S.checkins).sort().reverse(), ss = Object.entries(S.sessions).sort((a, b) => b[1].date.localeCompare(a[1].date));
+  return `<section class="card"><div class="ch"><h2>Check-ins</h2><span class="sub">${ds.length}</span></div>
+      ${ds.length ? ds.slice(0, 60).map(d => { const c = S.checkins[d], r = readiness(d), b = band(r && r.score);
+        return `<div class="item" data-act="openDay" data-k="${d}" role="button" tabindex="0"><div class="m"><b>${niceDate(d)}</b><div class="sub">energy ${c.energy ?? "–"} · sore ${c.sore ?? "–"}${c.areas && c.areas.length ? " (" + esc(c.areas.join(", ")) + ")" : ""} · stress ${c.stress ?? "–"}${c.rhr ? " · " + c.rhr + " bpm" : ""}${c.hrv ? " · HRV " + c.hrv : ""}</div></div><span class="pill" style="--c:${b.c}">${r && r.score != null ? r.score : "–"}</span></div>`; }).join("")
+        : '<div class="empty">No check-ins yet.</div>'}</section>
+    <section class="card"><div class="ch"><h2>Recovery sessions</h2><button class="btn sm" data-act="logSess">+ Log</button></div>
+      ${ss.length ? ss.slice(0, 40).map(([id, s]) => `<div class="item" data-act="delSess" data-id="${id}"><div class="m"><b>${esc(s.type)}</b><div class="sub">${niceDate(s.date)} · ${s.min} min</div></div><span class="sub">delete</span></div>`).join("") : '<p class="note" style="margin:0">None yet.</p>'}</section>
+    <section class="card"><div class="ch"><h2>Backup</h2></div><div class="row"><button class="btn" data-act="export">Save backup</button><label class="btn ghost" style="position:relative;overflow:hidden">Restore backup<input type="file" accept="application/json,.json" id="importFile" style="position:absolute;inset:0;opacity:0"></label></div></section>
+    <p class="note" style="text-align:center">Open this from LIFE HQ so Recovery can read your Sleep and Train data.</p>`;
+}
+
+/* ---------- render ---------- */
+function render() {
+  $("#title").textContent = {today: "Recovery", load: "Training load", trends: "Trends", history: "History"}[tab];
+  $("#sub").textContent = new Date().toLocaleDateString([], {weekday: "long", month: "long", day: "numeric"});
+  $("#tabs").innerHTML = TABS.map(([id, l]) => `<button class="tab" role="tab" aria-selected="${id === tab}" data-act="tab" data-id="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]}</svg>${l}</button>`).join("");
+  $("#main").innerHTML = {today: viewToday, load: viewLoad, trends: viewTrends, history: viewHistory}[tab]();
+}
+
+/* ---------- actions ---------- */
+let editDay = null;
+const A = {
+  tab: el => go(el.dataset.id),
+  checkin() { editDay = null; checkinSheet(); },
+  rate(el) { readDraft(); draft[el.dataset.f] = +el.dataset.v; if (el.dataset.f === "sore" && draft.sore < 2) draft.areas = []; drawCheckin(); },
+  area(el) { readDraft(); const a = el.dataset.v; draft.areas = draft.areas.includes(a) ? draft.areas.filter(x => x !== a) : [...draft.areas, a]; drawCheckin(); },
+  saveCheckin() {
+    readDraft(); const d = draft;
+    if (!d.energy || !d.sore || !d.stress) { toast("Rate energy, soreness and stress."); return; }
+    const k = editDay || todayKey();
+    S.checkins[k] = {date: k, energy: d.energy, sore: d.sore, areas: d.sore >= 2 ? d.areas : [], stress: d.stress, rhr: +d.rhr || null, hrv: +d.hrv || null, note: d.note || ""};
+    S.checkins[k].score = (readiness(k) || {}).score ?? null;
+    save(); closeSheet(); editDay = null; render(); toast("Checked in. Readiness " + (S.checkins[k].score ?? "–"));
+  },
+  openDay(el) { const k = el.dataset.k; editDay = k; draft = structuredClone(S.checkins[k]); draft.areas ||= []; drawCheckin(); },
+  logSess() {
+    sheet(`<div class="row between"><h3>Log recovery</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
+      <div class="chips">${RTYPES.map((t, i) => `<button class="chip ${i ? "" : "on"}" data-act="pickType" data-v="${t}">${t}</button>`).join("")}</div>
+      <div class="row"><label class="f">Minutes<input id="sMin" type="number" inputmode="numeric" value="15"></label><label class="f">Note (optional)<input id="sNote"></label></div>
+      <button class="btn go wide" data-act="saveSess">Save</button>`);
+  },
+  pickType(el) { el.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === el)); },
+  saveSess() { const t = document.querySelector(".sheet .chip.on")?.dataset.v || "Other", m = Math.round(+$("#sMin").value) || 0; if (!m) { toast("Enter the minutes."); return; }
+    S.sessions[rid()] = {date: todayKey(), type: t, min: m, note: $("#sNote").value.trim()}; save(); closeSheet(); render(); toast("Logged " + t); },
+  delSess(el) { const id = el.dataset.id, s = S.sessions[id]; delete S.sessions[id]; save(); render(); toast("Deleted " + s.type, () => { S.sessions[id] = s; }); },
+  closeSheet(el, ev) { if (ev.target === el || el.tagName === "BUTTON") { closeSheet(); editDay = null; } },
+  export() {
+    const blob = new Blob([JSON.stringify(S)], {type: "application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "recovery-backup-" + todayKey() + ".json";
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  },
+};
+function readDraft() { if (!draft) return; const g = id => $("#" + id); if (g("cRhr")) draft.rhr = g("cRhr").value; if (g("cHrv")) draft.hrv = g("cHrv").value; if (g("cNote")) draft.note = g("cNote").value; }
+document.addEventListener("click", ev => {
+  const el = ev.target.closest("[data-act]");
+  if (!el || el.tagName === "INPUT" || el.tagName === "SELECT" || el.disabled) return;
+  A[el.dataset.act]?.(el, ev);
+});
+document.addEventListener("keydown", ev => {
+  if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches(".item[data-act]")) { ev.preventDefault(); A[ev.target.dataset.act](ev.target, ev); }
+  if (ev.key === "Escape") closeSheet();
+});
+document.addEventListener("change", ev => {
+  const t = ev.target;
+  if (t.id === "importFile" && t.files[0]) t.files[0].text().then(txt => { const d = JSON.parse(txt); if (!d.checkins) throw 0; S = d; save(); render(); toast("Backup restored"); }).catch(() => toast("That file isn't a Recovery backup."));
+});
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && !$("#overlay").innerHTML) render(); });
+
+Life.mountStatus($("#sync"));
+Life.onChange(() => { adopt(); if (!$("#overlay").innerHTML) render(); });
+render();
+Life.start();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>

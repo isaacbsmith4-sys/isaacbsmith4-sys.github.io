@@ -29,7 +29,7 @@
     {id: "school", name: "School", color: "#f2c14e", phase: 3, blurb: "Assignments, grades, study tools"},
     {id: "focus", name: "Focus", color: "#6aa8ff", path: "../focus/", built: true, blurb: "Focus timer and study hours"},
     {id: "mindset", name: "Mindset", color: "#d29bff", phase: 3, blurb: "Journal, reflections, weekly review"},
-    {id: "recovery", name: "Recovery", color: "#46d1c4", phase: 4, blurb: "Readiness, soreness, training load"},
+    {id: "recovery", name: "Recovery", color: "#46d1c4", path: "../recovery/", built: true, blurb: "Readiness, soreness, training load"},
     {id: "basketball", name: "Basketball", color: "#e0955a", phase: 4, blurb: "Shooting charts and skill work"},
     {id: "finance", name: "Finance", color: "#7bd88f", phase: 4, blurb: "Budget, spending, savings"},
   ];
@@ -232,6 +232,38 @@
     };
   })();
 
+  /* ---------- Recovery ----------
+     The Recovery app stores each morning's readiness score with the check-in (and refreshes it when
+     late inputs like last night's sleep arrive), so LIFE HQ shows the same number without recomputing. */
+  const recovery = (() => {
+    const checkins = Life.col("recovery/checkins", {months: 4}), sessions = Life.col("recovery/sessions", {months: 4});
+    const band = sc => sc == null ? "" : sc >= 75 ? "ready to push" : sc >= 55 ? "moderate" : "take it easier";
+    return {
+      has: () => Object.keys(checkins.all()).length > 0 || Object.keys(sessions.all()).length > 0,
+      today(k) { const c = checkins.all()[k]; return {checkin: c || null, score: c ? c.score ?? null : null, band: c ? band(c.score) : "", sessions: Object.values(sessions.all()).filter(x => x.date === k)}; },
+      events(from, to) {
+        const out = [];
+        for (const [k, c] of Object.entries(checkins.all())) if (k >= from && k <= to)
+          out.push({date: k, app: "recovery", title: `Readiness ${c.score ?? "–"}`, detail: `energy ${c.energy}/5 · soreness ${c.sore}/5 · stress ${c.stress}/5${c.rhr ? " · " + c.rhr + " bpm" : ""}`});
+        for (const x of Object.values(sessions.all())) if (x.date >= from && x.date <= to) out.push({date: x.date, app: "recovery", title: x.type, detail: `${x.min} min recovery`});
+        return out;
+      },
+      series(from, to) {
+        const out = {"recovery.readiness": [], "recovery.energy": [], "recovery.soreness": [], "recovery.rhr": [], "recovery.hrv": []};
+        for (const [k, c] of Object.entries(checkins.all()).sort()) {
+          if (k < from || k > to) continue;
+          if (c.score != null) out["recovery.readiness"].push({date: k, v: c.score});
+          if (c.energy) out["recovery.energy"].push({date: k, v: c.energy});
+          if (c.sore) out["recovery.soreness"].push({date: k, v: c.sore});
+          if (c.rhr) out["recovery.rhr"].push({date: k, v: c.rhr});
+          if (c.hrv) out["recovery.hrv"].push({date: k, v: c.hrv});
+        }
+        return out;
+      },
+      load: months => Promise.all([checkins.load(months), sessions.load(months)]),
+    };
+  })();
+
   // agg: how a stretch of days adds up (avg of logged days, sum, or the latest value); better: 1 up, -1 down, 0 depends
   const METRICS = {
     "sleep.asleep": {app: "sleep", label: "Sleep", unit: "h", agg: "avg", better: 1, dp: 1},
@@ -244,12 +276,17 @@
     "train.workouts": {app: "train", label: "Workouts", unit: "per week", agg: "sum", better: 1, dp: 0},
     "train.sets": {app: "train", label: "Hard sets", unit: "per week", agg: "sum", better: 1, dp: 0},
     "habits.pct": {app: "habits", label: "Habits done", unit: "%", agg: "avg", better: 1, dp: 0},
+    "recovery.readiness": {app: "recovery", label: "Readiness", unit: "/100", agg: "avg", better: 1, dp: 0},
+    "recovery.energy": {app: "recovery", label: "Energy", unit: "/5", agg: "avg", better: 1, dp: 1},
+    "recovery.soreness": {app: "recovery", label: "Soreness", unit: "/5", agg: "avg", better: -1, dp: 1},
+    "recovery.rhr": {app: "recovery", label: "Resting heart rate", unit: "bpm", agg: "avg", better: -1, dp: 0},
+    "recovery.hrv": {app: "recovery", label: "HRV", unit: "ms", agg: "avg", better: 1, dp: 0},
     "focus.min": {app: "focus", label: "Focus time", unit: "min", agg: "sum", better: 1, dp: 0},
     "focus.school": {app: "focus", label: "Study time", unit: "min", agg: "sum", better: 1, dp: 0},
   };
   const metricInfo = id => METRICS[id] || (id.startsWith("train.lift:") ? {app: "train", label: id.slice(11) + " est. max", unit: "lb", agg: "last", better: 1, dp: 0} : null);
 
-  const adapters = {sleep, fuel, train, habits, focus};
+  const adapters = {sleep, fuel, train, habits, focus, recovery};
   /** daily points for one metric id between two dates (inclusive) */
   function metric(id, from, to) { const a = adapters[(metricInfo(id) || {}).app]; return a && a.series ? (a.series(from, to)[id] || []) : []; }
   window.LifeApps = {APPS, adapters, METRICS, metricInfo, metric, util: {ymd, parseKey, addDays, dur, time}};
