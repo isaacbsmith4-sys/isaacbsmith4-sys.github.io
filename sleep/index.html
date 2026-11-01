@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070a18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sleep">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Sleep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one screen per tab (Tonight / Trends / Log / Setup) with a bottom tab bar on phones.
+   Night-sky ground, moonlight as the single warm accent; violet marks sleep, teal marks "on goal". */
+:root{
+  color-scheme:dark;
+  --bg:#070a18; --surface:#0e1329; --surface2:#151b36; --sunk:#0a0e20; --line:#232a4a; --line-hi:#353f6b;
+  --ink:#eef0fb; --ink2:#b9bfdc; --muted:#8088ad; --faint:#535b82;
+  --moon:#f4dfa8; --moon-bg:rgba(244,223,168,.12); --violet:#8f86ff; --violet-bg:rgba(143,134,255,.14);
+  --good:#5fd8c6; --warn:#f2b45c; --bad:#ff7088; --on-moon:#1b1608;
+  --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --tabh:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);min-height:100vh;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(var(--tabh) + 24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 70% at 80% -10%,rgba(143,134,255,.18),transparent 60%),radial-gradient(90% 60% at -10% 110%,rgba(95,216,198,.07),transparent 60%)}
+#sky i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.5;animation:tw 4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.08}}
+.wrap{position:relative;z-index:1;max-width:620px;margin:0 auto}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:18px 0 14px}
+header h1{font:700 26px var(--display);margin:0;letter-spacing:-.01em}
+header p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.screen{display:grid;gap:14px}
+.card{background:linear-gradient(180deg,var(--surface),rgba(14,19,41,.8));border:1px solid var(--line);border-radius:20px;padding:18px;min-width:0}
+.card h2{font:700 16px var(--display);margin:0}
+.ch{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sub,.note{color:var(--muted);font-size:12.5px}
+.eyebrow{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hero{text-align:center;padding:22px 18px}
+.ringbox{position:relative;width:min(250px,72vw);aspect-ratio:1;margin:0 auto}
+.ringbox svg{width:100%;height:100%;display:block}
+.ringbox .c{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.big{font:700 clamp(34px,11vw,46px) var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.arc{transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 7px var(--glow))}
+.hero .plan{display:flex;justify-content:center;gap:18px;margin-top:14px;flex-wrap:wrap}
+.hero .plan div{display:grid;gap:2px}
+.hero .plan b{font:600 16px var(--mono)}
+.btn{appearance:none;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:700 14px var(--body);padding:11px 16px;border-radius:14px;cursor:pointer;white-space:nowrap}
+.btn.moon{background:var(--moon);color:var(--on-moon);border-color:var(--moon);box-shadow:0 0 28px -6px var(--moon)}
+.btn.violet{background:var(--violet);color:#0c0a26;border-color:var(--violet);box-shadow:0 0 28px -6px var(--violet)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.wide{width:100%;padding:15px;font-size:16px;border-radius:16px}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:11px}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible,select:focus-visible,.tab:focus-visible,.ci:focus-visible{outline:2px solid var(--moon);outline-offset:2px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{min-width:0}
+.between{justify-content:space-between}
+input,select{font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:11px;padding:10px 11px;min-width:0}
+input[type=time],input[type=date],input[type=number]{font-family:var(--mono)}
+label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 130px}
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:13px 15px;border-radius:16px;background:var(--violet-bg);border:1px solid rgba(143,134,255,.4);flex-wrap:wrap}
+.check{display:grid;gap:8px}
+.ci{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);cursor:pointer;user-select:none}
+.ci .box{flex:none;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--faint);display:grid;place-items:center}
+.ci.done{background:var(--moon-bg);border-color:rgba(244,223,168,.35)}
+.ci.done .box{background:var(--moon);border-color:var(--moon);box-shadow:0 0 12px var(--moon)}
+.ci.done .box::after{content:"";width:6px;height:11px;border:solid var(--on-moon);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.ci.done .t{color:var(--muted);text-decoration:line-through}
+.ci .t{flex:1;min-width:0}
+.x{border:0;background:none;color:var(--faint);font-size:19px;cursor:pointer;padding:2px 6px}
+.x:hover{color:var(--bad)}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 13px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);cursor:pointer}
+.sw{flex:none;width:44px;height:26px;border-radius:13px;background:var(--line-hi);position:relative;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--ink);transition:transform .2s}
+.toggle.on .sw{background:var(--moon)}
+.toggle.on .sw::after{transform:translateX(18px);background:var(--on-moon)}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:999px;padding:8px 12px;font:600 13px var(--body);cursor:pointer}
+.chip.on{border-color:var(--violet);background:var(--violet-bg);color:var(--ink)}
+.q{display:flex;gap:8px}
+.q button{flex:1;height:46px;border-radius:13px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:700 16px var(--mono);cursor:pointer}
+.q button.on{background:var(--moon);color:var(--on-moon);border-color:var(--moon);box-shadow:0 0 16px -2px var(--moon)}
+.qlbl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--faint);margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px 13px;display:grid;gap:3px}
+.stat .v{font:700 22px var(--display);font-variant-numeric:tabular-nums}
+.stat .s{font-size:12px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font:10px var(--mono)}
+.insight{display:flex;gap:10px;padding:11px 12px;border-radius:13px;background:var(--surface2);border:1px solid var(--line);font-size:14px}
+.insight i{flex:none;width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--c);box-shadow:0 0 8px var(--c)}
+.night{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.night:last-child{border-bottom:0}
+.night .d{width:48px;flex:none;text-align:center}
+.night .d b{display:block;font:700 18px var(--display)}
+.night .d span{font:600 10px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.night .m{flex:1;min-width:0}
+.night .h{font:700 17px var(--mono)}
+.stars{color:var(--moon);letter-spacing:2px;font-size:12px}
+.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--muted);margin:3px 4px 0 0}
+.empty{color:var(--muted);font-size:14px;padding:18px;border:1px dashed var(--line-hi);border-radius:14px;text-align:center}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,120px),1fr));gap:8px;margin-top:10px}
+.calc div{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.calc b{display:block;font:600 17px var(--mono)}
+.calc span{font-size:11.5px;color:var(--muted)}
+.calc .best{border-color:var(--moon);background:var(--moon-bg)}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.days label{display:grid;gap:4px;text-align:center;font:600 10.5px var(--mono);color:var(--muted);text-transform:uppercase}
+.days input{padding:8px 2px;font-size:12px;text-align:center;width:100%}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(7,10,24,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+nav.tabs .in{display:flex;width:100%;max-width:620px}
+.tab{flex:1;border:0;background:none;color:var(--faint);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:6px 0;cursor:pointer}
+.tab svg{width:22px;height:22px}
+.tab[aria-selected=true]{color:var(--moon)}
+.tab[aria-selected=true] svg{filter:drop-shadow(0 0 6px var(--moon))}
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(3,5,14,.72);backdrop-filter:blur(5px);display:grid;align-items:end;justify-items:center}
+.sheet .in{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;display:grid;gap:16px;
+  padding:20px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));animation:up .25s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--surface2);border:1px solid var(--line-hi);border-radius:13px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:calc(100vw - 32px)}
+.toast button{border:0;background:none;color:var(--moon);font:700 13px var(--body);cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="sky" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="gNight" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f86ff"/><stop offset="1" stop-color="#5fd8c6"/></linearGradient>
+  <linearGradient id="gMoon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dfa8"/><stop offset="1" stop-color="#f2b45c"/></linearGradient>
+  <linearGradient id="gLate" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7088"/><stop offset="1" stop-color="#f2b45c"/></linearGradient>
+</defs></svg>
+<div class="wrap">
+  <header><div><h1 id="title">Tonight</h1><p id="sub"></p></div></header>
+  <main id="main" class="screen"></main>
+</div>
+<nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
+<div id="overlay"></div>
+
+<script>
+(() => {
+"use strict";
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rid = () => Math.random().toString(36).slice(2, 10);
+const pad = n => String(n).padStart(2, "0");
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const ROLL = 4; // a "night" belongs to the evening it started; anything before 4 AM counts toward the night before
+const nightKeyOf = d => ymd(new Date(d.getTime() - ROLL * 3600e3));
+const parseKey = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return ymd(d); };
+const hm = s => { const [h, m] = String(s || "0:0").split(":").map(Number); return (h || 0) * 60 + (m || 0); };
+const hhmm = d => pad(d.getHours()) + ":" + pad(d.getMinutes());
+const clock = d => d.toLocaleTimeString([], {hour: "numeric", minute: "2-digit"});
+const dur = min => { min = Math.max(0, Math.round(min)); const h = Math.floor(min / 60), m = min % 60; return h ? h + "h " + pad(m) + "m" : m + "m"; };
+const at = (k, t) => { const d = parseKey(k); d.setMinutes(hm(t)); return d; };
+const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+
+/* ---------- state (saved on this phone) ---------- */
+const KEY = "sleepapp:v1";
+const FACTORS = [
+  {id: "caffeine", t: "Caffeine after 2 PM"}, {id: "screens", t: "Phone in bed"}, {id: "meal", t: "Big late meal"},
+  {id: "train", t: "Practice / lift / game"}, {id: "nap", t: "Napped"}, {id: "stress", t: "Stressed"},
+];
+const DEFAULTS = {
+  settings: {goal: 8.5, wake: ["08:30", "06:30", "06:30", "06:30", "06:30", "06:30", "08:30"], windDown: 45, latency: 15,
+    checklist: ["Phone charging outside the bedroom", "No screens", "Lay out tomorrow (clothes, bag)", "Room cool and dark", "Read 10 minutes", "Lights out"].map(t => ({id: rid(), t}))},
+  nights: {}, active: null,
+};
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+if (!S || !S.settings) S = structuredClone(DEFAULTS);
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Couldn't save. Is storage full?"); } };
+const night = k => (S.nights[k] ||= {wd: {}, factors: []});
+const peek = k => S.nights[k];
+const asleepMin = n => n && n.bed && n.wake ? Math.max(0, (new Date(n.wake) - new Date(n.bed)) / 60000 - S.settings.latency) : null;
+
+/* ---------- the plan for a night ---------- */
+function plan(k) {
+  const st = S.settings, n = peek(k);
+  const tomorrow = addDays(k, 1), wake = at(tomorrow, st.wake[parseKey(tomorrow).getDay()]);
+  const need = st.goal * 60 + (n?.big ? 30 : 0);
+  const bed = new Date(wake - (need + st.latency) * 60000);
+  const wind = new Date(bed - st.windDown * 60000);
+  const dayStart = at(k, st.wake[parseKey(k).getDay()]);
+  return {wake, bed, wind, need, dayStart, tomorrow};
+}
+
+/* ---------- UI bits ---------- */
+function ring(frac, grad, glow, inner = "") {
+  const size = 240, sw = 14, r = (size - sw) / 2, C = 2 * Math.PI * r, c = size / 2;
+  return `<svg viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="var(--line)" stroke-width="${sw}"/>
+  <circle class="arc" style="--glow:${glow}" cx="${c}" cy="${c}" r="${r}" fill="none" stroke="url(#${grad})" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - clamp(frac, 0, 1))).toFixed(1)}" transform="rotate(-90 ${c} ${c})"/>${inner}</svg>`;
+}
+let toastT;
+function toast(msg, undo) {
+  document.querySelectorAll(".toast").forEach(t => t.remove());
+  const o = document.createElement("div"); o.className = "toast"; o.setAttribute("role", "status");
+  o.innerHTML = `<span>${esc(msg)}</span>${undo ? "<button>Undo</button>" : ""}`;
+  document.body.appendChild(o);
+  if (undo) o.querySelector("button").onclick = () => { undo(); save(); o.remove(); render(); };
+  clearTimeout(toastT); toastT = setTimeout(() => o.remove(), 4500);
+}
+const stars = q => q ? "★".repeat(q) + "<span style='opacity:.25'>" + "★".repeat(5 - q) + "</span>" : "";
+
+/* ---------- tabs ---------- */
+const ICONS = {
+  tonight: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  trends: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  log: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  setup: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+};
+const TABS = [["tonight", "Tonight"], ["trends", "Trends"], ["log", "Log"], ["setup", "Setup"]];
+let tab = TABS.some(t => t[0] === location.hash.slice(1)) ? location.hash.slice(1) : "tonight";
+function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0, 0); }
+
+/* ================= TONIGHT ================= */
+let calcOpen = false;
+function viewTonight() {
+  const now = new Date(), st = S.settings;
+  if (S.active) {
+    const start = new Date(S.active.start), el = (now - start) / 60000, goalMin = st.goal * 60 + st.latency;
+    const p = plan(nightKeyOf(start));
+    return `<section class="card hero">
+      <div class="ringbox">${ring(el / goalMin, "gNight", "var(--violet)")}<div class="c"><div><div class="eyebrow">In bed for</div><div class="big">${dur(el)}</div><div class="sub" style="margin-top:6px">since ${clock(start)}</div></div></div></div>
+      <div class="plan"><div><span class="eyebrow">Alarm</span><b>${clock(p.wake)}</b></div><div><span class="eyebrow">Goal</span><b>${st.goal}h</b></div></div>
+      <div style="margin-top:18px;display:grid;gap:8px"><button class="btn moon wide" data-act="wakeUp">I'm up</button><button class="btn ghost sm" data-act="cancelBed">Cancel, I'm not in bed</button></div>
+    </section>`;
+  }
+  const k = nightKeyOf(now), p = plan(k), n = peek(k) || {wd: {}};
+  const toBed = (p.bed - now) / 60000, toWind = (p.wind - now) / 60000;
+  const span = (p.bed - p.dayStart) / 60000;
+  let big, cap, frac, grad = "gNight", glow = "var(--violet)", phase;
+  if (toBed < 0) { big = dur(-toBed); cap = "past bedtime"; frac = 1; grad = "gLate"; glow = "var(--bad)"; phase = "late"; }
+  else if (toWind <= 0) { big = dur(toBed); cap = "until lights out"; frac = 1 - toBed / st.windDown; grad = "gMoon"; glow = "var(--moon)"; phase = "wind"; }
+  else { big = dur(toBed); cap = "until bedtime"; frac = clamp(1 - toBed / span, 0, 1); phase = "day"; }
+  const items = st.checklist, done = items.filter(i => n.wd?.[i.id]).length;
+  const last = addDays(k, -1), lastLogged = peek(last)?.wake;
+  const tomorrowName = parseKey(p.tomorrow).toLocaleDateString([], {weekday: "long"});
+  const msg = phase === "late" ? "Phone down. Every 15 minutes now is sleep you won't get back before your alarm."
+    : phase === "wind" ? "Wind-down is on. Work through the list, then tap Going to bed."
+    : `Wind-down starts at ${clock(p.wind)}.`;
+  // sleep calculator: fall-asleep times that end on a full 90-minute cycle at the alarm, and wake times if you lie down now
+  const lat = st.latency, cyc = [6, 5].map(c => ({c, t: new Date(p.wake - (c * 90 + lat) * 60000)}));
+  const nowCyc = [5, 6].map(c => ({c, t: new Date(now.getTime() + (c * 90 + lat) * 60000)}));
+  return `
+  ${!lastLogged && now.getHours() < 15 ? `<div class="banner"><div><b>Log last night</b><div class="sub">You didn't tap "Going to bed" last night.</div></div><button class="btn violet sm" data-act="logLast">Log it</button></div>` : ""}
+  <section class="card hero">
+    <div class="ringbox">${ring(frac, grad, glow)}<div class="c"><div><div class="eyebrow">${phase === "wind" ? "Wind-down" : "Tonight"}</div><div class="big" style="${phase === "late" ? "color:var(--bad)" : ""}">${big}</div><div class="sub" style="margin-top:6px">${cap}</div></div></div></div>
+    <div class="plan">
+      <div><span class="eyebrow">Wind-down</span><b>${clock(p.wind)}</b></div>
+      <div><span class="eyebrow">Bed</span><b style="color:var(--moon)">${clock(p.bed)}</b></div>
+      <div><span class="eyebrow">Up (${DOW[parseKey(p.tomorrow).getDay()]})</span><b>${clock(p.wake)}</b></div>
+    </div>
+    <p class="sub" style="margin:14px auto 0;max-width:34ch">${esc(msg)}</p>
+    <div style="margin-top:16px"><button class="btn ${phase === "day" ? "" : "moon"} wide" data-act="goBed">Going to bed</button></div>
+  </section>
+  <div class="toggle ${n.big ? "on" : ""}" data-act="big" role="switch" aria-checked="${!!n.big}" tabindex="0">
+    <div><b>Big day tomorrow</b><div class="sub">Game or test ${esc(tomorrowName)}? Adds 30 minutes of sleep.</div></div><span class="sw"></span>
+  </div>
+  <section class="card">
+    <div class="ch"><h2>Wind-down</h2><span class="sub">${done}/${items.length} done${windStreak() ? " · " + windStreak() + "-night streak" : ""}</span></div>
+    <div class="check">${items.map(i => `<div class="ci ${n.wd?.[i.id] ? "done" : ""}" data-act="wd" data-id="${i.id}" role="checkbox" aria-checked="${!!n.wd?.[i.id]}" tabindex="0"><span class="box"></span><span class="t">${esc(i.t)}</span></div>`).join("") || '<div class="empty">Add wind-down steps in Setup.</div>'}</div>
+  </section>
+  <section class="card">
+    <div class="ch"><h2>Sleep calculator</h2><button class="btn ghost sm" data-act="calc">${calcOpen ? "Hide" : "Show"}</button></div>
+    ${calcOpen ? `<div class="eyebrow">To wake at ${clock(p.wake)} between cycles, fall asleep by</div>
+      <div class="calc">${cyc.map((x, i) => `<div class="${i === 0 ? "best" : ""}"><b>${clock(x.t)}</b><span>${x.c} cycles · ${dur(x.c * 90)}</span></div>`).join("")}</div>
+      <div class="eyebrow" style="margin-top:14px">If you lie down now, wake up at</div>
+      <div class="calc">${nowCyc.map(x => `<div><b>${clock(x.t)}</b><span>${x.c} cycles · ${dur(x.c * 90)}</span></div>`).join("")}</div>
+      <p class="note" style="margin:10px 0 0">A sleep cycle runs about 90 minutes. Waking at the end of one usually feels less groggy. Includes ${lat} min to fall asleep.</p>`
+      : `<p class="note" style="margin:0">Find bedtimes that line up with 90-minute sleep cycles.</p>`}
+  </section>`;
+}
+function windStreak() {
+  const items = S.settings.checklist; if (!items.length) return 0;
+  let k = nightKeyOf(new Date()), n = 0;
+  const full = kk => { const x = peek(kk); return x && items.every(i => x.wd?.[i.id]); };
+  if (!full(k)) k = addDays(k, -1);
+  while (full(k) && n < 999) { n++; k = addDays(k, -1); }
+  return n;
+}
+
+/* ================= TRENDS ================= */
+function nightsBack(count) {
+  const out = [], k0 = nightKeyOf(new Date());
+  for (let i = count; i >= 1; i--) { const k = addDays(k0, -i); out.push({k, n: peek(k), m: asleepMin(peek(k))}); }
+  // tonight counts only once it's finished
+  const t = peek(k0); if (t?.wake) out.push({k: k0, n: t, m: asleepMin(t)});
+  return out;
+}
+const bedMin = n => { const d = new Date(n.bed); let m = d.getHours() * 60 + d.getMinutes(); if (m < 12 * 60) m += 1440; return m; }; // minutes after midnight, past-midnight times wrap forward
+const fmtBedMin = m => { const d = new Date(2000, 0, 1); d.setMinutes(m % 1440); return clock(d); };
+function viewTrends() {
+  const st = S.settings, goal = st.goal * 60;
+  const last14 = nightsBack(14).slice(-14), logged = last14.filter(x => x.m != null);
+  const last7 = last14.slice(-7).filter(x => x.m != null);
+  const debt = last7.reduce((a, x) => a + Math.max(0, goal - x.m), 0);
+  const beds = logged.map(x => bedMin(x.n)), avgBed = avg(beds);
+  const sd = beds.length > 1 ? Math.sqrt(avg(beds.map(b => (b - avgBed) ** 2))) : null;
+  const qs = logged.map(x => x.n.q).filter(Boolean);
+  // bar chart
+  const W = 340, H = 170, pl = 28, pb = 22, maxM = Math.max(goal + 60, 10 * 60, ...logged.map(x => x.m));
+  const y = m => H - pb - (m / maxM) * (H - pb - 14), bw = (W - pl) / last14.length;
+  const grid = [4, 6, 8, 10].filter(h => h * 60 <= maxM).map(h => `<line x1="${pl}" x2="${W}" y1="${y(h * 60)}" y2="${y(h * 60)}" stroke="var(--line)"/><text x="${pl - 6}" y="${y(h * 60) + 3}" text-anchor="end">${h}h</text>`).join("");
+  const bars = last14.map((x, i) => {
+    const bx = pl + i * bw + bw * .18, w = bw * .64, lbl = DOW[parseKey(x.k).getDay()][0];
+    const col = x.m == null ? "" : x.m >= goal - 15 ? "var(--good)" : x.m >= goal - 75 ? "var(--warn)" : "var(--bad)";
+    return (x.m != null ? `<rect x="${bx}" y="${y(x.m)}" width="${w}" height="${H - pb - y(x.m)}" rx="4" fill="${col}"/>` : `<rect x="${bx}" y="${H - pb - 3}" width="${w}" height="3" rx="1.5" fill="var(--line)"/>`)
+      + `<text x="${bx + w / 2}" y="${H - 6}" text-anchor="middle">${lbl}</text>`;
+  }).join("");
+  const goalLine = `<line x1="${pl}" x2="${W}" y1="${y(goal)}" y2="${y(goal)}" stroke="var(--moon)" stroke-dasharray="4 4"/><text x="${W}" y="${y(goal) - 4}" text-anchor="end" style="fill:var(--moon)">goal ${st.goal}h</text>`;
+  // bedtime consistency strip, 9 PM to 3 AM
+  const lo = 21 * 60, hi = 27 * 60, X = m => pl + (clamp(m, lo, hi) - lo) / (hi - lo) * (W - pl - 10);
+  const strip = `<svg class="chart" viewBox="0 0 ${W} 54"><line x1="${pl}" x2="${W - 10}" y1="22" y2="22" stroke="var(--line)" stroke-width="6" stroke-linecap="round"/>
+    ${[21, 23, 25, 27].map(h => `<text x="${X(h * 60)}" y="50" text-anchor="middle">${h % 24 === 0 ? 12 : h % 12 || 12}${h % 24 < 12 ? "a" : "p"}</text>`).join("")}
+    ${avgBed != null ? `<line x1="${X(avgBed)}" x2="${X(avgBed)}" y1="8" y2="36" stroke="var(--moon)" stroke-width="2"/>` : ""}
+    ${beds.map(b => `<circle cx="${X(b)}" cy="22" r="5" fill="var(--violet)" opacity=".75"/>`).join("")}</svg>`;
+  const steady = sd == null ? "–" : sd <= 30 ? "Steady" : sd <= 60 ? "Drifting" : "All over";
+  return `
+  <section class="stats">
+    <div class="stat"><span class="eyebrow">Avg sleep</span><span class="v">${logged.length ? dur(avg(logged.map(x => x.m))) : "–"}</span><span class="s">last ${logged.length} nights</span></div>
+    <div class="stat"><span class="eyebrow">Sleep debt</span><span class="v" style="color:${debt > 180 ? "var(--bad)" : debt > 60 ? "var(--warn)" : "var(--good)"}">${last7.length ? dur(debt) : "–"}</span><span class="s">short of goal, last 7</span></div>
+    <div class="stat"><span class="eyebrow">Avg bedtime</span><span class="v">${avgBed != null ? fmtBedMin(Math.round(avgBed)) : "–"}</span><span class="s">${sd != null ? `${steady} (±${Math.round(sd)} min)` : "need 2+ nights"}</span></div>
+    <div class="stat"><span class="eyebrow">Rested</span><span class="v">${qs.length ? avg(qs).toFixed(1) + "/5" : "–"}</span><span class="s">how you felt waking up</span></div>
+  </section>
+  <section class="card"><div class="ch"><h2>Last 14 nights</h2><span class="sub">hours asleep</span></div>
+    <svg class="chart" viewBox="0 0 ${W} ${H}">${grid}${goalLine}${bars}</svg></section>
+  <section class="card"><div class="ch"><h2>Bedtime consistency</h2><span class="sub">gold line = your average</span></div>${strip}
+    <p class="note" style="margin:8px 0 0">Going to bed within about 30 minutes of the same time every night (weekends too) is one of the biggest wins for feeling rested.</p></section>
+  <section class="card"><div class="ch"><h2>What helps you sleep</h2><span class="sub">from your last 30 nights</span></div>${insights()}</section>`;
+}
+function insights() {
+  const rows = nightsBack(30).filter(x => x.m != null);
+  if (rows.length < 5) return `<div class="empty">Log ${5 - rows.length} more night${5 - rows.length === 1 ? "" : "s"} (tap the reasons in the morning) and this shows what's helping or hurting your sleep.</div>`;
+  const items = S.settings.checklist, out = [];
+  const compare = (label, has) => {
+    const a = rows.filter(has), b = rows.filter(x => !has(x));
+    if (a.length < 2 || b.length < 2) return;
+    const dm = avg(a.map(x => x.m)) - avg(b.map(x => x.m));
+    const qa = a.map(x => x.n.q).filter(Boolean), qb = b.map(x => x.n.q).filter(Boolean);
+    const dq = qa.length && qb.length ? avg(qa) - avg(qb) : 0;
+    out.push({label, dm, dq, n: a.length, score: Math.abs(dm) / 30 + Math.abs(dq)});
+  };
+  FACTORS.forEach(f => compare(f.t, x => (x.n.factors || []).includes(f.id)));
+  if (items.length) compare("Full wind-down", x => items.every(i => x.n.wd?.[i.id]));
+  if (!out.length) return '<div class="empty">Tap a few reasons in the morning log (caffeine, phone in bed…) to compare nights.</div>';
+  return `<div style="display:grid;gap:8px">${out.sort((a, b) => b.score - a.score).slice(0, 5).map(o => {
+    const good = o.dm + o.dq * 30 >= 0;
+    const parts = [];
+    if (Math.abs(o.dm) >= 5) parts.push(`${dur(Math.abs(o.dm))} ${o.dm > 0 ? "more" : "less"} sleep`);
+    if (Math.abs(o.dq) >= .2) parts.push(`felt ${Math.abs(o.dq).toFixed(1)} ${o.dq > 0 ? "better" : "worse"}`);
+    return `<div class="insight" style="--c:${good ? "var(--good)" : "var(--bad)"}"><i></i><div><b>${esc(o.label)}</b> (${o.n} nights): ${parts.length ? parts.join(", ") : "about the same"}.</div></div>`;
+  }).join("")}</div><p class="note" style="margin:10px 0 0">Patterns, not proof. They get more reliable the more nights you log.</p>`;
+}
+
+/* ================= LOG ================= */
+function viewLog() {
+  const keys = Object.keys(S.nights).filter(k => S.nights[k].wake).sort().reverse();
+  return `<section class="card">
+    <div class="ch"><h2>Every night</h2><button class="btn sm" data-act="addNight">+ Add a night</button></div>
+    ${keys.length ? keys.slice(0, 120).map(k => { const n = S.nights[k], m = asleepMin(n), goal = S.settings.goal * 60;
+      const col = m >= goal - 15 ? "var(--good)" : m >= goal - 75 ? "var(--warn)" : "var(--bad)";
+      return `<div class="night" data-act="edit" data-k="${k}" role="button" tabindex="0">
+        <div class="d"><span>${DOW[parseKey(k).getDay()]}</span><b>${parseKey(k).getDate()}</b></div>
+        <div class="m"><div class="row between"><span class="h" style="color:${col}">${dur(m)}</span><span class="stars">${stars(n.q)}</span></div>
+        <div class="sub num">${clock(new Date(n.bed))} → ${clock(new Date(n.wake))}${n.big ? " · big day" : ""}</div>
+        ${(n.factors || []).map(f => `<span class="tag">${esc(FACTORS.find(x => x.id === f)?.t || f)}</span>`).join("")}</div></div>`; }).join("")
+      : '<div class="empty">No nights yet. Tap "Going to bed" tonight and "I\'m up" in the morning, or add one here.</div>'}
+  </section>`;
+}
+
+/* ================= SETUP ================= */
+let newItem = "";
+function viewSetup() {
+  const st = S.settings;
+  return `
+  <section class="card"><div class="ch"><h2>Sleep goal</h2><span class="sub">teens need 8–10 hours</span></div>
+    <div class="row between"><button class="btn" data-act="goal" data-d="-0.25" aria-label="Less sleep">−</button><div style="text-align:center"><div class="big" style="font-size:38px">${st.goal}h</div><div class="sub">asleep per night</div></div><button class="btn" data-act="goal" data-d="0.25" aria-label="More sleep">+</button></div></section>
+  <section class="card"><div class="ch"><h2>Wake-up times</h2><span class="sub">bedtime is worked out from these</span></div>
+    <div class="days">${DOW.map((d, i) => `<label>${d}<input type="time" data-wake="${i}" value="${st.wake[i]}"></label>`).join("")}</div>
+    <div class="row" style="margin-top:12px"><input type="time" id="allWeek" value="${st.wake[1]}" style="flex:1 1 110px"><button class="btn sm" data-act="setWeekdays">Set Mon–Fri</button></div></section>
+  <section class="card"><div class="ch"><h2>Timing</h2></div>
+    <div class="row"><label class="f">Wind-down length (min)<input type="number" inputmode="numeric" id="windDown" value="${st.windDown}"></label><label class="f">Time to fall asleep (min)<input type="number" inputmode="numeric" id="latency" value="${st.latency}"></label></div></section>
+  <section class="card"><div class="ch"><h2>Wind-down steps</h2><span class="sub">${st.checklist.length} steps</span></div>
+    <div class="check">${st.checklist.map((i, idx) => `<div class="ci" style="cursor:default"><span class="t">${esc(i.t)}</span><button class="x" data-act="up" data-i="${idx}" aria-label="Move up" ${idx ? "" : "disabled"}>↑</button><button class="x" data-act="delItem" data-id="${i.id}" aria-label="Remove">×</button></div>`).join("")}</div>
+    <div class="row" style="margin-top:10px"><input id="newItem" placeholder="Add a step…" value="${esc(newItem)}" style="flex:1 1 180px"><button class="btn" data-act="addItem">Add</button></div></section>
+  <section class="card"><div class="ch"><h2>Backup</h2><span class="sub">${Object.keys(S.nights).length} nights saved on this phone</span></div>
+    <p class="note" style="margin:0 0 10px">Your sleep data is only stored on this phone. Save a backup now and then so you don't lose it if you clear Safari.</p>
+    <div class="row"><button class="btn" data-act="export">Save backup</button><label class="btn ghost" style="position:relative;overflow:hidden">Restore backup<input type="file" accept="application/json,.json" id="importFile" style="position:absolute;inset:0;opacity:0"></label></div></section>
+  <p class="note" style="text-align:center">Add to Home Screen from the Share menu to use this like an app.</p>`;
+}
+
+/* ================= sheets ================= */
+let sheet = null; // {k, bed, wake, q, factors, isNew}
+function openSheet(s) { sheet = s; renderSheet(); }
+function renderSheet() {
+  if (!sheet) { $("#overlay").innerHTML = ""; return; }
+  const s = sheet;
+  $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog" aria-label="Night details">
+    <div class="row between"><h2 style="font:700 19px var(--display);margin:0">${s.title}</h2><button class="btn ghost sm" data-act="closeSheet">Close</button></div>
+    ${s.pickDate ? `<label class="f">Night of<input type="date" id="shDate" value="${s.k}"></label>` : ""}
+    <div class="row"><label class="f">Went to bed<input type="time" id="shBed" value="${s.bed}"></label><label class="f">Got up<input type="time" id="shWake" value="${s.wake}"></label></div>
+    <div><div class="eyebrow" style="margin-bottom:8px">How rested do you feel?</div>
+      <div class="q">${[1, 2, 3, 4, 5].map(q => `<button data-act="q" data-q="${q}" class="${s.q === q ? "on" : ""}">${q}</button>`).join("")}</div>
+      <div class="qlbl"><span>wrecked</span><span>great</span></div></div>
+    <div><div class="eyebrow" style="margin-bottom:8px">Anything that affected it?</div>
+      <div class="chips">${FACTORS.map(f => `<button class="chip ${s.factors.includes(f.id) ? "on" : ""}" data-act="factor" data-id="${f.id}">${f.t}</button>`).join("")}</div></div>
+    <button class="btn moon wide" data-act="saveSheet">Save night</button>
+    ${s.canDelete ? `<button class="btn ghost" data-act="delNight" style="color:var(--bad)">Delete this night</button>` : ""}
+  </div></div>`;
+}
+function readSheetTimes() { if (!sheet) return; sheet.bed = $("#shBed")?.value || sheet.bed; sheet.wake = $("#shWake")?.value || sheet.wake; if ($("#shDate")) sheet.k = $("#shDate").value || sheet.k; }
+function toISO(k, bed, wake) {
+  const b = at(k, bed); if (hm(bed) < 12 * 60) b.setDate(b.getDate() + 1); // after-midnight bedtimes fall on the next date
+  const w = at(addDays(k, 1), wake); if (w <= b) w.setDate(w.getDate() + 1);
+  return {bed: b.toISOString(), wake: w.toISOString()};
+}
+
+/* ---------- render ---------- */
+function render() {
+  const titles = {tonight: "Tonight", trends: "Trends", log: "Sleep log", setup: "Setup"};
+  $("#title").textContent = titles[tab];
+  $("#sub").textContent = new Date().toLocaleDateString([], {weekday: "long", month: "long", day: "numeric"});
+  $("#tabs").innerHTML = TABS.map(([id, l]) => `<button class="tab" role="tab" aria-selected="${id === tab}" data-act="tab" data-id="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]}</svg>${l}</button>`).join("");
+  $("#main").innerHTML = {tonight: viewTonight, trends: viewTrends, log: viewLog, setup: viewSetup}[tab]();
+}
+
+/* ---------- actions ---------- */
+const A = {
+  tab: el => go(el.dataset.id),
+  goBed() {
+    S.active = {start: new Date().toISOString()}; save(); render();
+    toast("Good night. Tap \"I'm up\" when you wake.", () => { S.active = null; });
+  },
+  cancelBed() { S.active = null; save(); render(); },
+  wakeUp() {
+    const start = new Date(S.active.start), k = nightKeyOf(start);
+    openSheet({title: "Good morning", k, bed: hhmm(start), wake: hhmm(new Date()), q: null, factors: [...(peek(k)?.factors || [])], fromActive: true});
+  },
+  logLast() { const k = addDays(nightKeyOf(new Date()), -1), p = plan(k); openSheet({title: "Last night", k, bed: hhmm(p.bed), wake: hhmm(p.wake), q: null, factors: [...(peek(k)?.factors || [])]}); },
+  addNight() { const k = addDays(nightKeyOf(new Date()), -1), p = plan(k); openSheet({title: "Add a night", k, bed: hhmm(p.bed), wake: hhmm(p.wake), q: null, factors: [], pickDate: true}); },
+  edit(el) { const k = el.dataset.k, n = S.nights[k]; openSheet({title: parseKey(k).toLocaleDateString([], {weekday: "long", month: "short", day: "numeric"}), k, bed: hhmm(new Date(n.bed)), wake: hhmm(new Date(n.wake)), q: n.q || null, factors: [...(n.factors || [])], canDelete: true}); },
+  closeSheet(el, ev) { if (ev.target === el || el.tagName === "BUTTON") { sheet = null; renderSheet(); } },
+  q(el) { readSheetTimes(); sheet.q = +el.dataset.q; renderSheet(); },
+  factor(el) { readSheetTimes(); const id = el.dataset.id, f = sheet.factors; sheet.factors = f.includes(id) ? f.filter(x => x !== id) : [...f, id]; renderSheet(); },
+  saveSheet() {
+    readSheetTimes();
+    const s = sheet, n = night(s.k);
+    Object.assign(n, toISO(s.k, s.bed, s.wake), {q: s.q, factors: s.factors});
+    if (s.fromActive) S.active = null;
+    save(); sheet = null; renderSheet(); render();
+    const m = asleepMin(n), goal = S.settings.goal * 60;
+    toast(`Slept about ${dur(m)}${m >= goal - 15 ? ". Goal hit." : `, ${dur(goal - m)} short.`}`);
+  },
+  delNight() { const k = sheet.k, before = S.nights[k]; delete S.nights[k]; save(); sheet = null; renderSheet(); render(); toast("Night deleted", () => { S.nights[k] = before; }); },
+  wd(el) { const n = night(nightKeyOf(new Date())), id = el.dataset.id; n.wd[id] = !n.wd[id]; if (!n.wd[id]) delete n.wd[id]; save(); render();
+    if (S.settings.checklist.every(i => n.wd[i.id])) toast("Wind-down done. Lights out at " + clock(plan(nightKeyOf(new Date())).bed) + "."); },
+  big() { const n = night(nightKeyOf(new Date())); n.big = !n.big; save(); render(); },
+  calc() { calcOpen = !calcOpen; render(); },
+  goal(el) { S.settings.goal = clamp(S.settings.goal + +el.dataset.d, 5, 12); save(); render(); },
+  setWeekdays() { const v = $("#allWeek").value; if (!v) return; for (let i = 1; i <= 5; i++) S.settings.wake[i] = v; save(); render(); toast("Mon–Fri wake-up set to " + clock(at(ymd(new Date()), v))); },
+  addItem() { const t = ($("#newItem").value || "").trim(); if (!t) return; S.settings.checklist.push({id: rid(), t}); newItem = ""; save(); render(); $("#newItem")?.focus(); },
+  delItem(el) { const st = S.settings, before = st.checklist.slice(); st.checklist = st.checklist.filter(i => i.id !== el.dataset.id); save(); render(); toast("Step removed", () => { st.checklist = before; }); },
+  up(el) { const c = S.settings.checklist, i = +el.dataset.i; if (i > 0) { [c[i - 1], c[i]] = [c[i], c[i - 1]]; save(); render(); } },
+  export() {
+    const blob = new Blob([JSON.stringify(S, null, 1)], {type: "application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "sleep-backup-" + ymd(new Date()) + ".json";
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  },
+};
+document.addEventListener("click", ev => {
+  const el = ev.target.closest("[data-act]");
+  if (!el || el.tagName === "INPUT") return;
+  A[el.dataset.act]?.(el, ev);
+});
+document.addEventListener("keydown", ev => {
+  if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches("[data-act][tabindex]")) { ev.preventDefault(); A[ev.target.dataset.act]?.(ev.target, ev); }
+  if (ev.key === "Enter" && ev.target.id === "newItem") A.addItem();
+  if (ev.key === "Escape" && sheet) { sheet = null; renderSheet(); }
+});
+document.addEventListener("input", ev => { if (ev.target.id === "newItem") newItem = ev.target.value; });
+document.addEventListener("change", ev => {
+  const t = ev.target, st = S.settings;
+  if (t.dataset.wake) { if (t.value) { st.wake[+t.dataset.wake] = t.value; save(); } }
+  else if (t.id === "windDown") { st.windDown = clamp(Math.round(+t.value || 0), 0, 180); save(); }
+  else if (t.id === "latency") { st.latency = clamp(Math.round(+t.value || 0), 0, 90); save(); }
+  else if (t.id === "importFile" && t.files[0]) {
+    t.files[0].text().then(txt => { const d = JSON.parse(txt); if (!d.settings || !d.nights) throw 0; S = d; save(); render(); toast("Backup restored: " + Object.keys(S.nights).length + " nights"); })
+      .catch(() => toast("That file isn't a Sleep backup."));
+  }
+});
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
+
+/* ---------- boot ---------- */
+const sky = $("#sky");
+for (let i = 0; i < 46; i++) { const s = document.createElement("i"); s.style.left = Math.random() * 100 + "%"; s.style.top = Math.random() * 70 + "%"; s.style.animationDelay = (Math.random() * 4).toFixed(2) + "s"; if (Math.random() < .2) s.style.width = s.style.height = "3px"; sky.appendChild(s); }
+render();
+setInterval(() => { if (tab === "tonight" && !sheet && document.activeElement?.tagName !== "INPUT") render(); }, 30000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && !sheet) render(); });
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>
