@@ -26,7 +26,7 @@
   --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
   --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
-  --tabh:64px;
+  --tabh:64px; --accent:var(--moon);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
@@ -141,12 +141,13 @@ nav.tabs .in{display:flex;width:100%;max-width:620px}
   <linearGradient id="gLate" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7088"/><stop offset="1" stop-color="#f2b45c"/></linearGradient>
 </defs></svg>
 <div class="wrap">
-  <header><div><h1 id="title">Tonight</h1><p id="sub"></p></div></header>
+  <header><div><h1 id="title">Tonight</h1><p id="sub"></p></div><div id="sync"></div></header>
   <main id="main" class="screen"></main>
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
 <div id="overlay"></div>
 
+<script src="../kit/kit.js"></script>
 <script>
 (() => {
 "use strict";
@@ -183,7 +184,19 @@ const DEFAULTS = {
 let S;
 try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
 if (!S || !S.settings) S = structuredClone(DEFAULTS);
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Couldn't save. Is storage full?"); } };
+const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Couldn't save. Is storage full?"); } };
+/* shared LIFE HQ data (kit/kit.js): nights are records in sleep/nights, settings and the in-bed timer are docs */
+const NIGHTS = Life.col("sleep/nights", {months: 4}), SET = Life.doc("sleep/settings"), STATE = Life.doc("sleep/state");
+const nightsMap = () => Object.fromEntries(Object.entries(S.nights).map(([k, n]) => [k, {...n, date: k}]));
+const save = () => { localSave(); SET.set(S.settings); STATE.set({active: S.active || null}); NIGHTS.replace(nightsMap()); };
+function adopt() {
+  const st = SET.get(); if (st) S.settings = st;
+  S.nights = Object.fromEntries(Object.entries(NIGHTS.all()).map(([k, {date, ...n}]) => [k, n]));
+  const sa = STATE.get(); if (sa) S.active = sa.active || null;
+  localSave();
+}
+NIGHTS.seed(nightsMap()); SET.seed(S.settings); STATE.seed({active: S.active || null});
+adopt();
 const night = k => (S.nights[k] ||= {wd: {}, factors: []});
 const peek = k => S.nights[k];
 const asleepMin = n => n && n.bed && n.wake ? Math.max(0, (new Date(n.wake) - new Date(n.bed)) / 60000 - S.settings.latency) : null;
@@ -508,7 +521,10 @@ window.addEventListener("hashchange", () => { const h = location.hash.slice(1); 
 /* ---------- boot ---------- */
 const sky = $("#sky");
 for (let i = 0; i < 46; i++) { const s = document.createElement("i"); s.style.left = Math.random() * 100 + "%"; s.style.top = Math.random() * 70 + "%"; s.style.animationDelay = (Math.random() * 4).toFixed(2) + "s"; if (Math.random() < .2) s.style.width = s.style.height = "3px"; sky.appendChild(s); }
+Life.mountStatus($("#sync"));
+Life.onChange(() => { adopt(); if (!sheet) render(); });
 render();
+Life.start();
 setInterval(() => { if (tab === "tonight" && !sheet && document.activeElement?.tagName !== "INPUT") render(); }, 30000);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && !sheet) render(); });
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

@@ -26,7 +26,7 @@
   --display:"Archivo","Avenir Next Condensed",system-ui,sans-serif;
   --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
-  --tabh:64px;
+  --tabh:64px; --accent:var(--ember);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
@@ -137,7 +137,7 @@ nav.tabs .in{display:flex;width:100%;max-width:620px}
   <linearGradient id="gOver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5a6e"/><stop offset="1" stop-color="#ff6a3d"/></linearGradient>
 </defs></svg>
 <div class="wrap">
-  <header><div><h1 id="title">Fuel</h1><p id="sub"></p></div><div class="daynav" id="daynav"></div></header>
+  <header><div><h1 id="title">Fuel</h1><p id="sub"></p><div id="sync" style="margin-top:8px"></div></div><div class="daynav" id="daynav"></div></header>
   <main id="main" class="screen"></main>
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
@@ -183,6 +183,7 @@ const FOODS = [
 ["Spaghetti with meat sauce","1.5 cups",500,25,62,16],["Cheeseburger, homemade","1 burger",500,28,30,28],
 ].map(([name, serving, cal, p, c, f], i) => ({id: "b" + i, name, serving, cal, p, c, f}));
 </script>
+<script src="../kit/kit.js"></script>
 <script>
 (() => {
 "use strict";
@@ -211,7 +212,20 @@ const DEFAULTS = {
 let S;
 try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
 if (!S || !S.settings) S = structuredClone(DEFAULTS);
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Couldn't save. Is storage full?"); } };
+const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Couldn't save. Is storage full?"); } };
+/* shared LIFE HQ data (kit/kit.js): days and weigh-ins are records, goals + saved foods/meals one doc */
+const DAYS = Life.col("fuel/days", {months: 3}), WTS = Life.col("fuel/weights", {months: 6}), FSET = Life.doc("fuel/settings");
+const daysMap = () => Object.fromEntries(Object.entries(S.days).filter(([k, d]) => d.items.length || d.water).map(([k, d]) => [k, {...d, date: k}]));
+const wMap = () => Object.fromEntries(Object.entries(S.weights).map(([k, lb]) => [k, {date: k, lb}]));
+const save = () => { localSave(); FSET.set({settings: S.settings, myFoods: S.myFoods, meals: S.meals}); DAYS.replace(daysMap()); WTS.replace(wMap()); };
+function adopt() {
+  const fs = FSET.get(); if (fs) { S.settings = fs.settings || S.settings; S.myFoods = fs.myFoods || []; S.meals = fs.meals || []; }
+  S.days = Object.fromEntries(Object.entries(DAYS.all()).map(([k, {date, ...d}]) => [k, d]));
+  S.weights = Object.fromEntries(Object.entries(WTS.all()).map(([k, w]) => [k, w.lb]));
+  localSave();
+}
+DAYS.seed(daysMap()); WTS.seed(wMap()); FSET.seed({settings: S.settings, myFoods: S.myFoods, meals: S.meals});
+adopt();
 let viewDay = todayKey();
 const day = (k = viewDay) => (S.days[k] ||= {items: [], water: 0});
 const peek = k => S.days[k];
@@ -571,7 +585,10 @@ document.addEventListener("change", ev => {
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && !add) { if (viewDay > todayKey() || (viewDay < todayKey() && tab !== "today")) viewDay = todayKey(); render(); } });
 
+Life.mountStatus($("#sync"));
+Life.onChange(() => { adopt(); if (!add) render(); });
 render();
+Life.start();
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();
 </script>

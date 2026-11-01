@@ -1,6 +1,6 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "fuel-v1";
-const SHELL = ["./", "index.html", "manifest.webmanifest"];
+const CACHE = "fuel-v2";
+const SHELL = ["./", "index.html", "manifest.webmanifest", "../kit/kit.js"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

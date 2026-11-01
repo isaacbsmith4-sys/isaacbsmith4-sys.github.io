@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08090d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LIFE HQ">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>LIFE HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: the hub of the life apps. Bottom tab bar (Today / Calendar / Apps / Setup) on phones,
+   top rail on desktop. HQ itself stays near-monochrome; color only ever means "this came from
+   that app" (each app's own hue from kit/apps.js). */
+:root{
+  color-scheme:dark;
+  --bg:#08090d; --surface:#111319; --surface2:#181b23; --sunk:#0c0e13; --line:#23262f; --line-hi:#353a47;
+  --ink:#eef0f5; --ink2:#c3c7d3; --muted:#868c9c; --faint:#585e6e;
+  --accent:#e9e7ff; --good:#5fd8a0; --warn:#f2b45c; --bad:#ff6a7c;
+  --display:"Unbounded","Avenir Next",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --tabh:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);min-height:100vh;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(var(--tabh) + 24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:760px;margin:0 auto}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:18px 0 14px}
+.brand{font:700 13px var(--display);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+header h1{font:700 24px var(--display);margin:4px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.screen{display:grid;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;min-width:0;position:relative;overflow:hidden}
+a.card{color:inherit;text-decoration:none;display:block}
+a.card:active{transform:scale(.99)}
+.card .tag{display:flex;align-items:center;gap:7px;font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.card .tag i{width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
+.card .tag .go{margin-left:auto;color:var(--faint);letter-spacing:0;font-size:16px}
+.card::after{content:"";position:absolute;right:-40px;top:-40px;width:120px;height:120px;border-radius:50%;background:var(--c,transparent);filter:blur(55px);opacity:.14;pointer-events:none}
+.big{font:700 28px var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:8px}
+.big small{font:500 13px var(--body);color:var(--muted);letter-spacing:0;margin-left:4px}
+.sub{color:var(--muted);font-size:13px}
+.note{color:var(--muted);font-size:12.5px}
+.eyebrow{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:10px}
+.bar>b{display:block;height:100%;border-radius:6px;background:var(--c);transition:width .6s}
+.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.mini div{display:grid;gap:2px}
+.mini b{font:600 15px var(--mono)}
+.mini span{font-size:11px;color:var(--muted)}
+.empty{color:var(--muted);font-size:13.5px;margin-top:8px}
+.agenda{display:grid;gap:2px}
+.ev{display:flex;gap:12px;align-items:flex-start;padding:10px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.ev:last-child{border-bottom:0}
+.ev .t{width:64px;flex:none;font:600 12px var(--mono);color:var(--muted);padding-top:2px}
+.ev .d{flex:1;min-width:0}
+.ev .d b{display:flex;align-items:center;gap:7px;font-weight:600}
+.ev .d b i{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.ev.planned .d b{font-weight:500;color:var(--ink2)}
+.ev .pl{font:600 9.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line-hi);border-radius:6px;padding:1px 5px}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal .h{font:600 10px var(--mono);color:var(--faint);text-align:center;padding-bottom:4px;letter-spacing:.1em}
+.cal button{aspect-ratio:1;border:1px solid transparent;background:var(--surface2);border-radius:12px;color:var(--ink2);font:600 13px var(--mono);cursor:pointer;display:grid;grid-template-rows:1fr auto;justify-items:center;padding:6px 2px 7px;min-width:0}
+.cal button.out{background:transparent;color:var(--faint)}
+.cal button.today{border-color:var(--line-hi);color:var(--ink)}
+.cal button.sel{background:var(--ink);color:var(--bg)}
+.cal .dots{display:flex;gap:3px;justify-content:center;min-height:5px}
+.cal .dots i{width:5px;height:5px;border-radius:50%;background:var(--c)}
+.mhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.mhead h2{font:700 16px var(--display);margin:0}
+.btn{appearance:none;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:700 14px var(--body);padding:10px 15px;border-radius:13px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:11px}
+.btn.solid{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.btn:focus-visible,.tab:focus-visible,.cal button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.legend i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:10px}
+.app{display:grid;gap:8px;padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit;position:relative;overflow:hidden}
+.app .ic{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 45%,#000));box-shadow:0 0 18px -4px var(--c);display:grid;place-items:center;font:700 16px var(--display);color:#0b0b10}
+.app b{font-size:15px}
+.app span{font-size:12px;color:var(--muted)}
+.app.soon{opacity:.55}
+.app.soon .ic{box-shadow:none;filter:saturate(.4)}
+.status{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.kv:last-child{border-bottom:0}
+.kv span:last-child{color:var(--muted);font-family:var(--mono);font-size:12.5px;text-align:right}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(8,9,13,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+nav.tabs .in{display:flex;width:100%;max-width:760px}
+.tab{flex:1;border:0;background:none;color:var(--faint);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:6px 0;cursor:pointer}
+.tab svg{width:22px;height:22px}
+.tab[aria-selected=true]{color:var(--ink)}
+@media (min-width:900px){
+  body{padding-bottom:40px;padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+  nav.tabs{top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding:8px 16px}
+  .tab{grid-auto-flow:column;gap:8px;font-size:13px;padding:8px}
+  .tab svg{width:18px;height:18px}
+  .wide2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+}
+@media (max-width:380px){.grid2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div><div class="brand">Life HQ</div><h1 id="title"></h1></div><div id="sync"></div></header>
+  <main id="main" class="screen"></main>
+</div>
+<nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
+<script src="../kit/kit.js"></script>
+<script src="../kit/apps.js"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const {APPS, adapters, util} = LifeApps;
+const {ymd, parseKey, addDays, dur, time} = util;
+const APP = Object.fromEntries(APPS.map(a => [a.id, a]));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const todayKey = () => ymd(new Date(Date.now() - 4 * 3600e3));
+const bar = (f, c) => `<div class="bar" style="--c:${c}"><b style="width:${(clamp(f, 0, 1) * 100).toFixed(1)}%"></b></div>`;
+
+const ICONS = {
+  today: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  calendar: '<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+  apps: '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+  setup: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+};
+const TABS = [["today", "Today"], ["calendar", "Calendar"], ["apps", "Apps"], ["setup", "Setup"]];
+let tab = TABS.some(t => t[0] === location.hash.slice(1)) ? location.hash.slice(1) : "today";
+function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0, 0); }
+
+/* ================= TODAY ================= */
+function viewToday() {
+  const k = todayKey(), now = new Date(), cards = [];
+  // Sleep
+  const sa = adapters.sleep;
+  if (sa.has()) {
+    const s = sa.today(k), L = s.lastNight;
+    const toBed = (s.bed - now) / 60000;
+    cards.push(`<a class="card" href="${APP.sleep.path}" style="--c:${APP.sleep.color}"><div class="tag"><i></i>Sleep<span class="go">›</span></div>
+      ${s.inBed ? `<div class="big">In bed<small>since ${time(s.inBed)}</small></div>`
+        : `<div class="big">${toBed > 0 ? dur(toBed) : dur(-toBed)}<small>${toBed > 0 ? "until bedtime" : "past bedtime"}</small></div>`}
+      <div class="sub">Bed ${time(s.bed)} · up ${time(s.wake)}${s.windTotal ? ` · wind-down ${s.windDone}/${s.windTotal}` : ""}</div>
+      <div class="mini"><div><b>${L ? dur(L.min) : "–"}</b><span>last night</span></div><div><b>${L && L.q ? L.q + "/5" : "–"}</b><span>rested</span></div><div><b>${L ? Math.round(L.min / s.goalMin * 100) + "%" : "–"}</b><span>of goal</span></div></div>
+      ${!L ? `<div class="empty">Last night isn't logged yet.</div>` : ""}</a>`);
+  } else cards.push(emptyCard("sleep"));
+  // Fuel
+  const fa = adapters.fuel;
+  if (fa.has()) {
+    const f = fa.today(k), g = f.goals, left = g.cal - f.t.cal;
+    cards.push(`<a class="card" href="${APP.fuel.path}" style="--c:${APP.fuel.color}"><div class="tag"><i></i>Fuel<span class="go">›</span></div>
+      <div class="big">${Math.round(f.t.cal).toLocaleString()}<small>of ${g.cal.toLocaleString()} kcal</small></div>${bar(f.t.cal / g.cal, APP.fuel.color)}
+      <div class="mini"><div><b>${Math.round(f.t.p)}/${g.p}g</b><span>protein</span></div><div><b>${f.water}/${g.water}</b><span>cups water</span></div><div><b>${f.weight ? f.weight.lb : "–"}</b><span>${f.weight ? "lb, " + parseKey(f.weight.date).toLocaleDateString([], {month: "short", day: "numeric"}) : "weight"}</span></div></div>
+      ${!f.items ? `<div class="empty">Nothing logged today yet.</div>` : left < 0 ? `<div class="empty">${Math.round(-left)} kcal over.</div>` : ""}</a>`);
+  } else cards.push(emptyCard("fuel"));
+  // Coming up: the rest of today's planned items from every app
+  const evs = allEvents(k, k).filter(e => e.planned && (!e.time || e.time > now)).sort(byTime);
+  return `<div class="wide2">${cards.join("")}</div>
+    <section class="card"><div class="mhead"><h2>Coming up today</h2><button class="btn sm" data-act="tab" data-id="calendar">Calendar</button></div>
+      ${evs.length ? `<div class="agenda">${evs.map(evRow).join("")}</div>` : `<div class="empty">Nothing else planned today.</div>`}</section>
+    ${!Life.connected ? `<section class="card"><b>This device only</b><p class="note" style="margin:6px 0 10px">LIFE HQ reads what your apps save to your private life-data repo. Connect it to see Sleep and Fuel from your other apps.</p><button class="btn solid" data-act="connect">Connect</button></section>` : ""}`;
+}
+function emptyCard(id) {
+  const a = APP[id];
+  return `<a class="card" href="${a.path}" style="--c:${a.color}"><div class="tag"><i></i>${a.name}<span class="go">›</span></div><div class="empty">No ${a.name} data yet${Life.connected ? "" : " on this device"}. Open ${a.name} to start.</div></a>`;
+}
+
+/* ================= CALENDAR ================= */
+let calMonth = todayKey().slice(0, 7), sel = todayKey();
+const loadedMonths = new Set();
+function allEvents(from, to) {
+  return Object.values(adapters).flatMap(a => { try { return a.events(from, to); } catch (e) { console.warn(e); return []; } });
+}
+const byTime = (a, b) => (a.time ? a.time.getTime() : 0) - (b.time ? b.time.getTime() : 0);
+function evRow(e) {
+  const a = APP[e.app];
+  return `<a class="ev ${e.planned ? "planned" : ""}" href="${a.path}" style="--c:${a.color}"><span class="t">${e.time ? time(e.time) : "All day"}</span>
+    <span class="d"><b><i></i>${esc(e.title)}${e.planned ? '<span class="pl">planned</span>' : ""}</b>${e.detail ? `<span class="note">${esc(e.detail)}</span>` : ""}</span></a>`;
+}
+function viewCalendar() {
+  const [y, m] = calMonth.split("-").map(Number), first = new Date(y, m - 1, 1);
+  const start = new Date(first); start.setDate(1 - first.getDay());
+  const cells = [];
+  for (let i = 0; i < 42; i++) { const d = new Date(start); d.setDate(start.getDate() + i); cells.push(ymd(d)); }
+  if (cells.slice(35).every(c => c.slice(0, 7) !== calMonth)) cells.length = 35;
+  const evs = allEvents(cells[0], cells[cells.length - 1]);
+  const byDay = {}; evs.forEach(e => (byDay[e.date] ||= []).push(e));
+  const today = todayKey(), dayEvs = (byDay[sel] || []).sort(byTime);
+  const used = [...new Set(evs.map(e => e.app))];
+  ensureMonth(calMonth);
+  return `<section class="card">
+    <div class="mhead"><button class="btn sm" data-act="month" data-d="-1" aria-label="Previous month">‹</button><h2>${first.toLocaleDateString([], {month: "long", year: "numeric"})}</h2><button class="btn sm" data-act="month" data-d="1" aria-label="Next month">›</button></div>
+    <div class="cal">${"SMTWTFS".split("").map(d => `<span class="h">${d}</span>`).join("")}
+      ${cells.map(c => { const apps = [...new Set((byDay[c] || []).map(e => e.app))];
+        return `<button class="${c.slice(0, 7) !== calMonth ? "out" : ""} ${c === today ? "today" : ""} ${c === sel ? "sel" : ""}" data-act="pick" data-k="${c}" aria-label="${parseKey(c).toDateString()}${apps.length ? ", " + apps.length + " apps" : ""}">${parseKey(c).getDate()}<span class="dots">${apps.map(a => `<i style="--c:${APP[a].color}"></i>`).join("")}</span></button>`; }).join("")}
+    </div>
+    ${used.length ? `<div class="legend">${used.map(a => `<span style="--c:${APP[a].color}"><i></i>${APP[a].name}</span>`).join("")}</div>` : ""}
+  </section>
+  <section class="card"><div class="mhead"><h2>${parseKey(sel).toLocaleDateString([], {weekday: "long", month: "short", day: "numeric"})}</h2>${sel !== today ? '<button class="btn sm" data-act="pick" data-k="' + today + '">Today</button>' : ""}</div>
+    ${dayEvs.length ? `<div class="agenda">${dayEvs.map(evRow).join("")}</div>` : `<div class="empty">Nothing logged or planned this day.</div>`}
+  </section>`;
+}
+function ensureMonth(mon) {
+  if (!Life.connected || loadedMonths.has(mon)) return;
+  loadedMonths.add(mon);
+  const [y, m] = mon.split("-").map(Number), prev = ymd(new Date(y, m - 2, 1)).slice(0, 7), next = ymd(new Date(y, m, 1)).slice(0, 7);
+  Promise.all(Object.values(adapters).map(a => a.load([prev, mon, next]))).then(() => { if (tab === "calendar") render(); }).catch(() => {});
+}
+
+/* ================= APPS ================= */
+function viewApps() {
+  const built = APPS.filter(a => a.built), soon = APPS.filter(a => !a.built);
+  const tile = a => `<${a.built ? `a href="${a.path}"` : "div"} class="app ${a.built ? "" : "soon"}" style="--c:${a.color}"><span class="ic">${a.name[0]}</span><b>${a.name}</b><span>${a.built ? a.blurb : "Coming in phase " + a.phase}</span></${a.built ? "a" : "div"}>`;
+  return `<section><div class="eyebrow" style="margin-bottom:10px">Your apps</div><div class="apps">${built.map(tile).join("")}
+      <a class="app" href="../film/" style="--c:${APP.basketball.color}"><span class="ic">F</span><b>Film Room</b><span>Basketball read-and-react quiz</span></a></div></section>
+    <section><div class="eyebrow" style="margin:6px 0 10px">On the roadmap</div><div class="apps">${soon.map(tile).join("")}</div></section>
+    <p class="note">Tip: open each app in Safari and use Share › Add to Home Screen to give it its own icon. Each one asks for your LIFE HQ key once (Setup › Copy key).</p>`;
+}
+
+/* ================= SETUP ================= */
+function viewSetup() {
+  const files = (() => { try { return Object.keys(JSON.parse(localStorage.getItem("life:cache") || "{}")); } catch (e) { return []; } })();
+  const byApp = {}; files.forEach(p => { const a = p.split("/")[0]; byApp[a] = (byApp[a] || 0) + 1; });
+  return `<section class="card"><div class="mhead"><h2>Sync</h2></div>
+      ${Life.connected ? `<p class="note" style="margin:0 0 12px">Connected to your private <b>${Life.OWNER}/${Life.REPO}</b> repo. Every save is a commit, so the repo's history is a full backup.</p>
+        <div class="status"><button class="btn solid" data-act="syncNow">Sync now</button><button class="btn" data-act="copyKey">Copy key for another app</button><button class="btn" data-act="connect">Details</button></div>`
+      : `<p class="note" style="margin:0 0 12px">Not connected. Connect once with your LIFE HQ key and this dashboard reads Sleep, Fuel and every app that's added later.</p><button class="btn solid" data-act="connect">Connect</button>`}
+      ${Life.lastError ? `<p class="note" style="color:var(--bad)">${esc(Life.lastError)}</p>` : ""}
+    </section>
+    <section class="card"><div class="mhead"><h2>On this device</h2></div>
+      ${Object.keys(byApp).length ? Object.entries(byApp).map(([a, n]) => `<div class="kv"><span>${esc(APP[a] ? APP[a].name : a)}</span><span>${n} file${n === 1 ? "" : "s"}</span></div>`).join("") : '<div class="empty">Nothing yet.</div>'}
+      <div class="status" style="margin-top:12px"><button class="btn" data-act="export">Download backup</button></div>
+      <p class="note" style="margin:10px 0 0">The download has everything this device has loaded (the last few months). The full history is always in life-data on GitHub.</p></section>
+    <section class="card"><div class="mhead"><h2>How LIFE HQ works</h2></div>
+      <p class="note" style="margin:0">Each app keeps its own data in its own folder of life-data (sleep/, fuel/, …). LIFE HQ reads those folders to build Today and the Calendar, so nothing is copied between apps and nothing is entered twice. Apps work offline and catch up when you're back online.</p></section>`;
+}
+
+/* ---------- render ---------- */
+function render() {
+  const now = new Date(), h = now.getHours();
+  $("#title").textContent = tab === "today" ? (h < 4 ? "Late night" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening") + ", Isaac"
+    : {calendar: "Calendar", apps: "Apps", setup: "Setup"}[tab];
+  $("#tabs").innerHTML = TABS.map(([id, l]) => `<button class="tab" role="tab" aria-selected="${id === tab}" data-act="tab" data-id="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]}</svg>${l}</button>`).join("");
+  $("#main").innerHTML = {today: viewToday, calendar: viewCalendar, apps: viewApps, setup: viewSetup}[tab]();
+}
+const A = {
+  tab: el => go(el.dataset.id),
+  month(el) { const [y, m] = calMonth.split("-").map(Number); calMonth = ymd(new Date(y, m - 1 + +el.dataset.d, 1)).slice(0, 7); render(); },
+  pick(el) { sel = el.dataset.k; if (sel.slice(0, 7) !== calMonth) calMonth = sel.slice(0, 7); render(); },
+  connect() { Life.openConnect(); },
+  async syncNow(el) { el.textContent = "Syncing…"; await Life.sync(); render(); },
+  async copyKey(el) { try { await navigator.clipboard.writeText(Life.token()); el.textContent = "Copied"; } catch (e) { el.textContent = "Couldn't copy"; } },
+  export() {
+    let data = {}; try { data = JSON.parse(localStorage.getItem("life:cache") || "{}"); } catch (e) {}
+    const out = Object.fromEntries(Object.entries(data).map(([p, f]) => [p, f.data]));
+    const blob = new Blob([JSON.stringify({exported: new Date().toISOString(), files: out}, null, 1)], {type: "application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "life-hq-backup-" + todayKey() + ".json";
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  },
+};
+document.addEventListener("click", ev => { const el = ev.target.closest("[data-act]"); if (el) A[el.dataset.act]?.(el, ev); });
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
+
+Life.mountStatus($("#sync"));
+Life.onChange(render);
+Life.onStatus(s => { if (s === "synced" || s === "local") { if (!document.querySelector(".lk-sheet")) render(); } });
+render();
+Life.start();
+setInterval(() => { if (tab === "today") render(); }, 60000);
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>
