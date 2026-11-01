@@ -1,0 +1,16 @@
+{
+  "name": "Split Second",
+  "short_name": "Split Second",
+  "description": "Time freezes: draw a path through the saws and lasers, then watch it play out",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#03060c",
+  "theme_color": "#03060c",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

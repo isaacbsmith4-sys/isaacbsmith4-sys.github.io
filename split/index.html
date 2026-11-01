@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#03060c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Split Second">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Split Second</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@500;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one full-screen canvas (the room: hazards, your dot, the exit) with HTML overlays: HUD while
+   playing, one card for the start, pause and game-over screens. Each room has two phases: FROZEN
+   (blue blueprint look, you draw a path while a timer drains) and LIVE (full neon, your dot runs the
+   path while everything moves). Game-only: best score in localStorage, nothing goes to LIFE HQ. */
+:root{
+  color-scheme:dark;
+  --bg:#03060c; --ink:#eef6ff; --muted:#8696b0; --line:rgba(255,255,255,.12);
+  --ice:#6fd0ff; --hot:#ff3d6e; --go:#4dffa6; --gold:#ffd34d;
+  --display:"Barlow Condensed","Avenir Next Condensed",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;color:var(--ink);font:15px/1.4 var(--body);touch-action:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 0;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;transition:opacity .2s}
+.hud .score{font:800 40px/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.hud .meta{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.hud .right{display:flex;gap:12px;align-items:center}
+.lives{display:flex;gap:5px}
+.lives i{width:11px;height:11px;transform:rotate(45deg);background:var(--hot);box-shadow:0 0 10px var(--hot)}
+.lives i.off{background:rgba(255,255,255,.15);box-shadow:none}
+.icon{pointer-events:auto;appearance:none;border:1px solid var(--line);background:rgba(4,8,18,.55);color:var(--ink);width:40px;height:40px;border-radius:12px;font:700 15px var(--body);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.icon:focus-visible,.btn:focus-visible,.back:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px calc(env(safe-area-inset-bottom,0px) + 28px);text-align:center;background:radial-gradient(70% 50% at 50% 50%,rgba(3,6,12,.78),rgba(3,6,12,.4) 80%)}
+.back{position:absolute;left:16px;top:calc(env(safe-area-inset-top,0px) + 12px);color:var(--muted);text-decoration:none;font:700 13px var(--body);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(4,8,18,.5)}
+.mute{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 8px)}
+h1{margin:0;font:800 clamp(60px,20vw,100px)/.84 var(--display);letter-spacing:.03em;text-transform:uppercase;font-style:italic}
+h1 .a{color:var(--ice);text-shadow:0 0 24px rgba(111,208,255,.6)}
+h1 .b{color:#fff;text-shadow:0 0 24px rgba(255,61,110,.7),4px 0 0 rgba(255,61,110,.6)}
+.tag{margin:16px 0 0;color:var(--ink);font-size:16px;font-weight:700}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.big{font:800 84px/1 var(--display);font-variant-numeric:tabular-nums;text-shadow:0 0 26px rgba(111,208,255,.55)}
+.best{margin-top:22px;display:inline-flex;gap:10px;align-items:baseline;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(4,8,18,.5)}
+.best b{font:800 22px var(--display);color:var(--gold)}
+.newbest{margin-top:8px;font:800 22px var(--display);letter-spacing:.08em;color:var(--gold);text-shadow:0 0 16px rgba(255,211,77,.8);animation:pulse .9s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.08)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px;width:min(340px,100%)}
+.stats div{border:1px solid var(--line);border-radius:14px;padding:10px 6px;background:rgba(4,8,18,.6)}
+.stats b{display:block;font:800 24px var(--display);font-variant-numeric:tabular-nums}
+.stats span{font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{margin-top:26px;appearance:none;border:0;cursor:pointer;font:800 22px var(--display);letter-spacing:.1em;text-transform:uppercase;color:#02060c;padding:15px 44px;border-radius:16px;
+  background:linear-gradient(90deg,var(--ice),#b9a4ff,var(--hot));box-shadow:0 0 36px -6px rgba(111,208,255,.75)}
+.hint{margin-top:16px;color:var(--muted);font-size:13px}
+.how{display:grid;gap:10px;margin-top:24px;text-align:left;width:min(320px,100%)}
+.how div{display:flex;gap:12px;align-items:center;font-size:13.5px}
+.how i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font:800 14px var(--display);border:1px solid var(--line);background:rgba(4,8,18,.6)}
+.flashmsg{position:absolute;left:0;right:0;top:40%;text-align:center;pointer-events:none;font:800 46px var(--display);letter-spacing:.1em;font-style:italic;opacity:0;transform:scale(.85);transition:opacity .2s,transform .2s}
+.flashmsg small{display:block;font:600 12px var(--mono);letter-spacing:.2em;font-style:normal;color:var(--muted)}
+.flashmsg.on{opacity:1;transform:scale(1)}
+</style>
+</head>
+<body>
+<canvas id="c" aria-label="Split Second game"></canvas>
+
+<div class="hud" id="hud" style="opacity:0">
+  <div><div class="score" id="score">0</div><div class="meta" id="lvl">Room 1</div></div>
+  <div class="right"><div class="lives" id="lives"></div><button class="icon" id="pauseBtn" aria-label="Pause">II</button></div>
+</div>
+<div class="flashmsg" id="msg"></div>
+
+<div class="screen" id="menu">
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <button class="icon mute" id="muteBtn" aria-label="Sound">♪</button>
+  <div class="eyebrow">Freeze. Plan. Go.</div>
+  <h1><span class="a">Split</span><br><span class="b">Second</span></h1>
+  <p class="tag">Time is frozen. You get a second to plan.</p>
+  <div class="how">
+    <div><i style="color:var(--ice)">✎</i>Draw a path from your dot to the green exit before the timer runs out.</div>
+    <div><i style="color:var(--hot)">✱</i>Lift your finger and time unfreezes. Your dot runs the line while saws and lasers move.</div>
+    <div><i style="color:var(--gold)">◷</i>While you draw, the room shows where everything will be when your dot gets there.</div>
+  </div>
+  <div class="best"><span class="eyebrow">Best</span><b id="menuBest">0</b></div>
+  <button class="btn" id="startBtn">Play</button>
+</div>
+
+<div class="screen" id="paused" hidden>
+  <div class="eyebrow">Paused</div>
+  <div class="big" id="pauseScore">0</div>
+  <button class="btn" id="resumeBtn">Resume</button>
+  <p class="hint"><a href="#" id="quitBtn" style="color:var(--muted)">End run</a></p>
+</div>
+
+<div class="screen" id="over" hidden>
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <div class="eyebrow" id="overWhy">Out of lives</div>
+  <div class="big" id="finalScore">0</div>
+  <div class="newbest" id="newBest" hidden>New best</div>
+  <div class="best" id="overBestWrap"><span class="eyebrow">Best</span><b id="overBest">0</b></div>
+  <div class="stats">
+    <div><b id="stRooms">0</b><span>Rooms</span></div>
+    <div><b id="stCoins">0</b><span>Coins</span></div>
+    <div><b id="stClean">0</b><span>First try</span></div>
+  </div>
+  <button class="btn" id="againBtn">Again</button>
+  <p class="hint">Tap anywhere to go again</p>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const cv = $("#c"), ctx = cv.getContext("2d");
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("split:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("split:" + k, JSON.stringify(v)); } catch {} }
+};
+const TAU = Math.PI * 2;
+
+/* ---------- sound ---------- */
+let ac = null, muted = store.get("muted", false);
+function audio() {
+  if (muted) return null;
+  if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; } }
+  if (ac.state === "suspended") ac.resume();
+  return ac;
+}
+function tone(f0, f1, dur, type = "sine", vol = .1, delay = 0) {
+  const a = audio(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + delay;
+  o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur + .02);
+}
+function noise(dur, vol, freq) {
+  const a = audio(); if (!a) return;
+  const n = Math.floor(a.sampleRate * dur), buf = a.createBuffer(1, n, a.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n) ** 2;
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  s.buffer = buf; f.type = "lowpass"; f.frequency.value = freq; g.gain.value = vol;
+  s.connect(f).connect(g).connect(a.destination); s.start();
+}
+const sfx = {
+  freeze: () => { tone(1800, 600, .35, "sine", .06); tone(2400, 900, .3, "triangle", .03, .03); },
+  go: () => { noise(.25, .12, 3000); tone(220, 880, .25, "sawtooth", .05); },
+  tick: () => tone(1500, 1400, .04, "square", .02),
+  coin: () => { tone(1047, 2093, .1, "triangle", .08); },
+  win: () => { tone(523, 1047, .18, "triangle", .09); tone(784, 1568, .22, "triangle", .08, .09); tone(1047, 2093, .3, "sine", .07, .18); },
+  die: () => { noise(.6, .32, 1400); tone(180, 40, .6, "sawtooth", .1); }
+};
+const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch {} };
+
+/* ---------- sizing ---------- */
+let W = 0, H = 0, DPR = 1, U = 1, A = {x0: 0, y0: 0, x1: 1, y1: 1};
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  U = Math.min(W, H * .6) / 400;
+  A = {x0: 16, y0: 96, x1: W - 16, y1: H - 24};
+  if (G && G.room) buildRoom(G.room.seed);
+}
+addEventListener("resize", resize);
+
+/* ---------- seeded random so a retry gets the same room ---------- */
+function rng(seed) { let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+/* ---------- hazards: each is a pure function of time ---------- */
+const sawPos = (h, t) => { const k = (1 - Math.cos(TAU * (t / h.P + h.ph))) / 2; return {x: h.ax + (h.bx - h.ax) * k, y: h.ay + (h.by - h.ay) * k}; };
+const orbPos = (h, t) => { const a = h.a0 + h.w * t; return {x: h.cx + Math.cos(a) * h.R, y: h.cy + Math.sin(a) * h.R}; };
+const gateOn = (h, t) => ((t / h.P + h.ph) % 1 + 1) % 1 < h.on;
+function laserSeg(h, t) {
+  const a = h.a0 + h.w * t, dx = Math.cos(a) * h.len, dy = Math.sin(a) * h.len;
+  return h.both ? [h.cx - dx, h.cy - dy, h.cx + dx, h.cy + dy] : [h.cx, h.cy, h.cx + dx, h.cy + dy];
+}
+function segDist(px, py, x0, y0, x1, y1) {
+  const vx = x1 - x0, vy = y1 - y0, l2 = vx * vx + vy * vy || 1;
+  const k = Math.max(0, Math.min(1, ((px - x0) * vx + (py - y0) * vy) / l2));
+  return Math.hypot(px - x0 - vx * k, py - y0 - vy * k);
+}
+// does the dot at (x,y) touch hazard h at time t?
+function hits(h, x, y, t, pr) {
+  if (h.type === "saw") { const p = sawPos(h, t); return Math.hypot(p.x - x, p.y - y) < h.r + pr; }
+  if (h.type === "orb") { const p = orbPos(h, t); return Math.hypot(p.x - x, p.y - y) < h.r + pr; }
+  if (h.type === "laser") { const s = laserSeg(h, t); return segDist(x, y, ...s) < 3 * U + pr; }
+  if (h.type === "gate") return gateOn(h, t) && x > h.x0 && x < h.x1 && Math.abs(y - h.y) < 3 * U + pr;
+  return false;
+}
+
+/* ---------- rooms ---------- */
+const PR = () => 7 * U + 2;          // player radius
+const SPEED = () => 230 * U + 40;    // dot speed along your path, px/s
+const planTime = lvl => Math.max(1.5, 3.4 - lvl * .14);
+// keep re-rolling until a quick search finds at least one route through, so every room is beatable
+function buildRoom(seed) {
+  for (let k = 0; k < 12; k++) {
+    makeRoom(seed + k * 7919, k >= 8 ? 2 : 0);
+    if (solvable(G.room)) return;
+  }
+}
+function solvable(room) {
+  const st = room.start, ex = room.exit, R = rng(room.seed ^ 0x5bd1e995);
+  for (let tr = 0; tr < 220; tr++) {
+    const n = 1 + Math.floor(R() * 3), pts = [st];
+    for (let i = 1; i <= n; i++) pts.push({x: A.x0 + 20 + R() * (A.x1 - A.x0 - 40), y: st.y + (ex.y - st.y) * i / (n + 1) + (R() - .5) * 120});
+    pts.push(ex);
+    if (survives(room, pts)) return true;
+  }
+  return false;
+}
+function survives(room, pts) {
+  const sp = SPEED(), pr = PR() + 2;   // a little margin so the found route isn't razor thin
+  let i = 0, done = 0, t = 0;
+  while (i < pts.length - 1) {
+    const a = pts[i], b = pts[i + 1], d = Math.hypot(b.x - a.x, b.y - a.y), n = Math.max(1, Math.ceil(d / sp * 120));
+    for (let k = 1; k <= n; k++) {
+      const f = k / n, x = a.x + (b.x - a.x) * f, y = a.y + (b.y - a.y) * f, tt = t + d / sp * f;
+      if (Math.hypot(room.exit.x - x, room.exit.y - y) < room.exit.r) return true;
+      for (const h of room.hz) if (Math.hypot(h.reach.x - x, h.reach.y - y) < h.reach.r + pr && hits(h, x, y, tt, pr)) return false;
+    }
+    t += d / sp; i++;
+  }
+  return false;
+}
+function makeRoom(seed, fewer) {
+  const g = G, lvl = Math.max(1, g.level - fewer * 2), R = rng(seed);
+  const w = A.x1 - A.x0, h = A.y1 - A.y0;
+  const start = {x: W / 2, y: A.y1 - 40 * U - 10};
+  const exit = {x: A.x0 + w * (.2 + R() * .6), y: A.y0 + 46 * U + 10, r: 22 * U + 6};
+  const keep = [start, exit];
+  const clear = (x, y, rad) => keep.every(k => Math.hypot(k.x - x, k.y - y) > rad + 54 * U);
+  const hz = [], n = Math.min(10, 2 + Math.floor(lvl * .75)), sp = 1 + Math.min(1.2, lvl * .06);
+  const types = ["saw", "laser", "gate", "saw", "orb"];
+  for (let i = 0, tries = 0; hz.length < n && tries < 400; tries++) {
+    const type = lvl < 2 ? (i % 2 ? "gate" : "saw") : types[Math.floor(R() * (lvl < 4 ? 3 : types.length))];
+    const cx = A.x0 + 30 + R() * (w - 60), cy = A.y0 + h * (.18 + R() * .62);
+    let H_ = null;
+    if (type === "saw") {
+      const len = (70 + R() * 130) * U, a = R() * TAU, r = (12 + R() * 8) * U;
+      const ax = cx - Math.cos(a) * len / 2, ay = cy - Math.sin(a) * len / 2, bx = cx + Math.cos(a) * len / 2, by = cy + Math.sin(a) * len / 2;
+      if (keep.every(k => segDist(k.x, k.y, ax, ay, bx, by) > r + 50 * U) && [ax, bx].every(x => x > A.x0 && x < A.x1) && [ay, by].every(y => y > A.y0 && y < A.y1))
+        H_ = {type, ax, ay, bx, by, r, P: (2.6 - R() * 1.2) / sp, ph: R()};
+    } else if (type === "laser") {
+      const len = (55 + R() * 70) * U, both = R() < .5;
+      if (clear(cx, cy, len)) H_ = {type, cx, cy, len, both, a0: R() * TAU, w: (R() < .5 ? -1 : 1) * (.9 + R() * .9) * sp};
+    } else if (type === "gate") {
+      const span = w * (.45 + R() * .4), x0 = Math.max(A.x0, Math.min(A.x1 - span, cx - span / 2));
+      if (keep.every(k => Math.abs(k.y - cy) > 50 * U)) H_ = {type, x0, x1: x0 + span, y: cy, P: (1.6 + R() * 1.2) / sp, on: .45 + R() * .15, ph: R()};
+    } else if (type === "orb") {
+      const Rr = (40 + R() * 40) * U, r = (9 + R() * 5) * U;
+      if (clear(cx, cy, Rr + r)) H_ = {type, cx, cy, R: Rr, r, a0: R() * TAU, w: (R() < .5 ? -1 : 1) * (1.4 + R()) * sp};
+    }
+    if (H_) { hz.push(H_); i++; }
+  }
+  const coins = [];
+  for (let k = 0, tries = 0; coins.length < 3 && tries < 60; tries++) {
+    const x = A.x0 + 30 + R() * (w - 60), y = A.y0 + h * (.15 + R() * .7);
+    if (clear(x, y, 0)) coins.push({x, y, got: false});
+  }
+  // the circle each hazard can ever reach, so the route check can skip far-away ones
+  for (const h of hz) h.reach = h.type === "saw" ? {x: (h.ax + h.bx) / 2, y: (h.ay + h.by) / 2, r: Math.hypot(h.bx - h.ax, h.by - h.ay) / 2 + h.r}
+    : h.type === "orb" ? {x: h.cx, y: h.cy, r: h.R + h.r} : h.type === "laser" ? {x: h.cx, y: h.cy, r: h.len + 4 * U}
+    : {x: (h.x0 + h.x1) / 2, y: h.y, r: (h.x1 - h.x0) / 2 + 4 * U};
+  g.room = {seed, start, exit, hz, coins};
+}
+
+/* ---------- state ---------- */
+let state = "menu", G = null, best = store.get("best", 0), shake = 0, flash = 0, flashCol = "255,255,255";
+function newGame() { return {level: 1, lives: 3, pts: 0, coins: 0, clean: 0, tries: 0, room: null, phase: "intro", phaseT: 0, plan: 0, path: null, drawing: false, t: 0, s: 0, parts: [], pops: [], why: "", dot: null}; }
+const score = () => Math.floor(G.pts);
+
+function newRoom(sameSeed) {
+  const g = G;
+  if (!sameSeed) { g.tries = 0; buildRoom((Math.random() * 2 ** 31) | 0); }
+  g.room.coins.forEach(c => c.got = false);
+  g.phase = "intro"; g.phaseT = 0; g.path = null; g.drawing = false; g.t = 0; g.s = 0; g.got = 0;
+  g.plan = planTime(g.level); g.dot = {...g.room.start}; g.lastTick = -1;
+  msg(sameSeed ? "AGAIN" : `ROOM ${g.level}`, sameSeed ? "#ff3d6e" : "#6fd0ff", sameSeed ? "Same room" : "Time frozen");
+}
+function freeze() { G.phase = "plan"; G.phaseT = 0; sfx.freeze(); }
+
+/* ---------- path: points with running length, so we know when the dot reaches each one ---------- */
+function pathAdd(x, y) {
+  const p = G.path; x = Math.max(A.x0, Math.min(A.x1, x)); y = Math.max(A.y0, Math.min(A.y1, y));
+  const l = p.pts[p.pts.length - 1], d = Math.hypot(x - l.x, y - l.y);
+  if (d < 4) return;
+  p.pts.push({x, y, s: l.s + d}); p.len = l.s + d;
+}
+function pathAt(s) {
+  const pts = G.path.pts;
+  if (s >= G.path.len) return pts[pts.length - 1];
+  let lo = 0, hi = pts.length - 1;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; if (pts[m].s <= s) lo = m; else hi = m; }
+  const a = pts[lo], b = pts[hi], k = (s - a.s) / ((b.s - a.s) || 1);
+  return {x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k};
+}
+
+/* ---------- input ---------- */
+function down(x, y) {
+  audio();
+  if (state !== "play" || G.phase !== "plan") return;
+  const st = G.room.start;
+  G.path = {pts: [{x: st.x, y: st.y, s: 0}], len: 0}; G.drawing = true;
+  pathAdd(x, y);
+}
+function move(x, y) { if (G && G.drawing) pathAdd(x, y); }
+function up() { if (G && G.drawing) { G.drawing = false; if (G.path.len > 12) go(); else G.path = null; } }
+cv.addEventListener("touchstart", e => { e.preventDefault(); const t = e.changedTouches[0]; down(t.clientX, t.clientY); }, {passive: false});
+cv.addEventListener("touchmove", e => { e.preventDefault(); const t = e.changedTouches[0]; move(t.clientX, t.clientY); }, {passive: false});
+cv.addEventListener("touchend", e => { e.preventDefault(); up(); }, {passive: false});
+cv.addEventListener("touchcancel", up);
+cv.addEventListener("mousedown", e => down(e.clientX, e.clientY));
+addEventListener("mousemove", e => move(e.clientX, e.clientY));
+addEventListener("mouseup", up);
+addEventListener("keydown", e => {
+  if ((e.key === " " || e.key === "Enter") && state !== "play") start();
+  else if (e.key === "Escape" || e.key === "p") state === "play" ? pause() : state === "paused" && resume();
+});
+
+/* ---------- screens ---------- */
+const show = id => { for (const s of ["menu", "paused", "over"]) $("#" + s).hidden = s !== id; $("#hud").style.opacity = id ? 0 : 1; };
+let msgTimer = 0;
+function msg(text, col, sub = "") {
+  const el = $("#msg"); el.innerHTML = (sub ? `<small>${sub}</small>` : "") + text; el.style.color = col; el.style.textShadow = `0 0 24px ${col}`;
+  el.classList.add("on"); clearTimeout(msgTimer); msgTimer = setTimeout(() => el.classList.remove("on"), 750);
+}
+function drawLives() { $("#lives").innerHTML = [0, 1, 2].map(i => `<i class="${i < G.lives ? "" : "off"}"></i>`).join(""); }
+function start() { audio(); G = newGame(); state = "play"; show(null); drawLives(); newRoom(false); last = performance.now(); }
+function pause() { if (state !== "play") return; if (G.drawing) { G.drawing = false; G.path = null; } state = "paused"; $("#pauseScore").textContent = score(); show("paused"); }
+function resume() { state = "play"; show(null); last = performance.now(); }
+let overAt = 0;
+function gameOver() {
+  state = "over"; $("#msg").classList.remove("on");
+  const s = score(), nb = s > best;
+  if (nb) { best = s; store.set("best", best); }
+  $("#overWhy").textContent = G.why || "Out of lives";
+  $("#finalScore").textContent = s; $("#overBest").textContent = best;
+  $("#newBest").hidden = !nb; $("#overBestWrap").hidden = nb;
+  $("#stRooms").textContent = G.level - 1; $("#stCoins").textContent = G.coins; $("#stClean").textContent = G.clean;
+  show("over"); overAt = performance.now();
+}
+$("#startBtn").onclick = start; $("#againBtn").onclick = e => { e.stopPropagation(); start(); };
+$("#over").addEventListener("click", e => { if (e.target.closest("a")) return; if (performance.now() - overAt > 600) start(); });
+$("#pauseBtn").onclick = pause; $("#resumeBtn").onclick = resume;
+$("#quitBtn").onclick = e => { e.preventDefault(); G.why = "Run ended"; gameOver(); };
+const setMute = () => { $("#muteBtn").textContent = muted ? "✕" : "♪"; $("#muteBtn").style.opacity = muted ? .5 : 1; };
+$("#muteBtn").onclick = () => { muted = !muted; store.set("muted", muted); setMute(); if (!muted) sfx.coin(); };
+document.addEventListener("visibilitychange", () => { if (document.hidden) pause(); });
+$("#menuBest").textContent = best; setMute();
+
+/* ---------- effects ---------- */
+function burst(x, y, col, n, spd, life = .8) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * TAU, v = spd * (.25 + Math.random());
+    G.parts.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life, max: life, col, r: 1.2 + Math.random() * 2.4});
+  }
+}
+function pop(x, y, text, col) { G.pops.push({x, y, text, col, t: 0}); }
+
+/* ---------- phases ---------- */
+function go() {
+  const g = G; g.phase = "run"; g.phaseT = 0; g.t = 0; g.s = 0; g.planLeft = Math.max(0, g.plan);
+  sfx.go(); buzz(10); flash = .35; flashCol = "255,255,255";
+}
+function fail(why) {
+  const g = G; g.phase = "dead"; g.phaseT = 0; g.lives--; g.tries++; drawLives();
+  sfx.die(); buzz([30, 20, 70]); shake = .9; flash = .55; flashCol = "255,61,110";
+  burst(g.dot.x, g.dot.y, "255,61,110", 40, 300, .9); burst(g.dot.x, g.dot.y, "255,255,255", 18, 380, .6);
+  msg(why, "#ff3d6e");
+  if (g.lives <= 0) g.why = why;
+}
+function win() {
+  const g = G, lvl = g.level;
+  const base = 100 * lvl, quick = Math.round(g.planLeft * 60), coins = g.got * 50, first = g.tries === 0 ? 50 * lvl : 0;
+  g.pts += base + quick + coins + first; g.coins += g.got; if (!g.tries) g.clean++;
+  g.phase = "won"; g.phaseT = 0; sfx.win(); buzz(12);
+  const e = g.room.exit; burst(e.x, e.y, "77,255,166", 50, 280, 1);
+  pop(e.x, e.y + e.r + 26, `+${base + quick + coins + first}`, "77,255,166");
+  if (first) pop(e.x, e.y + e.r + 52, "FIRST TRY", "255,211,77");
+  g.level++;
+  if (g.level % 5 === 1 && g.lives < 3) { g.lives++; drawLives(); pop(W / 2, H / 2 + 40, "+1 LIFE", "255,61,110"); }
+}
+
+function update(dt) {
+  const g = G; g.phaseT += dt;
+  if (g.phase === "intro") { if (g.phaseT > .7) freeze(); }
+  else if (g.phase === "plan") {
+    g.plan -= dt;
+    const left = Math.ceil(g.plan * 4); if (g.plan < 1 && left !== g.lastTick) { g.lastTick = left; sfx.tick(); }
+    if (g.plan <= 0) {
+      if (g.drawing && g.path && g.path.len > 12) { g.drawing = false; go(); }
+      else { g.drawing = false; fail("TOO SLOW"); }
+    }
+  } else if (g.phase === "run") {
+    const room = g.room, pr = PR(), sp = SPEED();
+    let steps = Math.max(1, Math.ceil(dt / (1 / 240)));
+    const h = dt / steps;
+    for (let k = 0; k < steps; k++) {
+      g.t += h; g.s = Math.min(g.path.len, g.s + sp * h);
+      g.dot = pathAt(g.s);
+      for (const c of room.coins) if (!c.got && Math.hypot(c.x - g.dot.x, c.y - g.dot.y) < pr + 12 * U) { c.got = true; g.got++; sfx.coin(); burst(c.x, c.y, "255,211,77", 14, 160, .5); pop(c.x, c.y - 16, "+50", "255,211,77"); }
+      if (Math.hypot(room.exit.x - g.dot.x, room.exit.y - g.dot.y) < room.exit.r) { win(); return; }
+      for (const hz of room.hz) if (hits(hz, g.dot.x, g.dot.y, g.t, pr)) { fail(hz.type === "laser" ? "LASERED" : hz.type === "gate" ? "ZAPPED" : "SLICED"); return; }
+      if (g.s >= g.path.len && g.t > g.path.len / sp + .9) { fail("NO EXIT"); return; }
+    }
+  } else if (g.phase === "dead") {
+    if (g.phaseT > 1.1) { if (g.lives <= 0) gameOver(); else newRoom(true); }
+  } else if (g.phase === "won") {
+    if (g.phaseT > 1) newRoom(false);
+  }
+  for (const p of g.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .96; p.vy *= .96; p.life -= dt; }
+  g.parts = g.parts.filter(p => p.life > 0);
+  for (const p of g.pops) p.t += dt;
+  g.pops = g.pops.filter(p => p.t < 1);
+}
+
+/* ---------- drawing ---------- */
+// time shown in the room: while you draw, it's when your dot will reach your finger
+function viewTime() {
+  const g = G;
+  if (!g) return 0;
+  if (g.phase === "run" || g.phase === "dead" || g.phase === "won") return g.t;
+  if (g.phase === "plan" && g.path) return g.path.len / SPEED();
+  return 0;
+}
+function draw(now) {
+  const g = G, frozen = !g || g.phase === "plan" || g.phase === "intro";
+  ctx.save();
+  if (shake > 0) { ctx.translate((Math.random() - .5) * 14 * shake, (Math.random() - .5) * 14 * shake); shake = Math.max(0, shake - .035); }
+  ctx.fillStyle = frozen ? "#030a16" : "#06030c"; ctx.fillRect(-20, -20, W + 40, H + 40);
+  // blueprint grid
+  const gs = 24 * U + 6;
+  ctx.strokeStyle = frozen ? "rgba(111,208,255,.10)" : "rgba(255,255,255,.05)"; ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let x = A.x0; x <= A.x1; x += gs) { ctx.moveTo(x, A.y0); ctx.lineTo(x, A.y1); }
+  for (let y = A.y0; y <= A.y1; y += gs) { ctx.moveTo(A.x0, y); ctx.lineTo(A.x1, y); }
+  ctx.stroke();
+  ctx.strokeStyle = frozen ? "rgba(111,208,255,.35)" : "rgba(255,255,255,.14)"; ctx.lineWidth = 1.5;
+  ctx.strokeRect(A.x0, A.y0, A.x1 - A.x0, A.y1 - A.y0);
+
+  if (g && g.room) {
+    const room = g.room, t = viewTime();
+    // motion guides (frozen only): saw tracks, orbit rings, laser sweep circles
+    if (frozen) {
+      ctx.setLineDash([4, 6]); ctx.strokeStyle = "rgba(111,208,255,.22)"; ctx.lineWidth = 1.5;
+      for (const h of room.hz) {
+        ctx.beginPath();
+        if (h.type === "saw") { ctx.moveTo(h.ax, h.ay); ctx.lineTo(h.bx, h.by); }
+        else if (h.type === "orb") ctx.arc(h.cx, h.cy, h.R, 0, TAU);
+        else if (h.type === "laser") ctx.arc(h.cx, h.cy, h.len, 0, TAU);
+        else if (h.type === "gate") { ctx.moveTo(h.x0, h.y); ctx.lineTo(h.x1, h.y); }
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+    // exit portal
+    const e = room.exit;
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    const eg = ctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, e.r * 2.2);
+    eg.addColorStop(0, "rgba(77,255,166,.55)"); eg.addColorStop(1, "rgba(77,255,166,0)");
+    ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(e.x, e.y, e.r * 2.2, 0, TAU); ctx.fill();
+    ctx.strokeStyle = "rgba(77,255,166,.95)"; ctx.lineWidth = 3;
+    ctx.setLineDash([e.r * .55, e.r * .3]); ctx.lineDashOffset = -now / 40;
+    ctx.beginPath(); ctx.arc(e.x, e.y, e.r, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset = 0;
+    ctx.restore();
+    // coins
+    for (const c of room.coins) {
+      if (c.got) continue;
+      const s = 6 * U + 3;
+      ctx.save(); ctx.translate(c.x, c.y); ctx.rotate(now / 600);
+      ctx.fillStyle = "rgba(255,211,77,.18)"; ctx.beginPath(); ctx.arc(0, 0, s * 2.2, 0, TAU); ctx.fill();
+      ctx.fillStyle = "#ffd34d"; ctx.beginPath(); ctx.moveTo(0, -s); ctx.lineTo(s * .75, 0); ctx.lineTo(0, s); ctx.lineTo(-s * .75, 0); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+    // hazards at time t
+    for (const h of room.hz) drawHazard(h, t, frozen, now);
+
+    // your path
+    if (g.path && g.path.pts.length > 1) {
+      const pts = g.path.pts, run = !frozen;
+      ctx.save(); ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.strokeStyle = run ? "rgba(255,255,255,.18)" : "rgba(111,208,255,.25)"; ctx.lineWidth = PR() * 2;
+      ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke();
+      ctx.strokeStyle = run ? "rgba(255,255,255,.75)" : "#bfeaff"; ctx.lineWidth = 2.5;
+      if (!run) { ctx.setLineDash([8, 6]); ctx.lineDashOffset = -now / 30; }
+      ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke();
+      ctx.setLineDash([]); ctx.lineDashOffset = 0;
+      // run: the part already traveled glows
+      if (run) {
+        ctx.globalCompositeOperation = "lighter"; ctx.strokeStyle = "rgba(111,208,255,.8)"; ctx.lineWidth = 4;
+        ctx.beginPath(); let started = false;
+        for (const p of pts) { if (p.s > g.s) break; started ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); started = true; }
+        if (started) { ctx.lineTo(g.dot.x, g.dot.y); ctx.stroke(); }
+      }
+      ctx.restore();
+      // plan: ghost dot + time stamp at your finger
+      if (!run) {
+        const l = pts[pts.length - 1];
+        ctx.fillStyle = "rgba(191,234,255,.35)"; ctx.beginPath(); ctx.arc(l.x, l.y, PR(), 0, TAU); ctx.fill();
+        ctx.font = `700 13px "JetBrains Mono", monospace`; ctx.textAlign = "center"; ctx.fillStyle = "#bfeaff";
+        ctx.fillText(`+${t.toFixed(1)}s`, l.x, l.y - PR() - 30);
+      }
+    }
+    // your dot
+    if (g.phase !== "dead") {
+      const d = g.dot || room.start, pr = PR();
+      ctx.save(); ctx.globalCompositeOperation = "lighter";
+      const pg = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, pr * 4);
+      pg.addColorStop(0, "rgba(255,255,255,.8)"); pg.addColorStop(1, "rgba(111,208,255,0)");
+      ctx.fillStyle = pg; ctx.beginPath(); ctx.arc(d.x, d.y, pr * 4, 0, TAU); ctx.fill(); ctx.restore();
+      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(d.x, d.y, pr, 0, TAU); ctx.fill();
+      if (g.phase === "plan" && !g.path) {
+        const k = (now / 900) % 1;
+        ctx.strokeStyle = `rgba(111,208,255,${1 - k})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(d.x, d.y, pr + 6 + k * 26, 0, TAU); ctx.stroke();
+        ctx.font = `700 12px "JetBrains Mono", monospace`; ctx.textAlign = "center"; ctx.fillStyle = "rgba(191,234,255,.9)";
+        ctx.fillText("DRAW TO THE EXIT", d.x, d.y + pr + 28);
+      }
+    }
+    // plan timer bar along the top of the room
+    if (g.phase === "plan" || g.phase === "intro") {
+      const full = planTime(g.level), k = Math.max(0, g.plan / full), wbar = A.x1 - A.x0;
+      ctx.fillStyle = "rgba(111,208,255,.15)"; ctx.fillRect(A.x0, A.y0 - 8, wbar, 4);
+      ctx.fillStyle = k < .3 ? "#ff3d6e" : "#6fd0ff"; ctx.fillRect(A.x0, A.y0 - 8, wbar * k, 4);
+      ctx.font = `600 10.5px "JetBrains Mono", monospace`; ctx.textAlign = "left"; ctx.fillStyle = k < .3 ? "#ff8aa5" : "#9fdcff";
+      ctx.fillText(g.phase === "intro" ? "" : `TIME FROZEN · ${Math.max(0, g.plan).toFixed(1)}s`, A.x0 + 2, A.y0 - 14);
+    }
+    // particles + pops
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    for (const p of g.parts) { ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = `rgb(${p.col})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, TAU); ctx.fill(); }
+    ctx.restore();
+    ctx.textAlign = "center";
+    for (const p of g.pops) { ctx.globalAlpha = 1 - p.t; ctx.font = `800 ${22 + p.t * 6}px "Barlow Condensed", system-ui`; ctx.fillStyle = `rgb(${p.col})`; ctx.fillText(p.text, p.x, p.y - p.t * 30); }
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+  if (flash > 0) { ctx.fillStyle = `rgba(${flashCol},${flash * .35})`; ctx.fillRect(0, 0, W, H); flash = Math.max(0, flash - .03); }
+}
+
+function drawHazard(h, t, frozen, now) {
+  const hot = frozen ? "150,215,255" : "255,61,110";
+  if (h.type === "saw" || h.type === "orb") {
+    const p = h.type === "saw" ? sawPos(h, t) : orbPos(h, t), r = h.r;
+    if (h.type === "orb") { ctx.fillStyle = `rgba(${hot},.5)`; ctx.beginPath(); ctx.arc(h.cx, h.cy, 3, 0, TAU); ctx.fill(); }
+    ctx.save(); ctx.translate(p.x, p.y);
+    ctx.globalCompositeOperation = "lighter";
+    const gl = ctx.createRadialGradient(0, 0, r * .5, 0, 0, r * 2); gl.addColorStop(0, `rgba(${hot},.35)`); gl.addColorStop(1, `rgba(${hot},0)`);
+    ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(0, 0, r * 2, 0, TAU); ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+    ctx.rotate(frozen ? t * 8 : now / 60);
+    ctx.fillStyle = frozen ? "#9fd8ff" : "#ff3d6e";
+    ctx.beginPath();
+    const teeth = h.type === "saw" ? 10 : 6;
+    for (let i = 0; i < teeth * 2; i++) { const a = i / (teeth * 2) * TAU, rr = i % 2 ? r * .72 : r; i ? ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr) : ctx.moveTo(rr, 0); }
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = frozen ? "#0b2236" : "#2a0612"; ctx.beginPath(); ctx.arc(0, 0, r * .3, 0, TAU); ctx.fill();
+    ctx.restore();
+  } else if (h.type === "laser") {
+    const s = laserSeg(h, t);
+    ctx.save(); ctx.lineCap = "round"; ctx.globalCompositeOperation = "lighter";
+    ctx.strokeStyle = `rgba(${hot},.3)`; ctx.lineWidth = 10 * U + 2; ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(s[2], s[3]); ctx.stroke();
+    ctx.strokeStyle = frozen ? "#d8f1ff" : "#ffd0dc"; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(s[2], s[3]); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = frozen ? "#6fd0ff" : "#ff3d6e"; ctx.beginPath(); ctx.arc(h.cx, h.cy, 5 * U + 2, 0, TAU); ctx.fill();
+  } else if (h.type === "gate") {
+    const on = gateOn(h, t);
+    ctx.fillStyle = frozen ? "#6fd0ff" : "#ff3d6e";
+    ctx.fillRect(h.x0 - 4, h.y - 7, 4, 14); ctx.fillRect(h.x1, h.y - 7, 4, 14);
+    if (on) {
+      ctx.save(); ctx.globalCompositeOperation = "lighter";
+      ctx.strokeStyle = `rgba(${hot},.35)`; ctx.lineWidth = 10 * U + 2; ctx.beginPath(); ctx.moveTo(h.x0, h.y); ctx.lineTo(h.x1, h.y); ctx.stroke();
+      ctx.strokeStyle = frozen ? "#d8f1ff" : "#ffd0dc"; ctx.lineWidth = 2;
+      ctx.beginPath(); for (let x = h.x0; x <= h.x1; x += 6) { const y = h.y + Math.sin(x * .3 + now / 40) * 2.5; x === h.x0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke();
+      ctx.restore();
+    } else {
+      ctx.strokeStyle = `rgba(${hot},.25)`; ctx.lineWidth = 1; ctx.setLineDash([3, 7]);
+      ctx.beginPath(); ctx.moveTo(h.x0, h.y); ctx.lineTo(h.x1, h.y); ctx.stroke(); ctx.setLineDash([]);
+    }
+  }
+}
+
+/* ---------- menu backdrop: a live room cycling on its own ---------- */
+function demo() { G = newGame(); G.level = 6; buildRoom(12345); G.phase = "run"; G.path = null; G.dot = {...G.room.start}; }
+
+/* ---------- HUD + loop ---------- */
+let last = 0, hudScore = -1;
+function hud() {
+  const s = score(); if (s !== hudScore) { hudScore = s; $("#score").textContent = s; }
+  $("#lvl").textContent = "Room " + G.level;
+}
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  if (state === "play") { update(dt); if (state === "play") hud(); }
+  else if (state === "over") { for (const p of G.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; } G.parts = G.parts.filter(p => p.life > 0); }
+  else if (state === "menu") G.t += dt;
+  draw(now);
+  requestAnimationFrame(frame);
+}
+resize(); demo();
+requestAnimationFrame(t => { last = t; frame(t); });
+
+if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+</script>
+</body>
+</html>
