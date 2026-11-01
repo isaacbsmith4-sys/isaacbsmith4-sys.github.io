@@ -156,8 +156,8 @@ label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 130px}
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
 <div id="overlay"></div>
-<script src="../kit/kit.js?v=5"></script>
-<script src="../kit/apps.js?v=5"></script>
+<script src="../kit/kit.js?v=6"></script>
+<script src="../kit/apps.js?v=6"></script>
 <script>
 (() => {
 "use strict";
@@ -167,6 +167,7 @@ const {APPS, adapters, util, METRICS, metricInfo, metric} = LifeApps;
 const {ymd, parseKey, addDays, dur, time} = util;
 const APP = Object.fromEntries(APPS.map(a => [a.id, a]));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
 const todayKey = () => ymd(new Date(Date.now() - 4 * 3600e3));
 const bar = (f, c) => `<div class="bar" style="--c:${c}"><b style="width:${(clamp(f, 0, 1) * 100).toFixed(1)}%"></b></div>`;
 
@@ -224,6 +225,14 @@ function viewToday() {
       <div class="big">${h.done}/${h.due}<small>done today</small></div>${bar(h.due ? h.done / h.due : 0, APP.habits.color)}
       <div class="sub" style="margin-top:8px">${!h.due ? "Nothing scheduled today." : h.done === h.due ? "All done." : h.mustLeft.length ? "Still to do: " + esc(h.mustLeft.join(", ")) : h.left.length + " left"}</div></a>`);
   } else cards.push(emptyCard("habits"));
+  // Focus
+  const fo = adapters.focus;
+  if (fo.has()) {
+    const f = fo.today(k);
+    cards.push(`<a class="card" href="${APP.focus.path}" style="--c:${APP.focus.color}"><div class="tag"><i></i>Focus<span class="go">›</span></div>
+      <div class="big">${f.active ? "Focusing<small>session running</small>" : dur(f.min) + `<small>of ${dur(f.goal)} goal</small>`}</div>${bar(f.min / f.goal, APP.focus.color)}
+      <div class="sub" style="margin-top:8px">${f.count ? plural(f.count, "session") + " today" : "No sessions yet today."}</div></a>`);
+  } else cards.push(emptyCard("focus"));
   // Coming up: the rest of today's planned items from every app
   const evs = allEvents(k, k).filter(e => e.planned && (!e.time || e.time > now)).sort(byTime);
   return `<div class="wide2">${cards.join("")}</div>
@@ -395,7 +404,7 @@ function newGoalSheet() {
   const opt = (kind, title, sub) => `<button data-act="goalKind" data-k="${esc(kind)}">${esc(title)}<span>${esc(sub)}</span></button>`;
   sheet(`<div class="row" style="justify-content:space-between"><h3>New goal</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
     <div class="eyebrow">Updates by itself</div>
-    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}${opt("habits.pct", "Habit consistency", "from Habits, 7-day average %")}
+    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}${opt("habits.pct", "Habit consistency", "from Habits, 7-day average %")}${opt("focus.min", "Focus time per week", "from Focus, minutes")}${opt("focus.school", "Study time per week", "from Focus, School sessions")}
       ${lifts.map(n => opt("train.lift:" + n, n + " max", "from Train, estimated 1-rep max")).join("")}</div>
     <div class="eyebrow">You update it</div>
     <div class="pick">${opt("", "Custom goal", "GPA, vertical, sprint time, savings, anything")}</div>`);
@@ -472,6 +481,11 @@ function viewAnalytics() {
       <div class="mrow">${statBox("train.workouts", "Workouts / week", from, to, pFrom, pTo)}${statBox("train.sets", "Hard sets / week", from, to, pFrom, pTo)}
         <div><span>PRs</span><b>${prs}</b><em class="muted">in range</em></div></div></section>`);
   }
+  // Focus
+  const fm = metric("focus.min", from, to);
+  if (fm.length) cards.push(`<section class="card" style="--c:${APP.focus.color}"><div class="tag"><i></i>Focus · ${fm.length} days</div>
+      ${lineChart(fm, {color: APP.focus.color, target: adapters.focus.goal(), from, to, bars: true, fmt: v => (v / 60).toFixed(1) + "h"})}
+      <div class="mrow"><div><span>Total</span><b>${dur(fm.reduce((a, p) => a + p.v, 0))}</b><em class="muted">in range</em></div>${statBox("focus.min", "Per week", from, to, pFrom, pTo, {fmt: v => v == null ? "–" : dur(v)})}${statBox("focus.school", "Study / week", from, to, pFrom, pTo, {fmt: v => v == null ? "–" : dur(v)})}</div></section>`);
   // Habits
   const hp = metric("habits.pct", from, to);
   if (hp.length) cards.push(`<section class="card" style="--c:${APP.habits.color}"><div class="tag"><i></i>Habits · ${hp.length} days</div>
@@ -553,10 +567,10 @@ const A = {
   newGoal() { newGoalSheet(); },
   goalKind(el) {
     const m = el.dataset.k, info = m ? metricInfo(m) : null;
-    const cat = !m ? "Personal" : m.startsWith("sleep") ? "Sleep" : m.startsWith("habits") ? "Habits" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
+    const cat = !m ? "Personal" : m.startsWith("sleep") ? "Sleep" : m.startsWith("habits") ? "Habits" : m === "focus.school" ? "School" : m.startsWith("focus") ? "Productivity" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
     const keep = !!info && info.agg !== "last";
     const fg = adapters.fuel.goals ? adapters.fuel.goals() : {};
-    const target = m === "sleep.asleep" ? adapters.sleep.goalHours() : m === "fuel.protein" ? fg.p : m === "fuel.cal" ? fg.cal : m === "train.workouts" ? 4 : m === "habits.pct" ? 85 : "";
+    const target = m === "sleep.asleep" ? adapters.sleep.goalHours() : m === "fuel.protein" ? fg.p : m === "fuel.cal" ? fg.cal : m === "train.workouts" ? 4 : m === "habits.pct" ? 85 : m === "focus.min" ? (adapters.focus.goal ? adapters.focus.goal() * 7 : 840) : m === "focus.school" ? 300 : "";
     goalForm({metric: m || null, mode: keep ? "keep" : "reach", title: info ? (m.startsWith("train.lift:") ? m.slice(11) + " max" : info.label) : "", cat, target, dir: info && info.better < 0 ? -1 : 1});
   },
   editGoal(el) { goalForm(goalsAll().find(g => g.id === el.dataset.id)); },
