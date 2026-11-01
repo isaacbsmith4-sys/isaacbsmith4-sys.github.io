@@ -36,7 +36,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hud .score{font:800 44px/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:.02em;text-shadow:0 0 18px rgba(124,247,255,.5)}
 .hud .meta{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .fx{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:3px;min-height:14px}
-.combo{font:800 26px/1 var(--display);color:var(--gold);text-shadow:0 0 14px rgba(255,211,77,.7);opacity:0;transition:opacity .15s;text-align:right;margin-top:8px}
+.combo{font:800 24px/1 var(--display);white-space:nowrap;color:var(--gold);text-shadow:0 0 14px rgba(255,211,77,.7);opacity:0;transition:opacity .15s;text-align:right;margin-top:8px}
 .combo.on{opacity:1}
 .icon{pointer-events:auto;appearance:none;border:1px solid var(--line);background:rgba(6,6,18,.55);color:var(--ink);width:40px;height:40px;border-radius:12px;font:700 15px var(--body);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .icon:focus-visible,.btn:focus-visible,.back:focus-visible,.card:focus-visible{outline:2px solid var(--pulse);outline-offset:2px}
@@ -87,10 +87,11 @@ h2{margin:6px 0 0;font:800 40px/1 var(--display);text-transform:uppercase;letter
   <button class="icon mute" id="muteBtn" aria-label="Sound">♪</button>
   <div class="eyebrow">Tap. Blast. Chain.</div>
   <h1>Pulse</h1>
-  <p class="tag">Everything is coming for your core.</p>
+  <p class="tag">Make every shot count.</p>
   <div class="how">
-    <div><i style="color:var(--pulse)">◉</i>Tap anywhere to fire a shockwave from that spot. It blasts everything away.</div>
-    <div><i style="color:var(--hot)">✸</i>Enemies smashed hard into a wall or each other explode. Chain them for combos.</div>
+    <div><i style="color:var(--pulse)">◉</i>Hold to aim: time slows and you see where everything will fly. Release to fire.</div>
+    <div><i style="color:var(--hot)">✸</i>Smash enemies into walls or each other. Every shot that smashes builds your streak; a whiff breaks it.</div>
+    <div><i style="color:var(--gold)">2×</i>Smash 2+ with one shot to get a pulse back.</div>
     <div><i style="color:var(--violet)">M</i>Blast the floating power-ups to switch them on.</div>
     <div><i style="color:#ff3c8c">⬣</i>Every 5 waves a Titan shows up. Beat it, then pick an upgrade.</div>
   </div>
@@ -119,7 +120,7 @@ h2{margin:6px 0 0;font:800 40px/1 var(--display);text-transform:uppercase;letter
   <div class="best" id="overBestWrap"><span class="eyebrow">Best</span><b id="overBest">0</b></div>
   <div class="stats">
     <div><b id="stKills">0</b><span>Smashed</span></div>
-    <div><b id="stCombo">0</b><span>Best combo</span></div>
+    <div><b id="stCombo">0</b><span>Best streak</span></div>
     <div><b id="stWave">0</b><span>Wave</span></div>
   </div>
   <button class="btn" id="againBtn">Again</button>
@@ -138,7 +139,9 @@ const TAU = Math.PI * 2;
 
 /* ---------- tuning (px values scale with U = screen size / 400) ---------- */
 const STEP = 1 / 120;
-const RECHARGE = 1.5;                      // seconds per pulse refill (before upgrades)
+const RECHARGE = 2.4;                      // seconds per pulse refill (before upgrades)
+const FOCUS_MAX = 3;                       // seconds of slow-motion aiming, refills when not aiming
+const SHOT_WINDOW = 1.2;                   // how long after a shot its smashes still count for it
 const WAVE_R = 125, WAVE_T = .28;          // shockwave reach and how long it takes to get there
 const KICK = 900;                          // shockwave impulse at its center
 const SMASH = 330;                         // speed needed to explode on a wall or another enemy
@@ -167,6 +170,7 @@ const UPGRADES = [
   {id: "hull", ch: "◍", name: "Reinforce", desc: "One more hull ring, and repair one", ok: u => u.maxHull < 5, apply: g => { g.up.maxHull++; g.hull = Math.min(g.up.maxHull, g.hull + 2); }},
   {id: "volatile", ch: "✺", name: "Volatile", desc: "Smashed enemies explode and can set off others", ok: u => !u.volatile, apply: g => g.up.volatile = 1},
   {id: "luck", ch: "★", name: "Lucky", desc: "Power-ups show up twice as often", ok: u => u.luck < 3, apply: g => g.up.luck *= 2},
+  {id: "focus", ch: "◔", name: "Deep Focus", desc: "50% more slow-motion while aiming", ok: u => u.focus < 2, apply: g => { g.up.focus *= 1.5; g.focus = FOCUS_MAX * g.up.focus; }},
   {id: "repair", ch: "♥", name: "Full Repair", desc: "Restore every hull ring", ok: () => true, apply: g => g.hull = g.up.maxHull}
 ];
 
@@ -202,6 +206,8 @@ const sfx = {
   power: () => { tone(523, 1568, .25, "triangle", .08); tone(784, 2349, .3, "sine", .06, .06); },
   hurt: () => { noise(.5, .3, 700); tone(160, 50, .5, "sawtooth", .1); },
   block: () => { tone(880, 440, .25, "triangle", .08); },
+  miss: () => tone(300, 140, .25, "triangle", .05),
+  multi: n => { for (let i = 0; i < Math.min(n, 5); i++) tone(523 * Math.pow(2, i * 4 / 12), 1047 * Math.pow(2, i * 4 / 12), .14, "triangle", .07, i * .06); },
   wave: () => { tone(262, 523, .25, "triangle", .07); tone(392, 784, .3, "triangle", .06, .1); },
   titan: () => { tone(80, 55, 1.2, "sawtooth", .08); tone(120, 80, 1.2, "square", .03, .1); },
   titanHit: () => { noise(.3, .2, 600); tone(200, 70, .3, "square", .07); },
@@ -227,9 +233,9 @@ addEventListener("resize", resize);
 let state = "menu", G = null, best = store.get("best", 0), shake = 0, flash = 0, flashCol = "255,255,255";
 function newGame() {
   return {t: 0, waveT: 0, hull: 3, charge: 3, rech: 0, foes: [], coins: [], powers: [], waves: [], booms: [], parts: [], pops: [], debris: [],
-    pts: 0, kills: 0, combo: 0, comboT: 0, bestCombo: 0, spawnT: 1, coinT: 3, powerT: 14, wave: 1, dead: false, deadT: 0, hurtT: 0,
+    pts: 0, kills: 0, streak: 0, bestStreak: 0, shots: [], aim: null, focus: FOCUS_MAX, fired: false, spawnT: 1, coinT: 3, powerT: 14, wave: 1, dead: false, deadT: 0, hurtT: 0,
     mega: 0, shield: 0, overT: 0, freezeT: 0, boss: null, pickAt: 0, titans: 0,
-    up: {radius: 1, force: 1, recharge: 1, maxCharge: 3, maxHull: 3, volatile: 0, luck: 1}};
+    up: {radius: 1, force: 1, recharge: 1, maxCharge: 3, maxHull: 3, volatile: 0, luck: 1, focus: 1}};
 }
 const score = () => Math.floor(G.pts);
 const lvl = () => Math.min(1, G.t / 120);
@@ -282,14 +288,30 @@ function fire(x, y) {
   if (!free && g.charge < 1) { sfx.dry(); g.pops.push({x, y: y - 20, text: "EMPTY", col: "139,146,176", t: .2}); return; }
   if (!free) g.charge -= 1;
   const mega = g.mega > 0; if (mega) g.mega--;
-  const R = (WAVE_R * U + 20) * g.up.radius * (mega ? 1.6 : 1), F = KICK * U * g.up.force * (mega ? 1.5 : 1);
-  g.waves.push({x, y, t: 0, R, F, mega, done: new Set()});
+  const {R, F} = blastSize(mega), shot = {t: 0, kills: 0};
+  g.shots.push(shot); g.fired = true;
+  g.waves.push({x, y, t: 0, R, F, mega, shot, done: new Set()});
   sfx.pulse(mega); buzz(mega ? 16 : 8);
   if (mega) shake = Math.min(1, shake + .3);
 }
-cv.addEventListener("touchstart", e => { e.preventDefault(); for (const t of e.changedTouches) fire(t.clientX, t.clientY); }, {passive: false});
-cv.addEventListener("touchend", e => e.preventDefault(), {passive: false});
-cv.addEventListener("mousedown", e => { if (!("ontouchstart" in window)) fire(e.clientX, e.clientY); });
+const blastSize = mega => ({R: (WAVE_R * U + 20) * G.up.radius * (mega ? 1.6 : 1), F: KICK * U * G.up.force * (mega ? 1.5 : 1)});
+// press = start aiming (time slows and the flight preview shows), drag to adjust, release = fire
+let aimId = null;
+function aimStart(x, y, id) {
+  audio();
+  if (state !== "play" || G.dead || G.aim) return;
+  if (!(G.overT > 0) && G.charge < 1) { sfx.dry(); G.pops.push({x, y: y - 20, text: "EMPTY", col: "139,146,176", t: .2}); return; }
+  G.aim = {x, y}; aimId = id;
+}
+function aimMove(x, y, id) { if (G && G.aim && id === aimId) { G.aim.x = x; G.aim.y = y; } }
+function aimEnd(id) { if (G && G.aim && id === aimId) { const a = G.aim; G.aim = null; aimId = null; fire(a.x, a.y); } }
+cv.addEventListener("touchstart", e => { e.preventDefault(); const t = e.changedTouches[0]; aimStart(t.clientX, t.clientY, t.identifier); }, {passive: false});
+cv.addEventListener("touchmove", e => { e.preventDefault(); for (const t of e.changedTouches) aimMove(t.clientX, t.clientY, t.identifier); }, {passive: false});
+cv.addEventListener("touchend", e => { e.preventDefault(); for (const t of e.changedTouches) aimEnd(t.identifier); }, {passive: false});
+cv.addEventListener("touchcancel", () => { if (G) G.aim = null; aimId = null; });
+cv.addEventListener("mousedown", e => { if (!("ontouchstart" in window)) aimStart(e.clientX, e.clientY, "m"); });
+addEventListener("mousemove", e => aimMove(e.clientX, e.clientY, "m"));
+addEventListener("mouseup", () => aimEnd("m"));
 addEventListener("keydown", e => {
   if ((e.key === " " || e.key === "Enter") && (state === "menu" || state === "over")) start();
   else if (e.key === "Escape" || e.key === "p") state === "play" ? pause() : state === "paused" && resume();
@@ -304,7 +326,7 @@ function msg(text, col) {
   el.classList.add("on"); clearTimeout(msgTimer); msgTimer = setTimeout(() => el.classList.remove("on"), 1000);
 }
 function start() { audio(); G = newGame(); state = "play"; show(null); last = performance.now(); acc = 0; }
-function pause() { if (state !== "play" || G.dead) return; state = "paused"; $("#pauseScore").textContent = score(); show("paused"); }
+function pause() { if (state !== "play" || G.dead) return; G.aim = null; aimId = null; state = "paused"; $("#pauseScore").textContent = score(); show("paused"); }
 function resume() { state = "play"; show(null); last = performance.now(); acc = 0; }
 function openPick() {
   const g = G, opts = UPGRADES.filter(u => u.ok(g.up)).sort(() => Math.random() - .5).slice(0, 3);
@@ -326,7 +348,7 @@ function gameOver() {
   $("#overWhy").textContent = G.why || "Core destroyed";
   $("#finalScore").textContent = s; $("#overBest").textContent = best;
   $("#newBest").hidden = !nb; $("#overBestWrap").hidden = nb;
-  $("#stKills").textContent = G.kills; $("#stCombo").textContent = "x" + G.bestCombo; $("#stWave").textContent = G.wave;
+  $("#stKills").textContent = G.kills; $("#stCombo").textContent = G.bestStreak; $("#stWave").textContent = G.wave;
   show("over"); overAt = performance.now();
 }
 $("#startBtn").onclick = start; $("#againBtn").onclick = e => { e.stopPropagation(); start(); };
@@ -358,33 +380,33 @@ function smash(f, how) {
   if (f.kind === "titan") { damageTitan(f); return; }
   const g = G, K = KINDS[f.kind];
   f.dead = true; g.kills++;
-  g.combo = g.comboT > 0 ? g.combo + 1 : 1; g.comboT = 1.4; g.bestCombo = Math.max(g.bestCombo, g.combo);
-  const mult = Math.min(8, g.combo), pts = K.pts * mult;
+  if (f.shot) f.shot.kills++;
+  const mult = Math.min(8, 1 + g.streak), pts = K.pts * mult;
   g.pts += pts;
-  g.pops.push({x: f.x, y: f.y - f.r - 6, text: (how === "chain" ? "CHAIN " : how === "blast" ? "BOOM " : "") + "+" + pts, col: g.combo > 2 ? "255,211,77" : "255,255,255", t: 0});
+  g.pops.push({x: f.x, y: f.y - f.r - 6, text: (how === "chain" ? "CHAIN " : how === "blast" ? "BOOM " : "") + "+" + pts, col: mult > 2 ? "255,211,77" : "255,255,255", t: 0});
   burst(f.x, f.y, K.col, 22, 240 * U); burst(f.x, f.y, "255,255,255", 8, 300 * U, .4); shards(f);
   // splitters break into two fast minis flung sideways
   if (f.kind === "splitter") for (const s of [-1, 1]) {
-    const m = makeFoe("mini", f.x, f.y), sp = Math.hypot(f.vx, f.vy) || 1;
+    const m = makeFoe("mini", f.x, f.y), sp = Math.hypot(f.vx, f.vy) || 1; m.shot = f.shot;
     m.inside = true; m.vx = -f.vy / sp * 260 * U * s + f.vx * .3; m.vy = f.vx / sp * 260 * U * s + f.vy * .3; m.flyT = .35;
   }
-  if (f.kind === "bomber") explode(f.x, f.y, 95 * U + 10, true);
-  else if (g.up.volatile) explode(f.x, f.y, 45 * U + 6, false);
+  if (f.kind === "bomber") explode(f.x, f.y, 95 * U + 10, true, f.shot);
+  else if (g.up.volatile) explode(f.x, f.y, 45 * U + 6, false, f.shot);
   if (!quiet() && Math.random() < (f.kind === "brute" ? .25 : .05) * g.up.luck) spawnPower(f.x, f.y);
   if (quiet()) return;
-  sfx.smash(g.combo); buzz(6);
+  sfx.smash(g.streak); buzz(6);
   shake = Math.min(1, shake + .18 + (f.kind === "brute" ? .25 : 0));
-  if (g.combo === 5) msg("RAMPAGE", "#ffd34d"); else if (g.combo === 10) msg("UNSTOPPABLE", "#ff4d5e"); else if (g.combo === 15) msg("GODLIKE", "#7cf7ff");
 }
-function explode(x, y, rad, big) {
+function explode(x, y, rad, big, shot) {
   const g = G;
   g.booms.push({x, y, rad, t: 0, big});
   if (!quiet()) { if (big) { sfx.boom(); shake = Math.min(1.1, shake + .5); buzz(14); } }
-  for (const o of g.foes) if (!o.dead && Math.hypot(o.x - x, o.y - y) < rad + o.r) smash(o, "blast");
+  for (const o of g.foes) if (!o.dead && Math.hypot(o.x - x, o.y - y) < rad + o.r) { o.shot = o.shot || shot; smash(o, "blast"); }
 }
 function damageTitan(f) {
   if (f.hurtCd > 0) return;
   const g = G; f.hp--; f.hurtCd = .35;
+  if (f.shot) f.shot.kills++;
   burst(f.x, f.y, KINDS.titan.col, 26, 260 * U); shards(f, 4);
   g.pts += 50; g.pops.push({x: f.x, y: f.y - f.r - 8, text: "TITAN -1", col: "255,60,140", t: 0});
   if (!quiet()) { sfx.titanHit(); shake = Math.min(1, shake + .35); buzz(12); }
@@ -398,7 +420,7 @@ function damageTitan(f) {
     if (!quiet()) { msg("TITAN DOWN", "#ffd34d"); sfx.titanDown(); shake = 1.3; flash = .6; flashCol = "255,90,170"; g.pickAt = g.t + 1.3; }
   }
 }
-function activate(p) {
+function activate(p, shot) {
   const g = G, P = POWERS[p.type];
   p.dead = true;
   burst(p.x, p.y, P.col, 26, 220 * U, .7);
@@ -407,7 +429,7 @@ function activate(p) {
   else if (p.type === "shield") g.shield = 1;
   else if (p.type === "over") g.overT = 6;
   else if (p.type === "freeze") g.freezeT = 5;
-  else if (p.type === "nova") explode(p.x, p.y, 175 * U + 10, true);
+  else if (p.type === "nova") explode(p.x, p.y, 175 * U + 10, true, shot);
   if (!quiet()) { sfx.power(); buzz(10); }
 }
 
@@ -415,7 +437,8 @@ function activate(p) {
 function tick() {
   const g = G, dt = STEP, L = lvl();
   g.t += dt;
-  if (g.comboT > 0 && (g.comboT -= dt) <= 0) g.combo = 0;
+  for (const s of g.shots) if ((s.t += dt) > SHOT_WINDOW && !s.done) resolveShot(s);
+  g.shots = g.shots.filter(s => !s.done);
   if (g.hurtT > 0) g.hurtT -= dt;
   if (g.overT > 0) g.overT -= dt;
   if (g.freezeT > 0) g.freezeT -= dt;
@@ -461,9 +484,9 @@ function tick() {
       const dx = obj.x - wv.x, dy = obj.y - wv.y, k = wv.F * (1 - .55 * d / R) / mass;
       obj.vx += dx / (d || 1) * k; obj.vy += dy / (d || 1) * k;
     };
-    for (const f of g.foes) { const d = reach(f, f); if (d >= 0) { kick(f, KINDS[f.kind].mass, d); f.flyT = f.kind === "titan" ? .5 : .9; if (f.dash) f.dash = {state: "approach", t: 0}; } }
+    for (const f of g.foes) { const d = reach(f, f); if (d >= 0) { kick(f, KINDS[f.kind].mass, d); f.shot = wv.shot; f.flyT = f.kind === "titan" ? .5 : .9; if (f.dash) f.dash = {state: "approach", t: 0}; } }
     for (const c of g.coins) { const d = reach(c, c); if (d >= 0) kick(c, .7, d); }
-    for (const p of g.powers) { if (!p.dead && reach(p, p) >= 0) activate(p); }
+    for (const p of g.powers) { if (!p.dead && reach(p, p) >= 0) { activate(p, wv.shot); if (wv.shot) wv.shot.kills++; } }
   }
   g.waves = g.waves.filter(wv => wv.t < WAVE_T + .25);
 
@@ -520,6 +543,7 @@ function tick() {
     if (d >= rr || d === 0) continue;
     const rel = Math.hypot(a.vx - b.vx, a.vy - b.vy);
     if (rel > SMASH * U * .9 && (a.flyT > 0 || b.flyT > 0)) {
+      const sh = a.flyT > 0 ? a.shot : b.shot; a.shot = a.shot || sh; b.shot = b.shot || sh;
       if (a.kind === "titan") { if (b.flyT > 0) { smash(b, "chain"); damageTitan(a); continue; } }
       else if (b.kind === "titan") { if (a.flyT > 0) { smash(a, "chain"); damageTitan(b); continue; } }
       else { smash(a, "chain"); smash(b, "chain"); continue; }
@@ -556,6 +580,22 @@ function tick() {
   g.booms = g.booms.filter(b => b.t < .5);
   g.pts += dt * 2;
 }
+// a shot is judged once its smashes have played out: hits build the streak, a whiff breaks it
+function resolveShot(s) {
+  const g = G; s.done = true;
+  if (!s.kills) {
+    if (g.streak >= 2) { g.pops.push({x: core.x, y: core.y - core.r - 40, text: `STREAK LOST (${g.streak})`, col: "139,146,176", t: 0}); sfx.miss(); }
+    g.streak = 0; return;
+  }
+  g.streak++; g.bestStreak = Math.max(g.bestStreak, g.streak);
+  if (s.kills >= 2) {
+    const name = ["", "", "DOUBLE", "TRIPLE", "QUAD"][s.kills] || `${s.kills}× MULTI`, refund = s.kills >= 4 ? 2 : 1, bonus = 40 * s.kills * (s.kills - 1);
+    g.pts += bonus; g.charge = Math.min(g.up.maxCharge + 1, g.charge + refund);
+    msg(`${name} +${refund} PULSE`, "#ffd34d"); sfx.multi(s.kills); buzz(14);
+  } else if (g.streak === 5) msg("ON FIRE", "#ffd34d");
+  else if (g.streak === 10) msg("UNSTOPPABLE", "#ff4d5e");
+  else if (g.streak === 20) msg("GODLIKE", "#7cf7ff");
+}
 function hurt(f, titan) {
   if (quiet()) return;   // the menu backdrop just lets them fizzle
   const g = G;
@@ -568,7 +608,7 @@ function hurt(f, titan) {
     g.pops.push({x: core.x, y: core.y - core.r - 26, text: "BLOCKED", col: "90,170,255", t: 0}); knock();
     return;
   }
-  g.hull--; g.hurtT = .6; g.combo = 0; g.comboT = 0;
+  g.hull--; g.hurtT = .6; g.streak = 0;
   sfx.hurt(); buzz([30, 20, 60]); shake = 1; flash = .5; flashCol = "255,77,94";
   burst(f.x, f.y, KINDS[f.kind].col, 30, 280 * U); if (!titan) shards(f);
   knock();
@@ -584,6 +624,32 @@ function stepFx(dt) {
   G.debris = G.debris.filter(d => d.life > 0);
   for (const p of G.pops) p.t += dt;
   G.pops = G.pops.filter(p => p.t < .9);
+}
+
+/* ---------- aim preview: where each thing in range will fly, and whether it smashes ---------- */
+function predict(ax, ay) {
+  const g = G, {R, F} = blastSize(g.mega > 0), out = [];
+  for (const f of g.foes) {
+    const dx = f.x - ax, dy = f.y - ay, d = Math.hypot(dx, dy) || .01;
+    if (d > R + f.r) continue;
+    const K = KINDS[f.kind], k = F * (1 - .55 * Math.min(d, R) / R) / K.mass;
+    let x = f.x, y = f.y, vx = f.vx + dx / d * k, vy = f.vy + dy / d * k, end = null;
+    const pts = [{x, y}], h = 1 / 60;
+    for (let t = 0; t < .9 && !end; t += h) {
+      vx *= 1 - h * .9; vy *= 1 - h * .9; x += vx * h; y += vy * h;
+      const need = f.kind === "titan" ? SMASH * U * .55 : SMASH * U;
+      if (x < B.x0 + f.r || x > B.x1 - f.r) { x = Math.max(B.x0 + f.r, Math.min(B.x1 - f.r, x)); end = {x, y, smash: Math.abs(vx) > need, wall: true}; }
+      else if (y < B.y0 + f.r || y > B.y1 - f.r) { y = Math.max(B.y0 + f.r, Math.min(B.y1 - f.r, y)); end = {x, y, smash: Math.abs(vy) > need, wall: true}; }
+      else for (const o of g.foes) {
+        if (o === f || Math.hypot(o.x - x, o.y - y) > f.r + o.r) continue;
+        end = {x, y, smash: Math.hypot(vx - o.vx, vy - o.vy) > SMASH * U * .9, hit: o}; break;
+      }
+      if (t % (4 * h) < h) pts.push({x, y});
+    }
+    pts.push({x, y});
+    out.push({f, pts, end: end || {x, y, smash: false}});
+  }
+  return out;
 }
 
 /* ---------- drawing ---------- */
@@ -712,6 +778,35 @@ function draw(now) {
       }
     }
 
+    // aim: blast circle, flight lines, smash markers
+    if (g.aim && !g.dead) {
+      const a = g.aim, {R} = blastSize(g.mega > 0), pr = predict(a.x, a.y);
+      let n = 0;
+      ctx.save();
+      ctx.strokeStyle = g.mega > 0 ? "rgba(201,164,255,.7)" : "rgba(124,247,255,.6)"; ctx.lineWidth = 1.5; ctx.setLineDash([6, 6]); ctx.lineDashOffset = -now / 40;
+      ctx.beginPath(); ctx.arc(a.x, a.y, R, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = "rgba(124,247,255,.06)"; ctx.fill();
+      for (const p of pr) {
+        const good = p.end.smash; if (good) n++;
+        ctx.strokeStyle = good ? "rgba(255,211,77,.9)" : "rgba(200,210,230,.35)"; ctx.lineWidth = good ? 2.5 : 1.5;
+        ctx.setLineDash(good ? [] : [3, 5]);
+        ctx.beginPath(); p.pts.forEach((q, i) => i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y)); ctx.stroke(); ctx.setLineDash([]);
+        const e = p.end;
+        if (good) {
+          const s = 7; ctx.strokeStyle = "#ffd34d"; ctx.lineWidth = 3;
+          ctx.beginPath(); ctx.moveTo(e.x - s, e.y - s); ctx.lineTo(e.x + s, e.y + s); ctx.moveTo(e.x + s, e.y - s); ctx.lineTo(e.x - s, e.y + s); ctx.stroke();
+          if (e.hit && e.hit.kind !== "titan") n++;
+        } else { ctx.fillStyle = "rgba(200,210,230,.5)"; ctx.beginPath(); ctx.arc(e.x, e.y, 3, 0, TAU); ctx.fill(); }
+        ctx.strokeStyle = good ? "#ffd34d" : "rgba(200,210,230,.5)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.f.x, p.f.y, p.f.r + 5, 0, TAU); ctx.stroke();
+      }
+      for (const p of g.powers) if (Math.hypot(p.x - a.x, p.y - a.y) < R + p.r) { ctx.strokeStyle = `rgb(${POWERS[p.type].col})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.x, p.y, p.r + 8, 0, TAU); ctx.stroke(); }
+      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(a.x, a.y, 4, 0, TAU); ctx.fill();
+      ctx.font = `800 20px "Barlow Condensed", system-ui`; ctx.textAlign = "center";
+      ctx.fillStyle = n >= 2 ? "#ffd34d" : n ? "#fff" : "rgba(200,210,230,.7)";
+      ctx.fillText(n ? `${n} SMASH${n >= 2 ? " · +1 PULSE" : ""}` : pr.length ? "PUSH ONLY" : "NOTHING IN RANGE", a.x, a.y - R - 10 < B.y0 + 30 ? a.y + R + 22 : a.y - R - 10);
+      ctx.restore();
+    }
+
     // core
     if (!g.dead) {
       const r = core.r, hit = g.hurtT > 0 ? g.hurtT / .6 : 0;
@@ -744,6 +839,13 @@ function draw(now) {
         const fill = g.overT > 0 ? 1 : i < Math.floor(g.charge) ? 1 : i === Math.floor(g.charge) ? g.rech / (RECHARGE * g.up.recharge) : 0;
         ctx.fillStyle = g.overT > 0 || i >= g.up.maxCharge ? "#ffd34d" : g.mega > 0 ? "#c9a4ff" : "#7cf7ff"; ctx.fillRect(x, y, pw * fill, 4);
       }
+      const fy = core.y + r * (1.6 + g.up.maxHull * .36) + 16, fw = 60, fk = g.focus / (FOCUS_MAX * g.up.focus);
+      ctx.fillStyle = "rgba(255,255,255,.08)"; ctx.fillRect(core.x - fw / 2, fy, fw, 2);
+      ctx.fillStyle = g.aim ? "#fff" : "rgba(220,230,255,.55)"; ctx.fillRect(core.x - fw / 2, fy, fw * fk, 2);
+      if (!g.fired && state === "play") {
+        ctx.font = `700 12px "JetBrains Mono", monospace`; ctx.textAlign = "center"; ctx.fillStyle = `rgba(191,234,255,${.6 + .4 * Math.sin(now / 300)})`;
+        ctx.fillText("HOLD TO AIM · RELEASE TO FIRE", core.x, fy + 40);
+      }
     }
 
     // Titan health bar
@@ -768,6 +870,10 @@ function draw(now) {
     ctx.globalAlpha = 1;
   }
   ctx.restore();
+  if (G && G.aim && G.focus > 0 && state === "play") {
+    const v = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .3, W / 2, H / 2, Math.max(W, H) * .75);
+    v.addColorStop(0, "rgba(10,20,40,0)"); v.addColorStop(1, "rgba(40,80,140,.35)"); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  }
   if (flash > 0) { ctx.fillStyle = `rgba(${flashCol},${flash * .3})`; ctx.fillRect(0, 0, W, H); flash = Math.max(0, flash - .03); }
 }
 
@@ -783,7 +889,7 @@ function menuTick(dt) {
     if (f) { const dx = f.x - core.x, dy = f.y - core.y, d = Math.hypot(dx, dy) || 1; G.waves.push({x: f.x - dx / d * 40, y: f.y - dy / d * 40, t: 0, R: WAVE_R * U + 20, F: KICK * U, done: new Set()}); }
     if (!G.powers.length) spawnPower();
   }
-  G.pts = 0; G.pops = []; G.combo = 0; G.mega = 0; G.shield = 0; G.overT = 0; G.freezeT = 0;
+  G.pts = 0; G.pops = []; G.streak = 0; G.shots = []; G.mega = 0; G.shield = 0; G.overT = 0; G.freezeT = 0;
   stepFx(dt);
 }
 
@@ -798,14 +904,17 @@ function hud() {
   if (g.freezeT > 0) fx.push(`Freeze ${Math.ceil(g.freezeT)}s`);
   if (g.shield) fx.push("Shield");
   $("#fx").textContent = fx.join(" · ");
-  const c = $("#combo"); c.textContent = "x" + Math.min(8, g.combo); c.classList.toggle("on", g.combo > 1);
+  const c = $("#combo"); c.textContent = `x${Math.min(8, 1 + g.streak)} streak`; c.classList.toggle("on", g.streak > 0);
 }
 function frame(now) {
   const dt = Math.min(.1, (now - last) / 1000); last = now;
   if (state === "play") {
-    if (!G.dead) { acc += dt; while (acc >= STEP && !G.dead && state === "play") { tick(); acc -= STEP; } hud(); }
+    // aiming spends focus to slow time to a quarter speed; focus refills while you're not aiming
+    const slow = G.aim && G.focus > 0, gdt = slow ? dt * .25 : dt;
+    if (slow) G.focus = Math.max(0, G.focus - dt); else G.focus = Math.min(FOCUS_MAX * G.up.focus, G.focus + dt * .4);
+    if (!G.dead) { acc += gdt; while (acc >= STEP && !G.dead && state === "play") { tick(); acc -= STEP; } hud(); }
     else { G.deadT += dt; if (G.deadT > 1.3) gameOver(); }
-    stepFx(dt);
+    stepFx(gdt);
   } else if (state === "over") stepFx(dt);
   else if (state === "menu") menuTick(dt);
   draw(now);
