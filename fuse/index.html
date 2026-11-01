@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#07060a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fuse">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Fuse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@500;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one full-screen canvas (a grid of wire tiles and the burning spark) with HTML overlays: HUD
+   while playing, one card for the start, pause and game-over screens. Game-only: the best score lives in
+   localStorage, nothing goes to LIFE HQ. Amber is the spark and anything it lights; copper is unburnt
+   wire; red is TNT and danger; cyan is gems. */
+:root{
+  color-scheme:dark;
+  --bg:#07060a; --ink:#fff4e8; --muted:#9a8f86; --line:rgba(255,255,255,.12);
+  --amber:#ffb347; --fire:#ff6a2b; --tnt:#ff3b3b; --gem:#5ff2ff; --gold:#ffd34d;
+  --display:"Barlow Condensed","Avenir Next Condensed",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;color:var(--ink);font:15px/1.4 var(--body);touch-action:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 0;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;transition:opacity .2s}
+.hud .score{font:800 44px/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,179,71,.5)}
+.hud .meta{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.hud .right{display:flex;gap:12px;align-items:flex-start}
+.tntc{text-align:right}
+.tntc b{display:block;font:800 30px/1 var(--display);color:var(--tnt);text-shadow:0 0 14px rgba(255,59,59,.5)}
+.icon{pointer-events:auto;appearance:none;border:1px solid var(--line);background:rgba(14,10,8,.6);color:var(--ink);width:40px;height:40px;border-radius:12px;font:700 15px var(--body);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.icon:focus-visible,.btn:focus-visible,.back:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px calc(env(safe-area-inset-bottom,0px) + 28px);text-align:center;background:radial-gradient(70% 50% at 50% 50%,rgba(7,6,10,.8),rgba(7,6,10,.45) 80%)}
+.back{position:absolute;left:16px;top:calc(env(safe-area-inset-top,0px) + 12px);color:var(--muted);text-decoration:none;font:700 13px var(--body);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(14,10,8,.55)}
+.mute{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 8px)}
+h1{margin:0;font:800 clamp(90px,32vw,150px)/.85 var(--display);letter-spacing:.05em;text-transform:uppercase;
+  background:linear-gradient(180deg,#fff 10%,var(--amber) 50%,var(--fire));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(255,106,43,.55))}
+.tag{margin:14px 0 0;color:var(--ink);font-size:16px;font-weight:700}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.big{font:800 84px/1 var(--display);font-variant-numeric:tabular-nums;text-shadow:0 0 26px rgba(255,179,71,.6)}
+.best{margin-top:20px;display:inline-flex;gap:10px;align-items:baseline;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(14,10,8,.55)}
+.best b{font:800 22px var(--display);color:var(--gold)}
+.newbest{margin-top:8px;font:800 22px var(--display);letter-spacing:.08em;color:var(--gold);text-shadow:0 0 16px rgba(255,211,77,.8);animation:pulse .9s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.08)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px;width:min(340px,100%)}
+.stats div{border:1px solid var(--line);border-radius:14px;padding:10px 6px;background:rgba(14,10,8,.65)}
+.stats b{display:block;font:800 24px var(--display);font-variant-numeric:tabular-nums}
+.stats span{font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{margin-top:24px;appearance:none;border:0;cursor:pointer;font:800 22px var(--display);letter-spacing:.1em;text-transform:uppercase;color:#1a0a00;padding:15px 44px;border-radius:16px;
+  background:linear-gradient(90deg,var(--gold),var(--amber),var(--fire));box-shadow:0 0 36px -6px rgba(255,140,60,.8)}
+.hint{margin-top:16px;color:var(--muted);font-size:13px}
+.how{display:grid;gap:9px;margin-top:20px;text-align:left;width:min(330px,100%)}
+.how div{display:flex;gap:12px;align-items:center;font-size:13.5px}
+.how i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font:800 14px var(--display);border:1px solid var(--line);background:rgba(14,10,8,.65)}
+.flashmsg{position:absolute;left:0;right:0;top:30%;text-align:center;pointer-events:none;font:800 40px var(--display);letter-spacing:.12em;opacity:0;transform:scale(.85);transition:opacity .2s,transform .2s}
+.flashmsg.on{opacity:1;transform:scale(1)}
+</style>
+</head>
+<body>
+<canvas id="c" aria-label="Fuse game"></canvas>
+
+<div class="hud" id="hud" style="opacity:0">
+  <div><div class="score" id="score">0</div><div class="meta" id="speed">Speed 2.0</div></div>
+  <div class="right"><div class="tntc"><b id="tntCount">0</b><span class="meta">TNT</span></div><button class="icon" id="pauseBtn" aria-label="Pause">II</button></div>
+</div>
+<div class="flashmsg" id="msg"></div>
+
+<div class="screen" id="menu">
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <button class="icon mute" id="muteBtn" aria-label="Sound">♪</button>
+  <div class="eyebrow">Stay ahead of the spark</div>
+  <h1>Fuse</h1>
+  <p class="tag">It's lit. It's not stopping.</p>
+  <div class="how">
+    <div><i style="color:var(--amber)">↻</i>Tap a tile to rotate it. Build the wire before the spark gets there.</div>
+    <div><i style="color:var(--tnt)">✕</i>The dotted line shows where the spark is headed. A red ✕ means it dies there. Fix it.</div>
+    <div><i style="color:var(--tnt)">T</i>Route the spark into TNT for big points. Every blast is worth more.</div>
+    <div><i style="color:var(--amber)">⇆</i>The edges wrap around. Burnt wire grows back in a few seconds. The spark keeps getting faster.</div>
+  </div>
+  <div class="best"><span class="eyebrow">Best</span><b id="menuBest">0</b></div>
+  <button class="btn" id="startBtn">Light it</button>
+</div>
+
+<div class="screen" id="paused" hidden>
+  <div class="eyebrow">Paused</div>
+  <div class="big" id="pauseScore">0</div>
+  <button class="btn" id="resumeBtn">Resume</button>
+  <p class="hint"><a href="#" id="quitBtn" style="color:var(--muted)">End run</a></p>
+</div>
+
+<div class="screen" id="over" hidden>
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <div class="eyebrow" id="overWhy">Fizzled out</div>
+  <div class="big" id="finalScore">0</div>
+  <div class="newbest" id="newBest" hidden>New best</div>
+  <div class="best" id="overBestWrap"><span class="eyebrow">Best</span><b id="overBest">0</b></div>
+  <div class="stats">
+    <div><b id="stTiles">0</b><span>Tiles burned</span></div>
+    <div><b id="stTnt">0</b><span>TNT blown</span></div>
+    <div><b id="stSpeed">0</b><span>Top speed</span></div>
+  </div>
+  <button class="btn" id="againBtn">Again</button>
+  <p class="hint">Tap anywhere to go again</p>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const cv = $("#c"), ctx = cv.getContext("2d");
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("fuse:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("fuse:" + k, JSON.stringify(v)); } catch {} }
+};
+const TAU = Math.PI * 2;
+
+/* ---------- tuning ---------- */
+const COLS = 6, ROWS = 9;
+const START_SPEED = 2, SPEED_UP = .025, MAX_SPEED = 4.2;   // tiles per second
+const REGROW = 2.6;             // seconds before a burnt tile grows back as a new piece
+const LOOK = 7;                 // tiles of path preview
+
+/* ---------- wire geometry: sides N=0 E=1 S=2 W=3, a tile is a bitmask of its open sides ---------- */
+const DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0];
+const opp = d => (d + 2) % 4;
+// the board wraps: leave one edge, come back in the opposite one
+const wc = c => (c + COLS) % COLS, wr = r => (r + ROWS) % ROWS;
+const rotCW = m => ((m << 1) | (m >> 3)) & 15;
+const has = (m, d) => (m >> d) & 1;
+function randomPiece() {
+  const r = Math.random();
+  if (r < .015) return {type: "empty", mask: 0};
+  if (r < .13) return {type: "cross", mask: 15};
+  if (r < .4) return {type: "wire", mask: Math.random() < .5 ? 5 : 10};          // straight
+  return {type: "wire", mask: [3, 6, 12, 9][Math.floor(Math.random() * 4)]};      // corner
+}
+// where the spark leaves a tile it entered from side `ind`
+function exitOf(cell, ind) {
+  if (cell.type === "cross" || cell.type === "tnt") return opp(ind);
+  const rest = cell.mask & ~(1 << ind);
+  for (let d = 0; d < 4; d++) if (has(rest, d)) return d;
+  return -1;
+}
+
+/* ---------- sound ---------- */
+let ac = null, muted = store.get("muted", false);
+function audio() {
+  if (muted) return null;
+  if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; } }
+  if (ac.state === "suspended") ac.resume();
+  return ac;
+}
+function tone(f0, f1, dur, type = "sine", vol = .1, delay = 0) {
+  const a = audio(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + delay;
+  o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .006); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur + .02);
+}
+function noise(dur, vol, freq, type = "lowpass") {
+  const a = audio(); if (!a) return;
+  const n = Math.floor(a.sampleRate * dur), buf = a.createBuffer(1, n, a.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n) ** 2;
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  s.buffer = buf; f.type = type; f.frequency.value = freq; g.gain.value = vol;
+  s.connect(f).connect(g).connect(a.destination); s.start();
+}
+const sfx = {
+  rot: () => tone(1400, 900, .05, "square", .03),
+  locked: () => tone(160, 120, .08, "square", .03),
+  crackle: () => noise(.08, .05, 4000, "highpass"),
+  gem: () => { tone(1319, 2637, .1, "triangle", .07); tone(1976, 3951, .1, "sine", .04, .04); },
+  boom: n => { noise(.7, .38, 700); tone(110, 30, .6, "sine", .25); tone(523 * Math.pow(2, Math.min(n, 8) / 12), 1047, .2, "triangle", .05, .15); },
+  clutch: () => { tone(880, 1760, .12, "sawtooth", .04); },
+  die: () => { noise(.5, .25, 1800); tone(400, 60, .5, "sawtooth", .08); }
+};
+const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch {} };
+
+/* ---------- sizing ---------- */
+let W = 0, H = 0, DPR = 1, TS = 40, OX = 0, OY = 0;
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  TS = Math.floor(Math.min((W - 20) / COLS, (H - 130) / ROWS));
+  OX = Math.round((W - TS * COLS) / 2); OY = Math.round(96 + (H - 116 - TS * ROWS) / 2);
+}
+addEventListener("resize", resize);
+const cx = c => OX + c * TS + TS / 2, cy = r => OY + r * TS + TS / 2;
+
+/* ---------- state ---------- */
+let state = "menu", G = null, best = store.get("best", 0), shake = 0, flash = 0, flashCol = "255,255,255";
+function newGame() {
+  const grid = [];
+  for (let r = 0; r < ROWS; r++) { const row = []; for (let c = 0; c < COLS; c++) row.push({...randomPiece(), burnT: -1, rotA: 0, born: 0, gem: false}); grid.push(row); }
+  const g = {grid, t: 0, speed: START_SPEED, top: START_SPEED, pts: 0, tiles: 0, tnt: 0, parts: [], pops: [], embers: [], dead: false, deadT: 0, why: ""};
+  // a straight run out of the bottom middle so the first second is fair
+  const c0 = 2;
+  for (let r = ROWS - 1; r >= ROWS - 2; r--) Object.assign(grid[r][c0], {type: "wire", mask: 5});
+  // and the tiles just past it are always usable pieces
+  for (let r = ROWS - 4; r <= ROWS - 3; r++) for (let c = c0 - 1; c <= c0 + 1; c++) if (grid[r][c].type === "empty") Object.assign(grid[r][c], {type: "wire", mask: 3});
+  g.spark = {c: c0, r: ROWS - 1, in: 2, out: 0, p: 0};
+  for (let i = 0; i < 2; i++) placeTnt(g);
+  for (let i = 0; i < 4; i++) placeGem(g);
+  return g;
+}
+function farCell(g, minD) {
+  for (let k = 0; k < 80; k++) {
+    const c = Math.floor(Math.random() * COLS), r = Math.floor(Math.random() * ROWS), cell = g.grid[r][c];
+    if (cell.type === "tnt" || cell.burnT >= 0 || cell.gem) continue;
+    if (Math.abs(c - g.spark.c) + Math.abs(r - g.spark.r) < minD) continue;
+    return cell;
+  }
+  return null;
+}
+function placeTnt(g) { const cell = farCell(g, 3); if (cell) Object.assign(cell, {type: "tnt", mask: 15, born: g.t}); }
+function placeGem(g) { const cell = farCell(g, 2); if (cell && cell.type !== "empty") cell.gem = true; }
+const score = () => Math.floor(G.pts);
+
+/* ---------- input: tap a tile to rotate it clockwise ---------- */
+function tap(x, y) {
+  audio();
+  if (state !== "play" || G.dead) return;
+  const c = Math.floor((x - OX) / TS), r = Math.floor((y - OY) / TS);
+  if (c < 0 || r < 0 || c >= COLS || r >= ROWS) return;
+  const g = G, cell = g.grid[r][c], s = g.spark;
+  if ((c === s.c && r === s.r) || cell.burnT >= 0 || cell.type !== "wire") { sfx.locked(); cell.shake = .2; return; }
+  const before = willDie();
+  cell.mask = rotCW(cell.mask); cell.rotA = -Math.PI / 2; sfx.rot();
+  // a save in the last moment before the spark arrives
+  const nc = wc(s.c + DX[s.out]), nr = wr(s.r + DY[s.out]);
+  if (before && !willDie() && c === nc && r === nr && s.p > .6) { g.pts += 25; g.pops.push({x: cx(c), y: cy(r) - TS * .6, text: "CLUTCH +25", col: "255,211,77", t: 0}); sfx.clutch(); buzz(10); }
+}
+// does the spark die on the very next tile?
+function willDie() {
+  const s = G.spark, nc = wc(s.c + DX[s.out]), nr = wr(s.r + DY[s.out]);
+  const n = G.grid[nr][nc];
+  return n.type === "empty" || n.burnT >= 0 || !has(n.mask, opp(s.out));
+}
+cv.addEventListener("touchstart", e => { e.preventDefault(); for (const t of e.changedTouches) tap(t.clientX, t.clientY); }, {passive: false});
+cv.addEventListener("touchend", e => e.preventDefault(), {passive: false});
+cv.addEventListener("mousedown", e => { if (!("ontouchstart" in window)) tap(e.clientX, e.clientY); });
+addEventListener("keydown", e => {
+  if ((e.key === " " || e.key === "Enter") && (state === "menu" || state === "over")) start();
+  else if (e.key === "Escape" || e.key === "p") state === "play" ? pause() : state === "paused" && resume();
+});
+
+/* ---------- screens ---------- */
+const show = id => { for (const s of ["menu", "paused", "over"]) $("#" + s).hidden = s !== id; $("#hud").style.opacity = id ? 0 : 1; };
+let msgTimer = 0;
+function msg(text, col) {
+  if (state === "menu") return;
+  const el = $("#msg"); el.textContent = text; el.style.color = col; el.style.textShadow = `0 0 22px ${col}`;
+  el.classList.add("on"); clearTimeout(msgTimer); msgTimer = setTimeout(() => el.classList.remove("on"), 900);
+}
+function start() { audio(); G = newGame(); state = "play"; show(null); last = performance.now(); msg("GO", "#ffb347"); }
+function pause() { if (state !== "play" || G.dead) return; state = "paused"; $("#pauseScore").textContent = score(); show("paused"); }
+function resume() { state = "play"; show(null); last = performance.now(); }
+let overAt = 0;
+function gameOver() {
+  state = "over"; $("#msg").classList.remove("on");
+  const s = score(), nb = s > best;
+  if (nb) { best = s; store.set("best", best); }
+  $("#overWhy").textContent = G.why;
+  $("#finalScore").textContent = s; $("#overBest").textContent = best;
+  $("#newBest").hidden = !nb; $("#overBestWrap").hidden = nb;
+  $("#stTiles").textContent = G.tiles; $("#stTnt").textContent = G.tnt; $("#stSpeed").textContent = G.top.toFixed(1);
+  show("over"); overAt = performance.now();
+}
+$("#startBtn").onclick = start; $("#againBtn").onclick = e => { e.stopPropagation(); start(); };
+$("#over").addEventListener("click", e => { if (e.target.closest("a")) return; if (performance.now() - overAt > 600) start(); });
+$("#pauseBtn").onclick = pause; $("#resumeBtn").onclick = resume;
+$("#quitBtn").onclick = e => { e.preventDefault(); G.why = "Run ended"; gameOver(); };
+const setMute = () => { $("#muteBtn").textContent = muted ? "✕" : "♪"; $("#muteBtn").style.opacity = muted ? .5 : 1; };
+$("#muteBtn").onclick = () => { muted = !muted; store.set("muted", muted); setMute(); if (!muted) sfx.gem(); };
+document.addEventListener("visibilitychange", () => { if (document.hidden) pause(); });
+$("#menuBest").textContent = best; setMute();
+
+/* ---------- effects ---------- */
+function burst(x, y, col, n, spd, life = .7, grav = 0) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * TAU, v = spd * (.25 + Math.random());
+    G.parts.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life, max: life, col, r: 1 + Math.random() * 2.2, grav});
+  }
+}
+const quiet = () => state === "menu";
+
+/* ---------- spark movement ---------- */
+// spark position inside its tile: a straight line, or a quarter arc for corners
+function sparkXY(s, p) {
+  const x0 = cx(s.c), y0 = cy(s.r), h = TS / 2;
+  const ix = x0 + DX[s.in] * h, iy = y0 + DY[s.in] * h, ox = x0 + DX[s.out] * h, oy = y0 + DY[s.out] * h;
+  if (s.out === opp(s.in)) return {x: ix + (ox - ix) * p, y: iy + (oy - iy) * p};
+  const kx = x0 + (DX[s.in] + DX[s.out]) * h, ky = y0 + (DY[s.in] + DY[s.out]) * h;   // the shared tile corner
+  let a0 = Math.atan2(iy - ky, ix - kx), a1 = Math.atan2(oy - ky, ox - kx), da = a1 - a0;
+  if (da > Math.PI) da -= TAU; if (da < -Math.PI) da += TAU;
+  const a = a0 + da * p;
+  return {x: kx + Math.cos(a) * h, y: ky + Math.sin(a) * h};
+}
+function step(dt) {
+  const g = G, s = g.spark;
+  g.t += dt;
+  s.p += g.speed * dt;
+  const pos = sparkXY(s, Math.min(1, s.p));
+  if (Math.random() < .7) g.embers.push({x: pos.x, y: pos.y, life: .6, max: .6});
+  if (Math.random() < .5) burst(pos.x, pos.y, "255,200,90", 1, 90, .35, 200);
+  while (s.p >= 1) {
+    s.p -= 1;
+    const cell = g.grid[s.r][s.c];
+    cell.burnT = 0; cell.burnMask = cell.type === "tnt" ? (1 << s.in) | (1 << s.out) : cell.mask;
+    g.tiles++; g.pts += Math.round(4 * g.speed);
+    g.speed = Math.min(MAX_SPEED, g.speed + SPEED_UP); g.top = Math.max(g.top, g.speed);
+    const nc = wc(s.c + DX[s.out]), nr = wr(s.r + DY[s.out]), ind = opp(s.out);
+    const n = g.grid[nr][nc];
+    if (n.type === "empty") return die("Hit a dead tile", pos);
+    if (n.burnT >= 0) return die("Hit burnt wire", pos);
+    if (!has(n.mask, ind)) return die("Wire didn't connect", pos);
+    s.c = nc; s.r = nr; s.in = ind; s.out = exitOf(n, ind);
+    if (!quiet()) sfx.crackle();
+    if (n.gem) {
+      n.gem = false; g.pts += 50; g.pops.push({x: cx(nc), y: cy(nr) - TS * .5, text: "+50", col: "95,242,255", t: 0});
+      burst(cx(nc), cy(nr), "95,242,255", 14, 160, .5); if (!quiet()) sfx.gem(); placeGem(g);
+    }
+    if (n.type === "tnt") blast(nc, nr);
+  }
+}
+function blast(c, r) {
+  const g = G; g.tnt++;
+  const pts = 100 + 50 * (g.tnt - 1); g.pts += pts;
+  g.pops.push({x: cx(c), y: cy(r) - TS * .7, text: `BOOM +${pts}`, col: "255,90,60", t: 0});
+  burst(cx(c), cy(r), "255,120,40", 50, 320, .9); burst(cx(c), cy(r), "255,230,150", 24, 420, .5); burst(cx(c), cy(r), "60,40,30", 20, 200, 1.1, 300);
+  // the blast clears burnt wire around it, so the board opens up again
+  for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+    const rr = r + dr, cc = c + dc; if (rr < 0 || cc < 0 || rr >= ROWS || cc >= COLS || (dr === 0 && dc === 0)) continue;
+    const cell = g.grid[rr][cc];
+    if (cell.burnT >= 0 && !(rr === g.spark.r && cc === g.spark.c)) regrow(cell);
+  }
+  placeTnt(g);
+  if (quiet()) return;
+  sfx.boom(g.tnt); buzz(20); shake = Math.min(1.2, shake + .7); flash = .35; flashCol = "255,140,60";
+  if (g.tnt % 5 === 0) msg(`${g.tnt} TNT`, "#ff6a2b");
+}
+function regrow(cell) { Object.assign(cell, randomPiece(), {burnT: -1, born: G.t, rotA: 0}); }
+function die(why, pos) {
+  const g = G;
+  if (quiet()) { G = newGame(); return; }    // the menu backdrop just starts over
+  g.dead = true; g.deadT = 0; g.why = why;
+  sfx.die(); buzz([30, 20, 80]); shake = 1; flash = .5; flashCol = "255,60,60";
+  burst(pos.x, pos.y, "255,80,40", 50, 300, 1); burst(pos.x, pos.y, "255,240,200", 16, 380, .5);
+  msg("FIZZLED", "#ff3b3b");
+}
+function stepWorld(dt) {
+  const g = G;
+  for (const row of g.grid) for (const cell of row) {
+    if (cell.burnT >= 0 && (cell.burnT += dt) > REGROW) regrow(cell);
+    if (cell.rotA) cell.rotA = Math.min(0, cell.rotA + dt * 22);
+    if (cell.shake > 0) cell.shake -= dt;
+  }
+  for (const p of g.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += p.grav * dt; p.vx *= .96; p.vy *= .96; p.life -= dt; }
+  g.parts = g.parts.filter(p => p.life > 0);
+  for (const e of g.embers) e.life -= dt;
+  g.embers = g.embers.filter(e => e.life > 0);
+  for (const p of g.pops) p.t += dt;
+  g.pops = g.pops.filter(p => p.t < .9);
+}
+
+/* ---------- path preview: follow the wire as it is right now ---------- */
+function lookahead() {
+  const g = G, s = g.spark, path = [];
+  let c = s.c, r = s.r, out = s.out;
+  for (let k = 0; k < LOOK; k++) {
+    const nc = wc(c + DX[out]), nr = wr(r + DY[out]), ind = opp(out), wrap = nc !== c + DX[out] || nr !== r + DY[out];
+    const ok = g.grid[nr][nc].type !== "empty" && g.grid[nr][nc].burnT < 0 && has(g.grid[nr][nc].mask, ind);
+    if (!ok) { path.push({x: wrap ? cx(nc) - DX[out] * TS / 2 : cx(c) + DX[out] * TS / 2, y: wrap ? cy(nr) - DY[out] * TS / 2 : cy(r) + DY[out] * TS / 2, dead: true, wrap}); break; }
+    path.push({x: cx(nc), y: cy(nr), c: nc, r: nr, wrap});
+    c = nc; r = nr; out = exitOf(g.grid[nr][nc], ind);
+  }
+  return path;
+}
+
+/* ---------- drawing ---------- */
+function wirePath(cell, x, y, mask) {
+  const h = TS / 2;
+  ctx.beginPath();
+  if (cell.type === "cross" || cell.type === "tnt") { ctx.moveTo(x, y - h); ctx.lineTo(x, y + h); ctx.moveTo(x - h, y); ctx.lineTo(x + h, y); return; }
+  const ds = [0, 1, 2, 3].filter(d => has(mask, d));
+  if (ds.length !== 2) return;
+  const [a, b] = ds;
+  if (b === opp(a)) { ctx.moveTo(x + DX[a] * h, y + DY[a] * h); ctx.lineTo(x + DX[b] * h, y + DY[b] * h); return; }
+  const kx = x + (DX[a] + DX[b]) * h, ky = y + (DY[a] + DY[b]) * h;
+  let a0 = Math.atan2(DY[a] * h + y - ky, DX[a] * h + x - kx), a1 = Math.atan2(DY[b] * h + y - ky, DX[b] * h + x - kx), da = a1 - a0;
+  if (da > Math.PI) da -= TAU; if (da < -Math.PI) da += TAU;
+  ctx.arc(kx, ky, h, a0, a1, da < 0);
+}
+function draw(now) {
+  ctx.save();
+  if (shake > 0) { ctx.translate((Math.random() - .5) * 14 * shake, (Math.random() - .5) * 14 * shake); shake = Math.max(0, shake - .045); }
+  ctx.fillStyle = "#07060a"; ctx.fillRect(-20, -20, W + 40, H + 40);
+  if (!G) { ctx.restore(); return; }
+  const g = G, s = g.spark;
+  const sp = sparkXY(s, Math.min(1, s.p));
+  const glow = ctx.createRadialGradient(sp.x, sp.y, 0, sp.x, sp.y, Math.max(W, H) * .6);
+  glow.addColorStop(0, "rgba(255,120,40,.16)"); glow.addColorStop(1, "rgba(7,6,10,0)");
+  ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+
+  // tiles
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+    const cell = g.grid[r][c], x = cx(c), y = cy(r), here = c === s.c && r === s.r;
+    const grow = Math.min(1, (g.t - cell.born) / .25), jig = cell.shake > 0 ? Math.sin(now / 20) * 3 : 0;
+    ctx.save(); ctx.translate(x + jig, y); ctx.scale(cell.burnT < 0 ? .4 + .6 * grow : 1, cell.burnT < 0 ? .4 + .6 * grow : 1);
+    // plate
+    const pad = 2;
+    ctx.fillStyle = cell.type === "empty" ? "#0b0a0e" : cell.burnT >= 0 ? "#100c0b" : here ? "#2a1a10" : "#17141a";
+    ctx.beginPath(); ctx.roundRect ? ctx.roundRect(-TS / 2 + pad, -TS / 2 + pad, TS - pad * 2, TS - pad * 2, 7) : ctx.rect(-TS / 2 + pad, -TS / 2 + pad, TS - pad * 2, TS - pad * 2); ctx.fill();
+    if (cell.type === "empty") { ctx.strokeStyle = "rgba(255,255,255,.05)"; ctx.lineWidth = 1; ctx.stroke(); ctx.restore(); continue; }
+    if (cell.type === "tnt") {
+      ctx.fillStyle = cell.burnT >= 0 ? "#2a0f0b" : "#5a1212"; ctx.fill();
+      ctx.strokeStyle = cell.burnT >= 0 ? "rgba(255,60,60,.15)" : `rgba(255,70,60,${.6 + .3 * Math.sin(now / 160)})`; ctx.lineWidth = 2; ctx.stroke();
+    }
+    ctx.rotate(cell.rotA || 0);
+    // wire
+    ctx.lineCap = "round";
+    if (cell.burnT >= 0) {
+      wirePath(cell, 0, 0, cell.burnMask);
+      ctx.strokeStyle = "#2a2220"; ctx.lineWidth = TS * .14; ctx.stroke();
+      const heat = Math.max(0, 1 - cell.burnT / 1.5);
+      if (heat > 0) { ctx.strokeStyle = `rgba(255,110,40,${heat * .8})`; ctx.lineWidth = TS * .07; ctx.stroke(); }
+      // regrow countdown ring
+      ctx.rotate(-(cell.rotA || 0));
+      ctx.strokeStyle = "rgba(255,255,255,.08)"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(0, 0, TS * .38, -Math.PI / 2, -Math.PI / 2 + TAU * (cell.burnT / REGROW)); ctx.stroke();
+    } else {
+      wirePath(cell, 0, 0, cell.mask);
+      ctx.strokeStyle = "#3a2a1c"; ctx.lineWidth = TS * .2; ctx.stroke();
+      ctx.strokeStyle = cell.type === "tnt" ? "#ff8a6a" : "#c98a52"; ctx.lineWidth = TS * .09; ctx.stroke();
+      ctx.strokeStyle = "rgba(255,230,190,.35)"; ctx.lineWidth = TS * .03; ctx.stroke();
+      if (cell.type === "cross" || cell.type === "tnt") { ctx.fillStyle = cell.type === "tnt" ? "#ff8a6a" : "#c98a52"; ctx.beginPath(); ctx.arc(0, 0, TS * .09, 0, TAU); ctx.fill(); }
+    }
+    ctx.restore();
+    if (cell.type === "tnt" && cell.burnT < 0) {
+      ctx.font = `800 ${Math.round(TS * .3)}px "Barlow Condensed", system-ui`; ctx.textAlign = "center"; ctx.fillStyle = "#ffd9cc";
+      ctx.fillText("TNT", x, y - TS * .2);
+    }
+    if (cell.gem && cell.burnT < 0) {
+      const gs = TS * .13, bob = Math.sin(now / 250 + c + r) * 2;
+      ctx.save(); ctx.translate(x + TS * .27, y - TS * .27 + bob); ctx.rotate(now / 600);
+      ctx.fillStyle = "rgba(95,242,255,.25)"; ctx.beginPath(); ctx.arc(0, 0, gs * 2, 0, TAU); ctx.fill();
+      ctx.fillStyle = "#5ff2ff"; ctx.beginPath(); ctx.moveTo(0, -gs); ctx.lineTo(gs * .7, 0); ctx.lineTo(0, gs); ctx.lineTo(-gs * .7, 0); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // the board wraps: faint arrows on every edge
+  ctx.fillStyle = "rgba(255,179,71,.18)"; ctx.font = `700 ${Math.round(TS * .22)}px "JetBrains Mono", monospace`; ctx.textAlign = "center";
+  for (let c = 0; c < COLS; c++) { ctx.fillText("⇅", cx(c), OY - 4); }
+  for (let r = 0; r < ROWS; r++) { ctx.fillText("⇆", OX - TS * .18 < 6 ? OX + 2 : OX - TS * .18, cy(r) + 4); }
+
+  // lit part of the current tile
+  if (!g.dead) {
+    ctx.save(); ctx.lineCap = "round"; ctx.globalCompositeOperation = "lighter";
+    ctx.strokeStyle = "rgba(255,170,60,.9)"; ctx.lineWidth = TS * .08;
+    ctx.beginPath(); for (let k = 0; k <= 10; k++) { const q = sparkXY(s, Math.min(1, s.p) * k / 10); k ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); } ctx.stroke();
+    ctx.restore();
+  }
+
+  // path preview
+  if (!g.dead && state !== "menu") {
+    const path = lookahead();
+    ctx.save(); ctx.setLineDash([5, 6]); ctx.lineDashOffset = -now / 25; ctx.lineWidth = 3; ctx.lineCap = "round";
+    let px = cx(s.c), py = cy(s.r), dead = false;
+    for (const q of path) {
+      ctx.strokeStyle = q.dead ? "rgba(255,70,60,.95)" : "rgba(255,245,225,.85)";
+      // a wrap jumps across the board, so skip the line for that hop
+      if (!q.wrap) { ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(q.x, q.y); ctx.stroke(); }
+      px = q.x; py = q.y; if (q.dead) dead = true;
+    }
+    ctx.setLineDash([]);
+    if (dead) {
+      const q = path[path.length - 1], k = 7 + Math.sin(now / 80) * 1.5;
+      ctx.strokeStyle = "#ff3b3b"; ctx.lineWidth = 3.5;
+      ctx.beginPath(); ctx.moveTo(q.x - k, q.y - k); ctx.lineTo(q.x + k, q.y + k); ctx.moveTo(q.x + k, q.y - k); ctx.lineTo(q.x - k, q.y + k); ctx.stroke();
+      // the red ✕ is close: pulse the board edge
+      if (path.length <= 2) { ctx.strokeStyle = `rgba(255,59,59,${.35 + .3 * Math.sin(now / 70)})`; ctx.lineWidth = 3; ctx.strokeRect(OX - 4, OY - 4, TS * COLS + 8, TS * ROWS + 8); }
+    }
+    ctx.restore();
+  }
+
+  // embers + spark
+  ctx.save(); ctx.globalCompositeOperation = "lighter";
+  for (const e of g.embers) { const k = e.life / e.max; ctx.fillStyle = `rgba(255,${120 + 100 * k | 0},40,${.5 * k})`; ctx.beginPath(); ctx.arc(e.x, e.y, TS * .06 * k + 1, 0, TAU); ctx.fill(); }
+  if (!g.dead) {
+    const fl = 1 + Math.sin(now / 30) * .15 + Math.random() * .1;
+    const sg = ctx.createRadialGradient(sp.x, sp.y, 0, sp.x, sp.y, TS * .7 * fl);
+    sg.addColorStop(0, "rgba(255,255,230,1)"); sg.addColorStop(.25, "rgba(255,200,90,.85)"); sg.addColorStop(1, "rgba(255,90,30,0)");
+    ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sp.x, sp.y, TS * .7 * fl, 0, TAU); ctx.fill();
+  }
+  for (const p of g.parts) { ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = `rgb(${p.col})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, TAU); ctx.fill(); }
+  ctx.restore();
+  ctx.textAlign = "center";
+  for (const p of g.pops) { ctx.globalAlpha = 1 - p.t / .9; ctx.font = `800 ${20 + p.t * 8}px "Barlow Condensed", system-ui`; ctx.fillStyle = `rgb(${p.col})`; ctx.fillText(p.text, p.x, p.y - p.t * 34); }
+  ctx.globalAlpha = 1;
+  ctx.restore();
+  if (flash > 0) { ctx.fillStyle = `rgba(${flashCol},${flash * .3})`; ctx.fillRect(0, 0, W, H); flash = Math.max(0, flash - .03); }
+}
+
+/* ---------- menu backdrop: a spark that steers itself ---------- */
+function autoSteer() {
+  // rotate the next tile until it connects onward (the demo player)
+  const g = G, s = g.spark;
+  if (s.p < .3) return;
+  const nc = wc(s.c + DX[s.out]), nr = wr(s.r + DY[s.out]);
+  const n = g.grid[nr][nc];
+  if (n.type !== "wire" || n.burnT >= 0) return;
+  for (let k = 0; k < 4; k++) {
+    if (has(n.mask, opp(s.out))) {
+      const out = exitOf(n, opp(s.out)), fc = wc(nc + DX[out]), fr = wr(nr + DY[out]);
+      if (g.grid[fr][fc].burnT < 0 && g.grid[fr][fc].type !== "empty") return;
+    }
+    n.mask = rotCW(n.mask);
+  }
+}
+
+/* ---------- HUD + loop ---------- */
+let last = 0, hudScore = -1;
+function hud() {
+  const s = score(); if (s !== hudScore) { hudScore = s; $("#score").textContent = s; }
+  $("#speed").textContent = "Speed " + G.speed.toFixed(1);
+  $("#tntCount").textContent = G.tnt;
+}
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  if (state === "play") {
+    if (!G.dead) step(dt);
+    else { G.deadT += dt; if (G.deadT > 1.2) gameOver(); }
+    stepWorld(dt); if (state === "play") hud();
+  } else if (state === "over") stepWorld(dt);
+  else if (state === "menu") { autoSteer(); step(dt * .8); stepWorld(dt); }
+  draw(now);
+  requestAnimationFrame(frame);
+}
+resize(); G = newGame();
+requestAnimationFrame(t => { last = t; frame(t); });
+
+if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+</script>
+</body>
+</html>
