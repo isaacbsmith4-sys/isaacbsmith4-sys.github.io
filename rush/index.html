@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05030b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lane Rush">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Lane Rush</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@500;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one full-screen canvas (the pseudo-3D highway) with HTML overlays on top: the HUD while
+   running, and one card for the start, pause and crash screens. Game-only: the best score lives in
+   localStorage, nothing goes to LIFE HQ. */
+:root{
+  color-scheme:dark;
+  --bg:#05030b; --ink:#f3f0ff; --muted:#9a93b8; --line:rgba(255,255,255,.12);
+  --accent:#3fe8ff; --hot:#ff3fa4; --gold:#ffd34d;
+  --display:"Barlow Condensed","Avenir Next Condensed",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;color:var(--ink);font:15px/1.4 var(--body);touch-action:none}
+[hidden]{display:none!important}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 0;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;transition:opacity .2s}
+.hud .score{font:800 46px/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:.02em;text-shadow:0 0 18px var(--glow,var(--accent))}
+.hud .meta{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.hud .right{text-align:right}
+.combo{font:800 22px/1 var(--display);color:var(--gold);text-shadow:0 0 14px rgba(255,211,77,.7);opacity:0;transition:opacity .2s}
+.combo.on{opacity:1}
+.icon{pointer-events:auto;appearance:none;border:1px solid var(--line);background:rgba(10,6,22,.55);color:var(--ink);width:40px;height:40px;border-radius:12px;font:700 15px var(--body);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.icon:focus-visible,.btn:focus-visible,.back:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px calc(env(safe-area-inset-bottom,0px) + 28px);text-align:center;transition:opacity .25s;background:radial-gradient(70% 45% at 50% 55%,rgba(5,3,11,.6),transparent 75%)}
+.screen[hidden]{display:none}
+.back{position:absolute;left:16px;top:calc(env(safe-area-inset-top,0px) + 12px);color:var(--muted);text-decoration:none;font:700 13px var(--body);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(10,6,22,.5)}
+.mute{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 8px)}
+h1{margin:0;font:800 clamp(58px,19vw,96px)/.86 var(--display);letter-spacing:.02em;text-transform:uppercase;font-style:italic;
+  background:linear-gradient(180deg,#fff 10%,var(--accent) 55%,var(--hot));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(63,232,255,.45))}
+.tag{margin:14px 0 0;color:var(--muted);font-size:14px}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.big{font:800 84px/1 var(--display);font-variant-numeric:tabular-nums;text-shadow:0 0 26px var(--glow,var(--accent))}
+.best{margin-top:22px;display:inline-flex;gap:10px;align-items:baseline;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(10,6,22,.5)}
+.best b{font:800 22px var(--display);color:var(--gold)}
+.newbest{margin-top:8px;font:800 22px var(--display);letter-spacing:.08em;color:var(--gold);text-shadow:0 0 16px rgba(255,211,77,.8);animation:pulse .9s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.08)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px;width:min(340px,100%)}
+.stats div{border:1px solid var(--line);border-radius:14px;padding:10px 6px;background:rgba(10,6,22,.55)}
+.stats b{display:block;font:800 24px var(--display);font-variant-numeric:tabular-nums}
+.stats span{font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{margin-top:26px;appearance:none;border:0;cursor:pointer;font:800 22px var(--display);letter-spacing:.1em;text-transform:uppercase;color:#05030b;padding:15px 44px;border-radius:16px;
+  background:linear-gradient(90deg,var(--accent),#9d7bff,var(--hot));box-shadow:0 0 36px -6px rgba(63,232,255,.7)}
+.hint{margin-top:16px;color:var(--muted);font-size:13px}
+.how{display:flex;gap:18px;justify-content:center;margin-top:26px;color:var(--muted);font-size:12.5px}
+.how div{display:grid;gap:4px;justify-items:center}
+.how i{font-style:normal;font:800 20px var(--display);color:var(--ink)}
+.zone{position:absolute;left:0;right:0;top:34%;text-align:center;pointer-events:none;font:800 44px var(--display);letter-spacing:.14em;font-style:italic;opacity:0;transform:scale(.8);transition:opacity .3s,transform .3s;text-shadow:0 0 24px var(--glow,var(--accent))}
+.zone.on{opacity:1;transform:scale(1)}
+.zone small{display:block;font:600 11px var(--mono);letter-spacing:.2em;color:var(--muted);font-style:normal}
+</style>
+</head>
+<body>
+<canvas id="c" aria-label="Lane Rush game"></canvas>
+
+<div class="hud" id="hud" style="opacity:0">
+  <div><div class="score" id="score">0</div><div class="meta" id="speed">0 km/h</div></div>
+  <div class="right"><button class="icon" id="pauseBtn" aria-label="Pause">II</button><div class="combo" id="combo" style="margin-top:10px">x2</div></div>
+</div>
+<div class="zone" id="zone"></div>
+
+<div class="screen" id="menu">
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <button class="icon mute" id="muteBtn" aria-label="Sound">♪</button>
+  <div class="eyebrow">Neon highway</div>
+  <h1>Lane<br>Rush</h1>
+  <p class="tag">Dodge. Go faster. Don't blink.</p>
+  <div class="how">
+    <div><i>⟵ ⟶</i>Swipe or tap a side</div>
+    <div><i style="color:var(--gold)">●</i>Grab orbs</div>
+    <div><i style="color:var(--hot)">!</i>Close calls = bonus</div>
+  </div>
+  <div class="best"><span class="eyebrow">Best</span><b id="menuBest">0</b></div>
+  <button class="btn" id="startBtn">Go</button>
+</div>
+
+<div class="screen" id="paused" hidden>
+  <div class="eyebrow">Paused</div>
+  <div class="big" id="pauseScore">0</div>
+  <button class="btn" id="resumeBtn">Resume</button>
+  <p class="hint"><a href="#" id="quitBtn" style="color:var(--muted)">End run</a></p>
+</div>
+
+<div class="screen" id="over" hidden>
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <div class="eyebrow">Crashed</div>
+  <div class="big" id="finalScore">0</div>
+  <div class="newbest" id="newBest" hidden>New best</div>
+  <div class="best" id="overBestWrap"><span class="eyebrow">Best</span><b id="overBest">0</b></div>
+  <div class="stats">
+    <div><b id="stDist">0</b><span>Meters</span></div>
+    <div><b id="stClose">0</b><span>Close calls</span></div>
+    <div><b id="stOrbs">0</b><span>Orbs</span></div>
+  </div>
+  <button class="btn" id="againBtn">Again</button>
+  <p class="hint">Tap anywhere to go again</p>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const cv = $("#c"), ctx = cv.getContext("2d");
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("rush:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("rush:" + k, JSON.stringify(v)); } catch {} }
+};
+
+/* ---------- palettes: one per zone, the road shifts color as you go ---------- */
+const ZONES = [
+  {name: "Neon City", a: [63, 232, 255], b: [255, 63, 164], sky: ["#14062e", "#05030b"], sun: ["#ffd34d", "#ff3fa4"]},
+  {name: "Sunset Strip", a: [255, 150, 60], b: [180, 70, 255], sky: ["#2a0820", "#07030b"], sun: ["#fff06a", "#ff5a3c"]},
+  {name: "Toxic", a: [140, 255, 90], b: [40, 160, 255], sky: ["#04201c", "#02060a"], sun: ["#d6ff6a", "#20d0a0"]},
+  {name: "Redline", a: [255, 60, 80], b: [255, 205, 60], sky: ["#2a0408", "#080204"], sun: ["#ffe080", "#ff2040"]},
+  {name: "Hyperspace", a: [230, 230, 255], b: [150, 90, 255], sky: ["#0c0830", "#020108"], sun: ["#ffffff", "#8f6bff"]}
+];
+const ZONE_LEN = 1200;
+const rgb = (c, a = 1) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
+const mix = (p, q, t) => [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t, p[2] + (q[2] - p[2]) * t];
+
+/* ---------- sound: tiny synth, no files ---------- */
+let ac = null, muted = store.get("muted", false);
+function audio() {
+  if (muted) return null;
+  if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; } }
+  if (ac.state === "suspended") ac.resume();
+  return ac;
+}
+function tone(f0, f1, dur, type = "sine", vol = .12) {
+  const a = audio(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime;
+  o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur);
+}
+function noise(dur, vol, freq) {
+  const a = audio(); if (!a) return;
+  const n = Math.floor(a.sampleRate * dur), buf = a.createBuffer(1, n, a.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  s.buffer = buf; f.type = "lowpass"; f.frequency.value = freq; g.gain.value = vol;
+  s.connect(f).connect(g).connect(a.destination); s.start();
+}
+const sfx = {
+  swoosh: () => noise(.09, .07, 2200),
+  orb: () => tone(880, 1760, .12, "triangle", .09),
+  close: () => { tone(520, 1400, .22, "sawtooth", .05); tone(780, 2100, .22, "sine", .06); },
+  zone: () => { tone(330, 660, .35, "triangle", .08); setTimeout(() => tone(495, 990, .4, "triangle", .08), 120); },
+  crash: () => { noise(.6, .35, 900); tone(160, 40, .5, "sawtooth", .12); }
+};
+const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch {} };
+
+/* ---------- canvas sizing ---------- */
+let W = 0, H = 0, DPR = 1, cx = 0, horizon = 0, baseY = 0, roadW = 0;
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  cx = W / 2; horizon = H * .38; baseY = H * .84; roadW = Math.min(W * .5, 260);
+  stars = Array.from({length: 70}, () => ({x: Math.random() * W, y: Math.random() * horizon * .95, r: Math.random() * 1.3 + .2, tw: Math.random() * 6}));
+}
+let stars = [];
+addEventListener("resize", resize);
+
+/* ---------- projection: world z (ahead of the player) -> screen ---------- */
+const F = 11, ZFAR = 120, LANE = .64;
+const scaleAt = z => F / (F + Math.max(z, -F + .5));
+const yAt = z => horizon + (baseY - horizon) * scaleAt(z);
+const xAt = (lane, z) => cx + lane * roadW * LANE * scaleAt(z);
+
+/* ---------- game state ---------- */
+let state = "menu", G = null, last = 0, best = store.get("best", 0), shake = 0, flash = 0, flashCol = [255, 255, 255];
+function newGame() {
+  return {
+    t: 0, dist: 0, speed: 26, lane: 0, px: 0, prevLane: 0, switchT: -9,
+    objs: [], nextAt: 46, freeLane: 0, parts: [], trail: [],
+    bonus: 0, closes: 0, orbs: 0, combo: 1, comboT: 0, slow: 0, zone: 0, pops: [], dead: false, deadT: 0
+  };
+}
+const score = () => Math.floor(G.dist) + G.bonus;
+const zoneAt = d => Math.floor(d / ZONE_LEN);
+const pal = () => {
+  const s = G ? G.dist / ZONE_LEN : 0, i = Math.floor(s), f = Math.min(1, Math.max(0, (s - i - .9) / .1));
+  const p = ZONES[i % ZONES.length], q = ZONES[(i + 1) % ZONES.length];
+  return {a: mix(p.a, q.a, f), b: mix(p.b, q.b, f), sky: f > .5 ? q.sky : p.sky, sun: f > .5 ? q.sun : p.sun};
+};
+
+/* ---------- spawning: rows of blocks, always one open lane you can reach ---------- */
+function spawnRow() {
+  const g = G, lanes = [-1, 0, 1];
+  const level = Math.min(1, g.t / 80);
+  const gap = g.speed * (.78 - .36 * level) + 6;
+  const at = g.nextAt;
+  // pick the open lane: at most one lane away from the last open lane once it gets fast
+  let free = lanes[Math.floor(Math.random() * 3)];
+  if (level > .35 && Math.abs(free - g.freeLane) > 1) free = 0;
+  const r = Math.random();
+  let blocked;
+  if (g.t > 6 && r < .15 + .55 * level) blocked = lanes.filter(l => l !== free);            // two blocks
+  else blocked = [lanes.filter(l => l !== free)[Math.floor(Math.random() * 2)]]; // one block
+  for (const l of blocked) g.objs.push({type: "block", lane: l, at, depth: 3.2 + Math.random() * 2.5 * level, h: .9 + Math.random() * .5});
+  // orbs: a short string down the open lane
+  if (Math.random() < .55) { const n = 1 + Math.floor(Math.random() * 3); for (let i = 0; i < n; i++) g.objs.push({type: "orb", lane: free, at: at - gap * .35 + i * 4.5}); }
+  // every so often a lone orb sits in a blocked lane just before the block, a risky grab
+  if (Math.random() < .15 * level && blocked.length === 1) g.objs.push({type: "orb", lane: blocked[0], at: at - 9});
+  g.freeLane = free; g.nextAt = at + gap;
+}
+
+/* ---------- input ---------- */
+function move(dir) {
+  if (state !== "play" || G.dead) return;
+  const to = Math.max(-1, Math.min(1, G.lane + dir));
+  if (to === G.lane) { G.px += dir * .08; return; }
+  G.prevLane = G.lane; G.lane = to; G.switchT = G.t; sfx.swoosh(); buzz(6);
+}
+let touch = null;
+cv.addEventListener("touchstart", e => {
+  e.preventDefault(); audio();
+  const p = e.changedTouches[0]; touch = {x: p.clientX, y: p.clientY, id: p.identifier, moved: false};
+}, {passive: false});
+cv.addEventListener("touchmove", e => {
+  e.preventDefault(); if (!touch) return;
+  for (const p of e.changedTouches) {
+    if (p.identifier !== touch.id) continue;
+    const dx = p.clientX - touch.x;
+    if (Math.abs(dx) > 22) { move(Math.sign(dx)); touch.x = p.clientX; touch.moved = true; }
+  }
+}, {passive: false});
+cv.addEventListener("touchend", e => {
+  e.preventDefault(); if (!touch) return;
+  for (const p of e.changedTouches) if (p.identifier === touch.id) { if (!touch.moved) move(p.clientX < W / 2 ? -1 : 1); touch = null; }
+}, {passive: false});
+cv.addEventListener("mousedown", e => { if (!("ontouchstart" in window)) move(e.clientX < W / 2 ? -1 : 1); });
+addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft" || e.key === "a") move(-1);
+  else if (e.key === "ArrowRight" || e.key === "d") move(1);
+  else if ((e.key === " " || e.key === "Enter") && state !== "play") start();
+  else if (e.key === "Escape" || e.key === "p") state === "play" ? pause() : state === "paused" && resume();
+});
+
+/* ---------- screens ---------- */
+const show = id => { for (const s of ["menu", "paused", "over"]) $("#" + s).hidden = s !== id; $("#hud").style.opacity = id ? 0 : 1; };
+function start() { audio(); G = newGame(); state = "play"; show(null); last = performance.now(); }
+function pause() { if (state !== "play" || G.dead) return; state = "paused"; $("#pauseScore").textContent = score(); show("paused"); }
+function resume() { state = "play"; show(null); last = performance.now(); }
+function gameOver() {
+  state = "over"; flash = 0; $("#zone").classList.remove("on");
+  const s = score(), nb = s > best;
+  if (nb) { best = s; store.set("best", best); }
+  $("#finalScore").textContent = s; $("#overBest").textContent = best;
+  $("#newBest").hidden = !nb; $("#overBestWrap").hidden = nb;
+  $("#stDist").textContent = Math.floor(G.dist); $("#stClose").textContent = G.closes; $("#stOrbs").textContent = G.orbs;
+  show("over"); overAt = performance.now();
+}
+let overAt = 0;
+$("#startBtn").onclick = start; $("#againBtn").onclick = e => { e.stopPropagation(); start(); };
+$("#over").addEventListener("click", e => { if (e.target.closest("a")) return; if (performance.now() - overAt > 600) start(); });
+$("#pauseBtn").onclick = pause; $("#resumeBtn").onclick = resume;
+$("#quitBtn").onclick = e => { e.preventDefault(); G.dead = true; gameOver(); };
+const setMute = () => { $("#muteBtn").textContent = muted ? "✕" : "♪"; $("#muteBtn").style.opacity = muted ? .5 : 1; };
+$("#muteBtn").onclick = () => { muted = !muted; store.set("muted", muted); setMute(); if (!muted) sfx.orb(); };
+document.addEventListener("visibilitychange", () => { if (document.hidden) pause(); });
+$("#menuBest").textContent = best; setMute();
+
+/* ---------- effects ---------- */
+function burst(x, y, col, n, spd, life = .7) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = spd * (.3 + Math.random());
+    G.parts.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - spd * .3, life, max: life, col, r: 1.5 + Math.random() * 2.5});
+  }
+}
+function pop(text, col) { G.pops.push({text, col, t: 0}); }
+let zoneTimer = 0;
+function zoneBanner(i) {
+  const z = ZONES[i % ZONES.length], el = $("#zone");
+  el.innerHTML = `<small>Zone ${i + 1}</small>${z.name.toUpperCase()}`;
+  el.style.setProperty("--glow", rgb(z.a)); el.style.color = rgb(mix(z.a, [255, 255, 255], .5));
+  el.classList.add("on"); clearTimeout(zoneTimer); zoneTimer = setTimeout(() => el.classList.remove("on"), 1600);
+}
+
+/* ---------- update ---------- */
+function update(dtReal) {
+  const g = G;
+  if (g.dead) {
+    g.deadT += dtReal;
+    stepParts(dtReal);
+    if (g.deadT > 1.1 && state === "play") gameOver();
+    return;
+  }
+  g.slow = Math.max(0, g.slow - dtReal);
+  const dt = dtReal * (g.slow > 0 ? .35 + .65 * (1 - g.slow / .3) : 1);
+  g.t += dt;
+  g.speed = 26 + 92 * (1 - Math.exp(-g.t / 75));
+  g.dist += g.speed * dt;
+  g.px += (g.lane - g.px) * Math.min(1, dtReal * 22);
+  g.trail.unshift(g.px); if (g.trail.length > 26) g.trail.pop();
+  if (g.comboT > 0 && (g.comboT -= dt) <= 0) g.combo = 1;
+
+  const z = zoneAt(g.dist);
+  if (z !== g.zone) { g.zone = z; zoneBanner(z); sfx.zone(); flash = .35; flashCol = pal().a; g.bonus += 100; }
+
+  while (g.nextAt < g.dist + ZFAR) spawnRow();
+
+  for (const o of g.objs) {
+    const zf = o.at - g.dist;
+    if (o.type === "orb") {
+      if (!o.got && Math.abs(zf) < 1.2 && Math.abs(g.px - o.lane) < .55) {
+        o.got = true; g.orbs++; g.bonus += 10 * g.combo; sfx.orb(); buzz(4);
+        burst(xAt(o.lane, 0), yAt(0) - 26, [255, 211, 77], 14, 160, .5);
+      }
+    } else {
+      const zb = zf + o.depth;
+      if (!o.done && zf < .7 && zb > -.7 && Math.abs(g.px - o.lane) < .58) { crash(o); return; }
+      if (!o.done && zb < -.7) {
+        o.done = true;
+        // a close call: you were in this lane a moment ago and got out
+        if (o.lane === g.prevLane && g.lane !== o.lane && g.t - g.switchT < .32) {
+          g.closes++; g.combo = Math.min(5, g.combo + 1); g.comboT = 3.2;
+          const pts = 25 * g.combo; g.bonus += pts;
+          pop(`CLOSE +${pts}`, [255, 63, 164]); sfx.close(); buzz(15);
+          g.slow = .3; flash = .18; flashCol = [255, 63, 164];
+          burst(xAt(o.lane, 0), yAt(0) - 20, pal().b, 18, 220, .45);
+        }
+      }
+    }
+  }
+  g.objs = g.objs.filter(o => o.at + (o.depth || 0) - g.dist > -8 && !(o.type === "orb" && o.got));
+  stepParts(dtReal);
+  for (const p of g.pops) p.t += dtReal;
+  g.pops = g.pops.filter(p => p.t < .9);
+}
+function stepParts(dt) {
+  for (const p of G.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 420 * dt; p.vx *= .985; p.life -= dt; }
+  G.parts = G.parts.filter(p => p.life > 0);
+}
+function crash(o) {
+  const g = G; g.dead = true; g.deadT = 0;
+  sfx.crash(); buzz([40, 30, 80]);
+  shake = 1; flash = .7; flashCol = [255, 255, 255];
+  const x = xAt(g.px, 0), y = yAt(0) - 18, p = pal();
+  burst(x, y, p.a, 60, 380, 1.1); burst(x, y, p.b, 40, 300, 1); burst(x, y, [255, 255, 255], 20, 480, .6);
+}
+
+/* ---------- draw ---------- */
+function draw(now) {
+  const p = pal(), dist = G ? G.dist : now * .02, speed = G ? G.speed : 26;
+  ctx.save();
+  if (shake > 0) { ctx.translate((Math.random() - .5) * 18 * shake, (Math.random() - .5) * 18 * shake); shake = Math.max(0, shake - .04); }
+
+  // sky, stars, sun
+  const sky = ctx.createLinearGradient(0, 0, 0, horizon);
+  sky.addColorStop(0, p.sky[1]); sky.addColorStop(1, p.sky[0]);
+  ctx.fillStyle = sky; ctx.fillRect(-20, -20, W + 40, horizon + 20);
+  for (const s of stars) { ctx.globalAlpha = .35 + .35 * Math.sin(now / 600 + s.tw); ctx.fillStyle = "#fff"; ctx.fillRect(s.x, s.y, s.r, s.r); }
+  ctx.globalAlpha = 1;
+  const sr = Math.min(W * .3, 130), sy = horizon - sr * .35;
+  const sun = ctx.createLinearGradient(0, sy - sr, 0, sy + sr);
+  sun.addColorStop(0, p.sun[0]); sun.addColorStop(1, p.sun[1]);
+  ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, horizon); ctx.clip();
+  ctx.shadowColor = p.sun[1]; ctx.shadowBlur = 50; ctx.fillStyle = sun;
+  ctx.beginPath(); ctx.arc(cx, sy, sr, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+  ctx.fillStyle = p.sky[0];
+  for (let i = 0; i < 6; i++) { const yy = sy + sr * (.1 + i * .16), hh = 2 + i * 1.6; ctx.fillRect(cx - sr, yy, sr * 2, hh); }
+  ctx.restore();
+
+  // mountains silhouette
+  ctx.fillStyle = rgb(mix(p.b, [0, 0, 0], .82));
+  ctx.beginPath(); ctx.moveTo(0, horizon);
+  for (let i = 0; i <= 12; i++) { const x = i / 12 * W, h = (Math.sin(i * 2.1) * .5 + .5) * 26 + (i % 3) * 9 + 8; ctx.lineTo(x, horizon - h); }
+  ctx.lineTo(W, horizon); ctx.fill();
+
+  // ground
+  const gr = ctx.createLinearGradient(0, horizon, 0, H);
+  gr.addColorStop(0, rgb(mix(p.b, [0, 0, 0], .7))); gr.addColorStop(.25, "#07040f"); gr.addColorStop(1, "#030207");
+  ctx.fillStyle = gr; ctx.fillRect(-20, horizon, W + 40, H - horizon + 20);
+
+  // floor grid (outside the road)
+  ctx.lineWidth = 1;
+  const period = 8, off = dist % period;
+  for (let k = 0; k < ZFAR / period + 2; k++) {
+    const z = k * period - off; if (z < -F + 1) continue;
+    const y = yAt(z); ctx.strokeStyle = rgb(p.b, .1 + .35 * scaleAt(z)); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+  for (let i = -9; i <= 9; i++) {
+    ctx.strokeStyle = rgb(p.b, .18);
+    ctx.beginPath(); ctx.moveTo(xAt(i * .9, ZFAR), yAt(ZFAR)); ctx.lineTo(xAt(i * .9 * 5, -F + 2), yAt(-F + 2)); ctx.stroke();
+  }
+
+  // road
+  const e = 1.55, zN = -F + 1.5;
+  ctx.fillStyle = "rgba(4,2,10,.92)";
+  ctx.beginPath(); ctx.moveTo(xAt(-e, ZFAR), yAt(ZFAR)); ctx.lineTo(xAt(e, ZFAR), yAt(ZFAR)); ctx.lineTo(xAt(e, zN), yAt(zN)); ctx.lineTo(xAt(-e, zN), yAt(zN)); ctx.fill();
+  ctx.save(); ctx.globalCompositeOperation = "lighter";
+  for (const s of [-1, 1]) {
+    ctx.strokeStyle = rgb(p.a, .9); ctx.lineWidth = 3; ctx.shadowColor = rgb(p.a); ctx.shadowBlur = 16;
+    ctx.beginPath(); ctx.moveTo(xAt(s * e, ZFAR), yAt(ZFAR)); ctx.lineTo(xAt(s * e, zN), yAt(zN)); ctx.stroke();
+  }
+  ctx.shadowBlur = 0;
+  // lane dashes
+  const dp = 10, doff = dist % dp;
+  for (const l of [-.5, .5]) {
+    for (let k = 0; k < ZFAR / dp + 2; k++) {
+      const z0 = k * dp - doff, z1 = z0 + dp * .45; if (z1 < zN) continue;
+      const a = Math.max(z0, zN);
+      ctx.strokeStyle = rgb(p.a, .25 + .5 * scaleAt(a)); ctx.lineWidth = Math.max(1, 3.5 * scaleAt(a));
+      ctx.beginPath(); ctx.moveTo(xAt(l, a), yAt(a)); ctx.lineTo(xAt(l, z1), yAt(z1)); ctx.stroke();
+    }
+  }
+  // speed streaks on the road edges when fast
+  const fast = Math.max(0, (speed - 55) / 60);
+  if (fast > 0) {
+    for (let i = 0; i < 10; i++) {
+      const z = ((i * 13.7 - dist * 1.3) % ZFAR + ZFAR) % ZFAR, s = i % 2 ? 1 : -1, len = 6;
+      ctx.strokeStyle = rgb(p.a, .5 * fast * scaleAt(z)); ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(xAt(s * (e + .25 + (i % 3) * .3), z), yAt(z)); ctx.lineTo(xAt(s * (e + .25 + (i % 3) * .3), z - len), yAt(z - len)); ctx.stroke();
+    }
+  }
+  ctx.restore();
+
+  if (G) {
+    // objects, far to near
+    const objs = G.objs.slice().sort((m, n) => (n.at - m.at));
+    for (const o of objs) {
+      const z = o.at - G.dist; if (z > ZFAR || z < zN) continue;
+      const fade = Math.min(1, (ZFAR - z) / 20);
+      if (o.type === "block") drawBlock(o, z, p, fade); else drawOrb(o, z, fade, now);
+    }
+    if (!G.dead) drawPlayer(p, now);
+    // particles
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    for (const q of G.parts) { ctx.globalAlpha = Math.max(0, q.life / q.max); ctx.fillStyle = rgb(q.col); ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, Math.PI * 2); ctx.fill(); }
+    ctx.restore();
+    // pop text
+    for (const q of G.pops) {
+      const a = 1 - q.t / .9; ctx.globalAlpha = a;
+      ctx.font = `800 ${30 + q.t * 10}px "Barlow Condensed", system-ui`; ctx.textAlign = "center";
+      ctx.fillStyle = rgb(q.col); ctx.shadowColor = rgb(q.col); ctx.shadowBlur = 16;
+      ctx.fillText(q.text, cx, baseY - 110 - q.t * 50); ctx.shadowBlur = 0;
+    }
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+
+  // slow-mo vignette + flash
+  if (G && G.slow > 0) { const v = ctx.createRadialGradient(cx, H / 2, H * .2, cx, H / 2, H * .75); v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, rgb(p.b, .35 * G.slow / .3)); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
+  if (flash > 0) { ctx.fillStyle = rgb(flashCol, flash * .5); ctx.fillRect(0, 0, W, H); flash = Math.max(0, flash - .03); }
+}
+
+function drawBlock(o, z, p, fade) {
+  const hw = .42, zb = z + o.depth, h = o.h * roadW * .34;
+  const s0 = scaleAt(z), s1 = scaleAt(zb);
+  const xl0 = xAt(o.lane - hw, z), xr0 = xAt(o.lane + hw, z), y0 = yAt(z);
+  const xl1 = xAt(o.lane - hw, zb), xr1 = xAt(o.lane + hw, zb), y1 = yAt(zb);
+  const t0 = y0 - h * s0, t1 = y1 - h * s1;
+  const col = p.b;
+  ctx.globalAlpha = fade;
+  // top face
+  ctx.fillStyle = rgb(mix(col, [255, 255, 255], .25), .85);
+  ctx.beginPath(); ctx.moveTo(xl0, t0); ctx.lineTo(xr0, t0); ctx.lineTo(xr1, t1); ctx.lineTo(xl1, t1); ctx.fill();
+  // side face, toward the center of the road
+  const side = o.lane < 0 ? [xr0, xr1] : o.lane > 0 ? [xl0, xl1] : null;
+  if (side) { ctx.fillStyle = rgb(mix(col, [0, 0, 0], .55), .9); ctx.beginPath(); ctx.moveTo(side[0], y0); ctx.lineTo(side[0], t0); ctx.lineTo(side[1], t1); ctx.lineTo(side[1], y1); ctx.fill(); }
+  // front face with a glowing rim
+  const fg = ctx.createLinearGradient(0, t0, 0, y0);
+  fg.addColorStop(0, rgb(col, .95)); fg.addColorStop(1, rgb(mix(col, [0, 0, 0], .6), .95));
+  ctx.fillStyle = fg; ctx.fillRect(xl0, t0, xr0 - xl0, y0 - t0);
+  ctx.save(); ctx.globalCompositeOperation = "lighter";
+  ctx.strokeStyle = rgb(mix(col, [255, 255, 255], .4)); ctx.lineWidth = Math.max(1, 2.5 * s0);
+  if (z < 40) { ctx.shadowColor = rgb(col); ctx.shadowBlur = 18 * s0 + 4; }
+  ctx.strokeRect(xl0, t0, xr0 - xl0, y0 - t0);
+  // warning stripe
+  ctx.fillStyle = rgb([255, 255, 255], .5); ctx.fillRect(xl0 + (xr0 - xl0) * .12, t0 + (y0 - t0) * .42, (xr0 - xl0) * .76, Math.max(1, (y0 - t0) * .1));
+  ctx.restore();
+  // floor glow under the block
+  ctx.fillStyle = rgb(col, .18 * fade); ctx.fillRect(xl0 - 6 * s0, y0, xr0 - xl0 + 12 * s0, 6 * s0);
+  ctx.globalAlpha = 1;
+}
+
+function drawOrb(o, z, fade, now) {
+  const s = scaleAt(z), x = xAt(o.lane, z), y = yAt(z) - (34 + Math.sin(now / 200 + o.at) * 6) * s, r = 11 * s;
+  ctx.save(); ctx.globalAlpha = fade; ctx.globalCompositeOperation = "lighter";
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3);
+  g.addColorStop(0, "rgba(255,240,180,.9)"); g.addColorStop(.3, "rgba(255,211,77,.55)"); g.addColorStop(1, "rgba(255,211,77,0)");
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * 3, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#fff6d0"; ctx.beginPath(); ctx.arc(x, y, r * .55, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+function drawPlayer(p, now) {
+  const g = G, y = yAt(0), x = xAt(g.px, 0), w = roadW * .2, tilt = (g.lane - g.px) * .5;
+  // light trail: past x positions stretched toward the bottom
+  ctx.save(); ctx.globalCompositeOperation = "lighter";
+  for (let side = -1; side <= 1; side += 2) {
+    ctx.beginPath();
+    g.trail.forEach((tx, i) => { const yy = y + 4 + i * (H - y) / 24, xx = xAt(tx, 0) + side * w * .32 * (1 - i / 30); i ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); });
+    const tg = ctx.createLinearGradient(0, y, 0, H);
+    tg.addColorStop(0, rgb(p.a, .9)); tg.addColorStop(1, rgb(p.a, 0));
+    ctx.strokeStyle = tg; ctx.lineWidth = 3; ctx.shadowColor = rgb(p.a); ctx.shadowBlur = 12; ctx.stroke();
+  }
+  // underglow
+  const ug = ctx.createRadialGradient(x, y + 4, 0, x, y + 4, w * 1.4);
+  ug.addColorStop(0, rgb(p.a, .55)); ug.addColorStop(1, rgb(p.a, 0));
+  ctx.fillStyle = ug; ctx.beginPath(); ctx.ellipse(x, y + 4, w * 1.4, w * .45, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+  // the ship: a low arrowhead
+  ctx.save(); ctx.translate(x, y - 6); ctx.rotate(tilt * .35);
+  const hgt = w * 1.05;
+  ctx.shadowColor = rgb(p.a); ctx.shadowBlur = 22;
+  const body = ctx.createLinearGradient(0, -hgt, 0, 0);
+  body.addColorStop(0, "#ffffff"); body.addColorStop(.5, rgb(p.a)); body.addColorStop(1, rgb(mix(p.a, [0, 0, 0], .5)));
+  ctx.fillStyle = body;
+  ctx.beginPath(); ctx.moveTo(0, -hgt); ctx.lineTo(w * .62, 0); ctx.lineTo(w * .2, -hgt * .18); ctx.lineTo(-w * .2, -hgt * .18); ctx.lineTo(-w * .62, 0); ctx.closePath(); ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "rgba(5,3,11,.75)";
+  ctx.beginPath(); ctx.moveTo(0, -hgt * .62); ctx.lineTo(w * .14, -hgt * .3); ctx.lineTo(-w * .14, -hgt * .3); ctx.closePath(); ctx.fill();
+  // engine flicker
+  ctx.globalCompositeOperation = "lighter";
+  ctx.fillStyle = rgb(p.b, .8 + Math.random() * .2);
+  ctx.beginPath(); ctx.ellipse(0, -hgt * .12, w * .2, 4 + Math.random() * 3, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+/* ---------- HUD ---------- */
+let hudScore = -1;
+function hud() {
+  const s = score(); if (s !== hudScore) { hudScore = s; $("#score").textContent = s; }
+  $("#speed").textContent = Math.round(G.speed * 3.1) + " km/h";
+  const c = $("#combo"); c.textContent = "x" + G.combo; c.classList.toggle("on", G.combo > 1);
+  $("#hud").style.setProperty("--glow", rgb(pal().a));
+}
+
+/* ---------- loop ---------- */
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  if (state === "play") { update(dt); if (state === "play") hud(); }
+  else if (G && G.dead && state === "over") stepParts(dt);
+  draw(now);
+  requestAnimationFrame(frame);
+}
+resize();
+requestAnimationFrame(t => { last = t; frame(t); });
+
+if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+</script>
+</body>
+</html>
