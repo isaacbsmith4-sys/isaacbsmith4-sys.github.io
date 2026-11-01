@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#03040a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gravity Well">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Gravity Well</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@500;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one full-screen canvas (space, the planet, comets, the well) with HTML overlays: HUD while
+   playing, one card for the start, pause and game-over screens. Game-only: the best score lives in
+   localStorage, nothing goes to LIFE HQ. */
+:root{
+  color-scheme:dark;
+  --bg:#03040a; --ink:#eef4ff; --muted:#8a96b4; --line:rgba(255,255,255,.12);
+  --accent:#ff8a3d; --cyan:#5fd8ff; --gold:#ffd34d;
+  --display:"Barlow Condensed","Avenir Next Condensed",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;color:var(--ink);font:15px/1.4 var(--body);touch-action:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 0;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;transition:opacity .2s}
+.hud .score{font:800 44px/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,138,61,.55)}
+.hud .meta{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.hud .right{display:flex;gap:12px;align-items:center}
+.shields{display:flex;gap:6px}
+.shields i{width:12px;height:12px;border-radius:50%;border:2px solid var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.shields i.off{border-color:rgba(255,255,255,.18);box-shadow:none}
+.icon{pointer-events:auto;appearance:none;border:1px solid var(--line);background:rgba(6,8,20,.55);color:var(--ink);width:40px;height:40px;border-radius:12px;font:700 15px var(--body);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.icon:focus-visible,.btn:focus-visible,.back:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px calc(env(safe-area-inset-bottom,0px) + 28px);text-align:center;background:radial-gradient(70% 50% at 50% 50%,rgba(3,4,10,.72),rgba(3,4,10,.3) 80%)}
+.back{position:absolute;left:16px;top:calc(env(safe-area-inset-top,0px) + 12px);color:var(--muted);text-decoration:none;font:700 13px var(--body);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(6,8,20,.5)}
+.mute{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 8px)}
+h1{margin:0;font:800 clamp(56px,18vw,92px)/.86 var(--display);letter-spacing:.04em;text-transform:uppercase;
+  background:linear-gradient(180deg,#fff 15%,#ffc27a 55%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(255,138,61,.45))}
+.tag{margin:16px 0 0;color:var(--ink);font-size:16px;font-weight:700}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.big{font:800 84px/1 var(--display);font-variant-numeric:tabular-nums;text-shadow:0 0 26px rgba(255,138,61,.6)}
+.best{margin-top:22px;display:inline-flex;gap:10px;align-items:baseline;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(6,8,20,.5)}
+.best b{font:800 22px var(--display);color:var(--gold)}
+.newbest{margin-top:8px;font:800 22px var(--display);letter-spacing:.08em;color:var(--gold);text-shadow:0 0 16px rgba(255,211,77,.8);animation:pulse .9s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.08)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px;width:min(340px,100%)}
+.stats div{border:1px solid var(--line);border-radius:14px;padding:10px 6px;background:rgba(6,8,20,.6)}
+.stats b{display:block;font:800 24px var(--display);font-variant-numeric:tabular-nums}
+.stats span{font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{margin-top:26px;appearance:none;border:0;cursor:pointer;font:800 22px var(--display);letter-spacing:.1em;text-transform:uppercase;color:#120600;padding:15px 44px;border-radius:16px;
+  background:linear-gradient(90deg,#ffd34d,#ff8a3d,#ff4f6d);box-shadow:0 0 36px -6px rgba(255,138,61,.8)}
+.hint{margin-top:16px;color:var(--muted);font-size:13px}
+.how{display:grid;gap:10px;margin-top:24px;text-align:left;width:min(320px,100%)}
+.how div{display:flex;gap:12px;align-items:center;font-size:13.5px}
+.how i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font:800 15px var(--display);border:1px solid var(--line);background:rgba(6,8,20,.6)}
+.flashmsg{position:absolute;left:0;right:0;top:20%;text-align:center;pointer-events:none;font:800 34px var(--display);letter-spacing:.12em;opacity:0;transform:scale(.85);transition:opacity .25s,transform .25s}
+.flashmsg.on{opacity:1;transform:scale(1)}
+</style>
+</head>
+<body>
+<canvas id="c" aria-label="Gravity Well game"></canvas>
+
+<div class="hud" id="hud" style="opacity:0">
+  <div><div class="score" id="score">0</div><div class="meta" id="wave">Wave 1</div></div>
+  <div class="right"><div class="shields" id="shields"></div><button class="icon" id="pauseBtn" aria-label="Pause">II</button></div>
+</div>
+<div class="flashmsg" id="msg"></div>
+
+<div class="screen" id="menu">
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <button class="icon mute" id="muteBtn" aria-label="Sound">♪</button>
+  <div class="eyebrow">Bend space with your thumb</div>
+  <h1>Gravity<br>Well</h1>
+  <p class="tag">Comets are coming for your planet.</p>
+  <div class="how">
+    <div><i>☝</i>Hold anywhere to open a black hole. Comets curve toward it.</div>
+    <div><i style="color:var(--gold)">◎</i>Sling comets through the rings. One comet, many rings = huge points.</div>
+    <div><i style="color:var(--cyan)">●</i>Keep them off the planet. 3 hits and it's over.</div>
+  </div>
+  <div class="best"><span class="eyebrow">Best</span><b id="menuBest">0</b></div>
+  <button class="btn" id="startBtn">Play</button>
+</div>
+
+<div class="screen" id="paused" hidden>
+  <div class="eyebrow">Paused</div>
+  <div class="big" id="pauseScore">0</div>
+  <button class="btn" id="resumeBtn">Resume</button>
+  <p class="hint"><a href="#" id="quitBtn" style="color:var(--muted)">End run</a></p>
+</div>
+
+<div class="screen" id="over" hidden>
+  <a class="back" href="../hq/">‹ LIFE HQ</a>
+  <div class="eyebrow" id="overWhy">Planet lost</div>
+  <div class="big" id="finalScore">0</div>
+  <div class="newbest" id="newBest" hidden>New best</div>
+  <div class="best" id="overBestWrap"><span class="eyebrow">Best</span><b id="overBest">0</b></div>
+  <div class="stats">
+    <div><b id="stRings">0</b><span>Rings</span></div>
+    <div><b id="stChain">0</b><span>Best chain</span></div>
+    <div><b id="stTime">0</b><span>Seconds</span></div>
+  </div>
+  <button class="btn" id="againBtn">Again</button>
+  <p class="hint">Tap anywhere to go again</p>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const cv = $("#c"), ctx = cv.getContext("2d");
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("well:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("well:" + k, JSON.stringify(v)); } catch {} }
+};
+
+/* ---------- tuning (distances in px scaled by U = screen size / 400) ---------- */
+const STEP = 1 / 120;
+const PULL = 1.15e7;     // well strength: accel = PULL*U^3 / (d^2 + soft^2)
+const SOFT = 34;         // softening radius, so the core flings rather than traps
+const LIFT = 46;         // the well sits this far above your thumb so you can see it
+const KINDS = {
+  comet: {hue: 195, r: 5, spd: 1, pull: 1, pts: 1},
+  fast:  {hue: 48,  r: 4, spd: 1.45, pull: 1.1, pts: 1.5},
+  heavy: {hue: 350, r: 8, spd: .8, pull: .5, pts: 2}
+};
+
+/* ---------- sound ---------- */
+let ac = null, muted = store.get("muted", false);
+function audio() {
+  if (muted) return null;
+  if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; } }
+  if (ac.state === "suspended") ac.resume();
+  return ac;
+}
+function tone(f0, f1, dur, type = "sine", vol = .1, delay = 0) {
+  const a = audio(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + delay;
+  o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur + .02);
+}
+function noise(dur, vol, freq) {
+  const a = audio(); if (!a) return;
+  const n = Math.floor(a.sampleRate * dur), buf = a.createBuffer(1, n, a.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n) ** 2;
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  s.buffer = buf; f.type = "lowpass"; f.frequency.value = freq; g.gain.value = vol;
+  s.connect(f).connect(g).connect(a.destination); s.start();
+}
+let hum = null;
+function wellHum(on) {
+  const a = audio(); if (!a) return;
+  if (on && !hum) {
+    const o = a.createOscillator(), o2 = a.createOscillator(), g = a.createGain();
+    o.type = "sine"; o.frequency.value = 55; o2.type = "triangle"; o2.frequency.value = 82.5;
+    g.gain.value = .0001; g.gain.exponentialRampToValueAtTime(.06, a.currentTime + .15);
+    o.connect(g); o2.connect(g); g.connect(a.destination); o.start(); o2.start(); hum = {o, o2, g};
+  } else if (!on && hum) {
+    const h = hum; hum = null;
+    h.g.gain.cancelScheduledValues(a.currentTime); h.g.gain.setValueAtTime(Math.max(.0001, h.g.gain.value), a.currentTime);
+    h.g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + .2); h.o.stop(a.currentTime + .25); h.o2.stop(a.currentTime + .25);
+  }
+}
+const sfx = {
+  ring: c => { const b = 523 * Math.pow(2, Math.min(c - 1, 8) * 2 / 12); tone(b, b * 1.5, .18, "triangle", .1); tone(b * 2, b * 3, .22, "sine", .05, .04); },
+  close: () => tone(700, 1600, .15, "sawtooth", .04),
+  hit: () => { noise(.5, .35, 900); tone(140, 45, .5, "sawtooth", .12); },
+  shield: () => { tone(392, 784, .3, "triangle", .08); tone(587, 1175, .35, "sine", .06, .1); },
+  wave: () => { tone(262, 523, .3, "triangle", .08); tone(392, 784, .35, "triangle", .07, .12); }
+};
+const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch {} };
+
+/* ---------- sizing ---------- */
+let W = 0, H = 0, DPR = 1, U = 1, stars = [], neb = null;
+const planet = {x: 0, y: 0, r: 0};
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  U = Math.min(W, H * .62) / 400;
+  planet.x = W / 2; planet.y = H * .56; planet.r = 30 * U + 6;
+  stars = Array.from({length: 140}, () => ({x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.4 + .2, tw: Math.random() * 6, d: Math.random()}));
+  // nebula baked once to an offscreen canvas
+  neb = document.createElement("canvas"); neb.width = Math.max(1, W / 2 | 0); neb.height = Math.max(1, H / 2 | 0);
+  const n = neb.getContext("2d");
+  for (const [x, y, r, c] of [[.2, .25, .5, "rgba(120,60,200,.20)"], [.85, .7, .55, "rgba(255,110,60,.14)"], [.6, .1, .4, "rgba(40,140,255,.14)"]]) {
+    const g = n.createRadialGradient(x * neb.width, y * neb.height, 0, x * neb.width, y * neb.height, r * neb.width * 1.4);
+    g.addColorStop(0, c); g.addColorStop(1, "rgba(0,0,0,0)"); n.fillStyle = g; n.fillRect(0, 0, neb.width, neb.height);
+  }
+}
+addEventListener("resize", resize);
+
+/* ---------- state ---------- */
+let state = "menu", G = null, best = store.get("best", 0), shake = 0, flash = 0, flashCol = "255,255,255";
+const well = {x: 0, y: 0, on: false, k: 0, spin: 0};
+function newGame() {
+  return {t: 0, comets: [], rings: [], parts: [], pops: [], shields: 3, pts: 0, ringsHit: 0, bestChain: 0, spawnT: 1.2, wave: 1, nextShieldAt: 1500, dead: false, deadT: 0, hitT: 0};
+}
+const score = () => Math.floor(G.pts);
+
+/* ---------- spawning ---------- */
+function spawnComet() {
+  const g = G, lvl = Math.min(1, g.t / 110);
+  const r = Math.random(), kind = r < .14 + .12 * lvl ? "heavy" : r < .3 + .25 * lvl ? "fast" : "comet", K = KINDS[kind];
+  // start just off a random edge, aimed near the planet
+  const m = 30, side = Math.random();
+  let x, y;
+  if (side < .3) { x = Math.random() * W; y = -m; }
+  else if (side < .6) { x = Math.random() < .5 ? -m : W + m; y = Math.random() * H * .8; }
+  else if (side < .85) { x = Math.random() < .5 ? -m : W + m; y = Math.random() * H; }
+  else { x = Math.random() * W; y = H + m; }
+  const off = (Math.random() - .5) * planet.r * 5;
+  const ax = planet.x - x, ay = planet.y - y, d = Math.hypot(ax, ay);
+  const tx = planet.x + (-ay / d) * off, ty = planet.y + (ax / d) * off;
+  const sp = (150 + 120 * lvl + Math.random() * 40) * U * K.spd;
+  const dd = Math.hypot(tx - x, ty - y);
+  g.comets.push({kind, x, y, vx: (tx - x) / dd * sp, vy: (ty - y) / dd * sp, trail: [], chain: 0, age: 0, near: false, hit: new Set()});
+}
+function placeRing(old) {
+  for (let k = 0; k < 40; k++) {
+    const x = 50 + Math.random() * (W - 100), y = 110 + Math.random() * (H - 170);
+    const okPlanet = Math.hypot(x - planet.x, y - planet.y) > planet.r + 110 * U;
+    const okRings = G.rings.every(r => r === old || Math.hypot(x - r.x, y - r.y) > 120 * U);
+    if (okPlanet && okRings) return {x, y, r: 24 * U + 6, t: 0, life: 14 + Math.random() * 4, id: Math.random()};
+  }
+  return {x: W * .5, y: 130, r: 24 * U + 6, t: 0, life: 14, id: Math.random()};
+}
+
+/* ---------- input: absolute, the well hovers just above your thumb ---------- */
+function press(x, y) { audio(); if (state !== "play" || G.dead) return; well.on = true; well.x = x; well.y = y - LIFT; wellHum(true); }
+function drag(x, y) { if (well.on) { well.x = x; well.y = y - LIFT; } }
+function release() { well.on = false; wellHum(false); }
+cv.addEventListener("touchstart", e => { e.preventDefault(); const t = e.touches[e.touches.length - 1]; press(t.clientX, t.clientY); }, {passive: false});
+cv.addEventListener("touchmove", e => { e.preventDefault(); const t = e.touches[e.touches.length - 1]; drag(t.clientX, t.clientY); }, {passive: false});
+cv.addEventListener("touchend", e => { e.preventDefault(); if (!e.touches.length) release(); }, {passive: false});
+cv.addEventListener("touchcancel", () => release());
+cv.addEventListener("mousedown", e => press(e.clientX, e.clientY + LIFT));
+addEventListener("mousemove", e => drag(e.clientX, e.clientY + LIFT));
+addEventListener("mouseup", release);
+addEventListener("keydown", e => {
+  if ((e.key === " " || e.key === "Enter") && state !== "play") start();
+  else if (e.key === "Escape" || e.key === "p") state === "play" ? pause() : state === "paused" && resume();
+});
+
+/* ---------- screens ---------- */
+const show = id => { for (const s of ["menu", "paused", "over"]) $("#" + s).hidden = s !== id; $("#hud").style.opacity = id ? 0 : 1; };
+let msgTimer = 0;
+function msg(text, col) {
+  const el = $("#msg"); el.textContent = text; el.style.color = col; el.style.textShadow = `0 0 22px ${col}`;
+  el.classList.add("on"); clearTimeout(msgTimer); msgTimer = setTimeout(() => el.classList.remove("on"), 1000);
+}
+function start() {
+  audio(); G = newGame(); G.rings.push(placeRing()); G.rings.push(placeRing());
+  state = "play"; show(null); last = performance.now(); acc = 0; drawShields();
+}
+function pause() { if (state !== "play" || G.dead) return; release(); state = "paused"; $("#pauseScore").textContent = score(); show("paused"); }
+function resume() { state = "play"; show(null); last = performance.now(); acc = 0; }
+let overAt = 0;
+function gameOver() {
+  state = "over"; release(); well.k = 0; $("#msg").classList.remove("on");
+  const s = score(), nb = s > best;
+  if (nb) { best = s; store.set("best", best); }
+  $("#overWhy").textContent = G.why || "Planet lost";
+  $("#finalScore").textContent = s; $("#overBest").textContent = best;
+  $("#newBest").hidden = !nb; $("#overBestWrap").hidden = nb;
+  $("#stRings").textContent = G.ringsHit; $("#stChain").textContent = G.bestChain; $("#stTime").textContent = Math.floor(G.t);
+  show("over"); overAt = performance.now();
+}
+$("#startBtn").onclick = start; $("#againBtn").onclick = e => { e.stopPropagation(); start(); };
+$("#over").addEventListener("click", e => { if (e.target.closest("a")) return; if (performance.now() - overAt > 600) start(); });
+$("#pauseBtn").onclick = pause; $("#resumeBtn").onclick = resume;
+$("#quitBtn").onclick = e => { e.preventDefault(); G.why = "Run ended"; G.dead = true; gameOver(); };
+const setMute = () => { $("#muteBtn").textContent = muted ? "✕" : "♪"; $("#muteBtn").style.opacity = muted ? .5 : 1; };
+$("#muteBtn").onclick = () => { muted = !muted; store.set("muted", muted); setMute(); if (!muted) sfx.ring(1); };
+document.addEventListener("visibilitychange", () => { if (document.hidden) pause(); });
+$("#menuBest").textContent = best; setMute();
+function drawShields() { $("#shields").innerHTML = [0, 1, 2].map(i => `<i class="${i < G.shields ? "" : "off"}"></i>`).join(""); }
+
+/* ---------- effects ---------- */
+function burst(x, y, hue, n, spd, life = .8, light = 62) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = spd * (.25 + Math.random());
+    G.parts.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life, max: life, hue, light, r: 1.2 + Math.random() * 2.4});
+  }
+}
+
+/* ---------- simulation (fixed step) ---------- */
+function tick() {
+  const g = G, dt = STEP;
+  g.t += dt;
+  well.k += ((well.on ? 1 : 0) - well.k) * Math.min(1, dt * 14);
+  g.pts += 4 * dt;
+
+  // spawn rate climbs over ~2 minutes; a new wave label every 30 s
+  g.spawnT -= dt;
+  if (g.spawnT <= 0) { spawnComet(); const lvl = Math.min(1, g.t / 110); g.spawnT = (2.1 - 1.45 * lvl) * (.75 + Math.random() * .5); }
+  const wave = 1 + Math.floor(g.t / 30);
+  if (wave !== g.wave) { g.wave = wave; sfx.wave(); msg(`WAVE ${wave}`, "#ffc27a"); }
+
+  const pk = PULL * U * U * U * well.k, soft2 = (SOFT * U) ** 2;
+  for (const c of g.comets) {
+    const K = KINDS[c.kind];
+    if (well.k > .01) {
+      const dx = well.x - c.x, dy = well.y - c.y, d2 = dx * dx + dy * dy + soft2, d = Math.sqrt(d2);
+      const a = pk * K.pull / d2;
+      c.vx += dx / d * a * dt; c.vy += dy / d * a * dt;
+    }
+    // keep speeds sane after a hard slingshot
+    const sp = Math.hypot(c.vx, c.vy), cap = 720 * U;
+    if (sp > cap) { c.vx *= cap / sp; c.vy *= cap / sp; }
+    c.x += c.vx * dt; c.y += c.vy * dt; c.age += dt;
+    if ((c.tc = (c.tc || 0) + 1) % 2 === 0) { c.trail.unshift({x: c.x, y: c.y}); if (c.trail.length > 22) c.trail.pop(); }
+
+    // planet
+    const pd = Math.hypot(c.x - planet.x, c.y - planet.y);
+    if (pd < planet.r + K.r) { c.dead = true; planetHit(c); if (g.dead) return; continue; }
+    if (!c.near && pd < planet.r + K.r + 18 * U && c.age > .3) {
+      c.near = true; const b = 25; g.pts += b; g.pops.push({x: c.x, y: c.y - 14, text: `CLOSE +${b}`, col: "255,140,170", t: 0}); sfx.close();
+    }
+    // rings
+    for (const r of g.rings) {
+      if (c.hit.has(r.id)) continue;
+      if (Math.hypot(c.x - r.x, c.y - r.y) < r.r + K.r * .5) {
+        c.hit.add(r.id); c.chain++; g.ringsHit++; g.bestChain = Math.max(g.bestChain, c.chain);
+        const fast = sp > 380 * U, pts = Math.round(100 * c.chain * K.pts + (fast ? 50 : 0));
+        g.pts += pts;
+        g.pops.push({x: r.x, y: r.y - r.r - 8, text: (c.chain > 1 ? `CHAIN x${c.chain} ` : "") + `+${pts}`, col: c.chain > 1 ? "255,211,77" : "255,255,255", t: 0});
+        if (fast) g.pops.push({x: r.x, y: r.y + r.r + 22, text: "SLINGSHOT", col: "255,138,61", t: 0});
+        if (c.chain >= 3) msg(c.chain >= 5 ? "UNREAL" : "TRIPLE", "#ffd34d");
+        burst(r.x, r.y, KINDS[c.kind].hue, 24, 220, .6, 65); burst(r.x, r.y, 48, 10, 140, .5, 75);
+        sfx.ring(c.chain); buzz(8);
+        r.pop = 1;
+      }
+    }
+    // gone: well off screen and heading away, or wandering too long
+    const out = c.x < -120 || c.x > W + 120 || c.y < -120 || c.y > H + 120;
+    if ((out && c.age > 1) || c.age > 16) c.dead = true;
+  }
+  g.comets = g.comets.filter(c => !c.dead);
+
+  // rings: popped ones move, old ones drift away and come back elsewhere
+  for (let i = 0; i < g.rings.length; i++) {
+    const r = g.rings[i]; r.t += dt;
+    if (r.pop || r.t > r.life) g.rings[i] = placeRing(r);
+  }
+  // shield back every 1500 points
+  if (g.pts >= g.nextShieldAt) {
+    g.nextShieldAt += 1500;
+    if (g.shields < 3) { g.shields++; drawShields(); sfx.shield(); msg("SHIELD +1", "#5fd8ff"); }
+  }
+}
+function planetHit(c) {
+  const g = G;
+  if (g.dead) return;
+  g.shields--; drawShields(); g.hitT = .5;
+  sfx.hit(); buzz([30, 20, 60]); shake = .8; flash = .5; flashCol = "255,90,90";
+  burst(c.x, c.y, KINDS[c.kind].hue, 40, 300, .9); burst(c.x, c.y, 20, 30, 220, .8, 70);
+  if (g.shields <= 0) {
+    g.dead = true; g.deadT = 0; g.why = "Planet lost"; release();
+    shake = 1.2; flash = .9; flashCol = "255,200,150";
+    burst(planet.x, planet.y, 25, 90, 420, 1.4, 65); burst(planet.x, planet.y, 200, 50, 300, 1.2, 70);
+  }
+}
+function stepFx(dt) {
+  for (const p of G.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .965; p.vy *= .965; p.life -= dt; }
+  G.parts = G.parts.filter(p => p.life > 0);
+  for (const p of G.pops) p.t += dt;
+  G.pops = G.pops.filter(p => p.t < .9);
+  if (G.hitT > 0) G.hitT -= dt;
+}
+
+/* ---------- drawing ---------- */
+function draw(now) {
+  ctx.save();
+  if (shake > 0) { ctx.translate((Math.random() - .5) * 16 * shake, (Math.random() - .5) * 16 * shake); shake = Math.max(0, shake - .03); }
+  ctx.fillStyle = "#03040a"; ctx.fillRect(-20, -20, W + 40, H + 40);
+  if (neb) ctx.drawImage(neb, 0, 0, W, H);
+
+  // stars, bent a little by the well (fake lensing)
+  const wk = well.k;
+  for (const s of stars) {
+    let x = s.x, y = s.y;
+    if (wk > .02) {
+      const dx = x - well.x, dy = y - well.y, d = Math.hypot(dx, dy) || 1, ring = 70 * U;
+      const push = wk * ring * ring / (d + 10) * .35;
+      x += dx / d * Math.min(push, 60); y += dy / d * Math.min(push, 60);
+    }
+    ctx.globalAlpha = (.35 + .4 * Math.sin(now / 700 + s.tw)) * (.5 + s.d * .5);
+    ctx.fillStyle = "#fff"; ctx.fillRect(x, y, s.r, s.r);
+  }
+  ctx.globalAlpha = 1;
+
+  drawPlanet(now);
+
+  if (G) {
+    // rings (targets)
+    for (const r of G.rings) {
+      const born = Math.min(1, r.t / .4), dying = Math.max(0, Math.min(1, (r.life - r.t) / 1.5));
+      const a = born * dying, rr = r.r * (.6 + .4 * born);
+      ctx.save(); ctx.translate(r.x, r.y); ctx.globalCompositeOperation = "lighter"; ctx.globalAlpha = a;
+      const gl = ctx.createRadialGradient(0, 0, rr * .6, 0, 0, rr * 1.8);
+      gl.addColorStop(0, "rgba(255,211,77,0)"); gl.addColorStop(.45, "rgba(255,211,77,.22)"); gl.addColorStop(1, "rgba(255,211,77,0)");
+      ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(0, 0, rr * 1.8, 0, Math.PI * 2); ctx.fill();
+      ctx.rotate(now / 900); ctx.strokeStyle = "rgba(255,225,130,.95)"; ctx.lineWidth = 3;
+      ctx.setLineDash([rr * .5, rr * .28]); ctx.beginPath(); ctx.arc(0, 0, rr, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.rotate(-now / 450); ctx.strokeStyle = "rgba(255,180,90,.5)"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(0, 0, rr * .7, 0, Math.PI * 1.3); ctx.stroke();
+      ctx.restore();
+    }
+
+    // comets: glowing trail + head
+    ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.lineCap = "round";
+    for (const c of G.comets) {
+      const K = KINDS[c.kind], fade = Math.min(1, (16 - c.age) / 1.5);
+      const tr = c.trail;
+      for (let i = 1; i < tr.length; i++) {
+        const k = 1 - i / tr.length;
+        ctx.strokeStyle = `hsla(${K.hue},100%,${55 + 20 * k}%,${.55 * k * fade})`; ctx.lineWidth = K.r * 2 * k + 1;
+        ctx.beginPath(); ctx.moveTo(tr[i - 1].x, tr[i - 1].y); ctx.lineTo(tr[i].x, tr[i].y); ctx.stroke();
+      }
+      const hg = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, K.r * 4);
+      hg.addColorStop(0, `hsla(${K.hue},100%,85%,${fade})`); hg.addColorStop(1, `hsla(${K.hue},100%,60%,0)`);
+      ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(c.x, c.y, K.r * 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(255,255,255,${fade})`; ctx.beginPath(); ctx.arc(c.x, c.y, K.r * .8, 0, Math.PI * 2); ctx.fill();
+      // chain badge
+      if (c.chain > 0) { ctx.font = `800 13px "Barlow Condensed", system-ui`; ctx.textAlign = "center"; ctx.fillStyle = "rgba(255,211,77,.95)"; ctx.fillText("x" + c.chain, c.x, c.y - K.r - 8); }
+    }
+    ctx.restore();
+
+    drawWell(now);
+
+    // particles + popups
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    for (const p of G.parts) { ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = `hsl(${p.hue} 100% ${p.light}%)`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); }
+    ctx.restore();
+    ctx.textAlign = "center";
+    for (const p of G.pops) {
+      ctx.globalAlpha = 1 - p.t / .9; ctx.font = `800 ${20 + p.t * 8}px "Barlow Condensed", system-ui`;
+      ctx.fillStyle = `rgb(${p.col})`; ctx.fillText(p.text, p.x, p.y - p.t * 36);
+    }
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+  if (flash > 0) { ctx.fillStyle = `rgba(${flashCol},${flash * .35})`; ctx.fillRect(0, 0, W, H); flash = Math.max(0, flash - .025); }
+}
+
+function drawPlanet(now) {
+  if (G && G.dead) return;
+  const {x, y, r} = planet, hit = G && G.hitT > 0 ? G.hitT / .5 : 0;
+  // atmosphere
+  const at = ctx.createRadialGradient(x, y, r * .9, x, y, r * 2.1);
+  at.addColorStop(0, `rgba(${hit ? "255,120,120" : "95,216,255"},.35)`); at.addColorStop(1, "rgba(95,216,255,0)");
+  ctx.fillStyle = at; ctx.beginPath(); ctx.arc(x, y, r * 2.1, 0, Math.PI * 2); ctx.fill();
+  // body
+  const b = ctx.createRadialGradient(x - r * .35, y - r * .4, r * .1, x, y, r);
+  b.addColorStop(0, "#9ff0ff"); b.addColorStop(.45, "#2f7fd6"); b.addColorStop(1, "#0c1d4a");
+  ctx.fillStyle = b; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  // drifting cloud bands
+  ctx.save(); ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.clip();
+  ctx.fillStyle = "rgba(255,255,255,.12)";
+  for (let i = 0; i < 4; i++) { const yy = y - r * .6 + i * r * .38, off = ((now / 60 + i * 37) % (r * 4)) - r * 2; ctx.beginPath(); ctx.ellipse(x + off, yy, r * .8, r * .07, 0, 0, Math.PI * 2); ctx.fill(); }
+  ctx.restore();
+  // shield rings, one per shield left
+  const n = G ? G.shields : 3;
+  for (let i = 0; i < n; i++) {
+    ctx.strokeStyle = `rgba(95,216,255,${.35 - i * .08})`; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.ellipse(x, y, r * (1.35 + i * .22), r * (.42 + i * .07), -.35, 0, Math.PI * 2); ctx.stroke();
+  }
+}
+
+function drawWell(now) {
+  const k = well.k; if (k < .02) return;
+  const {x, y} = well, R = 26 * U + 6;
+  well.spin += .06;
+  ctx.save(); ctx.translate(x, y);
+  // lensing halo
+  const halo = ctx.createRadialGradient(0, 0, R * .8, 0, 0, R * 4);
+  halo.addColorStop(0, `rgba(255,150,70,${.35 * k})`); halo.addColorStop(.35, `rgba(160,80,255,${.14 * k})`); halo.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(0, 0, R * 4, 0, Math.PI * 2); ctx.fill();
+  // accretion disk: tilted swirling arcs
+  ctx.globalCompositeOperation = "lighter";
+  ctx.scale(1, .42);
+  for (let i = 0; i < 7; i++) {
+    const rr = R * (1.25 + i * .22), a0 = well.spin * (1.6 - i * .15) + i * 1.3;
+    ctx.strokeStyle = `hsla(${28 + i * 8},100%,${70 - i * 4}%,${(.75 - i * .08) * k})`; ctx.lineWidth = 3.5 - i * .35;
+    ctx.beginPath(); ctx.arc(0, 0, rr, a0, a0 + Math.PI * 1.25); ctx.stroke();
+  }
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.translate(x, y);
+  ctx.globalCompositeOperation = "source-over";
+  // event horizon
+  const core = ctx.createRadialGradient(0, 0, 0, 0, 0, R * k);
+  core.addColorStop(0, "#000"); core.addColorStop(.82, "#000"); core.addColorStop(1, "rgba(255,170,90,.95)");
+  ctx.fillStyle = core; ctx.beginPath(); ctx.arc(0, 0, R * k, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+/* ---------- menu backdrop: comets drifting past a quiet planet ---------- */
+function demo() {
+  G = newGame(); G.t = 40;
+  for (let i = 0; i < 5; i++) { spawnComet(); const c = G.comets[i]; c.x += c.vx * (.5 + i * .4); c.y += c.vy * (.5 + i * .4); }
+  G.rings.push(placeRing()); G.shields = 3;
+}
+function menuTick(dt) {
+  for (const c of G.comets) {
+    c.x += c.vx * dt; c.y += c.vy * dt; c.age = Math.min(c.age + dt, 6);
+    if ((c.tc = (c.tc || 0) + 1) % 2 === 0) { c.trail.unshift({x: c.x, y: c.y}); if (c.trail.length > 22) c.trail.pop(); }
+    // in the menu, comets politely miss the planet
+    const dx = c.x - planet.x, dy = c.y - planet.y, d = Math.hypot(dx, dy);
+    if (d < planet.r * 3) { c.vx += dx / d * 900 * dt; c.vy += dy / d * 900 * dt; }
+  }
+  G.comets = G.comets.filter(c => c.x > -150 && c.x < W + 150 && c.y > -150 && c.y < H + 150);
+  while (G.comets.length < 5) spawnComet();
+  for (const r of G.rings) r.t = Math.min(r.t + dt, 1);
+}
+
+/* ---------- HUD + loop ---------- */
+let last = 0, acc = 0, hudScore = -1;
+function hud() {
+  const s = score(); if (s !== hudScore) { hudScore = s; $("#score").textContent = s; }
+  $("#wave").textContent = "Wave " + G.wave;
+}
+function frame(now) {
+  const dt = Math.min(.1, (now - last) / 1000); last = now;
+  if (state === "play") {
+    if (!G.dead) {
+      acc += dt;
+      while (acc >= STEP && !G.dead) { tick(); acc -= STEP; }
+      hud();
+    } else {
+      G.deadT += dt;
+      well.k = Math.max(0, well.k - dt * 4);
+      if (G.deadT > 1.3) gameOver();
+    }
+    stepFx(dt);
+  } else if (state === "over") stepFx(dt);
+  else if (state === "menu") menuTick(dt);
+  draw(now);
+  requestAnimationFrame(frame);
+}
+resize(); demo();
+requestAnimationFrame(t => { last = t; frame(t); });
+
+if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+</script>
+</body>
+</html>
