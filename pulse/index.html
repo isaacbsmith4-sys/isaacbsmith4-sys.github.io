@@ -233,12 +233,14 @@ addEventListener("resize", resize);
 let state = "menu", G = null, best = store.get("best", 0), shake = 0, flash = 0, flashCol = "255,255,255";
 function newGame() {
   return {t: 0, waveT: 0, hull: 3, charge: 3, rech: 0, foes: [], coins: [], powers: [], waves: [], booms: [], parts: [], pops: [], debris: [],
-    pts: 0, kills: 0, streak: 0, bestStreak: 0, shots: [], aim: null, focus: FOCUS_MAX, fired: false, spawnT: 1, coinT: 3, powerT: 14, wave: 1, dead: false, deadT: 0, hurtT: 0,
+    pts: 0, kills: 0, streak: 0, bestStreak: 0, shots: [], aim: null, focus: FOCUS_MAX, fired: false, spawnT: .4, coinT: 3, powerT: 10, wave: 1, dead: false, deadT: 0, hurtT: 0,
     mega: 0, shield: 0, overT: 0, freezeT: 0, boss: null, pickAt: 0, titans: 0,
     up: {radius: 1, force: 1, recharge: 1, maxCharge: 3, maxHull: 3, volatile: 0, luck: 1, focus: 1}};
 }
 const score = () => Math.floor(G.pts);
-const lvl = () => Math.min(1, G.t / 120);
+// difficulty 0..1 reaches full strength at 70 s; after that it keeps climbing (no plateau)
+const lvl = () => Math.min(1, G.t / 70);
+const over = () => 1 + Math.max(0, G.t - 60) / 80;
 
 /* ---------- spawning ---------- */
 function edgePoint() {
@@ -249,9 +251,8 @@ function edgePoint() {
   return {x: B.x0 - m, y: B.y0 + Math.random() * (B.y1 - B.y0)};
 }
 function pickKind() {
-  const L = lvl(), w = G.wave, mix = [["drone", 1], ["dart", .25 + .5 * L], ["brute", .15 + .3 * L]];
-  if (w >= 2) mix.push(["splitter", .3]);
-  if (w >= 3) mix.push(["bomber", .25]);
+  const L = lvl(), w = G.wave, mix = [["drone", 1], ["dart", .35 + .5 * L], ["brute", .2 + .3 * L], ["splitter", .2 + .2 * L]];
+  if (w >= 2) mix.push(["bomber", .25]);
   let r = Math.random() * mix.reduce((a, m) => a + m[1], 0);
   for (const [k, p] of mix) if ((r -= p) <= 0) return k;
   return "drone";
@@ -325,7 +326,7 @@ function msg(text, col) {
   const el = $("#msg"); el.textContent = text; el.style.color = col; el.style.textShadow = `0 0 22px ${col}`;
   el.classList.add("on"); clearTimeout(msgTimer); msgTimer = setTimeout(() => el.classList.remove("on"), 1000);
 }
-function start() { audio(); G = newGame(); state = "play"; show(null); last = performance.now(); acc = 0; }
+function start() { audio(); G = newGame(); for (let i = 0; i < 4; i++) spawnFoe("drone"); state = "play"; show(null); last = performance.now(); acc = 0; }  // opens with a rush
 function pause() { if (state !== "play" || G.dead) return; G.aim = null; aimId = null; state = "paused"; $("#pauseScore").textContent = score(); show("paused"); }
 function resume() { state = "play"; show(null); last = performance.now(); acc = 0; }
 function openPick() {
@@ -460,9 +461,9 @@ function tick() {
   // spawns (slower while a Titan is up; it brings its own)
   g.spawnT -= dt;
   if (g.spawnT <= 0) {
-    const pack = Math.random() < .12 + .3 * L ? 2 + Math.floor(Math.random() * 2) : 1;
+    const pack = Math.random() < .25 + .35 * L ? 2 + Math.floor(Math.random() * (2 + L * 2)) : 1;
     for (let i = 0; i < pack; i++) spawnFoe();
-    g.spawnT = (1.9 - 1.25 * L) * (.7 + Math.random() * .6) * pack * (g.boss ? 2 : 1);
+    g.spawnT = Math.max(.28, (1.35 - .9 * L) / over()) * (.7 + Math.random() * .6) * pack * (g.boss ? 1.6 : 1);
   }
   g.coinT -= dt;
   if (g.coinT <= 0) { spawnCoin(); g.coinT = 4 + Math.random() * 3; }
@@ -498,11 +499,11 @@ function tick() {
     f.spin += dt * (1.5 + Math.hypot(f.vx, f.vy) / 120) * (f.kind === "titan" ? .3 : 1);
     if (f.flyT > 0) f.flyT -= dt;
     if (f.hurtCd > 0) f.hurtCd -= dt;
-    let seek = K.seek * U * (1 + .7 * L);
+    let seek = K.seek * U * (1.25 + .8 * L) * Math.min(2, over());
     if (f.dash) {
       const ds = f.dash; ds.t += dt;
       if (ds.state === "approach" && d < 150 * U + 40 && f.inside) { ds.state = "aim"; ds.t = 0; }
-      if (ds.state === "aim") { seek = 0; if (ds.t > .75) { ds.state = "dash"; ds.t = 0; const sp = (300 + 120 * L) * U; f.vx = dx / d * sp; f.vy = dy / d * sp; } }
+      if (ds.state === "aim") { seek = 0; if (ds.t > .75) { ds.state = "dash"; ds.t = 0; const sp = (320 + 140 * L) * U * Math.min(1.6, over()); f.vx = dx / d * sp; f.vy = dy / d * sp; } }
       if (ds.state === "dash") seek = -1;
     }
     if (f.kind === "titan" && (f.spawnCd -= dt) <= 0 && f.inside) {

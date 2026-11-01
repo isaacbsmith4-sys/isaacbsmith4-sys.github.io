@@ -1,5 +1,5 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "pulse-v3";
+const CACHE = "pulse-v4";
 const SHELL = ["./", "index.html", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
