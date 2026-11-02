@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../suite/suite.css?v=1">
+<link rel="stylesheet" href="../suite/suite.css?v=2">
 <style>
 /* INBOX: capture box on top of Home, everything else is a list of item rows. Item editing and quick-add
    happen in bottom sheets. Violet is the one accent; categories keep their own dot colors. */
@@ -133,6 +133,7 @@ details.more summary::-webkit-details-marker{display:none}
 .appl i{width:30px;height:30px;border-radius:9px;background:var(--c);flex:none}
 .appl b{font:800 13.5px var(--display);letter-spacing:.02em}
 .appl span{font-size:12px;color:var(--muted)}
+.top .back{width:34px;height:34px;border-radius:11px;margin-right:-3px}
 .drop{position:fixed;inset:0;z-index:70;display:none;place-items:center;background:color-mix(in srgb,var(--accent) 22%,rgba(0,0,0,.6));color:#fff;font:800 22px var(--display)}
 .drop.show{display:grid}
 </style>
@@ -140,7 +141,7 @@ details.more summary::-webkit-details-marker{display:none}
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="brand"><img src="icon-192.png" alt=""><div><h1>INBOX</h1><p id="subtitle">Save everything</p></div></div>
+    <div class="brand"><a class="iconbtn back" href="../base/" aria-label="Back to BASE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></a><img src="icon-192.png" alt=""><div><h1>INBOX</h1><p id="subtitle">Save everything</p></div></div>
     <div class="row">
       <button class="iconbtn" id="settingsBtn" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     </div>
@@ -152,8 +153,8 @@ details.more summary::-webkit-details-marker{display:none}
 <input type="file" id="filePick" accept="image/*" multiple class="sr" tabindex="-1">
 <input type="file" id="importPick" accept="application/json,.json" class="sr" tabindex="-1">
 <div class="drop" id="drop">Drop to save</div>
-<script src="../suite/suite.js?v=1"></script>
-<script src="app.js?v=1"></script>
+<script src="../suite/suite.js?v=2"></script>
+<script src="app.js?v=2"></script>
 <script>
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>

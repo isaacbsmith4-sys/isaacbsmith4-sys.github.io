@@ -601,13 +601,13 @@
           <div class="eyebrow" style="margin-bottom:4px">Your data</div>
           <div class="setrow"><div class="l"><b>${items.length} items</b><span>${est ? `About ${(est.usage / 1048576).toFixed(1)} MB used on this device. ` : ""}${persisted ? "Protected from automatic cleanup." : "Not yet protected from automatic cleanup."} Everything is stored on this device only.</span></div>${persisted ? "" : `<button class="btn sm" id="persist">Protect</button>`}</div>
           <div class="setrow"><div class="l"><b>Backup</b><span>Download everything (photos included) as one file, or restore from one. Restoring merges; it never deletes.</span></div><div class="row"><button class="btn sm" id="exportBtn">Export</button><button class="btn sm" id="importBtn">Import</button></div></div>
-          <p class="small muted" style="margin:10px 0 0">Note: on iPhone, the home-screen app and Safari keep separate storage. Add INBOX to your home screen and use that copy, and Safari's 7-day cleanup won't apply to it.</p>
+          <p class="small muted" style="margin:10px 0 0">Note: on iPhone, each home-screen icon and Safari keep separate storage. Open INBOX from BASE on your home screen and keep using that; Safari's 7-day cleanup doesn't apply there.</p>
         </div>
-        ${Suite.isStandalone() ? "" : `<div class="card"><div class="eyebrow" style="margin-bottom:6px">Install</div><p class="small" style="margin:0">On iPhone: tap Share in Safari → <b>Add to Home Screen</b>. INBOX opens full-screen and works offline.</p></div>`}
+        ${Suite.isStandalone() ? "" : `<div class="card"><div class="eyebrow" style="margin-bottom:6px">Install</div><p class="small" style="margin:0">Install <a href="../base/">BASE</a>, not INBOX on its own: open BASE in Safari → Share → <b>Add to Home Screen</b>, then open INBOX from BASE. All five apps live inside BASE and share one storage, so they can pass things to each other.</p></div>`}
         <div class="card">
           <div class="eyebrow" style="margin-bottom:10px">The suite</div>
           <div class="applist">${Suite.apps.map((a) => `<div class="appl"><i style="--c:${a.color}"></i><div class="spacer"><b>${a.name}</b><br><span>${esc(a.tag)}</span></div><span class="small ${a.built ? "" : "muted"}">${a.id === "inbox" ? "This app" : a.built ? `<a href="${a.url}">Open</a>` : "Coming next"}</span></div>`).join("")}</div>
-          <p class="small muted" style="margin:10px 0 0">The five apps share one storage on this site, so once TALK, DON'T FORGET, LINK VAULT and QUEUE exist, items can move between them without copies.</p>
+          <p class="small muted" style="margin:10px 0 0">Opened from <a href="../base/">BASE</a>, the five apps share one storage, so once TALK, DON'T FORGET, LINK VAULT and QUEUE exist, items can move between them without copies.</p>
         </div>
         <div class="card"><div class="setrow"><div class="l"><b>Erase INBOX</b><span>Deletes every item and photo on this device. Export first if you might want them.</span></div><button class="btn sm danger" id="erase">Erase</button></div></div>
       </div>`;
@@ -1067,6 +1067,7 @@
     // shared in: ?text= / ?url= / ?title= (Shortcuts, bookmarklet, Android share)
     const q = new URLSearchParams(location.search);
     const shared = [q.get("title"), q.get("text"), q.get("url")].filter(Boolean);
+    if (q.has("add") && !shared.length) { history.replaceState(null, "", location.pathname + location.hash); quickAdd(); }
     if (shared.length) {
       history.replaceState(null, "", location.pathname + location.hash);
       const uniq = shared.filter((v, i) => !shared.slice(0, i).some((p) => p.includes(v)));

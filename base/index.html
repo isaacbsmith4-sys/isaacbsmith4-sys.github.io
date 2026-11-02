@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0b10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BASE">
+<meta name="description" content="Home for INBOX, TALK, DON'T FORGET, LINK VAULT and QUEUE">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<title>BASE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../suite/suite.css?v=2">
+<style>
+/* BASE: the one home-screen app. Every suite app opens inside it, so they all share one storage.
+   Top: greeting + quick save; then the app grid; then a glance at real data from the built apps. */
+:root{--accent:#8b7bff;--on-accent:#0d0a24}
+body{padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
+@media (min-width:960px){body{padding-left:max(16px,env(safe-area-inset-left,0px))}}
+.wrap{max-width:680px}
+.hello{margin:6px 2px 16px}
+.hello h2{font:800 28px/1.15 var(--display);letter-spacing:-.02em;margin:0}
+.hello p{margin:4px 0 0;color:var(--muted)}
+.quick{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:500 16px var(--body);cursor:pointer;text-align:left;text-decoration:none;box-shadow:var(--shadow)}
+.quick svg{width:20px;height:20px;color:var(--accent);flex:none}
+.quick span{flex:1}
+.quick kbd{font:600 11px var(--mono);color:var(--faint);border:1px solid var(--line-hi);border-radius:6px;padding:2px 6px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:620px){.grid{grid-template-columns:repeat(3,1fr)}}
+.app{position:relative;display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:20px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:inherit;overflow:hidden;min-height:150px}
+.app::before{content:"";position:absolute;inset:0;background:radial-gradient(110% 80% at 100% 0%,color-mix(in srgb,var(--c) 24%,transparent),transparent 62%);pointer-events:none}
+.app>*{position:relative}
+.app .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--c);color:#0b0b12;font:800 20px var(--display);box-shadow:0 10px 26px -10px var(--c);overflow:hidden}
+.app .ic img{width:100%;height:100%}
+.app b{font:800 15px var(--display);letter-spacing:.03em;margin-top:auto}
+.app span{font-size:12.5px;color:var(--muted)}
+.app .n{position:absolute;top:16px;right:16px;font:700 12px var(--mono);color:var(--ink2)}
+a.app:active{transform:scale(.98)}
+.app.soon{opacity:.62;border-style:dashed}
+.app.soon .ic{background:color-mix(in srgb,var(--c) 30%,var(--surface2));color:var(--c);box-shadow:none}
+.app.soon .n{color:var(--faint);font-weight:600}
+.glance{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
+.gl{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:15px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:inherit}
+.gl i{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.gl .t{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gl .w{font:600 12px var(--mono);color:var(--muted);white-space:nowrap}
+.gl .w.late{color:var(--bad)} .gl .w.today{color:var(--warn)}
+.install{border-color:var(--accent-line);background:linear-gradient(160deg,var(--accent-bg),var(--surface))}
+.install ol{margin:8px 0 0;padding-left:20px;color:var(--ink2);font-size:14px}
+.install li{margin:3px 0}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><img src="icon-192.png" alt=""><div><h1>BASE</h1><p>Your apps, one place</p></div></div>
+  </header>
+  <main id="main"></main>
+</div>
+<script src="../suite/suite.js?v=2"></script>
+<script>
+(function () {
+  "use strict";
+  const { esc } = Suite;
+  const ICON = { inbox: "../inbox/icon-192.png" };
+  const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+
+  function greeting() {
+    const h = new Date().getHours();
+    return h < 5 ? "Up late" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  }
+  function due(t) {
+    const d = new Date(t.due), now = new Date();
+    const time = d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    if (d < now) return { label: "Overdue", cls: "late" };
+    if (d.toDateString() === now.toDateString()) return { label: "Today " + time, cls: "today" };
+    const tm = new Date(now); tm.setDate(tm.getDate() + 1);
+    if (d.toDateString() === tm.toDateString()) return { label: "Tomorrow " + time, cls: "" };
+    return { label: d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }), cls: "" };
+  }
+
+  async function render() {
+    let inbox = [];
+    try { inbox = (await Suite.store.all("inbox")).filter((i) => !i.archived); } catch (e) {}
+    const cats = (await Suite.meta.get("inbox:categories", [])) || [];
+    const catColor = (id) => (cats.find((c) => c.id === id) || {}).color || "#8b7bff";
+    const counts = { inbox: inbox.length };
+
+    const soon = new Date(); soon.setDate(soon.getDate() + 2); soon.setHours(23, 59);
+    const tasks = inbox.filter((i) => i.task && !i.task.done && i.task.due && new Date(i.task.due) <= soon)
+      .sort((a, b) => a.task.due.localeCompare(b.task.due));
+    const recent = [...inbox].sort((a, b) => b.created - a.created).slice(0, 3);
+    const now = new Date();
+    const standalone = Suite.isStandalone();
+
+    document.getElementById("main").innerHTML = `
+      <section class="hello"><h2>${greeting()}</h2><p>${now.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}</p></section>
+      <a class="quick" href="../inbox/?add=1">${plus}<span>Save something to INBOX…</span></a>
+
+      ${standalone ? "" : `<section class="card install" style="margin-top:14px">
+        <b>Put BASE on your home screen</b>
+        <p class="small muted" style="margin:4px 0 0">Open your apps from BASE, not from separate icons. On iPhone, each home-screen icon keeps its own storage, so apps opened from one place can share your saved stuff.</p>
+        <ol><li>In Safari, tap <b>Share</b> (the square with the arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>Open BASE from the home screen from now on.</li></ol>
+      </section>`}
+
+      <h2 class="sec">Apps</h2>
+      <div class="grid">
+        ${Suite.apps.map((a) => a.built
+          ? `<a class="app" href="${a.url}" style="--c:${a.color}"><div class="ic">${ICON[a.id] ? `<img src="${ICON[a.id]}" alt="">` : esc(a.name[0])}</div>${counts[a.id] != null ? `<span class="n">${counts[a.id]}</span>` : ""}<div><b>${esc(a.name)}</b><br><span>${esc(a.tag)}</span></div></a>`
+          : `<div class="app soon" style="--c:${a.color}" aria-disabled="true"><div class="ic">${esc(a.name[0])}</div><span class="n">Coming</span><div><b>${esc(a.name)}</b><br><span>${esc(a.tag)}</span></div></div>`).join("")}
+      </div>
+
+      <h2 class="sec">Coming up</h2>
+      ${tasks.length ? `<div class="glance">${tasks.slice(0, 5).map((i) => { const d = due(i.task); return `<a class="gl" href="../inbox/#tasks" style="--c:${catColor(i.cat)}"><i></i><span class="t">${esc(i.title || "Untitled")}</span><span class="w ${d.cls}">${esc(d.label)}</span></a>`; }).join("")}</div>`
+        : `<p class="muted small" style="margin:0 2px">Nothing due in the next two days.</p>`}
+
+      ${recent.length ? `<h2 class="sec">Recently saved <a class="more" href="../inbox/#all" style="font:600 12.5px var(--body);text-decoration:none">All</a></h2>
+      <div class="glance">${recent.map((i) => `<a class="gl" href="../inbox/#all" style="--c:${catColor(i.cat)}"><i></i><span class="t">${esc(i.title || "Untitled")}</span><span class="w">${esc(Suite.ago(i.created))}</span></a>`).join("")}</div>` : ""}
+
+      <div class="foot">
+        <div class="seg" style="min-width:220px">${[["auto", "Auto"], ["dark", "Dark"], ["light", "Light"]].map(([k, l]) => `<button data-theme-set="${k}" class="${Suite.theme.get() === k ? "on" : ""}">${l}</button>`).join("")}</div>
+        <span class="small muted">Saved on this device only</span>
+      </div>`;
+  }
+
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-theme-set]");
+    if (b) { Suite.theme.set(b.dataset.themeSet); render(); }
+  });
+  Suite.onChange(render);
+  addEventListener("pageshow", render); // coming back from an app
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
+  if (Suite.isStandalone()) Suite.persist();
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>
