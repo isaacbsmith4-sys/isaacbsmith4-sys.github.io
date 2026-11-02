@@ -80,6 +80,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:10p
 .pill{display:inline-block;font:700 10.5px var(--mono);letter-spacing:.06em;padding:3px 7px;border-radius:999px;background:var(--surface2);color:var(--ink2);border:1px solid var(--line);white-space:nowrap}
 .pill.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,transparent)}
 .pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,transparent)}
+.toplogos{display:flex;gap:3px;margin-top:5px}.toplogos>span{border-radius:50%;line-height:0}.toplogos>span.me{box-shadow:0 0 0 2px var(--good)}
 .pill.team{color:#fff;background:var(--team);border-color:var(--team)}
 .pill.gold{color:#1a1200;background:var(--gold);border-color:var(--gold)}
 .bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden}
@@ -116,6 +117,11 @@ nav.tabs .in{max-width:680px;margin:0 auto;display:grid;grid-template-columns:re
 .stat3 b{display:block;font:800 22px var(--display);font-variant-numeric:tabular-nums}
 .stat3 span{font:600 9.5px var(--mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.opt{display:grid;gap:2px;text-align:left;padding:10px 11px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;cursor:pointer}
+.opt b{font-size:13.5px}.opt span{font-size:11.5px;color:var(--muted)}
+.opt.on b::after{content:" ✓";color:var(--good)}
+.opt.on{border-color:var(--team);background:color-mix(in srgb,var(--team) 22%,transparent)}
 .score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-align:center;gap:8px}
 .score .t{display:grid;justify-items:center;gap:6px}
 .score .t b{display:block;font:800 17px var(--display);text-transform:uppercase}
@@ -285,7 +291,7 @@ function uiColor(hex) {
    ===================================================================================== */
 function newCareer(teamIdx, coach, slot = 1) {
   S = {v: 2, slot, coach, season: 1, year: 2026, phase: "season", week: 0, teams: [], players: {}, recruits: [], schedule: [], news: [], nextId: 1,
-    user: teamIdx, pts: 0, history: [], security: 60, tourn: null, offStep: 0, portal: [], requests: [], careerW: 0, careerL: 0, titles: 0, finals: 0};
+    user: teamIdx, pts: 0, history: [], security: 60, tourn: null, offStep: 0, portal: [], requests: [], careerW: 0, careerL: 0, titles: 0, finals: 0, auto: {...AUTO_DEFAULT}, nilLog: []};
   TEAMS.forEach((row, i) => S.teams.push(buildTeam(i, row)));
   for (const t of S.teams) t.elo = 1500 + (teamOvr(t) - 65) * 12;
   startSeason(true);
@@ -295,6 +301,7 @@ const expWins = t => Math.round((S.regGames || 31) * (.3 + t.prest / 190));
 
 function startSeason(first) {
   S.phase = "season"; S.week = 0; S.tourn = null; S.offStep = 0;
+  if (!first) S.nilCarry = Math.round(Math.max(0, S.budget - me().nilSpent - nilReserved()) * .25 / 5000) * 5000;   // a quarter of what's left rolls over
   for (const t of S.teams) { t.w = t.l = t.cw = t.cl = 0; t.nilSpent = 0; t.commits = []; t.board = {}; t.targets = []; }
   for (const id in S.players) S.players[id].s = blankStats();
   S.schedule = makeSchedule();
@@ -302,7 +309,8 @@ function startSeason(first) {
   S.recruits = makeClass();
   if (S.recWeek == null) S.recWeek = 0;
   closePeriod(); newPeriod();
-  S.budget = nilBudget(me());
+  S.nilBase = nilBudget(me()); S.nilWins = {n: 0, amt: 0}; S.boosters = 0; S.nilLog = S.nilLog || [];
+  S.budget = S.nilBase + (S.nilCarry = first ? 0 : S.nilCarry || 0);
   if (!first) news(`Season ${S.season} tips off. Expectations: about ${expWins(me())} wins.`, true);
 }
 
@@ -441,8 +449,8 @@ function makeClass() {
   }
   return out;
 }
-let recruitIndex = null;
-const R = id => { if (!recruitIndex || recruitIndex.size !== S.recruits.length) recruitIndex = new Map(S.recruits.map(r => [r.id, r])); return recruitIndex.get(id); };
+let recruitIndex = null, indexed = null;   // rebuilt whenever the class changes (new season, new career, slot switch)
+const R = id => { if (indexed !== S.recruits || recruitIndex.size !== S.recruits.length) { recruitIndex = new Map(S.recruits.map(r => [r.id, r])); indexed = S.recruits; } return recruitIndex.get(id); };
 function slotsOpen(t) { let returning = 0; for (const id of t.roster) if (P(id).yr < 3) returning++; return 13 - returning - t.commits.length; }
 let needCache = null;   // filled for the length of one recruiting week; rosters don't change inside it
 function posNeed(t, pos) {
@@ -503,7 +511,7 @@ function act(rid, what) {
   else if (what === "offer") { if (r.offers[t.id] != null) return; r.offers[t.id] = 0; addInt(r, t.id, 18 * fit(t, r)); }
   save();
 }
-const nilReserved = () => S.recruits.reduce((a, r) => a + (r.committed == null && r.offers[S.user] ? r.offers[S.user] : 0), 0) + S.portal.reduce((a, p) => a + (p.myOffer > 1 ? p.myOffer : 0), 0);
+const nilReserved = () => S.recruits.reduce((a, r) => a + (r.committed == null && r.offers[S.user] ? r.offers[S.user] : 0), 0) + S.portal.reduce((a, q) => a + (q.committed == null && q.offers && q.offers[S.user] > 0 ? q.offers[S.user] : 0), 0);
 const nilLeft = () => S.budget - me().nilSpent - nilReserved();
 function setNil(rid, amt) {
   const r = R(rid); if (!r || r.committed != null || S.phase === "off") return;
@@ -512,6 +520,30 @@ function setNil(rid, amt) {
   if (r.offers[S.user] == null) addInt(r, S.user, 18 * fit(me(), r));
   r.offers[S.user] = amt;
   if (amt > cur) addInt(r, S.user, 20 * Math.min(1.5, (amt - cur) / Math.max(1, r.ask)));
+  save();
+}
+
+/* ---------- growing the collective: wins, March runs, booster events, and money that rolls over ---------- */
+function donate(amt, why, quiet) {
+  amt = Math.round(amt / 1000) * 1000; if (amt <= 0) return 0;
+  S.budget += amt;
+  if (!quiet) { S.nilLog.unshift({s: S.season, why, amt}); S.nilLog = S.nilLog.slice(0, 40); }
+  return amt;
+}
+function winBonus(oppId) {
+  const base = nilBudget(me()) * .003, rk = ranks().indexOf(oppId);
+  S.nilWins.n++; S.nilWins.amt += donate(base, "", true);
+  if (rk >= 0 && rk < 25) donate(base * (rk < 10 ? 3 : 2), `Boosters loved the win over #${rk + 1} ${T(oppId).name}`);
+}
+const BOOSTER_COST = 40;
+const EVENTS = ["Booster dinner", "Collective telethon", "Local car dealership deal", "Alumni golf outing", "Season-ticket push", "Jersey sale", "Big donor meeting", "Hometown restaurant tour"];
+function boosterEvent() {
+  if (S.phase === "off" || S.period.booster || S.pts < BOOSTER_COST) return;
+  const t = me(), wp = t.w + t.l ? t.w / (t.w + t.l) : .5, ev = pick(EVENTS);
+  S.pts -= BOOSTER_COST; S.period.used += BOOSTER_COST; S.period.booster = 1;
+  S.period.log.unshift({wk: periodWeek(), what: "booster", name: ev, stars: 0, pos: "", cost: BOOSTER_COST});
+  const amt = donate(nilBudget(t) * rnd(.025, .045) * (.6 + wp) * .9 ** (S.boosters++), ev);
+  news(`${ev}: the collective raised ${money(amt)}.`, true);
   save();
 }
 
@@ -577,6 +609,63 @@ function commit(r, t) {
   else if (r.stars === 5 || r.interest[S.user] > 20) news(`${tag} commits to ${t.name}.${r.interest[S.user] > 20 ? " You were in the mix." : ""}`, r.interest[S.user] > 20);
 }
 
+// rough chance a kid ends up with you: where you'll be by decision time against where the leader will be
+const STAR_FLOOR = {5: 80, 4: 64, 3: 46, 2: 0};   // the prestige that usually lands each star level
+function odds(r, t = me()) {
+  if (r.committed != null) return r.committed === t.id ? 1 : 0;
+  let best = 0; for (const tid in r.interest) if (+tid !== t.id && r.interest[tid] > best) best = r.interest[tid];
+  const wk = clamp((S.regGames || 31) + 6 - S.week, 2, 16), f = fit(t, r);
+  const mine = (r.interest[t.id] || 0) + f * 11 * wk + (r.offers[t.id] == null ? 18 * f : 0) + (r.visited ? 0 : 30 * f);
+  const them = Math.max(best + 9 * wk, commitNeed(r) * .5);
+  const gap = Math.max(0, STAR_FLOOR[r.stars] - t.prest) / 12;   // bigger programs will swoop
+  return clamp(mine / (mine + them) * 1.5 / (1 + gap), 0, .97);
+}
+const oddsLabel = x => x >= .7 ? ["Strong", "good"] : x >= .45 ? ["In the mix", ""] : x >= .25 ? ["Behind", "bad"] : ["Long shot", "bad"];
+
+/* ---------- recruiting assistant: answer a few questions, it works the board every week ---------- */
+const AUTO_DEFAULT = {on: false, want: 0, aim: "real", focus: "best", nil: 1, boost: true};
+const AIMS = {reach: ["Reach high", "Chase the best kids, even long shots"], real: ["Realistic", "Talent you have a real shot at"], safe: ["Sure things", "Kids who already like you"]};
+const FOCUS = {best: ["Best available", "Highest ceiling"], needs: ["Fill needs", "Positions you're thin at"], fit: ["Good fits", "Kids who want what you offer"]};
+const NILS = [[0, "None"], [.5, "Half his ask"], [1, "His full ask"], [1.3, "Overpay"]];
+const autoLeft = () => { const open = Math.max(0, slotsOpen(me())); return S.auto.want ? clamp(S.auto.want - me().commits.length, 0, open) : open; };
+const recValue = r => ((r.scouted ? ovr(r) : (r.estLo + r.estHi) / 2) + (r.scouted ? r.pot : {5: 92, 4: 85, 3: 77, 2: 68}[r.stars]) * .5) / 100;
+function autoRecruit() {
+  const a = S.auto; if (!a || !a.on || S.phase === "off") return;
+  const t = me(), left = autoLeft(), did = {call: 0, scout: 0, visit: 0, offer: 0, booster: 0}, start = S.pts;
+  if (a.boost && !S.period.booster && S.pts >= BOOSTER_COST + 30 && periodWeek() === 1) { boosterEvent(); did.booster++; }
+  if (left > 0) {
+    const [pa, pb] = {reach: [3, .7], real: [2, 1.3], safe: [1.4, 2.6]}[a.aim];
+    const score = r => {
+      const o = odds(r); if (o < .06) return 0;
+      let s = recValue(r) ** pa * o ** pb;
+      if (a.focus === "needs") s *= 1 + posNeed(t, r.pos) * .9;
+      if (a.focus === "fit") s *= fit(t, r);
+      if (r.offers[t.id] != null) s *= 1.25;          // stay with kids you've already offered
+      return s;
+    };
+    const ranked = S.recruits.filter(r => r.committed == null).map(r => [r, score(r)]).filter(x => x[1] > 0).sort((x, y) => y[1] - x[1]);
+    const board = ranked.slice(0, clamp(left * 3, 4, 14)).map(x => x[0]);
+    // pull offers from kids who slipped away, so the NIL comes back
+    for (const r of S.recruits) if (r.committed == null && r.offers[t.id] != null && !board.includes(r) && odds(r) < .12) delete r.offers[t.id];
+    let out = board.filter(r => r.offers[t.id] != null).length;
+    for (const r of board) if (out < left * 2 && r.offers[t.id] == null) { act(r.id, "offer"); out++; did.offer++; }
+    if (a.nil) {
+      const share = (S.budget - t.nilSpent) / Math.max(1, left);
+      for (const r of board) if (r.offers[t.id] != null) { const want = Math.min(Math.round(r.ask * a.nil / 5000) * 5000, Math.round(share / 5000) * 5000); if ((r.offers[t.id] || 0) < want) setNil(r.id, want); }
+    }
+    // spend the period evenly: a visit for the top targets, a call to everyone on the board, scouting with what's left
+    let allow = Math.ceil(S.pts / Math.max(1, resetsIn()));
+    const pay = (r, w) => { if (allow < COST[w] || S.pts < COST[w]) return; const b = S.pts; act(r.id, w); if (S.pts < b) { allow -= COST[w]; did[w]++; } };
+    const offered = board.filter(r => r.offers[t.id] != null);
+    for (const r of offered.slice(0, left + 1)) if (!r.visited) pay(r, "visit");
+    for (const r of offered) pay(r, "call");
+    for (const r of board) if (r.offers[t.id] == null) pay(r, "call");
+    for (const r of board) if (!r.scouted && r.stars >= 3) pay(r, "scout");
+    for (const [r] of ranked.slice(board.length, board.length + 12)) pay(r, "call");
+  }
+  S.autoLast = {wk: S.recWeek, left, ...did, pts: start - S.pts};
+}
+
 /* =====================================================================================
    SEASON FLOW
    ===================================================================================== */
@@ -590,15 +679,22 @@ function playWeek() {
       const mine = g.h === S.user || g.a === S.user;
       const res = simGame(g.h, g.a, false);
       applyResult(g, res, g.c); g.hs = res.hs; g.as = res.as; g.ot = res.ot;
-      if (mine) { lastGame = {...res, label: g.c ? `${me().conf} game` : "Non-conference"}; g.box = res.box; }
+      if (mine) { lastGame = {...res, label: g.c ? `${me().conf} game` : "Non-conference"}; g.box = res.box; const won = (res.hs > res.as) === (g.h === S.user); if (won) winBonus(g.h === S.user ? g.a : g.h); }
       const w = res.hs > res.as ? g.h : g.a, l = w === g.h ? g.a : g.h, lr = before.indexOf(l);
       if (lr >= 0 && lr < 5 && !before.includes(w) && !mine) news(`Upset: ${T(w).name} takes down #${lr + 1} ${T(l).name}.`);
     }
+    autoRecruit();
     recruitWeek();
     S.week++;
     if (S.week >= S.schedule.length) startConfTourneys();
   } else if (S.phase === "conf" || S.phase === "ncaa") {
+    const ph = S.phase;
+    if (S.phase !== "off") autoRecruit();
     playTourneyRound();
+    if (lastGame && (lastGame.hs > lastGame.as) === (lastGame.h === S.user)) {
+      winBonus(lastGame.h === S.user ? lastGame.a : lastGame.h);
+      if (ph === "ncaa") donate(nilBudget(me()) * .02, `March win: ${lastGame.label.replace("NCAA Tournament · ", "")}`);
+    }
     if (S.phase !== "off") recruitWeek();
   }
   rankCache = null;
@@ -639,6 +735,7 @@ function playTourneyRound() {
     if (tr.round >= 3) {
       const champs = tr.brackets.map(b => b.alive[0]);
       news(`${T(champs[CONFS.indexOf(me().conf)]).name} wins the ${me().conf} tournament${champs.includes(S.user) ? " — that's you! You're dancing." : "."}`, champs.includes(S.user));
+      if (champs.includes(S.user)) donate(nilBudget(me()) * .04, `Won the ${me().conf} tournament`);
       selectionSunday(champs);
     }
     return;
@@ -749,6 +846,57 @@ function answerRequest(id, pay) {
   else { p.morale = 35; q.done = "declined"; }
   save();
 }
+/* ---------- transfer portal: three windows; every player has his own top five and his own reasons ---------- */
+const PORTAL_ROUNDS = 3, PITCHES = 6;
+const PMOTIVES = {nil: "NIL money", playtime: "A bigger role", winning: "A winner", moveup: "Move up a level", home: "Closer to home", prestige: "A big-name program"};
+const roomFor = t => 13 - t.roster.length - t.commits.length > 0;
+const levelOf = t => 47 + t.prest * .36;   // about how good a team's best players are
+let sevCache = new Map();
+function seventh(t) {
+  let v = sevCache.get(t.id);
+  if (v == null) { v = t.order.slice(0, 7).map(id => ovr(P(id))).sort((a, b) => a - b)[0] ?? 0; sevCache.set(t.id, v); }
+  return v;
+}
+function pFit(t, q) {
+  if (t.id === q.from) return 0;   // he left for a reason
+  const o = ovr(P(q.id)), from = T(q.from);
+  let f = 1;
+  for (const m of q.mot) {
+    if (m === "nil") { const amt = q.offers[t.id]; f += amt == null ? -.2 : clamp(amt / Math.max(20000, q.value) - .6, -.4, .8); }
+    if (m === "playtime") f += clamp((o - seventh(t)) * .06, -.7, .7);
+    if (m === "winning") f += t.w + t.l ? (t.w / (t.w + t.l) - .5) * 1.4 : 0;
+    if (m === "moveup") f += clamp((t.prest - from.prest) / 40, -.6, .8);
+    if (m === "home") f += t.conf === q.home ? .6 : -.1;
+    if (m === "prestige") f += (t.prest - 55) / 60;
+  }
+  f += (t.prest - 55) / 220 * clamp((o - 50) / 8, 0, 5);   // the better he is, the more the name on the jersey matters
+  if (o > levelOf(t) + 10) f -= (o - levelOf(t) - 10) * .05;  // he thinks he's too good for you
+  if (t.id === q.dream) f += .6;
+  return clamp(f, 0, 2.8);
+}
+function initPortalPlayer(q) {
+  const o = ovr(P(q.id)), from = T(q.from);
+  q.mot = shuffle(Object.keys(PMOTIVES)).slice(0, 2);
+  q.home = Math.random() < .6 ? from.conf : pick(CONFS);
+  const ups = S.teams.filter(t => t.prest > from.prest + 5 && Math.abs(levelOf(t) - o) < 9);
+  q.dream = ups.length && Math.random() < .45 ? pick(ups).id : null;
+  const old = q.myOffer;
+  q.value = Math.max(15000, q.value || 0);
+  q.interest = {}; q.offers = {}; q.pitched = -1; q.committed = null; delete q.myOffer;
+  if (old != null) q.offers[S.user] = old > 1 ? old : 0;
+  // the schools he's looking at: places at about his level
+  const looks = S.teams.filter(t => t.id !== q.from && Math.abs(levelOf(t) - o) < 12).map(t => [t, pFit(t, q) * rnd(.6, 1.4)]).sort((a, b) => b[1] - a[1]).slice(0, 9);
+  for (const [t, v] of looks) q.interest[t.id] = Math.round(v * rnd(10, 24));
+  if (q.dream != null) q.interest[q.dream] = (q.interest[q.dream] || 0) + 24;
+  const mf = pFit(me(), q);
+  if (q.from !== S.user && q.interest[S.user] == null && mf > .75) q.interest[S.user] = Math.round(mf * rnd(6, 20));
+}
+// old saves made mid-portal get the new fields
+function portalReady() {
+  if (S.portalRound == null) { S.portalRound = 0; S.portalPitches = PITCHES; }
+  sevCache = new Map();
+  for (const q of S.portal) if (!q.interest || !q.mot) initPortalPlayer(q);
+}
 function openPortal() {
   const pool = [];
   for (const t of S.teams) {
@@ -759,41 +907,89 @@ function openPortal() {
       if (t.id === S.user) { const q = S.requests.find(x => x.id === p.id); if (q && q.done !== "paid") chance = Math.max(chance, .55); }
       if (Math.random() < chance) {
         t.roster = t.roster.filter(x => x !== p.id); t.order = t.order.filter(x => x !== p.id);
-        pool.push({id: p.id, from: t.id, value: fairNil(p, 60), myOffer: null, offers: {}});
+        pool.push({id: p.id, from: t.id, value: Math.max(15000, fairNil(p, 60))});
         if (t.id === S.user) news(`${p.fn} ${p.ln} enters the transfer portal.`, true);
       }
     }
   }
-  for (const q of pool) {
-    const o = ovr(P(q.id));
-    const suitors = shuffle(S.teams.filter(t => t.id !== q.from && t.id !== S.user && 13 - t.roster.length - t.commits.length > 0 && Math.abs((47 + t.prest * .36) - o) < 12)).slice(0, irnd(0, 3));
-    for (const t of suitors) q.offers[t.id] = Math.round(q.value * rnd(.5, 1.1) / 5000) * 5000;
-  }
   S.portal = pool.sort((a, b) => ovr(P(b.id)) - ovr(P(a.id)));
+  S.portalRound = 0; S.portalPitches = PITCHES; sevCache = new Map();
+  for (const q of S.portal) initPortalPlayer(q);
+  portalAI();
 }
-function portalOffer(id, amt) {
-  const q = S.portal.find(x => x.id === id); if (!q) return;
-  if (amt == null) q.myOffer = null;
-  else { const room = nilLeft() + (q.myOffer > 1 ? q.myOffer : 0); q.myOffer = amt > 1 ? Math.min(amt, room) : 1; }
+const pTop = (q, n = 5) => Object.keys(q.interest).map(Number).filter(tid => q.interest[tid] > 0).sort((a, b) => q.interest[b] - q.interest[a]).slice(0, n);
+const pRank = q => pTop(q, 99).indexOf(S.user) + 1;   // 0 = not on his list
+// other staffs work the portal: they pitch the kids who'd help them and make offers
+function portalAI() {
+  for (const q of S.portal) if (q.committed == null) {
+    const o = ovr(P(q.id));
+    for (const tid of pTop(q, 6)) {
+      if (tid === S.user) continue;
+      const t = T(tid);
+      if (!roomFor(t) || o < seventh(t) - 3) continue;
+      q.interest[tid] += pFit(t, q) * rnd(4, 10);
+      if (q.offers[tid] == null && Math.random() < .5) {
+        const left = nilBudget(t) - t.nilSpent;
+        q.offers[tid] = left > q.value * .5 ? Math.round(q.value * rnd(.5, 1.15) / 5000) * 5000 : 0;
+        q.interest[tid] += 8;
+      }
+    }
+  }
+}
+function portalSign(q, tid) {
+  const t = T(tid), p = P(q.id), o = ovr(p);
+  q.committed = tid; t.roster.push(p.id); t.order.push(p.id); p.tid = tid; p.nil = q.offers[tid] || 0; t.nilSpent += p.nil; sevCache.delete(tid);
+  if (tid === S.user) news(`${p.fn} ${p.ln} (${p.pos}, ${o}) transfers in from ${T(q.from).name}${p.nil ? ` (NIL ${money(p.nil)})` : ""}.`, true);
+  else if (q.offers[S.user] != null || q.pitched >= 0) news(`${p.fn} ${p.ln} picked ${t.name} over you.`, true);
+  else if (q.from === S.user) news(`${p.fn} ${p.ln} lands at ${t.name}.`, true);
+}
+function portalDecide(final) {
+  for (const q of S.portal) if (q.committed == null) {
+    const c = Object.keys(q.offers).map(Number).filter(tid => roomFor(T(tid)) && q.interest[tid] > 0).sort((a, b) => q.interest[b] - q.interest[a]);
+    if (!c.length) continue;
+    const top = q.interest[c[0]], second = c[1] != null ? q.interest[c[1]] : 0;
+    if (final || (top >= 42 && top >= second * 1.15 && Math.random() < .55)) portalSign(q, c[0]);
+  }
+}
+// one portal week; returns true once the portal has closed
+function portalAdvance() {
+  sevCache = new Map();
+  portalAI();
+  const final = S.portalRound >= PORTAL_ROUNDS - 1;
+  portalDecide(final);
+  if (!final) { S.portalRound++; S.portalPitches = PITCHES; return false; }
+  for (const q of S.portal) if (q.committed == null) delete S.players[q.id];   // nobody bit: he goes pro overseas
+  S.portal = []; S.portalRound = 0;
+  return true;
+}
+function portalPitch(id) {
+  const q = S.portal.find(x => x.id === id); if (!q || q.committed != null || S.portalPitches <= 0 || q.pitched === S.portalRound || q.from === S.user) return;
+  S.portalPitches--; q.pitched = S.portalRound;
+  q.interest[S.user] = (q.interest[S.user] || 0) + 14 * pFit(me(), q);
   save();
 }
-function closePortal() {
-  const t = me();
-  for (const q of S.portal) {
-    const p = P(q.id), o = ovr(p);
-    const score = tid => { const x = T(tid), money = tid === S.user ? (q.myOffer > 1 ? q.myOffer : 0) : q.offers[tid];
-      const seventh = x.order.slice(0, 7).map(id => ovr(P(id))).sort((a, b) => a - b)[0] ?? 0;
-      return x.prest / 60 + (money / Math.max(20000, q.value)) * .9 + clamp((o - seventh) * .05, -.6, .6) + rnd(-.25, .25); };
-    const room = x => 13 - x.roster.length - x.commits.length > 0;
-    const cands = Object.keys(q.offers).map(Number).filter(tid => room(T(tid)));
-    if (q.myOffer && room(t)) cands.push(S.user);
-    if (!cands.length) { delete S.players[q.id]; continue; }
-    const best = cands.sort((a, b) => score(b) - score(a))[0], x = T(best);
-    x.roster.push(p.id); x.order.push(p.id); p.tid = best; p.nil = best === S.user ? (q.myOffer > 1 ? q.myOffer : 0) : q.offers[best];
-    if (best === S.user) { t.nilSpent += p.nil; news(`${p.fn} ${p.ln} (${p.pos}, ${o}) transfers in from ${T(q.from).name}.`, true); }
-    else if (q.myOffer) news(`${p.fn} ${p.ln} picked ${x.name} over you.`, true);
+function portalOffer(id, amt) {
+  const q = S.portal.find(x => x.id === id); if (!q || q.committed != null || q.from === S.user) return;
+  const cur = q.offers[S.user];
+  if (amt == null) { if (cur != null) { delete q.offers[S.user]; q.interest[S.user] = Math.max(0, (q.interest[S.user] || 0) - 6); } save(); return; }
+  amt = clamp(amt, 0, nilLeft() + (cur || 0));
+  q.offers[S.user] = amt;
+  if (cur == null) q.interest[S.user] = (q.interest[S.user] || 0) + 10 * pFit(me(), q);
+  if (amt > (cur || 0)) q.interest[S.user] = (q.interest[S.user] || 0) + 18 * Math.min(1.5, (amt - (cur || 0)) / Math.max(20000, q.value));
+  save();
+}
+// the assistant works the portal: pitch the players who like you and would play, offer the best of them
+function autoPortal() {
+  const t = me(), room = 13 - t.roster.length - t.commits.length, nilK = S.auto ? S.auto.nil : 1;
+  const sev = seventh(t);
+  const fits = S.portal.filter(q => q.committed == null && q.from !== S.user && ovr(P(q.id)) >= sev - 1 && pRank(q) && pRank(q) <= 8)
+    .sort((a, b) => (ovr(P(b.id)) - pRank(b) * 1.5) - (ovr(P(a.id)) - pRank(a) * 1.5));
+  let offers = S.portal.filter(q => q.committed == null && q.offers[S.user] != null).length, pitched = 0, made = 0;
+  for (const q of fits) {
+    if (S.portalPitches > 0 && q.pitched !== S.portalRound) { portalPitch(q.id); pitched++; }
+    if (room > 0 && offers < room + 1 && q.offers[S.user] == null && pRank(q) <= 5) { portalOffer(q.id, Math.round(q.value * nilK / 5000) * 5000); offers++; made++; }
   }
-  S.portal = [];
+  return {pitched, made, found: fits.length};
 }
 function signingDay() {
   for (const r of S.recruits.filter(r => r.committed == null)) {
@@ -815,7 +1011,7 @@ function signingDay() {
 function nextOffStep() {
   if (S.offStep === 0) S.offStep = 1;
   else if (S.offStep === 1) { openPortal(); S.offStep = 2; }
-  else if (S.offStep === 2) { closePortal(); S.offStep = 3; }
+  else if (S.offStep === 2) { portalReady(); if (portalAdvance()) S.offStep = 3; }
   else if (S.offStep === 3) { signingDay(); S.season++; S.year++; startSeason(false); }
   rankCache = null; save();
 }
@@ -855,6 +1051,10 @@ function migrate(s) {
     s.pts = s.period.budget;
   }
   s.finals = s.finals || 0; s.titles = s.titles || 0;
+  s.auto = {...AUTO_DEFAULT, ...(s.auto || {})};
+  s.nilLog = s.nilLog || []; s.nilWins = s.nilWins || {n: 0, amt: 0}; s.boosters = s.boosters || 0;
+  if (s.nilBase == null) { s.nilBase = s.budget; s.nilCarry = 0; }
+  s.portal = s.portal || [];   // portal players from older saves get their top fives in portalReady()
   return s;
 }
 async function loadSlot(n) {
@@ -957,6 +1157,7 @@ function viewHome() {
       <div class="bar" style="margin-bottom:12px"><b style="width:${clamp(S.pts / S.period.budget * 100, 0, 100)}%"></b></div>
       <div class="row between"><div><div class="big">${commits.length}</div><div class="sub">commits</div></div><div><div class="big">${Math.max(0, slotsOpen(t))}</div><div class="sub">${slotsOpen(t) === 1 ? "scholarship" : "scholarships"} open</div></div><div><div class="big" style="font-size:26px">${money(nilLeft())}</div><div class="sub">NIL left</div></div></div>
       ${commits.length ? `<div class="sub" style="margin-top:8px">${commits.map(r => `${"★".repeat(r.stars)} ${r.pos} ${esc(r.ln)}`).join(" · ")}</div>` : ""}
+      ${S.auto.on ? `<div class="sub" style="margin-top:8px">Assistant is on: ${autoLeft() ? `working on ${plural(autoLeft(), "more signee")}` : "class is full"}.</div>` : ""}
       <button class="btn wide" data-tab="recruit" style="margin-top:10px">Recruiting board</button></section>
     <section class="card"><h2>Job security<small>Expected ~${exp} wins</small></h2>
       <div class="meter"><i style="left:calc(${S.security}% - 2px)"></i></div>
@@ -985,18 +1186,71 @@ function viewOffseason() {
       <button class="btn go wide" data-act="off">Open the transfer portal</button></div>`;
   }
   if (S.offStep === 2) {
-    const room = 13 - t.roster.length - t.commits.length;
+    portalReady();
+    const room = 13 - t.roster.length - t.commits.length, last = S.portalRound >= PORTAL_ROUNDS - 1;
+    let list = S.portal.filter(q => q.from !== S.user || q.committed != null);
+    if (pFilter === "mine") list = list.filter(q => q.committed == null && pRank(q) && pRank(q) <= 5);
+    if (pFilter === "offered") list = list.filter(q => q.offers[S.user] != null || q.committed === S.user);
+    if (pFilter === "signed") list = list.filter(q => q.committed != null);
+    else if (pFilter !== "offered") list = list.filter(q => q.committed == null);
+    if (pPos !== "All") list = list.filter(q => P(q.id).pos === pPos);
+    const mine = S.portal.filter(q => q.committed === S.user).length;
+    const left = S.portal.filter(q => q.from === S.user);
     return `<div class="screen">${head}
-      <section class="card"><h2>Transfer portal<small>${plural(room, "spot")} · ${money(nilLeft())} NIL</small></h2><p class="sub" style="margin:0 0 6px">Make offers, then close the portal. Players pick by prestige, NIL and playing time.</p>
-      ${S.portal.slice(0, 50).map(q => { const p = P(q.id), o = ovr(p), n = Object.keys(q.offers).length, f = T(q.from); return `<div class="li" style="cursor:default">${logo(f, 30)}<span class="ovr" style="background:${ovrColor(o)}22;color:${ovrColor(o)}">${o}</span><div class="name"><b>${esc(p.fn)} ${esc(p.ln)}</b><span>${p.pos} · ${YEARS[Math.min(3, p.yr)]} · ${esc(f.name)} · ${plural(n, "other offer")} · ~${money(q.value)}</span></div>
-        <div class="right">${q.myOffer ? `<span class="pill good">${q.myOffer > 1 ? money(q.myOffer) : "Offered"}</span><br><button class="btn sm ghost" data-act="pOff" data-id="${q.id}">Pull</button>` : `<button class="btn sm" data-act="pOffer" data-id="${q.id}" data-m="0">Offer</button><br><button class="btn sm go" data-act="pOffer" data-id="${q.id}" data-m="1" style="margin-top:4px" ${q.value > nilLeft() ? "disabled" : ""}>+${money(q.value)}</button>`}</div></div>`; }).join("") || '<div class="empty">The portal is quiet.</div>'}</section>
-      <button class="btn go wide" data-act="off">Close the portal</button></div>`;
+      <section class="card"><h2>Transfer portal<small>Week ${S.portalRound + 1} of ${PORTAL_ROUNDS}</small></h2>
+        <div class="stat3"><div><b>${Math.max(0, room)}</b><span>Open spots</span></div><div><b>${S.portalPitches}</b><span>Pitches left</span></div><div><b style="font-size:17px">${money(nilLeft())}</b><span>NIL left</span></div></div>
+        <p class="sub" style="margin:10px 0 0">Every player has his own top 5. If you're not on his list, it's a long shot. Pitch him to climb his list, then offer. Players commit as the weeks go; whoever is left picks on the last week.${mine ? ` <b style="color:var(--good)">${mine} signed with you.</b>` : ""}</p>
+        <button class="btn wide" data-act="pAuto" style="margin-top:10px" ${S.portalPitches <= 0 && room <= 0 ? "disabled" : ""}>Assistant: pitch and offer my best fits</button></section>
+      ${left.length ? `<section class="card"><h2>Your players who left</h2>${left.map(q => { const p = P(q.id); return `<div class="li" style="cursor:default"><span class="pos">${p ? p.pos : ""}</span><div class="name"><b>${p ? esc(p.fn) + " " + esc(p.ln) : "Gone"}</b><span>${q.committed != null ? "Signed with " + esc(T(q.committed).name) : "Still in the portal"}</span></div>${q.committed != null ? logo(T(q.committed), 26) : ""}</div>`; }).join("")}</section>` : ""}
+      <div class="chips">${[["all", "Available"], ["mine", "I'm in his top 5"], ["offered", "My offers"], ["signed", "Signed"]].map(([k, l]) => `<button class="chip ${pFilter === k ? "on" : ""}" data-act="pf" data-k="${k}">${l}</button>`).join("")}</div>
+      <div class="chips">${["All", ...POS].map(x => `<button class="chip ${pPos === x ? "on" : ""}" data-act="pp" data-k="${x}">${x}</button>`).join("")}</div>
+      <section class="card">${list.slice(0, 50).map(portalRow).join("") || '<div class="empty">Nobody here.</div>'}
+        ${list.length > 50 ? `<div class="sub" style="padding-top:8px">Showing 50 of ${list.length}. Use the filters.</div>` : ""}</section>
+      <button class="btn go wide" data-act="off">${last ? "Final week: close the portal" : `Next portal week (${S.portalRound + 2} of ${PORTAL_ROUNDS})`}</button></div>`;
   }
   const commits = t.commits.map(R).filter(Boolean);
   return `<div class="screen">${head}
     <section class="card"><h2>Signing day</h2><p class="sub" style="margin:0 0 6px">Your class arrives. Late deciders pick their schools, and walk-ons fill any empty spots.</p>
     ${commits.map(r => `<div class="li" style="cursor:default"><span class="pos">${r.pos}</span><div class="name"><b>${esc(r.fn)} ${esc(r.ln)}</b><span class="stars">${stars(r.stars)}</span></div><div class="right num">${ovr(r)}</div></div>`).join("") || '<div class="empty">No commits this year.</div>'}</section>
     <button class="btn go wide" data-act="off">Start the ${S.year + 1}-${String(S.year + 2).slice(2)} season</button></div>`;
+}
+
+let pFilter = "all", pPos = "All";
+function pStatus(q) {
+  if (q.committed != null) return q.committed === S.user ? ["Signed", "good"] : ["Gone", ""];
+  if (q.from === S.user) return ["Left you", "bad"];
+  const k = pRank(q);
+  return !k ? ["Not interested", "bad"] : k === 1 ? ["#1 for you", "good"] : k <= 3 ? [`#${k} on his list`, "good"] : k <= 5 ? [`#${k} on his list`, ""] : ["Long shot", "bad"];
+}
+function portalRow(q) {
+  const p = P(q.id); if (!p) return "";
+  const o = ovr(p), f = T(q.from), [st, cls] = pStatus(q), top = q.committed != null ? [q.committed] : pTop(q);
+  return `<button class="li" data-act="portal" data-id="${q.id}">${logo(f, 30)}<span class="ovr" style="background:${ovrColor(o)}22;color:${ovrColor(o)}">${o}</span>
+    <div class="name"><b>${esc(p.fn)} ${esc(p.ln)}${q.offers[S.user] != null && q.committed == null ? ' <span class="pill team">Offered</span>' : ""}</b><span>${p.pos} · ${YEARS[Math.min(3, p.yr)]} · ${esc(f.name)}</span>
+      <span class="toplogos">${top.map(tid => `<span class="${tid === S.user ? "me" : ""}">${logo(T(tid), 18)}</span>`).join("")}</span></div>
+    <div class="right"><span class="pill ${cls}">${st}</span></div></button>`;
+}
+function portalSheet(id) {
+  const q = S.portal.find(x => x.id === id); if (!q) return;
+  const p = P(q.id), o = ovr(p), f = T(q.from), top = pTop(q), k = pRank(q), my = q.offers[S.user], open = q.committed == null && q.from !== S.user;
+  const mx = Math.max(42, ...top.map(tid => q.interest[tid]));
+  const mf = pFit(me(), q);
+  sheet(`<div class="row between"><div><h3>${esc(p.fn)} ${esc(p.ln)}</h3><div class="sub">${p.pos} · ${YEARS[Math.min(3, p.yr)]} · ${htStr(p.ht)} · from ${esc(f.name)}</div></div><span class="ovr" style="width:52px;height:52px;font-size:26px;background:${ovrColor(o)}22;color:${ovrColor(o)}">${o}</span></div>
+    <div class="ratings" style="margin-top:12px">${KEYS.map(x => `<span class="sub">${KEYNAME[x]}</span><div class="bar"><b style="width:${p.r[x]}%;background:${ovrColor(p.r[x])}"></b></div><span class="num">${p.r[x]}</span>`).join("")}</div>
+    <div class="card" style="margin-top:12px;background:var(--surface2)"><div class="eyebrow" style="margin-bottom:6px">What he wants</div>${q.mot.map(m => `<span class="pill" style="margin-right:6px">${m === "home" ? `Near the ${esc(q.home)}` : PMOTIVES[m]}</span>`).join("")}
+      ${q.dream != null ? `<div class="row" style="margin-top:8px">${logo(T(q.dream), 22)}<span class="sub">Dream school: <b style="color:var(--ink)">${esc(T(q.dream).name)}</b></span></div>` : ""}
+      <div class="sub" style="margin-top:8px">Fit with you: <b style="color:${mf >= 1.3 ? "var(--good)" : mf >= .9 ? "var(--ink)" : "var(--bad)"}">${mf >= 1.6 ? "Great" : mf >= 1.3 ? "Good" : mf >= .9 ? "Okay" : "Poor"}</b> · worth about ${money(q.value)}/yr · last year ${money(p.nil || 0)}</div></div>
+    <div class="eyebrow" style="margin:12px 0 6px">${q.committed != null ? `Signed with ${esc(T(q.committed).name)}` : "His top 5"}</div>
+    ${top.map((tid, i) => `<div class="row between" style="margin-bottom:6px;flex-wrap:nowrap"><span class="num sub" style="width:14px">${i + 1}</span>${logo(T(tid), 26)}<span style="flex:1;min-width:0;${tid === S.user ? "font-weight:700" : ""}">${esc(T(tid).name)}${q.offers[tid] != null ? ` <span class="pill">${q.offers[tid] ? money(q.offers[tid]) : "offer"}</span>` : ""}</span><div class="bar" style="width:32%"><b style="width:${clamp(q.interest[tid] / mx * 100, 3, 100)}%;background:${tid === S.user ? "var(--good)" : "var(--line-hi)"}"></b></div></div>`).join("")}
+    ${open && k > 5 ? `<div class="sub">You're #${k} on his list. Pitch him to get into his top 5.</div>` : ""}
+    ${open && !k ? `<div class="sub">${mf < .9 ? "He isn't interested in you. A pitch might change that, but it's a long shot." : "You aren't on his list yet. A pitch gets you in the conversation."}</div>` : ""}
+    ${open ? `<div class="acts" style="margin-top:12px">
+      <button class="btn" data-act="pPitch" data-id="${q.id}" ${S.portalPitches <= 0 || q.pitched === S.portalRound ? "disabled" : ""}>${q.pitched === S.portalRound ? "Pitched this week" : `Pitch him · ${S.portalPitches} left`}</button>
+      ${my == null ? `<button class="btn go" data-act="pOffer" data-id="${q.id}" data-v="0">Offer a spot</button>` : `<button class="btn ghost" data-act="pPull" data-id="${q.id}">Pull offer</button>`}</div>
+      <div class="card" style="margin-top:10px;background:var(--surface2)"><div class="row between"><span class="eyebrow">NIL offer</span><b>${money(my || 0)}/yr</b></div>
+        <div class="row" style="margin-top:8px">${[0, .5, 1, 1.5].map(x => { const v = Math.round(q.value * x / 5000) * 5000; return `<button class="chip ${my === v ? "on" : ""}" data-act="pOffer" data-id="${q.id}" data-v="${v}" ${v - (my || 0) > nilLeft() ? "disabled" : ""}>${v ? money(v) : "None"}</button>`; }).join("")}</div>
+        <div class="sub" style="margin-top:6px">${money(nilLeft())} left. Money only leaves if he signs.</div></div>` : ""}
+    <button class="btn wide" data-act="close" style="margin-top:12px">Close</button>`);
 }
 
 /* ---------- roster ---------- */
@@ -1033,6 +1287,7 @@ function viewRecruit() {
   list = list.slice().sort((a, b) => b.stars - a.stars || (b.estHi + b.estLo) - (a.estHi + a.estLo));
   const off = S.phase === "off";
   return `<div class="screen">
+    ${assistantCard(off)}
     ${pointsTracker(off)}
     <section class="card"><div class="row between"><div><div class="big">${Math.max(0, slotsOpen(t))}</div><div class="sub">open spots</div></div><div><div class="big">${t.commits.length}</div><div class="sub">commits</div></div><div><div class="big" style="font-size:26px">${money(nilLeft())}</div><div class="sub">NIL left</div></div></div>
       <p class="sub" style="margin:10px 0 0">Scout ${COST.scout} · Call ${COST.call} (once a week per kid) · Home visit ${COST.visit} (once) · Offers are free.${off ? " Recruiting is closed in the offseason." : ""}${isIvy(t) ? " Ivy tip: academics-minded kids love you." : ""}</p></section>
@@ -1041,12 +1296,35 @@ function viewRecruit() {
     <section class="card">${list.slice(0, 60).map(recruitRow).join("") || `<div class="empty">${rFilter === "board" ? "Your board is empty. Check Uncommitted and start calling." : "Nobody here."}</div>`}
       ${list.length > 60 ? `<div class="sub" style="padding-top:8px">Showing 60 of ${list.length}. Use the filters to narrow it down.</div>` : ""}</section></div>`;
 }
+function assistantCard(off) {
+  const a = S.auto, L = S.autoLast, left = autoLeft();
+  const did = L && L.wk >= S.recWeek - 1 ? [L.offer && plural(L.offer, "offer"), L.visit && plural(L.visit, "visit"), L.call && plural(L.call, "call"), L.scout && plural(L.scout, "scout"), L.booster && "a booster event"].filter(Boolean).join(", ") : "";
+  return `<section class="card"><h2>Recruiting assistant<small>${a.on ? "On" : "Off"}</small></h2>
+    ${a.on ? `<p class="sub" style="margin:0 0 8px">${left ? `Working on ${plural(left, "more signee")}` : "Your class is full"} · ${AIMS[a.aim][0]} · ${FOCUS[a.focus][0]} · NIL: ${NILS.find(x => x[0] === a.nil)[1].toLowerCase()}${a.boost ? " · books booster events" : ""}.${did ? ` ${L.wk === S.recWeek ? "This week" : "Last week"}: ${did} (${L.pts} pts).` : ""}</p>`
+      : `<p class="sub" style="margin:0 0 8px">Tired of doing it all by hand? Answer 4 questions and your staff recruits every week for you: who to offer, calls, home visits, NIL. You can still jump in anytime.</p>`}
+    <div class="row"><button class="btn ${a.on ? "" : "go"}" style="flex:1" data-act="autoSet">${a.on ? "Change plan" : "Set it up"}</button>${a.on ? `<button class="btn ghost" data-act="autoOff">Turn off</button>` : ""}</div>
+    ${!off && !S.period.booster ? `<button class="btn wide ghost" data-act="booster" style="margin-top:8px" ${S.pts < BOOSTER_COST ? "disabled" : ""}>Host a booster event · ${BOOSTER_COST} pts (raises NIL money)</button>` : ""}
+  </section>`;
+}
+let autoDraft = null;
+function autoSheet() {
+  const d = autoDraft, open = Math.max(0, slotsOpen(me())) + me().commits.length;
+  const q = (title, key, opts) => `<div class="eyebrow" style="margin:14px 0 6px">${title}</div><div class="opts">${opts.map(([v, l, sub]) => `<button class="opt ${d[key] === v ? "on" : ""}" data-act="autoPick" data-k="${key}" data-v="${v}"><b>${l}</b>${sub ? `<span>${sub}</span>` : ""}</button>`).join("")}</div>`;
+  sheet(`<h3>Recruiting assistant</h3><p class="sub" style="margin:4px 0 0">Answer these and your staff runs recruiting every week. It spends your points evenly across each 4-week period.</p>
+    ${q("1. How many recruits do you want to sign?", "want", [[0, `Fill every open spot`, `${plural(open, "spot")} this year`], ...[1, 2, 3, 4, 5].filter(n => n < open).map(n => [n, `${n} recruit${n > 1 ? "s" : ""}`, ""])])}
+    ${q("2. How high do you aim?", "aim", Object.entries(AIMS).map(([k, [l, sub]]) => [k, l, sub]))}
+    ${q("3. What matters most?", "focus", Object.entries(FOCUS).map(([k, [l, sub]]) => [k, l, sub]))}
+    ${q("4. How much NIL do you offer?", "nil", NILS.map(([v, l]) => [v, l, ""]))}
+    ${q("Bonus: book booster events to grow your NIL?", "boost", [[true, "Yes", `Costs ${BOOSTER_COST} pts once a period`], [false, "No", "Keep every point for recruiting"]])}
+    <button class="btn go wide" data-act="autoSave" style="margin-top:16px">Turn on the assistant</button>
+    <button class="btn wide ghost" data-act="close" style="margin-top:8px">Cancel</button>`);
+}
 let showPast = false;
 function pointsTracker(off) {
   const p = S.period, log = p.log, used = p.used;
   const sum = w => { const xs = log.filter(x => x.what === w); return {n: xs.length, pts: xs.reduce((a, x) => a + x.cost, 0)}; };
   const c = sum("call"), sc = sum("scout"), v = sum("visit");
-  const label = {call: "Called", scout: "Scouted", visit: "Home visit"};
+  const label = {call: "Called", scout: "Scouted", visit: "Home visit", booster: "Booster event:"};
   return `<section class="card"><h2>Recruiting period ${p.n}<small>${off ? "Paused for the offseason" : `Week ${Math.min(periodWeek(), PERIOD)} of ${PERIOD} · refills in ${plural(resetsIn(), "week")}`}</small></h2>
     <div class="row between" style="align-items:flex-end"><div><span class="big">${S.pts}</span><span class="sub"> / ${p.budget} points left</span></div><span class="sub">${used} used</span></div>
     <div class="bar" style="height:10px;margin:8px 0 10px"><b style="width:${clamp(used / p.budget * 100, 0, 100)}%"></b></div>
@@ -1073,6 +1351,7 @@ function recruitSheet(id) {
       <div class="right"><div class="big" style="font-size:28px">${r.scouted ? ovr(r) : `${r.estLo}-${r.estHi}`}</div><div class="sub">${r.scouted ? `pot ${grade(r.pot)}` : "not scouted"}</div></div></div>
     ${r.scouted ? `<div class="ratings" style="margin-top:12px">${KEYS.map(k => `<span class="sub">${KEYNAME[k]}</span><div class="bar"><b style="width:${r.r[k]}%;background:${ovrColor(r.r[k])}"></b></div><span class="num">${r.r[k]}</span>`).join("")}</div>` : ""}
     <div class="card" style="margin-top:12px;background:var(--surface2)"><div class="eyebrow" style="margin-bottom:6px">What he wants</div>${r.mot.map(m => `<span class="pill" style="margin-right:6px">${m === "home" ? `Stay near ${esc(r.home)} schools` : MOTIVES[m]}</span>`).join("")}
+      ${r.committed == null ? (() => { const [l, c] = oddsLabel(odds(r)); return `<div class="sub" style="margin-top:8px">Your chances: <span class="pill ${c}">${l}</span></div>`; })() : ""}
       <div class="sub" style="margin-top:8px">Your fit: <b style="color:${f >= 1.3 ? "var(--good)" : f >= .9 ? "var(--ink)" : "var(--bad)"}">${f >= 1.6 ? "Great" : f >= 1.3 ? "Good" : f >= .9 ? "Okay" : "Poor"}</b> · NIL ask ${money(r.ask)}/yr</div></div>
     <div class="eyebrow" style="margin:12px 0 6px">${r.committed != null ? `Committed to ${esc(T(r.committed).name)}` : "Top schools"}</div>
     ${tops.length ? tops.map(x => `<div class="row between" style="margin-bottom:6px;flex-wrap:nowrap">${logo(T(x.tid), 26)}<span style="flex:1;${x.tid === S.user ? "font-weight:700" : ""}">${esc(T(x.tid).name)}${r.offers[x.tid] != null ? ' <span class="pill">offer</span>' : ""}</span><div class="bar" style="width:38%"><b style="width:${clamp(x.v / Math.max(commitNeed(r), tops[0].v) * 100, 2, 100)}%;background:${x.tid === S.user ? "var(--good)" : "var(--line-hi)"}"></b></div></div>`).join("") : '<div class="empty">Nobody has shown interest yet.</div>'}
@@ -1154,12 +1433,16 @@ function viewOffice() {
     <section class="card"><h2>${esc(S.coach)}<small>${S.careerW}-${S.careerL} · ${plural(S.titles, "title")} · ${S.finals} Final Four${S.finals === 1 ? "" : "s"}</small></h2>
       <div class="stat3"><div><b>${t.prest}</b><span>Prestige</span></div><div><b>${expWins(t)}</b><span>Expected wins</span></div><div><b>${S.security}</b><span>Security</span></div></div></section>
     <section class="card"><h2>NIL collective<small>This cycle</small></h2>
-      <div class="row between"><span class="sub">Budget</span><b>${money(S.budget)}</b></div>
+      <div class="row between"><span class="sub">Base (from prestige)</span><b>${money(S.nilBase)}</b></div>
+      ${S.nilCarry ? `<div class="row between"><span class="sub">Rolled over from last year</span><b>+${money(S.nilCarry)}</b></div>` : ""}
+      <div class="row between"><span class="sub">Boosters, ${plural(S.nilWins.n, "win")}</span><b>+${money(S.nilWins.amt)}</b></div>
+      ${S.nilLog.filter(x => x.s === S.season).map(x => `<div class="row between"><span class="sub">${esc(x.why)}</span><b>+${money(x.amt)}</b></div>`).join("")}
+      <div class="row between" style="border-top:1px solid var(--line);padding-top:6px;margin-top:4px"><span class="sub">Budget</span><b>${money(S.budget)}</b></div>
       <div class="row between"><span class="sub">Spent on new deals</span><b>${money(t.nilSpent)}</b></div>
       <div class="row between"><span class="sub">Held for open offers</span><b>${money(nilReserved())}</b></div>
       <div class="row between" style="margin-top:6px"><span>Left</span><b style="color:var(--good)">${money(nilLeft())}</b></div>
       <div class="bar" style="margin-top:8px"><b style="width:${clamp((t.nilSpent + nilReserved()) / S.budget * 100, 0, 100)}%"></b></div>
-      <p class="sub" style="margin:10px 0 0">Current roster deals: ${money(payroll)}/yr (already paid). The collective grows with prestige.${isIvy(t) ? " Ivy schools don't give athletic scholarships, so your collective is small." : ""}</p></section>
+      <p class="sub" style="margin:10px 0 0">Current roster deals: ${money(payroll)}/yr (already paid). Ways to grow it: win games (bigger bonus for ranked wins), win your conference tournament, win in March, and host a booster event once a recruiting period (Recruit tab). A quarter of what you don't spend rolls over.${isIvy(t) ? " Ivy schools don't give athletic scholarships, so your collective is small." : ""}</p></section>
     <section class="card"><h2>Career</h2>${historyTable()}</section>
     <section class="card"><h2>Career slots<small>Saved on this phone</small></h2>
       ${SLOTS.map(n => { const x = summaries[n], cur = S.slot === n; return `<div class="li" style="cursor:default">${x ? logo({espn: x.espn, abbr: x.abbr || "?"}, 36) : `<span class="logo" style="width:36px;height:36px;background:var(--surface2)"><b style="color:var(--muted)">${n}</b></span>`}
@@ -1249,8 +1532,18 @@ document.addEventListener("click", e => {
   if (a === "simEnd") { simWhile(() => S.phase === "conf" || S.phase === "ncaa", "Simming to the offseason"); return; }
   if (a === "off") { busy(() => { nextOffStep(); render(); scrollTo(0, 0); }); return; }
   if (a === "pay" || a === "deny") { answerRequest(id, a === "pay"); render(); return; }
-  if (a === "pOffer") { const q = S.portal.find(x => x.id === id); portalOffer(id, el.dataset.m === "1" ? q.value : 1); render(); return; }
-  if (a === "pOff") { portalOffer(id, null); render(); return; }
+  if (a === "portal") { portalSheet(id); return; }
+  if (a === "pOffer") { portalOffer(id, +el.dataset.v); render(); portalSheet(id); return; }
+  if (a === "pPull") { portalOffer(id, null); render(); portalSheet(id); return; }
+  if (a === "pPitch") { portalPitch(id); render(); portalSheet(id); return; }
+  if (a === "pf") { pFilter = el.dataset.k; render(); return; }
+  if (a === "pp") { pPos = el.dataset.k; render(); return; }
+  if (a === "pAuto") { const x = autoPortal(); render(); sheet(`<h3>Assistant</h3><p class="sub">${x.found ? `Found ${plural(x.found, "player")} who have you in their top 5 and would play for you. Pitched ${x.pitched}, made ${plural(x.made, "new offer")}.` : "Nobody who'd play for you has you in his top 5 right now. Try pitching players yourself to get on their lists."}</p><button class="btn wide" data-act="close" style="margin-top:12px">OK</button>`); return; }
+  if (a === "autoSet") { autoDraft = {...S.auto}; autoSheet(); return; }
+  if (a === "autoPick") { const k = el.dataset.k, v = el.dataset.v; autoDraft[k] = k === "want" || k === "nil" ? +v : k === "boost" ? v === "true" : v; autoSheet(); return; }
+  if (a === "autoSave") { S.auto = {...autoDraft, on: true}; if (S.phase !== "off") autoRecruit(); save(); closeSheet(); render(); return; }
+  if (a === "autoOff") { S.auto.on = false; save(); render(); return; }
+  if (a === "booster") { boosterEvent(); render(); return; }
   if (a === "player") { playerSheet(id); return; }
   if (a === "up" || a === "down") { const o = me().order, i = o.indexOf(id), j = a === "up" ? i - 1 : i + 1; if (j >= 0 && j < o.length) { [o[i], o[j]] = [o[j], o[i]]; save(); render(); } return; }
   if (a === "autoOrder") { autoOrder(me()); save(); render(); return; }
