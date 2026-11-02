@@ -1,5 +1,5 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "dynasty-v4";
+const CACHE = "dynasty-v5";
 const SHELL = ["./", "index.html", "teams.js", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {

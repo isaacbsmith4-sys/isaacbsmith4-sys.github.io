@@ -380,10 +380,11 @@ function simGame(hid, aid, neutral, wantBox) {
       use: r.map(x => x.min * Math.pow(Math.max(30, x.p.r.sht * .45 + x.p.r.ins * .45 + x.p.r.ath * .1) / 60, 3))};
   };
   const tm = {[hid]: team(hid), [aid]: team(aid)};
+  tm[hid].run = tm[aid].run = 0;
   const wpick = (list, f) => { let tot = 0; for (const x of list) tot += f(x); let r = Math.random() * tot; for (const x of list) if ((r -= f(x)) <= 0) return x; return list[0]; };
   const usePick = O => { let tot = 0; for (const u of O.use) tot += u; let r = Math.random() * tot; for (let i = 0; i < O.use.length; i++) if ((r -= O.use[i]) <= 0) return O.r[i].p; return O.r[0].p; };
   function possession(o, d, home) {
-    const O = tm[o], D = tm[d], bonus = (home ? .015 : 0) + O.form;
+    const O = tm[o], D = tm[d], bonus = (home ? .015 : 0) + O.form + O.run;
     if (Math.random() < clamp(.165 + (D.def - O.pas) * .0035, .08, .26)) {
       if (Math.random() < .55) box[wpick(D.r, x => x.min * x.p.r.def).p.id].stl++;
       return;
@@ -406,11 +407,16 @@ function simGame(hid, aid, neutral, wantBox) {
       return;
     }
   }
-  const poss = irnd(61, 69);
-  for (let i = 0; i < poss; i++) { possession(hid, aid, !neutral); possession(aid, hid, false); }
+  // games come in runs: every few minutes each team gets hot or goes cold
+  const poss = irnd(61, 69), flow = [[0, 0]];
+  const pair = i => {
+    if (i % 7 === 0) { tm[hid].run = gauss() * .09; tm[aid].run = gauss() * .09; }
+    possession(hid, aid, !neutral); possession(aid, hid, false); flow.push([score[hid], score[aid]]);
+  };
+  for (let i = 0; i < poss; i++) pair(i);
   let ot = 0;
-  while (score[hid] === score[aid]) { ot++; for (let i = 0; i < 8; i++) { possession(hid, aid, !neutral); possession(aid, hid, false); } }
-  return {h: hid, a: aid, hs: score[hid], as: score[aid], ot, box};
+  while (score[hid] === score[aid]) { ot++; for (let i = 0; i < 8; i++) pair(i); }
+  return {h: hid, a: aid, hs: score[hid], as: score[aid], ot, box, flow, reg: poss};
 }
 function applyResult(g, res, conf) {
   const H = T(g.h), A = T(g.a), hw = res.hs > res.as;
@@ -679,7 +685,7 @@ function playWeek() {
       const mine = g.h === S.user || g.a === S.user;
       const res = simGame(g.h, g.a, false);
       applyResult(g, res, g.c); g.hs = res.hs; g.as = res.as; g.ot = res.ot;
-      if (mine) { lastGame = {...res, label: g.c ? `${me().conf} game` : "Non-conference"}; g.box = res.box; const won = (res.hs > res.as) === (g.h === S.user); if (won) winBonus(g.h === S.user ? g.a : g.h); }
+      if (mine) { lastGame = {...res, label: g.c ? `${me().conf} game` : "Non-conference"}; g.box = res.box; g.flow = res.flow; g.reg = res.reg; const won = (res.hs > res.as) === (g.h === S.user); if (won) winBonus(g.h === S.user ? g.a : g.h); }
       const w = res.hs > res.as ? g.h : g.a, l = w === g.h ? g.a : g.h, lr = before.indexOf(l);
       if (lr >= 0 && lr < 5 && !before.includes(w) && !mine) news(`Upset: ${T(w).name} takes down #${lr + 1} ${T(l).name}.`);
     }
@@ -1459,26 +1465,56 @@ function boxTable(res, tid) {
   const rows = Object.entries(res.box).filter(([, b]) => b.tid === tid && b.min > 0).map(([id, b]) => ({p: S.players[id], b})).filter(x => x.p).sort((a, b) => b.b.pts - a.b.pts);
   return `<div class="scroll"><table><tr><th>${esc(T(tid).abbr)}</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>FG</th><th>3PT</th></tr>${rows.map(({p, b}) => `<tr><td>${esc(p.fn[0])}. ${esc(p.ln)}</td><td>${b.min}</td><td><b>${b.pts}</b></td><td>${b.reb}</td><td>${b.ast}</td><td>${b.fgm}-${b.fga}</td><td>${b.tpm}-${b.tpa}</td></tr>`).join("")}</table></div>`;
 }
-function showGame(res, animate) {
+function showGame(res, animate, done) {
   const hw = res.hs > res.as, iWon = (res.h === S.user) === hw, H = T(res.h), A = T(res.a);
   const top = Object.entries(res.box).map(([id, b]) => ({p: S.players[id], b})).filter(x => x.p).sort((a, b) => b.b.pts - a.b.pts).slice(0, 3);
   const mineFirst = res.h === S.user ? [res.h, res.a] : [res.a, res.h];
   sheet(`<div class="eyebrow" style="text-align:center">${esc(res.label || "")}</div>
-    <div class="score" style="margin-top:10px"><div class="t">${logo(H, 56)}<b>${seedTag(H.id)}${esc(H.name)}</b></div><div><span class="s ${hw ? "win" : ""}" id="sH">0</span> <span class="s" style="font-size:28px;color:var(--muted)">–</span> <span class="s ${hw ? "" : "win"}" id="sA">0</span></div><div class="t">${logo(A, 56)}<b>${seedTag(A.id)}${esc(A.name)}</b></div></div>
+    <div class="score" style="margin-top:10px"><div class="t">${logo(H, 56)}<b>${seedTag(H.id)}${esc(H.name)}</b></div><div><span class="s" id="sH">0</span> <span class="s" style="font-size:28px;color:var(--muted)">–</span> <span class="s" id="sA">0</span></div><div class="t">${logo(A, 56)}<b>${seedTag(A.id)}${esc(A.name)}</b></div></div>
     <div class="clock" id="clock">1st half · 20:00</div>
+    <div class="sub" id="run" style="text-align:center;min-height:18px;margin-top:4px"></div>
     <div id="after" style="opacity:0;transition:opacity .4s">
       <div style="text-align:center;margin:10px 0"><span class="pill ${iWon ? "good" : "bad"}" style="font-size:13px;padding:6px 12px">${iWon ? "WIN" : "LOSS"}${res.ot ? ` · ${res.ot > 1 ? res.ot : ""}OT` : ""}</span></div>
       <div class="pbp">${top.map(x => `<div>🔥 ${esc(x.p.fn)} ${esc(x.p.ln)} (${esc(T(x.b.tid).abbr)}): ${x.b.pts} pts, ${x.b.reb} reb, ${x.b.ast} ast</div>`).join("")}</div>
       <div style="margin-top:10px">${boxTable(res, mineFirst[0])}</div><div style="margin-top:10px">${boxTable(res, mineFirst[1])}</div>
       <button class="btn go wide" data-act="close" style="margin-top:14px">Continue</button></div>`);
-  const dur = animate ? 2200 : 1, t0 = performance.now();
-  const step = now => {
-    const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 2), el = $("#sH"); if (!el) return;
-    el.textContent = Math.round(res.hs * e); $("#sA").textContent = Math.round(res.as * e);
-    const secs = Math.round(2400 * (1 - k)), left = secs > 1200 ? secs - 1200 : secs;
-    $("#clock").textContent = k < 1 ? `${secs > 1200 ? "1st" : "2nd"} half · ${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}` : `Final${res.ot ? " / OT" : ""}`;
-    if (k < 1) requestAnimationFrame(step); else $("#after").style.opacity = 1;
+  // replay the real score, possession by possession (older box scores have no flow, so they count up)
+  const flow = res.flow || [[0, 0], [res.hs, res.as]], reg = res.reg || flow.length - 1, n = flow.length - 1;
+  let changes = 0, big = {}, lastLead = 0, runFrom = [0, 0], runSide = 0;
+  for (const [h, a] of flow) { const d = Math.sign(h - a); if (d && lastLead && d !== lastLead) changes++; if (d) lastLead = d; big[d > 0 ? res.h : res.a] = Math.max(big[d > 0 ? res.h : res.a] || 0, Math.abs(h - a)); }
+  let dur = animate ? Math.min(9000, 2600 + n * 45) : 1;
+  const t0 = performance.now();
+  let shown = -1, lc = 0, prevLead = 0;
+  const clockAt = i => {
+    if (i >= reg) { const left = Math.round(300 * (1 - (i - reg) / 8 % 1)); return `OT · ${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`; }
+    const secs = Math.round(2400 * (1 - i / reg)), left = secs > 1200 ? secs - 1200 : secs;
+    return `${secs > 1200 ? "1st" : "2nd"} half · ${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
   };
+  const step = now => {
+    const el = $("#sH"); if (!el) return;
+    const k = Math.min(1, (now - t0) / dur), i = Math.min(n, Math.floor(k * n));
+    if (i !== shown) {
+      for (let j = shown + 1; j <= i; j++) {
+        const [h, a] = flow[j], d = Math.sign(h - a);
+        if (d && prevLead && d !== prevLead) lc++;
+        if (d) prevLead = d;
+        // track the current run: points scored by one side while the other is held
+        if (j > 0) { const dh = h - flow[j - 1][0], da = a - flow[j - 1][1];
+          if (dh && !da) { if (runSide !== 1) { runSide = 1; runFrom = flow[j - 1]; } } else if (da && !dh) { if (runSide !== -1) { runSide = -1; runFrom = flow[j - 1]; } } else if (dh && da) { runSide = 0; } }
+      }
+      shown = i;
+      const [h, a] = flow[i];
+      el.textContent = h; $("#sA").textContent = a;
+      el.classList.toggle("win", h > a); $("#sA").classList.toggle("win", a > h);
+      const runPts = runSide === 1 ? [flow[i][0] - runFrom[0], flow[i][1] - runFrom[1]] : runSide === -1 ? [flow[i][1] - runFrom[1], flow[i][0] - runFrom[0]] : [0, 0];
+      const who = runSide === 1 ? H : A;
+      $("#clock").textContent = k < 1 ? clockAt(i) : `Final${res.ot ? " / OT" : ""}`;
+      $("#run").textContent = k < 1 && runSide && runPts[0] >= 7 ? `🔥 ${who.abbr} on a ${runPts[0]}-${runPts[1]} run` : k < 1 && i === Math.round(reg / 2) ? "Halftime" : lc ? `${plural(lc, "lead change")}` : "";
+    }
+    if (k < 1) requestAnimationFrame(step);
+    else { $("#run").textContent = `${plural(changes, "lead change")} · biggest leads: ${H.abbr} ${big[H.id] || 0}, ${A.abbr} ${big[A.id] || 0}`; $("#after").style.opacity = 1; if (done) { done(); done = null; } }
+  };
+  $(".sheet").onclick = e => { if (!e.target.closest("button")) dur = 1; };   // tap to skip to the final
   requestAnimationFrame(step);
 }
 
@@ -1505,7 +1541,7 @@ document.addEventListener("click", e => {
   if (tb && !e.target.closest("[data-act]")) { tab = tb.dataset.tab; closeSheet(); render(); scrollTo(0, 0); return; }
   const el = e.target.closest("[data-act]"); if (!el) return;
   const a = el.dataset.act, id = +el.dataset.id;
-  if (a === "closeBg") { if (e.target === el) closeSheet(); return; }
+  if (a === "closeBg") { if (e.target === el) { closeSheet(); if (S) render(); } return; }
   if (a === "close") { closeSheet(); render(); return; }
   if (a === "jobMore") { window._coach = $("#coachName").value; jobOpen[el.dataset.k] = !jobOpen[el.dataset.k]; renderJobs(); return; }
   if (a === "job") { const name = ($("#coachName").value || "Coach").trim().slice(0, 24), slot = pendingSlot || 1; busy(() => { newCareer(+el.dataset.i, name, slot); pendingSlot = null; tab = "home"; saveNow(); render(); scrollTo(0, 0); }); return; }
@@ -1526,7 +1562,7 @@ document.addEventListener("click", e => {
     DB.del(slotKey(n)); delete summaries[n]; DB.set("summaries", summaries); render(); return;
   }
   if (a === "jobBack") { S = window._back; pendingSlot = null; window._back = null; render(); return; }
-  if (a === "play") { busy(() => { playWeek(); render(); if (lastGame) showGame(lastGame, true); }); return; }
+  if (a === "play") { busy(() => { playWeek(); if (lastGame) showGame(lastGame, true, render); else render(); }); return; }   // the record updates when the replay ends, not before
   if (a === "sim4") { const stop = S.week + 4; simWhile(() => S.phase === "season" && S.week < stop, "Simming 4 weeks"); return; }
   if (a === "simReg") { simWhile(() => S.phase === "season", "Simming to March"); return; }
   if (a === "simEnd") { simWhile(() => S.phase === "conf" || S.phase === "ncaa", "Simming to the offseason"); return; }
@@ -1557,7 +1593,7 @@ document.addEventListener("click", e => {
   if (a === "lg") { lgView = el.dataset.k; render(); return; }
   if (a === "lgc") { lgConf = el.dataset.k; render(); return; }
   if (a === "breg") { bRegion = +el.dataset.k; render(); return; }
-  if (a === "box") { const g = S.schedule[+el.dataset.w].find(g => g.h === S.user || g.a === S.user); showGame({h: g.h, a: g.a, hs: g.hs, as: g.as, ot: g.ot, box: g.box, label: `Week ${+el.dataset.w + 1}`}, false); return; }
+  if (a === "box") { const g = S.schedule[+el.dataset.w].find(g => g.h === S.user || g.a === S.user); showGame({h: g.h, a: g.a, hs: g.hs, as: g.as, ot: g.ot, box: g.box, flow: g.flow, reg: g.reg, label: `Week ${+el.dataset.w + 1}`}, false); return; }
 });
 
 (async () => {
