@@ -4,9 +4,9 @@
 //            NFL  -> the NFL model's player file, nfl/props.json
 //            NCAAB / CFB -> no player model exists (the college models predict games only)
 //   Market:  the prop line from those same files (DraftKings via ESPN)
-import { esc, fmtTime, fmtDay, dayLabel, ago, getJSON, isFavPlayer, state, save } from "./core.js?v=6";
-import { SPORTS, athlete, schedule, summary, team as getTeam, fmt1, pct } from "./data.js?v=6";
-import { ICON, sportBadge, marketBadge, modelBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=6";
+import { esc, fmtTime, fmtDay, dayLabel, ago, getJSON, isFavPlayer, state, save } from "./core.js?v=9";
+import { SPORTS, athlete, schedule, summary, team as getTeam, fmt1, pct } from "./data.js?v=9";
+import { ICON, sportBadge, marketBadge, modelBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=9";
 
 const WEB = "https://site.web.api.espn.com/apis/common/v3/sports";
 const n = (v) => { const x = parseFloat(String(v ?? "").replace(/,/g, "")); return Number.isFinite(x) ? x : null; };

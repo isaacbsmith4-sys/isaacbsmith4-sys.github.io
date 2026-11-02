@@ -12,6 +12,7 @@ Static app, no build step, no server. Favorites and settings live on the device 
 | `js/gamecenter.js` | Game Center (`#/game/<sport>/<id>`): line score, your model vs the book, ESPN win probability, game flow / scoring plays, box score, team stats, plays or drives, head-to-head (home team's last 4 seasons) and recent form |
 | `js/players.js` | Player profiles (`#/player/<sport>/<id>`): Player performance card (season / L5 / L10 vs your model's projection and the prop line), trend chart, averages and splits, game log, career; plus per-game projection tables (Game Center) and Home > My players |
 | `js/teams.js` | Team profiles (`#/team/<sport>/<id>`): next-game prediction (projected score from the model's spread + total, margin, win %, model vs book), the model's matchup inputs (NFL: factor breakdown, Elo/EPA ranks), recent form, team stats with league scoring ranks (from standings), model ratings, division/conference table, schedule, roster |
+| `js/stats.js` | Stats tab: Stats Lab (sortable league tables + chart; NBA/NFL efficiency from `../research/data/*_teamstats.json`, college = your models' ratings), Rankings (AP/coaches, model power rankings, SOS, playoff picture), Matchup Analyzer (`#/stats/matchup/<sport>/<a>/<b>`) |
 | `data/teams.json` | Team list, built by `tools/build_teams.py` (ESPN's teams endpoint blocks browsers). Rerun each season. |
 
 ## Sources (kept separate in the UI)
@@ -27,5 +28,5 @@ Bump `?v=N` on every module import, `index.html` and `sw.js` (SHELL + CACHE) tog
 Publish: `git pull --rebase --autostash`, `git add gameday`, commit, push.
 
 ## Not built yet
-Matchup analyzer, Stats Lab, news/injuries page,
+News/injuries page,
 calendar, notifications, odds center, AI assistant (see the phase plan).

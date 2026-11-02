@@ -1,8 +1,8 @@
 // Team profiles: record, next-game prediction from your model, team stats with league ranks,
 // model ratings, standings, schedule, roster.
-import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, state } from "./core.js?v=6";
-import { SPORTS, team as getTeam, schedule, modelFeed, teamStatistics, roster, leagueTable, spreadText, fmt1, pct } from "./data.js?v=6";
-import { ICON, sportBadge, modelBadge, marketBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=6";
+import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, state } from "./core.js?v=9";
+import { SPORTS, team as getTeam, schedule, modelFeed, teamStatistics, roster, leagueTable, spreadText, fmt1, pct } from "./data.js?v=9";
+import { ICON, sportBadge, modelBadge, marketBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=9";
 
 const ui = { key: null, past: false, next: false, roster: false };
 const n = (v) => { const x = parseFloat(String(v ?? "").replace(/,/g, "")); return Number.isFinite(x) ? x : null; };
@@ -20,7 +20,8 @@ export async function viewTeam(view, sport, id) {
     <div class="hero" style="--tc:${esc(t.color)}"><div class="row" style="gap:14px">${logo(t, "logo logo-lg")}
       <div class="sp"><div class="row" style="gap:6px;margin-bottom:6px">${sportBadge(sport)}</div><h1>${esc(t.name)}</h1>
       <div class="sub">${esc([t.div, t.conf].filter(Boolean).join(" · "))}</div>${extra}</div></div>
-      <div style="margin-top:14px"><button class="btn ${fav ? "on" : ""}" data-action="favteam" data-sport="${sport}" data-id="${t.id}">${ICON.star} ${fav ? "Following" : "Follow"}</button></div></div>`;
+      <div style="margin-top:14px"><button class="btn ${fav ? "on" : ""}" data-action="favteam" data-sport="${sport}" data-id="${t.id}">${ICON.star} ${fav ? "Following" : "Follow"}</button>
+      <a class="btn" href="#/stats/matchup/${sport}/${t.id}" style="margin-left:6px">Compare</a></div></div>`;
   view.innerHTML = hero() + skel(3);
 
   const [schR, tblR, statR, feedR, rosR] = await Promise.allSettled([
@@ -60,7 +61,7 @@ export async function viewTeam(view, sport, id) {
 const chip = (l, v) => (v ? `<span class="hs"><small>${esc(l)}</small><b>${esc(v)}</b></span>` : "");
 
 // ---------------------------------------------------------------- next game prediction (your model)
-function prediction(sport, t, g, feed, tbl) {
+export function prediction(sport, t, g, feed, tbl) {
   const home = g.home.id === String(t.id);
   const meT = home ? g.home : g.away, op = home ? g.away : g.home;
   const m = g.model;

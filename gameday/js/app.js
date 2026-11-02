@@ -2,19 +2,20 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=6";
+} from "./core.js?v=9";
 const fmtStat1 = (x) => (x == null ? "–" : Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1));
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
   modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=6";
-import { viewGame } from "./gamecenter.js?v=6";
-import { viewPlayer, quickProjection } from "./players.js?v=6";
-import { viewTeam } from "./teams.js?v=6";
+} from "./data.js?v=9";
+import { viewGame } from "./gamecenter.js?v=9";
+import { viewPlayer, quickProjection } from "./players.js?v=9";
+import { viewTeam } from "./teams.js?v=9";
+import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=9";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
   updated, newsItem, statusText, shortBook, modelBlock,
-} from "./ui.js?v=6";
+} from "./ui.js?v=9";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
@@ -281,18 +282,33 @@ async function viewTeams() {
   $("#teamQ").addEventListener("input", (e) => { ui.teamsQ = e.target.value; draw(); });
 }
 
-// ================================================================= STATS (standings for now)
-async function viewStats() {
+// ================================================================= STATS hub: Stats Lab, Rankings, Matchup, Standings
+const STATS_TABS = [["lab", "Stats Lab"], ["rankings", "Rankings"], ["matchup", "Matchup"], ["standings", "Standings"]];
+async function viewStats(args = []) {
+  const sub = STATS_TABS.some(([k]) => k === args[0]) ? args[0] : ui.statsSub || "lab";
+  ui.statsSub = sub;
   const sports = enabled();
+  if (sub === "matchup" && sports.includes(args[1])) ui.statsSport = args[1];
   ui.statsSport = sports.includes(ui.statsSport) ? ui.statsSport : sports[0];
   const s = ui.statsSport;
   if (!s) { view.innerHTML = empty("All sports are off."); return; }
   view.dataset.v = "stats";
-  const head = `<h1 class="page-title">Standings</h1><p class="page-sub">The Statistics Lab (efficiency, rankings, charts) is coming next.</p>
-    <div class="seg" style="margin-bottom:12px">${sports.map((k) => `<button data-action="ssport" data-sport="${k}" aria-pressed="${k === s}">${SPORTS[k].label}</button>`).join("")}</div>`;
-  view.innerHTML = head + skel(2);
+  view.innerHTML = `<h1 class="page-title">Stats</h1>
+    <div class="subtabs">${STATS_TABS.map(([k, l]) => `<a href="#/stats/${k}" aria-current="${k === sub ? "page" : "false"}">${l}</a>`).join("")}</div>
+    <div class="seg" style="margin-bottom:12px">${sports.map((k) => `<button data-action="ssport" data-sport="${k}" aria-pressed="${k === s}">${SPORTS[k].label}</button>`).join("")}</div>
+    <div id="statsBody"></div>`;
+  const el = $("#statsBody");
+  if (sub === "lab") return renderLab(el, s);
+  if (sub === "rankings") return renderRankings(el, s);
+  if (sub === "matchup") return renderMatchup(el, s, args[2], args[3], (a, b) => (location.hash = `#/stats/matchup/${s}/${a}/${b}`));
+  return standingsInto(el, s);
+}
+
+async function standingsInto(el, s) {
+  const head = "";
+  el.innerHTML = skel(2);
   let d;
-  try { d = await standings(s); } catch (e) { view.innerHTML = head + errBox("standings", e); return; }
+  try { d = await standings(s); } catch (e) { el.innerHTML = errBox("standings", e); return; }
   const college = s === "ncaab" || s === "cfb";
   const st = (e, type) => e.stats.find((x) => x.type === type)?.displayValue ?? "–";
   const groups = [];
@@ -317,7 +333,7 @@ async function viewStats() {
     || wp(st(b, "total")) - wp(st(a, "total")) || wins(st(b, "total")) - wins(st(a, "total")));
   const cols = colsAll.filter(([, k]) => show.some((g) => g.entries.some((e) => st(e, k) !== "–"))); // drop empty columns
   const ft = favTeamIds(s);
-  view.innerHTML = head + (college ? `<select class="input" data-action="sconf" style="margin-bottom:12px">${confs.map((c) => `<option ${c === ui.statsConf ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>` : "") +
+  el.innerHTML = head + (college ? `<select class="input" data-action="sconf" style="margin-bottom:12px">${confs.map((c) => `<option ${c === ui.statsConf ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>` : "") +
     show.map((g) => section("st", esc(g.name), `<div class="card tscroll"><table class="tbl"><thead><tr><th>Team</th>${cols.map(([l]) => `<th>${l}</th>`).join("")}</tr></thead><tbody>
       ${g.entries.map((e) => `<tr class="${ft.has(String(e.team.id)) ? "fav" : ""}"><td><a class="tm" href="#/team/${s}/${e.team.id}"><img src="${esc(e.team.logos?.[0]?.href || "")}" alt="" loading="lazy">${esc(e.team.abbreviation || e.team.shortDisplayName)}</a></td>
       ${cols.map(([, k]) => `<td>${esc(st(e, k))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`, g.parent ? esc(g.parent) : "")).join("") +
@@ -433,7 +449,7 @@ async function render({ quiet = false } = {}) {
     if (name === "home") lastGames = (await viewHome()) || [];
     else if (name === "scores") lastGames = (await viewScores()) || [];
     else if (name === "teams") await viewTeams();
-    else if (name === "stats") await viewStats();
+    else if (name === "stats") await viewStats(args);
     else if (name === "profile") await viewProfile();
     else if (name === "team") await viewTeam(view, args[0], args[1]);
     else if (name === "player") await viewPlayer(view, args[0], args[1]);
@@ -461,7 +477,7 @@ document.addEventListener("click", (e) => {
     case "back": e.preventDefault(); history.length > 1 ? history.back() : (location.hash = "#/home"); break;
     case "day": ui.scoresDay = +ds.n; view.dataset.v = ""; rerender(); break;
     case "tsport": ui.teamsSport = ds.sport; ui.teamsQ = ""; rerender(); break;
-    case "ssport": ui.statsSport = ds.sport; rerender(); break;
+    case "ssport": ui.statsSport = ds.sport; if (ui.statsSub === "matchup") location.hash = `#/stats/matchup/${ds.sport}`; else rerender(); break;
     case "favteam": {
       e.preventDefault(); e.stopPropagation();
       getTeam(ds.sport, ds.id).then((t) => {

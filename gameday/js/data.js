@@ -3,7 +3,7 @@
 //   Your model feeds  -> predictions, read from what each model already publishes on this site
 // To add a sport: add an entry to SPORTS with its ESPN path and a model adapter.
 
-import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=6";
+import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=9";
 
 const SITE = "https://site.api.espn.com/apis/site/v2/sports";
 const WEB = "https://site.web.api.espn.com/apis";

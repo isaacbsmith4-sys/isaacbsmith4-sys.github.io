@@ -351,3 +351,24 @@ main { min-width: 0; max-width: 1100px; margin: 0 auto; padding: 14px 16px 24px;
 .adv-t td.lbl { color: var(--muted); font-size: 12px; white-space: normal; }
 .adv-t td.adv-w { color: var(--win); font-weight: 700; }
 .fpill span + span { color: var(--muted); font-size: 9.5px; }
+
+/* ---------- stats hub */
+.subtabs { display: flex; gap: 18px; border-bottom: 1px solid var(--line); margin: 4px 2px 12px; overflow-x: auto; scrollbar-width: none; }
+.subtabs a { padding: 8px 0 10px; font-weight: 700; font-size: 14px; color: var(--muted); white-space: nowrap; border-bottom: 2px solid transparent; }
+.subtabs a[aria-current="page"] { color: var(--text); border-color: var(--accent); }
+.lab .tbl th { cursor: pointer; user-select: none; white-space: nowrap; }
+.lab .tbl th.on { color: var(--text); }
+.lab .tbl th.mh { color: var(--model); }
+.lab .tbl td.mc { color: #bfeeff; }
+.lab .tbl td.t1 { background: rgba(51, 209, 122, .13); }
+.lab .tbl td.t5 { background: rgba(255, 90, 106, .1); }
+.lab .tm .logo-sm { width: 20px; height: 20px; }
+.lab-key i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: middle; margin: 0 3px 0 6px; }
+.lab-key i.t1 { background: rgba(51, 209, 122, .5); }
+.lab-key i.t5 { background: rgba(255, 90, 106, .45); }
+.mv { font-size: 11px; font-weight: 800; color: var(--muted); width: 30px; text-align: right; }
+.mv.up { color: var(--win); }
+.mv.down { color: var(--loss); }
+.mu-pick { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-bottom: 6px; }
+.mu-pick .input { font-size: 14px; padding: 0 10px; }
+.mu-t tr.grp td { text-align: left !important; font-size: 11px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); background: var(--card2); }
