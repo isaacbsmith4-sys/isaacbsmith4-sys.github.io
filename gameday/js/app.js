@@ -2,25 +2,25 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=22";
+} from "./core.js?v=23";
 const fmtStat1 = (x) => (x == null ? "–" : Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1));
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
-  modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=22";
-import { viewGame } from "./gamecenter.js?v=22";
-import { viewPlayer, quickProjection } from "./players.js?v=22";
-import { viewTeam } from "./teams.js?v=22";
-import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=22";
-import { viewNews } from "./news.js?v=22";
-import { viewCalendar, downloadIcs } from "./calendar.js?v=22";
-import { viewAlerts, computeAlerts, setBadge, notifyNew, enablePush, KINDS } from "./alerts.js?v=22";
-import { viewOdds } from "./odds.js?v=22";
-import { viewAssistant } from "./assistant.js?v=22";
+  modelFeed, spreadText, fmt1, pct, summary,
+} from "./data.js?v=23";
+import { viewGame } from "./gamecenter.js?v=23";
+import { viewPlayer, quickProjection } from "./players.js?v=23";
+import { viewTeam } from "./teams.js?v=23";
+import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=23";
+import { viewNews } from "./news.js?v=23";
+import { viewCalendar, downloadIcs } from "./calendar.js?v=23";
+import { viewAlerts, computeAlerts, setBadge, notifyNew, enablePush, KINDS } from "./alerts.js?v=23";
+import { viewOdds } from "./odds.js?v=23";
+import { viewAssistant } from "./assistant.js?v=23";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
   updated, newsItem, statusText, shortBook, modelBlock,
-} from "./ui.js?v=22";
+} from "./ui.js?v=23";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
@@ -141,7 +141,7 @@ async function viewHome() {
   }
 
   const live = games.filter((g) => g.state === "in").sort((a, b) => favGame(b) - favGame(a));
-  S.live = live.length ? section("live", '<span class="dot-live"></span> Live now', more("live", live, 6, (g) => gameCard(g)), `${live.length} game${live.length === 1 ? "" : "s"}`) : "";
+  S.live = live.length ? section("live", '<span class="dot-live"></span> Live now', more("live", live, 6, (g) => gameCard(g)), `<a class="sec-more" href="#/live">${live.length} game${live.length === 1 ? "" : "s"} · latest plays ›</a>`) : "";
 
   // Biggest games: transparent scoring, the reason is shown on the card
   const scored = todays.filter((g) => g.state !== "post").map((g) => {
@@ -239,6 +239,38 @@ async function viewHome() {
   paint();
   // notifications last, so they don't compete with the page for bandwidth
   computeAlerts(games).then((items) => { setBadge(items); notifyNew(items); }).catch(() => {});
+  return games;
+}
+
+// ================================================================= LIVE: every game in progress with its latest play
+async function viewLive() {
+  const sports = enabled();
+  if (view.dataset.v !== "live") view.innerHTML = `<h1 class="page-title">Live</h1>${skel(3)}`;
+  view.dataset.v = "live";
+  const { games, errors } = await loadSlates(sports);
+  setLive(games);
+  const live = games.filter((g) => g.state === "in").sort((a, b) => favGame(b) - favGame(a) || a.start - b.start);
+  // latest play for each live game (ESPN game summary; football uses the current drive)
+  const last = await Promise.all(live.map(async (g) => {
+    try {
+      const { d } = await summary(g.sport, g.id, 15_000);
+      if (SPORTS[g.sport].kind === "football") {
+        const dr = d.drives?.current || d.drives?.previous?.[d.drives.previous.length - 1];
+        const p = dr?.plays?.[dr.plays.length - 1];
+        return p ? { text: p.text, when: `Q${p.period?.number || ""} ${p.clock?.displayValue || ""}`, team: dr.team?.abbreviation, drive: dr.description } : null;
+      }
+      const p = (d.plays || []).filter((x) => x.text).pop();
+      return p ? { text: p.text, when: `${p.period?.displayValue || ""} ${p.clock?.displayValue || ""}` } : null;
+    } catch { return null; }
+  }));
+  const next = games.filter((g) => g.state === "pre").sort((a, b) => a.start - b.start).slice(0, 4);
+  view.innerHTML = `<h1 class="page-title">Live</h1><p class="page-sub">${live.length ? `${live.length} game${live.length === 1 ? "" : "s"} in progress · tap one for play-by-play · updates every 20 seconds` : "Nothing in progress right now."}</p>
+    ${errors.map(([s, e]) => errBox(`${SPORTS[s].label} scores`, e)).join("")}
+    ${live.length ? `<div class="grid cols">${live.map((g, i) => `<div class="card live-game">${gameCard(g).replace(/^<a class="card game/, '<a class="game').replace(`href="#/game/${g.sport}/${g.id}"`, `href="#/game/${g.sport}/${g.id}/plays"`)}
+      ${last[i] ? `<a class="last-play" href="#/game/${g.sport}/${g.id}/plays"><span class="badge b-live">Latest</span><span class="sp">${esc(last[i].text)}<span class="muted small"> · ${esc(last[i].when.trim())}${last[i].drive ? ` · drive: ${esc(last[i].drive)}` : ""}</span></span></a>` : ""}
+      <a class="last-play more-pbp" href="#/game/${g.sport}/${g.id}/plays">Play-by-play ›</a></div>`).join("")}</div>`
+      : section("next", "Up next", next.length ? `<div class="grid cols">${next.map((g) => gameCard(g)).join("")}</div>` : empty("No games scheduled in the next few days."))}
+    <p class="muted small" style="text-align:center;margin-top:18px">Scores and plays: ESPN</p>`;
   return games;
 }
 
@@ -477,13 +509,14 @@ let lastGames = [];
 let rendering = false;
 async function render({ quiet = false } = {}) {
   const { name, args } = route();
-  const tab = { team: "teams", player: "teams", game: "scores", calendar: "scores", news: "home", alerts: "home", odds: "scores", ask: "home" }[name] || name;
+  const tab = { team: "teams", player: "teams", game: "scores", calendar: "scores", news: "home", alerts: "home", odds: "scores", ask: "home", live: "scores" }[name] || name;
   document.querySelectorAll(".tabs a").forEach((a) => (a.dataset.tab === tab ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
   renderChips();
   if (!quiet) { view.dataset.v = ""; window.scrollTo(0, 0); }
   rendering = true;
   try {
     if (name === "home") lastGames = (await viewHome()) || [];
+    else if (name === "live") lastGames = (await viewLive()) || [];
     else if (name === "scores") lastGames = (await viewScores()) || [];
     else if (name === "teams") await viewTeams();
     else if (name === "stats") await viewStats(args);
@@ -600,10 +633,10 @@ let lastTick = Date.now();
 setInterval(() => {
   if (document.hidden || rendering || !overlay.hidden) return;
   const { name } = route();
-  if (!["home", "scores", "game"].includes(name)) return;
+  if (!["home", "scores", "game", "live"].includes(name)) return;
   const live = lastGames.some((g) => g.state === "in");
   const startingSoon = lastGames.some((g) => g.state === "pre" && g.start - Date.now() < 5 * 60e3 && g.start - Date.now() > -30 * 60e3);
-  if (Date.now() - lastTick >= (live ? (name === "game" ? 20e3 : 30e3) : startingSoon ? 30e3 : 120e3)) { lastTick = Date.now(); render({ quiet: true }); }
+  if (Date.now() - lastTick >= (live ? (name === "game" || name === "live" ? 20e3 : 30e3) : startingSoon ? 30e3 : 120e3)) { lastTick = Date.now(); render({ quiet: true }); }
 }, 5e3);
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden && Date.now() - lastTick > 60e3) { lastTick = Date.now(); render({ quiet: true }); }

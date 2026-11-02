@@ -1,8 +1,8 @@
 // Calendar: day / week / month views, your teams' schedules, season phases and postseason rounds,
 // and reminders as calendar files (.ics) your phone's Calendar app can add, with an alert before tip-off.
-import { esc, fmtTime, fmtDay, dayLabel, isoDay, addDays, today, state, isFavTeam, favTeamIds, favPlayerTeamIds } from "./core.js?v=22";
-import { SPORTS, SPORT_KEYS, boardDay, schedule, seasonCalendar, modelFeed } from "./data.js?v=22";
-import { sportBadge, logo, section, empty, errBox, skel, gameCard, ICON } from "./ui.js?v=22";
+import { esc, fmtTime, fmtDay, dayLabel, isoDay, addDays, today, state, isFavTeam, favTeamIds, favPlayerTeamIds } from "./core.js?v=23";
+import { SPORTS, SPORT_KEYS, boardDay, schedule, seasonCalendar, modelFeed } from "./data.js?v=23";
+import { sportBadge, logo, section, empty, errBox, skel, gameCard, ICON } from "./ui.js?v=23";
 
 const ui = { mode: "month", date: null, sport: "all", team: "all" };
 

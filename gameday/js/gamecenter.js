@@ -1,9 +1,9 @@
 // Game Center: one game, five tabs. Actual data from ESPN's game summary; prediction from your model's file.
-import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=22";
-import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=22";
-import { gameProjections, projectionTable } from "./players.js?v=22";
-import { downloadIcs } from "./calendar.js?v=22";
-import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=22";
+import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=23";
+import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=23";
+import { gameProjections, projectionTable } from "./players.js?v=23";
+import { downloadIcs } from "./calendar.js?v=23";
+import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=23";
 
 const TABS = [["overview", "Overview"], ["box", "Box"], ["team", "Stats"], ["plays", "Plays"], ["matchup", "Matchup"]];
 const ui = { tab: "overview", boxSide: "away", period: "all", playsMode: "all", key: null };

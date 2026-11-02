@@ -1,6 +1,6 @@
 // GAME DAY service worker: fast repeat opens, and something to show when offline.
-const CACHE = "gameday-v22";
-const SHELL = ["./", "index.html", "app.css?v=22", "js/app.js?v=22", "js/core.js?v=22", "js/data.js?v=22", "js/ui.js?v=22", "js/gamecenter.js?v=22", "js/players.js?v=22", "js/teams.js?v=22", "js/stats.js?v=22", "js/news.js?v=22", "js/calendar.js?v=22", "js/alerts.js?v=22", "js/odds.js?v=22", "js/assistant.js?v=22",
+const CACHE = "gameday-v23";
+const SHELL = ["./", "index.html", "app.css?v=23", "js/app.js?v=23", "js/core.js?v=23", "js/data.js?v=23", "js/ui.js?v=23", "js/gamecenter.js?v=23", "js/players.js?v=23", "js/teams.js?v=23", "js/stats.js?v=23", "js/news.js?v=23", "js/calendar.js?v=23", "js/alerts.js?v=23", "js/odds.js?v=23", "js/assistant.js?v=23",
   "manifest.webmanifest", "data/teams.json"];
 
 self.addEventListener("install", (e) => {
