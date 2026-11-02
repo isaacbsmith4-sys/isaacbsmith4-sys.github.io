@@ -156,8 +156,8 @@ label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 130px}
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
 <div id="overlay"></div>
-<script src="../kit/kit.js?v=8"></script>
-<script src="../kit/apps.js?v=8"></script>
+<script src="../kit/kit.js?v=9"></script>
+<script src="../kit/apps.js?v=9"></script>
 <script>
 (() => {
 "use strict";
@@ -225,6 +225,16 @@ function viewToday() {
       ${t.plannedWeek ? bar(t.week / t.plannedWeek, APP.train.color) : ""}
       ${d && (d.prs || []).length ? `<div class="empty" style="color:var(--good)">New PR: ${esc(d.prs.map(p => p.n).join(", "))}</div>` : ""}</a>`);
   } else cards.push(emptyCard("train"));
+  // School
+  const sc = adapters.school;
+  if (sc.has()) {
+    const s = sc.today(k), n = s.due.length + s.late.length;
+    const nextTxt = s.next ? `${esc(s.next.type)}: ${esc(s.next.title)} ${s.next.date === k ? "today" : parseKey(s.next.date).toLocaleDateString([], {weekday: "short", month: "short", day: "numeric"})}` : "";
+    cards.push(`<a class="card" href="${APP.school.path}" style="--c:${APP.school.color}"><div class="tag"><i></i>School<span class="go">›</span></div>
+      <div class="big">${n}<small>to do today${s.late.length ? ` (${s.late.length} overdue)` : ""}</small></div>
+      <div class="sub" style="margin-top:6px">${s.due.concat(s.late).slice(0, 3).map(x => esc(x.title)).join(" · ") || "Nothing due today."}</div>
+      ${nextTxt ? `<div class="empty" style="color:var(--ink2)">Next: ${nextTxt}</div>` : ""}${s.study.length ? `<div class="sub">${plural(s.study.length, "study session")} planned today</div>` : ""}</a>`);
+  } else cards.push(emptyCard("school"));
   // Basketball
   const ba = adapters.basketball;
   if (ba.has()) {
@@ -420,7 +430,7 @@ function newGoalSheet() {
   const opt = (kind, title, sub) => `<button data-act="goalKind" data-k="${esc(kind)}">${esc(title)}<span>${esc(sub)}</span></button>`;
   sheet(`<div class="row" style="justify-content:space-between"><h3>New goal</h3><button class="btn sm" data-act="closeSheet">Close</button></div>
     <div class="eyebrow">Updates by itself</div>
-    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}${opt("habits.pct", "Habit consistency", "from Habits, 7-day average %")}${opt("focus.min", "Focus time per week", "from Focus, minutes")}${opt("recovery.readiness", "Average readiness", "from Recovery, 7-day average")}${opt("bb.three", "3-point %", "from Basketball, 7-day average")}${opt("bb.ft", "Free throw %", "from Basketball, 7-day average")}${opt("bb.shots", "Shots per week", "from Basketball")}${opt("bb.vert", "Vertical jump", "from Basketball tests")}${opt("bb.sprint34", "3/4-court sprint", "from Basketball tests")}${opt("recovery.rhr", "Resting heart rate", "from Recovery check-ins")}${opt("focus.school", "Study time per week", "from Focus, School sessions")}
+    <div class="pick">${opt("sleep.asleep", "Average sleep", "from Sleep, 7-day average")}${opt("fuel.protein", "Daily protein", "from Fuel, 7-day average")}${opt("fuel.cal", "Daily calories", "from Fuel, 7-day average")}${opt("fuel.weight", "Bodyweight", "from Fuel weigh-ins")}${opt("train.workouts", "Workouts per week", "from Train")}${opt("habits.pct", "Habit consistency", "from Habits, 7-day average %")}${opt("focus.min", "Focus time per week", "from Focus, minutes")}${opt("recovery.readiness", "Average readiness", "from Recovery, 7-day average")}${opt("bb.three", "3-point %", "from Basketball, 7-day average")}${opt("bb.ft", "Free throw %", "from Basketball, 7-day average")}${opt("bb.shots", "Shots per week", "from Basketball")}${opt("bb.vert", "Vertical jump", "from Basketball tests")}${opt("bb.sprint34", "3/4-court sprint", "from Basketball tests")}${opt("recovery.rhr", "Resting heart rate", "from Recovery check-ins")}${opt("focus.school", "Study time per week", "from Focus, School sessions")}${opt("school.done", "Assignments finished per week", "from School")}
       ${lifts.map(n => opt("train.lift:" + n, n + " max", "from Train, estimated 1-rep max")).join("")}</div>
     <div class="eyebrow">You update it</div>
     <div class="pick">${opt("", "Custom goal", "GPA, vertical, sprint time, savings, anything")}</div>`);
@@ -593,7 +603,7 @@ const A = {
   newGoal() { newGoalSheet(); },
   goalKind(el) {
     const m = el.dataset.k, info = m ? metricInfo(m) : null;
-    const cat = !m ? "Personal" : m.startsWith("bb.") ? "Basketball" : m.startsWith("recovery") ? "Physical" : m.startsWith("sleep") ? "Sleep" : m.startsWith("habits") ? "Habits" : m === "focus.school" ? "School" : m.startsWith("focus") ? "Productivity" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
+    const cat = !m ? "Personal" : m.startsWith("school") ? "School" : m.startsWith("bb.") ? "Basketball" : m.startsWith("recovery") ? "Physical" : m.startsWith("sleep") ? "Sleep" : m.startsWith("habits") ? "Habits" : m === "focus.school" ? "School" : m.startsWith("focus") ? "Productivity" : m.startsWith("fuel.weight") || m.startsWith("train") ? "Physical" : "Nutrition";
     const keep = !!info && info.agg !== "last";
     const fg = adapters.fuel.goals ? adapters.fuel.goals() : {};
     const target = m === "sleep.asleep" ? adapters.sleep.goalHours() : m === "fuel.protein" ? fg.p : m === "fuel.cal" ? fg.cal : m === "train.workouts" ? 4 : m === "habits.pct" ? 85 : m === "focus.min" ? (adapters.focus.goal ? adapters.focus.goal() * 7 : 840) : m === "focus.school" ? 300 : m === "bb.three" ? 38 : m === "bb.ft" ? 80 : m === "bb.shots" ? 1000 : "";

@@ -9,7 +9,7 @@ together into Today and a Calendar.
 | `kit/kit.js` | Sync layer every life app loads. Saves to the private repo `isaacbsmith4-sys/life-data` through the GitHub API, keeps a local copy so apps work offline, merges edits from different devices per record. Also the shared "Synced" pill and Connect sheet. |
 | `kit/apps.js` | The app list (names, colors, roadmap phase) and one adapter per built app that turns that app's files into Today numbers and calendar events. Only LIFE HQ loads it. |
 | `hq/` | LIFE HQ: Today, Calendar, Apps, Setup. |
-| `sleep/`, `fuel/`, `train/`, `habits/`, `focus/`, `recovery/`, `basketball/` | Apps. Each registers its files with `Life.col(...)` / `Life.doc(...)`, calls `replace`/`set` when it saves, and re-reads on `Life.onChange`. |
+| `sleep/`, `fuel/`, `train/`, `habits/`, `focus/`, `recovery/`, `basketball/`, `school/` | Apps. Each registers its files with `Life.col(...)` / `Life.doc(...)`, calls `replace`/`set` when it saves, and re-reads on `Life.onChange`. |
 | `kit/dev/mock_github.py` | Local stand-in for the GitHub contents API, for testing sync (`life-mock` in nba-model's `.claude/launch.json`; set `localStorage['life:api']='http://localhost:8942'`, only honored on localhost, token `test-token`). |
 
 **Data never lands in this public repo.** It goes only to life-data. See `life-data/FORMAT.md`

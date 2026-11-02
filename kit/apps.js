@@ -26,7 +26,7 @@
     {id: "fuel", name: "Fuel", color: "#ff6a3d", path: "../fuel/", built: true, blurb: "Food, macros, water, weight"},
     {id: "train", name: "Train", color: "#3fd3ff", path: "../train/", built: true, blurb: "Lifting, progressive overload, PRs"},
     {id: "habits", name: "Habits", color: "#ff7eb6", path: "../habits/", built: true, blurb: "Routines, streaks, non-negotiables"},
-    {id: "school", name: "School", color: "#f2c14e", phase: 3, blurb: "Assignments, grades, study tools"},
+    {id: "school", name: "School", color: "#f2c14e", path: "../school/", built: true, blurb: "Assignments, grades, study tools"},
     {id: "focus", name: "Focus", color: "#6aa8ff", path: "../focus/", built: true, blurb: "Focus timer and study hours"},
     {id: "mindset", name: "Mindset", color: "#d29bff", phase: 3, blurb: "Journal, reflections, weekly review"},
     {id: "recovery", name: "Recovery", color: "#46d1c4", path: "../recovery/", built: true, blurb: "Readiness, soreness, training load"},
@@ -306,6 +306,39 @@
     };
   })();
 
+  /* ---------- School ---------- */
+  const school = (() => {
+    const items = Life.col("school/items", {months: 6, ahead: 6}), plan = Life.col("school/plan", {months: 2, ahead: 3}), settings = Life.doc("school/settings");
+    const BIG = new Set(["Test", "Exam", "Project", "Essay"]);
+    const cls = id => (((settings.get() || {}).classes || []).find(c => c.id === id) || {name: ""}).name;
+    const at = (d, t) => { if (!t) return null; const x = parseKey(d), [h, m] = t.split(":").map(Number); x.setHours(h, m); return x; };
+    const all = () => Object.values(items.all());
+    return {
+      has: () => ((settings.get() || {}).classes || []).length > 0,
+      today(k) {
+        const open = all().filter(x => !x.done), due = open.filter(x => x.date === k), late = open.filter(x => x.date < k);
+        const next = open.filter(x => BIG.has(x.type) && x.date >= k).sort((a, b) => a.date.localeCompare(b.date))[0];
+        const study = Object.values(plan.all()).filter(p => p.date === k && !p.done);
+        return {due, late, next: next ? {title: next.title, type: next.type, date: next.date, cls: cls(next.cls)} : null, study};
+      },
+      events(from, to) {
+        const out = [], today = ymd(new Date());
+        for (const x of all()) if (x.date >= from && x.date <= to) {
+          const lateTxt = !x.done && x.date < today ? " · late" : "";
+          out.push({date: x.date, time: at(x.date, x.time), app: "school", planned: !x.done, title: (BIG.has(x.type) ? x.type + ": " : "Due: ") + x.title, detail: cls(x.cls) + (x.score != null ? ` · ${x.score}/${x.outOf}` : x.done ? " · done" : lateTxt)});
+        }
+        for (const p of Object.values(plan.all())) if (p.date >= from && p.date <= to) out.push({date: p.date, app: "school", planned: !p.done, title: "Study: " + p.title, detail: `${p.min} min · ${cls(p.cls)}`});
+        return out;
+      },
+      series(from, to) {
+        const by = {};
+        for (const x of all()) if (x.done && x.doneAt) { const d = ymd(new Date(x.doneAt)); if (d >= from && d <= to) by[d] = (by[d] || 0) + 1; }
+        return {"school.done": Object.entries(by).sort().map(([date, v]) => ({date, v}))};
+      },
+      load: months => Promise.all([items.load(months), plan.load(months)]),
+    };
+  })();
+
   // agg: how a stretch of days adds up (avg of logged days, sum, or the latest value); better: 1 up, -1 down, 0 depends
   const METRICS = {
     "sleep.asleep": {app: "sleep", label: "Sleep", unit: "h", agg: "avg", better: 1, dp: 1},
@@ -329,12 +362,13 @@
     "bb.ft": {app: "basketball", label: "Free throw %", unit: "%", agg: "avg", better: 1, dp: 0},
     "bb.vert": {app: "basketball", label: "Vertical jump", unit: "in", agg: "last", better: 1, dp: 1},
     "bb.sprint34": {app: "basketball", label: "3/4-court sprint", unit: "sec", agg: "last", better: -1, dp: 2},
+    "school.done": {app: "school", label: "Assignments finished", unit: "per week", agg: "sum", better: 1, dp: 0},
     "focus.min": {app: "focus", label: "Focus time", unit: "min", agg: "sum", better: 1, dp: 0},
     "focus.school": {app: "focus", label: "Study time", unit: "min", agg: "sum", better: 1, dp: 0},
   };
   const metricInfo = id => METRICS[id] || (id.startsWith("train.lift:") ? {app: "train", label: id.slice(11) + " est. max", unit: "lb", agg: "last", better: 1, dp: 0} : null);
 
-  const adapters = {sleep, fuel, train, habits, focus, recovery, basketball};
+  const adapters = {sleep, fuel, train, habits, focus, recovery, basketball, school};
   /** daily points for one metric id between two dates (inclusive) */
   function metric(id, from, to) { const a = adapters[(metricInfo(id) || {}).app]; return a && a.series ? (a.series(from, to)[id] || []) : []; }
   window.LifeApps = {APPS, adapters, METRICS, metricInfo, metric, util: {ymd, parseKey, addDays, dur, time}};

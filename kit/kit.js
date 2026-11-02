@@ -49,7 +49,7 @@
   function col(name, opts = {}) {
     if (cols.has(name)) return cols.get(name);
     const c = {
-      name, months: opts.months || 3,
+      name, months: opts.months || 3, ahead: opts.ahead || 0, // ahead: also pull this many future months (due dates, plans)
       /** every live record in the months this device has, keyed by id (meta fields removed) */
       all() {
         const out = {};
@@ -181,7 +181,8 @@
     return changed;
   }
   async function pullCol(name, months) {
-    const want = new Set(months || monthsBack(cols.get(name)?.months || 3));
+    const c = cols.get(name) || {}, want = new Set(months || monthsBack(c.months || 3));
+    if (!months) for (let i = 1, d = new Date(); i <= (c.ahead || 0); i++) { d.setDate(1); d.setMonth(d.getMonth() + 1); want.add(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")); }
     const list = await listDir(name);
     let changed = false;
     for (const it of list) {
