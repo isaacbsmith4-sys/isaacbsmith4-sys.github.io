@@ -2,16 +2,18 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=3";
+} from "./core.js?v=4";
+const fmtStat1 = (x) => (x == null ? "–" : Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1));
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
   modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=3";
-import { viewGame } from "./gamecenter.js?v=3";
+} from "./data.js?v=4";
+import { viewGame } from "./gamecenter.js?v=4";
+import { viewPlayer, quickProjection } from "./players.js?v=4";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
   updated, newsItem, statusText, shortBook, modelBlock,
-} from "./ui.js?v=3";
+} from "./ui.js?v=4";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
@@ -102,6 +104,25 @@ async function viewHome() {
   } else {
     S.my = section("my", '<span style="color:var(--fav)">★</span> My Sports',
       empty(`Follow teams and players to see them here first.<br><br><button class="btn primary" data-action="search">Find teams and players</button>`));
+  }
+
+  // My players: each followed player's next game and your model's projection for it
+  const myPlayers = state.players.filter((p) => state.sports[p.sport] && sports.includes(p.sport));
+  if (myPlayers.length) {
+    const cards = await Promise.all(myPlayers.map(async (p) => {
+      let g = games.find((x) => x.sport === p.sport && x.state !== "post" && (x.home.id === p.teamId || x.away.id === p.teamId));
+      // not in the loaded slate (e.g. football next week): use the team's schedule
+      if (!g && p.teamId) try { g = (await schedule(p.sport, p.teamId)).games.find((x) => x.state !== "post"); } catch {}
+      if (!g) return `<a class="li" href="#/player/${p.sport}/${p.id}">${headshot(p.headshot)}<div class="sp"><div class="t ellip">${esc(p.name)}</div><div class="s">${sportBadge(p.sport)} No upcoming game on the schedule</div></div></a>`;
+      const opp = g.home.id === p.teamId ? g.away : g.home;
+      let q = null;
+      try { q = await quickProjection(p.sport, p, g); } catch {}
+      const items = q?.items?.length ? q.items.map((x) => `<span class="pp"><small>${esc(x.label)}</small><b>${fmtStat1(x.proj)}</b>${x.line != null ? `<i>${fmt1(x.line)}</i>` : ""}</span>`).join("")
+        : `<span class="muted small">${q?.why === "college" ? "No player model for this sport" : q?.why === "nba-noline" ? "No projection until prop lines post" : "No projection yet"}</span>`;
+      return `<a class="li" href="#/player/${p.sport}/${p.id}" style="flex-wrap:wrap">${headshot(p.headshot)}<div class="sp"><div class="t ellip">${esc(p.name)}</div>
+        <div class="s">${sportBadge(p.sport)} ${g.home.id === p.teamId ? "vs" : "@"} ${esc(opp.abbr)} · ${esc(statusText(g))}</div></div><div class="pps">${items}</div></a>`;
+    }));
+    S.players = section("players", "My players", `<div class="card list">${cards.join("")}</div><p class="muted small" style="margin:8px 2px 0">${modelBadge("your model")} projection, ${marketBadge("DraftKings")} line in small type</p>`);
   }
 
   const live = games.filter((g) => g.state === "in").sort((a, b) => favGame(b) - favGame(a));
@@ -297,42 +318,6 @@ async function viewTeam(sport, id) {
     `<p class="muted small" style="text-align:center;margin-top:18px">Full team stats, rankings and roster are coming next.</p>`;
 }
 
-// ================================================================= PLAYER PAGE
-async function viewPlayer(sport, id) {
-  view.dataset.v = "player";
-  view.innerHTML = `<a class="back" href="#" data-action="back">${ICON.back} Back</a>` + skel(2);
-  let a;
-  try { a = await athlete(sport, id); } catch (e) { view.innerHTML = errBox("player", e); return; }
-  const t = a.team || {};
-  const tm = t.id ? await getTeam(sport, t.id) : null;
-  const fav = isFavPlayer(sport, id);
-  const pinfo = { sport, id, name: a.displayName, teamId: t.id, team: t.displayName, pos: a.position?.abbreviation, headshot: a.headshot?.href };
-  // keep saved favorite's team current (trades, transfers)
-  const saved = state.players.find((p) => p.sport === sport && p.id === String(id));
-  if (saved && t.id && saved.teamId !== String(t.id)) { Object.assign(saved, { teamId: String(t.id), team: t.displayName }); save(); }
-  const facts = [a.displayHeight, a.displayWeight, a.age ? `Age ${a.age}` : null, a.displayExperience, a.college?.name ? a.college.name : null].filter(Boolean);
-  const stats = a.statsSummary?.statistics || [];
-  let nextHtml = "";
-  if (t.id) {
-    try {
-      const sch = await schedule(sport, t.id);
-      const ng = sch.games.find((g) => g.state !== "post");
-      if (ng) { nextHtml = section("next", "Next game", gameCard(ng)); }
-    } catch {}
-  }
-  view.innerHTML = `<a class="back" href="#" data-action="back">${ICON.back} Back</a>
-    <div class="hero" style="--tc:${esc(tm?.color || "#444")}"><div class="row" style="gap:14px">${headshot(a.headshot?.href, "headshot headshot-lg")}
-      <div class="sp"><div class="row" style="gap:6px;margin-bottom:6px">${sportBadge(sport)}${a.status?.type && a.status.type !== "active" ? `<span class="badge b-plain">${esc(a.status.name)}</span>` : ""}</div>
-      <h1>${esc(a.displayName)}</h1>
-      <div class="sub">${[a.displayJersey, a.position?.displayName].filter(Boolean).map(esc).join(" · ")}${t.id ? ` · <a href="#/team/${sport}/${t.id}" style="color:var(--text)"><b>${esc(t.displayName)}</b></a>` : ""}</div>
-      <div class="sub small muted">${facts.map(esc).join(" · ")}</div></div></div>
-      <div style="margin-top:14px"><button class="btn ${fav ? "on" : ""}" data-action="favplayer" data-p='${esc(JSON.stringify(pinfo))}'>${ICON.star} ${fav ? "Following" : "Follow"}</button></div></div>
-    ${stats.length ? section("season", esc(a.statsSummary.displayName || "Season stats"), `<div class="stats-grid">${stats.map((s) =>
-      `<div class="stat-box"><div class="n">${esc(s.displayValue)}</div><div class="l">${esc(s.shortDisplayName || s.abbreviation)}</div>${s.rankDisplayValue ? `<div class="r">${esc(s.rankDisplayValue)}</div>` : ""}</div>`).join("")}</div>`, "Actual · ESPN") : ""}
-    ${nextHtml}
-    <p class="muted small" style="text-align:center;margin-top:18px">Coming next: game logs, last 5/10/20 averages and your model's projections.</p>`;
-}
-
 // ================================================================= STATS (standings for now)
 async function viewStats() {
   const sports = enabled();
@@ -488,7 +473,7 @@ async function render({ quiet = false } = {}) {
     else if (name === "stats") await viewStats();
     else if (name === "profile") await viewProfile();
     else if (name === "team") await viewTeam(args[0], args[1]);
-    else if (name === "player") await viewPlayer(args[0], args[1]);
+    else if (name === "player") await viewPlayer(view, args[0], args[1]);
     else if (name === "game") lastGames = (await viewGame(view, args[0], args[1], { quiet })) || [];
     else location.replace("#/home");
   } catch (e) {
@@ -550,6 +535,14 @@ document.addEventListener("click", (e) => {
       if (!enabled().length) { state.sports[ds.sport] = true; toast("Keep at least one sport on"); }
       if (!state.sports[state.filter]) state.filter = "all";
       save(); rerender(); break;
+    }
+    case "findplayer": {
+      e.preventDefault();
+      searchPlayers(ds.q).then((r) => {
+        const hit = r.find((p) => p.sport === (ds.sport || "nfl"));
+        if (hit) location.hash = `#/player/${hit.sport}/${hit.id}`; else toast(`Couldn't find ${ds.q} on ESPN`);
+      }).catch(() => toast("Player search failed"));
+      break;
     }
     case "refresh": forget(); toast("Refreshing…"); rerender(); break;
     case "reset": if (confirm("Reset GAME DAY? This removes your followed teams, players and settings on this device.")) resetAll(); break;

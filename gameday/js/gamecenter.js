@@ -1,7 +1,8 @@
 // Game Center: one game, five tabs. Actual data from ESPN's game summary; prediction from your model's file.
-import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=3";
-import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=3";
-import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=3";
+import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=4";
+import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=4";
+import { gameProjections, projectionTable } from "./players.js?v=4";
+import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=4";
 
 const TABS = [["overview", "Overview"], ["box", "Box"], ["team", "Stats"], ["plays", "Plays"], ["matchup", "Matchup"]];
 const ui = { tab: "overview", boxSide: "away", period: "all", playsMode: "all", key: null };
@@ -22,7 +23,7 @@ export async function viewGame(view, sport, id, { quiet = false } = {}) {
   const draw = async () => {
     view.querySelectorAll('[data-gc="tab"]').forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === ui.tab));
     try {
-      if (ui.tab === "overview") body.innerHTML = overview(g, d, sport);
+      if (ui.tab === "overview") body.innerHTML = await overview(g, d, sport);
       if (ui.tab === "box") body.innerHTML = box(g, d, sport);
       if (ui.tab === "team") body.innerHTML = teamStats(g, d);
       if (ui.tab === "plays") body.innerHTML = plays(g, d, sport);
@@ -73,7 +74,7 @@ function header(g) {
 }
 
 // ---------------------------------------------------------------- overview
-function overview(g, d, sport) {
+async function overview(g, d, sport) {
   const out = [];
   // your model (prediction) and the sportsbook (market), kept apart
   out.push(section("model", "Your model", g.model ? modelBlock(g)
@@ -88,6 +89,11 @@ function overview(g, d, sport) {
         <div class="stat-box"><div class="n" style="color:var(--market)">${ml(pc.awayTeamOdds)}</div><div class="l">${esc(g.away.abbr)} ML</div></div>
         <div class="stat-box"><div class="n" style="color:var(--market)">${ml(pc.homeTeamOdds)}</div><div class="l">${esc(g.home.abbr)} ML</div></div>
       </div>${g.state !== "pre" ? `<p class="muted small" style="margin:10px 0 0">ESPN may still show the pre-game line once a game starts; this isn't a live in-game price.</p>` : ""}</div>`));
+  }
+  // your model's player projections (NBA props board, NFL player file)
+  if (g.state !== "post" && (sport === "nba" || sport === "nfl")) {
+    try { out.push(projectionTable(sport, await gameProjections(sport, g))); }
+    catch (e) { out.push(section("pp", "Player projections", errBox("the model's player file", e))); }
   }
   // ESPN's win probability (theirs, not your model)
   const wp = d.winprobability || [];

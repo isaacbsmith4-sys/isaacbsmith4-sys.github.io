@@ -304,3 +304,25 @@ main { min-width: 0; max-width: 1100px; margin: 0 auto; padding: 14px 16px 24px;
 .fpill.w { background: rgba(51, 209, 122, .14); color: var(--win); }
 .fpill.l { background: rgba(255, 90, 106, .12); color: var(--loss); }
 .fpill span { color: var(--text2); }
+
+/* ---------- player pages */
+.perf-t th, .perf-t td { padding: 9px 5px; }
+.perf-t { font-size: 13px; }
+.perf-t .pcol { position: sticky; left: 0; background: var(--card); text-align: left; min-width: 54px; font-weight: 700; font-size: 11.5px; letter-spacing: .3px; }
+.perf-t th.mcol { color: var(--model); }
+.perf-t th.kcol { color: var(--market); }
+.perf-t td.mcol { color: var(--model); background: var(--model-bg); }
+.perf-t td.kcol { color: var(--market); }
+.perf-t td.up { color: var(--win); }
+.perf-t td.down { color: var(--loss); }
+.win-t { color: var(--win); font-weight: 800; }
+.loss-t { color: var(--loss); font-weight: 800; }
+.lg { display: inline-block; width: 16px; height: 0; border-top: 2px dashed; vertical-align: middle; margin-right: 4px; }
+.lg.solid { border-top-style: solid; }
+.lg.sq { width: 10px; height: 10px; border: 0; border-radius: 2px; }
+.pps { display: flex; gap: 6px; margin-left: auto; }
+.pp { display: flex; flex-direction: column; align-items: center; min-width: 52px; padding: 5px 6px; border-radius: 10px; background: var(--model-bg); line-height: 1.15; }
+.pp small { font-size: 9.5px; font-weight: 800; letter-spacing: .4px; color: var(--muted); }
+.pp b { color: var(--model); font-size: 15px; }
+.pp i { font-style: normal; font-size: 10.5px; color: var(--market); }
+@media (max-width: 380px) { .perf-t .l10 { display: none; } }

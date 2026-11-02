@@ -1,6 +1,6 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "gameday-v3";
-const SHELL = ["./", "index.html", "app.css?v=3", "js/app.js?v=3", "js/core.js?v=3", "js/data.js?v=3", "js/ui.js?v=3", "js/gamecenter.js?v=3",
+const CACHE = "gameday-v4";
+const SHELL = ["./", "index.html", "app.css?v=4", "js/app.js?v=4", "js/core.js?v=4", "js/data.js?v=4", "js/ui.js?v=4", "js/gamecenter.js?v=4", "js/players.js?v=4",
   "manifest.webmanifest", "data/teams.json"];
 
 self.addEventListener("install", (e) => {

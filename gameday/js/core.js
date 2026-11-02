@@ -5,6 +5,7 @@ const KEY = "gameday:v1";
 
 export const SECTIONS = [
   { key: "my", label: "My Sports", hint: "Games for the teams and players you follow" },
+  { key: "players", label: "My players", hint: "Next game and your model's projection for players you follow" },
   { key: "live", label: "Live now", hint: "Games in progress" },
   { key: "featured", label: "Biggest games", hint: "Ranked matchups, national TV, close model calls" },
   { key: "models", label: "Model predictions", hint: "Your models' lines next to DraftKings" },
@@ -29,7 +30,12 @@ function load() {
     out.sports = { ...DEFAULTS.sports, ...(s.sports || {}) };
     // keep any sections added in later versions
     const have = new Set(out.sections.map((x) => x.key));
-    for (const d of DEFAULTS.sections) if (!have.has(d.key)) out.sections.push({ ...d });
+    DEFAULTS.sections.forEach((d, i) => {
+      if (have.has(d.key)) return;
+      const prev = DEFAULTS.sections[i - 1]?.key;
+      const at = out.sections.findIndex((x) => x.key === prev);
+      out.sections.splice(at + 1, 0, { ...d });
+    });
     out.sections = out.sections.filter((x) => SECTIONS.some((s) => s.key === x.key));
     return out;
   } catch {
