@@ -1,7 +1,7 @@
 // News hub: headlines (league + your teams), the injury report, transactions. All from ESPN, with source and time.
-import { esc, ago, fmtDay, state, isFavTeam, isFavPlayer, favTeamIds } from "./core.js?v=11";
-import { SPORTS, SPORT_KEYS, leagueNews, teamNews, leagueInjuries, transactions, HAS_INJURY_REPORT } from "./data.js?v=11";
-import { sportBadge, logo, headshot, section, empty, errBox, skel } from "./ui.js?v=11";
+import { esc, ago, fmtDay, state, isFavTeam, isFavPlayer, favTeamIds } from "./core.js?v=15";
+import { SPORTS, SPORT_KEYS, leagueNews, teamNews, leagueInjuries, transactions, HAS_INJURY_REPORT } from "./data.js?v=15";
+import { sportBadge, logo, headshot, section, empty, errBox, skel } from "./ui.js?v=15";
 
 const TABS = [["headlines", "Headlines"], ["injuries", "Injuries"], ["moves", "Transactions"]];
 const ui = { sport: "all", mine: false, status: "all", type: "all" };

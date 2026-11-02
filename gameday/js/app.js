@@ -2,23 +2,25 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=11";
+} from "./core.js?v=15";
 const fmtStat1 = (x) => (x == null ? "–" : Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1));
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
   modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=11";
-import { viewGame } from "./gamecenter.js?v=11";
-import { viewPlayer, quickProjection } from "./players.js?v=11";
-import { viewTeam } from "./teams.js?v=11";
-import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=11";
-import { viewNews } from "./news.js?v=11";
-import { viewCalendar, downloadIcs } from "./calendar.js?v=11";
-import { viewAlerts, computeAlerts, setBadge, notifyNew, enablePush, KINDS } from "./alerts.js?v=11";
+} from "./data.js?v=15";
+import { viewGame } from "./gamecenter.js?v=15";
+import { viewPlayer, quickProjection } from "./players.js?v=15";
+import { viewTeam } from "./teams.js?v=15";
+import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=15";
+import { viewNews } from "./news.js?v=15";
+import { viewCalendar, downloadIcs } from "./calendar.js?v=15";
+import { viewAlerts, computeAlerts, setBadge, notifyNew, enablePush, KINDS } from "./alerts.js?v=15";
+import { viewOdds } from "./odds.js?v=15";
+import { viewAssistant } from "./assistant.js?v=15";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
   updated, newsItem, statusText, shortBook, modelBlock,
-} from "./ui.js?v=11";
+} from "./ui.js?v=15";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
@@ -169,7 +171,7 @@ async function viewHome() {
         <div class="v k"><small>${esc(shortBook(mk?.book))}</small>${mk?.spread_home != null ? spreadText(mk.spread_home, g) : "–"}</div>
         ${d != null && Math.abs(d) >= 0.5 ? `<div class="diff">Model is <b>${fmt1(Math.abs(d))} pts</b> more on ${esc(d < 0 ? g.home.abbr : g.away.abbr)} than the line${m.home_win_prob != null ? ` · ${esc(m.home_win_prob >= .5 ? g.home.abbr : g.away.abbr)} win ${pct(Math.max(m.home_win_prob, 1 - m.home_win_prob))}` : ""}</div>` : ""}
       </a>`).join("")}</div>` : empty("No upcoming games with a model line right now."),
-    esc(feedMeta));
+    `${esc(feedMeta)} · <a class="sec-more" href="#/odds">Odds center</a>`);
 
   const todayList = todays.slice().sort((a, b) => favGame(b) - favGame(a) || (b.state === "in") - (a.state === "in") || a.start - b.start);
   const nextDay = !todayList.length ? upcoming.filter((g) => g.day > tKey) : [];
@@ -223,7 +225,7 @@ async function viewScores() {
   const sports = active();
   const days = [-3, -2, -1, 0, 1, 2, 3].map((n) => ui.scoresDay + n);
   const head = `<div class="row" style="justify-content:space-between"><h1 class="page-title">Scores</h1>
-      <span class="row" style="gap:6px"><a class="btn" href="#/calendar">Calendar</a><label class="btn" style="position:relative">${ICON.cal} ${esc(fmtDay(d))}<input type="date" data-action="sdate" value="${isoDay(d)}" aria-label="Pick a date" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label></span></div>
+      <span class="row" style="gap:6px"><a class="btn" href="#/calendar">Calendar</a><a class="btn" href="#/odds">Odds</a><label class="btn" style="position:relative">${ICON.cal} ${esc(fmtDay(d))}<input type="date" data-action="sdate" value="${isoDay(d)}" aria-label="Pick a date" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label></span></div>
     <div class="seg" style="margin-bottom:14px">${days.map((n) => `<button data-action="day" data-n="${n}" aria-pressed="${n === ui.scoresDay}">${n === 0 ? "Today" : fmtDay(addDays(today(), n)).replace(/^\w+, /, "")}</button>`).join("")}</div>`;
   if (view.dataset.v !== "scores") view.innerHTML = head + skel(4);
   view.dataset.v = "scores";
@@ -451,7 +453,7 @@ let lastGames = [];
 let rendering = false;
 async function render({ quiet = false } = {}) {
   const { name, args } = route();
-  const tab = { team: "teams", player: "teams", game: "scores", calendar: "scores", news: "home", alerts: "home" }[name] || name;
+  const tab = { team: "teams", player: "teams", game: "scores", calendar: "scores", news: "home", alerts: "home", odds: "scores", ask: "home" }[name] || name;
   document.querySelectorAll(".tabs a").forEach((a) => (a.dataset.tab === tab ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
   renderChips();
   if (!quiet) { view.dataset.v = ""; window.scrollTo(0, 0); }
@@ -464,6 +466,8 @@ async function render({ quiet = false } = {}) {
     else if (name === "news") await viewNews(view, args[0]);
     else if (name === "calendar") await viewCalendar(view, args);
     else if (name === "alerts") await viewAlerts(view);
+    else if (name === "odds") await viewOdds(view, args[0]);
+    else if (name === "ask") viewAssistant(view);
     else if (name === "profile") await viewProfile();
     else if (name === "team") await viewTeam(view, args[0], args[1]);
     else if (name === "player") await viewPlayer(view, args[0], args[1]);

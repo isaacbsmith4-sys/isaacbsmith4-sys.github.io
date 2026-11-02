@@ -16,6 +16,8 @@ Static app, no build step, no server. Favorites and settings live on the device 
 | `js/news.js` | News (`#/news/headlines|injuries|moves`): league + followed-team headlines, NBA/NFL injury reports (ESPN keeps none for college), transactions |
 | `js/calendar.js` | Calendar (`#/calendar/day|week|month`): game dots per sport, your teams' games, season phases and postseason rounds, `.ics` reminders |
 | `js/alerts.js` | Notification center (`#/alerts`, bell badge): soon/live/final for your teams, big games by your players, injury-report changes, tagged news, model-vs-line gaps; optional pop-up alerts while the app is open |
+| `js/odds.js` | Odds Center (`#/odds/lines|plays|records`): DraftKings open → latest via ESPN, no-vig %, your models' numbers and gaps, your models' open plays and graded records (from each `plays.json`), NFL ATS computed from nflverse scores + the NFL model's lines |
+| `js/assistant.js` | Ask GAME DAY (`#/ask`): built-in assistant, no AI key; answers set question types from app data with sources |
 | `data/teams.json` | Team list, built by `tools/build_teams.py` (ESPN's teams endpoint blocks browsers). Rerun each season. |
 
 ## Sources (kept separate in the UI)

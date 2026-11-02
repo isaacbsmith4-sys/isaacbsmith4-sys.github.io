@@ -402,3 +402,39 @@ main { min-width: 0; max-width: 1100px; margin: 0 auto; padding: 14px 16px 24px;
 details.inj > summary { list-style: none; cursor: pointer; border-top: 1px solid var(--line); }
 details.inj > summary::-webkit-details-marker { display: none; }
 details.inj[open] > summary { background: var(--card2); }
+
+/* ---------- odds center */
+.odds { padding: 12px 14px; }
+.odds .game-top { margin-bottom: 4px; }
+.otbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.otbl th { font-size: 10.5px; color: var(--muted); font-weight: 800; letter-spacing: .4px; text-align: right; padding: 4px 4px; }
+.otbl th.mh { color: var(--model); }
+.otbl td { text-align: right; padding: 6px 4px; border-top: 1px solid var(--line); white-space: nowrap; }
+.otbl td:first-child, .otbl th:first-child { text-align: left; }
+.otbl td.mc { color: var(--model); background: var(--model-bg); }
+.otbl .tm { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+.mvd { color: var(--muted); font-size: 11px; }
+.odds-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 12px; color: var(--text2); }
+.badge.tier { min-width: 58px; justify-content: center; background: var(--card2); border: 1px solid var(--line2); color: var(--text2); }
+.badge.t-3U, .badge.t-2U { background: var(--accent); color: #fff; border-color: var(--accent); }
+.badge.t-1U { background: rgba(255, 91, 31, .18); color: var(--accent2); border-color: rgba(255, 91, 31, .4); }
+.perf-t td.up, .tbl td .up { color: var(--win); }
+.perf-t td.down, .tbl td .down { color: var(--loss); }
+
+/* ---------- assistant */
+.ask-form { display: flex; gap: 8px; margin-bottom: 10px; }
+.ask-form .btn { height: 44px; }
+.ask-item { margin-top: 18px; animation: rise .3s ease both; }
+.ask-q { display: inline-block; background: var(--card2); border: 1px solid var(--line2); border-radius: 16px 16px 4px 16px; padding: 9px 13px; font-weight: 600; margin-bottom: 10px; max-width: 100%; }
+.ask-a { border-left: 2px solid var(--accent); padding-left: 12px; }
+.ask-a p { margin: 0 0 8px; line-height: 1.5; }
+.ask-h { font-size: 14px; margin: 12px 0 8px; display: flex; gap: 6px; align-items: center; }
+.ask-src { font-size: 11.5px; color: var(--muted); margin-top: 8px !important; }
+.odds { overflow: hidden; }
+@media (max-width: 440px) {
+  .otbl { font-size: 12.5px; }
+  .otbl td, .otbl th { padding: 6px 3px; }
+  .otbl .mvd { display: block; font-size: 10.5px; line-height: 1.1; }
+  .otbl .opx { display: none; }
+  .otbl .logo-sm { width: 18px; height: 18px; }
+}

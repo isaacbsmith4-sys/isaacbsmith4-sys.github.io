@@ -3,7 +3,7 @@
 //   Your model feeds  -> predictions, read from what each model already publishes on this site
 // To add a sport: add an entry to SPORTS with its ESPN path and a model adapter.
 
-import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=11";
+import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=15";
 
 const SITE = "https://site.api.espn.com/apis/site/v2/sports";
 const WEB = "https://site.web.api.espn.com/apis";
@@ -54,6 +54,20 @@ function normTeam(c, sport) {
   };
 }
 
+// ESPN's DraftKings odds: opening and latest ("close" in ESPN's feed) spread, moneyline and total, with prices
+const oddsNum = (x) => { const v = parseFloat(String(x ?? "").replace(/^[ou]/, "")); return Number.isFinite(v) ? v : null; };
+function parseOdds(o) {
+  const ph = (x) => ({ open: x?.open, cur: x?.close || x?.current });
+  const sp = (side) => { const p = ph(o.pointSpread?.[side]); return { open: oddsNum(p.open?.line), cur: oddsNum(p.cur?.line), openPrice: oddsNum(p.open?.odds), price: oddsNum(p.cur?.odds) }; };
+  const ml = (side) => { const p = ph(o.moneyline?.[side]); return { open: oddsNum(p.open?.odds), cur: oddsNum(p.cur?.odds) }; };
+  const tot = (side) => { const p = ph(o.total?.[side]); return { open: oddsNum(p.open?.line), cur: oddsNum(p.cur?.line), price: oddsNum(p.cur?.odds) }; };
+  return {
+    book: o.provider?.displayName || o.provider?.name, details: o.details, total: o.overUnder, spread: oddsNum(o.spread),
+    spreadHome: sp("home"), spreadAway: sp("away"), mlHome: ml("home"), mlAway: ml("away"), over: tot("over"), under: tot("under"),
+    link: o.link?.href || null,
+  };
+}
+
 export function normEvent(e, sport) {
   const c = e.competitions[0];
   const st = c.status || e.status;
@@ -73,7 +87,7 @@ export function normEvent(e, sport) {
     tv: national.length ? national : bc.flatMap((b) => b.names).slice(0, 2),
     note: c.notes?.[0]?.headline || null,
     home: normTeam(home, sport), away: normTeam(away, sport),
-    espnOdds: odds ? { book: odds.provider?.name, details: odds.details, total: odds.overUnder } : null,
+    espnOdds: odds ? parseOdds(odds) : null,
     model: null,
   };
 }

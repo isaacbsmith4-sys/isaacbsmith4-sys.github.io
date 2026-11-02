@@ -1,6 +1,6 @@
 // Shared UI pieces. All return HTML strings; clicks are handled by data-action in app.js.
-import { esc, fmtTime, dayLabel, ago, isFavTeam, isFavPlayer, state } from "./core.js?v=11";
-import { SPORTS, spreadText, fmt1, pct } from "./data.js?v=11";
+import { esc, fmtTime, dayLabel, ago, isFavTeam, isFavPlayer, state } from "./core.js?v=15";
+import { SPORTS, spreadText, fmt1, pct } from "./data.js?v=15";
 
 export const ICON = {
   star: '<svg viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>',

@@ -1,9 +1,9 @@
 // Game Center: one game, five tabs. Actual data from ESPN's game summary; prediction from your model's file.
-import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=11";
-import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=11";
-import { gameProjections, projectionTable } from "./players.js?v=11";
-import { downloadIcs } from "./calendar.js?v=11";
-import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=11";
+import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=15";
+import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=15";
+import { gameProjections, projectionTable } from "./players.js?v=15";
+import { downloadIcs } from "./calendar.js?v=15";
+import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=15";
 
 const TABS = [["overview", "Overview"], ["box", "Box"], ["team", "Stats"], ["plays", "Plays"], ["matchup", "Matchup"]];
 const ui = { tab: "overview", boxSide: "away", period: "all", playsMode: "all", key: null };
@@ -91,7 +91,7 @@ async function overview(g, d, sport) {
         ${pc.overUnder != null ? `<div class="stat-box"><div class="n" style="color:var(--market)">${fmt1(pc.overUnder)}</div><div class="l">Total</div></div>` : ""}
         <div class="stat-box"><div class="n" style="color:var(--market)">${ml(pc.awayTeamOdds)}</div><div class="l">${esc(g.away.abbr)} ML</div></div>
         <div class="stat-box"><div class="n" style="color:var(--market)">${ml(pc.homeTeamOdds)}</div><div class="l">${esc(g.home.abbr)} ML</div></div>
-      </div>${g.state !== "pre" ? `<p class="muted small" style="margin:10px 0 0">ESPN may still show the pre-game line once a game starts; this isn't a live in-game price.</p>` : ""}</div>`));
+      </div><p style="margin:10px 0 0"><a class="sec-more" href="#/odds">Odds center: line movement, implied %, your models' plays</a></p>${g.state !== "pre" ? `<p class="muted small" style="margin:10px 0 0">ESPN may still show the pre-game line once a game starts; this isn't a live in-game price.</p>` : ""}</div>`));
   }
   // your model's player projections (NBA props board, NFL player file)
   if (g.state !== "post" && (sport === "nba" || sport === "nfl")) {

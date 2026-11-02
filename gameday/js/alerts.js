@@ -2,9 +2,9 @@
 // games starting soon, live and final scores, big performances, injury-report changes, news, and
 // where your model and the book disagree on your team's next game. Optional phone alerts while
 // GAME DAY is open (a true background push would need a server, which this app doesn't have).
-import { esc, ago, fmtTime, dayLabel, isoDay, addDays, today, state, save, isFavTeam, isFavPlayer, favTeamIds, favPlayerTeamIds } from "./core.js?v=11";
-import { SPORTS, SPORT_KEYS, slate, leagueNews, leagueInjuries, HAS_INJURY_REPORT, spreadText, fmt1 } from "./data.js?v=11";
-import { sportBadge, modelBadge, logo, headshot, section, empty, errBox, skel } from "./ui.js?v=11";
+import { esc, ago, fmtTime, dayLabel, isoDay, addDays, today, state, save, isFavTeam, isFavPlayer, favTeamIds, favPlayerTeamIds } from "./core.js?v=15";
+import { SPORTS, SPORT_KEYS, slate, leagueNews, leagueInjuries, HAS_INJURY_REPORT, spreadText, fmt1 } from "./data.js?v=15";
+import { sportBadge, modelBadge, logo, headshot, section, empty, errBox, skel } from "./ui.js?v=15";
 
 export const KINDS = [
   ["soon", "Game starting soon", "Your teams, 3 hours before"], ["live", "Live games", "When your teams' games are in progress"],
