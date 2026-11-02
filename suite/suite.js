@@ -160,7 +160,7 @@
   /* ---------- apps ---------- */
   const apps = [
     { id: "inbox", name: "INBOX", tag: "Save everything", url: "../inbox/", color: "#8b7bff", built: true },
-    { id: "talk", name: "TALK", tag: "Voice to notes", url: "../talk/", color: "#ff7a59", built: false },
+    { id: "talk", name: "TALK", tag: "Voice to notes", url: "../talk/", color: "#ff7a59", built: true },
     { id: "reminders", name: "DON'T FORGET", tag: "Smart reminders", url: "../dontforget/", color: "#ffb020", built: false },
     { id: "links", name: "LINK VAULT", tag: "Links, organized", url: "../vault/", color: "#2ed3b7", built: false },
     { id: "queue", name: "QUEUE", tag: "Watch, read, do", url: "../queue/", color: "#ff5fa2", built: false },

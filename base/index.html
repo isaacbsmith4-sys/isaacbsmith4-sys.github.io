@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../suite/suite.css?v=2">
+<link rel="stylesheet" href="../suite/suite.css?v=3">
 <style>
 /* BASE: the one home-screen app. Every suite app opens inside it, so they all share one storage.
    Top: greeting + quick save; then the app grid; then a glance at real data from the built apps. */
@@ -30,6 +30,9 @@ body{padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
 .quick{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:500 16px var(--body);cursor:pointer;text-align:left;text-decoration:none;box-shadow:var(--shadow)}
 .quick svg{width:20px;height:20px;color:var(--accent);flex:none}
 .quick span{flex:1}
+.quickrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.quick.mic{--accent:#ff7a59;color:var(--ink);font-weight:700}
+.quick.mic span{flex:none}
 .quick kbd{font:600 11px var(--mono);color:var(--faint);border:1px solid var(--line-hi);border-radius:6px;padding:2px 6px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 @media (min-width:620px){.grid{grid-template-columns:repeat(3,1fr)}}
@@ -64,12 +67,13 @@ a.app:active{transform:scale(.98)}
   </header>
   <main id="main"></main>
 </div>
-<script src="../suite/suite.js?v=2"></script>
+<script src="../suite/suite.js?v=3"></script>
 <script>
 (function () {
   "use strict";
   const { esc } = Suite;
-  const ICON = { inbox: "../inbox/icon-192.png" };
+  const ICON = { inbox: "../inbox/icon-192.png", talk: "../talk/icon-192.png" };
+  const mic = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
   const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
 
   function greeting() {
@@ -91,7 +95,10 @@ a.app:active{transform:scale(.98)}
     try { inbox = (await Suite.store.all("inbox")).filter((i) => !i.archived); } catch (e) {}
     const cats = (await Suite.meta.get("inbox:categories", [])) || [];
     const catColor = (id) => (cats.find((c) => c.id === id) || {}).color || "#8b7bff";
-    const counts = { inbox: inbox.length };
+    let talk = [];
+    try { talk = await Suite.store.all("talk"); } catch (e) {}
+    const toSend = talk.reduce((k, n) => k + (n.items || []).filter((i) => !i.sent).length, 0);
+    const counts = { inbox: inbox.length, talk: talk.length };
 
     const soon = new Date(); soon.setDate(soon.getDate() + 2); soon.setHours(23, 59);
     const tasks = inbox.filter((i) => i.task && !i.task.done && i.task.due && new Date(i.task.due) <= soon)
@@ -102,7 +109,7 @@ a.app:active{transform:scale(.98)}
 
     document.getElementById("main").innerHTML = `
       <section class="hello"><h2>${greeting()}</h2><p>${now.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}</p></section>
-      <a class="quick" href="../inbox/?add=1">${plus}<span>Save something to INBOX…</span></a>
+      <div class="quickrow"><a class="quick" href="../inbox/?add=1">${plus}<span>Save something…</span></a><a class="quick mic" href="../talk/#record" aria-label="Record a voice note in TALK">${mic}<span>Talk</span></a></div>
 
       ${standalone ? "" : `<section class="card install" style="margin-top:14px">
         <b>Put BASE on your home screen</b>
@@ -117,6 +124,7 @@ a.app:active{transform:scale(.98)}
           : `<div class="app soon" style="--c:${a.color}" aria-disabled="true"><div class="ic">${esc(a.name[0])}</div><span class="n">Coming</span><div><b>${esc(a.name)}</b><br><span>${esc(a.tag)}</span></div></div>`).join("")}
       </div>
 
+      ${toSend ? `<a class="gl" href="../talk/#actions" style="--c:#ff7a59;margin-top:14px"><i></i><span class="t">${toSend} item${toSend === 1 ? "" : "s"} from TALK waiting to be sent</span><span class="w">Review</span></a>` : ""}
       <h2 class="sec">Coming up</h2>
       ${tasks.length ? `<div class="glance">${tasks.slice(0, 5).map((i) => { const d = due(i.task); return `<a class="gl" href="../inbox/#tasks" style="--c:${catColor(i.cat)}"><i></i><span class="t">${esc(i.title || "Untitled")}</span><span class="w ${d.cls}">${esc(d.label)}</span></a>`; }).join("")}</div>`
         : `<p class="muted small" style="margin:0 2px">Nothing due in the next two days.</p>`}

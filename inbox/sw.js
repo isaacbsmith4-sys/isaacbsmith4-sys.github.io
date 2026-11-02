@@ -1,6 +1,6 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "inbox-v2";
-const SHELL = ["./", "index.html", "app.js?v=2", "manifest.webmanifest", "icon-192.png", "../suite/suite.js?v=2", "../suite/suite.css?v=2"];
+const CACHE = "inbox-v4";
+const SHELL = ["./", "index.html", "app.js?v=3", "manifest.webmanifest", "icon-192.png", "../suite/suite.js?v=3", "../suite/nlp.js?v=2", "../suite/suite.css?v=3"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

@@ -45,29 +45,11 @@
 
   const TYPES = { note: "Note", idea: "Idea", link: "Link", image: "Image" };
   const TYPE_COLOR = { note: "#8b7bff", idea: "#ffb020", link: "#2ed3b7", image: "#ff5fa2" };
+  /* shared rules (../suite/nlp.js): categories, date parsing, auto-sort, YouTube titles */
+  const { DEFAULT_CATS, URL_RE, TAG_RE, TASK_RE, domainOf, parseDue, localISO, fetchLinkMeta } = Suite.nlp;
+  const ruleCategory = (it) => Suite.nlp.ruleCategory(it, cats);
   const PALETTE = ["#8b7bff", "#ffb020", "#2ed3b7", "#ff5fa2", "#4aa8ff", "#3ddc97", "#ff7a59", "#c77dff", "#a3a8bd"];
 
-  /* default categories; the keyword lists are the on-device auto-sort rules */
-  const DEFAULT_CATS = [
-    { id: "ideas", name: "Ideas", color: "#ffb020" },
-    { id: "todo", name: "To-Do", color: "#ff7a59" },
-    { id: "watch", name: "Watch", color: "#ff5fa2" },
-    { id: "read", name: "Read", color: "#4aa8ff" },
-    { id: "shopping", name: "Shopping", color: "#2ed3b7" },
-    { id: "school", name: "School", color: "#c77dff" },
-    { id: "hoops", name: "Basketball", color: "#ff8a3d" },
-    { id: "personal", name: "Personal", color: "#3ddc97" },
-  ];
-  const RULES = {
-    ideas: { words: ["idea", "what if", "could build", "app idea", "business", "invent", "concept", "brainstorm", "startup"] },
-    todo: { words: ["todo", "to-do", "to do", "need to", "have to", "gotta", "remember to", "don't forget", "dont forget", "remind me", "call ", "email ", "text ", "finish", "pick up", "schedule", "appointment", "deadline"] },
-    watch: { words: ["watch", "movie", "film", "show", "episode", "season", "trailer", "video", "documentary", "netflix", "hulu", "youtube"], domains: ["youtube.com", "youtu.be", "vimeo.com", "netflix.com", "hulu.com", "twitch.tv", "max.com", "disneyplus.com", "primevideo.com", "tv.apple.com"] },
-    read: { words: ["read", "article", "book", "blog", "newsletter", "essay", "paper", "chapter", "kindle"], domains: ["medium.com", "substack.com", "nytimes.com", "theathletic.com", "wikipedia.org", "goodreads.com", "theatlantic.com", "wsj.com"] },
-    shopping: { words: ["buy", "shoes", "sneakers", "price", "deal", "sale", "cart", "wishlist", "gift", "jacket", "hoodie", "headphones", "$"], domains: ["amazon.com", "a.co", "amzn.to", "ebay.com", "etsy.com", "target.com", "walmart.com", "bestbuy.com", "nike.com", "adidas.com", "stockx.com", "goat.com", "footlocker.com", "apple.com/shop", "costco.com"] },
-    school: { words: ["homework", "hw", "class", "teacher", "quiz", "test", "exam", "essay", "study", "assignment", "project due", "syllabus", "grade", "college", "lab report", "canvas", "schoology"] },
-    hoops: { words: ["basketball", "hoops", "practice", "drill", "workout", "shooting", "dribble", "pick and roll", "pnr", "film", "coach", "game", "aau", "nba", "brunson", "sga", "handles", "layup", "jumper", "defense"], domains: ["nba.com", "espn.com/nba", "basketball-reference.com"] },
-    personal: { words: ["mom", "dad", "family", "friend", "birthday", "doctor", "dentist", "haircut", "church", "journal", "goal", "health", "sleep", "gym"] },
-  };
 
   /* ---------------------------------------------------------------- state */
   let items = [], cats = [], settings = { autoSort: true, aiAuto: true };
@@ -80,7 +62,6 @@
 
   const catById = (id) => cats.find((c) => c.id === id);
   const live = () => items.filter((i) => !i.archived);
-  const domainOf = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } };
 
   async function load() {
     items = (await Suite.store.all("inbox")) || [];
@@ -101,8 +82,6 @@
   }
 
   /* ---------------------------------------------------------------- parsing + auto-sort */
-  const URL_RE = /\b((?:https?:\/\/|www\.)[^\s<>"']+[^\s<>"'.,;:!?)\]])/gi;
-  const TAG_RE = /(^|\s)#([\p{L}\p{N}_-]{1,32})/gu;
 
   function parseCapture(raw) {
     let text = String(raw || "").replace(/\r/g, "").trim();
@@ -121,74 +100,6 @@
     return { title, body, url, tags, type, text: rest };
   }
 
-  /* natural dates: today / tonight / tomorrow / weekday / next week, optional "at 4", "4pm", "4:30 pm", "noon" */
-  function parseDue(text) {
-    const t = " " + text.toLowerCase() + " ";
-    const now = new Date();
-    let day = null;
-    if (/\btomorrow\b|\btmrw\b|\btmr\b/.test(t)) { day = new Date(now); day.setDate(day.getDate() + 1); }
-    else if (/\btonight\b|\btoday\b/.test(t)) day = new Date(now);
-    else if (/\bnext week\b/.test(t)) { day = new Date(now); day.setDate(day.getDate() + 7); }
-    else {
-      const wd = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-      const m = t.match(/\b(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\b/);
-      if (m) {
-        const idx = wd.indexOf(m[1]);
-        day = new Date(now);
-        let add = (idx - now.getDay() + 7) % 7; if (add === 0) add = 7;
-        day.setDate(day.getDate() + add);
-      }
-    }
-    let hh = null, mm = 0;
-    const tm = t.match(/\b(?:at|by|@)\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?\b/) || t.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/);
-    if (tm) {
-      hh = +tm[1]; mm = +(tm[2] || 0);
-      const ap = (tm[3] || "").replace(/\./g, "");
-      if (ap === "pm" && hh < 12) hh += 12;
-      if (ap === "am" && hh === 12) hh = 0;
-      if (!ap && hh >= 1 && hh <= 7) hh += 12; // "at 4" means the afternoon
-      if (hh > 23 || mm > 59) hh = null;
-    } else if (/\bnoon\b/.test(t)) hh = 12;
-    else if (/\btonight\b/.test(t)) hh = 20;
-    if (!day && hh == null) return "";
-    if (!day) { day = new Date(now); if (hh < now.getHours() || (hh === now.getHours() && mm <= now.getMinutes())) day.setDate(day.getDate() + 1); }
-    if (hh == null) { hh = 9; mm = 0; }
-    day.setHours(hh, mm, 0, 0);
-    return localISO(day);
-  }
-  const localISO = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}T${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-  const TASK_RE = /\b(todo|to-do|need to|have to|gotta|remember to|don'?t forget|remind me|must|due)\b/i;
-
-  /** rules-based category: a #tag naming a category wins, then link domain, then keyword score */
-  function ruleCategory(it) {
-    for (const t of it.tags || []) { const c = cats.find((c) => c.name.toLowerCase() === t || c.id === t); if (c) return c.id; }
-    const dom = domainOf(it.url), full = (it.url || "").toLowerCase();
-    if (dom) for (const [id, r] of Object.entries(RULES)) if (catById(id) && (r.domains || []).some((d) => dom === d || dom.endsWith("." + d) || full.includes(d))) return id;
-    const txt = " " + [it.title, it.body, it.note, it.link && it.link.title].filter(Boolean).join(" ").toLowerCase() + " ";
-    let best = null, bestN = 0, subject = null;
-    for (const c of cats) {
-      const r = RULES[c.id];
-      const words = r ? r.words : [c.name.toLowerCase()];
-      let n = 0;
-      for (const w of words) if (w.length <= 3 ? new RegExp("\\b" + w.trim().replace(/[$]/g, "\\$") + "\\b").test(txt) || (w === "$" && txt.includes("$")) : txt.includes(w)) n++;
-      if (!r && txt.includes(" " + c.name.toLowerCase())) n += 2;
-      if (n > bestN) { best = c.id; bestN = n; }
-      if (n && c.id !== "todo") subject = subject || c.id;
-    }
-    // "need to finish my homework" is already a task; the subject (School) says more than To-Do
-    return best === "todo" && subject ? subject : best;
-  }
-
-  async function fetchLinkMeta(url) {
-    const d = domainOf(url);
-    if (!/(^|\.)youtube\.com$|^youtu\.be$/.test(d)) return null;
-    try {
-      const r = await fetch("https://www.youtube.com/oembed?format=json&url=" + encodeURIComponent(url));
-      if (!r.ok) return null;
-      const j = await r.json();
-      return { title: j.title || "", author: j.author_name || "", thumb: j.thumbnail_url || "", provider: "YouTube" };
-    } catch (e) { return null; }
-  }
   function prettyLinkTitle(url) {
     try {
       const u = new URL(url);
@@ -623,6 +534,7 @@
   function parseRoute() {
     const h = decodeURIComponent(location.hash.slice(1) || "home");
     const [view, arg] = h.split("/");
+    if (view === "item") { route = { view: "home" }; history.replaceState(null, "", location.pathname + "#home"); setTimeout(() => openItem(arg), 50); return; }
     route = { view: ["home", "all", "cats", "cat", "tag", "favs", "search", "settings", "tasks"].includes(view) ? view : "home", arg };
   }
   const SUBTITLE = { home: "Save everything", all: "Everything you've saved", cats: "Categories & tags", cat: "Category", tag: "Tag", favs: "Pinned & favorites", search: "Find anything", settings: "Settings", tasks: "Tasks" };

@@ -1,6 +1,6 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "base-v1";
-const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "../suite/suite.js?v=2", "../suite/suite.css?v=2"];
+const CACHE = "base-v2";
+const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "../suite/suite.js?v=3", "../suite/suite.css?v=3"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

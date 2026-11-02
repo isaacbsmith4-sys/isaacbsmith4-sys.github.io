@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../suite/suite.css?v=2">
+<link rel="stylesheet" href="../suite/suite.css?v=3">
 <style>
 /* INBOX: capture box on top of Home, everything else is a list of item rows. Item editing and quick-add
    happen in bottom sheets. Violet is the one accent; categories keep their own dot colors. */
@@ -153,8 +153,9 @@ details.more summary::-webkit-details-marker{display:none}
 <input type="file" id="filePick" accept="image/*" multiple class="sr" tabindex="-1">
 <input type="file" id="importPick" accept="application/json,.json" class="sr" tabindex="-1">
 <div class="drop" id="drop">Drop to save</div>
-<script src="../suite/suite.js?v=2"></script>
-<script src="app.js?v=2"></script>
+<script src="../suite/suite.js?v=3"></script>
+<script src="../suite/nlp.js?v=2"></script>
+<script src="app.js?v=3"></script>
 <script>
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>
