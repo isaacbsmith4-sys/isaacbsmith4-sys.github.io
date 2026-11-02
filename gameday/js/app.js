@@ -2,21 +2,21 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=2";
+} from "./core.js?v=3";
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
   modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=2";
+} from "./data.js?v=3";
+import { viewGame } from "./gamecenter.js?v=3";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
-  updated, newsItem, statusText, shortBook,
-} from "./ui.js?v=2";
+  updated, newsItem, statusText, shortBook, modelBlock,
+} from "./ui.js?v=3";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
 const overlay = $("#overlay");
 const ui = { expand: new Set(), scoresDay: 0, teamsSport: null, teamsQ: "", statsSport: null, statsConf: "" };
-const gameIndex = new Map(); // "sport:id" -> game, for opening the game sheet
 
 // ---------------------------------------------------------------- helpers
 const enabled = () => SPORT_KEYS.filter((k) => state.sports[k]);
@@ -47,7 +47,6 @@ async function loadSlates(sports) {
   const res = await Promise.allSettled(sports.map((s) => slate(s)));
   const games = [], errors = [];
   res.forEach((r, i) => (r.status === "fulfilled" ? games.push(...r.value) : errors.push([sports[i], r.reason])));
-  for (const g of games) gameIndex.set(`${g.sport}:${g.id}`, g);
   return { games, errors };
 }
 function setLive(games) {
@@ -106,7 +105,7 @@ async function viewHome() {
   }
 
   const live = games.filter((g) => g.state === "in").sort((a, b) => favGame(b) - favGame(a));
-  S.live = live.length ? section("live", '<span class="dot-live"></span> Live now', more("live", live, 6, (g) => gameCard(g)), `${live.length} games`) : "";
+  S.live = live.length ? section("live", '<span class="dot-live"></span> Live now', more("live", live, 6, (g) => gameCard(g)), `${live.length} game${live.length === 1 ? "" : "s"}`) : "";
 
   // Biggest games: transparent scoring, the reason is shown on the card
   const scored = todays.filter((g) => g.state !== "post").map((g) => {
@@ -137,7 +136,7 @@ async function viewHome() {
     .filter((r, i, all) => sports.length === 1 || all.slice(0, i).filter((x) => x.g.sport === r.g.sport).length < 3).slice(0, 8);
   const feedMeta = feeds.map((f, i) => f.status === "fulfilled" ? `${SPORTS[sports[i]].label} ${ago(f.value.updated)}` : `${SPORTS[sports[i]].label} unavailable`).join(" · ");
   S.models = section("models", "Model predictions", rows.length ? `<div class="card list">${rows.map(({ g, m, mk, d }) => `
-      <a class="mrow" href="#" data-action="game" data-sport="${g.sport}" data-id="${g.id}">
+      <a class="mrow" href="#/game/${g.sport}/${g.id}">
         <div><div class="who">${esc(g.away.abbr)} @ ${esc(g.home.abbr)}</div><div class="when">${sportBadge(g.sport)} ${esc(statusText(g))}</div></div>
         <div class="v m"><small>${esc(m.source)}</small>${spreadText(m.spread_home, g)}</div>
         <div class="v k"><small>${esc(shortBook(mk?.book))}</small>${mk?.spread_home != null ? spreadText(mk.spread_home, g) : "–"}</div>
@@ -150,7 +149,7 @@ async function viewHome() {
   S.today = section("today", todayList.length ? "Today's games" : "Up next",
     todayList.length ? more("today", todayList, 6, (g) => gameCard(g))
       : nextDay.length ? more("today", nextDay, 6, (g) => gameCard(g)) : empty("No games scheduled today."),
-    todayList.length ? `${todayList.length} games` : "");
+    todayList.length ? `${todayList.length} game${todayList.length === 1 ? "" : "s"}` : "");
 
   // Top performances: game leaders from live/final games, today and yesterday (actual stats)
   const perf = [];
@@ -196,7 +195,8 @@ async function viewScores() {
   const d = addDays(today(), ui.scoresDay);
   const sports = active();
   const days = [-3, -2, -1, 0, 1, 2, 3].map((n) => ui.scoresDay + n);
-  const head = `<h1 class="page-title">Scores</h1>
+  const head = `<div class="row" style="justify-content:space-between"><h1 class="page-title">Scores</h1>
+      <label class="btn" style="position:relative">${ICON.cal} ${esc(fmtDay(d))}<input type="date" data-action="sdate" value="${isoDay(d)}" aria-label="Pick a date" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label></div>
     <div class="seg" style="margin-bottom:14px">${days.map((n) => `<button data-action="day" data-n="${n}" aria-pressed="${n === ui.scoresDay}">${n === 0 ? "Today" : fmtDay(addDays(today(), n)).replace(/^\w+, /, "")}</button>`).join("")}</div>`;
   if (view.dataset.v !== "scores") view.innerHTML = head + skel(4);
   view.dataset.v = "scores";
@@ -211,11 +211,19 @@ async function viewScores() {
     const gs = res[i].value.sort((a, b) => favGame(b) - favGame(a) || (b.state === "in") - (a.state === "in") || a.start - b.start);
     all = all.concat(gs);
     if (!gs.length) return sports.length === 1 ? section(s, SPORTS[s].name, empty(`No ${SPORTS[s].label} games on ${fmtDay(d)}.`)) : "";
-    for (const g of gs) gameIndex.set(`${g.sport}:${g.id}`, g);
-    return section(s, `${sportBadge(s)} ${SPORTS[s].name}`, more(`sc-${s}`, gs, 12, (g) => gameCard(g)), `${gs.length} games`);
+    return section(s, `${sportBadge(s)} ${SPORTS[s].name}`, more(`sc-${s}`, gs, 12, (g) => gameCard(g)), `${gs.length} game${gs.length === 1 ? "" : "s"}`);
   }).join("");
   if (ui.scoresDay === 0) setLive(all);
-  view.innerHTML = head + (body || empty(`No games on ${fmtDay(d)} for the sports you picked.`)) +
+  // nothing on this day: offer the next day that has games (football is mostly weekends)
+  let next = "";
+  if (!all.length) {
+    for (let n = 1; n <= 10 && !next; n++) {
+      const dd = addDays(d, n);
+      const r = await Promise.allSettled(sports.map((s) => boardDay(s, dd)));
+      if (r.some((x) => x.status === "fulfilled" && x.value.length)) next = `<div style="text-align:center;margin-top:12px"><button class="btn primary" data-action="day" data-n="${ui.scoresDay + n}">Next games: ${esc(fmtDay(dd))}</button></div>`;
+    }
+  }
+  view.innerHTML = head + (body || empty(`No games on ${fmtDay(d)} for the sports you picked.`)) + next +
     `<p class="muted small" style="text-align:center;margin-top:20px">${dayLabel(d)} · ESPN scoreboard · tap a game for details</p>`;
   return all;
 }
@@ -267,19 +275,18 @@ async function viewTeam(sport, id) {
   const rec = sch.team?.recordSummary, stand = sch.team?.standingSummary;
   const past = sch.games.filter((g) => g.state === "post").reverse();
   const next = sch.games.filter((g) => g.state !== "post");
-  for (const g of sch.games) gameIndex.set(`${g.sport}:${g.id}`, g);
   const ng = next[0];
   const resRow = (g) => {
     const me = g.home.id === String(id) ? g.home : g.away, op = me === g.home ? g.away : g.home;
     const w = me.score != null && op.score != null ? (me.score > op.score ? "W" : me.score < op.score ? "L" : "T") : "";
-    return `<a class="li" href="#" data-action="game" data-sport="${sport}" data-id="${g.id}">
+    return `<a class="li" href="#/game/${sport}/${g.id}">
       <span class="badge" style="width:26px;justify-content:center;background:${w === "W" ? "rgba(51,209,122,.15)" : "rgba(255,90,106,.15)"};color:${w === "W" ? "var(--win)" : "var(--loss)"}">${w}</span>
       ${logo(op)}<div class="sp"><div class="t ellip">${me === g.home ? "vs" : "@"} ${esc(op.short)}</div><div class="s">${fmtDay(g.start)}</div></div>
       <b>${me.score ?? ""}-${op.score ?? ""}</b></a>`;
   };
   const upRow = (g) => {
     const me = g.home.id === String(id) ? g.home : g.away, op = me === g.home ? g.away : g.home;
-    return `<a class="li" href="#" data-action="game" data-sport="${sport}" data-id="${g.id}">${logo(op)}
+    return `<a class="li" href="#/game/${sport}/${g.id}">${logo(op)}
       <div class="sp"><div class="t ellip">${me === g.home ? "vs" : "@"} ${esc(op.short)}</div><div class="s">${fmtDay(g.start)} · ${fmtTime(g.start)}${g.tv.length ? " · " + esc(g.tv[0]) : ""}</div></div>
       ${g.model ? `<span class="badge b-model">${spreadText(g.model.spread_home, g)}</span>` : ""}</a>`;
   };
@@ -288,23 +295,6 @@ async function viewTeam(sport, id) {
     section("recent", "Recent results", past.length ? `<div class="card list">${past.slice(0, 5).map(resRow).join("")}</div>` : empty("No games played yet."), "Actual · ESPN") +
     section("sched", "Upcoming", next.length > 1 ? `<div class="card list">${next.slice(1, 7).map(upRow).join("")}</div>` : empty("Nothing else scheduled yet.")) +
     `<p class="muted small" style="text-align:center;margin-top:18px">Full team stats, rankings and roster are coming next.</p>`;
-}
-
-function modelBlock(g) {
-  const m = g.model, mk = m.market, hp = m.home_win_prob;
-  const d = mk?.spread_home != null && m.spread_home != null ? m.spread_home - mk.spread_home : null;
-  return `<div class="card" style="margin-top:10px;overflow:hidden">
-    <div class="pad"><div class="row" style="margin-bottom:10px">${modelBadge(m.source)}<b>${esc(m.source)}</b><span class="sp"></span><span class="muted small">updated ${ago(m.updated)}</span></div>
-    <div class="stats-grid">
-      <div class="stat-box"><div class="n" style="color:var(--model)">${spreadText(m.spread_home, g)}</div><div class="l">Model spread</div></div>
-      ${hp != null ? `<div class="stat-box"><div class="n" style="color:var(--model)">${pct(Math.max(hp, 1 - hp))}</div><div class="l">${esc(hp >= .5 ? g.home.abbr : g.away.abbr)} win chance</div></div>` : ""}
-      ${m.total != null ? `<div class="stat-box"><div class="n" style="color:var(--model)">${fmt1(m.total)}</div><div class="l">Model total</div></div>` : ""}
-      ${mk?.spread_home != null ? `<div class="stat-box"><div class="n" style="color:var(--market)">${spreadText(mk.spread_home, g)}</div><div class="l">${esc(mk.book || "Line")} spread</div>${mk.spread_open != null ? `<div class="r">open ${spreadText(mk.spread_open, g)}</div>` : ""}</div>` : ""}
-      ${mk?.total != null ? `<div class="stat-box"><div class="n" style="color:var(--market)">${fmt1(mk.total)}</div><div class="l">${esc(mk.book || "Line")} total</div></div>` : ""}
-    </div></div>
-    ${d != null ? `<div class="note">${Math.abs(d) < 0.5 ? "Model and line agree." : `Model is <b>${fmt1(Math.abs(d))} pts</b> more on ${esc(d < 0 ? g.home.abbr : g.away.abbr)} than ${esc(mk.book || "the line")}.`}</div>` : `<div class="note">No sportsbook line in the model's file for this game.</div>`}
-    ${(m.notes || []).slice(0, 3).map((n) => `<div class="note">${esc(n)}</div>`).join("")}
-  </div>`;
 }
 
 // ================================================================= PLAYER PAGE
@@ -327,7 +317,7 @@ async function viewPlayer(sport, id) {
     try {
       const sch = await schedule(sport, t.id);
       const ng = sch.games.find((g) => g.state !== "post");
-      if (ng) { gameIndex.set(`${sport}:${ng.id}`, ng); nextHtml = section("next", "Next game", gameCard(ng)); }
+      if (ng) { nextHtml = section("next", "Next game", gameCard(ng)); }
     } catch {}
   }
   view.innerHTML = `<a class="back" href="#" data-action="back">${ICON.back} Back</a>
@@ -422,24 +412,6 @@ async function viewProfile() {
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-action="refresh">Refresh data</button><button class="btn" data-action="reset">Reset GAME DAY</button></div></div>`)}`;
 }
 
-// ================================================================= GAME SHEET (full Game Center is next)
-function openGame(sport, id) {
-  const g = gameIndex.get(`${sport}:${id}`);
-  if (!g) return;
-  const side = (t) => `<a class="side" href="#/team/${sport}/${t.id}" data-action="close-go">${logo(t, "logo logo-lg")}<div class="nm">${t.rank ? `<span class="muted">${t.rank}</span> ` : ""}${esc(t.short)}</div><div class="muted small">${esc(t.record || "")}</div></a>`;
-  const leaders = g.state !== "pre" ? [g.away, g.home].flatMap((t) => t.leaders.slice(0, 3).map((l) => ({ t, l }))) : [];
-  const espnUrl = `https://www.espn.com/${SPORTS[sport].league}/game/_/gameId/${g.id}`;
-  const inj = g.model?.injuries;
-  openSheet(`<div class="sheet-head">${sportBadge(sport)}${g.state === "in" ? '<span class="badge b-live">Live</span>' : ""}<span class="sp muted small ellip">${esc(g.note || g.venue || "")}</span><button class="mini" data-action="close" aria-label="Close">${ICON.x}</button></div>
-    <div class="vs">${side(g.away)}<div>${g.state === "pre" ? `<div class="mid">${esc(dayLabel(g.start))}<br>${fmtTime(g.start)}</div>` : `<div class="big">${g.away.score ?? 0}<span class="muted" style="font-size:24px"> – </span>${g.home.score ?? 0}</div><div class="mid" style="${g.state === "in" ? "color:var(--live)" : ""}">${esc(g.detail)}</div>`}</div>${side(g.home)}</div>
-    ${g.tv.length ? `<p class="muted small" style="text-align:center;margin:-4px 0 12px">${esc(g.tv.join(" · "))}</p>` : ""}
-    ${g.model ? modelBlock(g) : `<div class="card pad small muted">No prediction from ${esc(SPORTS[sport].modelName)} for this game.${g.espnOdds?.details ? ` ${marketBadge(g.espnOdds.book)} ${esc(g.espnOdds.details)}${g.espnOdds.total ? `, O/U ${esc(g.espnOdds.total)}` : ""}` : ""}</div>`}
-    ${inj && (inj.away.length || inj.home.length) ? section("inj", "Injuries", `<div class="card list">${[["away", g.away], ["home", g.home]].flatMap(([k, t]) => inj[k].slice(0, 5).map((p) => `<div class="li">${logo(t)}<div class="sp t">${esc(p.name)}</div><span class="badge b-plain">${esc(p.status)}</span></div>`)).join("")}</div>`, `via ${esc(SPORTS[sport].modelName)} file`) : ""}
-    ${leaders.length ? section("lead", "Game leaders", `<div class="card list">${leaders.map(({ t, l }) => `<a class="perf" href="#/player/${sport}/${l.athlete.id}" data-action="close-go">${headshot(l.athlete.headshot)}<div class="sp"><div class="t ellip">${esc(l.athlete.name)}</div><div class="s muted small">${esc(t.abbr)} · ${esc(l.label)}</div></div><div class="stat">${esc(l.text)}</div></a>`).join("")}</div>`, "Actual · ESPN") : ""}
-    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><a class="btn" href="${espnUrl}" target="_blank" rel="noopener">${ICON.ext} Box score on ESPN</a></div>
-    <p class="muted small" style="margin-top:12px">Full Game Center (box score, play-by-play, team comparison) is coming next.</p>`);
-}
-
 function openSheet(html, full = false) {
   overlay.innerHTML = `<div class="sheet ${full ? "full" : ""}" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;
   overlay.hidden = false;
@@ -517,7 +489,7 @@ async function render({ quiet = false } = {}) {
     else if (name === "profile") await viewProfile();
     else if (name === "team") await viewTeam(args[0], args[1]);
     else if (name === "player") await viewPlayer(args[0], args[1]);
-    else if (name === "game") { location.replace("#/scores"); }
+    else if (name === "game") lastGames = (await viewGame(view, args[0], args[1], { quiet })) || [];
     else location.replace("#/home");
   } catch (e) {
     view.innerHTML = errBox("this page", e);
@@ -536,7 +508,6 @@ document.addEventListener("click", (e) => {
     case "search": e.preventDefault(); openSearch(); break;
     case "filter": state.filter = ds.sport; save(); ui.expand.clear(); view.dataset.v = ""; rerender(); break;
     case "expand": ui.expand.has(ds.key) ? ui.expand.delete(ds.key) : ui.expand.add(ds.key); rerender(); break;
-    case "game": e.preventDefault(); openGame(ds.sport, ds.id); break;
     case "close": closeSheet(); break;
     case "close-go": closeSheet(); break; // link navigates on its own
     case "back": e.preventDefault(); history.length > 1 ? history.back() : (location.hash = "#/home"); break;
@@ -586,6 +557,11 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("change", (e) => {
   if (e.target.matches('[data-action="sconf"]')) { ui.statsConf = e.target.value; render({ quiet: true }); }
+  if (e.target.matches('[data-action="sdate"]') && e.target.value) {
+    const [y, m, dd] = e.target.value.split("-").map(Number);
+    ui.scoresDay = Math.round((new Date(y, m - 1, dd, 12) - today()) / 864e5);
+    view.dataset.v = ""; render({ quiet: true });
+  }
 });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !overlay.hidden) closeSheet(); });
 window.addEventListener("hashchange", () => { closeSheet(); render(); });
@@ -595,10 +571,10 @@ let lastTick = Date.now();
 setInterval(() => {
   if (document.hidden || rendering || !overlay.hidden) return;
   const { name } = route();
-  if (!["home", "scores"].includes(name)) return;
+  if (!["home", "scores", "game"].includes(name)) return;
   const live = lastGames.some((g) => g.state === "in");
   const startingSoon = lastGames.some((g) => g.state === "pre" && g.start - Date.now() < 5 * 60e3 && g.start - Date.now() > -30 * 60e3);
-  if (Date.now() - lastTick >= (live || startingSoon ? 30e3 : 120e3)) { lastTick = Date.now(); render({ quiet: true }); }
+  if (Date.now() - lastTick >= (live ? (name === "game" ? 20e3 : 30e3) : startingSoon ? 30e3 : 120e3)) { lastTick = Date.now(); render({ quiet: true }); }
 }, 5e3);
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden && Date.now() - lastTick > 60e3) { lastTick = Date.now(); render({ quiet: true }); }

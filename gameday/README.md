@@ -8,7 +8,8 @@ Static app, no build step, no server. Favorites and settings live on the device 
 | `js/core.js` | Saved state (favorites, home layout, sports), fetch + source log, date helpers |
 | `js/data.js` | `SPORTS` config, ESPN scoreboards/news/search/athletes/schedules/standings, and one **model adapter per sport** that turns each model's published file into one shape |
 | `js/ui.js` | Shared components (game card, badges, logos) |
-| `js/app.js` | Router, views (Home, Scores, Teams, Stats, Profile, team, player, game sheet, search), auto-refresh |
+| `js/app.js` | Router, views (Home, Scores, Teams, Stats, Profile, team, player, search), auto-refresh |
+| `js/gamecenter.js` | Game Center (`#/game/<sport>/<id>`): line score, your model vs the book, ESPN win probability, game flow / scoring plays, box score, team stats, plays or drives, head-to-head (home team's last 4 seasons) and recent form |
 | `data/teams.json` | Team list, built by `tools/build_teams.py` (ESPN's teams endpoint blocks browsers). Rerun each season. |
 
 ## Sources (kept separate in the UI)
@@ -22,5 +23,5 @@ Bump `?v=N` on every module import, `index.html` and `sw.js` (SHELL + CACHE) tog
 Publish: `git pull --rebase --autostash`, `git add gameday`, commit, push.
 
 ## Not built yet
-Game Center, player game logs + projections, team stats, matchup analyzer, Stats Lab, news/injuries page,
+Player game logs + projections, team stats, matchup analyzer, Stats Lab, news/injuries page,
 calendar, notifications, odds center, AI assistant (see the phase plan).

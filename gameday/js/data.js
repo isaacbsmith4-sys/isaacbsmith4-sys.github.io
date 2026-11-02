@@ -3,7 +3,7 @@
 //   Your model feeds  -> predictions, read from what each model already publishes on this site
 // To add a sport: add an entry to SPORTS with its ESPN path and a model adapter.
 
-import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=2";
+import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=3";
 
 const SITE = "https://site.api.espn.com/apis/site/v2/sports";
 const WEB = "https://site.web.api.espn.com/apis";
@@ -174,7 +174,8 @@ export function spreadText(spreadHome, g) {
   if (Math.abs(spreadHome) < 0.05) return "PK";
   return spreadHome < 0 ? `${g.home.abbr} ${fmt1(spreadHome)}` : `${g.away.abbr} ${fmt1(-spreadHome)}`;
 }
-export const fmt1 = (x) => (Math.round(x * 2) / 2).toFixed(1).replace(/\.0$/, "");
+// one decimal, as the model/book published it (no rounding to half points)
+export const fmt1 = (x) => (Math.round(x * 10) / 10).toFixed(1).replace(/\.0$/, "");
 export const pct = (p) => (p == null ? "–" : p >= 0.995 ? ">99%" : p <= 0.005 ? "<1%" : `${Math.round(p * 100)}%`);
 
 // ---------- news (ESPN). Articles carry team/athlete tags we use to find your favorites.
@@ -229,4 +230,40 @@ export async function standings(sport) {
   const s = SPORTS[sport];
   const level = sport === "nfl" ? "?level=3" : "";
   return getJSON(`${WEB}/v2/sports/${s.path}/standings${level}`, { label: `${s.label} standings`, ttl: 300_000 });
+}
+
+// ---------- game center (ESPN summary: box score, plays/drives, win probability, odds, injuries)
+export async function summary(sport, id, ttl = 15_000) {
+  const s = SPORTS[sport];
+  const d = await getJSON(`${SITE}/${s.path}/summary?event=${id}`, { label: `${s.label} game center`, ttl });
+  const comp = d.header.competitions[0];
+  const g = normEvent({ id, date: comp.date, shortName: d.header.shortName, status: comp.status, competitions: [comp] }, sport);
+  // summary scores are strings, linescores live here
+  for (const c of comp.competitors) {
+    const side = c.homeAway === "home" ? g.home : g.away;
+    side.lines = (c.linescores || []).map((l) => l.displayValue);
+    side.records = (c.record || []).map((r) => ({ type: r.type, text: r.displayValue || r.summary }));
+    if (!side.record) side.record = side.records.find((r) => r.type === "total")?.text || null;
+  }
+  g.venue = d.gameInfo?.venue?.fullName || g.venue;
+  g.city = [d.gameInfo?.venue?.address?.city, d.gameInfo?.venue?.address?.state].filter(Boolean).join(", ");
+  g.attendance = d.gameInfo?.attendance || null;
+  try { g.model = (await modelFeed(sport)).lookup(g) || null; } catch { g.model = null; }
+  return { g, d };
+}
+
+// A team's games in an earlier season (for head-to-head history)
+export async function seasonSchedule(sport, teamId, season) {
+  const s = SPORTS[sport];
+  const j = await getJSON(`${SITE}/${s.path}/teams/${teamId}/schedule?season=${season}`, { label: `${s.label} past schedules`, ttl: 3_600_000 });
+  return (j.events || []).map((e) => {
+    try {
+      const g = normEvent(e, sport);
+      for (const c of e.competitions[0].competitors) {
+        const side = c.homeAway === "home" ? g.home : g.away;
+        if (c.score && typeof c.score === "object") side.score = num(c.score.value ?? c.score.displayValue);
+      }
+      return g;
+    } catch { return null; }
+  }).filter(Boolean);
 }
