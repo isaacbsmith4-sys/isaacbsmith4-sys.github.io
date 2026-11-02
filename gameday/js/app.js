@@ -2,25 +2,25 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=15";
+} from "./core.js?v=22";
 const fmtStat1 = (x) => (x == null ? "–" : Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1));
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
   modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=15";
-import { viewGame } from "./gamecenter.js?v=15";
-import { viewPlayer, quickProjection } from "./players.js?v=15";
-import { viewTeam } from "./teams.js?v=15";
-import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=15";
-import { viewNews } from "./news.js?v=15";
-import { viewCalendar, downloadIcs } from "./calendar.js?v=15";
-import { viewAlerts, computeAlerts, setBadge, notifyNew, enablePush, KINDS } from "./alerts.js?v=15";
-import { viewOdds } from "./odds.js?v=15";
-import { viewAssistant } from "./assistant.js?v=15";
+} from "./data.js?v=22";
+import { viewGame } from "./gamecenter.js?v=22";
+import { viewPlayer, quickProjection } from "./players.js?v=22";
+import { viewTeam } from "./teams.js?v=22";
+import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=22";
+import { viewNews } from "./news.js?v=22";
+import { viewCalendar, downloadIcs } from "./calendar.js?v=22";
+import { viewAlerts, computeAlerts, setBadge, notifyNew, enablePush, KINDS } from "./alerts.js?v=22";
+import { viewOdds } from "./odds.js?v=22";
+import { viewAssistant } from "./assistant.js?v=22";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
   updated, newsItem, statusText, shortBook, modelBlock,
-} from "./ui.js?v=15";
+} from "./ui.js?v=22";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
@@ -52,11 +52,17 @@ function more(key, items, n, render) {
     ? `<div style="text-align:center;margin-top:10px"><button class="btn" data-action="expand" data-key="${key}">${open ? "Show less" : `Show all ${items.length}`}</button></div>` : ""}`;
 }
 
-async function loadSlates(sports) {
-  const res = await Promise.allSettled(sports.map((s) => slate(s)));
-  const games = [], errors = [];
-  res.forEach((r, i) => (r.status === "fulfilled" ? games.push(...r.value) : errors.push([sports[i], r.reason])));
-  return { games, errors };
+// With a deadline, returns what has arrived by then plus `pending` (the rest), so one slow ESPN feed doesn't hold up the page
+async function loadSlates(sports, deadline = 0) {
+  const done = new Map();
+  const all = Promise.all(sports.map((s) => slate(s).then((v) => done.set(s, { v }), (e) => done.set(s, { e }))));
+  if (deadline) await Promise.race([all, new Promise((r) => setTimeout(r, deadline))]); else await all;
+  const games = [], errors = [], late = [];
+  for (const s of sports) {
+    const r = done.get(s);
+    if (!r) late.push(s); else if (r.e) errors.push([s, r.e]); else games.push(...r.v);
+  }
+  return { games, errors, late, pending: late.length ? all : null };
 }
 function setLive(games) {
   const n = games.filter((g) => g.state === "in").length;
@@ -84,13 +90,13 @@ async function viewHome() {
   view.dataset.v = "home";
   if (!sports.length) { view.innerHTML = empty("All sports are turned off. Turn one on in <b>Profile → Sports</b>."); return; }
 
-  const [{ games, errors }, newsRes, feeds] = await Promise.all([
-    loadSlates(sports),
-    Promise.allSettled(sports.map((s) => news(s, 8))),
-    Promise.allSettled(sports.map((s) => modelFeed(s))),
-  ]);
+  // games first; news, feed times and player projections fill in when they arrive
+  const token = (viewHome.token = (viewHome.token || 0) + 1);
+  const newsP = Promise.allSettled(sports.map((s) => news(s, 8)));
+  const feedsP = Promise.allSettled(sports.map((s) => modelFeed(s)));
+  const { games, errors, late, pending } = await loadSlates(sports, 2500);
+  if (pending) pending.then(() => { if (token === viewHome.token && route().name === "home") render({ quiet: true }); });
   setLive(games);
-  computeAlerts(games).then((items) => { setBadge(items); notifyNew(items); }).catch(() => {});
   const tKey = isoDay(today()), yKey = isoDay(addDays(today(), -1));
   const now = Date.now();
   const upcoming = games.filter((g) => g.state !== "post");
@@ -116,8 +122,10 @@ async function viewHome() {
 
   // My players: each followed player's next game and your model's projection for it
   const myPlayers = state.players.filter((p) => state.sports[p.sport] && sports.includes(p.sport));
+  let playersP = null;
   if (myPlayers.length) {
-    const cards = await Promise.all(myPlayers.map(async (p) => {
+    S.players = section("players", "My players", skel(1));
+    playersP = Promise.all(myPlayers.map(async (p) => {
       let g = games.find((x) => x.sport === p.sport && x.state !== "post" && (x.home.id === p.teamId || x.away.id === p.teamId));
       // not in the loaded slate (e.g. football next week): use the team's schedule
       if (!g && p.teamId) try { g = (await schedule(p.sport, p.teamId)).games.find((x) => x.state !== "post"); } catch {}
@@ -129,8 +137,7 @@ async function viewHome() {
         : `<span class="muted small">${q?.why === "college" ? "No player model for this sport" : q?.why === "nba-noline" ? "No projection until prop lines post" : "No projection yet"}</span>`;
       return `<a class="li" href="#/player/${p.sport}/${p.id}" style="flex-wrap:wrap">${headshot(p.headshot)}<div class="sp"><div class="t ellip">${esc(p.name)}</div>
         <div class="s">${sportBadge(p.sport)} ${g.home.id === p.teamId ? "vs" : "@"} ${esc(opp.abbr)} · ${esc(statusText(g))}</div></div><div class="pps">${items}</div></a>`;
-    }));
-    S.players = section("players", "My players", `<div class="card list">${cards.join("")}</div><p class="muted small" style="margin:8px 2px 0">${modelBadge("your model")} projection, ${marketBadge("DraftKings")} line in small type</p>`);
+    })).then((cards) => (S.players = section("players", "My players", `<div class="card list">${cards.join("")}</div><p class="muted small" style="margin:8px 2px 0">${modelBadge("your model")} projection, ${marketBadge("DraftKings")} line in small type</p>`)));
   }
 
   const live = games.filter((g) => g.state === "in").sort((a, b) => favGame(b) - favGame(a));
@@ -163,15 +170,15 @@ async function viewHome() {
   }).sort((a, b) => (b.d == null ? -1 : Math.abs(b.d)) - (a.d == null ? -1 : Math.abs(a.d)))
     // with several sports on, keep it balanced: up to 3 per sport (8 for one sport)
     .filter((r, i, all) => sports.length === 1 || all.slice(0, i).filter((x) => x.g.sport === r.g.sport).length < 3).slice(0, 8);
-  const feedMeta = feeds.map((f, i) => f.status === "fulfilled" ? `${SPORTS[sports[i]].label} ${ago(f.value.updated)}` : `${SPORTS[sports[i]].label} unavailable`).join(" · ");
-  S.models = section("models", "Model predictions", rows.length ? `<div class="card list">${rows.map(({ g, m, mk, d }) => `
+  const modelsSection = (feedMeta) => section("models", "Model predictions", rows.length ? `<div class="card list">${rows.map(({ g, m, mk, d }) => `
       <a class="mrow" href="#/game/${g.sport}/${g.id}">
         <div><div class="who">${esc(g.away.abbr)} @ ${esc(g.home.abbr)}</div><div class="when">${sportBadge(g.sport)} ${esc(statusText(g))}</div></div>
         <div class="v m"><small>${esc(m.source)}</small>${spreadText(m.spread_home, g)}</div>
         <div class="v k"><small>${esc(shortBook(mk?.book))}</small>${mk?.spread_home != null ? spreadText(mk.spread_home, g) : "–"}</div>
         ${d != null && Math.abs(d) >= 0.5 ? `<div class="diff">Model is <b>${fmt1(Math.abs(d))} pts</b> more on ${esc(d < 0 ? g.home.abbr : g.away.abbr)} than the line${m.home_win_prob != null ? ` · ${esc(m.home_win_prob >= .5 ? g.home.abbr : g.away.abbr)} win ${pct(Math.max(m.home_win_prob, 1 - m.home_win_prob))}` : ""}</div>` : ""}
       </a>`).join("")}</div>` : empty("No upcoming games with a model line right now."),
-    `${esc(feedMeta)} · <a class="sec-more" href="#/odds">Odds center</a>`);
+    `${feedMeta ? `${esc(feedMeta)} · ` : ""}<a class="sec-more" href="#/odds">Odds center</a>`);
+  S.models = modelsSection("");
 
   const todayList = todays.slice().sort((a, b) => favGame(b) - favGame(a) || (b.state === "in") - (a.state === "in") || a.start - b.start);
   const nextDay = !todayList.length ? upcoming.filter((g) => g.day > tKey) : [];
@@ -208,14 +215,30 @@ async function viewHome() {
   const finals = games.filter((g) => g.day === yKey && g.state === "post").sort((a, b) => favGame(b) - favGame(a));
   S.finals = section("finals", "Yesterday's finals", finals.length ? more("finals", finals, 6, (g) => gameCard(g, { showModel: false })) : empty("No finals yesterday."));
 
+  S.news = section("news", "Latest news", skel(1));
+  const errs = errors.map(([s, e]) => errBox(`${SPORTS[s].label} scores`, e)).join("") +
+    (late.length ? `<p class="muted small" style="margin:0 2px 8px">Still loading ${late.map((s) => SPORTS[s].label).join(", ")} from ESPN…</p>` : "");
+  // first visit in a browser tab: suggest installing (iPhone: Share > Add to Home Screen)
+  const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  const install = !standalone && !state.hideInstall ? `<div class="card install"><img src="apple-touch-icon.png" alt=""><div class="sp small"><b>Put GAME DAY on your home screen</b><br><span class="muted">In Safari tap Share, then "Add to Home Screen". It opens full screen and can show alerts.</span></div><button class="mini" data-action="hideinstall" aria-label="Dismiss">${ICON.x}</button></div>` : "";
+  const paint = () => {
+    if (token !== viewHome.token || route().name !== "home") return; // a newer render or another page took over
+    const y = window.scrollY;
+    view.innerHTML = `${install}${errs}${state.sections.filter((x) => x.on).map((x) => S[x.key] || "").join("")}
+      <p class="muted small" style="text-align:center;margin-top:24px">Scores and stats: ESPN · Predictions: your models' published files · Refreshes automatically</p>`;
+    window.scrollTo(0, y);
+  };
+  paint();
+
+  const [newsRes, feeds] = await Promise.all([newsP, feedsP, playersP]);
   const arts = newsRes.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
   const favArt = (a) => a.teamIds.some((id) => isFavTeam(a.sport, id)) || a.athleteIds.some((id) => isFavPlayer(a.sport, id));
   arts.sort((a, b) => favArt(b) - favArt(a) || new Date(b.published) - new Date(a.published));
   S.news = section("news", "Latest news", arts.length ? `<div class="card list">${arts.slice(0, 8).map(newsItem).join("")}</div>` : empty("No news loaded."), `<a class="sec-more" href="#/news">All news &amp; injuries</a>`);
-
-  const errs = errors.map(([s, e]) => errBox(`${SPORTS[s].label} scores`, e)).join("");
-  view.innerHTML = `${errs}${state.sections.filter((x) => x.on).map((x) => S[x.key] || "").join("")}
-    <p class="muted small" style="text-align:center;margin-top:24px">Scores and stats: ESPN · Predictions: your models' published files · Refreshes automatically</p>`;
+  S.models = modelsSection(feeds.map((f, i) => f.status === "fulfilled" ? `${SPORTS[sports[i]].label} ${ago(f.value.updated)}` : `${SPORTS[sports[i]].label} unavailable`).join(" · "));
+  paint();
+  // notifications last, so they don't compete with the page for bandwidth
+  computeAlerts(games).then((items) => { setBadge(items); notifyNew(items); }).catch(() => {});
   return games;
 }
 
@@ -224,7 +247,7 @@ async function viewScores() {
   const d = addDays(today(), ui.scoresDay);
   const sports = active();
   const days = [-3, -2, -1, 0, 1, 2, 3].map((n) => ui.scoresDay + n);
-  const head = `<div class="row" style="justify-content:space-between"><h1 class="page-title">Scores</h1>
+  const head = `<div class="row" style="justify-content:space-between;flex-wrap:wrap;row-gap:4px"><h1 class="page-title">Scores</h1>
       <span class="row" style="gap:6px"><a class="btn" href="#/calendar">Calendar</a><a class="btn" href="#/odds">Odds</a><label class="btn" style="position:relative">${ICON.cal} ${esc(fmtDay(d))}<input type="date" data-action="sdate" value="${isoDay(d)}" aria-label="Pick a date" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label></span></div>
     <div class="seg" style="margin-bottom:14px">${days.map((n) => `<button data-action="day" data-n="${n}" aria-pressed="${n === ui.scoresDay}">${n === 0 ? "Today" : fmtDay(addDays(today(), n)).replace(/^\w+, /, "")}</button>`).join("")}</div>`;
   if (view.dataset.v !== "scores") view.innerHTML = head + skel(4);
@@ -385,6 +408,7 @@ async function viewProfile() {
       <div class="li"><span class="badge b-market">DK</span><div class="sp s">Sportsbook lines (DraftKings via ESPN, or the NFL model's consensus line)</div></div></div>`)}
     ${section("sources", "Data sources", `<div class="card list">${log.length ? log.map(([k, v]) => `<div class="li"><span class="badge ${v.ok ? "b-actual" : "b-live"}">${v.ok ? "OK" : "Error"}</span>
       <div class="sp"><div class="t ellip">${esc(k)}</div><div class="s ellip">${v.ok ? `loaded ${ago(v.at)} · ${v.ms} ms` : esc(v.error)}</div></div></div>`).join("") : '<div class="li muted">Nothing loaded yet this session.</div>'}</div>`, "This session")}
+    ${section("install", "Install on your phone", `<div class="card pad small muted">${matchMedia("(display-mode: standalone)").matches || navigator.standalone ? "GAME DAY is installed on this device." : `To install on iPhone: open this page in Safari, tap <b>Share</b>, then <b>Add to Home Screen</b>. It then opens full screen, keeps your favorites, and can show alerts while open.`}</div>`)}
     ${section("about", "About", `<div class="card pad small muted">Favorites and settings are saved on this device only. Live data comes straight from ESPN; predictions come from the files your models already publish to this site 4 times a day.
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-action="refresh">Refresh data</button><button class="btn" data-action="reset">Reset GAME DAY</button></div></div>`)}`;
 }
@@ -555,6 +579,7 @@ document.addEventListener("click", (e) => {
         });
       break;
     }
+    case "hideinstall": state.hideInstall = true; save(); e.target.closest(".install")?.remove(); break;
     case "refresh": forget(); toast("Refreshing…"); rerender(); break;
     case "reset": if (confirm("Reset GAME DAY? This removes your followed teams, players and settings on this device.")) resetAll(); break;
   }

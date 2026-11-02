@@ -2,19 +2,21 @@
 // games starting soon, live and final scores, big performances, injury-report changes, news, and
 // where your model and the book disagree on your team's next game. Optional phone alerts while
 // GAME DAY is open (a true background push would need a server, which this app doesn't have).
-import { esc, ago, fmtTime, dayLabel, isoDay, addDays, today, state, save, isFavTeam, isFavPlayer, favTeamIds, favPlayerTeamIds } from "./core.js?v=15";
-import { SPORTS, SPORT_KEYS, slate, leagueNews, leagueInjuries, HAS_INJURY_REPORT, spreadText, fmt1 } from "./data.js?v=15";
-import { sportBadge, modelBadge, logo, headshot, section, empty, errBox, skel } from "./ui.js?v=15";
+import { esc, ago, fmtTime, dayLabel, isoDay, addDays, today, state, save, isFavTeam, isFavPlayer, favTeamIds, favPlayerTeamIds } from "./core.js?v=22";
+import { SPORTS, SPORT_KEYS, slate, leagueNews, roster, spreadText, fmt1 } from "./data.js?v=22";
+import { sportBadge, modelBadge, logo, headshot, section, empty, errBox, skel } from "./ui.js?v=22";
 
 export const KINDS = [
   ["soon", "Game starting soon", "Your teams, 3 hours before"], ["live", "Live games", "When your teams' games are in progress"],
   ["final", "Final scores", "Results for your teams"], ["perf", "Big performances", "Your players leading their game"],
-  ["injury", "Injury updates", "Your players on, or coming off, the NBA/NFL injury report"], ["news", "News", "Stories tagged with your teams or players"],
+  ["injury", "Injury updates", "Your players added to, or coming off, ESPN's injury list"], ["news", "News", "Stories tagged with your teams or players"],
   ["model", "Model vs line", "Your model 3+ pts off the book on your team's next game"],
 ];
 const st = () => {
   state.alerts ||= { seen: [], notified: [], inj: {}, kinds: Object.fromEntries(KINDS.map(([k]) => [k, true])), push: false };
   for (const [k] of KINDS) if (!(k in state.alerts.kinds)) state.alerts.kinds[k] = true;
+  // injury memory now comes from team rosters; start it fresh once so the old report-based statuses don't raise false "off the list" alerts
+  if (state.alerts.injV !== 2) { state.alerts.inj = {}; state.alerts.injV = 2; }
   return state.alerts;
 };
 
@@ -58,26 +60,22 @@ export async function computeAlerts(games = null) {
     if (isFavPlayer(g.sport, l.athlete.id))
       items.push({ id: `perf:${g.sport}:${g.id}:${l.athlete.id}:${l.cat}`, kind: "perf", sport: g.sport, time: +g.start + 2 * 3600e3, img: l.athlete.headshot,
         title: `${l.athlete.name}: ${l.text}`, text: `Led ${side.abbr} in ${l.label.toLowerCase()} · ${g.state === "in" ? "live" : "final"} vs ${(side === g.home ? g.away : g.home).abbr}`, href: `#/game/${g.sport}/${g.id}` });
-  // injury report changes for players you follow
-  const injSports = sports.filter((s) => HAS_INJURY_REPORT[s] && state.players.some((p) => p.sport === s));
-  const inj = await Promise.allSettled(injSports.map((s) => leagueInjuries(s)));
-  inj.forEach((r, i) => {
+  // injury changes for players you follow, from their team rosters (small; ESPN's full NFL report is ~8 MB)
+  const followed = state.players.filter((p) => sports.includes(p.sport) && p.teamId);
+  const rosters = await Promise.allSettled(followed.map((p) => roster(p.sport, p.teamId)));
+  rosters.forEach((r, i) => {
     if (r.status !== "fulfilled") return;
-    const s = injSports[i];
-    const onReport = new Map();
-    for (const t of r.value.teams) for (const x of t.list) if (x.status !== "Active") onReport.set(x.id, x); // "Active" entries are notes, not injuries
-    for (const p of state.players.filter((p) => p.sport === s)) {
-      const key = `${s}:${p.id}`, x = onReport.get(p.id), prev = A.inj[key];
-      if (x) {
-        items.push({ id: `inj:${key}:${x.status}:${x.date}`, kind: "injury", sport: s, time: +new Date(x.date), img: x.headshot || p.headshot,
-          title: `${p.name}: ${x.status}${x.type ? ` (${x.type})` : ""}`, text: x.short || "On the ESPN injury report", href: `#/player/${s}/${p.id}` });
-        A.inj[key] = { status: x.status, at: Date.now() };
-      } else if (prev && prev.status !== "clear") {
-        A.inj[key] = { status: "clear", at: Date.now() };
-      }
-      if (!x && A.inj[key]?.status === "clear" && Date.now() - A.inj[key].at < 3 * 864e5)
-        items.push({ id: `injclear:${key}:${A.inj[key].at}`, kind: "injury", sport: s, time: A.inj[key].at, img: p.headshot, title: `${p.name} is off the injury report`, text: "No longer listed by ESPN", href: `#/player/${s}/${p.id}` });
-    }
+    const p = followed[i], s = p.sport, key = `${s}:${p.id}`;
+    const me = (r.value.athletes || []).flatMap((x) => x.items || [x]).find((x) => String(x.id) === p.id);
+    if (!me) return; // not on the roster any more (traded/released): the player page will show the new team
+    const x = (me.injuries || [])[0], prev = A.inj[key];
+    if (x && x.status && x.status !== "Active") {
+      items.push({ id: `inj:${key}:${x.status}:${x.date}`, kind: "injury", sport: s, time: +new Date(x.date || Date.now()), img: p.headshot,
+        title: `${p.name}: ${x.status}`, text: `ESPN injury list${x.date ? `, updated ${ago(x.date)}` : ""}`, href: `#/player/${s}/${p.id}` });
+      A.inj[key] = { status: x.status, at: Date.now() };
+    } else if (prev && prev.status !== "clear") A.inj[key] = { status: "clear", at: Date.now() };
+    if (!x && A.inj[key]?.status === "clear" && Date.now() - A.inj[key].at < 3 * 864e5)
+      items.push({ id: `injclear:${key}:${A.inj[key].at}`, kind: "injury", sport: s, time: A.inj[key].at, img: p.headshot, title: `${p.name} is off the injury list`, text: "No longer listed by ESPN", href: `#/player/${s}/${p.id}` });
   });
   // news tagged with your teams or players (last 24 hours)
   const nw = await Promise.allSettled(sports.map((s) => leagueNews(s, 30)));

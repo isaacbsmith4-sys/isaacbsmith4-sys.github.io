@@ -1,11 +1,11 @@
 // GAME DAY assistant, built in (no AI key). It understands the kinds of questions below, answers only from the
 // app's data (ESPN, your models' files), and shows the source and time of every answer. If it can't answer
 // something from real data, it says so rather than guessing.
-import { esc, ago, fmtTime, fmtDay, dayLabel, isoDay, today, addDays, state, isFavTeam, favTeamIds, favPlayerTeamIds } from "./core.js?v=15";
-import { SPORTS, SPORT_KEYS, teams, slate, schedule, searchPlayers, spreadText, fmt1, pct, modelFeed } from "./data.js?v=15";
-import { sportBadge, modelBadge, marketBadge, logo, headshot, empty, errBox, gameCard } from "./ui.js?v=15";
-import { gamelog, quickProjection } from "./players.js?v=15";
-import { labData } from "./stats.js?v=15";
+import { esc, ago, fmtTime, fmtDay, dayLabel, isoDay, today, addDays, state, isFavTeam, favTeamIds, favPlayerTeamIds } from "./core.js?v=22";
+import { SPORTS, SPORT_KEYS, teams, slate, schedule, searchPlayers, spreadText, fmt1, pct, modelFeed } from "./data.js?v=22";
+import { sportBadge, modelBadge, marketBadge, logo, headshot, empty, errBox, gameCard } from "./ui.js?v=22";
+import { gamelog, quickProjection } from "./players.js?v=22";
+import { labData } from "./stats.js?v=22";
 
 const SUGGEST = [
   "What are my favorite players projected to score tonight?",
@@ -24,7 +24,7 @@ export function viewAssistant(view) {
   view.innerHTML = `<h1 class="page-title">Ask GAME DAY</h1>
     <p class="page-sub">Answers come only from live ESPN data and your models' files, with the source and time on each. No guessing.</p>
     <form id="askForm" class="ask-form"><input class="input" id="askQ" placeholder="Ask about your teams, players, games or your models" autocomplete="off" enterkeyhint="send"><button class="btn primary" type="submit">Ask</button></form>
-    <div class="chips" style="flex-wrap:wrap;overflow:visible">${SUGGEST.map((s) => `<button class="chip" data-ask="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+    <div class="chips ask-chips">${SUGGEST.map((s) => `<button class="chip" data-ask="${esc(s)}">${esc(s)}</button>`).join("")}</div>
     <div id="askLog">${log.map(render).join("")}</div>
     <div class="card pad small muted" style="margin-top:16px;line-height:1.5"><b style="color:var(--text2)">What I can answer</b><br>
       Projections for your players tonight or this week · which of your teams play today or this week · the best matchups tonight ·
@@ -179,7 +179,7 @@ async function improved(sports) {
   if (!sports.length) return `<p>Recent-form rankings are available for the NBA and NFL (their per-game team logs are in the research feed).</p>`;
   const out = [];
   for (const s of sports.filter((x) => x === "nba" || x === "nfl")) {
-    const { getJSON } = await import("./core.js?v=15");
+    const { getJSON } = await import("./core.js?v=22");
     const d = await getJSON(`../research/data/${s}_teamstats.json`, { ttl: 600_000 });
     const L = await labData(s);
     const season = Math.max(...Object.values(d.teams).flat().map((r) => r.s));

@@ -1,6 +1,6 @@
-// Network-first for everything, falling back to cache when offline.
-const CACHE = "gameday-v15";
-const SHELL = ["./", "index.html", "app.css?v=15", "js/app.js?v=15", "js/core.js?v=15", "js/data.js?v=15", "js/ui.js?v=15", "js/gamecenter.js?v=15", "js/players.js?v=15", "js/teams.js?v=15", "js/stats.js?v=15", "js/news.js?v=15", "js/calendar.js?v=15", "js/alerts.js?v=15", "js/odds.js?v=15", "js/assistant.js?v=15",
+// GAME DAY service worker: fast repeat opens, and something to show when offline.
+const CACHE = "gameday-v22";
+const SHELL = ["./", "index.html", "app.css?v=22", "js/app.js?v=22", "js/core.js?v=22", "js/data.js?v=22", "js/ui.js?v=22", "js/gamecenter.js?v=22", "js/players.js?v=22", "js/teams.js?v=22", "js/stats.js?v=22", "js/news.js?v=22", "js/calendar.js?v=22", "js/alerts.js?v=22", "js/odds.js?v=22", "js/assistant.js?v=22",
   "manifest.webmanifest", "data/teams.json"];
 
 self.addEventListener("install", (e) => {
@@ -15,19 +15,18 @@ self.addEventListener("activate", (e) => {
   );
 });
 
+// App files have versioned URLs (?v=N), so they're served from cache once fetched. Everything else, including
+// your models' files and ESPN, goes to the network first so it's always current, with the cached copy used offline.
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
-  e.respondWith(
-    fetch(e.request)
-      .then((res) => {
-        if (res.ok && new URL(e.request.url).origin === location.origin) {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(e.request, copy));
-        }
-        return res;
-      })
-      .catch(() => caches.match(e.request))
-  );
+  const url = new URL(e.request.url);
+  if (url.origin !== location.origin) return; // ESPN and other hosts: straight to the network
+  const put = (res) => { if (res.ok) { const copy = res.clone(); e.waitUntil(caches.open(CACHE).then((c) => c.put(e.request, copy))); } return res; };
+  if (/\?v=\d+$/.test(url.search)) {
+    e.respondWith(caches.match(e.request).then((hit) => hit || fetch(e.request).then(put)));
+    return;
+  }
+  e.respondWith(fetch(e.request).then(put).catch(() => caches.match(e.request)));
 });
 
 // tapping a phone alert opens the right page

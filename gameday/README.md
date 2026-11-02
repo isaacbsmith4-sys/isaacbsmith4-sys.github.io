@@ -32,6 +32,21 @@ Static app, no build step, no server. Favorites and settings live on the device 
 Bump `?v=N` on every module import, `index.html` and `sw.js` (SHELL + CACHE) together, or phones keep old code.
 Publish: `git pull --rebase --autostash`, `git add gameday`, commit, push.
 
-## Not built yet
-News/injuries page,
-calendar, notifications, odds center, AI assistant (see the phase plan).
+## Performance and offline (sw.js)
+- App files have versioned URLs and are served cache-first. Everything else (your models' files, ESPN) is network-first,
+  so it's always current; same-origin files fall back to the cached copy offline. (A stale-while-revalidate cache for the
+  model files was tried and reverted: it made those requests slower in testing.)
+- Home paints once the sports that answer within 2.5 s are in, then fills in late sports, news, player projections and alerts.
+- Injury alerts use team rosters (small), not ESPN's league injury report (the NFL one is ~8 MB).
+
+## Checks done in phase 9
+Every page at 375 px and 320 px (no overflow, no script errors), detail pages for all four sports, model sign conventions
+(spread vs win chance, book spread vs moneylines), projections equal to the source files, NFL name matching (268/271 exact;
+the rest by unique last name), league efficiency sums (ORtg = DRtg, offense EPA = defense EPA).
+
+## Known limits
+- No player projections for college (the NCAAB/CFB models predict games only); NBA projections only for players with posted prop lines.
+- Odds: DraftKings via ESPN (open and latest), not live in-play; FanDuel isn't connected. Team ATS only for the NFL.
+- KenPom isn't connected; college strength of schedule isn't in the models' files.
+- Alerts pop up only while the app is open (no push server). The assistant is built in (no AI key); free-form chat would need
+  an Anthropic key plus a small proxy.

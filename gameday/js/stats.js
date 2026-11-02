@@ -3,11 +3,11 @@
 //   NFL efficiency: research/data/nfl_teamstats.json (per-game EPA, success rate etc. from nflverse play-by-play)
 //   College: your NCAAB / CFB models' own ratings (games.json), plus the AP poll from ESPN
 //   Standings-based numbers (records, scoring, seeds): ESPN
-import { esc, fmtDay, ago, getJSON, isFavTeam, favTeamIds, state } from "./core.js?v=15";
-import { SPORTS, teams, modelFeed, leagueTable, schedule, seasonSchedule, roster, spreadText, fmt1, pct } from "./data.js?v=15";
-import { sportBadge, modelBadge, logo, section, empty, errBox, skel, gameCard, ICON } from "./ui.js?v=15";
-import { prediction } from "./teams.js?v=15";
-import { gameProjections, projectionTable } from "./players.js?v=15";
+import { esc, fmtDay, ago, getJSON, isFavTeam, favTeamIds, state } from "./core.js?v=22";
+import { SPORTS, teams, modelFeed, leagueTable, schedule, seasonSchedule, roster, spreadText, fmt1, pct } from "./data.js?v=22";
+import { sportBadge, modelBadge, logo, section, empty, errBox, skel, gameCard, ICON } from "./ui.js?v=22";
+import { prediction } from "./teams.js?v=22";
+import { gameProjections, projectionTable } from "./players.js?v=22";
 
 const SITE = "https://site.api.espn.com/apis/site/v2/sports";
 const NFL_TO_ESPN = { LA: "LAR", WAS: "WSH" };

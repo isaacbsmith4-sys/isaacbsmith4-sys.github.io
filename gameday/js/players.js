@@ -4,9 +4,9 @@
 //            NFL  -> the NFL model's player file, nfl/props.json
 //            NCAAB / CFB -> no player model exists (the college models predict games only)
 //   Market:  the prop line from those same files (DraftKings via ESPN)
-import { esc, fmtTime, fmtDay, dayLabel, ago, getJSON, isFavPlayer, state, save } from "./core.js?v=15";
-import { SPORTS, athlete, schedule, summary, team as getTeam, fmt1, pct } from "./data.js?v=15";
-import { ICON, sportBadge, marketBadge, modelBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=15";
+import { esc, fmtTime, fmtDay, dayLabel, ago, getJSON, isFavPlayer, state, save } from "./core.js?v=22";
+import { SPORTS, athlete, schedule, summary, team as getTeam, fmt1, pct } from "./data.js?v=22";
+import { ICON, sportBadge, marketBadge, modelBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=22";
 
 const WEB = "https://site.web.api.espn.com/apis/common/v3/sports";
 const n = (v) => { const x = parseFloat(String(v ?? "").replace(/,/g, "")); return Number.isFinite(x) ? x : null; };
@@ -154,6 +154,11 @@ async function projectionsFor(sport, a, next) {
     const f = await nflProps();
     const team = nflAbbr(a.team?.abbreviation);
     let list = f.byKey.get(`${normName(a.displayName)}|${team}`) || [];
+    if (!list.length) { // names can differ ("Joshua" vs "Josh", "Hollywood" vs "Marquise"): fall back to a unique last name on the team
+      const last = normName(a.displayName).split(" ").pop();
+      const cands = [...f.byKey.entries()].filter(([k]) => k.endsWith(`|${team}`) && k.split("|")[0].split(" ").pop() === last);
+      if (new Set(cands.map(([k]) => k)).size === 1) list = cands[0][1];
+    }
     if (next) {
       const opp = nflAbbr((next.home.id === String(a.team?.id) ? next.away : next.home).abbr);
       list = list.filter((x) => x.meta && [x.meta.away, x.meta.home].includes(opp));
@@ -270,7 +275,7 @@ export async function viewPlayer(view, sport, id) {
     if (b.dataset.pl === "logall") { ui.logAll = !ui.logAll; view.querySelector("#glog").outerHTML = gameLogTable(sport, rows, stats, logNote); }
   };
   careerStats(sport, id).then((c) => { const el = view.querySelector("#career"); if (el) el.innerHTML = career(sport, pos, c); })
-    .catch((e) => { const el = view.querySelector("#career"); if (el) el.innerHTML = section("career", "Career", errBox("career stats", e)); });
+    .catch((e) => { const el = view.querySelector("#career"); if (el) el.innerHTML = section("career", "Career", /404/.test(e?.message) ? empty("ESPN has no career stats for this player yet.") : errBox("career stats", e)); });
 }
 
 // ---------------------------------------------------------------- PLAYER PERFORMANCE (the key card)

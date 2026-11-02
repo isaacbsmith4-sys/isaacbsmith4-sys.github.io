@@ -1,9 +1,9 @@
 // Odds Center: DraftKings lines from ESPN (open -> latest), no-vig implied probabilities, your models' numbers and
 // the gap to the book, your models' tracked plays and records, and NFL against-the-spread records.
 // Not live in-play odds. FanDuel isn't connected.
-import { esc, ago, fmtTime, dayLabel, state, isFavTeam, favTeamIds, favPlayerTeamIds, getJSON } from "./core.js?v=15";
-import { SPORTS, SPORT_KEYS, slate, spreadText, fmt1, pct, modelFeed } from "./data.js?v=15";
-import { sportBadge, modelBadge, marketBadge, logo, section, empty, errBox, skel } from "./ui.js?v=15";
+import { esc, ago, fmtTime, dayLabel, state, isFavTeam, favTeamIds, favPlayerTeamIds, getJSON } from "./core.js?v=22";
+import { SPORTS, SPORT_KEYS, slate, spreadText, fmt1, pct, modelFeed } from "./data.js?v=22";
+import { sportBadge, modelBadge, marketBadge, logo, section, empty, errBox, skel } from "./ui.js?v=22";
 
 const ui = { sport: "all", sort: "gap", mine: false, tab: "lines" };
 const TABS = [["lines", "Lines"], ["plays", "Your models' plays"], ["records", "Records & ATS"]];
@@ -154,7 +154,7 @@ async function records(sports) {
 
 // NFL ATS: final scores (research feed, nflverse) against the consensus line in the NFL model's file
 async function nflAts() {
-  const [ts, pred, teamsJ] = await Promise.all([getJSON("../research/data/nfl_teamstats.json", { ttl: 600_000 }), getJSON("../nfl/predictions.json", { ttl: 300_000 }), import("./data.js?v=15").then((m) => m.teams())]);
+  const [ts, pred, teamsJ] = await Promise.all([getJSON("../research/data/nfl_teamstats.json", { ttl: 600_000 }), getJSON("../nfl/predictions.json", { ttl: 300_000 }), import("./data.js?v=22").then((m) => m.teams())]);
   const lines = new Map();
   for (const games of Object.values(pred.weeks || {})) for (const g of games) if (g.vegas_spread != null) lines.set(`${g.date}|${g.home}|${g.away}`, g.vegas_spread); // home margin line
   const season = Math.max(...Object.values(ts.teams).flat().map((r) => r.s));

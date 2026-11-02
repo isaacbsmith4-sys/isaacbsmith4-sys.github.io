@@ -3,7 +3,7 @@
 //   Your model feeds  -> predictions, read from what each model already publishes on this site
 // To add a sport: add an entry to SPORTS with its ESPN path and a model adapter.
 
-import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=15";
+import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=22";
 
 const SITE = "https://site.api.espn.com/apis/site/v2/sports";
 const WEB = "https://site.web.api.espn.com/apis";
@@ -202,7 +202,7 @@ export async function teamStatistics(sport, id) {
 }
 export async function roster(sport, id) {
   const s = SPORTS[sport];
-  return getJSON(`${SITE}/${s.path}/teams/${id}/roster`, { label: `${s.label} roster (ESPN)`, ttl: 3_600_000 });
+  return getJSON(`${SITE}/${s.path}/teams/${id}/roster`, { label: `${s.label} roster (ESPN)`, ttl: 600_000 });
 }
 // Every team's standings row, flattened, with league ranks for scoring offense, defense and margin
 export async function leagueTable(sport) {
