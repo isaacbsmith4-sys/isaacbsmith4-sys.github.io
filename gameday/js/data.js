@@ -3,7 +3,7 @@
 //   Your model feeds  -> predictions, read from what each model already publishes on this site
 // To add a sport: add an entry to SPORTS with its ESPN path and a model adapter.
 
-import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=9";
+import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=11";
 
 const SITE = "https://site.api.espn.com/apis/site/v2/sports";
 const WEB = "https://site.web.api.espn.com/apis";
@@ -322,4 +322,46 @@ export async function seasonSchedule(sport, teamId, season) {
       return g;
     } catch { return null; }
   }).filter(Boolean);
+}
+
+// ---------- news, injuries, transactions, calendars (ESPN)
+export async function teamNews(sport, teamId, limit = 8) {
+  const s = SPORTS[sport];
+  const j = await getJSON(`${SITE}/${s.path}/news?team=${teamId}&limit=${limit}`, { label: `${s.label} team news`, ttl: 600_000 });
+  return (j.articles || []).map((a) => normArticle(sport, a));
+}
+function normArticle(sport, a) {
+  return { sport, id: String(a.id), headline: a.headline, desc: a.description, published: a.published, type: a.type,
+    url: a.links?.web?.href, image: a.images?.[0]?.url, byline: a.byline, source: "ESPN",
+    teamIds: (a.categories || []).filter((c) => c.type === "team" && c.teamId).map((c) => String(c.teamId)),
+    athleteIds: (a.categories || []).filter((c) => c.type === "athlete" && c.athleteId).map((c) => String(c.athleteId)) };
+}
+export async function leagueNews(sport, limit = 30) {
+  const s = SPORTS[sport];
+  const j = await getJSON(`${SITE}/${s.path}/news?limit=${limit}`, { label: `${s.label} news`, ttl: 300_000 });
+  return (j.articles || []).map((a) => normArticle(sport, a));
+}
+// League injury report. ESPN keeps current ones for the NBA and NFL only.
+export const HAS_INJURY_REPORT = { nba: true, nfl: true, ncaab: false, cfb: false };
+export async function leagueInjuries(sport) {
+  const s = SPORTS[sport];
+  if (!HAS_INJURY_REPORT[sport]) return { teams: [], updated: null };
+  const j = await getJSON(`${SITE}/${s.path}/injuries`, { label: `${s.label} injury report (ESPN)`, ttl: 300_000 });
+  return { updated: j.timestamp, teams: (j.injuries || []).map((t) => ({ id: String(t.id), name: t.displayName, list: (t.injuries || []).map((i) => ({
+    id: String(i.athlete?.links?.[0]?.href?.match(/\/id\/(\d+)/)?.[1] || i.id), name: i.athlete?.displayName, pos: i.athlete?.position?.abbreviation,
+    headshot: i.athlete?.headshot?.href, status: i.status, type: i.details?.type || i.type?.description, location: i.details?.location,
+    returnDate: i.details?.returnDate, short: i.shortComment, long: i.longComment, date: i.date }))
+    .filter((x) => x.status !== "Active") })) }; // ESPN also lists "Active" players with news notes; those aren't injuries
+}
+export async function transactions(sport) {
+  const s = SPORTS[sport];
+  const j = await getJSON(`${SITE}/${s.path}/transactions`, { label: `${s.label} transactions (ESPN)`, ttl: 1_800_000 });
+  return (j.transactions || []).map((t) => ({ sport, date: t.date, text: t.description, team: t.team && { id: String(t.team.id), abbr: t.team.abbreviation, name: t.team.displayName, logo: t.team.logos?.[0]?.href } }));
+}
+// The league's season calendar: game dates (basketball) or labeled weeks and postseason rounds (football)
+export async function seasonCalendar(sport) {
+  const s = SPORTS[sport];
+  const j = await getJSON(`${SITE}/${s.path}/scoreboard?${s.board.slice(1)}`, { label: `${s.label} scoreboard`, ttl: 3_600_000 });
+  const L = j.leagues?.[0] || {};
+  return { type: L.calendarType, entries: L.calendar || [], season: L.season };
 }

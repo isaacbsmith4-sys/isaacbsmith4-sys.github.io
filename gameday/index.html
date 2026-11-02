@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=9">
+<link rel="stylesheet" href="app.css?v=11">
 </head>
 <body>
 <header class="top" id="top">
@@ -23,6 +23,7 @@
     <a class="brand" href="#/home" aria-label="GAME DAY home"><span class="brand-mark">GAME</span><span class="brand-day">DAY</span></a>
     <div class="top-actions">
       <span class="live-pill" id="livePill" hidden><i></i><span>0 live</span></span>
+      <a class="icon-btn bell" href="#/alerts" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span class="bell-n" id="bellCount" hidden></span></a>
       <button class="icon-btn" data-action="search" aria-label="Search teams and players">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </button>
@@ -44,7 +45,7 @@
 <div class="overlay" id="overlay" hidden></div>
 <div class="toast" id="toast" role="status" hidden></div>
 
-<script type="module" src="js/app.js?v=9"></script>
+<script type="module" src="js/app.js?v=11"></script>
 <script>
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>

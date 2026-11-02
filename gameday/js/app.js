@@ -2,20 +2,23 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=9";
+} from "./core.js?v=11";
 const fmtStat1 = (x) => (x == null ? "–" : Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1));
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
   modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=9";
-import { viewGame } from "./gamecenter.js?v=9";
-import { viewPlayer, quickProjection } from "./players.js?v=9";
-import { viewTeam } from "./teams.js?v=9";
-import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=9";
+} from "./data.js?v=11";
+import { viewGame } from "./gamecenter.js?v=11";
+import { viewPlayer, quickProjection } from "./players.js?v=11";
+import { viewTeam } from "./teams.js?v=11";
+import { renderLab, renderRankings, renderMatchup } from "./stats.js?v=11";
+import { viewNews } from "./news.js?v=11";
+import { viewCalendar, downloadIcs } from "./calendar.js?v=11";
+import { viewAlerts, computeAlerts, setBadge, notifyNew, enablePush, KINDS } from "./alerts.js?v=11";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
   updated, newsItem, statusText, shortBook, modelBlock,
-} from "./ui.js?v=9";
+} from "./ui.js?v=11";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
@@ -85,6 +88,7 @@ async function viewHome() {
     Promise.allSettled(sports.map((s) => modelFeed(s))),
   ]);
   setLive(games);
+  computeAlerts(games).then((items) => { setBadge(items); notifyNew(items); }).catch(() => {});
   const tKey = isoDay(today()), yKey = isoDay(addDays(today(), -1));
   const now = Date.now();
   const upcoming = games.filter((g) => g.state !== "post");
@@ -205,7 +209,7 @@ async function viewHome() {
   const arts = newsRes.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
   const favArt = (a) => a.teamIds.some((id) => isFavTeam(a.sport, id)) || a.athleteIds.some((id) => isFavPlayer(a.sport, id));
   arts.sort((a, b) => favArt(b) - favArt(a) || new Date(b.published) - new Date(a.published));
-  S.news = section("news", "Latest news", arts.length ? `<div class="card list">${arts.slice(0, 10).map(newsItem).join("")}</div>` : empty("No news loaded."), "ESPN");
+  S.news = section("news", "Latest news", arts.length ? `<div class="card list">${arts.slice(0, 8).map(newsItem).join("")}</div>` : empty("No news loaded."), `<a class="sec-more" href="#/news">All news &amp; injuries</a>`);
 
   const errs = errors.map(([s, e]) => errBox(`${SPORTS[s].label} scores`, e)).join("");
   view.innerHTML = `${errs}${state.sections.filter((x) => x.on).map((x) => S[x.key] || "").join("")}
@@ -219,7 +223,7 @@ async function viewScores() {
   const sports = active();
   const days = [-3, -2, -1, 0, 1, 2, 3].map((n) => ui.scoresDay + n);
   const head = `<div class="row" style="justify-content:space-between"><h1 class="page-title">Scores</h1>
-      <label class="btn" style="position:relative">${ICON.cal} ${esc(fmtDay(d))}<input type="date" data-action="sdate" value="${isoDay(d)}" aria-label="Pick a date" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label></div>
+      <span class="row" style="gap:6px"><a class="btn" href="#/calendar">Calendar</a><label class="btn" style="position:relative">${ICON.cal} ${esc(fmtDay(d))}<input type="date" data-action="sdate" value="${isoDay(d)}" aria-label="Pick a date" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label></span></div>
     <div class="seg" style="margin-bottom:14px">${days.map((n) => `<button data-action="day" data-n="${n}" aria-pressed="${n === ui.scoresDay}">${n === 0 ? "Today" : fmtDay(addDays(today(), n)).replace(/^\w+, /, "")}</button>`).join("")}</div>`;
   if (view.dataset.v !== "scores") view.innerHTML = head + skel(4);
   view.dataset.v = "scores";
@@ -366,6 +370,13 @@ async function viewProfile() {
     }).join("")}</div>`)}
     ${section("sports", "Sports", `<div class="card list">${SPORT_KEYS.map((k) => `<div class="li">${sportBadge(k)}<div class="sp t">${SPORTS[k].name}</div>
       <button class="tog" role="switch" aria-checked="${!!state.sports[k]}" data-action="sporttog" data-sport="${k}" aria-label="Show ${SPORTS[k].name}"></button></div>`).join("")}</div>`)}
+    ${section("notif", "Notifications", `<div class="card list">${KINDS.map(([k, l, h]) => `<div class="li"><div class="sp"><div class="t">${esc(l)}</div><div class="s">${esc(h)}</div></div>
+        <button class="tog" role="switch" aria-checked="${state.alerts?.kinds?.[k] !== false}" data-action="alertkind" data-k="${k}" aria-label="${esc(l)}"></button></div>`).join("")}
+      <div class="li"><div class="sp"><div class="t">Phone alerts</div><div class="s">${state.alerts?.push ? "On while GAME DAY is open." : "Pop-up alerts while GAME DAY is open. On iPhone, add it to your home screen first."} Background alerts with the app closed would need a server; the hub's ntfy alerts cover your best plays.</div></div>
+        <button class="btn ${state.alerts?.push ? "on" : ""}" data-action="pushon">${state.alerts?.push ? "On" : "Turn on"}</button></div>
+      <div class="li"><div class="sp"><div class="t">Game reminders</div><div class="s">Add every upcoming game for the teams you follow to your phone's calendar, with an alert 30 minutes before.</div></div>
+        <button class="btn" data-action="icsall">${ICON.cal} Add</button></div></div>
+      <p style="margin:8px 2px 0"><a class="sec-more" href="#/alerts">Open notifications</a></p>`)}
     ${section("legend", "How to read numbers", `<div class="card list">
       <div class="li"><span class="badge b-actual">Actual</span><div class="sp s">Real results and stats from ESPN</div></div>
       <div class="li"><span class="badge b-model">Model</span><div class="sp s">Predictions from your own models (NBA, NFL, NCAAB, CFB), shown separately and never averaged</div></div>
@@ -440,7 +451,7 @@ let lastGames = [];
 let rendering = false;
 async function render({ quiet = false } = {}) {
   const { name, args } = route();
-  const tab = { team: "teams", player: "teams", game: "scores" }[name] || name;
+  const tab = { team: "teams", player: "teams", game: "scores", calendar: "scores", news: "home", alerts: "home" }[name] || name;
   document.querySelectorAll(".tabs a").forEach((a) => (a.dataset.tab === tab ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
   renderChips();
   if (!quiet) { view.dataset.v = ""; window.scrollTo(0, 0); }
@@ -450,6 +461,9 @@ async function render({ quiet = false } = {}) {
     else if (name === "scores") lastGames = (await viewScores()) || [];
     else if (name === "teams") await viewTeams();
     else if (name === "stats") await viewStats(args);
+    else if (name === "news") await viewNews(view, args[0]);
+    else if (name === "calendar") await viewCalendar(view, args);
+    else if (name === "alerts") await viewAlerts(view);
     else if (name === "profile") await viewProfile();
     else if (name === "team") await viewTeam(view, args[0], args[1]);
     else if (name === "player") await viewPlayer(view, args[0], args[1]);
@@ -521,6 +535,20 @@ document.addEventListener("click", (e) => {
         const hit = r.find((p) => p.sport === (ds.sport || "nfl"));
         if (hit) location.hash = `#/player/${hit.sport}/${hit.id}`; else toast(`Couldn't find ${ds.q} on ESPN`);
       }).catch(() => toast("Player search failed"));
+      break;
+    }
+    case "alertkind": { state.alerts ||= { seen: [], notified: [], inj: {}, kinds: {}, push: false }; state.alerts.kinds[ds.k] = state.alerts.kinds[ds.k] === false; save(); rerender(); break; }
+    case "pushon": enablePush().then((m) => { toast(m.length > 60 ? m.slice(0, 60) + "…" : m); rerender(); }); break;
+    case "icsall": {
+      el.textContent = "Loading schedules…";
+      Promise.allSettled([...new Set([...state.teams.map((t) => `${t.sport}:${t.id}`), ...state.players.filter((p) => p.teamId).map((p) => `${p.sport}:${p.teamId}`)])]
+        .map((k) => schedule(k.split(":")[0], k.split(":")[1])))
+        .then((rs) => {
+          const seen = new Set();
+          const gs = rs.flatMap((r) => (r.status === "fulfilled" ? r.value.games : [])).filter((g) => g.state === "pre" && !seen.has(`${g.sport}:${g.id}`) && seen.add(`${g.sport}:${g.id}`));
+          const n2 = gs.length ? downloadIcs(gs, "gameday-my-teams.ics", { name: "GAME DAY: my teams" }) : 0;
+          el.textContent = n2 ? `Added ${n2} games` : "No upcoming games";
+        });
       break;
     }
     case "refresh": forget(); toast("Refreshing…"); rerender(); break;

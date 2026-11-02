@@ -1,8 +1,8 @@
 // Team profiles: record, next-game prediction from your model, team stats with league ranks,
 // model ratings, standings, schedule, roster.
-import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, state } from "./core.js?v=9";
-import { SPORTS, team as getTeam, schedule, modelFeed, teamStatistics, roster, leagueTable, spreadText, fmt1, pct } from "./data.js?v=9";
-import { ICON, sportBadge, modelBadge, marketBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=9";
+import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, state } from "./core.js?v=11";
+import { SPORTS, team as getTeam, schedule, modelFeed, teamStatistics, roster, leagueTable, spreadText, fmt1, pct } from "./data.js?v=11";
+import { ICON, sportBadge, modelBadge, marketBadge, logo, headshot, section, empty, errBox, skel, gameCard } from "./ui.js?v=11";
 
 const ui = { key: null, past: false, next: false, roster: false };
 const n = (v) => { const x = parseFloat(String(v ?? "").replace(/,/g, "")); return Number.isFinite(x) ? x : null; };

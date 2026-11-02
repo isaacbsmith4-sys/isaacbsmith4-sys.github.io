@@ -1,6 +1,6 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "gameday-v9";
-const SHELL = ["./", "index.html", "app.css?v=9", "js/app.js?v=9", "js/core.js?v=9", "js/data.js?v=9", "js/ui.js?v=9", "js/gamecenter.js?v=9", "js/players.js?v=9", "js/teams.js?v=9", "js/stats.js?v=9",
+const CACHE = "gameday-v11";
+const SHELL = ["./", "index.html", "app.css?v=11", "js/app.js?v=11", "js/core.js?v=11", "js/data.js?v=11", "js/ui.js?v=11", "js/gamecenter.js?v=11", "js/players.js?v=11", "js/teams.js?v=11", "js/stats.js?v=11", "js/news.js?v=11", "js/calendar.js?v=11", "js/alerts.js?v=11",
   "manifest.webmanifest", "data/teams.json"];
 
 self.addEventListener("install", (e) => {
@@ -28,4 +28,16 @@ self.addEventListener("fetch", (e) => {
       })
       .catch(() => caches.match(e.request))
   );
+});
+
+// tapping a phone alert opens the right page
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  const href = e.notification.data?.href || "";
+  const url = new URL("./" + (href.startsWith("#") ? href : ""), self.registration.scope).href;
+  e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((cs) => {
+    const c = cs.find((x) => x.url.startsWith(self.registration.scope));
+    if (c) { c.navigate(url); return c.focus(); }
+    return self.clients.openWindow(url);
+  }));
 });

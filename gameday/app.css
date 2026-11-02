@@ -372,3 +372,33 @@ main { min-width: 0; max-width: 1100px; margin: 0 auto; padding: 14px 16px 24px;
 .mu-pick { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-bottom: 6px; }
 .mu-pick .input { font-size: 14px; padding: 0 10px; }
 .mu-t tr.grp td { text-align: left !important; font-size: 11px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); background: var(--card2); }
+
+/* ---------- notifications, calendar, news */
+.bell { position: relative; }
+.bell-n { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; display: grid; place-items: center; border: 2px solid var(--bg); }
+.li.unread { background: rgba(255, 91, 31, .06); }
+.udot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+.cal-nav { display: flex; align-items: center; gap: 10px; margin: 4px 0 12px; }
+.cal-nav b { font-size: 16px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.cal-wd { font-size: 11px; font-weight: 800; color: var(--muted); text-align: center; padding: 4px 0; letter-spacing: .5px; }
+.cal-cell { min-height: 62px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); padding: 5px 4px 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; text-align: center; }
+.cal-cell.off { background: none; border: 0; }
+.cal-cell .dn { font-size: 12px; font-weight: 700; color: var(--text2); }
+.cal-cell.today { border-color: var(--accent); }
+.cal-cell.today .dn { color: var(--accent); }
+.cal-cell.sel { background: var(--card2); }
+.cal-cell.has-fav { border-color: rgba(255, 210, 63, .45); }
+.cal-logo { width: 20px; height: 20px; object-fit: contain; }
+.cal-cell .dots { display: flex; gap: 2px; margin-top: auto; }
+.cal-cell .dots i, .lgd { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.lgd { margin-right: 4px; vertical-align: middle; }
+.cal-day { margin-bottom: 12px; }
+.cal-dh { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 2px; flex-wrap: wrap; text-align: left; }
+.cal-dh .chev { color: var(--muted); font-size: 18px; }
+.calg { position: relative; }
+.calg .rem { position: absolute; right: 10px; bottom: 10px; }
+.li .rem { margin-left: 6px; }
+details.inj > summary { list-style: none; cursor: pointer; border-top: 1px solid var(--line); }
+details.inj > summary::-webkit-details-marker { display: none; }
+details.inj[open] > summary { background: var(--card2); }

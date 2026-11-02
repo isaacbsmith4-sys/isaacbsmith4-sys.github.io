@@ -13,6 +13,9 @@ Static app, no build step, no server. Favorites and settings live on the device 
 | `js/players.js` | Player profiles (`#/player/<sport>/<id>`): Player performance card (season / L5 / L10 vs your model's projection and the prop line), trend chart, averages and splits, game log, career; plus per-game projection tables (Game Center) and Home > My players |
 | `js/teams.js` | Team profiles (`#/team/<sport>/<id>`): next-game prediction (projected score from the model's spread + total, margin, win %, model vs book), the model's matchup inputs (NFL: factor breakdown, Elo/EPA ranks), recent form, team stats with league scoring ranks (from standings), model ratings, division/conference table, schedule, roster |
 | `js/stats.js` | Stats tab: Stats Lab (sortable league tables + chart; NBA/NFL efficiency from `../research/data/*_teamstats.json`, college = your models' ratings), Rankings (AP/coaches, model power rankings, SOS, playoff picture), Matchup Analyzer (`#/stats/matchup/<sport>/<a>/<b>`) |
+| `js/news.js` | News (`#/news/headlines|injuries|moves`): league + followed-team headlines, NBA/NFL injury reports (ESPN keeps none for college), transactions |
+| `js/calendar.js` | Calendar (`#/calendar/day|week|month`): game dots per sport, your teams' games, season phases and postseason rounds, `.ics` reminders |
+| `js/alerts.js` | Notification center (`#/alerts`, bell badge): soon/live/final for your teams, big games by your players, injury-report changes, tagged news, model-vs-line gaps; optional pop-up alerts while the app is open |
 | `data/teams.json` | Team list, built by `tools/build_teams.py` (ESPN's teams endpoint blocks browsers). Rerun each season. |
 
 ## Sources (kept separate in the UI)

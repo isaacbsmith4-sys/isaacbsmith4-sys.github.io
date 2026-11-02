@@ -1,8 +1,9 @@
 // Game Center: one game, five tabs. Actual data from ESPN's game summary; prediction from your model's file.
-import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=9";
-import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=9";
-import { gameProjections, projectionTable } from "./players.js?v=9";
-import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=9";
+import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=11";
+import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=11";
+import { gameProjections, projectionTable } from "./players.js?v=11";
+import { downloadIcs } from "./calendar.js?v=11";
+import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=11";
 
 const TABS = [["overview", "Overview"], ["box", "Box"], ["team", "Stats"], ["plays", "Plays"], ["matchup", "Matchup"]];
 const ui = { tab: "overview", boxSide: "away", period: "all", playsMode: "all", key: null };
@@ -39,6 +40,7 @@ export async function viewGame(view, sport, id, { quiet = false, tab } = {}) {
     if (k === "period") ui.period = v;
     if (k === "mode") ui.playsMode = v;
     if (k === "drive") { b.closest(".drive").classList.toggle("open"); return; }
+    if (k === "remind") { const n2 = downloadIcs([g], "game.ics"); b.textContent = n2 ? "Calendar file ready" : "Already started"; return; }
     draw();
   };
   if (quiet) body.style.minHeight = `${Math.max(0, y)}px`; // hold height while the tab redraws
@@ -69,6 +71,7 @@ function header(g) {
     <div class="row" style="gap:6px;margin-bottom:6px">${sportBadge(g.sport)}${g.state === "in" ? '<span class="badge b-live">Live</span>' : ""}<span class="sp muted small ellip">${esc(g.note || "")}</span></div>
     <div class="vs">${side(g.away)}<div>${mid}</div>${side(g.home)}</div>
     ${lines}
+    ${g.state === "pre" ? `<div style="text-align:center;margin-top:10px"><button class="btn" data-gc="remind">${ICON.cal} Remind me</button></div>` : ""}
     <div class="muted small" style="text-align:center;margin-top:10px">${esc([g.venue, g.city].filter(Boolean).join(" · "))}${g.tv.length ? ` · ${esc(g.tv.join(", "))}` : ""}${g.attendance ? ` · Att. ${g.attendance.toLocaleString()}` : ""}</div>
   </div>`;
 }
