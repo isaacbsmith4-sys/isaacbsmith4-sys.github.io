@@ -156,8 +156,8 @@ label.f{display:grid;gap:5px;font-size:12px;color:var(--muted);flex:1 1 130px}
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
 <div id="overlay"></div>
-<script src="../kit/kit.js?v=9"></script>
-<script src="../kit/apps.js?v=9"></script>
+<script src="../kit/kit.js?v=10"></script>
+<script src="../kit/apps.js?v=10"></script>
 <script>
 (() => {
 "use strict";
@@ -240,8 +240,8 @@ function viewToday() {
   if (ba.has()) {
     const b = ba.today(k), p = (x) => x.a ? Math.round(x.m / x.a * 100) + "%" : "–";
     cards.push(`<a class="card" href="${APP.basketball.path}" style="--c:${APP.basketball.color}"><div class="tag"><i></i>Basketball<span class="go">›</span></div>
-      <div class="big">${b.active ? "Workout<small>in progress</small>" : b.shots.a ? b.shots.m + "/" + b.shots.a + "<small>shots today · " + p(b.shots) + "</small>" : b.week.a.toLocaleString() + "<small>shots this week</small>"}</div>
-      <div class="sub" style="margin-top:6px">${b.week.a ? "This week " + b.week.m + "/" + b.week.a + " (" + p(b.week) + ")" : "No shooting logged this week yet."}</div></a>`);
+      <div class="big">${b.active ? "Workout<small>in progress</small>" : b.min ? b.min + "<small>min on the court today</small>" : b.weekCount + "<small>" + (b.weekCount === 1 ? "session" : "sessions") + " this week</small>"}</div>
+      <div class="sub" style="margin-top:6px">${b.tags.length ? esc([...new Set(b.tags)].join(", ")) + " · " : ""}${b.weekCount ? `${dur(b.weekMin)} this week${b.week.a ? " · " + b.week.m + "/" + b.week.a + " shots (" + p(b.week) + ")" : ""}` : "Nothing logged this week yet."}</div></a>`);
   } else cards.push(emptyCard("basketball"));
   // Habits
   const ha = adapters.habits;

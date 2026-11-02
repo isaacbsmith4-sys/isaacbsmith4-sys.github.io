@@ -120,7 +120,7 @@ nav.tabs .in{display:flex;width:100%;max-width:620px}
 </div>
 <nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
 <div id="overlay"></div>
-<script src="../kit/kit.js?v=9"></script>
+<script src="../kit/kit.js?v=10"></script>
 <script>
 (() => {
 "use strict";
@@ -148,7 +148,7 @@ if (!S || !S.checkins) S = {checkins: {}, sessions: {}};
 const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
 const CHECK = Life.col("recovery/checkins", {months: 4}), RSESS = Life.col("recovery/sessions", {months: 4});
 // read-only from other apps: sleep and training feed readiness and load
-const NIGHTS = Life.col("sleep/nights", {months: 2}), SLEEPSET = Life.doc("sleep/settings"), WORKOUTS = Life.col("train/workouts", {months: 3});
+const NIGHTS = Life.col("sleep/nights", {months: 2}), SLEEPSET = Life.doc("sleep/settings"), WORKOUTS = Life.col("train/workouts", {months: 3}), HOOPS = Life.col("basketball/sessions", {months: 3});
 const save = () => { localSave(); CHECK.replace(S.checkins); RSESS.replace(S.sessions); };
 function adopt() { S.checkins = CHECK.all(); S.sessions = RSESS.all(); localSave(); }
 CHECK.seed(S.checkins); RSESS.seed(S.sessions); adopt();
@@ -166,6 +166,11 @@ function loadByDay() {
     const min = w.type === "cond" ? (w.cond || {}).min || 0 : w.start && w.end ? Math.round((new Date(w.end) - new Date(w.start)) / 60000) : (w.ex || []).reduce((n, x) => n + x.sets.length, 0) * 3;
     const eff = w.type === "cond" ? ((w.cond || {}).effort || 6) : w.type === "mob" ? 0 : LIFT_EFFORT;
     out[w.date] = (out[w.date] || 0) + min * eff;
+  }
+  // basketball counts too: its own effort when quick-logged, otherwise 6/10
+  for (const b of Object.values(HOOPS.all())) {
+    const min = b.min || (b.end ? Math.round((new Date(b.end) - new Date(b.start)) / 60000) : 0);
+    out[b.date] = (out[b.date] || 0) + min * (b.effort || 6);
   }
   return out;
 }
@@ -195,7 +200,7 @@ function readiness(k) {
   add("energy", "Energy", c.energy ? (c.energy - 1) / 4 * 100 : null, c.energy ? c.energy + "/5" : "–", "you rated");
   add("soreness", "Soreness", c.sore ? (5 - c.sore) / 4 * 100 : null, c.sore ? c.sore + "/5" + (c.areas && c.areas.length ? " · " + c.areas.join(", ") : "") : "–", "you rated");
   add("stress", "Stress", c.stress ? (5 - c.stress) / 4 * 100 : null, c.stress ? c.stress + "/5" : "–", "you rated");
-  add("load", "Training load", lr && lr.enough && lr.ratio != null ? (lr.ratio <= 1.3 ? (lr.ratio < .8 ? 85 : 100) : (2 - lr.ratio) / .7 * 100) : null, lr && lr.enough && lr.ratio != null ? `${lr.ratio.toFixed(2)}× your usual week` : "needs 3 weeks of Train", "from Train");
+  add("load", "Training load", lr && lr.enough && lr.ratio != null ? (lr.ratio <= 1.3 ? (lr.ratio < .8 ? 85 : 100) : (2 - lr.ratio) / .7 * 100) : null, lr && lr.enough && lr.ratio != null ? `${lr.ratio.toFixed(2)}× your usual week` : "needs 3 weeks of training", "from Train");
   const rb = baseline("rhr", k), hb = baseline("hrv", k);
   add("rhr", "Resting HR", c.rhr && rb ? 100 - (c.rhr - rb) * 10 : null, c.rhr ? `${c.rhr} bpm${rb ? ` (usual ${Math.round(rb)})` : ", building baseline"}` : "not entered", "measured");
   add("hrv", "HRV", c.hrv && hb ? (c.hrv / hb - .75) / .25 * 100 : null, c.hrv ? `${c.hrv} ms${hb ? ` (usual ${Math.round(hb)})` : ", building baseline"}` : "not entered", "measured");
@@ -310,7 +315,7 @@ function drawCheckin() {
 /* ================= LOAD ================= */
 function viewLoad() {
   const k = todayKey(), L = loadByDay(), lr = acwr(k);
-  if (!lr) return `<div class="empty">Training load comes from your workouts in Train. Log a few and it shows up here.</div>`;
+  if (!lr) return `<div class="empty">Training load comes from your workouts in Train and Basketball. Log a few and it shows up here.</div>`;
   const days = []; for (let i = 27; i >= 0; i--) { const d = addDays(k, -i); days.push({d, v: L[d] || 0}); }
   const W = 330, H = 140, pl = 34, pb = 18, mx = Math.max(100, ...days.map(x => x.v)), bw = (W - pl) / 28, Y = v => H - pb - v / mx * (H - pb - 8);
   const chart = `<svg class="chart" viewBox="0 0 ${W} ${H}">${[mx / 2, mx].map(v => `<line x1="${pl}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pl - 4}" y="${Y(v) + 3}" text-anchor="end">${Math.round(v)}</text>`).join("")}
@@ -321,9 +326,9 @@ function viewLoad() {
       <div class="stat"><span class="eyebrow">This week</span><span class="v">${Math.round(lr.acute)}</span><span class="s">load, last 7 days</span></div>
       <div class="stat"><span class="eyebrow">Usual week</span><span class="v">${Math.round(lr.chronic)}</span><span class="s">average of last 4 weeks</span></div></section>
     <section class="card"><div class="eyebrow">This week vs usual</div><div style="font:800 34px var(--display);color:${zone.c};margin-top:4px">${lr.enough && ratio != null ? ratio.toFixed(2) + "×" : "–"}</div><div style="font-weight:700;color:${zone.c}">${zone.t}</div>
-      <p class="note" style="margin:8px 0 0">${lr.enough ? "0.8–1.3× is the usual safe range. Jumps above 1.5× in a week are linked with more injuries in athletes." : "Needs about 3 weeks of workouts in Train before this ratio means anything."}</p></section>
+      <p class="note" style="margin:8px 0 0">${lr.enough ? "0.8–1.3× is the usual safe range. Jumps above 1.5× in a week are linked with more injuries in athletes." : "Needs about 3 weeks of workouts in Train or Basketball before this ratio means anything."}</p></section>
     <section class="card"><div class="ch"><h2>Daily load, 4 weeks</h2><span class="sub">bright = last 7 days</span></div>${chart}
-      <p class="note" style="margin:8px 0 0">Load = minutes × effort (1–10). Conditioning uses the effort you logged; lifting counts as ${LIFT_EFFORT}/10; mobility doesn't add load.</p></section>`;
+      <p class="note" style="margin:8px 0 0">Load = minutes × effort (1–10), from Train and Basketball. Conditioning and quick-logged basketball use the effort you logged; lifting and tracked shooting count as ${LIFT_EFFORT}/10; mobility doesn't add load.</p></section>`;
 }
 
 /* ================= TRENDS ================= */

@@ -275,14 +275,16 @@
       has: () => all().length > 0 || Object.keys(tests.all()).length > 0 || !!(state.get() || {}).active,
       today(k) {
         const list = all().filter(x => x.date === k), sh = sum(list.flatMap(x => x.shots || []));
-        const ws = addDays(k, -parseKey(k).getDay()), wk = sum(all().filter(x => x.date >= ws && x.date <= k).flatMap(x => x.shots || []));
-        return {count: list.length, shots: sh, week: wk, active: (state.get() || {}).active || null};
+        const ws = addDays(k, -parseKey(k).getDay()), wkList = all().filter(x => x.date >= ws && x.date <= k), wk = sum(wkList.flatMap(x => x.shots || []));
+        const mins = l => l.reduce((t, x) => t + (x.min || (x.end ? Math.round((new Date(x.end) - new Date(x.start)) / 60000) : 0)), 0);
+        return {count: list.length, shots: sh, week: wk, min: mins(list), weekMin: mins(wkList), weekCount: wkList.length, tags: list.flatMap(x => x.tags || []), active: (state.get() || {}).active || null};
       },
       events(from, to) {
         const out = [];
         for (const x of all()) if (x.date >= from && x.date <= to) {
           const sh = sum(x.shots), th = sum(x.shots, s => THREE.has(s.z)), ft = sum(x.shots, s => s.z === "ft");
           const mins = x.end ? Math.round((new Date(x.end) - new Date(x.start)) / 60000) : null;
+          if (x.kind === "quick") { out.push({date: x.date, time: new Date(x.start), app: "basketball", title: `Basketball · ${x.min || mins} min`, detail: [(x.tags || []).join(", "), x.effort ? `effort ${x.effort}/10` : "", sh.a ? `${sh.m}/${sh.a} shots` : ""].filter(Boolean).join(" · ")}); continue; }
           out.push({date: x.date, time: new Date(x.start), app: "basketball", title: sh.a ? `Shooting · ${sh.m}/${sh.a}` : "Skill work" + (mins ? ` · ${mins} min` : ""),
             detail: [sh.a ? Math.round(sh.m / sh.a * 100) + "%" : "", th.a ? `3PT ${th.m}/${th.a}` : "", ft.a ? `FT ${ft.m}/${ft.a}` : "", (x.drills || []).length ? plural(x.drills.length, "drill") : ""].filter(Boolean).join(" · ")});
         }
