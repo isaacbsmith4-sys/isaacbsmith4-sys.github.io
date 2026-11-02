@@ -326,3 +326,28 @@ main { min-width: 0; max-width: 1100px; margin: 0 auto; padding: 14px 16px 24px;
 .pp b { color: var(--model); font-size: 15px; }
 .pp i { font-style: normal; font-size: 10.5px; color: var(--market); }
 @media (max-width: 380px) { .perf-t .l10 { display: none; } }
+
+/* ---------- team pages */
+.hero-stats { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.hs { display: flex; flex-direction: column; padding: 5px 10px; border-radius: 10px; background: rgba(0, 0, 0, .25); border: 1px solid rgba(255, 255, 255, .08); line-height: 1.2; }
+.hs small { font-size: 10px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); }
+.hs b { font-size: 14px; }
+.pred-score { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.pred-score > div { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.pred-score b { font-family: var(--display); font-size: 40px; line-height: 1; color: var(--model); }
+.pred-score span { font-size: 12px; color: var(--muted); font-weight: 700; }
+.pred-score i { color: var(--faint); font-style: normal; font-size: 24px; }
+.adv { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 13px; }
+.adv .bar { width: 38%; height: 8px; position: relative; background: var(--line); border-radius: 99px; }
+.adv .bar::after { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--line2); }
+.adv .bar i { position: absolute; top: 0; bottom: 0; border-radius: 99px; }
+.adv .bar i.pos { left: 50%; background: var(--model); }
+.adv .bar i.neg { right: 50%; background: var(--loss); }
+.adv b { width: 44px; text-align: right; }
+.adv-t td, .adv-t th { text-align: center; }
+.adv-t th:first-child, .adv-t td:first-child { text-align: left; padding-left: 14px; }
+.adv-t th:last-child, .adv-t td:last-child { text-align: right; padding-right: 14px; }
+.adv-t th .logo { width: 20px; height: 20px; display: inline-block; vertical-align: middle; }
+.adv-t td.lbl { color: var(--muted); font-size: 12px; white-space: normal; }
+.adv-t td.adv-w { color: var(--win); font-weight: 700; }
+.fpill span + span { color: var(--muted); font-size: 9.5px; }

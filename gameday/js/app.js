@@ -2,18 +2,19 @@
 import {
   state, save, SECTIONS, isFavTeam, isFavPlayer, toggleTeam, togglePlayer, move, favTeamIds, favPlayerTeamIds,
   sourceLog, esc, today, addDays, isoDay, fmtTime, fmtDay, dayLabel, ago, resetAll, forget,
-} from "./core.js?v=4";
+} from "./core.js?v=6";
 const fmtStat1 = (x) => (x == null ? "–" : Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1));
 import {
   SPORTS, SPORT_KEYS, slate, boardDay, news, teams, team as getTeam, searchPlayers, athlete, schedule, standings,
   modelFeed, spreadText, fmt1, pct,
-} from "./data.js?v=4";
-import { viewGame } from "./gamecenter.js?v=4";
-import { viewPlayer, quickProjection } from "./players.js?v=4";
+} from "./data.js?v=6";
+import { viewGame } from "./gamecenter.js?v=6";
+import { viewPlayer, quickProjection } from "./players.js?v=6";
+import { viewTeam } from "./teams.js?v=6";
 import {
   ICON, sportBadge, modelBadge, marketBadge, logo, headshot, starBtn, gameCard, section, empty, errBox, skel,
   updated, newsItem, statusText, shortBook, modelBlock,
-} from "./ui.js?v=4";
+} from "./ui.js?v=6";
 
 const $ = (s, r = document) => r.querySelector(s);
 const view = $("#view");
@@ -280,44 +281,6 @@ async function viewTeams() {
   $("#teamQ").addEventListener("input", (e) => { ui.teamsQ = e.target.value; draw(); });
 }
 
-// ================================================================= TEAM PAGE
-async function viewTeam(sport, id) {
-  view.dataset.v = "team";
-  const t = await getTeam(sport, id);
-  if (!t) { view.innerHTML = empty("Team not found."); return; }
-  const hero = (extra = "") => `<a class="back" href="#/teams" data-action="back">${ICON.back} Back</a>
-    <div class="hero" style="--tc:${esc(t.color)}"><div class="row" style="gap:14px">${logo(t, "logo logo-lg")}
-      <div class="sp"><div class="row" style="gap:6px;margin-bottom:6px">${sportBadge(sport)}</div><h1>${esc(t.name)}</h1>
-      <div class="sub">${esc([t.div, t.conf].filter(Boolean).join(" · "))}</div>${extra}</div></div>
-      <div style="margin-top:14px"><button class="btn ${isFavTeam(sport, t.id) ? "on" : ""}" data-action="favteam" data-sport="${sport}" data-id="${t.id}">${ICON.star} ${isFavTeam(sport, t.id) ? "Following" : "Follow"}</button></div></div>`;
-  view.innerHTML = hero() + skel(2);
-  let sch;
-  try { sch = await schedule(sport, id); } catch (e) { view.innerHTML = hero() + errBox("schedule", e); return; }
-  const rec = sch.team?.recordSummary, stand = sch.team?.standingSummary;
-  const past = sch.games.filter((g) => g.state === "post").reverse();
-  const next = sch.games.filter((g) => g.state !== "post");
-  const ng = next[0];
-  const resRow = (g) => {
-    const me = g.home.id === String(id) ? g.home : g.away, op = me === g.home ? g.away : g.home;
-    const w = me.score != null && op.score != null ? (me.score > op.score ? "W" : me.score < op.score ? "L" : "T") : "";
-    return `<a class="li" href="#/game/${sport}/${g.id}">
-      <span class="badge" style="width:26px;justify-content:center;background:${w === "W" ? "rgba(51,209,122,.15)" : "rgba(255,90,106,.15)"};color:${w === "W" ? "var(--win)" : "var(--loss)"}">${w}</span>
-      ${logo(op)}<div class="sp"><div class="t ellip">${me === g.home ? "vs" : "@"} ${esc(op.short)}</div><div class="s">${fmtDay(g.start)}</div></div>
-      <b>${me.score ?? ""}-${op.score ?? ""}</b></a>`;
-  };
-  const upRow = (g) => {
-    const me = g.home.id === String(id) ? g.home : g.away, op = me === g.home ? g.away : g.home;
-    return `<a class="li" href="#/game/${sport}/${g.id}">${logo(op)}
-      <div class="sp"><div class="t ellip">${me === g.home ? "vs" : "@"} ${esc(op.short)}</div><div class="s">${fmtDay(g.start)} · ${fmtTime(g.start)}${g.tv.length ? " · " + esc(g.tv[0]) : ""}</div></div>
-      ${g.model ? `<span class="badge b-model">${spreadText(g.model.spread_home, g)}</span>` : ""}</a>`;
-  };
-  view.innerHTML = hero(`<div class="sub" style="margin-top:6px"><b style="color:var(--text)">${esc(rec || "")}</b>${stand ? ` · ${esc(stand)}` : ""}</div>`) +
-    (ng ? section("next", "Next game", `${gameCard(ng)}${ng.model ? modelBlock(ng) : `<div class="note">No model line for this game yet. ${esc(SPORTS[sport].modelName)} publishes lines for the next few days.</div>`}`) : "") +
-    section("recent", "Recent results", past.length ? `<div class="card list">${past.slice(0, 5).map(resRow).join("")}</div>` : empty("No games played yet."), "Actual · ESPN") +
-    section("sched", "Upcoming", next.length > 1 ? `<div class="card list">${next.slice(1, 7).map(upRow).join("")}</div>` : empty("Nothing else scheduled yet.")) +
-    `<p class="muted small" style="text-align:center;margin-top:18px">Full team stats, rankings and roster are coming next.</p>`;
-}
-
 // ================================================================= STATS (standings for now)
 async function viewStats() {
   const sports = enabled();
@@ -472,9 +435,9 @@ async function render({ quiet = false } = {}) {
     else if (name === "teams") await viewTeams();
     else if (name === "stats") await viewStats();
     else if (name === "profile") await viewProfile();
-    else if (name === "team") await viewTeam(args[0], args[1]);
+    else if (name === "team") await viewTeam(view, args[0], args[1]);
     else if (name === "player") await viewPlayer(view, args[0], args[1]);
-    else if (name === "game") lastGames = (await viewGame(view, args[0], args[1], { quiet })) || [];
+    else if (name === "game") lastGames = (await viewGame(view, args[0], args[1], { quiet, tab: args[2] })) || [];
     else location.replace("#/home");
   } catch (e) {
     view.innerHTML = errBox("this page", e);

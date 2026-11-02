@@ -1,15 +1,15 @@
 // Game Center: one game, five tabs. Actual data from ESPN's game summary; prediction from your model's file.
-import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=4";
-import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=4";
-import { gameProjections, projectionTable } from "./players.js?v=4";
-import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=4";
+import { esc, fmtTime, fmtDay, dayLabel, ago, isFavTeam, isFavPlayer } from "./core.js?v=6";
+import { SPORTS, summary, schedule, seasonSchedule, spreadText, fmt1, pct } from "./data.js?v=6";
+import { gameProjections, projectionTable } from "./players.js?v=6";
+import { ICON, sportBadge, marketBadge, logo, headshot, section, empty, errBox, skel, modelBlock } from "./ui.js?v=6";
 
 const TABS = [["overview", "Overview"], ["box", "Box"], ["team", "Stats"], ["plays", "Plays"], ["matchup", "Matchup"]];
 const ui = { tab: "overview", boxSide: "away", period: "all", playsMode: "all", key: null };
 
-export async function viewGame(view, sport, id, { quiet = false } = {}) {
+export async function viewGame(view, sport, id, { quiet = false, tab } = {}) {
   const key = `${sport}:${id}`;
-  if (ui.key !== key) Object.assign(ui, { key, tab: "overview", boxSide: "away", period: "all", playsMode: "all" });
+  if (ui.key !== key) Object.assign(ui, { key, tab: TABS.some(([k]) => k === tab) ? tab : "overview", boxSide: "away", period: "all", playsMode: "all" });
   if (!SPORTS[sport]) { view.innerHTML = empty("Unknown sport."); return; }
   const y = window.scrollY; // keep the reader's place on live refreshes
   if (!quiet) view.innerHTML = back() + skel(3);

@@ -3,7 +3,7 @@
 //   Your model feeds  -> predictions, read from what each model already publishes on this site
 // To add a sport: add an entry to SPORTS with its ESPN path and a model adapter.
 
-import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=4";
+import { getJSON, ymd, isoDay, addDays, today } from "./core.js?v=6";
 
 const SITE = "https://site.api.espn.com/apis/site/v2/sports";
 const WEB = "https://site.web.api.espn.com/apis";
@@ -132,17 +132,35 @@ export async function modelFeed(sport) {
           } : null,
           notes: g.alerts || [],
           qbs: [g.away_qb, g.home_qb],
+          qbRatings: [num(g.away_qb_rating), num(g.home_qb_rating)],
+          explain: g.explain || null, // the model's breakdown of its margin, home perspective
+          injuries: g.injuries ? { away: (g.injuries[g.away] || []), home: (g.injuries[g.home] || []) } : null,
         } });
       }
     }
     const ab = (t) => NFL_ABBR[t.abbr] || t.abbr;
+    // team ratings for all 32 teams, with ranks (Elo, offense EPA/play, defense EPA/play allowed: lower is better)
+    const R = (d.ratings || []).map((r) => ({ ...r }));
+    const rank = (key, desc) => [...R].sort((a, b) => (desc ? b[key] - a[key] : a[key] - b[key])).forEach((r, i) => (r[`${key}_rank`] = i + 1));
+    rank("elo", true); rank("off_epa", true); rank("def_epa", false);
+    const ratings = new Map(R.map((r) => [r.team, r]));
     // match on teams + date within a day (the file's dates are US Eastern; the device may not be)
-    return { updated: d.generated_at, lookup: (game) => (map.get(`${ab(game.away)}@${ab(game.home)}`) || [])
+    return { updated: d.generated_at, ratings, teamKey: ab, lookup: (game) => (map.get(`${ab(game.away)}@${ab(game.home)}`) || [])
       .find((x) => Math.abs(new Date(x.date + "T12:00") - new Date(game.day + "T12:00")) <= 864e5)?.m };
   }
   const d = await getJSON(`../${s.model}/games.json`, { label: `${s.modelName} games`, ttl: 300_000 });
-  const byId = new Map(), byDay = new Map();
+  const byId = new Map(), byDay = new Map(), teamStats = new Map();
   for (const g of d.games || []) {
+    // latest model numbers per team (games are in date order)
+    // per team, keep the model's numbers for its next game (or its latest one if none is ahead)
+    const todayKey = isoDay(today());
+    for (const side of ["away", "home"]) {
+      const ab = g[side]?.abbr;
+      if (!ab || !Object.keys(g[side].stats || {}).length) continue;
+      const cur = teamStats.get(ab);
+      const better = !cur || (cur.date < todayKey ? g.date > cur.date : g.date >= todayKey && g.date < cur.date);
+      if (better) teamStats.set(ab, { date: g.date, stats: g[side].stats });
+    }
     if (!g.model) continue;
     const L = g.lines;
     const m = {
@@ -160,7 +178,45 @@ export async function modelFeed(sport) {
     if (/^\d+$/.test(id)) byId.set(id, m);
     byDay.set(`${g.date}|${g.home?.abbr}`, m);
   }
-  return { updated: d.generated_at, lookup: (game) => byId.get(game.id) || byDay.get(`${game.day}|${game.home.abbr}`) };
+  return { updated: d.generated_at, teamStats, lookup: (game) => byId.get(game.id) || byDay.get(`${game.day}|${game.home.abbr}`) };
+}
+
+// ---------- team stats, roster, league table (ESPN)
+export async function teamStatistics(sport, id) {
+  const s = SPORTS[sport];
+  return getJSON(`${SITE}/${s.path}/teams/${id}/statistics`, { label: `${s.label} team stats (ESPN)`, ttl: 600_000 });
+}
+export async function roster(sport, id) {
+  const s = SPORTS[sport];
+  return getJSON(`${SITE}/${s.path}/teams/${id}/roster`, { label: `${s.label} roster (ESPN)`, ttl: 3_600_000 });
+}
+// Every team's standings row, flattened, with league ranks for scoring offense, defense and margin
+export async function leagueTable(sport) {
+  const d = await standings(sport);
+  const rows = [];
+  const walk = (node, conf) => {
+    for (const e of node.standings?.entries || []) {
+      const st = {};
+      // a stat can repeat for home/road splits under the same type: the first one is the overall figure
+      for (const x of e.stats || []) { if (!(x.type in st)) st[x.type] = x; if (!(x.name in st)) st[x.name] = x; }
+      const val = (k) => num(st[k]?.value);
+      // games played from the overall record ("7-1"); college "wins"/"losses" can be conference-only
+      const ov = String(st.total?.displayValue || "").split("-").map(Number).filter(Number.isFinite);
+      const gp = ov.length ? ov.reduce((a, b) => a + b, 0) : (val("wins") || 0) + (val("losses") || 0) + (val("ties") || 0);
+      const pf = val("avgpointsfor") ?? (val("pointsfor") != null && gp ? val("pointsfor") / gp : null);
+      const pa = val("avgpointsagainst") ?? (val("pointsagainst") != null && gp ? val("pointsagainst") / gp : null);
+      rows.push({ id: String(e.team.id), abbr: e.team.abbreviation, name: e.team.displayName, logo: e.team.logos?.[0]?.href,
+        group: node.name, conf: conf || node.name, gp, pf, pa, diff: pf != null && pa != null ? pf - pa : null,
+        rec: { total: st.total?.displayValue, home: st.home?.displayValue, road: st.road?.displayValue, conf: st.vsconf?.displayValue,
+          div: st.vsdiv?.displayValue, streak: st.streak?.displayValue, pct: st.winpercent?.displayValue, gb: st.gamesbehind?.displayValue, seed: st.playoffseed?.displayValue } });
+    }
+    for (const c of node.children || []) walk(c, conf || node.name);
+  };
+  (d.children || []).forEach((c) => walk(c, null));
+  const played = rows.filter((r) => r.gp > 0);
+  const rank = (key, desc) => [...played].filter((r) => r[key] != null).sort((a, b) => (desc ? b[key] - a[key] : a[key] - b[key])).forEach((r, i) => (r[`${key}Rank`] = i + 1));
+  rank("pf", true); rank("pa", false); rank("diff", true);
+  return { rows, n: played.length, season: d.seasons?.[0]?.displayName || "" };
 }
 
 async function attachModel(sport, games) {
