@@ -2,7 +2,7 @@
  "sport": "NBA",
  "app": "NBA Model",
  "format": 1,
- "generated_at": "2026-11-03T03:40Z",
+ "generated_at": "2026-11-03T13:37Z",
  "plays": [
   {
    "id": "nba-401909088-4351852-reb",
@@ -28273,8 +28273,8 @@
    "edge_display": "21%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 2.14,
    "beat_close": false
   },
   {
@@ -28317,8 +28317,8 @@
    "edge_display": "16%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 2.26,
    "beat_close": null
   },
   {
@@ -28339,8 +28339,8 @@
    "edge_display": "17%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -28383,8 +28383,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -28405,8 +28405,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -28449,8 +28449,8 @@
    "edge_display": "13%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": true
   },
   {
@@ -28471,8 +28471,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.923,
    "beat_close": null
   },
   {
@@ -28515,8 +28515,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": true
   },
   {
@@ -28581,8 +28581,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": false
   },
   {
@@ -28647,8 +28647,8 @@
    "edge_display": "12%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.98,
    "beat_close": true
   },
   {
@@ -28691,8 +28691,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.42,
    "beat_close": null
   },
   {
@@ -28713,8 +28713,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.2,
    "beat_close": false
   },
   {
@@ -28801,8 +28801,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.27,
    "beat_close": null
   },
   {
@@ -28911,8 +28911,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -28933,8 +28933,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.69,
    "beat_close": null
   },
   {
@@ -28955,8 +28955,8 @@
    "edge_display": "12%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -28977,8 +28977,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -28999,8 +28999,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.11,
    "beat_close": null
   },
   {
@@ -29043,8 +29043,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -29109,8 +29109,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.645,
    "beat_close": true
   },
   {
@@ -29175,8 +29175,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.45,
    "beat_close": true
   },
   {
@@ -29197,8 +29197,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -29241,8 +29241,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -29263,8 +29263,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -29307,8 +29307,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.909,
    "beat_close": true
   },
   {
@@ -29373,8 +29373,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -29395,8 +29395,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -29417,8 +29417,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.13,
    "beat_close": null
   },
   {
@@ -29439,8 +29439,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -29483,8 +29483,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -29505,8 +29505,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.08,
    "beat_close": null
   },
   {
@@ -29571,8 +29571,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.763,
    "beat_close": null
   },
   {
@@ -29593,8 +29593,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.763,
    "beat_close": true
   },
   {
@@ -29615,8 +29615,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.02,
    "beat_close": null
   },
   {
@@ -29637,8 +29637,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -29725,8 +29725,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.917,
    "beat_close": true
   },
   {
@@ -29769,8 +29769,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -29813,8 +29813,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -29835,8 +29835,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.8,
    "beat_close": true
   },
   {
@@ -29901,8 +29901,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -29945,8 +29945,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.654,
    "beat_close": null
   },
   {
@@ -30077,8 +30077,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.671,
    "beat_close": true
   },
   {
@@ -30121,8 +30121,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -30231,8 +30231,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.87,
    "beat_close": null
   },
   {
@@ -30253,8 +30253,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.415,
    "beat_close": true
   },
   {
@@ -30319,8 +30319,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -30341,8 +30341,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -30385,8 +30385,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -30495,8 +30495,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -30517,8 +30517,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.826,
    "beat_close": null
   },
   {
@@ -30649,8 +30649,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.47,
    "beat_close": true
   },
   {
@@ -30803,8 +30803,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.2,
    "beat_close": null
   },
   {
@@ -30825,8 +30825,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -30847,8 +30847,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.599,
    "beat_close": true
   },
   {
@@ -30869,8 +30869,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -30891,8 +30891,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -30957,8 +30957,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.8,
    "beat_close": true
   },
   {
@@ -30979,8 +30979,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -31067,8 +31067,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.467,
    "beat_close": null
   },
   {
@@ -31111,8 +31111,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.625,
    "beat_close": null
   },
   {
@@ -31133,8 +31133,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -31155,8 +31155,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.24,
    "beat_close": true
   },
   {
@@ -31199,8 +31199,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.599,
    "beat_close": false
   },
   {
@@ -31221,8 +31221,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.26,
    "beat_close": null
   },
   {
@@ -31309,8 +31309,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -31331,8 +31331,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -31485,8 +31485,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.709,
    "beat_close": null
   },
   {
@@ -31507,8 +31507,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.06,
    "beat_close": null
   },
   {
@@ -31595,8 +31595,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.613,
    "beat_close": null
   },
   {
@@ -31639,8 +31639,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.46,
    "beat_close": null
   },
   {
@@ -31749,8 +31749,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.581,
    "beat_close": false
   },
   {
@@ -31771,8 +31771,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.741,
    "beat_close": null
   },
   {
@@ -31815,8 +31815,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -31881,8 +31881,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.781,
    "beat_close": true
   },
   {
@@ -32035,8 +32035,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -32079,8 +32079,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -32101,8 +32101,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -32123,8 +32123,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -32145,8 +32145,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -32211,8 +32211,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -32255,8 +32255,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -32277,8 +32277,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -32299,8 +32299,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.787,
    "beat_close": null
   },
   {
@@ -32541,8 +32541,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.806,
    "beat_close": true
   },
   {
@@ -32585,8 +32585,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.84,
    "beat_close": false
   },
   {
@@ -32607,8 +32607,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -32695,8 +32695,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -32805,8 +32805,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -32827,8 +32827,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.538,
    "beat_close": null
   },
   {
@@ -32871,8 +32871,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.752,
    "beat_close": null
   },
   {
@@ -32937,8 +32937,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.99,
    "beat_close": true
   },
   {
@@ -32981,8 +32981,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -33047,8 +33047,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -33135,8 +33135,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.855,
    "beat_close": null
   },
   {
@@ -33179,8 +33179,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.01,
    "beat_close": null
   },
   {
@@ -33223,8 +33223,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.676,
    "beat_close": false
   },
   {
@@ -33311,8 +33311,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.917,
    "beat_close": null
   },
   {
@@ -33377,8 +33377,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -33399,8 +33399,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.746,
    "beat_close": true
   },
   {
@@ -33421,8 +33421,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.625,
    "beat_close": true
   },
   {
@@ -33487,8 +33487,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.847,
    "beat_close": null
   },
   {
