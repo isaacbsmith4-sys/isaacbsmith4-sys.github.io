@@ -3198,5 +3198,30 @@
   "status": "pending",
   "result_units": null,
   "potd": false
+ },
+ {
+  "id": "ncaab-401906757-total",
+  "sport": "NCAAB",
+  "date": "2026-11-03",
+  "start": "2026-11-04T00:30Z",
+  "event": "Sam Houston @ Alabama",
+  "market": "total",
+  "selection": "Under 172.5",
+  "player": null,
+  "line": 172.5,
+  "price": -110,
+  "model_prob": 0.7,
+  "market_prob": 0.5,
+  "edge_prob": 0.2,
+  "ev": 0.335,
+  "edge_display": "6.0 pts",
+  "tier": "1U",
+  "slot": 3,
+  "stake": 1.0,
+  "locked_at": "2026-11-03 18:49 ET",
+  "backfilled": false,
+  "status": "pending",
+  "result_units": null,
+  "potd": false
  }
 ]
