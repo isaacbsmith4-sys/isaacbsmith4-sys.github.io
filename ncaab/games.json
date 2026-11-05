@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-11-05T00:03Z",
+ "generated_at": "2026-11-05T02:37Z",
  "games": [
   {
    "id": "ncaab-401906848",
@@ -21,11 +21,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 237,
+     "Model rank": 236,
      "Overall rating (pts/100 vs avg)": -4.0,
      "Adj. offense (pts/100 vs avg)": 0.4,
      "Adj. defense (pts/100 vs avg)": -4.4,
-     "Tempo (possessions)": 68.9
+     "Tempo (possessions)": 69.0
     }
    },
    "home": {
@@ -84,7 +84,7 @@
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 320,
+     "Model rank": 321,
      "Overall rating (pts/100 vs avg)": -11.1,
      "Adj. offense (pts/100 vs avg)": -7.2,
      "Adj. defense (pts/100 vs avg)": -3.9,
@@ -151,7 +151,7 @@
      "Overall rating (pts/100 vs avg)": -14.3,
      "Adj. offense (pts/100 vs avg)": -5.6,
      "Adj. defense (pts/100 vs avg)": -8.7,
-     "Tempo (possessions)": 64.7
+     "Tempo (possessions)": 64.8
     }
    },
    "home": {
@@ -168,7 +168,7 @@
      "Model rank": 107,
      "Overall rating (pts/100 vs avg)": 5.2,
      "Adj. offense (pts/100 vs avg)": 2.6,
-     "Adj. defense (pts/100 vs avg)": 2.7,
+     "Adj. defense (pts/100 vs avg)": 2.6,
      "Tempo (possessions)": 65.2
     }
    },
@@ -210,7 +210,7 @@
     "injuries": [],
     "stats": {
      "Conference": "CAA",
-     "Model rank": 272,
+     "Model rank": 270,
      "Overall rating (pts/100 vs avg)": -6.2,
      "Adj. offense (pts/100 vs avg)": -6.2,
      "Adj. defense (pts/100 vs avg)": -0.0,
@@ -228,7 +228,7 @@
     "injuries": [],
     "stats": {
      "Conference": "ACC",
-     "Model rank": 122,
+     "Model rank": 121,
      "Overall rating (pts/100 vs avg)": 3.4,
      "Adj. offense (pts/100 vs avg)": -0.4,
      "Adj. defense (pts/100 vs avg)": 3.7,
@@ -443,7 +443,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 326,
+     "Model rank": 327,
      "Overall rating (pts/100 vs avg)": -11.8,
      "Adj. offense (pts/100 vs avg)": -2.0,
      "Adj. defense (pts/100 vs avg)": -9.8,
@@ -462,7 +462,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SEC",
-     "Model rank": 72,
+     "Model rank": 73,
      "Overall rating (pts/100 vs avg)": 9.9,
      "Adj. offense (pts/100 vs avg)": 5.4,
      "Adj. defense (pts/100 vs avg)": 4.5,
@@ -507,7 +507,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 241,
+     "Model rank": 238,
      "Overall rating (pts/100 vs avg)": -4.2,
      "Adj. offense (pts/100 vs avg)": 1.1,
      "Adj. defense (pts/100 vs avg)": -5.3,
@@ -525,11 +525,11 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 123,
+     "Model rank": 124,
      "Overall rating (pts/100 vs avg)": 2.8,
      "Adj. offense (pts/100 vs avg)": 2.7,
      "Adj. defense (pts/100 vs avg)": 0.0,
-     "Tempo (possessions)": 67.2
+     "Tempo (possessions)": 67.3
     }
    },
    "lines": {
@@ -581,11 +581,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 244,
+     "Model rank": 243,
      "Overall rating (pts/100 vs avg)": -4.4,
      "Adj. offense (pts/100 vs avg)": -0.6,
      "Adj. defense (pts/100 vs avg)": -3.8,
-     "Tempo (possessions)": 69.5
+     "Tempo (possessions)": 69.6
     }
    },
    "lines": null,
@@ -614,11 +614,11 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 132,
+     "Model rank": 134,
      "Overall rating (pts/100 vs avg)": 2.0,
      "Adj. offense (pts/100 vs avg)": 1.6,
      "Adj. defense (pts/100 vs avg)": 0.4,
-     "Tempo (possessions)": 72.4
+     "Tempo (possessions)": 72.5
     }
    },
    "home": {
@@ -677,7 +677,7 @@
     "injuries": [],
     "stats": {
      "Conference": "CAA",
-     "Model rank": 218,
+     "Model rank": 215,
      "Overall rating (pts/100 vs avg)": -3.2,
      "Adj. offense (pts/100 vs avg)": -3.9,
      "Adj. defense (pts/100 vs avg)": 0.7,
@@ -740,11 +740,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 209,
+     "Model rank": 207,
      "Overall rating (pts/100 vs avg)": -2.8,
-     "Adj. offense (pts/100 vs avg)": -0.4,
+     "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": -2.4,
-     "Tempo (possessions)": 66.5
+     "Tempo (possessions)": 66.6
     }
    },
    "home": {
@@ -762,7 +762,7 @@
      "Overall rating (pts/100 vs avg)": 6.2,
      "Adj. offense (pts/100 vs avg)": 3.9,
      "Adj. defense (pts/100 vs avg)": 2.3,
-     "Tempo (possessions)": 71.8
+     "Tempo (possessions)": 71.9
     }
    },
    "lines": {
@@ -804,9 +804,9 @@
     "stats": {
      "Conference": "Atlantic Sun",
      "Model rank": 216,
-     "Overall rating (pts/100 vs avg)": -3.1,
-     "Adj. offense (pts/100 vs avg)": -0.2,
-     "Adj. defense (pts/100 vs avg)": -2.9,
+     "Overall rating (pts/100 vs avg)": -3.2,
+     "Adj. offense (pts/100 vs avg)": -0.3,
+     "Adj. defense (pts/100 vs avg)": -3.0,
      "Tempo (possessions)": 69.5,
      "Last 5": "0-1"
     }
@@ -826,7 +826,7 @@
      "Overall rating (pts/100 vs avg)": 19.2,
      "Adj. offense (pts/100 vs avg)": 13.5,
      "Adj. defense (pts/100 vs avg)": 5.6,
-     "Tempo (possessions)": 59.9
+     "Tempo (possessions)": 60.0
     }
    },
    "lines": {
@@ -867,7 +867,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 341,
+     "Model rank": 342,
      "Overall rating (pts/100 vs avg)": -13.2,
      "Adj. offense (pts/100 vs avg)": -8.6,
      "Adj. defense (pts/100 vs avg)": -4.7,
@@ -993,10 +993,10 @@
     "injuries": [],
     "stats": {
      "Conference": "Southland",
-     "Model rank": 273,
+     "Model rank": 271,
      "Overall rating (pts/100 vs avg)": -6.3,
      "Adj. offense (pts/100 vs avg)": -4.7,
-     "Adj. defense (pts/100 vs avg)": -1.5,
+     "Adj. defense (pts/100 vs avg)": -1.6,
      "Tempo (possessions)": 73.6
     }
    },
@@ -1068,7 +1068,7 @@
     "stats": {
      "Conference": "Southland",
      "Model rank": 266,
-     "Overall rating (pts/100 vs avg)": -5.7,
+     "Overall rating (pts/100 vs avg)": -5.8,
      "Adj. offense (pts/100 vs avg)": -2.7,
      "Adj. defense (pts/100 vs avg)": -3.0,
      "Tempo (possessions)": 62.6
@@ -1157,9 +1157,9 @@
      "Conference": "CUSA",
      "Model rank": 229,
      "Overall rating (pts/100 vs avg)": -3.8,
-     "Adj. offense (pts/100 vs avg)": -0.6,
+     "Adj. offense (pts/100 vs avg)": -0.7,
      "Adj. defense (pts/100 vs avg)": -3.1,
-     "Tempo (possessions)": 65.6
+     "Tempo (possessions)": 65.7
     }
    },
    "lines": null,
@@ -1188,7 +1188,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 353,
+     "Model rank": 352,
      "Overall rating (pts/100 vs avg)": -15.5,
      "Adj. offense (pts/100 vs avg)": -5.6,
      "Adj. defense (pts/100 vs avg)": -9.9,
@@ -1263,9 +1263,9 @@
     "stats": {
      "Conference": "Mountain West",
      "Model rank": 112,
-     "Overall rating (pts/100 vs avg)": 4.5,
+     "Overall rating (pts/100 vs avg)": 4.4,
      "Adj. offense (pts/100 vs avg)": 3.8,
-     "Adj. defense (pts/100 vs avg)": 0.7,
+     "Adj. defense (pts/100 vs avg)": 0.6,
      "Tempo (possessions)": 64.9
     }
    },
@@ -1306,8 +1306,8 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 254,
-     "Overall rating (pts/100 vs avg)": -4.9,
+     "Model rank": 252,
+     "Overall rating (pts/100 vs avg)": -5.0,
      "Adj. offense (pts/100 vs avg)": -5.5,
      "Adj. defense (pts/100 vs avg)": 0.5,
      "Tempo (possessions)": 70.0
@@ -1350,11 +1350,11 @@
     "injuries": [],
     "stats": {
      "Conference": "WCC",
-     "Model rank": 120,
-     "Overall rating (pts/100 vs avg)": 3.4,
-     "Adj. offense (pts/100 vs avg)": 2.0,
+     "Model rank": 123,
+     "Overall rating (pts/100 vs avg)": 3.3,
+     "Adj. offense (pts/100 vs avg)": 1.9,
      "Adj. defense (pts/100 vs avg)": 1.4,
-     "Tempo (possessions)": 63.5
+     "Tempo (possessions)": 63.6
     }
    },
    "lines": null,
@@ -1383,7 +1383,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 261,
+     "Model rank": 259,
      "Overall rating (pts/100 vs avg)": -5.2,
      "Adj. offense (pts/100 vs avg)": -0.5,
      "Adj. defense (pts/100 vs avg)": -4.7,
@@ -1446,7 +1446,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 308,
+     "Model rank": 309,
      "Overall rating (pts/100 vs avg)": -9.9,
      "Adj. offense (pts/100 vs avg)": -1.7,
      "Adj. defense (pts/100 vs avg)": -8.1,
@@ -1509,11 +1509,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 316,
+     "Model rank": 317,
      "Overall rating (pts/100 vs avg)": -10.5,
      "Adj. offense (pts/100 vs avg)": -1.1,
      "Adj. defense (pts/100 vs avg)": -9.4,
-     "Tempo (possessions)": 63.4
+     "Tempo (possessions)": 63.5
     }
    },
    "home": {
@@ -1583,7 +1583,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 171,
+     "Model rank": 172,
      "Overall rating (pts/100 vs avg)": -0.5,
      "Adj. offense (pts/100 vs avg)": -1.5,
      "Adj. defense (pts/100 vs avg)": 1.0,
@@ -1628,9 +1628,9 @@
     "stats": {
      "Conference": "Big West",
      "Model rank": 155,
-     "Overall rating (pts/100 vs avg)": 0.6,
+     "Overall rating (pts/100 vs avg)": 0.5,
      "Adj. offense (pts/100 vs avg)": -3.5,
-     "Adj. defense (pts/100 vs avg)": 4.1,
+     "Adj. defense (pts/100 vs avg)": 4.0,
      "Tempo (possessions)": 71.7
     }
    },
@@ -1646,15 +1646,15 @@
    "id": "ncaab-401920232",
    "date": "2026-11-04",
    "start": "2026-11-04T23:30Z",
-   "status": "in",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Framingham State",
     "short": "Framingham State",
     "abbr": "FRSU",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 50,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -1664,18 +1664,18 @@
     "name": "Dartmouth",
     "short": "Dartmouth",
     "abbr": "DART",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 107,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Ivy",
-     "Model rank": 188,
-     "Overall rating (pts/100 vs avg)": -1.7,
-     "Adj. offense (pts/100 vs avg)": 0.4,
-     "Adj. defense (pts/100 vs avg)": -2.1,
-     "Tempo (possessions)": 68.9,
+     "Model rank": 167,
+     "Overall rating (pts/100 vs avg)": -0.2,
+     "Adj. offense (pts/100 vs avg)": 1.1,
+     "Adj. defense (pts/100 vs avg)": -1.3,
+     "Tempo (possessions)": 69.0,
      "Last 5": "1-0"
     }
    },
@@ -1691,25 +1691,25 @@
    "id": "ncaab-401902276",
    "date": "2026-11-04",
    "start": "2026-11-05T00:00Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Fairleigh Dickinson",
     "short": "Fairleigh Dickinson",
     "abbr": "FDU",
-    "record": "0-1",
-    "score": null,
+    "record": "0-2",
+    "score": 65,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 349,
-     "Overall rating (pts/100 vs avg)": -14.8,
+     "Model rank": 356,
+     "Overall rating (pts/100 vs avg)": -16.0,
      "Adj. offense (pts/100 vs avg)": -7.7,
-     "Adj. defense (pts/100 vs avg)": -7.0,
-     "Tempo (possessions)": 64.3,
+     "Adj. defense (pts/100 vs avg)": -8.3,
+     "Tempo (possessions)": 64.5,
      "Last 5": "0-1"
     }
    },
@@ -1717,36 +1717,36 @@
     "name": "Butler",
     "short": "Butler",
     "abbr": "BTLR",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 99,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big East",
-     "Model rank": 75,
-     "Overall rating (pts/100 vs avg)": 9.7,
-     "Adj. offense (pts/100 vs avg)": 5.4,
+     "Model rank": 62,
+     "Overall rating (pts/100 vs avg)": 10.9,
+     "Adj. offense (pts/100 vs avg)": 6.6,
      "Adj. defense (pts/100 vs avg)": 4.3,
-     "Tempo (possessions)": 72.8,
+     "Tempo (possessions)": 73.0,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -28.5,
+    "book": "Draft Kings",
+    "spread": -29.5,
     "spread_open": -24.5,
-    "total": 156.5,
+    "total": 154.5,
     "total_open": 151.5,
-    "home_ml": -50000.0,
-    "away_ml": 4000.0,
+    "home_ml": -100000.0,
+    "away_ml": 5000.0,
     "home_ml_open": -8000.0,
     "away_ml_open": 2200.0
    },
    "model": {
-    "spread": -27.7,
-    "total": 151.1,
-    "home_win_prob": 0.994
+    "spread": -25.9,
+    "total": 150.4,
+    "home_win_prob": 0.991
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -1756,25 +1756,25 @@
    "id": "ncaab-401920191",
    "date": "2026-11-04",
    "start": "2026-11-05T00:00Z",
-   "status": "in",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Longwood",
     "short": "Longwood",
     "abbr": "LONG",
-    "record": "1-0",
-    "score": null,
+    "record": "1-1",
+    "score": 73,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 201,
-     "Overall rating (pts/100 vs avg)": -2.4,
-     "Adj. offense (pts/100 vs avg)": 1.1,
-     "Adj. defense (pts/100 vs avg)": -3.5,
-     "Tempo (possessions)": 70.7,
+     "Model rank": 199,
+     "Overall rating (pts/100 vs avg)": -2.3,
+     "Adj. offense (pts/100 vs avg)": 0.6,
+     "Adj. defense (pts/100 vs avg)": -2.9,
+     "Tempo (possessions)": 71.9,
      "Last 5": "1-0"
     }
    },
@@ -1782,35 +1782,35 @@
     "name": "Saint Joseph's",
     "short": "Saint Joseph's",
     "abbr": "JOES",
-    "record": null,
-    "score": null,
+    "record": "1-0",
+    "score": 82,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "A-10",
      "Model rank": 109,
-     "Overall rating (pts/100 vs avg)": 4.7,
-     "Adj. offense (pts/100 vs avg)": -1.2,
-     "Adj. defense (pts/100 vs avg)": 5.8,
-     "Tempo (possessions)": 70.1
+     "Overall rating (pts/100 vs avg)": 4.6,
+     "Adj. offense (pts/100 vs avg)": -1.8,
+     "Adj. defense (pts/100 vs avg)": 6.4,
+     "Tempo (possessions)": 71.4
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -11.5,
     "spread_open": -10.5,
     "total": 152.5,
     "total_open": 147.5,
-    "home_ml": -700.0,
-    "away_ml": 500.0,
+    "home_ml": -750.0,
+    "away_ml": 525.0,
     "home_ml_open": -485.0,
     "away_ml_open": 370.0
    },
    "model": {
-    "spread": -11.3,
-    "total": 150.6,
-    "home_win_prob": 0.848
+    "spread": -10.6,
+    "total": 149.4,
+    "home_win_prob": 0.833
    },
    "notes": [
     "Early season: model line is 70% the market's view of these teams"
@@ -1820,25 +1820,25 @@
    "id": "ncaab-401920410",
    "date": "2026-11-04",
    "start": "2026-11-05T00:00Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Maryland Eastern Shore",
     "short": "Maryland Eastern Shore",
     "abbr": "UMES",
-    "record": "0-1",
-    "score": null,
+    "record": "0-2",
+    "score": 49,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "MEAC",
-     "Model rank": 359,
-     "Overall rating (pts/100 vs avg)": -16.5,
-     "Adj. offense (pts/100 vs avg)": -8.7,
-     "Adj. defense (pts/100 vs avg)": -7.8,
-     "Tempo (possessions)": 62.1,
+     "Model rank": 353,
+     "Overall rating (pts/100 vs avg)": -15.8,
+     "Adj. offense (pts/100 vs avg)": -9.5,
+     "Adj. defense (pts/100 vs avg)": -6.3,
+     "Tempo (possessions)": 61.4,
      "Last 5": "0-1"
     }
    },
@@ -1846,36 +1846,36 @@
     "name": "High Point",
     "short": "High Point",
     "abbr": "HPU",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 63,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 64,
-     "Overall rating (pts/100 vs avg)": 10.7,
-     "Adj. offense (pts/100 vs avg)": 7.3,
-     "Adj. defense (pts/100 vs avg)": 3.5,
-     "Tempo (possessions)": 71.0,
+     "Model rank": 72,
+     "Overall rating (pts/100 vs avg)": 10.0,
+     "Adj. offense (pts/100 vs avg)": 5.7,
+     "Adj. defense (pts/100 vs avg)": 4.3,
+     "Tempo (possessions)": 70.3,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -34.5,
     "spread_open": -29.5,
     "total": 146.5,
     "total_open": 148.5,
-    "home_ml": null,
-    "away_ml": null,
+    "home_ml": -100000.0,
+    "away_ml": 5000.0,
     "home_ml_open": -100000.0,
     "away_ml_open": 5000.0
    },
    "model": {
-    "spread": -29.2,
-    "total": 145.4,
-    "home_win_prob": 0.996
+    "spread": -27.1,
+    "total": 145.7,
+    "home_win_prob": 0.993
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -1885,15 +1885,15 @@
    "id": "ncaab-401922290",
    "date": "2026-11-04",
    "start": "2026-11-05T00:00Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Erskine",
     "short": "Erskine",
     "abbr": "ERSK",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 74,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -1903,17 +1903,17 @@
     "name": "UNC Asheville",
     "short": "UNC Asheville",
     "abbr": "UNCA",
-    "record": "0-1",
-    "score": null,
+    "record": "1-1",
+    "score": 101,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 265,
-     "Overall rating (pts/100 vs avg)": -5.4,
-     "Adj. offense (pts/100 vs avg)": -1.9,
-     "Adj. defense (pts/100 vs avg)": -3.5,
+     "Model rank": 278,
+     "Overall rating (pts/100 vs avg)": -6.6,
+     "Adj. offense (pts/100 vs avg)": -1.5,
+     "Adj. defense (pts/100 vs avg)": -5.1,
      "Tempo (possessions)": 67.8,
      "Last 5": "0-1"
     }
@@ -1930,15 +1930,15 @@
    "id": "ncaab-401926142",
    "date": "2026-11-04",
    "start": "2026-11-05T00:00Z",
-   "status": "in",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Concordia Chicago",
     "short": "Concordia Chicago",
     "abbr": "CUC",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 61,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -1948,18 +1948,18 @@
     "name": "SIU Edwardsville",
     "short": "SIU Edwardsville",
     "abbr": "SIUE",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 85,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 194,
-     "Overall rating (pts/100 vs avg)": -2.1,
-     "Adj. offense (pts/100 vs avg)": -5.0,
-     "Adj. defense (pts/100 vs avg)": 2.9,
-     "Tempo (possessions)": 64.2,
+     "Model rank": 221,
+     "Overall rating (pts/100 vs avg)": -3.6,
+     "Adj. offense (pts/100 vs avg)": -4.9,
+     "Adj. defense (pts/100 vs avg)": 1.3,
+     "Tempo (possessions)": 63.1,
      "Last 5": "1-0"
     }
    },
@@ -1975,24 +1975,24 @@
    "id": "ncaab-401928853",
    "date": "2026-11-04",
    "start": "2026-11-05T00:00Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Virginia Lynchburg",
     "short": "Virginia Lynchburg",
     "abbr": "VUL",
-    "record": "0-1",
-    "score": null,
+    "record": "0-2",
+    "score": 58,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
-     "Model rank": 217,
-     "Overall rating (pts/100 vs avg)": -3.1,
-     "Adj. offense (pts/100 vs avg)": -7.0,
-     "Adj. defense (pts/100 vs avg)": 3.9,
-     "Tempo (possessions)": 71.4,
+     "Model rank": 276,
+     "Overall rating (pts/100 vs avg)": -6.5,
+     "Adj. offense (pts/100 vs avg)": -9.2,
+     "Adj. defense (pts/100 vs avg)": 2.7,
+     "Tempo (possessions)": 72.5,
      "Last 5": "0-1"
     }
    },
@@ -2000,18 +2000,18 @@
     "name": "Morgan State",
     "short": "Morgan State",
     "abbr": "MORG",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 95,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "MEAC",
-     "Model rank": 344,
-     "Overall rating (pts/100 vs avg)": -13.7,
-     "Adj. offense (pts/100 vs avg)": -8.1,
-     "Adj. defense (pts/100 vs avg)": -5.5,
-     "Tempo (possessions)": 74.8,
+     "Model rank": 315,
+     "Overall rating (pts/100 vs avg)": -10.3,
+     "Adj. offense (pts/100 vs avg)": -6.9,
+     "Adj. defense (pts/100 vs avg)": -3.4,
+     "Tempo (possessions)": 75.9,
      "Last 5": "1-0"
     }
    },
@@ -2024,63 +2024,18 @@
    "notes": []
   },
   {
-   "id": "ncaab-401929438",
-   "date": "2026-11-04",
-   "start": "2026-11-05T00:00Z",
-   "status": "pre",
-   "status_text": null,
-   "neutral": false,
-   "away": {
-    "name": "Christendom",
-    "short": "Christendom",
-    "abbr": "CTDM",
-    "record": null,
-    "score": null,
-    "rest_days": 7,
-    "b2b": false,
-    "injuries": [],
-    "stats": {}
-   },
-   "home": {
-    "name": "App State",
-    "short": "App State",
-    "abbr": "APP",
-    "record": "1-0",
-    "score": null,
-    "rest_days": 2,
-    "b2b": false,
-    "injuries": [],
-    "stats": {
-     "Conference": "Sun Belt",
-     "Model rank": 140,
-     "Overall rating (pts/100 vs avg)": 1.2,
-     "Adj. offense (pts/100 vs avg)": -3.8,
-     "Adj. defense (pts/100 vs avg)": 5.0,
-     "Tempo (possessions)": 65.3,
-     "Last 5": "1-0"
-    }
-   },
-   "lines": null,
-   "model": {
-    "spread": -44.6,
-    "total": 144.7,
-    "home_win_prob": 1.0
-   },
-   "notes": []
-  },
-  {
    "id": "ncaab-401929450",
    "date": "2026-11-04",
    "start": "2026-11-05T00:00Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Regent",
     "short": "Regent",
     "abbr": "RGNT",
-    "record": "0-1",
-    "score": null,
+    "record": "0-2",
+    "score": 47,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
@@ -2092,18 +2047,18 @@
     "name": "Old Dominion",
     "short": "Old Dominion",
     "abbr": "ODU",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 91,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 242,
-     "Overall rating (pts/100 vs avg)": -4.2,
-     "Adj. offense (pts/100 vs avg)": -3.3,
-     "Adj. defense (pts/100 vs avg)": -0.9,
-     "Tempo (possessions)": 69.0,
+     "Model rank": 226,
+     "Overall rating (pts/100 vs avg)": -3.7,
+     "Adj. offense (pts/100 vs avg)": -3.7,
+     "Adj. defense (pts/100 vs avg)": -0.0,
+     "Tempo (possessions)": 68.8,
      "Last 5": "1-0"
     }
    },
@@ -2119,15 +2074,15 @@
    "id": "ncaab-401917977",
    "date": "2026-11-04",
    "start": "2026-11-05T00:30Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Champion Christian",
     "short": "Champion Christian",
     "abbr": "CHCC",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 55,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -2137,18 +2092,18 @@
     "name": "UL Monroe",
     "short": "UL Monroe",
     "abbr": "ULM",
-    "record": "0-1",
-    "score": null,
+    "record": "1-1",
+    "score": 99,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 351,
-     "Overall rating (pts/100 vs avg)": -15.1,
-     "Adj. offense (pts/100 vs avg)": -6.7,
-     "Adj. defense (pts/100 vs avg)": -8.3,
-     "Tempo (possessions)": 72.5,
+     "Model rank": 345,
+     "Overall rating (pts/100 vs avg)": -13.7,
+     "Adj. offense (pts/100 vs avg)": -5.9,
+     "Adj. defense (pts/100 vs avg)": -7.8,
+     "Tempo (possessions)": 71.8,
      "Last 5": "0-1"
     }
    },
@@ -2164,33 +2119,33 @@
    "id": "ncaab-401919028",
    "date": "2026-11-04",
    "start": "2026-11-05T00:30Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Cal State Northridge",
     "short": "Cal State Northridge",
     "abbr": "CSUN",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 67,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 198,
+     "Model rank": 197,
      "Overall rating (pts/100 vs avg)": -2.3,
-     "Adj. offense (pts/100 vs avg)": -1.0,
-     "Adj. defense (pts/100 vs avg)": -1.3,
-     "Tempo (possessions)": 76.3
+     "Adj. offense (pts/100 vs avg)": -2.0,
+     "Adj. defense (pts/100 vs avg)": -0.2,
+     "Tempo (possessions)": 77.3
     }
    },
    "home": {
     "name": "Wichita State",
     "short": "Wichita State",
     "abbr": "WICH",
-    "record": null,
-    "score": null,
+    "record": "1-0",
+    "score": 79,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -2198,13 +2153,13 @@
      "Conference": "American",
      "Model rank": 98,
      "Overall rating (pts/100 vs avg)": 6.3,
-     "Adj. offense (pts/100 vs avg)": -0.2,
-     "Adj. defense (pts/100 vs avg)": 6.5,
-     "Tempo (possessions)": 72.6
+     "Adj. offense (pts/100 vs avg)": -1.3,
+     "Adj. defense (pts/100 vs avg)": 7.6,
+     "Tempo (possessions)": 73.6
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -15.5,
     "spread_open": -14.5,
     "total": 162.5,
@@ -2215,9 +2170,9 @@
     "away_ml_open": 600.0
    },
    "model": {
-    "spread": -14.5,
-    "total": 155.7,
-    "home_win_prob": 0.906
+    "spread": -13.8,
+    "total": 155.4,
+    "home_win_prob": 0.894
    },
    "notes": [
     "Early season: model line is 70% the market's view of these teams"
@@ -2227,15 +2182,15 @@
    "id": "ncaab-401926111",
    "date": "2026-11-04",
    "start": "2026-11-05T00:30Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Bob Jones",
     "short": "Bob Jones",
     "abbr": "BOBJ",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 52,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -2245,18 +2200,18 @@
     "name": "Furman",
     "short": "Furman",
     "abbr": "FUR",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 121,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 151,
-     "Overall rating (pts/100 vs avg)": 0.7,
-     "Adj. offense (pts/100 vs avg)": 1.6,
-     "Adj. defense (pts/100 vs avg)": -0.9,
-     "Tempo (possessions)": 66.3,
+     "Model rank": 128,
+     "Overall rating (pts/100 vs avg)": 2.6,
+     "Adj. offense (pts/100 vs avg)": 2.5,
+     "Adj. defense (pts/100 vs avg)": 0.1,
+     "Tempo (possessions)": 67.5,
      "Last 5": "1-0"
     }
    },
@@ -2272,15 +2227,15 @@
    "id": "ncaab-401926151",
    "date": "2026-11-04",
    "start": "2026-11-05T00:30Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Webster",
     "short": "Webster",
     "abbr": "WEBS",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 65,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -2290,18 +2245,18 @@
     "name": "Southeast Missouri State",
     "short": "Southeast Missouri State",
     "abbr": "SEMO",
-    "record": "1-0",
-    "score": null,
+    "record": "2-0",
+    "score": 90,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 220,
-     "Overall rating (pts/100 vs avg)": -3.3,
-     "Adj. offense (pts/100 vs avg)": -3.0,
-     "Adj. defense (pts/100 vs avg)": -0.3,
-     "Tempo (possessions)": 68.3,
+     "Model rank": 254,
+     "Overall rating (pts/100 vs avg)": -5.1,
+     "Adj. offense (pts/100 vs avg)": -4.3,
+     "Adj. defense (pts/100 vs avg)": -0.8,
+     "Tempo (possessions)": 69.1,
      "Last 5": "1-0"
     }
    },
@@ -2317,15 +2272,15 @@
    "id": "ncaab-401926214",
    "date": "2026-11-04",
    "start": "2026-11-05T00:30Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Blue Mountain Christian",
     "short": "Blue Mountain Christian",
     "abbr": "BMCU",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 70,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -2335,18 +2290,18 @@
     "name": "Tennessee Tech",
     "short": "Tennessee Tech",
     "abbr": "TNTC",
-    "record": "0-1",
-    "score": null,
+    "record": "1-1",
+    "score": 117,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 295,
-     "Overall rating (pts/100 vs avg)": -8.2,
-     "Adj. offense (pts/100 vs avg)": -1.8,
-     "Adj. defense (pts/100 vs avg)": -6.4,
-     "Tempo (possessions)": 68.3,
+     "Model rank": 291,
+     "Overall rating (pts/100 vs avg)": -7.9,
+     "Adj. offense (pts/100 vs avg)": -1.7,
+     "Adj. defense (pts/100 vs avg)": -6.3,
+     "Tempo (possessions)": 70.2,
      "Last 5": "0-1"
     }
    },
@@ -2362,15 +2317,15 @@
    "id": "ncaab-401927361",
    "date": "2026-11-04",
    "start": "2026-11-05T00:30Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": false,
    "away": {
     "name": "Central College",
     "short": "Central College",
     "abbr": "CNTC",
-    "record": null,
-    "score": null,
+    "record": "0-1",
+    "score": 48,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
@@ -2380,18 +2335,18 @@
     "name": "Drake",
     "short": "Drake",
     "abbr": "DRKE",
-    "record": null,
-    "score": null,
+    "record": "1-0",
+    "score": 101,
     "rest_days": 7,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "MVC",
-     "Model rank": 150,
-     "Overall rating (pts/100 vs avg)": 0.7,
-     "Adj. offense (pts/100 vs avg)": 1.5,
-     "Adj. defense (pts/100 vs avg)": -0.7,
-     "Tempo (possessions)": 66.8
+     "Model rank": 135,
+     "Overall rating (pts/100 vs avg)": 2.0,
+     "Adj. offense (pts/100 vs avg)": 2.0,
+     "Adj. defense (pts/100 vs avg)": -0.1,
+     "Tempo (possessions)": 66.4
     }
    },
    "lines": null,
@@ -2403,10 +2358,55 @@
    "notes": []
   },
   {
+   "id": "ncaab-401929438",
+   "date": "2026-11-04",
+   "start": "2026-11-05T00:30Z",
+   "status": "post",
+   "status_text": "Final",
+   "neutral": false,
+   "away": {
+    "name": "Christendom",
+    "short": "Christendom",
+    "abbr": "CTDM",
+    "record": "0-1",
+    "score": 43,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "App State",
+    "short": "App State",
+    "abbr": "APP",
+    "record": "2-0",
+    "score": 108,
+    "rest_days": 2,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "Sun Belt",
+     "Model rank": 122,
+     "Overall rating (pts/100 vs avg)": 3.3,
+     "Adj. offense (pts/100 vs avg)": -2.5,
+     "Adj. defense (pts/100 vs avg)": 5.8,
+     "Tempo (possessions)": 65.4,
+     "Last 5": "1-0"
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -44.6,
+    "total": 144.7,
+    "home_win_prob": 1.0
+   },
+   "notes": []
+  },
+  {
    "id": "ncaab-401920798",
    "date": "2026-11-04",
    "start": "2026-11-05T01:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2442,11 +2442,11 @@
      "Overall rating (pts/100 vs avg)": 18.0,
      "Adj. offense (pts/100 vs avg)": 12.7,
      "Adj. defense (pts/100 vs avg)": 5.2,
-     "Tempo (possessions)": 71.0
+     "Tempo (possessions)": 71.1
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -29.5,
     "spread_open": -25.5,
     "total": 149.5,
@@ -2469,7 +2469,7 @@
    "id": "ncaab-401923391",
    "date": "2026-11-04",
    "start": "2026-11-05T01:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2494,7 +2494,7 @@
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 331,
+     "Model rank": 332,
      "Overall rating (pts/100 vs avg)": -12.2,
      "Adj. offense (pts/100 vs avg)": -11.1,
      "Adj. defense (pts/100 vs avg)": -1.1,
@@ -2514,7 +2514,7 @@
    "id": "ncaab-401925893",
    "date": "2026-11-04",
    "start": "2026-11-05T01:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2539,8 +2539,8 @@
     "injuries": [],
     "stats": {
      "Conference": "MEAC",
-     "Model rank": 321,
-     "Overall rating (pts/100 vs avg)": -11.3,
+     "Model rank": 323,
+     "Overall rating (pts/100 vs avg)": -11.4,
      "Adj. offense (pts/100 vs avg)": -5.1,
      "Adj. defense (pts/100 vs avg)": -6.3,
      "Tempo (possessions)": 66.0,
@@ -2559,7 +2559,7 @@
    "id": "ncaab-401928811",
    "date": "2026-11-04",
    "start": "2026-11-05T01:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2573,7 +2573,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 170,
+     "Model rank": 171,
      "Overall rating (pts/100 vs avg)": -0.4,
      "Adj. offense (pts/100 vs avg)": 1.8,
      "Adj. defense (pts/100 vs avg)": -2.2,
@@ -2593,15 +2593,15 @@
     "stats": {
      "Conference": "Summit",
      "Model rank": 296,
-     "Overall rating (pts/100 vs avg)": -8.3,
-     "Adj. offense (pts/100 vs avg)": -1.6,
+     "Overall rating (pts/100 vs avg)": -8.4,
+     "Adj. offense (pts/100 vs avg)": -1.7,
      "Adj. defense (pts/100 vs avg)": -6.7,
      "Tempo (possessions)": 70.9,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 2.5,
     "spread_open": 1.5,
     "total": 163.5,
@@ -2624,7 +2624,7 @@
    "id": "ncaab-401918052",
    "date": "2026-11-04",
    "start": "2026-11-05T02:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2638,7 +2638,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 227,
+     "Model rank": 225,
      "Overall rating (pts/100 vs avg)": -3.7,
      "Adj. offense (pts/100 vs avg)": -0.1,
      "Adj. defense (pts/100 vs avg)": -3.6,
@@ -2658,27 +2658,27 @@
     "stats": {
      "Conference": "ACC",
      "Model rank": 102,
-     "Overall rating (pts/100 vs avg)": 5.8,
-     "Adj. offense (pts/100 vs avg)": 5.2,
+     "Overall rating (pts/100 vs avg)": 5.7,
+     "Adj. offense (pts/100 vs avg)": 5.1,
      "Adj. defense (pts/100 vs avg)": 0.6,
      "Tempo (possessions)": 70.9,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -16.5,
     "spread_open": -17.5,
-    "total": 157.5,
+    "total": 156.5,
     "total_open": 155.5,
-    "home_ml": -2100.0,
-    "away_ml": 1100.0,
+    "home_ml": -1800.0,
+    "away_ml": 1000.0,
     "home_ml_open": -1600.0,
     "away_ml_open": 900.0
    },
    "model": {
     "spread": -13.8,
-    "total": 156.6,
+    "total": 156.4,
     "home_win_prob": 0.896
    },
    "notes": [
@@ -2689,7 +2689,7 @@
    "id": "ncaab-401922030",
    "date": "2026-11-04",
    "start": "2026-11-05T02:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2714,7 +2714,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 238,
+     "Model rank": 237,
      "Overall rating (pts/100 vs avg)": -4.1,
      "Adj. offense (pts/100 vs avg)": 1.1,
      "Adj. defense (pts/100 vs avg)": -5.2,
@@ -2734,7 +2734,7 @@
    "id": "ncaab-401925939",
    "date": "2026-11-04",
    "start": "2026-11-05T02:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2763,7 +2763,7 @@
      "Overall rating (pts/100 vs avg)": -6.9,
      "Adj. offense (pts/100 vs avg)": -1.2,
      "Adj. defense (pts/100 vs avg)": -5.7,
-     "Tempo (possessions)": 69.2,
+     "Tempo (possessions)": 69.3,
      "Last 5": "0-1"
     }
    },
@@ -2779,7 +2779,7 @@
    "id": "ncaab-401929171",
    "date": "2026-11-04",
    "start": "2026-11-05T02:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -2810,7 +2810,7 @@
      "Overall rating (pts/100 vs avg)": 6.6,
      "Adj. offense (pts/100 vs avg)": 5.7,
      "Adj. defense (pts/100 vs avg)": 0.9,
-     "Tempo (possessions)": 66.7
+     "Tempo (possessions)": 66.8
     }
    },
    "lines": null,
@@ -2839,11 +2839,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 152,
+     "Model rank": 153,
      "Overall rating (pts/100 vs avg)": 0.6,
-     "Adj. offense (pts/100 vs avg)": 3.4,
-     "Adj. defense (pts/100 vs avg)": -2.7,
-     "Tempo (possessions)": 65.6,
+     "Adj. offense (pts/100 vs avg)": 3.3,
+     "Adj. defense (pts/100 vs avg)": -2.8,
+     "Tempo (possessions)": 65.7,
      "Last 5": "1-0"
     }
    },
@@ -2862,25 +2862,25 @@
      "Overall rating (pts/100 vs avg)": 13.4,
      "Adj. offense (pts/100 vs avg)": 5.8,
      "Adj. defense (pts/100 vs avg)": 7.7,
-     "Tempo (possessions)": 66.3,
+     "Tempo (possessions)": 66.4,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -12.5,
+    "book": "Draft Kings",
+    "spread": -13.5,
     "spread_open": -12.5,
     "total": 148.5,
     "total_open": 149.5,
-    "home_ml": -1050.0,
-    "away_ml": 675.0,
+    "home_ml": -1100.0,
+    "away_ml": 700.0,
     "home_ml_open": -650.0,
     "away_ml_open": 470.0
    },
    "model": {
-    "spread": -12.7,
+    "spread": -13.2,
     "total": 146.4,
-    "home_win_prob": 0.876
+    "home_win_prob": 0.886
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -2904,7 +2904,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 277,
+     "Model rank": 274,
      "Overall rating (pts/100 vs avg)": -6.5,
      "Adj. offense (pts/100 vs avg)": -1.2,
      "Adj. defense (pts/100 vs avg)": -5.3,
@@ -2932,8 +2932,8 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -16.5,
+    "book": "Draft Kings",
+    "spread": -15.5,
     "spread_open": -18.5,
     "total": 162.5,
     "total_open": 159.5,
@@ -2943,9 +2943,9 @@
     "away_ml_open": 1000.0
    },
    "model": {
-    "spread": -19.0,
+    "spread": -18.6,
     "total": 157.7,
-    "home_win_prob": 0.958
+    "home_win_prob": 0.955
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -2969,7 +2969,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 206,
+     "Model rank": 204,
      "Overall rating (pts/100 vs avg)": -2.6,
      "Adj. offense (pts/100 vs avg)": 4.5,
      "Adj. defense (pts/100 vs avg)": -7.1,
@@ -2996,20 +2996,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -6.5,
+    "book": "Draft Kings",
+    "spread": -5.5,
     "spread_open": -5.5,
-    "total": 162.5,
+    "total": 161.5,
     "total_open": 157.5,
-    "home_ml": -270.0,
-    "away_ml": 220.0,
+    "home_ml": -245.0,
+    "away_ml": 200.0,
     "home_ml_open": -245.0,
     "away_ml_open": 200.0
    },
    "model": {
-    "spread": -6.5,
-    "total": 158.4,
-    "home_win_prob": 0.723
+    "spread": -5.9,
+    "total": 158.2,
+    "home_win_prob": 0.705
    },
    "notes": [
     "Early season: model line is 70% the market's view of these teams"
@@ -3056,15 +3056,15 @@
      "Overall rating (pts/100 vs avg)": 4.5,
      "Adj. offense (pts/100 vs avg)": -0.2,
      "Adj. defense (pts/100 vs avg)": 4.7,
-     "Tempo (possessions)": 66.9,
+     "Tempo (possessions)": 67.0,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
     "spread": -1.2,
-    "total": 146.6,
-    "home_win_prob": 0.544
+    "total": 146.5,
+    "home_win_prob": 0.543
    },
    "notes": []
   },
@@ -3079,18 +3079,18 @@
     "name": "Virginia Lynchburg",
     "short": "Virginia Lynchburg",
     "abbr": "VUL",
-    "record": "0-1",
+    "record": "0-2",
     "score": null,
     "rest_days": 1,
     "b2b": true,
     "injuries": [],
     "stats": {
-     "Model rank": 217,
-     "Overall rating (pts/100 vs avg)": -3.1,
-     "Adj. offense (pts/100 vs avg)": -7.0,
-     "Adj. defense (pts/100 vs avg)": 3.9,
-     "Tempo (possessions)": 71.4,
-     "Last 5": "0-1"
+     "Model rank": 276,
+     "Overall rating (pts/100 vs avg)": -6.5,
+     "Adj. offense (pts/100 vs avg)": -9.2,
+     "Adj. defense (pts/100 vs avg)": 2.7,
+     "Tempo (possessions)": 72.5,
+     "Last 5": "0-2"
     }
    },
    "home": {
@@ -3114,9 +3114,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -3.2,
-    "total": 144.8,
-    "home_win_prob": 0.616
+    "spread": -7.6,
+    "total": 145.1,
+    "home_win_prob": 0.756
    },
    "notes": []
   },
@@ -3139,10 +3139,10 @@
     "stats": {
      "Conference": "ACC",
      "Model rank": 80,
-     "Overall rating (pts/100 vs avg)": 9.2,
-     "Adj. offense (pts/100 vs avg)": 6.4,
-     "Adj. defense (pts/100 vs avg)": 2.8,
-     "Tempo (possessions)": 69.6,
+     "Overall rating (pts/100 vs avg)": 9.3,
+     "Adj. offense (pts/100 vs avg)": 6.6,
+     "Adj. defense (pts/100 vs avg)": 2.7,
+     "Tempo (possessions)": 69.7,
      "Last 5": "1-0"
     }
    },
@@ -3166,19 +3166,19 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -17.5,
     "spread_open": -17.5,
-    "total": 155.5,
+    "total": 154.5,
     "total_open": 155.5,
-    "home_ml": -1650.0,
-    "away_ml": 950.0,
+    "home_ml": -2800.0,
+    "away_ml": 1300.0,
     "home_ml_open": -1650.0,
     "away_ml_open": 950.0
    },
    "model": {
     "spread": -15.6,
-    "total": 154.6,
+    "total": 154.7,
     "home_win_prob": 0.922
    },
    "notes": [
@@ -3214,7 +3214,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Patriot",
-     "Model rank": 336,
+     "Model rank": 337,
      "Overall rating (pts/100 vs avg)": -12.6,
      "Adj. offense (pts/100 vs avg)": -5.9,
      "Adj. defense (pts/100 vs avg)": -6.7,
@@ -3224,8 +3224,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -33.8,
-    "total": 153.5,
+    "spread": -34.4,
+    "total": 153.9,
     "home_win_prob": 0.999
    },
    "notes": []
@@ -3248,7 +3248,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 325,
+     "Model rank": 326,
      "Overall rating (pts/100 vs avg)": -11.6,
      "Adj. offense (pts/100 vs avg)": 3.6,
      "Adj. defense (pts/100 vs avg)": -15.2,
@@ -3278,8 +3278,8 @@
    "lines": null,
    "model": {
     "spread": -29.7,
-    "total": 152.7,
-    "home_win_prob": 0.996
+    "total": 152.6,
+    "home_win_prob": 0.997
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -3303,7 +3303,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 236,
+     "Model rank": 235,
      "Overall rating (pts/100 vs avg)": -4.0,
      "Adj. offense (pts/100 vs avg)": 0.0,
      "Adj. defense (pts/100 vs avg)": -4.0,
@@ -3331,20 +3331,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -15.5,
+    "book": "Draft Kings",
+    "spread": -14.5,
     "spread_open": -16.5,
-    "total": 159.5,
+    "total": 158.5,
     "total_open": 159.5,
-    "home_ml": -1800.0,
-    "away_ml": 1000.0,
+    "home_ml": -1350.0,
+    "away_ml": 800.0,
     "home_ml_open": -1350.0,
     "away_ml_open": 800.0
    },
    "model": {
-    "spread": -15.7,
-    "total": 155.0,
-    "home_win_prob": 0.923
+    "spread": -15.2,
+    "total": 154.9,
+    "home_win_prob": 0.917
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -3398,7 +3398,7 @@
    "lines": null,
    "model": {
     "spread": -11.0,
-    "total": 145.7,
+    "total": 145.6,
     "home_win_prob": 0.841
    },
    "notes": [
@@ -3435,17 +3435,17 @@
     "stats": {
      "Conference": "Patriot",
      "Model rank": 329,
-     "Overall rating (pts/100 vs avg)": -12.1,
+     "Overall rating (pts/100 vs avg)": -12.0,
      "Adj. offense (pts/100 vs avg)": -6.4,
-     "Adj. defense (pts/100 vs avg)": -5.8,
+     "Adj. defense (pts/100 vs avg)": -5.7,
      "Tempo (possessions)": 66.6,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -33.3,
-    "total": 152.7,
+    "spread": -34.1,
+    "total": 152.9,
     "home_win_prob": 0.999
    },
    "notes": []
@@ -3468,7 +3468,7 @@
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 245,
+     "Model rank": 242,
      "Overall rating (pts/100 vs avg)": -4.4,
      "Adj. offense (pts/100 vs avg)": -3.9,
      "Adj. defense (pts/100 vs avg)": -0.5,
@@ -3523,8 +3523,8 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 275,
-     "Overall rating (pts/100 vs avg)": -6.5,
+     "Model rank": 272,
+     "Overall rating (pts/100 vs avg)": -6.4,
      "Adj. offense (pts/100 vs avg)": 0.9,
      "Adj. defense (pts/100 vs avg)": -7.3,
      "Tempo (possessions)": 66.9,
@@ -3546,13 +3546,13 @@
      "Overall rating (pts/100 vs avg)": 8.6,
      "Adj. offense (pts/100 vs avg)": 5.5,
      "Adj. defense (pts/100 vs avg)": 3.1,
-     "Tempo (possessions)": 64.9,
+     "Tempo (possessions)": 65.0,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -19.5,
+    "book": "Draft Kings",
+    "spread": -18.5,
     "spread_open": -19.5,
     "total": 151.5,
     "total_open": 151.5,
@@ -3562,9 +3562,9 @@
     "away_ml_open": 1200.0
    },
    "model": {
-    "spread": -17.7,
+    "spread": -17.3,
     "total": 149.4,
-    "home_win_prob": 0.946
+    "home_win_prob": 0.942
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -3618,7 +3618,7 @@
    "lines": null,
    "model": {
     "spread": -20.0,
-    "total": 144.2,
+    "total": 144.1,
     "home_win_prob": 0.965
    },
    "notes": [
@@ -3643,7 +3643,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 358,
+     "Model rank": 359,
      "Overall rating (pts/100 vs avg)": -16.4,
      "Adj. offense (pts/100 vs avg)": -5.6,
      "Adj. defense (pts/100 vs avg)": -10.8,
@@ -3662,18 +3662,18 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 253,
+     "Model rank": 251,
      "Overall rating (pts/100 vs avg)": -4.9,
      "Adj. offense (pts/100 vs avg)": -5.7,
      "Adj. defense (pts/100 vs avg)": 0.8,
-     "Tempo (possessions)": 65.1,
+     "Tempo (possessions)": 65.2,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
     "spread": -8.7,
-    "total": 139.5,
+    "total": 139.4,
     "home_win_prob": 0.786
    },
    "notes": [
@@ -3710,7 +3710,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 259,
+     "Model rank": 258,
      "Overall rating (pts/100 vs avg)": -5.2,
      "Adj. offense (pts/100 vs avg)": -3.2,
      "Adj. defense (pts/100 vs avg)": -2.0,
@@ -3720,8 +3720,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -42.2,
-    "total": 162.4,
+    "spread": -42.8,
+    "total": 162.8,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -3748,7 +3748,7 @@
      "Overall rating (pts/100 vs avg)": -9.6,
      "Adj. offense (pts/100 vs avg)": -6.6,
      "Adj. defense (pts/100 vs avg)": -3.0,
-     "Tempo (possessions)": 64.0,
+     "Tempo (possessions)": 64.1,
      "Last 5": "0-1"
     }
    },
@@ -3767,7 +3767,7 @@
      "Overall rating (pts/100 vs avg)": 6.7,
      "Adj. offense (pts/100 vs avg)": 4.7,
      "Adj. defense (pts/100 vs avg)": 2.0,
-     "Tempo (possessions)": 68.5,
+     "Tempo (possessions)": 68.6,
      "Last 5": "1-0"
     }
    },
@@ -3799,11 +3799,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 178,
+     "Model rank": 179,
      "Overall rating (pts/100 vs avg)": -1.1,
      "Adj. offense (pts/100 vs avg)": 0.1,
      "Adj. defense (pts/100 vs avg)": -1.2,
-     "Tempo (possessions)": 71.2,
+     "Tempo (possessions)": 71.3,
      "Last 5": "1-0"
     }
    },
@@ -3827,20 +3827,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -21.5,
     "spread_open": -21.5,
     "total": 152.5,
     "total_open": 152.5,
-    "home_ml": -4000.0,
-    "away_ml": 1600.0,
+    "home_ml": -4500.0,
+    "away_ml": 1700.0,
     "home_ml_open": -4000.0,
     "away_ml_open": 1600.0
    },
    "model": {
-    "spread": -18.0,
-    "total": 151.7,
-    "home_win_prob": 0.949
+    "spread": -18.1,
+    "total": 151.6,
+    "home_win_prob": 0.95
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -3864,7 +3864,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 234,
+     "Model rank": 233,
      "Overall rating (pts/100 vs avg)": -3.9,
      "Adj. offense (pts/100 vs avg)": -2.8,
      "Adj. defense (pts/100 vs avg)": -1.1,
@@ -3883,18 +3883,18 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 249,
+     "Model rank": 247,
      "Overall rating (pts/100 vs avg)": -4.6,
      "Adj. offense (pts/100 vs avg)": -3.9,
      "Adj. defense (pts/100 vs avg)": -0.7,
-     "Tempo (possessions)": 68.6
+     "Tempo (possessions)": 68.7
     }
    },
    "lines": null,
    "model": {
     "spread": -4.5,
-    "total": 137.3,
-    "home_win_prob": 0.659
+    "total": 137.2,
+    "home_win_prob": 0.66
    },
    "notes": [
     "America East-Metro Challenge"
@@ -3918,7 +3918,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 343,
+     "Model rank": 344,
      "Overall rating (pts/100 vs avg)": -13.6,
      "Adj. offense (pts/100 vs avg)": -10.1,
      "Adj. defense (pts/100 vs avg)": -3.5,
@@ -3937,10 +3937,10 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 251,
+     "Model rank": 249,
      "Overall rating (pts/100 vs avg)": -4.7,
      "Adj. offense (pts/100 vs avg)": -4.8,
-     "Adj. defense (pts/100 vs avg)": 0.1,
+     "Adj. defense (pts/100 vs avg)": 0.0,
      "Tempo (possessions)": 68.6,
      "Last 5": "1-0"
     }
@@ -3974,7 +3974,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 221,
+     "Model rank": 218,
      "Overall rating (pts/100 vs avg)": -3.4,
      "Adj. offense (pts/100 vs avg)": -2.5,
      "Adj. defense (pts/100 vs avg)": -0.9,
@@ -3993,9 +3993,9 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 214,
-     "Overall rating (pts/100 vs avg)": -3.0,
-     "Adj. offense (pts/100 vs avg)": -5.0,
+     "Model rank": 209,
+     "Overall rating (pts/100 vs avg)": -2.9,
+     "Adj. offense (pts/100 vs avg)": -4.9,
      "Adj. defense (pts/100 vs avg)": 2.0,
      "Tempo (possessions)": 63.3,
      "Last 5": "0-1"
@@ -4003,9 +4003,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -7.4,
+    "spread": -7.5,
     "total": 139.3,
-    "home_win_prob": 0.748
+    "home_win_prob": 0.752
    },
    "notes": [
     "America East-Metro Challenge",
@@ -4031,7 +4031,7 @@
     "stats": {
      "Conference": "MEAC",
      "Model rank": 364,
-     "Overall rating (pts/100 vs avg)": -18.8,
+     "Overall rating (pts/100 vs avg)": -18.9,
      "Adj. offense (pts/100 vs avg)": -11.7,
      "Adj. defense (pts/100 vs avg)": -7.2,
      "Tempo (possessions)": 62.2,
@@ -4049,7 +4049,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Patriot",
-     "Model rank": 225,
+     "Model rank": 223,
      "Overall rating (pts/100 vs avg)": -3.6,
      "Adj. offense (pts/100 vs avg)": -2.7,
      "Adj. defense (pts/100 vs avg)": -0.9,
@@ -4059,9 +4059,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -10.5,
-    "total": 132.3,
-    "home_win_prob": 0.829
+    "spread": -10.6,
+    "total": 132.2,
+    "home_win_prob": 0.832
    },
    "notes": []
   },
@@ -4083,8 +4083,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 330,
-     "Overall rating (pts/100 vs avg)": -12.1,
+     "Model rank": 331,
+     "Overall rating (pts/100 vs avg)": -12.2,
      "Adj. offense (pts/100 vs avg)": -5.8,
      "Adj. defense (pts/100 vs avg)": -6.4,
      "Tempo (possessions)": 65.0,
@@ -4112,9 +4112,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -7.6,
-    "total": 144.8,
-    "home_win_prob": 0.754
+    "spread": -7.7,
+    "total": 144.7,
+    "home_win_prob": 0.758
    },
    "notes": [
     "America East-Metro Challenge"
@@ -4139,10 +4139,10 @@
     "stats": {
      "Conference": "Am. East",
      "Model rank": 279,
-     "Overall rating (pts/100 vs avg)": -6.6,
+     "Overall rating (pts/100 vs avg)": -6.7,
      "Adj. offense (pts/100 vs avg)": -2.6,
-     "Adj. defense (pts/100 vs avg)": -4.0,
-     "Tempo (possessions)": 71.0,
+     "Adj. defense (pts/100 vs avg)": -4.1,
+     "Tempo (possessions)": 71.1,
      "Last 5": "1-0"
     }
    },
@@ -4158,18 +4158,18 @@
     "stats": {
      "Conference": "Metro",
      "Model rank": 181,
-     "Overall rating (pts/100 vs avg)": -1.4,
-     "Adj. offense (pts/100 vs avg)": -3.4,
-     "Adj. defense (pts/100 vs avg)": 2.0,
+     "Overall rating (pts/100 vs avg)": -1.2,
+     "Adj. offense (pts/100 vs avg)": -3.3,
+     "Adj. defense (pts/100 vs avg)": 2.1,
      "Tempo (possessions)": 62.6,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -5.4,
-    "total": 142.5,
-    "home_win_prob": 0.687
+    "spread": -5.9,
+    "total": 142.2,
+    "home_win_prob": 0.705
    },
    "notes": [
     "America East-Metro Challenge"
@@ -4193,7 +4193,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 335,
+     "Model rank": 336,
      "Overall rating (pts/100 vs avg)": -12.5,
      "Adj. offense (pts/100 vs avg)": -7.2,
      "Adj. defense (pts/100 vs avg)": -5.3,
@@ -4212,7 +4212,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 231,
+     "Model rank": 230,
      "Overall rating (pts/100 vs avg)": -3.8,
      "Adj. offense (pts/100 vs avg)": -4.6,
      "Adj. defense (pts/100 vs avg)": 0.7,
@@ -4223,8 +4223,8 @@
    "lines": null,
    "model": {
     "spread": -2.8,
-    "total": 147.8,
-    "home_win_prob": 0.6
+    "total": 147.7,
+    "home_win_prob": 0.601
    },
    "notes": [
     "America East-Metro Challenge",
@@ -4249,7 +4249,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 328,
+     "Model rank": 330,
      "Overall rating (pts/100 vs avg)": -12.1,
      "Adj. offense (pts/100 vs avg)": -7.8,
      "Adj. defense (pts/100 vs avg)": -4.2,
@@ -4268,11 +4268,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 357,
+     "Model rank": 358,
      "Overall rating (pts/100 vs avg)": -16.2,
      "Adj. offense (pts/100 vs avg)": -10.3,
      "Adj. defense (pts/100 vs avg)": -5.9,
-     "Tempo (possessions)": 67.8,
+     "Tempo (possessions)": 67.9,
      "Last 5": "0-1"
     }
    },
@@ -4280,7 +4280,7 @@
    "model": {
     "spread": 2.1,
     "total": 141.3,
-    "home_win_prob": 0.424
+    "home_win_prob": 0.425
    },
    "notes": [
     "America East-Metro Challenge",
@@ -4305,11 +4305,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 337,
+     "Model rank": 338,
      "Overall rating (pts/100 vs avg)": -12.6,
      "Adj. offense (pts/100 vs avg)": -7.5,
      "Adj. defense (pts/100 vs avg)": -5.1,
-     "Tempo (possessions)": 60.1,
+     "Tempo (possessions)": 60.2,
      "Last 5": "0-1"
     }
    },
@@ -4326,7 +4326,7 @@
      "Conference": "Metro",
      "Model rank": 240,
      "Overall rating (pts/100 vs avg)": -4.2,
-     "Adj. offense (pts/100 vs avg)": -1.3,
+     "Adj. offense (pts/100 vs avg)": -1.4,
      "Adj. defense (pts/100 vs avg)": -2.8,
      "Tempo (possessions)": 70.4,
      "Last 5": "1-0"
@@ -4334,9 +4334,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -13.0,
-    "total": 140.6,
-    "home_win_prob": 0.881
+    "spread": -12.9,
+    "total": 140.4,
+    "home_win_prob": 0.88
    },
    "notes": [
     "America East-Metro Challenge"
@@ -4360,8 +4360,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 211,
-     "Overall rating (pts/100 vs avg)": -2.9,
+     "Model rank": 212,
+     "Overall rating (pts/100 vs avg)": -3.0,
      "Adj. offense (pts/100 vs avg)": 3.1,
      "Adj. defense (pts/100 vs avg)": -6.0,
      "Tempo (possessions)": 62.8,
@@ -4388,20 +4388,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -24.5,
     "spread_open": -24.5,
     "total": 150.5,
     "total_open": 151.5,
-    "home_ml": -9000.0,
-    "away_ml": 2500.0,
+    "home_ml": -10000.0,
+    "away_ml": 3000.0,
     "home_ml_open": -9000.0,
     "away_ml_open": 2500.0
    },
    "model": {
-    "spread": -21.4,
+    "spread": -21.5,
     "total": 144.2,
-    "home_win_prob": 0.974
+    "home_win_prob": 0.975
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -4438,18 +4438,18 @@
     "injuries": [],
     "stats": {
      "Conference": "Ivy",
-     "Model rank": 207,
+     "Model rank": 205,
      "Overall rating (pts/100 vs avg)": -2.6,
      "Adj. offense (pts/100 vs avg)": 0.3,
      "Adj. defense (pts/100 vs avg)": -2.9,
-     "Tempo (possessions)": 67.5,
+     "Tempo (possessions)": 67.6,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -40.8,
-    "total": 155.9,
+    "spread": -41.4,
+    "total": 156.3,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -4472,11 +4472,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Ivy",
-     "Model rank": 127,
+     "Model rank": 129,
      "Overall rating (pts/100 vs avg)": 2.4,
      "Adj. offense (pts/100 vs avg)": 8.1,
      "Adj. defense (pts/100 vs avg)": -5.7,
-     "Tempo (possessions)": 72.7,
+     "Tempo (possessions)": 72.8,
      "Last 5": "1-0"
     }
    },
@@ -4493,7 +4493,7 @@
      "Conference": "Patriot",
      "Model rank": 297,
      "Overall rating (pts/100 vs avg)": -8.5,
-     "Adj. offense (pts/100 vs avg)": -3.3,
+     "Adj. offense (pts/100 vs avg)": -3.2,
      "Adj. defense (pts/100 vs avg)": -5.2,
      "Tempo (possessions)": 66.9,
      "Last 5": "0-1"
@@ -4546,8 +4546,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Ivy",
-     "Model rank": 215,
-     "Overall rating (pts/100 vs avg)": -3.0,
+     "Model rank": 214,
+     "Overall rating (pts/100 vs avg)": -3.1,
      "Adj. offense (pts/100 vs avg)": -0.8,
      "Adj. defense (pts/100 vs avg)": -2.3,
      "Tempo (possessions)": 61.5,
@@ -4555,20 +4555,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -1.5,
+    "book": "Draft Kings",
+    "spread": -2.5,
     "spread_open": -1.5,
-    "total": 141.5,
+    "total": 140.5,
     "total_open": 141.5,
-    "home_ml": -142.0,
-    "away_ml": 120.0,
+    "home_ml": -130.0,
+    "away_ml": 110.0,
     "home_ml_open": -142.0,
     "away_ml_open": 120.0
    },
    "model": {
-    "spread": -0.7,
-    "total": 138.3,
-    "home_win_prob": 0.525
+    "spread": -1.3,
+    "total": 137.9,
+    "home_win_prob": 0.549
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -4592,7 +4592,7 @@
     "injuries": [],
     "stats": {
      "Conference": "MEAC",
-     "Model rank": 243,
+     "Model rank": 241,
      "Overall rating (pts/100 vs avg)": -4.2,
      "Adj. offense (pts/100 vs avg)": -2.9,
      "Adj. defense (pts/100 vs avg)": -1.4,
@@ -4621,9 +4621,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 10.3,
+    "spread": 10.2,
     "total": 146.7,
-    "home_win_prob": 0.175
+    "home_win_prob": 0.176
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -4666,7 +4666,7 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 174,
+     "Model rank": 175,
      "Overall rating (pts/100 vs avg)": -0.6,
      "Adj. offense (pts/100 vs avg)": 1.9,
      "Adj. defense (pts/100 vs avg)": -2.4,
@@ -4675,19 +4675,19 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -11.5,
     "spread_open": -11.5,
-    "total": 152.5,
+    "total": 150.5,
     "total_open": 152.5,
-    "home_ml": -800.0,
-    "away_ml": 550.0,
+    "home_ml": -675.0,
+    "away_ml": 490.0,
     "home_ml_open": -600.0,
     "away_ml_open": 440.0
    },
    "model": {
     "spread": -10.5,
-    "total": 148.4,
+    "total": 148.0,
     "home_win_prob": 0.83
    },
    "notes": [
@@ -4723,7 +4723,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 339,
+     "Model rank": 341,
      "Overall rating (pts/100 vs avg)": -12.8,
      "Adj. offense (pts/100 vs avg)": -5.8,
      "Adj. defense (pts/100 vs avg)": -7.0,
@@ -4733,8 +4733,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -33.1,
-    "total": 155.4,
+    "spread": -33.6,
+    "total": 155.8,
     "home_win_prob": 0.999
    },
    "notes": []
@@ -4768,9 +4768,9 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 130,
-     "Overall rating (pts/100 vs avg)": 2.3,
-     "Adj. offense (pts/100 vs avg)": 3.9,
+     "Model rank": 133,
+     "Overall rating (pts/100 vs avg)": 2.2,
+     "Adj. offense (pts/100 vs avg)": 3.7,
      "Adj. defense (pts/100 vs avg)": -1.6,
      "Tempo (possessions)": 67.2,
      "Last 5": "1-0"
@@ -4778,8 +4778,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -46.8,
-    "total": 158.5,
+    "spread": -47.2,
+    "total": 158.7,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -4813,9 +4813,9 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 294,
+     "Model rank": 295,
      "Overall rating (pts/100 vs avg)": -8.1,
-     "Adj. offense (pts/100 vs avg)": -4.2,
+     "Adj. offense (pts/100 vs avg)": -4.1,
      "Adj. defense (pts/100 vs avg)": -4.0,
      "Tempo (possessions)": 68.5,
      "Last 5": "0-1"
@@ -4823,8 +4823,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -36.9,
-    "total": 151.5,
+    "spread": -37.6,
+    "total": 152.2,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -4868,8 +4868,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -38.8,
-    "total": 155.9,
+    "spread": -39.4,
+    "total": 156.3,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -4903,7 +4903,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Pac-12",
-     "Model rank": 182,
+     "Model rank": 183,
      "Overall rating (pts/100 vs avg)": -1.4,
      "Adj. offense (pts/100 vs avg)": -0.0,
      "Adj. defense (pts/100 vs avg)": -1.4,
@@ -4913,8 +4913,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -42.6,
-    "total": 150.9,
+    "spread": -43.2,
+    "total": 151.4,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -4958,8 +4958,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -30.2,
-    "total": 155.5,
+    "spread": -30.8,
+    "total": 155.9,
     "home_win_prob": 0.997
    },
    "notes": []
@@ -5005,14 +5005,14 @@
      "Overall rating (pts/100 vs avg)": 9.2,
      "Adj. offense (pts/100 vs avg)": 6.3,
      "Adj. defense (pts/100 vs avg)": 2.9,
-     "Tempo (possessions)": 74.8,
+     "Tempo (possessions)": 74.7,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -21.0,
-    "total": 151.3,
+    "spread": -21.1,
+    "total": 151.0,
     "home_win_prob": 0.972
    },
    "notes": [
@@ -5037,7 +5037,7 @@
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 323,
+     "Model rank": 324,
      "Overall rating (pts/100 vs avg)": -11.4,
      "Adj. offense (pts/100 vs avg)": -10.4,
      "Adj. defense (pts/100 vs avg)": -1.0,
@@ -5060,15 +5060,15 @@
      "Overall rating (pts/100 vs avg)": -0.0,
      "Adj. offense (pts/100 vs avg)": -1.9,
      "Adj. defense (pts/100 vs avg)": 1.8,
-     "Tempo (possessions)": 66.0,
+     "Tempo (possessions)": 66.1,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -12.4,
-    "total": 136.5,
-    "home_win_prob": 0.871
+    "spread": -12.6,
+    "total": 136.4,
+    "home_win_prob": 0.873
    },
    "notes": []
   },
@@ -5109,7 +5109,7 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 224,
+     "Model rank": 222,
      "Overall rating (pts/100 vs avg)": -3.6,
      "Adj. offense (pts/100 vs avg)": -0.6,
      "Adj. defense (pts/100 vs avg)": -3.0,
@@ -5121,7 +5121,7 @@
    "model": {
     "spread": -17.7,
     "total": 151.6,
-    "home_win_prob": 0.946
+    "home_win_prob": 0.947
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -5159,15 +5159,15 @@
      "Model rank": 86,
      "Overall rating (pts/100 vs avg)": 8.3,
      "Adj. offense (pts/100 vs avg)": 8.1,
-     "Adj. defense (pts/100 vs avg)": 0.3,
+     "Adj. defense (pts/100 vs avg)": 0.2,
      "Tempo (possessions)": 68.2,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -50.3,
-    "total": 157.6,
+    "spread": -51.0,
+    "total": 158.0,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -5201,18 +5201,18 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 167,
+     "Model rank": 168,
      "Overall rating (pts/100 vs avg)": -0.2,
      "Adj. offense (pts/100 vs avg)": -3.4,
      "Adj. defense (pts/100 vs avg)": 3.2,
-     "Tempo (possessions)": 66.5,
+     "Tempo (possessions)": 66.6,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -44.0,
-    "total": 149.2,
+    "spread": -44.7,
+    "total": 149.7,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -5246,18 +5246,18 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 138,
+     "Model rank": 141,
      "Overall rating (pts/100 vs avg)": 1.4,
      "Adj. offense (pts/100 vs avg)": -0.2,
      "Adj. defense (pts/100 vs avg)": 1.6,
-     "Tempo (possessions)": 72.2,
+     "Tempo (possessions)": 72.3,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -47.6,
-    "total": 156.1,
+    "spread": -48.3,
+    "total": 156.5,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -5291,7 +5291,7 @@
     "injuries": [],
     "stats": {
      "Conference": "UAC",
-     "Model rank": 307,
+     "Model rank": 308,
      "Overall rating (pts/100 vs avg)": -9.8,
      "Adj. offense (pts/100 vs avg)": -4.6,
      "Adj. defense (pts/100 vs avg)": -5.2,
@@ -5301,8 +5301,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -37.3,
-    "total": 153.1,
+    "spread": -37.9,
+    "total": 153.5,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -5325,8 +5325,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 274,
-     "Overall rating (pts/100 vs avg)": -6.4,
+     "Model rank": 275,
+     "Overall rating (pts/100 vs avg)": -6.5,
      "Adj. offense (pts/100 vs avg)": -2.1,
      "Adj. defense (pts/100 vs avg)": -4.4,
      "Tempo (possessions)": 65.7,
@@ -5354,9 +5354,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -29.6,
-    "total": 151.5,
-    "home_win_prob": 0.996
+    "spread": -29.7,
+    "total": 151.3,
+    "home_win_prob": 0.997
    },
    "notes": []
   },
@@ -5380,7 +5380,7 @@
      "Conference": "Big South",
      "Model rank": 362,
      "Overall rating (pts/100 vs avg)": -17.7,
-     "Adj. offense (pts/100 vs avg)": -8.1,
+     "Adj. offense (pts/100 vs avg)": -8.0,
      "Adj. defense (pts/100 vs avg)": -9.6,
      "Tempo (possessions)": 68.7,
      "Last 5": "0-1"
@@ -5401,13 +5401,13 @@
      "Overall rating (pts/100 vs avg)": 19.2,
      "Adj. offense (pts/100 vs avg)": 13.0,
      "Adj. defense (pts/100 vs avg)": 6.3,
-     "Tempo (possessions)": 70.8,
+     "Tempo (possessions)": 70.9,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -35.9,
+    "spread": -36.0,
     "total": 154.1,
     "home_win_prob": 0.999
    },
@@ -5433,7 +5433,7 @@
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 315,
+     "Model rank": 316,
      "Overall rating (pts/100 vs avg)": -10.4,
      "Adj. offense (pts/100 vs avg)": -3.6,
      "Adj. defense (pts/100 vs avg)": -6.8,
@@ -5454,7 +5454,7 @@
      "Conference": "Big East",
      "Model rank": 84,
      "Overall rating (pts/100 vs avg)": 8.4,
-     "Adj. offense (pts/100 vs avg)": 5.1,
+     "Adj. offense (pts/100 vs avg)": 5.2,
      "Adj. defense (pts/100 vs avg)": 3.2,
      "Tempo (possessions)": 68.3,
      "Last 5": "1-0"
@@ -5463,7 +5463,7 @@
    "lines": null,
    "model": {
     "spread": -23.9,
-    "total": 151.5,
+    "total": 151.4,
     "home_win_prob": 0.985
    },
    "notes": [
@@ -5488,11 +5488,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 268,
-     "Overall rating (pts/100 vs avg)": -5.7,
+     "Model rank": 265,
+     "Overall rating (pts/100 vs avg)": -5.8,
      "Adj. offense (pts/100 vs avg)": -6.4,
      "Adj. defense (pts/100 vs avg)": 0.7,
-     "Tempo (possessions)": 70.8,
+     "Tempo (possessions)": 70.9,
      "Last 5": "0-1"
     }
    },
@@ -5511,12 +5511,12 @@
      "Overall rating (pts/100 vs avg)": 28.1,
      "Adj. offense (pts/100 vs avg)": 14.2,
      "Adj. defense (pts/100 vs avg)": 13.9,
-     "Tempo (possessions)": 65.5,
+     "Tempo (possessions)": 65.6,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -40.5,
     "spread_open": -41.5,
     "total": 148.5,
@@ -5572,7 +5572,7 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 195,
+     "Model rank": 194,
      "Overall rating (pts/100 vs avg)": -2.1,
      "Adj. offense (pts/100 vs avg)": -2.0,
      "Adj. defense (pts/100 vs avg)": -0.2,
@@ -5581,20 +5581,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -16.5,
+    "book": "Draft Kings",
+    "spread": -18.5,
     "spread_open": -16.5,
     "total": 144.5,
     "total_open": 143.5,
-    "home_ml": -2100.0,
-    "away_ml": 1100.0,
+    "home_ml": -2800.0,
+    "away_ml": 1300.0,
     "home_ml_open": -1450.0,
     "away_ml_open": 850.0
    },
    "model": {
-    "spread": -14.5,
+    "spread": -15.4,
     "total": 144.4,
-    "home_win_prob": 0.907
+    "home_win_prob": 0.919
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -5618,11 +5618,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 319,
-     "Overall rating (pts/100 vs avg)": -10.8,
-     "Adj. offense (pts/100 vs avg)": -4.2,
-     "Adj. defense (pts/100 vs avg)": -6.7,
-     "Tempo (possessions)": 71.9,
+     "Model rank": 320,
+     "Overall rating (pts/100 vs avg)": -11.1,
+     "Adj. offense (pts/100 vs avg)": -4.3,
+     "Adj. defense (pts/100 vs avg)": -6.8,
+     "Tempo (possessions)": 71.8,
      "Last 5": "1-0"
     }
    },
@@ -5646,7 +5646,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -24.5,
     "spread_open": -23.5,
     "total": 159.5,
@@ -5657,9 +5657,9 @@
     "away_ml_open": 2200.0
    },
    "model": {
-    "spread": -22.8,
-    "total": 158.9,
-    "home_win_prob": 0.981
+    "spread": -23.1,
+    "total": 158.8,
+    "home_win_prob": 0.982
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -5694,7 +5694,7 @@
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 230,
+     "Model rank": 228,
      "Overall rating (pts/100 vs avg)": -3.8,
      "Adj. offense (pts/100 vs avg)": -1.4,
      "Adj. defense (pts/100 vs avg)": -2.3,
@@ -5704,8 +5704,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -40.2,
-    "total": 157.6,
+    "spread": -40.8,
+    "total": 158.1,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -5728,7 +5728,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 342,
+     "Model rank": 343,
      "Overall rating (pts/100 vs avg)": -13.3,
      "Adj. offense (pts/100 vs avg)": -4.3,
      "Adj. defense (pts/100 vs avg)": -9.0,
@@ -5748,7 +5748,7 @@
     "stats": {
      "Conference": "American",
      "Model rank": 85,
-     "Overall rating (pts/100 vs avg)": 8.4,
+     "Overall rating (pts/100 vs avg)": 8.3,
      "Adj. offense (pts/100 vs avg)": 6.7,
      "Adj. defense (pts/100 vs avg)": 1.7,
      "Tempo (possessions)": 69.8,
@@ -5756,19 +5756,19 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -15.5,
     "spread_open": -15.5,
-    "total": 152.5,
+    "total": 153.5,
     "total_open": 152.5,
-    "home_ml": -1350.0,
-    "away_ml": 800.0,
+    "home_ml": -1650.0,
+    "away_ml": 950.0,
     "home_ml_open": -1200.0,
     "away_ml_open": 750.0
    },
    "model": {
     "spread": -16.9,
-    "total": 153.1,
+    "total": 153.2,
     "home_win_prob": 0.937
    },
    "notes": [
@@ -5793,7 +5793,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Southland",
-     "Model rank": 269,
+     "Model rank": 268,
      "Overall rating (pts/100 vs avg)": -5.8,
      "Adj. offense (pts/100 vs avg)": -4.0,
      "Adj. defense (pts/100 vs avg)": -1.9,
@@ -5814,7 +5814,7 @@
      "Conference": "American",
      "Model rank": 210,
      "Overall rating (pts/100 vs avg)": -2.9,
-     "Adj. offense (pts/100 vs avg)": -3.1,
+     "Adj. offense (pts/100 vs avg)": -3.2,
      "Adj. defense (pts/100 vs avg)": 0.2,
      "Tempo (possessions)": 70.8,
      "Last 5": "1-0"
@@ -5823,8 +5823,8 @@
    "lines": null,
    "model": {
     "spread": -5.2,
-    "total": 143.0,
-    "home_win_prob": 0.682
+    "total": 142.9,
+    "home_win_prob": 0.681
    },
    "notes": []
   },
@@ -5846,7 +5846,7 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 141,
+     "Model rank": 143,
      "Overall rating (pts/100 vs avg)": 1.2,
      "Adj. offense (pts/100 vs avg)": 2.0,
      "Adj. defense (pts/100 vs avg)": -0.8,
@@ -5874,7 +5874,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -26.5,
     "spread_open": -26.5,
     "total": 152.5,
@@ -5911,10 +5911,10 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 144,
-     "Overall rating (pts/100 vs avg)": 1.0,
+     "Model rank": 147,
+     "Overall rating (pts/100 vs avg)": 0.9,
      "Adj. offense (pts/100 vs avg)": 0.8,
-     "Adj. defense (pts/100 vs avg)": 0.2,
+     "Adj. defense (pts/100 vs avg)": 0.1,
      "Tempo (possessions)": 66.2,
      "Last 5": "1-0"
     }
@@ -5930,7 +5930,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 212,
+     "Model rank": 211,
      "Overall rating (pts/100 vs avg)": -2.9,
      "Adj. offense (pts/100 vs avg)": -1.2,
      "Adj. defense (pts/100 vs avg)": -1.7,
@@ -5939,20 +5939,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -3.5,
+    "book": "Draft Kings",
+    "spread": -2.5,
     "spread_open": -3.5,
-    "total": 145.5,
+    "total": 142.5,
     "total_open": 144.5,
-    "home_ml": -148.0,
-    "away_ml": 124.0,
+    "home_ml": -142.0,
+    "away_ml": 120.0,
     "home_ml_open": -175.0,
     "away_ml_open": 145.0
    },
    "model": {
-    "spread": -1.8,
-    "total": 145.1,
-    "home_win_prob": 0.564
+    "spread": -1.3,
+    "total": 144.4,
+    "home_win_prob": 0.547
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -5997,8 +5997,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -49.4,
-    "total": 156.0,
+    "spread": -50.1,
+    "total": 156.4,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -6021,7 +6021,7 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 63,
+     "Model rank": 64,
      "Overall rating (pts/100 vs avg)": 10.8,
      "Adj. offense (pts/100 vs avg)": 4.0,
      "Adj. defense (pts/100 vs avg)": 6.8,
@@ -6049,7 +6049,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -6.5,
     "spread_open": -6.5,
     "total": 150.5,
@@ -6062,7 +6062,7 @@
    "model": {
     "spread": -3.8,
     "total": 149.3,
-    "home_win_prob": 0.634
+    "home_win_prob": 0.635
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -6097,8 +6097,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Mountain West",
-     "Model rank": 356,
-     "Overall rating (pts/100 vs avg)": -16.1,
+     "Model rank": 357,
+     "Overall rating (pts/100 vs avg)": -16.0,
      "Adj. offense (pts/100 vs avg)": -6.6,
      "Adj. defense (pts/100 vs avg)": -9.5,
      "Tempo (possessions)": 64.6,
@@ -6107,9 +6107,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -30.5,
-    "total": 154.1,
-    "home_win_prob": 0.997
+    "spread": -31.1,
+    "total": 154.6,
+    "home_win_prob": 0.998
    },
    "notes": []
   },
@@ -6150,18 +6150,18 @@
     "stats": {
      "Conference": "Big Ten",
      "Model rank": 1,
-     "Overall rating (pts/100 vs avg)": 29.1,
-     "Adj. offense (pts/100 vs avg)": 13.9,
+     "Overall rating (pts/100 vs avg)": 29.0,
+     "Adj. offense (pts/100 vs avg)": 13.8,
      "Adj. defense (pts/100 vs avg)": 15.2,
-     "Tempo (possessions)": 73.2,
+     "Tempo (possessions)": 73.3,
      "Last 5": "1-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -29.5,
+    "book": "Draft Kings",
+    "spread": -30.5,
     "spread_open": -29.5,
-    "total": 165.5,
+    "total": 164.5,
     "total_open": 165.5,
     "home_ml": null,
     "away_ml": null,
@@ -6169,8 +6169,8 @@
     "away_ml_open": null
    },
    "model": {
-    "spread": -28.9,
-    "total": 156.1,
+    "spread": -29.4,
+    "total": 155.7,
     "home_win_prob": 0.996
    },
    "notes": [
@@ -6206,8 +6206,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 264,
-     "Overall rating (pts/100 vs avg)": -5.3,
+     "Model rank": 263,
+     "Overall rating (pts/100 vs avg)": -5.4,
      "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": -5.0,
      "Tempo (possessions)": 72.9,
@@ -6216,8 +6216,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -45.5,
-    "total": 164.6,
+    "spread": -46.0,
+    "total": 165.0,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -6251,7 +6251,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Mountain West",
-     "Model rank": 197,
+     "Model rank": 196,
      "Overall rating (pts/100 vs avg)": -2.2,
      "Adj. offense (pts/100 vs avg)": 0.8,
      "Adj. defense (pts/100 vs avg)": -2.9,
@@ -6261,8 +6261,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -40.8,
-    "total": 156.0,
+    "spread": -41.4,
+    "total": 156.5,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -6285,11 +6285,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 309,
-     "Overall rating (pts/100 vs avg)": -9.9,
-     "Adj. offense (pts/100 vs avg)": -5.4,
-     "Adj. defense (pts/100 vs avg)": -4.5,
-     "Tempo (possessions)": 70.3,
+     "Model rank": 307,
+     "Overall rating (pts/100 vs avg)": -9.8,
+     "Adj. offense (pts/100 vs avg)": -5.3,
+     "Adj. defense (pts/100 vs avg)": -4.4,
+     "Tempo (possessions)": 70.2,
      "Last 5": "0-1"
     }
    },
@@ -6314,8 +6314,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -24.9,
-    "total": 148.1,
+    "spread": -24.7,
+    "total": 147.9,
     "home_win_prob": 0.988
    },
    "notes": [
@@ -6343,7 +6343,7 @@
      "Model rank": 159,
      "Overall rating (pts/100 vs avg)": 0.3,
      "Adj. offense (pts/100 vs avg)": -4.2,
-     "Adj. defense (pts/100 vs avg)": 4.5,
+     "Adj. defense (pts/100 vs avg)": 4.4,
      "Tempo (possessions)": 67.4,
      "Last 5": "0-1"
     }
@@ -6368,7 +6368,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -10.5,
     "spread_open": -10.5,
     "total": 141.5,
@@ -6380,7 +6380,7 @@
    },
    "model": {
     "spread": -10.0,
-    "total": 142.5,
+    "total": 142.4,
     "home_win_prob": 0.818
    },
    "notes": [
@@ -6416,7 +6416,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 332,
+     "Model rank": 333,
      "Overall rating (pts/100 vs avg)": -12.2,
      "Adj. offense (pts/100 vs avg)": -5.4,
      "Adj. defense (pts/100 vs avg)": -6.8,
@@ -6425,9 +6425,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -36.2,
-    "total": 158.4,
-    "home_win_prob": 0.999
+    "spread": -36.8,
+    "total": 158.8,
+    "home_win_prob": 1.0
    },
    "notes": []
   },
@@ -6472,12 +6472,12 @@
      "Overall rating (pts/100 vs avg)": 25.6,
      "Adj. offense (pts/100 vs avg)": 11.0,
      "Adj. defense (pts/100 vs avg)": 14.6,
-     "Tempo (possessions)": 75.1,
+     "Tempo (possessions)": 75.2,
      "Last 5": "0-1"
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -30.5,
     "spread_open": -29.5,
     "total": 172.5,
@@ -6488,8 +6488,8 @@
     "away_ml_open": 3500.0
    },
    "model": {
-    "spread": -30.4,
-    "total": 161.8,
+    "spread": -30.5,
+    "total": 161.7,
     "home_win_prob": 0.997
    },
    "notes": [
@@ -6525,7 +6525,7 @@
     "injuries": [],
     "stats": {
      "Conference": "WCC",
-     "Model rank": 267,
+     "Model rank": 264,
      "Overall rating (pts/100 vs avg)": -5.7,
      "Adj. offense (pts/100 vs avg)": -2.1,
      "Adj. defense (pts/100 vs avg)": -3.6,
@@ -6535,8 +6535,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -41.4,
-    "total": 158.0,
+    "spread": -42.0,
+    "total": 158.5,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -6559,11 +6559,11 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 175,
+     "Model rank": 176,
      "Overall rating (pts/100 vs avg)": -0.6,
      "Adj. offense (pts/100 vs avg)": 0.1,
      "Adj. defense (pts/100 vs avg)": -0.7,
-     "Tempo (possessions)": 72.3,
+     "Tempo (possessions)": 72.4,
      "Last 5": "1-0"
     }
    },
@@ -6615,7 +6615,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 353,
+     "Model rank": 352,
      "Overall rating (pts/100 vs avg)": -15.5,
      "Adj. offense (pts/100 vs avg)": -5.6,
      "Adj. defense (pts/100 vs avg)": -9.9,
@@ -6644,7 +6644,7 @@
    },
    "lines": null,
    "model": {
-    "spread": -33.0,
+    "spread": -33.1,
     "total": 156.2,
     "home_win_prob": 0.999
    },
@@ -6700,7 +6700,7 @@
    "lines": null,
    "model": {
     "spread": -21.4,
-    "total": 152.2,
+    "total": 152.1,
     "home_win_prob": 0.974
    },
    "notes": [
@@ -6744,19 +6744,19 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 202,
-     "Overall rating (pts/100 vs avg)": -2.4,
+     "Model rank": 201,
+     "Overall rating (pts/100 vs avg)": -2.5,
      "Adj. offense (pts/100 vs avg)": -1.2,
-     "Adj. defense (pts/100 vs avg)": -1.2,
+     "Adj. defense (pts/100 vs avg)": -1.3,
      "Tempo (possessions)": 72.9,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": 3.8,
-    "total": 147.4,
-    "home_win_prob": 0.366
+    "spread": 3.7,
+    "total": 147.2,
+    "home_win_prob": 0.368
    },
    "notes": []
   },
@@ -6778,7 +6778,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 203,
+     "Model rank": 202,
      "Overall rating (pts/100 vs avg)": -2.5,
      "Adj. offense (pts/100 vs avg)": 2.9,
      "Adj. defense (pts/100 vs avg)": -5.4,
@@ -6801,7 +6801,7 @@
      "Overall rating (pts/100 vs avg)": 9.7,
      "Adj. offense (pts/100 vs avg)": 5.1,
      "Adj. defense (pts/100 vs avg)": 4.6,
-     "Tempo (possessions)": 66.5,
+     "Tempo (possessions)": 66.6,
      "Last 5": "1-0"
     }
    },
@@ -6889,7 +6889,7 @@
     "stats": {
      "Conference": "MEAC",
      "Model rank": 355,
-     "Overall rating (pts/100 vs avg)": -15.8,
+     "Overall rating (pts/100 vs avg)": -15.9,
      "Adj. offense (pts/100 vs avg)": -8.4,
      "Adj. defense (pts/100 vs avg)": -7.5,
      "Tempo (possessions)": 66.5,
@@ -6907,19 +6907,19 @@
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 292,
+     "Model rank": 293,
      "Overall rating (pts/100 vs avg)": -8.0,
      "Adj. offense (pts/100 vs avg)": -4.5,
-     "Adj. defense (pts/100 vs avg)": -3.5,
+     "Adj. defense (pts/100 vs avg)": -3.6,
      "Tempo (possessions)": 69.5,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -9.2,
-    "total": 145.7,
-    "home_win_prob": 0.799
+    "spread": -9.3,
+    "total": 145.6,
+    "home_win_prob": 0.802
    },
    "notes": []
   },
@@ -6941,11 +6941,11 @@
     "injuries": [],
     "stats": {
      "Conference": "MVC",
-     "Model rank": 135,
+     "Model rank": 138,
      "Overall rating (pts/100 vs avg)": 1.8,
      "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": 2.0,
-     "Tempo (possessions)": 67.7,
+     "Tempo (possessions)": 67.8,
      "Last 5": "1-0"
     }
    },
@@ -6964,7 +6964,7 @@
      "Overall rating (pts/100 vs avg)": 22.6,
      "Adj. offense (pts/100 vs avg)": 15.6,
      "Adj. defense (pts/100 vs avg)": 7.0,
-     "Tempo (possessions)": 64.8,
+     "Tempo (possessions)": 64.9,
      "Last 5": "0-1"
     }
    },
@@ -6972,7 +6972,7 @@
    "model": {
     "spread": -13.6,
     "total": 147.3,
-    "home_win_prob": 0.892
+    "home_win_prob": 0.893
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -6996,7 +6996,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 262,
+     "Model rank": 261,
      "Overall rating (pts/100 vs avg)": -5.3,
      "Adj. offense (pts/100 vs avg)": -1.2,
      "Adj. defense (pts/100 vs avg)": -4.1,
@@ -7051,7 +7051,7 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 250,
+     "Model rank": 248,
      "Overall rating (pts/100 vs avg)": -4.7,
      "Adj. offense (pts/100 vs avg)": -3.0,
      "Adj. defense (pts/100 vs avg)": -1.7,
@@ -7074,14 +7074,14 @@
      "Overall rating (pts/100 vs avg)": 10.2,
      "Adj. offense (pts/100 vs avg)": 7.1,
      "Adj. defense (pts/100 vs avg)": 3.2,
-     "Tempo (possessions)": 73.7,
+     "Tempo (possessions)": 73.8,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
     "spread": -16.2,
-    "total": 151.9,
+    "total": 151.8,
     "home_win_prob": 0.93
    },
    "notes": [
@@ -7106,7 +7106,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 179,
+     "Model rank": 180,
      "Overall rating (pts/100 vs avg)": -1.1,
      "Adj. offense (pts/100 vs avg)": -2.6,
      "Adj. defense (pts/100 vs avg)": 1.5,
@@ -7129,13 +7129,13 @@
      "Overall rating (pts/100 vs avg)": 12.5,
      "Adj. offense (pts/100 vs avg)": 8.1,
      "Adj. defense (pts/100 vs avg)": 4.4,
-     "Tempo (possessions)": 72.9,
+     "Tempo (possessions)": 73.0,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -15.7,
+    "spread": -15.8,
     "total": 152.9,
     "home_win_prob": 0.924
    },
@@ -7161,7 +7161,7 @@
     "injuries": [],
     "stats": {
      "Conference": "MVC",
-     "Model rank": 196,
+     "Model rank": 195,
      "Overall rating (pts/100 vs avg)": -2.2,
      "Adj. offense (pts/100 vs avg)": 0.2,
      "Adj. defense (pts/100 vs avg)": -2.4,
@@ -7184,15 +7184,15 @@
      "Overall rating (pts/100 vs avg)": -7.0,
      "Adj. offense (pts/100 vs avg)": -6.4,
      "Adj. defense (pts/100 vs avg)": -0.5,
-     "Tempo (possessions)": 64.4,
+     "Tempo (possessions)": 64.5,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -4.8,
-    "total": 144.1,
-    "home_win_prob": 0.67
+    "spread": -4.9,
+    "total": 144.0,
+    "home_win_prob": 0.671
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -7227,18 +7227,18 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 270,
-     "Overall rating (pts/100 vs avg)": -5.9,
-     "Adj. offense (pts/100 vs avg)": -1.2,
-     "Adj. defense (pts/100 vs avg)": -4.8,
+     "Model rank": 267,
+     "Overall rating (pts/100 vs avg)": -5.8,
+     "Adj. offense (pts/100 vs avg)": -1.1,
+     "Adj. defense (pts/100 vs avg)": -4.7,
      "Tempo (possessions)": 68.2,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -40.6,
-    "total": 156.8,
+    "spread": -41.7,
+    "total": 157.4,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -7291,7 +7291,7 @@
    "lines": null,
    "model": {
     "spread": -1.7,
-    "total": 156.4,
+    "total": 156.3,
     "home_win_prob": 0.562
    },
    "notes": [
@@ -7317,7 +7317,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Patriot",
-     "Model rank": 247,
+     "Model rank": 246,
      "Overall rating (pts/100 vs avg)": -4.5,
      "Adj. offense (pts/100 vs avg)": 2.6,
      "Adj. defense (pts/100 vs avg)": -7.2,
@@ -7336,7 +7336,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Ivy",
-     "Model rank": 256,
+     "Model rank": 253,
      "Overall rating (pts/100 vs avg)": -5.0,
      "Adj. offense (pts/100 vs avg)": -3.8,
      "Adj. defense (pts/100 vs avg)": -1.3,
@@ -7372,11 +7372,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Patriot",
-     "Model rank": 258,
+     "Model rank": 256,
      "Overall rating (pts/100 vs avg)": -5.2,
      "Adj. offense (pts/100 vs avg)": -1.3,
      "Adj. defense (pts/100 vs avg)": -3.8,
-     "Tempo (possessions)": 64.1,
+     "Tempo (possessions)": 64.2,
      "Last 5": "0-1"
     }
    },
@@ -7394,7 +7394,7 @@
      "Model rank": 44,
      "Overall rating (pts/100 vs avg)": 13.7,
      "Adj. offense (pts/100 vs avg)": 7.7,
-     "Adj. defense (pts/100 vs avg)": 6.0,
+     "Adj. defense (pts/100 vs avg)": 5.9,
      "Tempo (possessions)": 63.3,
      "Last 5": "1-0"
     }
@@ -7402,7 +7402,7 @@
    "lines": null,
    "model": {
     "spread": -21.3,
-    "total": 142.7,
+    "total": 142.6,
     "home_win_prob": 0.974
    },
    "notes": [
@@ -7427,11 +7427,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 237,
+     "Model rank": 236,
      "Overall rating (pts/100 vs avg)": -4.0,
      "Adj. offense (pts/100 vs avg)": 0.4,
      "Adj. defense (pts/100 vs avg)": -4.4,
-     "Tempo (possessions)": 68.9,
+     "Tempo (possessions)": 69.0,
      "Last 5": "0-1"
     }
    },
@@ -7450,14 +7450,14 @@
      "Overall rating (pts/100 vs avg)": 14.2,
      "Adj. offense (pts/100 vs avg)": 6.9,
      "Adj. defense (pts/100 vs avg)": 7.3,
-     "Tempo (possessions)": 71.3,
+     "Tempo (possessions)": 71.4,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
     "spread": -21.5,
-    "total": 153.4,
+    "total": 153.3,
     "home_win_prob": 0.975
    },
    "notes": [
@@ -7482,8 +7482,8 @@
     "injuries": [],
     "stats": {
      "Conference": "UAC",
-     "Model rank": 172,
-     "Overall rating (pts/100 vs avg)": -0.5,
+     "Model rank": 174,
+     "Overall rating (pts/100 vs avg)": -0.6,
      "Adj. offense (pts/100 vs avg)": 1.0,
      "Adj. defense (pts/100 vs avg)": -1.5,
      "Tempo (possessions)": 69.6,
@@ -7501,9 +7501,9 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 129,
-     "Overall rating (pts/100 vs avg)": 2.3,
-     "Adj. offense (pts/100 vs avg)": 0.9,
+     "Model rank": 131,
+     "Overall rating (pts/100 vs avg)": 2.2,
+     "Adj. offense (pts/100 vs avg)": 0.8,
      "Adj. defense (pts/100 vs avg)": 1.4,
      "Tempo (possessions)": 74.6,
      "Last 5": "1-0"
@@ -7512,8 +7512,8 @@
    "lines": null,
    "model": {
     "spread": -8.2,
-    "total": 158.0,
-    "home_win_prob": 0.771
+    "total": 157.8,
+    "home_win_prob": 0.772
    },
    "notes": []
   },
@@ -7535,7 +7535,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 143,
+     "Model rank": 145,
      "Overall rating (pts/100 vs avg)": 1.1,
      "Adj. offense (pts/100 vs avg)": 2.6,
      "Adj. defense (pts/100 vs avg)": -1.5,
@@ -7613,7 +7613,7 @@
      "Overall rating (pts/100 vs avg)": 7.2,
      "Adj. offense (pts/100 vs avg)": 1.8,
      "Adj. defense (pts/100 vs avg)": 5.4,
-     "Tempo (possessions)": 64.7,
+     "Tempo (possessions)": 64.8,
      "Last 5": "1-0"
     }
    },
@@ -7645,7 +7645,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 233,
+     "Model rank": 232,
      "Overall rating (pts/100 vs avg)": -3.9,
      "Adj. offense (pts/100 vs avg)": -0.7,
      "Adj. defense (pts/100 vs avg)": -3.2,
@@ -7664,7 +7664,7 @@
     "injuries": [],
     "stats": {
      "Conference": "ACC",
-     "Model rank": 122,
+     "Model rank": 121,
      "Overall rating (pts/100 vs avg)": 3.4,
      "Adj. offense (pts/100 vs avg)": -0.4,
      "Adj. defense (pts/100 vs avg)": 3.7,
@@ -7675,7 +7675,7 @@
    "lines": null,
    "model": {
     "spread": -13.0,
-    "total": 153.6,
+    "total": 153.5,
     "home_win_prob": 0.881
    },
    "notes": [
@@ -7719,7 +7719,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 293,
+     "Model rank": 294,
      "Overall rating (pts/100 vs avg)": -8.1,
      "Adj. offense (pts/100 vs avg)": -7.5,
      "Adj. defense (pts/100 vs avg)": -0.6,
@@ -7730,8 +7730,8 @@
    "lines": null,
    "model": {
     "spread": -3.2,
-    "total": 145.8,
-    "home_win_prob": 0.613
+    "total": 145.7,
+    "home_win_prob": 0.614
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -7755,11 +7755,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 244,
+     "Model rank": 243,
      "Overall rating (pts/100 vs avg)": -4.4,
      "Adj. offense (pts/100 vs avg)": -0.6,
      "Adj. defense (pts/100 vs avg)": -3.8,
-     "Tempo (possessions)": 69.5,
+     "Tempo (possessions)": 69.6,
      "Last 5": "1-0"
     }
    },
@@ -7784,9 +7784,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -7.5,
-    "total": 151.5,
-    "home_win_prob": 0.753
+    "spread": -7.7,
+    "total": 151.4,
+    "home_win_prob": 0.757
    },
    "notes": []
   },
@@ -7829,8 +7829,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -31.8,
-    "total": 162.2,
+    "spread": -32.4,
+    "total": 162.7,
     "home_win_prob": 0.998
    },
    "notes": []
@@ -7857,7 +7857,7 @@
      "Overall rating (pts/100 vs avg)": -14.3,
      "Adj. offense (pts/100 vs avg)": -5.6,
      "Adj. defense (pts/100 vs avg)": -8.7,
-     "Tempo (possessions)": 64.7,
+     "Tempo (possessions)": 64.8,
      "Last 5": "0-1"
     }
    },
@@ -7938,7 +7938,7 @@
    "lines": null,
    "model": {
     "spread": -10.3,
-    "total": 156.0,
+    "total": 155.9,
     "home_win_prob": 0.826
    },
    "notes": [
@@ -7963,7 +7963,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 326,
+     "Model rank": 327,
      "Overall rating (pts/100 vs avg)": -11.8,
      "Adj. offense (pts/100 vs avg)": -2.0,
      "Adj. defense (pts/100 vs avg)": -9.8,
@@ -8018,7 +8018,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 219,
+     "Model rank": 217,
      "Overall rating (pts/100 vs avg)": -3.3,
      "Adj. offense (pts/100 vs avg)": -1.9,
      "Adj. defense (pts/100 vs avg)": -1.4,
@@ -8086,7 +8086,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 235,
+     "Model rank": 234,
      "Overall rating (pts/100 vs avg)": -3.9,
      "Adj. offense (pts/100 vs avg)": -0.1,
      "Adj. defense (pts/100 vs avg)": -3.8,
@@ -8096,8 +8096,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -43.4,
-    "total": 159.2,
+    "spread": -44.0,
+    "total": 159.7,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -8165,12 +8165,14 @@
     "name": "Erskine",
     "short": "Erskine",
     "abbr": "ERSK",
-    "record": null,
+    "record": "0-1",
     "score": null,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
-    "stats": {}
+    "stats": {
+     "Last 5": "0-1"
+    }
    },
    "home": {
     "name": "The Citadel",
@@ -8185,7 +8187,7 @@
      "Conference": "SoCon",
      "Model rank": 350,
      "Overall rating (pts/100 vs avg)": -14.9,
-     "Adj. offense (pts/100 vs avg)": -6.6,
+     "Adj. offense (pts/100 vs avg)": -6.5,
      "Adj. defense (pts/100 vs avg)": -8.3,
      "Tempo (possessions)": 65.7,
      "Last 5": "0-1"
@@ -8193,8 +8195,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -32.7,
-    "total": 152.0,
+    "spread": -33.3,
+    "total": 152.4,
     "home_win_prob": 0.999
    },
    "notes": []
@@ -8228,7 +8230,7 @@
     "injuries": [],
     "stats": {
      "Conference": "CAA",
-     "Model rank": 145,
+     "Model rank": 149,
      "Overall rating (pts/100 vs avg)": 0.9,
      "Adj. offense (pts/100 vs avg)": -1.2,
      "Adj. defense (pts/100 vs avg)": 2.1,
@@ -8238,8 +8240,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -47.6,
-    "total": 155.8,
+    "spread": -48.2,
+    "total": 156.2,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -8273,7 +8275,7 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 176,
+     "Model rank": 177,
      "Overall rating (pts/100 vs avg)": -0.6,
      "Adj. offense (pts/100 vs avg)": 0.2,
      "Adj. defense (pts/100 vs avg)": -0.9,
@@ -8283,8 +8285,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -46.0,
-    "total": 161.4,
+    "spread": -46.7,
+    "total": 161.9,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -8320,18 +8322,18 @@
     "injuries": [],
     "stats": {
      "Conference": "UAC",
-     "Model rank": 263,
+     "Model rank": 262,
      "Overall rating (pts/100 vs avg)": -5.3,
      "Adj. offense (pts/100 vs avg)": -0.4,
      "Adj. defense (pts/100 vs avg)": -4.9,
-     "Tempo (possessions)": 71.0,
+     "Tempo (possessions)": 71.1,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -42.5,
-    "total": 159.5,
+    "spread": -43.1,
+    "total": 159.9,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -8354,7 +8356,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 153,
+     "Model rank": 152,
      "Overall rating (pts/100 vs avg)": 0.6,
      "Adj. offense (pts/100 vs avg)": -1.0,
      "Adj. defense (pts/100 vs avg)": 1.6,
@@ -8410,9 +8412,9 @@
     "stats": {
      "Conference": "Southland",
      "Model rank": 208,
-     "Overall rating (pts/100 vs avg)": -2.7,
+     "Overall rating (pts/100 vs avg)": -2.8,
      "Adj. offense (pts/100 vs avg)": 0.2,
-     "Adj. defense (pts/100 vs avg)": -2.9,
+     "Adj. defense (pts/100 vs avg)": -3.0,
      "Tempo (possessions)": 66.7,
      "Last 5": "1-0"
     }
@@ -8428,7 +8430,7 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 142,
+     "Model rank": 144,
      "Overall rating (pts/100 vs avg)": 1.1,
      "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": 1.4,
@@ -8438,9 +8440,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -5.5,
-    "total": 155.1,
-    "home_win_prob": 0.692
+    "spread": -5.7,
+    "total": 154.9,
+    "home_win_prob": 0.697
    },
    "notes": []
   },
@@ -8463,8 +8465,8 @@
     "stats": {
      "Conference": "CUSA",
      "Model rank": 260,
-     "Overall rating (pts/100 vs avg)": -5.2,
-     "Adj. offense (pts/100 vs avg)": -0.2,
+     "Overall rating (pts/100 vs avg)": -5.3,
+     "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": -5.0,
      "Tempo (possessions)": 63.6,
      "Last 5": "1-0"
@@ -8485,15 +8487,15 @@
      "Overall rating (pts/100 vs avg)": 17.9,
      "Adj. offense (pts/100 vs avg)": 10.3,
      "Adj. defense (pts/100 vs avg)": 7.6,
-     "Tempo (possessions)": 71.2,
+     "Tempo (possessions)": 71.3,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -18.2,
-    "total": 148.7,
-    "home_win_prob": 0.951
+    "spread": -18.3,
+    "total": 148.6,
+    "home_win_prob": 0.952
    },
    "notes": []
   },
@@ -8515,7 +8517,7 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 124,
+     "Model rank": 125,
      "Overall rating (pts/100 vs avg)": 2.7,
      "Adj. offense (pts/100 vs avg)": 0.4,
      "Adj. defense (pts/100 vs avg)": 2.3,
@@ -8534,7 +8536,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 125,
+     "Model rank": 126,
      "Overall rating (pts/100 vs avg)": 2.6,
      "Adj. offense (pts/100 vs avg)": 4.3,
      "Adj. defense (pts/100 vs avg)": -1.7,
@@ -8545,8 +8547,8 @@
    "lines": null,
    "model": {
     "spread": -1.1,
-    "total": 155.2,
-    "home_win_prob": 0.539
+    "total": 155.1,
+    "home_win_prob": 0.54
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -8591,8 +8593,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -49.1,
-    "total": 155.2,
+    "spread": -49.6,
+    "total": 155.6,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -8667,7 +8669,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 226,
+     "Model rank": 224,
      "Overall rating (pts/100 vs avg)": -3.7,
      "Adj. offense (pts/100 vs avg)": -2.2,
      "Adj. defense (pts/100 vs avg)": -1.5,
@@ -8695,9 +8697,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -18.1,
+    "spread": -18.2,
     "total": 147.3,
-    "home_win_prob": 0.95
+    "home_win_prob": 0.951
    },
    "notes": []
   },
@@ -8719,7 +8721,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 222,
+     "Model rank": 219,
      "Overall rating (pts/100 vs avg)": -3.4,
      "Adj. offense (pts/100 vs avg)": -3.9,
      "Adj. defense (pts/100 vs avg)": 0.5,
@@ -8748,9 +8750,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -22.0,
-    "total": 143.5,
-    "home_win_prob": 0.977
+    "spread": -22.1,
+    "total": 143.3,
+    "home_win_prob": 0.978
    },
    "notes": []
   },
@@ -8772,7 +8774,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 128,
+     "Model rank": 130,
      "Overall rating (pts/100 vs avg)": 2.4,
      "Adj. offense (pts/100 vs avg)": 5.4,
      "Adj. defense (pts/100 vs avg)": -2.9,
@@ -8831,7 +8833,7 @@
      "Overall rating (pts/100 vs avg)": -8.8,
      "Adj. offense (pts/100 vs avg)": -2.8,
      "Adj. defense (pts/100 vs avg)": -6.0,
-     "Tempo (possessions)": 69.8,
+     "Tempo (possessions)": 69.9,
      "Last 5": "0-1"
     }
    },
@@ -8857,7 +8859,7 @@
    "lines": null,
    "model": {
     "spread": -26.0,
-    "total": 150.3,
+    "total": 150.2,
     "home_win_prob": 0.991
    },
    "notes": [
@@ -8910,7 +8912,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 5.5,
     "spread_open": 5.5,
     "total": 146.5,
@@ -8977,9 +8979,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -14.6,
-    "total": 142.9,
-    "home_win_prob": 0.908
+    "spread": -14.7,
+    "total": 142.7,
+    "home_win_prob": 0.91
    },
    "notes": []
   },
@@ -9001,7 +9003,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 170,
+     "Model rank": 171,
      "Overall rating (pts/100 vs avg)": -0.4,
      "Adj. offense (pts/100 vs avg)": 1.8,
      "Adj. defense (pts/100 vs avg)": -2.2,
@@ -9056,7 +9058,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 338,
+     "Model rank": 339,
      "Overall rating (pts/100 vs avg)": -12.8,
      "Adj. offense (pts/100 vs avg)": -6.7,
      "Adj. defense (pts/100 vs avg)": -6.1,
@@ -9085,7 +9087,7 @@
    },
    "lines": null,
    "model": {
-    "spread": -27.2,
+    "spread": -27.3,
     "total": 156.1,
     "home_win_prob": 0.993
    },
@@ -9177,9 +9179,9 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 346,
-     "Overall rating (pts/100 vs avg)": -14.2,
-     "Adj. offense (pts/100 vs avg)": -7.1,
+     "Model rank": 348,
+     "Overall rating (pts/100 vs avg)": -14.3,
+     "Adj. offense (pts/100 vs avg)": -7.2,
      "Adj. defense (pts/100 vs avg)": -7.1,
      "Tempo (possessions)": 66.6,
      "Last 5": "1-0"
@@ -9187,8 +9189,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -33.5,
-    "total": 152.2,
+    "spread": -34.0,
+    "total": 152.5,
     "home_win_prob": 0.999
    },
    "notes": []
@@ -9224,16 +9226,16 @@
      "Conference": "CUSA",
      "Model rank": 229,
      "Overall rating (pts/100 vs avg)": -3.8,
-     "Adj. offense (pts/100 vs avg)": -0.6,
+     "Adj. offense (pts/100 vs avg)": -0.7,
      "Adj. defense (pts/100 vs avg)": -3.1,
-     "Tempo (possessions)": 65.6,
+     "Tempo (possessions)": 65.7,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -39.4,
-    "total": 152.9,
+    "spread": -39.9,
+    "total": 153.2,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -9276,7 +9278,7 @@
     "stats": {
      "Conference": "MVC",
      "Model rank": 101,
-     "Overall rating (pts/100 vs avg)": 5.9,
+     "Overall rating (pts/100 vs avg)": 5.8,
      "Adj. offense (pts/100 vs avg)": 3.7,
      "Adj. defense (pts/100 vs avg)": 2.2,
      "Tempo (possessions)": 65.7,
@@ -9286,8 +9288,8 @@
    "lines": null,
    "model": {
     "spread": -12.6,
-    "total": 143.6,
-    "home_win_prob": 0.874
+    "total": 143.5,
+    "home_win_prob": 0.873
    },
    "notes": []
   },
@@ -9309,7 +9311,7 @@
     "injuries": [],
     "stats": {
      "Conference": "UAC",
-     "Model rank": 137,
+     "Model rank": 139,
      "Overall rating (pts/100 vs avg)": 1.5,
      "Adj. offense (pts/100 vs avg)": 2.0,
      "Adj. defense (pts/100 vs avg)": -0.5,
@@ -9332,14 +9334,14 @@
      "Overall rating (pts/100 vs avg)": 14.4,
      "Adj. offense (pts/100 vs avg)": 7.4,
      "Adj. defense (pts/100 vs avg)": 7.0,
-     "Tempo (possessions)": 70.6,
+     "Tempo (possessions)": 70.7,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
     "spread": -15.9,
-    "total": 149.9,
+    "total": 149.8,
     "home_win_prob": 0.926
    },
    "notes": [
@@ -9364,11 +9366,11 @@
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 324,
+     "Model rank": 325,
      "Overall rating (pts/100 vs avg)": -11.5,
      "Adj. offense (pts/100 vs avg)": -7.1,
      "Adj. defense (pts/100 vs avg)": -4.4,
-     "Tempo (possessions)": 64.2,
+     "Tempo (possessions)": 64.3,
      "Last 5": "0-1"
     }
    },
@@ -9387,7 +9389,7 @@
      "Overall rating (pts/100 vs avg)": 19.2,
      "Adj. offense (pts/100 vs avg)": 13.5,
      "Adj. defense (pts/100 vs avg)": 5.6,
-     "Tempo (possessions)": 59.9,
+     "Tempo (possessions)": 60.0,
      "Last 5": "1-0"
     }
    },
@@ -9420,7 +9422,7 @@
     "stats": {
      "Conference": "MVC",
      "Model rank": 119,
-     "Overall rating (pts/100 vs avg)": 3.8,
+     "Overall rating (pts/100 vs avg)": 3.7,
      "Adj. offense (pts/100 vs avg)": -2.2,
      "Adj. defense (pts/100 vs avg)": 5.9,
      "Tempo (possessions)": 67.6,
@@ -9448,9 +9450,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 9.5,
-    "total": 139.0,
-    "home_win_prob": 0.193
+    "spread": 9.4,
+    "total": 138.9,
+    "home_win_prob": 0.196
    },
    "notes": []
   },
@@ -9492,9 +9494,9 @@
     "stats": {
      "Conference": "Mountain West",
      "Model rank": 112,
-     "Overall rating (pts/100 vs avg)": 4.5,
+     "Overall rating (pts/100 vs avg)": 4.4,
      "Adj. offense (pts/100 vs avg)": 3.8,
-     "Adj. defense (pts/100 vs avg)": 0.7,
+     "Adj. defense (pts/100 vs avg)": 0.6,
      "Tempo (possessions)": 64.9,
      "Last 5": "1-0"
     }
@@ -9502,8 +9504,8 @@
    "lines": null,
    "model": {
     "spread": -15.1,
-    "total": 146.4,
-    "home_win_prob": 0.916
+    "total": 146.2,
+    "home_win_prob": 0.915
    },
    "notes": []
   },
@@ -9525,7 +9527,7 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 168,
+     "Model rank": 170,
      "Overall rating (pts/100 vs avg)": -0.3,
      "Adj. offense (pts/100 vs avg)": 1.6,
      "Adj. defense (pts/100 vs avg)": -1.9,
@@ -9554,8 +9556,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -20.8,
-    "total": 153.6,
+    "spread": -20.9,
+    "total": 153.4,
     "home_win_prob": 0.971
    },
    "notes": []
@@ -9571,18 +9573,19 @@
     "name": "Cal State Northridge",
     "short": "Cal State Northridge",
     "abbr": "CSUN",
-    "record": null,
+    "record": "0-1",
     "score": null,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 198,
+     "Model rank": 197,
      "Overall rating (pts/100 vs avg)": -2.3,
-     "Adj. offense (pts/100 vs avg)": -1.0,
-     "Adj. defense (pts/100 vs avg)": -1.3,
-     "Tempo (possessions)": 76.3
+     "Adj. offense (pts/100 vs avg)": -2.0,
+     "Adj. defense (pts/100 vs avg)": -0.2,
+     "Tempo (possessions)": 77.3,
+     "Last 5": "0-1"
     }
    },
    "home": {
@@ -9600,18 +9603,18 @@
      "Overall rating (pts/100 vs avg)": 6.2,
      "Adj. offense (pts/100 vs avg)": 3.9,
      "Adj. defense (pts/100 vs avg)": 2.3,
-     "Tempo (possessions)": 71.8,
+     "Tempo (possessions)": 71.9,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -13.9,
-    "total": 159.8,
-    "home_win_prob": 0.897
+    "spread": -13.4,
+    "total": 159.0,
+    "home_win_prob": 0.889
    },
    "notes": [
-    "Early season: model line is 70% the market's view of these teams"
+    "Early season: model line is 64% the market's view of these teams"
    ]
   },
   {
@@ -9632,7 +9635,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 206,
+     "Model rank": 204,
      "Overall rating (pts/100 vs avg)": -2.6,
      "Adj. offense (pts/100 vs avg)": 4.5,
      "Adj. defense (pts/100 vs avg)": -7.1,
@@ -9661,9 +9664,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -16.8,
-    "total": 168.5,
-    "home_win_prob": 0.936
+    "spread": -16.6,
+    "total": 168.4,
+    "home_win_prob": 0.934
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -9687,7 +9690,7 @@
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 320,
+     "Model rank": 321,
      "Overall rating (pts/100 vs avg)": -11.1,
      "Adj. offense (pts/100 vs avg)": -7.2,
      "Adj. defense (pts/100 vs avg)": -3.9,
@@ -9710,7 +9713,7 @@
      "Overall rating (pts/100 vs avg)": 13.4,
      "Adj. offense (pts/100 vs avg)": 8.8,
      "Adj. defense (pts/100 vs avg)": 4.6,
-     "Tempo (possessions)": 67.3,
+     "Tempo (possessions)": 67.4,
      "Last 5": "0-1"
     }
    },
@@ -9743,8 +9746,8 @@
     "stats": {
      "Conference": "Big Sky",
      "Model rank": 157,
-     "Overall rating (pts/100 vs avg)": 0.5,
-     "Adj. offense (pts/100 vs avg)": 3.8,
+     "Overall rating (pts/100 vs avg)": 0.4,
+     "Adj. offense (pts/100 vs avg)": 3.7,
      "Adj. defense (pts/100 vs avg)": -3.3,
      "Tempo (possessions)": 70.4,
      "Last 5": "1-0"
@@ -9761,19 +9764,19 @@
     "injuries": [],
     "stats": {
      "Conference": "Big 12",
-     "Model rank": 74,
+     "Model rank": 75,
      "Overall rating (pts/100 vs avg)": 9.7,
      "Adj. offense (pts/100 vs avg)": 5.9,
-     "Adj. defense (pts/100 vs avg)": 3.9,
+     "Adj. defense (pts/100 vs avg)": 3.8,
      "Tempo (possessions)": 69.2,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -11.0,
-    "total": 156.5,
-    "home_win_prob": 0.842
+    "spread": -11.1,
+    "total": 156.4,
+    "home_win_prob": 0.845
    },
    "notes": []
   },
@@ -9796,9 +9799,9 @@
     "stats": {
      "Conference": "Summit",
      "Model rank": 314,
-     "Overall rating (pts/100 vs avg)": -10.2,
+     "Overall rating (pts/100 vs avg)": -10.3,
      "Adj. offense (pts/100 vs avg)": -3.4,
-     "Adj. defense (pts/100 vs avg)": -6.8,
+     "Adj. defense (pts/100 vs avg)": -6.9,
      "Tempo (possessions)": 66.4,
      "Last 5": "1-0"
     }
@@ -9824,8 +9827,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -29.2,
-    "total": 155.5,
+    "spread": -29.3,
+    "total": 155.3,
     "home_win_prob": 0.996
    },
    "notes": []
@@ -9848,8 +9851,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 185,
-     "Overall rating (pts/100 vs avg)": -1.5,
+     "Model rank": 186,
+     "Overall rating (pts/100 vs avg)": -1.6,
      "Adj. offense (pts/100 vs avg)": -1.1,
      "Adj. defense (pts/100 vs avg)": -0.5,
      "Tempo (possessions)": 69.0,
@@ -9877,9 +9880,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -9.9,
-    "total": 147.7,
-    "home_win_prob": 0.815
+    "spread": -10.0,
+    "total": 147.6,
+    "home_win_prob": 0.818
    },
    "notes": []
   },
@@ -9901,8 +9904,8 @@
     "injuries": [],
     "stats": {
      "Conference": "UAC",
-     "Model rank": 291,
-     "Overall rating (pts/100 vs avg)": -7.9,
+     "Model rank": 292,
+     "Overall rating (pts/100 vs avg)": -8.0,
      "Adj. offense (pts/100 vs avg)": -4.3,
      "Adj. defense (pts/100 vs avg)": -3.6,
      "Tempo (possessions)": 66.2,
@@ -9922,7 +9925,7 @@
      "Conference": "WCC",
      "Model rank": 283,
      "Overall rating (pts/100 vs avg)": -7.1,
-     "Adj. offense (pts/100 vs avg)": -1.3,
+     "Adj. offense (pts/100 vs avg)": -1.4,
      "Adj. defense (pts/100 vs avg)": -5.7,
      "Tempo (possessions)": 67.2,
      "Last 5": "1-0"
@@ -9930,9 +9933,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -4.6,
-    "total": 144.9,
-    "home_win_prob": 0.664
+    "spread": -4.7,
+    "total": 144.6,
+    "home_win_prob": 0.665
    },
    "notes": []
   },
@@ -9973,7 +9976,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Pac-12",
-     "Model rank": 131,
+     "Model rank": 132,
      "Overall rating (pts/100 vs avg)": 2.2,
      "Adj. offense (pts/100 vs avg)": 1.1,
      "Adj. defense (pts/100 vs avg)": 1.1,
@@ -9985,7 +9988,7 @@
    "model": {
     "spread": -10.1,
     "total": 143.6,
-    "home_win_prob": 0.821
+    "home_win_prob": 0.822
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -10020,18 +10023,18 @@
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 209,
+     "Model rank": 207,
      "Overall rating (pts/100 vs avg)": -2.8,
-     "Adj. offense (pts/100 vs avg)": -0.4,
+     "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": -2.4,
-     "Tempo (possessions)": 66.5,
+     "Tempo (possessions)": 66.6,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -42.4,
-    "total": 152.7,
+    "spread": -43.0,
+    "total": 153.1,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -10074,8 +10077,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -43.5,
-    "total": 152.6,
+    "spread": -44.1,
+    "total": 153.1,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -10098,11 +10101,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 152,
+     "Model rank": 153,
      "Overall rating (pts/100 vs avg)": 0.6,
-     "Adj. offense (pts/100 vs avg)": 3.4,
-     "Adj. defense (pts/100 vs avg)": -2.7,
-     "Tempo (possessions)": 65.6,
+     "Adj. offense (pts/100 vs avg)": 3.3,
+     "Adj. defense (pts/100 vs avg)": -2.8,
+     "Tempo (possessions)": 65.7,
      "Last 5": "1-0"
     }
    },
@@ -10117,7 +10120,7 @@
     "injuries": [],
     "stats": {
      "Conference": "WCC",
-     "Model rank": 121,
+     "Model rank": 120,
      "Overall rating (pts/100 vs avg)": 3.4,
      "Adj. offense (pts/100 vs avg)": 1.8,
      "Adj. defense (pts/100 vs avg)": 1.5,
@@ -10127,9 +10130,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -8.4,
-    "total": 147.0,
-    "home_win_prob": 0.779
+    "spread": -8.8,
+    "total": 146.9,
+    "home_win_prob": 0.788
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -10176,14 +10179,14 @@
      "Overall rating (pts/100 vs avg)": 9.4,
      "Adj. offense (pts/100 vs avg)": 5.9,
      "Adj. defense (pts/100 vs avg)": 3.5,
-     "Tempo (possessions)": 66.8,
+     "Tempo (possessions)": 66.9,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -13.6,
-    "total": 152.9,
+    "spread": -13.7,
+    "total": 152.8,
     "home_win_prob": 0.893
    },
    "notes": [
@@ -10208,7 +10211,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 308,
+     "Model rank": 309,
      "Overall rating (pts/100 vs avg)": -9.9,
      "Adj. offense (pts/100 vs avg)": -1.7,
      "Adj. defense (pts/100 vs avg)": -8.1,
@@ -10231,7 +10234,7 @@
      "Overall rating (pts/100 vs avg)": 18.9,
      "Adj. offense (pts/100 vs avg)": 10.5,
      "Adj. defense (pts/100 vs avg)": 8.3,
-     "Tempo (possessions)": 66.9,
+     "Tempo (possessions)": 67.0,
      "Last 5": "1-0"
     }
    },
@@ -10263,8 +10266,8 @@
     "injuries": [],
     "stats": {
      "Conference": "UAC",
-     "Model rank": 223,
-     "Overall rating (pts/100 vs avg)": -3.4,
+     "Model rank": 220,
+     "Overall rating (pts/100 vs avg)": -3.5,
      "Adj. offense (pts/100 vs avg)": -6.3,
      "Adj. defense (pts/100 vs avg)": 2.9,
      "Tempo (possessions)": 68.0,
@@ -10283,17 +10286,17 @@
     "stats": {
      "Conference": "WCC",
      "Model rank": 257,
-     "Overall rating (pts/100 vs avg)": -5.1,
+     "Overall rating (pts/100 vs avg)": -5.2,
      "Adj. offense (pts/100 vs avg)": 0.3,
-     "Adj. defense (pts/100 vs avg)": -5.4,
-     "Tempo (possessions)": 70.5,
+     "Adj. defense (pts/100 vs avg)": -5.5,
+     "Tempo (possessions)": 70.6,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
     "spread": 0.4,
-    "total": 151.6,
+    "total": 151.4,
     "home_win_prob": 0.485
    },
    "notes": [
@@ -10331,7 +10334,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Mountain West",
-     "Model rank": 126,
+     "Model rank": 127,
      "Overall rating (pts/100 vs avg)": 2.6,
      "Adj. offense (pts/100 vs avg)": 1.8,
      "Adj. defense (pts/100 vs avg)": 0.8,
@@ -10341,8 +10344,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -46.9,
-    "total": 155.4,
+    "spread": -47.5,
+    "total": 155.9,
     "home_win_prob": 1.0
    },
    "notes": [
@@ -10396,8 +10399,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -28.5,
-    "total": 151.0,
+    "spread": -28.6,
+    "total": 150.9,
     "home_win_prob": 0.995
    },
    "notes": [
@@ -10426,25 +10429,25 @@
     "name": "Fairleigh Dickinson",
     "short": "Fairleigh Dickinson",
     "abbr": "FDU",
-    "record": "0-1",
+    "record": "0-2",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 349,
-     "Overall rating (pts/100 vs avg)": -14.8,
+     "Model rank": 356,
+     "Overall rating (pts/100 vs avg)": -16.0,
      "Adj. offense (pts/100 vs avg)": -7.7,
-     "Adj. defense (pts/100 vs avg)": -7.0,
-     "Tempo (possessions)": 64.3,
-     "Last 5": "0-1"
+     "Adj. defense (pts/100 vs avg)": -8.3,
+     "Tempo (possessions)": 64.5,
+     "Last 5": "0-2"
     }
    },
    "lines": null,
    "model": {
-    "spread": -29.5,
-    "total": 151.4,
+    "spread": -28.9,
+    "total": 153.4,
     "home_win_prob": 0.996
    },
    "notes": []
@@ -10486,7 +10489,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 148,
+     "Model rank": 150,
      "Overall rating (pts/100 vs avg)": 0.9,
      "Adj. offense (pts/100 vs avg)": 2.0,
      "Adj. defense (pts/100 vs avg)": -1.1,
@@ -10497,7 +10500,7 @@
    "lines": null,
    "model": {
     "spread": -13.7,
-    "total": 157.8,
+    "total": 157.7,
     "home_win_prob": 0.894
    },
    "notes": [
@@ -10544,15 +10547,15 @@
      "Overall rating (pts/100 vs avg)": -2.1,
      "Adj. offense (pts/100 vs avg)": 1.6,
      "Adj. defense (pts/100 vs avg)": -3.7,
-     "Tempo (possessions)": 70.8,
+     "Tempo (possessions)": 70.9,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -10.1,
-    "total": 155.9,
-    "home_win_prob": 0.821
+    "spread": -10.2,
+    "total": 155.8,
+    "home_win_prob": 0.822
    },
    "notes": []
   },
@@ -10595,8 +10598,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -37.2,
-    "total": 153.8,
+    "spread": -37.8,
+    "total": 154.3,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -10619,7 +10622,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Southland",
-     "Model rank": 205,
+     "Model rank": 206,
      "Overall rating (pts/100 vs avg)": -2.6,
      "Adj. offense (pts/100 vs avg)": -3.5,
      "Adj. defense (pts/100 vs avg)": 0.9,
@@ -10642,15 +10645,15 @@
      "Overall rating (pts/100 vs avg)": -9.2,
      "Adj. offense (pts/100 vs avg)": -2.3,
      "Adj. defense (pts/100 vs avg)": -6.9,
-     "Tempo (possessions)": 62.4,
+     "Tempo (possessions)": 62.5,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": 2.4,
-    "total": 144.5,
-    "home_win_prob": 0.413
+    "spread": 2.3,
+    "total": 144.4,
+    "home_win_prob": 0.418
    },
    "notes": []
   },
@@ -10672,8 +10675,8 @@
     "injuries": [],
     "stats": {
      "Conference": "CAA",
-     "Model rank": 134,
-     "Overall rating (pts/100 vs avg)": 1.9,
+     "Model rank": 137,
+     "Overall rating (pts/100 vs avg)": 1.8,
      "Adj. offense (pts/100 vs avg)": -1.2,
      "Adj. defense (pts/100 vs avg)": 3.1,
      "Tempo (possessions)": 69.6,
@@ -10691,19 +10694,19 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 232,
+     "Model rank": 231,
      "Overall rating (pts/100 vs avg)": -3.8,
      "Adj. offense (pts/100 vs avg)": -2.4,
-     "Adj. defense (pts/100 vs avg)": -1.4,
-     "Tempo (possessions)": 70.7,
+     "Adj. defense (pts/100 vs avg)": -1.5,
+     "Tempo (possessions)": 70.8,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -2.3,
-    "total": 149.0,
-    "home_win_prob": 0.582
+    "spread": -2.4,
+    "total": 148.8,
+    "home_win_prob": 0.586
    },
    "notes": []
   },
@@ -10725,7 +10728,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 261,
+     "Model rank": 259,
      "Overall rating (pts/100 vs avg)": -5.2,
      "Adj. offense (pts/100 vs avg)": -0.5,
      "Adj. defense (pts/100 vs avg)": -4.7,
@@ -10745,8 +10748,8 @@
     "stats": {
      "Conference": "Summit",
      "Model rank": 296,
-     "Overall rating (pts/100 vs avg)": -8.3,
-     "Adj. offense (pts/100 vs avg)": -1.6,
+     "Overall rating (pts/100 vs avg)": -8.4,
+     "Adj. offense (pts/100 vs avg)": -1.7,
      "Adj. defense (pts/100 vs avg)": -6.7,
      "Tempo (possessions)": 70.9,
      "Last 5": "1-0"
@@ -10755,8 +10758,8 @@
    "lines": null,
    "model": {
     "spread": -1.7,
-    "total": 161.6,
-    "home_win_prob": 0.563
+    "total": 161.5,
+    "home_win_prob": 0.562
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -10780,7 +10783,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Patriot",
-     "Model rank": 248,
+     "Model rank": 245,
      "Overall rating (pts/100 vs avg)": -4.5,
      "Adj. offense (pts/100 vs avg)": 0.1,
      "Adj. defense (pts/100 vs avg)": -4.7,
@@ -10799,7 +10802,7 @@
     "injuries": [],
     "stats": {
      "Conference": "CAA",
-     "Model rank": 218,
+     "Model rank": 215,
      "Overall rating (pts/100 vs avg)": -3.2,
      "Adj. offense (pts/100 vs avg)": -3.9,
      "Adj. defense (pts/100 vs avg)": 0.7,
@@ -10835,7 +10838,7 @@
     "injuries": [],
     "stats": {
      "Conference": "MAC",
-     "Model rank": 141,
+     "Model rank": 143,
      "Overall rating (pts/100 vs avg)": 1.2,
      "Adj. offense (pts/100 vs avg)": 2.0,
      "Adj. defense (pts/100 vs avg)": -0.8,
@@ -10855,7 +10858,7 @@
     "stats": {
      "Conference": "Sun Belt",
      "Model rank": 160,
-     "Overall rating (pts/100 vs avg)": 0.3,
+     "Overall rating (pts/100 vs avg)": 0.2,
      "Adj. offense (pts/100 vs avg)": 1.6,
      "Adj. defense (pts/100 vs avg)": -1.3,
      "Tempo (possessions)": 71.9,
@@ -10901,18 +10904,18 @@
     "injuries": [],
     "stats": {
      "Conference": "Southland",
-     "Model rank": 273,
+     "Model rank": 271,
      "Overall rating (pts/100 vs avg)": -6.3,
      "Adj. offense (pts/100 vs avg)": -4.7,
-     "Adj. defense (pts/100 vs avg)": -1.5,
+     "Adj. defense (pts/100 vs avg)": -1.6,
      "Tempo (possessions)": 73.6,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -40.1,
-    "total": 156.9,
+    "spread": -40.7,
+    "total": 157.4,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -10946,18 +10949,18 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 133,
-     "Overall rating (pts/100 vs avg)": 2.0,
-     "Adj. offense (pts/100 vs avg)": 5.1,
-     "Adj. defense (pts/100 vs avg)": -3.1,
-     "Tempo (possessions)": 61.9,
+     "Model rank": 136,
+     "Overall rating (pts/100 vs avg)": 1.9,
+     "Adj. offense (pts/100 vs avg)": 5.2,
+     "Adj. defense (pts/100 vs avg)": -3.2,
+     "Tempo (possessions)": 62.0,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -43.2,
-    "total": 151.8,
+    "spread": -43.7,
+    "total": 152.8,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -10984,7 +10987,7 @@
      "Overall rating (pts/100 vs avg)": 11.1,
      "Adj. offense (pts/100 vs avg)": 5.7,
      "Adj. defense (pts/100 vs avg)": 5.5,
-     "Tempo (possessions)": 70.0,
+     "Tempo (possessions)": 70.1,
      "Last 5": "1-0"
     }
    },
@@ -11011,7 +11014,7 @@
    "model": {
     "spread": 2.7,
     "total": 153.1,
-    "home_win_prob": 0.402
+    "home_win_prob": 0.403
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -11035,9 +11038,9 @@
     "injuries": [],
     "stats": {
      "Conference": "MEAC",
-     "Model rank": 345,
+     "Model rank": 346,
      "Overall rating (pts/100 vs avg)": -13.8,
-     "Adj. offense (pts/100 vs avg)": -6.4,
+     "Adj. offense (pts/100 vs avg)": -6.3,
      "Adj. defense (pts/100 vs avg)": -7.5,
      "Tempo (possessions)": 66.4,
      "Last 5": "0-1"
@@ -11047,26 +11050,26 @@
     "name": "Longwood",
     "short": "Longwood",
     "abbr": "LONG",
-    "record": "1-0",
+    "record": "1-1",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 201,
-     "Overall rating (pts/100 vs avg)": -2.4,
-     "Adj. offense (pts/100 vs avg)": 1.1,
-     "Adj. defense (pts/100 vs avg)": -3.5,
-     "Tempo (possessions)": 70.7,
-     "Last 5": "1-0"
+     "Model rank": 199,
+     "Overall rating (pts/100 vs avg)": -2.3,
+     "Adj. offense (pts/100 vs avg)": 0.6,
+     "Adj. defense (pts/100 vs avg)": -2.9,
+     "Tempo (possessions)": 71.9,
+     "Last 5": "1-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -12.8,
-    "total": 150.9,
-    "home_win_prob": 0.878
+    "spread": -13.2,
+    "total": 150.4,
+    "home_win_prob": 0.885
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -11090,7 +11093,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 271,
+     "Model rank": 269,
      "Overall rating (pts/100 vs avg)": -6.2,
      "Adj. offense (pts/100 vs avg)": -1.7,
      "Adj. defense (pts/100 vs avg)": -4.5,
@@ -11112,16 +11115,16 @@
      "Model rank": 162,
      "Overall rating (pts/100 vs avg)": 0.0,
      "Adj. offense (pts/100 vs avg)": 1.8,
-     "Adj. defense (pts/100 vs avg)": -1.7,
-     "Tempo (possessions)": 66.4,
+     "Adj. defense (pts/100 vs avg)": -1.8,
+     "Tempo (possessions)": 66.5,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
     "spread": -9.4,
-    "total": 146.7,
-    "home_win_prob": 0.803
+    "total": 146.6,
+    "home_win_prob": 0.804
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -11201,7 +11204,7 @@
     "injuries": [],
     "stats": {
      "Conference": "NEC",
-     "Model rank": 245,
+     "Model rank": 242,
      "Overall rating (pts/100 vs avg)": -4.4,
      "Adj. offense (pts/100 vs avg)": -3.9,
      "Adj. defense (pts/100 vs avg)": -0.5,
@@ -11220,11 +11223,11 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 246,
-     "Overall rating (pts/100 vs avg)": -4.5,
+     "Model rank": 244,
+     "Overall rating (pts/100 vs avg)": -4.4,
      "Adj. offense (pts/100 vs avg)": -3.5,
      "Adj. defense (pts/100 vs avg)": -0.9,
-     "Tempo (possessions)": 68.1,
+     "Tempo (possessions)": 68.2,
      "Last 5": "0-1"
     }
    },
@@ -11232,7 +11235,7 @@
    "model": {
     "spread": -2.3,
     "total": 143.5,
-    "home_win_prob": 0.583
+    "home_win_prob": 0.584
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -11267,18 +11270,18 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 132,
+     "Model rank": 134,
      "Overall rating (pts/100 vs avg)": 2.0,
      "Adj. offense (pts/100 vs avg)": 1.6,
      "Adj. defense (pts/100 vs avg)": 0.4,
-     "Tempo (possessions)": 72.4,
+     "Tempo (possessions)": 72.5,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -48.9,
-    "total": 158.9,
+    "spread": -49.6,
+    "total": 159.4,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -11316,14 +11319,14 @@
      "Overall rating (pts/100 vs avg)": -9.6,
      "Adj. offense (pts/100 vs avg)": -6.6,
      "Adj. defense (pts/100 vs avg)": -3.0,
-     "Tempo (possessions)": 64.0,
+     "Tempo (possessions)": 64.1,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -33.6,
-    "total": 146.8,
+    "spread": -34.2,
+    "total": 147.2,
     "home_win_prob": 0.999
    },
    "notes": []
@@ -11368,7 +11371,7 @@
      "Model rank": 107,
      "Overall rating (pts/100 vs avg)": 5.2,
      "Adj. offense (pts/100 vs avg)": 2.6,
-     "Adj. defense (pts/100 vs avg)": 2.7,
+     "Adj. defense (pts/100 vs avg)": 2.6,
      "Tempo (possessions)": 65.2,
      "Last 5": "1-0"
     }
@@ -11376,7 +11379,7 @@
    "lines": null,
    "model": {
     "spread": -10.1,
-    "total": 145.0,
+    "total": 144.9,
     "home_win_prob": 0.821
    },
    "notes": [
@@ -11403,9 +11406,9 @@
     "stats": {
      "Conference": "Patriot",
      "Model rank": 329,
-     "Overall rating (pts/100 vs avg)": -12.1,
+     "Overall rating (pts/100 vs avg)": -12.0,
      "Adj. offense (pts/100 vs avg)": -6.4,
-     "Adj. defense (pts/100 vs avg)": -5.8,
+     "Adj. defense (pts/100 vs avg)": -5.7,
      "Tempo (possessions)": 66.6,
      "Last 5": "0-1"
     }
@@ -11414,7 +11417,7 @@
     "name": "Saint Joseph's",
     "short": "Saint Joseph's",
     "abbr": "JOES",
-    "record": null,
+    "record": "1-0",
     "score": null,
     "rest_days": 3,
     "b2b": false,
@@ -11422,20 +11425,21 @@
     "stats": {
      "Conference": "A-10",
      "Model rank": 109,
-     "Overall rating (pts/100 vs avg)": 4.7,
-     "Adj. offense (pts/100 vs avg)": -1.2,
-     "Adj. defense (pts/100 vs avg)": 5.8,
-     "Tempo (possessions)": 70.1
+     "Overall rating (pts/100 vs avg)": 4.6,
+     "Adj. offense (pts/100 vs avg)": -1.8,
+     "Adj. defense (pts/100 vs avg)": 6.4,
+     "Tempo (possessions)": 71.4,
+     "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -16.5,
-    "total": 144.6,
-    "home_win_prob": 0.933
+    "spread": -16.3,
+    "total": 144.0,
+    "home_win_prob": 0.931
    },
    "notes": [
-    "Early season: model line is 70% the market's view of these teams"
+    "Early season: model line is 64% the market's view of these teams"
    ]
   },
   {
@@ -11456,7 +11460,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 186,
+     "Model rank": 188,
      "Overall rating (pts/100 vs avg)": -1.6,
      "Adj. offense (pts/100 vs avg)": 1.4,
      "Adj. defense (pts/100 vs avg)": -3.0,
@@ -11485,9 +11489,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -9.6,
-    "total": 154.3,
-    "home_win_prob": 0.808
+    "spread": -9.7,
+    "total": 154.1,
+    "home_win_prob": 0.811
    },
    "notes": []
   },
@@ -11528,8 +11532,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 183,
-     "Overall rating (pts/100 vs avg)": -1.4,
+     "Model rank": 184,
+     "Overall rating (pts/100 vs avg)": -1.5,
      "Adj. offense (pts/100 vs avg)": 2.5,
      "Adj. defense (pts/100 vs avg)": -3.9,
      "Tempo (possessions)": 63.8,
@@ -11539,8 +11543,8 @@
    "lines": null,
    "model": {
     "spread": -3.9,
-    "total": 152.2,
-    "home_win_prob": 0.639
+    "total": 152.0,
+    "home_win_prob": 0.637
    },
    "notes": []
   },
@@ -11563,9 +11567,9 @@
     "stats": {
      "Conference": "Summit",
      "Model rank": 314,
-     "Overall rating (pts/100 vs avg)": -10.2,
+     "Overall rating (pts/100 vs avg)": -10.3,
      "Adj. offense (pts/100 vs avg)": -3.4,
-     "Adj. defense (pts/100 vs avg)": -6.8,
+     "Adj. defense (pts/100 vs avg)": -6.9,
      "Tempo (possessions)": 66.4,
      "Last 5": "1-0"
     }
@@ -11591,8 +11595,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -27.5,
-    "total": 149.0,
+    "spread": -27.6,
+    "total": 148.9,
     "home_win_prob": 0.994
    },
    "notes": []
@@ -11621,26 +11625,26 @@
     "name": "Maryland Eastern Shore",
     "short": "Maryland Eastern Shore",
     "abbr": "UMES",
-    "record": "0-1",
+    "record": "0-2",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "MEAC",
-     "Model rank": 359,
-     "Overall rating (pts/100 vs avg)": -16.5,
-     "Adj. offense (pts/100 vs avg)": -8.7,
-     "Adj. defense (pts/100 vs avg)": -7.8,
-     "Tempo (possessions)": 62.1,
-     "Last 5": "0-1"
+     "Model rank": 353,
+     "Overall rating (pts/100 vs avg)": -15.8,
+     "Adj. offense (pts/100 vs avg)": -9.5,
+     "Adj. defense (pts/100 vs avg)": -6.3,
+     "Tempo (possessions)": 61.4,
+     "Last 5": "0-2"
     }
    },
    "lines": null,
    "model": {
-    "spread": -30.2,
-    "total": 148.1,
-    "home_win_prob": 0.997
+    "spread": -31.6,
+    "total": 144.8,
+    "home_win_prob": 0.998
    },
    "notes": []
   },
@@ -11683,8 +11687,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -39.5,
-    "total": 155.9,
+    "spread": -40.1,
+    "total": 156.3,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -11707,7 +11711,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Atlantic Sun",
-     "Model rank": 325,
+     "Model rank": 326,
      "Overall rating (pts/100 vs avg)": -11.6,
      "Adj. offense (pts/100 vs avg)": 3.6,
      "Adj. defense (pts/100 vs avg)": -15.2,
@@ -11728,15 +11732,15 @@
      "Conference": "MAC",
      "Model rank": 100,
      "Overall rating (pts/100 vs avg)": 6.1,
-     "Adj. offense (pts/100 vs avg)": 6.9,
+     "Adj. offense (pts/100 vs avg)": 7.0,
      "Adj. defense (pts/100 vs avg)": -0.8,
-     "Tempo (possessions)": 72.0,
+     "Tempo (possessions)": 72.1,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -19.0,
+    "spread": -19.1,
     "total": 158.4,
     "home_win_prob": 0.958
    },
@@ -11762,7 +11766,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Pac-12",
-     "Model rank": 199,
+     "Model rank": 198,
      "Overall rating (pts/100 vs avg)": -2.3,
      "Adj. offense (pts/100 vs avg)": 1.4,
      "Adj. defense (pts/100 vs avg)": -3.7,
@@ -11774,26 +11778,26 @@
     "name": "High Point",
     "short": "High Point",
     "abbr": "HPU",
-    "record": "1-0",
+    "record": "2-0",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 64,
-     "Overall rating (pts/100 vs avg)": 10.7,
-     "Adj. offense (pts/100 vs avg)": 7.3,
-     "Adj. defense (pts/100 vs avg)": 3.5,
-     "Tempo (possessions)": 71.0,
-     "Last 5": "1-0"
+     "Model rank": 72,
+     "Overall rating (pts/100 vs avg)": 10.0,
+     "Adj. offense (pts/100 vs avg)": 5.7,
+     "Adj. defense (pts/100 vs avg)": 4.3,
+     "Tempo (possessions)": 70.3,
+     "Last 5": "2-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -13.2,
-    "total": 154.9,
-    "home_win_prob": 0.886
+    "spread": -11.7,
+    "total": 153.0,
+    "home_win_prob": 0.857
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -11810,19 +11814,19 @@
     "name": "SIU Edwardsville",
     "short": "SIU Edwardsville",
     "abbr": "SIUE",
-    "record": "1-0",
+    "record": "2-0",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 194,
-     "Overall rating (pts/100 vs avg)": -2.1,
-     "Adj. offense (pts/100 vs avg)": -5.0,
-     "Adj. defense (pts/100 vs avg)": 2.9,
-     "Tempo (possessions)": 64.2,
-     "Last 5": "1-0"
+     "Model rank": 221,
+     "Overall rating (pts/100 vs avg)": -3.6,
+     "Adj. offense (pts/100 vs avg)": -4.9,
+     "Adj. defense (pts/100 vs avg)": 1.3,
+     "Tempo (possessions)": 63.1,
+     "Last 5": "2-0"
     }
    },
    "home": {
@@ -11837,18 +11841,18 @@
     "stats": {
      "Conference": "Atlantic Sun",
      "Model rank": 216,
-     "Overall rating (pts/100 vs avg)": -3.1,
-     "Adj. offense (pts/100 vs avg)": -0.2,
-     "Adj. defense (pts/100 vs avg)": -2.9,
+     "Overall rating (pts/100 vs avg)": -3.2,
+     "Adj. offense (pts/100 vs avg)": -0.3,
+     "Adj. defense (pts/100 vs avg)": -3.0,
      "Tempo (possessions)": 69.5,
      "Last 5": "0-2"
     }
    },
    "lines": null,
    "model": {
-    "spread": -2.8,
+    "spread": -4.6,
     "total": 140.3,
-    "home_win_prob": 0.6
+    "home_win_prob": 0.663
    },
    "notes": []
   },
@@ -11870,7 +11874,7 @@
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 228,
+     "Model rank": 227,
      "Overall rating (pts/100 vs avg)": -3.7,
      "Adj. offense (pts/100 vs avg)": -5.1,
      "Adj. defense (pts/100 vs avg)": 1.4,
@@ -11890,18 +11894,18 @@
     "stats": {
      "Conference": "Horizon",
      "Model rank": 301,
-     "Overall rating (pts/100 vs avg)": -9.0,
+     "Overall rating (pts/100 vs avg)": -9.1,
      "Adj. offense (pts/100 vs avg)": -0.2,
-     "Adj. defense (pts/100 vs avg)": -8.8,
+     "Adj. defense (pts/100 vs avg)": -8.9,
      "Tempo (possessions)": 75.3,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -0.4,
-    "total": 159.2,
-    "home_win_prob": 0.513
+    "spread": -0.3,
+    "total": 159.0,
+    "home_win_prob": 0.512
    },
    "notes": []
   },
@@ -11916,19 +11920,19 @@
     "name": "Old Dominion",
     "short": "Old Dominion",
     "abbr": "ODU",
-    "record": "1-0",
+    "record": "2-0",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 242,
-     "Overall rating (pts/100 vs avg)": -4.2,
-     "Adj. offense (pts/100 vs avg)": -3.3,
-     "Adj. defense (pts/100 vs avg)": -0.9,
-     "Tempo (possessions)": 69.0,
-     "Last 5": "1-0"
+     "Model rank": 226,
+     "Overall rating (pts/100 vs avg)": -3.7,
+     "Adj. offense (pts/100 vs avg)": -3.7,
+     "Adj. defense (pts/100 vs avg)": -0.0,
+     "Tempo (possessions)": 68.8,
+     "Last 5": "2-0"
     }
    },
    "home": {
@@ -11942,7 +11946,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Patriot",
-     "Model rank": 334,
+     "Model rank": 335,
      "Overall rating (pts/100 vs avg)": -12.3,
      "Adj. offense (pts/100 vs avg)": -5.1,
      "Adj. defense (pts/100 vs avg)": -7.3,
@@ -11952,9 +11956,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 5.6,
-    "total": 146.5,
-    "home_win_prob": 0.307
+    "spread": 5.8,
+    "total": 145.6,
+    "home_win_prob": 0.3
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -11990,26 +11994,26 @@
     "name": "Furman",
     "short": "Furman",
     "abbr": "FUR",
-    "record": "1-0",
+    "record": "2-0",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 151,
-     "Overall rating (pts/100 vs avg)": 0.7,
-     "Adj. offense (pts/100 vs avg)": 1.6,
-     "Adj. defense (pts/100 vs avg)": -0.9,
-     "Tempo (possessions)": 66.3,
-     "Last 5": "1-0"
+     "Model rank": 128,
+     "Overall rating (pts/100 vs avg)": 2.6,
+     "Adj. offense (pts/100 vs avg)": 2.5,
+     "Adj. defense (pts/100 vs avg)": 0.1,
+     "Tempo (possessions)": 67.5,
+     "Last 5": "2-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -1.2,
-    "total": 142.9,
-    "home_win_prob": 0.543
+    "spread": -3.9,
+    "total": 145.0,
+    "home_win_prob": 0.64
    },
    "notes": []
   },
@@ -12031,11 +12035,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 319,
-     "Overall rating (pts/100 vs avg)": -10.8,
-     "Adj. offense (pts/100 vs avg)": -4.2,
-     "Adj. defense (pts/100 vs avg)": -6.7,
-     "Tempo (possessions)": 71.9,
+     "Model rank": 320,
+     "Overall rating (pts/100 vs avg)": -11.1,
+     "Adj. offense (pts/100 vs avg)": -4.3,
+     "Adj. defense (pts/100 vs avg)": -6.8,
+     "Tempo (possessions)": 71.8,
      "Last 5": "1-0"
     }
    },
@@ -12051,7 +12055,7 @@
     "stats": {
      "Conference": "American",
      "Model rank": 322,
-     "Overall rating (pts/100 vs avg)": -11.4,
+     "Overall rating (pts/100 vs avg)": -11.3,
      "Adj. offense (pts/100 vs avg)": -6.1,
      "Adj. defense (pts/100 vs avg)": -5.3,
      "Tempo (possessions)": 72.5,
@@ -12060,9 +12064,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -3.7,
-    "total": 156.6,
-    "home_win_prob": 0.63
+    "spread": -3.9,
+    "total": 156.5,
+    "home_win_prob": 0.64
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -12086,8 +12090,8 @@
     "injuries": [],
     "stats": {
      "Conference": "CUSA",
-     "Model rank": 254,
-     "Overall rating (pts/100 vs avg)": -4.9,
+     "Model rank": 252,
+     "Overall rating (pts/100 vs avg)": -5.0,
      "Adj. offense (pts/100 vs avg)": -5.5,
      "Adj. defense (pts/100 vs avg)": 0.5,
      "Tempo (possessions)": 70.0,
@@ -12109,14 +12113,14 @@
      "Overall rating (pts/100 vs avg)": 19.0,
      "Adj. offense (pts/100 vs avg)": 8.7,
      "Adj. defense (pts/100 vs avg)": 10.2,
-     "Tempo (possessions)": 69.2,
+     "Tempo (possessions)": 69.3,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -26.0,
-    "total": 144.3,
+    "spread": -26.1,
+    "total": 144.1,
     "home_win_prob": 0.991
    },
    "notes": []
@@ -12142,8 +12146,8 @@
      "Model rank": 189,
      "Overall rating (pts/100 vs avg)": -1.7,
      "Adj. offense (pts/100 vs avg)": 0.1,
-     "Adj. defense (pts/100 vs avg)": -1.8,
-     "Tempo (possessions)": 70.4,
+     "Adj. defense (pts/100 vs avg)": -1.9,
+     "Tempo (possessions)": 70.5,
      "Last 5": "0-1"
     }
    },
@@ -12151,26 +12155,26 @@
     "name": "UNC Asheville",
     "short": "UNC Asheville",
     "abbr": "UNCA",
-    "record": "0-1",
+    "record": "1-1",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 265,
-     "Overall rating (pts/100 vs avg)": -5.4,
-     "Adj. offense (pts/100 vs avg)": -1.9,
-     "Adj. defense (pts/100 vs avg)": -3.5,
+     "Model rank": 278,
+     "Overall rating (pts/100 vs avg)": -6.6,
+     "Adj. offense (pts/100 vs avg)": -1.5,
+     "Adj. defense (pts/100 vs avg)": -5.1,
      "Tempo (possessions)": 67.8,
-     "Last 5": "0-1"
+     "Last 5": "1-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -2.9,
-    "total": 151.5,
-    "home_win_prob": 0.602
+    "spread": -2.3,
+    "total": 152.5,
+    "home_win_prob": 0.583
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -12194,7 +12198,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 339,
+     "Model rank": 341,
      "Overall rating (pts/100 vs avg)": -12.8,
      "Adj. offense (pts/100 vs avg)": -5.8,
      "Adj. defense (pts/100 vs avg)": -7.0,
@@ -12215,16 +12219,16 @@
      "Conference": "Southland",
      "Model rank": 156,
      "Overall rating (pts/100 vs avg)": 0.5,
-     "Adj. offense (pts/100 vs avg)": -0.4,
+     "Adj. offense (pts/100 vs avg)": -0.5,
      "Adj. defense (pts/100 vs avg)": 1.0,
-     "Tempo (possessions)": 66.9,
+     "Tempo (possessions)": 67.0,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -14.9,
-    "total": 144.8,
+    "spread": -15.0,
+    "total": 144.6,
     "home_win_prob": 0.913
    },
    "notes": []
@@ -12247,11 +12251,11 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 316,
+     "Model rank": 317,
      "Overall rating (pts/100 vs avg)": -10.5,
      "Adj. offense (pts/100 vs avg)": -1.1,
      "Adj. defense (pts/100 vs avg)": -9.4,
-     "Tempo (possessions)": 63.4,
+     "Tempo (possessions)": 63.5,
      "Last 5": "0-1"
     }
    },
@@ -12277,7 +12281,7 @@
    "lines": null,
    "model": {
     "spread": -23.8,
-    "total": 150.9,
+    "total": 150.8,
     "home_win_prob": 0.985
    },
    "notes": [
@@ -12302,7 +12306,7 @@
     "injuries": [],
     "stats": {
      "Conference": "CAA",
-     "Model rank": 272,
+     "Model rank": 270,
      "Overall rating (pts/100 vs avg)": -6.2,
      "Adj. offense (pts/100 vs avg)": -6.2,
      "Adj. defense (pts/100 vs avg)": -0.0,
@@ -12324,7 +12328,7 @@
      "Model rank": 53,
      "Overall rating (pts/100 vs avg)": 12.1,
      "Adj. offense (pts/100 vs avg)": 7.5,
-     "Adj. defense (pts/100 vs avg)": 4.7,
+     "Adj. defense (pts/100 vs avg)": 4.6,
      "Tempo (possessions)": 68.5,
      "Last 5": "1-0"
     }
@@ -12332,7 +12336,7 @@
    "lines": null,
    "model": {
     "spread": -19.6,
-    "total": 145.8,
+    "total": 145.7,
     "home_win_prob": 0.963
    },
    "notes": [
@@ -12350,19 +12354,19 @@
     "name": "Morgan State",
     "short": "Morgan State",
     "abbr": "MORG",
-    "record": "1-0",
+    "record": "2-0",
     "score": null,
     "rest_days": 3,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "MEAC",
-     "Model rank": 344,
-     "Overall rating (pts/100 vs avg)": -13.7,
-     "Adj. offense (pts/100 vs avg)": -8.1,
-     "Adj. defense (pts/100 vs avg)": -5.5,
-     "Tempo (possessions)": 74.8,
-     "Last 5": "1-0"
+     "Model rank": 315,
+     "Overall rating (pts/100 vs avg)": -10.3,
+     "Adj. offense (pts/100 vs avg)": -6.9,
+     "Adj. defense (pts/100 vs avg)": -3.4,
+     "Tempo (possessions)": 75.9,
+     "Last 5": "2-0"
     }
    },
    "home": {
@@ -12376,9 +12380,9 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 348,
+     "Model rank": 349,
      "Overall rating (pts/100 vs avg)": -14.7,
-     "Adj. offense (pts/100 vs avg)": -5.0,
+     "Adj. offense (pts/100 vs avg)": -4.9,
      "Adj. defense (pts/100 vs avg)": -9.7,
      "Tempo (possessions)": 59.2,
      "Last 5": "0-1"
@@ -12386,9 +12390,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -1.4,
-    "total": 146.4,
-    "home_win_prob": 0.552
+    "spread": 2.4,
+    "total": 146.8,
+    "home_win_prob": 0.414
    },
    "notes": []
   },
@@ -12433,14 +12437,14 @@
      "Overall rating (pts/100 vs avg)": 22.2,
      "Adj. offense (pts/100 vs avg)": 12.0,
      "Adj. defense (pts/100 vs avg)": 10.1,
-     "Tempo (possessions)": 65.5,
+     "Tempo (possessions)": 65.6,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
     "spread": -7.3,
-    "total": 155.5,
+    "total": 155.4,
     "home_win_prob": 0.748
    },
    "notes": [
@@ -12466,7 +12470,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 342,
+     "Model rank": 343,
      "Overall rating (pts/100 vs avg)": -13.3,
      "Adj. offense (pts/100 vs avg)": -4.3,
      "Adj. defense (pts/100 vs avg)": -9.0,
@@ -12485,7 +12489,7 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 73,
+     "Model rank": 74,
      "Overall rating (pts/100 vs avg)": 9.8,
      "Adj. offense (pts/100 vs avg)": 5.6,
      "Adj. defense (pts/100 vs avg)": 4.1,
@@ -12521,7 +12525,7 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 139,
+     "Model rank": 142,
      "Overall rating (pts/100 vs avg)": 1.2,
      "Adj. offense (pts/100 vs avg)": 1.7,
      "Adj. defense (pts/100 vs avg)": -0.5,
@@ -12540,7 +12544,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Metro",
-     "Model rank": 352,
+     "Model rank": 351,
      "Overall rating (pts/100 vs avg)": -15.3,
      "Adj. offense (pts/100 vs avg)": -9.3,
      "Adj. defense (pts/100 vs avg)": -6.1,
@@ -12550,8 +12554,8 @@
    },
    "lines": null,
    "model": {
-    "spread": 11.0,
-    "total": 144.1,
+    "spread": 10.9,
+    "total": 144.0,
     "home_win_prob": 0.16
    },
    "notes": [
@@ -12577,7 +12581,7 @@
     "stats": {
      "Conference": "Southland",
      "Model rank": 266,
-     "Overall rating (pts/100 vs avg)": -5.7,
+     "Overall rating (pts/100 vs avg)": -5.8,
      "Adj. offense (pts/100 vs avg)": -2.7,
      "Adj. defense (pts/100 vs avg)": -3.0,
      "Tempo (possessions)": 62.6,
@@ -12605,9 +12609,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 7.3,
-    "total": 138.9,
-    "home_win_prob": 0.254
+    "spread": 7.2,
+    "total": 138.8,
+    "home_win_prob": 0.257
    },
    "notes": []
   },
@@ -12629,11 +12633,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SoCon",
-     "Model rank": 178,
+     "Model rank": 179,
      "Overall rating (pts/100 vs avg)": -1.1,
      "Adj. offense (pts/100 vs avg)": 0.1,
      "Adj. defense (pts/100 vs avg)": -1.2,
-     "Tempo (possessions)": 71.2,
+     "Tempo (possessions)": 71.3,
      "Last 5": "1-0"
     }
    },
@@ -12652,15 +12656,15 @@
      "Overall rating (pts/100 vs avg)": 5.4,
      "Adj. offense (pts/100 vs avg)": 2.0,
      "Adj. defense (pts/100 vs avg)": 3.4,
-     "Tempo (possessions)": 63.5,
+     "Tempo (possessions)": 63.6,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
     "spread": -9.2,
-    "total": 145.8,
-    "home_win_prob": 0.798
+    "total": 145.7,
+    "home_win_prob": 0.8
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -12695,7 +12699,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Horizon",
-     "Model rank": 241,
+     "Model rank": 238,
      "Overall rating (pts/100 vs avg)": -4.2,
      "Adj. offense (pts/100 vs avg)": 1.1,
      "Adj. defense (pts/100 vs avg)": -5.3,
@@ -12705,8 +12709,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -41.4,
-    "total": 157.2,
+    "spread": -42.0,
+    "total": 157.7,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -12752,7 +12756,7 @@
      "Overall rating (pts/100 vs avg)": 9.4,
      "Adj. offense (pts/100 vs avg)": 3.3,
      "Adj. defense (pts/100 vs avg)": 6.1,
-     "Tempo (possessions)": 68.1,
+     "Tempo (possessions)": 68.2,
      "Last 5": "1-0"
     }
    },
@@ -12795,18 +12799,18 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 123,
+     "Model rank": 124,
      "Overall rating (pts/100 vs avg)": 2.8,
      "Adj. offense (pts/100 vs avg)": 2.7,
      "Adj. defense (pts/100 vs avg)": 0.0,
-     "Tempo (possessions)": 67.2,
+     "Tempo (possessions)": 67.3,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -47.5,
-    "total": 154.9,
+    "spread": -48.1,
+    "total": 155.3,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -12833,7 +12837,7 @@
      "Overall rating (pts/100 vs avg)": -2.3,
      "Adj. offense (pts/100 vs avg)": 2.3,
      "Adj. defense (pts/100 vs avg)": -4.7,
-     "Tempo (possessions)": 69.8,
+     "Tempo (possessions)": 69.9,
      "Last 5": "0-1"
     }
    },
@@ -12849,7 +12853,7 @@
     "stats": {
      "Conference": "Big West",
      "Model rank": 255,
-     "Overall rating (pts/100 vs avg)": -5.0,
+     "Overall rating (pts/100 vs avg)": -5.1,
      "Adj. offense (pts/100 vs avg)": -2.6,
      "Adj. defense (pts/100 vs avg)": -2.4,
      "Tempo (possessions)": 70.1,
@@ -12858,9 +12862,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -4.0,
-    "total": 153.6,
-    "home_win_prob": 0.641
+    "spread": -3.9,
+    "total": 153.5,
+    "home_win_prob": 0.64
    },
    "notes": []
   },
@@ -12882,11 +12886,11 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 309,
-     "Overall rating (pts/100 vs avg)": -9.9,
-     "Adj. offense (pts/100 vs avg)": -5.4,
-     "Adj. defense (pts/100 vs avg)": -4.5,
-     "Tempo (possessions)": 70.3,
+     "Model rank": 307,
+     "Overall rating (pts/100 vs avg)": -9.8,
+     "Adj. offense (pts/100 vs avg)": -5.3,
+     "Adj. defense (pts/100 vs avg)": -4.4,
+     "Tempo (possessions)": 70.2,
      "Last 5": "0-1"
     }
    },
@@ -12911,9 +12915,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -19.0,
-    "total": 149.6,
-    "home_win_prob": 0.958
+    "spread": -18.8,
+    "total": 149.3,
+    "home_win_prob": 0.956
    },
    "notes": [
     "Early season: model line is 64% the market's view of these teams"
@@ -12937,11 +12941,11 @@
     "injuries": [],
     "stats": {
      "Conference": "WCC",
-     "Model rank": 120,
-     "Overall rating (pts/100 vs avg)": 3.4,
-     "Adj. offense (pts/100 vs avg)": 2.0,
+     "Model rank": 123,
+     "Overall rating (pts/100 vs avg)": 3.3,
+     "Adj. offense (pts/100 vs avg)": 1.9,
      "Adj. defense (pts/100 vs avg)": 1.4,
-     "Tempo (possessions)": 63.5,
+     "Tempo (possessions)": 63.6,
      "Last 5": "1-0"
     }
    },
@@ -12966,9 +12970,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -4.6,
-    "total": 140.9,
-    "home_win_prob": 0.664
+    "spread": -4.7,
+    "total": 140.7,
+    "home_win_prob": 0.665
    },
    "notes": []
   },
@@ -13008,19 +13012,19 @@
     "injuries": [],
     "stats": {
      "Conference": "UAC",
-     "Model rank": 278,
+     "Model rank": 277,
      "Overall rating (pts/100 vs avg)": -6.6,
      "Adj. offense (pts/100 vs avg)": -4.1,
      "Adj. defense (pts/100 vs avg)": -2.4,
-     "Tempo (possessions)": 68.0,
+     "Tempo (possessions)": 68.1,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
     "spread": -6.3,
-    "total": 142.1,
-    "home_win_prob": 0.717
+    "total": 142.0,
+    "home_win_prob": 0.718
    },
    "notes": [
     "Early season: model line is 70% the market's view of these teams"
@@ -13044,7 +13048,7 @@
     "injuries": [],
     "stats": {
      "Conference": "OVC",
-     "Model rank": 331,
+     "Model rank": 332,
      "Overall rating (pts/100 vs avg)": -12.2,
      "Adj. offense (pts/100 vs avg)": -11.1,
      "Adj. defense (pts/100 vs avg)": -1.1,
@@ -13063,9 +13067,9 @@
     "injuries": [],
     "stats": {
      "Conference": "MVC",
-     "Model rank": 318,
+     "Model rank": 319,
      "Overall rating (pts/100 vs avg)": -10.8,
-     "Adj. offense (pts/100 vs avg)": -3.6,
+     "Adj. offense (pts/100 vs avg)": -3.7,
      "Adj. defense (pts/100 vs avg)": -7.2,
      "Tempo (possessions)": 63.6,
      "Last 5": "1-0"
@@ -13073,9 +13077,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -4.3,
-    "total": 138.9,
-    "home_win_prob": 0.651
+    "spread": -4.2,
+    "total": 138.7,
+    "home_win_prob": 0.649
    },
    "notes": []
   },
@@ -13120,14 +13124,14 @@
      "Overall rating (pts/100 vs avg)": 5.4,
      "Adj. offense (pts/100 vs avg)": 4.7,
      "Adj. defense (pts/100 vs avg)": 0.7,
-     "Tempo (possessions)": 72.8,
+     "Tempo (possessions)": 72.9,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -18.7,
-    "total": 150.7,
+    "spread": -18.8,
+    "total": 150.6,
     "home_win_prob": 0.956
    },
    "notes": [
@@ -13163,18 +13167,18 @@
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 333,
+     "Model rank": 334,
      "Overall rating (pts/100 vs avg)": -12.3,
      "Adj. offense (pts/100 vs avg)": -6.3,
      "Adj. defense (pts/100 vs avg)": -6.0,
-     "Tempo (possessions)": 68.9,
+     "Tempo (possessions)": 69.0,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": -34.2,
-    "total": 153.9,
+    "spread": -34.8,
+    "total": 154.3,
     "home_win_prob": 0.999
    },
    "notes": []
@@ -13210,8 +13214,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 264,
-     "Overall rating (pts/100 vs avg)": -5.3,
+     "Model rank": 263,
+     "Overall rating (pts/100 vs avg)": -5.4,
      "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": -5.0,
      "Tempo (possessions)": 72.9,
@@ -13220,8 +13224,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -44.8,
-    "total": 164.5,
+    "spread": -45.3,
+    "total": 164.9,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -13244,9 +13248,9 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 136,
+     "Model rank": 140,
      "Overall rating (pts/100 vs avg)": 1.5,
-     "Adj. offense (pts/100 vs avg)": 1.7,
+     "Adj. offense (pts/100 vs avg)": 1.6,
      "Adj. defense (pts/100 vs avg)": -0.2,
      "Tempo (possessions)": 68.4,
      "Last 5": "1-0"
@@ -13263,19 +13267,19 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 276,
+     "Model rank": 273,
      "Overall rating (pts/100 vs avg)": -6.5,
      "Adj. offense (pts/100 vs avg)": -1.3,
-     "Adj. defense (pts/100 vs avg)": -5.1,
+     "Adj. defense (pts/100 vs avg)": -5.2,
      "Tempo (possessions)": 71.9,
      "Last 5": "0-1"
     }
    },
    "lines": null,
    "model": {
-    "spread": 0.8,
-    "total": 154.4,
-    "home_win_prob": 0.472
+    "spread": 0.6,
+    "total": 154.2,
+    "home_win_prob": 0.477
    },
    "notes": []
   },
@@ -13310,7 +13314,7 @@
     "injuries": [],
     "stats": {
      "Conference": "WCC",
-     "Model rank": 267,
+     "Model rank": 264,
      "Overall rating (pts/100 vs avg)": -5.7,
      "Adj. offense (pts/100 vs avg)": -2.1,
      "Adj. defense (pts/100 vs avg)": -3.6,
@@ -13320,8 +13324,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -42.6,
-    "total": 158.0,
+    "spread": -43.3,
+    "total": 158.5,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -13348,7 +13352,7 @@
      "Overall rating (pts/100 vs avg)": -2.1,
      "Adj. offense (pts/100 vs avg)": 3.2,
      "Adj. defense (pts/100 vs avg)": -5.3,
-     "Tempo (possessions)": 66.1,
+     "Tempo (possessions)": 66.2,
      "Last 5": "1-0"
     }
    },
@@ -13364,18 +13368,18 @@
     "stats": {
      "Conference": "Big West",
      "Model rank": 155,
-     "Overall rating (pts/100 vs avg)": 0.6,
+     "Overall rating (pts/100 vs avg)": 0.5,
      "Adj. offense (pts/100 vs avg)": -3.5,
-     "Adj. defense (pts/100 vs avg)": 4.1,
+     "Adj. defense (pts/100 vs avg)": 4.0,
      "Tempo (possessions)": 71.7,
      "Last 5": "1-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -4.4,
-    "total": 150.6,
-    "home_win_prob": 0.654
+    "spread": -4.3,
+    "total": 150.4,
+    "home_win_prob": 0.653
    },
    "notes": []
   },
@@ -13397,7 +13401,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Sky",
-     "Model rank": 171,
+     "Model rank": 172,
      "Overall rating (pts/100 vs avg)": -0.5,
      "Adj. offense (pts/100 vs avg)": -1.5,
      "Adj. defense (pts/100 vs avg)": 1.0,
@@ -13426,9 +13430,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -7.6,
-    "total": 142.4,
-    "home_win_prob": 0.756
+    "spread": -7.7,
+    "total": 142.3,
+    "home_win_prob": 0.759
    },
    "notes": []
   },
@@ -13450,8 +13454,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 317,
-     "Overall rating (pts/100 vs avg)": -10.6,
+     "Model rank": 318,
+     "Overall rating (pts/100 vs avg)": -10.7,
      "Adj. offense (pts/100 vs avg)": -4.2,
      "Adj. defense (pts/100 vs avg)": -6.4,
      "Tempo (possessions)": 72.3,
@@ -13479,8 +13483,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -24.1,
-    "total": 160.0,
+    "spread": -24.3,
+    "total": 159.9,
     "home_win_prob": 0.986
    },
    "notes": []
@@ -13522,8 +13526,8 @@
     "injuries": [],
     "stats": {
      "Conference": "Big West",
-     "Model rank": 180,
-     "Overall rating (pts/100 vs avg)": -1.2,
+     "Model rank": 182,
+     "Overall rating (pts/100 vs avg)": -1.3,
      "Adj. offense (pts/100 vs avg)": -1.4,
      "Adj. defense (pts/100 vs avg)": 0.2,
      "Tempo (possessions)": 67.9,
@@ -13532,9 +13536,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -8.0,
-    "total": 148.4,
-    "home_win_prob": 0.767
+    "spread": -8.1,
+    "total": 148.1,
+    "home_win_prob": 0.769
    },
    "notes": []
   }
