@@ -2,7 +2,7 @@
  "sport": "NHL",
  "app": "NHL Model",
  "format": 1,
- "generated_at": "2026-11-09T14:54Z",
+ "generated_at": "2026-11-10T01:51Z",
  "plays": [
   {
    "id": "nhl-401891773-ml",
@@ -3743,6 +3743,50 @@
    "status": "win",
    "result_units": 0.7407,
    "beat_close": false
+  },
+  {
+   "id": "nhl-401892683-ml",
+   "sport": "NHL",
+   "date": "2026-11-10",
+   "start": "2026-11-11T00:00Z",
+   "event": "Avalanche @ Maple Leafs",
+   "market": "moneyline",
+   "selection": "Avalanche ML",
+   "player": null,
+   "line": null,
+   "price": -155.0,
+   "model_prob": 0.6574,
+   "market_prob": 0.583,
+   "edge_prob": 0.0745,
+   "ev": 0.0816,
+   "edge_display": "7.4%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nhl-401892687-ml",
+   "sport": "NHL",
+   "date": "2026-11-10",
+   "start": "2026-11-11T01:00Z",
+   "event": "Red Wings @ Blues",
+   "market": "moneyline",
+   "selection": "Red Wings ML",
+   "player": null,
+   "line": null,
+   "price": 124.0,
+   "model_prob": 0.4689,
+   "market_prob": 0.4279,
+   "edge_prob": 0.041,
+   "ev": 0.0504,
+   "edge_display": "4.1%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
   }
  ]
 }
