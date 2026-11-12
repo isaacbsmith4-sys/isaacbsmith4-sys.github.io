@@ -1,7 +1,7 @@
 {
  "sport": "NCAAB",
  "format": 1,
- "generated_at": "2026-11-12T14:19Z",
+ "generated_at": "2026-11-12T23:56Z",
  "games": [
   {
    "id": "ncaab-401919759",
@@ -44,7 +44,7 @@
      "Overall rating (pts/100 vs avg)": -6.6,
      "Adj. offense (pts/100 vs avg)": -5.4,
      "Adj. defense (pts/100 vs avg)": -1.2,
-     "Tempo (possessions)": 68.7,
+     "Tempo (possessions)": 68.6,
      "Last 5": "2-0"
     }
    },
@@ -79,18 +79,18 @@
     "name": "Kansas City",
     "short": "Kansas City",
     "abbr": "KC",
-    "record": "2-2",
+    "record": "2-3",
     "score": 87,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 346,
-     "Overall rating (pts/100 vs avg)": -14.4,
-     "Adj. offense (pts/100 vs avg)": -6.8,
-     "Adj. defense (pts/100 vs avg)": -7.6,
-     "Tempo (possessions)": 70.8,
+     "Model rank": 344,
+     "Overall rating (pts/100 vs avg)": -14.0,
+     "Adj. offense (pts/100 vs avg)": -5.7,
+     "Adj. defense (pts/100 vs avg)": -8.3,
+     "Tempo (possessions)": 69.8,
      "Last 5": "1-2"
     }
    },
@@ -108,8 +108,8 @@
      "Model rank": 367,
      "Overall rating (pts/100 vs avg)": -21.9,
      "Adj. offense (pts/100 vs avg)": -10.9,
-     "Adj. defense (pts/100 vs avg)": -11.0,
-     "Tempo (possessions)": 67.8,
+     "Adj. defense (pts/100 vs avg)": -10.9,
+     "Tempo (possessions)": 67.9,
      "Last 5": "0-3"
     }
    },
@@ -286,7 +286,7 @@
      "Overall rating (pts/100 vs avg)": -1.8,
      "Adj. offense (pts/100 vs avg)": -1.6,
      "Adj. defense (pts/100 vs avg)": -0.3,
-     "Tempo (possessions)": 67.7,
+     "Tempo (possessions)": 67.6,
      "Last 5": "2-0"
     }
    },
@@ -347,7 +347,7 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 73,
+     "Model rank": 72,
      "Overall rating (pts/100 vs avg)": 10.1,
      "Adj. offense (pts/100 vs avg)": 4.9,
      "Adj. defense (pts/100 vs avg)": 5.2,
@@ -370,7 +370,7 @@
      "Overall rating (pts/100 vs avg)": 4.6,
      "Adj. offense (pts/100 vs avg)": -2.8,
      "Adj. defense (pts/100 vs avg)": 7.4,
-     "Tempo (possessions)": 72.6,
+     "Tempo (possessions)": 72.5,
      "Last 5": "2-0"
     }
    },
@@ -565,7 +565,7 @@
      "Model rank": 199,
      "Overall rating (pts/100 vs avg)": -2.4,
      "Adj. offense (pts/100 vs avg)": -2.0,
-     "Adj. defense (pts/100 vs avg)": -0.5,
+     "Adj. defense (pts/100 vs avg)": -0.4,
      "Tempo (possessions)": 64.1,
      "Last 5": "2-1"
     }
@@ -1301,8 +1301,8 @@
      "Model rank": 268,
      "Overall rating (pts/100 vs avg)": -6.5,
      "Adj. offense (pts/100 vs avg)": -1.9,
-     "Adj. defense (pts/100 vs avg)": -4.7,
-     "Tempo (possessions)": 68.6,
+     "Adj. defense (pts/100 vs avg)": -4.6,
+     "Tempo (possessions)": 68.5,
      "Last 5": "1-2"
     }
    },
@@ -1627,7 +1627,7 @@
      "Overall rating (pts/100 vs avg)": -1.0,
      "Adj. offense (pts/100 vs avg)": -0.8,
      "Adj. defense (pts/100 vs avg)": -0.2,
-     "Tempo (possessions)": 69.6,
+     "Tempo (possessions)": 69.5,
      "Last 5": "0-2"
     }
    },
@@ -2252,7 +2252,7 @@
      "Model rank": 307,
      "Overall rating (pts/100 vs avg)": -10.1,
      "Adj. offense (pts/100 vs avg)": -6.9,
-     "Adj. defense (pts/100 vs avg)": -3.3,
+     "Adj. defense (pts/100 vs avg)": -3.2,
      "Tempo (possessions)": 65.6,
      "Last 5": "0-3"
     }
@@ -2458,7 +2458,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 344,
+     "Model rank": 345,
      "Overall rating (pts/100 vs avg)": -14.1,
      "Adj. offense (pts/100 vs avg)": -5.2,
      "Adj. defense (pts/100 vs avg)": -8.9,
@@ -2518,7 +2518,7 @@
      "Overall rating (pts/100 vs avg)": 7.0,
      "Adj. offense (pts/100 vs avg)": 2.3,
      "Adj. defense (pts/100 vs avg)": 4.7,
-     "Tempo (possessions)": 72.8,
+     "Tempo (possessions)": 72.7,
      "Last 5": "1-1"
     }
    },
@@ -3578,7 +3578,7 @@
      "Model rank": 366,
      "Overall rating (pts/100 vs avg)": -21.8,
      "Adj. offense (pts/100 vs avg)": -9.4,
-     "Adj. defense (pts/100 vs avg)": -12.5,
+     "Adj. defense (pts/100 vs avg)": -12.4,
      "Tempo (possessions)": 70.8,
      "Last 5": "0-2"
     }
@@ -3917,7 +3917,7 @@
      "Overall rating (pts/100 vs avg)": 0.9,
      "Adj. offense (pts/100 vs avg)": -4.0,
      "Adj. defense (pts/100 vs avg)": 5.0,
-     "Tempo (possessions)": 73.1,
+     "Tempo (possessions)": 73.0,
      "Last 5": "2-0"
     }
    },
@@ -3951,7 +3951,7 @@
      "Overall rating (pts/100 vs avg)": 12.8,
      "Adj. offense (pts/100 vs avg)": 6.9,
      "Adj. defense (pts/100 vs avg)": 6.0,
-     "Tempo (possessions)": 73.2,
+     "Tempo (possessions)": 73.1,
      "Last 5": "2-0"
     }
    },
@@ -3998,25 +3998,25 @@
    "id": "ncaab-401920073",
    "date": "2026-11-12",
    "start": "2026-11-12T20:00Z",
-   "status": "pre",
-   "status_text": null,
+   "status": "post",
+   "status_text": "Final",
    "neutral": true,
    "away": {
     "name": "Kansas City",
     "short": "Kansas City",
     "abbr": "KC",
-    "record": "2-2",
-    "score": null,
+    "record": "2-3",
+    "score": 68,
     "rest_days": 1,
     "b2b": true,
     "injuries": [],
     "stats": {
      "Conference": "Summit",
-     "Model rank": 346,
-     "Overall rating (pts/100 vs avg)": -14.4,
-     "Adj. offense (pts/100 vs avg)": -6.8,
-     "Adj. defense (pts/100 vs avg)": -7.6,
-     "Tempo (possessions)": 70.8,
+     "Model rank": 344,
+     "Overall rating (pts/100 vs avg)": -14.0,
+     "Adj. offense (pts/100 vs avg)": -5.7,
+     "Adj. defense (pts/100 vs avg)": -8.3,
+     "Tempo (possessions)": 69.8,
      "Last 5": "2-2"
     }
    },
@@ -4024,29 +4024,29 @@
     "name": "George Mason",
     "short": "George Mason",
     "abbr": "GMU",
-    "record": "2-0",
-    "score": null,
+    "record": "3-0",
+    "score": 76,
     "rest_days": 6,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 96,
-     "Overall rating (pts/100 vs avg)": 6.6,
-     "Adj. offense (pts/100 vs avg)": 1.3,
-     "Adj. defense (pts/100 vs avg)": 5.4,
-     "Tempo (possessions)": 64.0,
+     "Model rank": 100,
+     "Overall rating (pts/100 vs avg)": 6.1,
+     "Adj. offense (pts/100 vs avg)": 2.0,
+     "Adj. defense (pts/100 vs avg)": 4.1,
+     "Tempo (possessions)": 62.9,
      "Last 5": "2-0"
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -15.5,
     "spread_open": -15.5,
-    "total": 140.5,
+    "total": 141.5,
     "total_open": 140.5,
-    "home_ml": -1650.0,
-    "away_ml": 950.0,
+    "home_ml": -1600.0,
+    "away_ml": 900.0,
     "home_ml_open": -1200.0,
     "away_ml_open": 750.0
    },
@@ -4064,7 +4064,7 @@
    "id": "ncaab-401921086",
    "date": "2026-11-12",
    "start": "2026-11-12T23:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -4097,29 +4097,29 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 246,
+     "Model rank": 247,
      "Overall rating (pts/100 vs avg)": -4.9,
      "Adj. offense (pts/100 vs avg)": -2.7,
-     "Adj. defense (pts/100 vs avg)": -2.3,
+     "Adj. defense (pts/100 vs avg)": -2.2,
      "Tempo (possessions)": 70.0,
      "Last 5": "1-2"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -5.5,
+    "book": "Draft Kings",
+    "spread": -7.5,
     "spread_open": -6.5,
-    "total": 162.5,
+    "total": 159.5,
     "total_open": 161.5,
-    "home_ml": -250.0,
-    "away_ml": 205.0,
+    "home_ml": -345.0,
+    "away_ml": 275.0,
     "home_ml_open": -258.0,
     "away_ml_open": 210.0
    },
    "model": {
-    "spread": -7.0,
-    "total": 154.1,
-    "home_win_prob": 0.737
+    "spread": -7.6,
+    "total": 153.7,
+    "home_win_prob": 0.755
    },
    "notes": [
     "410 Invitational",
@@ -4130,7 +4130,7 @@
    "id": "ncaab-401923400",
    "date": "2026-11-12",
    "start": "2026-11-12T23:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -4175,7 +4175,7 @@
    "id": "ncaab-401925631",
    "date": "2026-11-12",
    "start": "2026-11-12T23:00Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": true,
    "away": {
@@ -4209,28 +4209,28 @@
     "stats": {
      "Conference": "MEAC",
      "Model rank": 364,
-     "Overall rating (pts/100 vs avg)": -20.2,
-     "Adj. offense (pts/100 vs avg)": -11.2,
-     "Adj. defense (pts/100 vs avg)": -9.0,
-     "Tempo (possessions)": 65.7,
+     "Overall rating (pts/100 vs avg)": -20.3,
+     "Adj. offense (pts/100 vs avg)": -11.3,
+     "Adj. defense (pts/100 vs avg)": -8.9,
+     "Tempo (possessions)": 65.8,
      "Last 5": "1-2"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": 11.5,
+    "book": "Draft Kings",
+    "spread": 13.5,
     "spread_open": 8.5,
-    "total": 135.5,
+    "total": 131.5,
     "total_open": 135.5,
-    "home_ml": 425.0,
-    "away_ml": -575.0,
+    "home_ml": 575.0,
+    "away_ml": -850.0,
     "home_ml_open": 280.0,
     "away_ml_open": -355.0
    },
    "model": {
-    "spread": 12.7,
-    "total": 137.8,
-    "home_win_prob": 0.124
+    "spread": 13.3,
+    "total": 137.4,
+    "home_win_prob": 0.114
    },
    "notes": [
     "Neutral site: Showdown in St. Pete",
@@ -4241,7 +4241,7 @@
    "id": "ncaab-401916288",
    "date": "2026-11-12",
    "start": "2026-11-12T23:30Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -4283,10 +4283,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -25.5,
+    "book": "Draft Kings",
+    "spread": -24.5,
     "spread_open": -25.5,
-    "total": 169.5,
+    "total": 168.5,
     "total_open": 166.5,
     "home_ml": -6500.0,
     "away_ml": 2000.0,
@@ -4294,8 +4294,8 @@
     "away_ml_open": 3000.0
    },
    "model": {
-    "spread": -24.0,
-    "total": 160.7,
+    "spread": -23.8,
+    "total": 160.6,
     "home_win_prob": 0.985
    },
    "notes": [
@@ -4306,7 +4306,7 @@
    "id": "ncaab-401917176",
    "date": "2026-11-12",
    "start": "2026-11-12T23:30Z",
-   "status": "pre",
+   "status": "in",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -4323,7 +4323,7 @@
      "Model rank": 314,
      "Overall rating (pts/100 vs avg)": -10.6,
      "Adj. offense (pts/100 vs avg)": -7.1,
-     "Adj. defense (pts/100 vs avg)": -3.5,
+     "Adj. defense (pts/100 vs avg)": -3.4,
      "Tempo (possessions)": 63.9,
      "Last 5": "1-2"
     }
@@ -4348,10 +4348,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -20.5,
+    "book": "Draft Kings",
+    "spread": -19.5,
     "spread_open": -20.5,
-    "total": 148.5,
+    "total": 144.5,
     "total_open": 147.5,
     "home_ml": -5000.0,
     "away_ml": 1800.0,
@@ -4359,9 +4359,9 @@
     "away_ml_open": 1600.0
    },
    "model": {
-    "spread": -20.6,
-    "total": 148.5,
-    "home_win_prob": 0.969
+    "spread": -20.3,
+    "total": 148.2,
+    "home_win_prob": 0.968
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -4413,7 +4413,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -14.5,
     "spread_open": -15.5,
     "total": 144.5,
@@ -4425,7 +4425,7 @@
    },
    "model": {
     "spread": -15.0,
-    "total": 145.2,
+    "total": 145.1,
     "home_win_prob": 0.914
    },
    "notes": [
@@ -4454,7 +4454,7 @@
      "Overall rating (pts/100 vs avg)": -16.7,
      "Adj. offense (pts/100 vs avg)": -9.8,
      "Adj. defense (pts/100 vs avg)": -6.9,
-     "Tempo (possessions)": 65.6,
+     "Tempo (possessions)": 65.5,
      "Last 5": "1-2"
     }
    },
@@ -4478,7 +4478,7 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -12.5,
     "spread_open": -13.5,
     "total": 137.5,
@@ -4543,20 +4543,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -25.5,
+    "book": "Draft Kings",
+    "spread": -23.5,
     "spread_open": -23.5,
-    "total": 141.5,
+    "total": 136.5,
     "total_open": 143.5,
-    "home_ml": -20000.0,
-    "away_ml": 3500.0,
+    "home_ml": -8000.0,
+    "away_ml": 2200.0,
     "home_ml_open": -9000.0,
     "away_ml_open": 2500.0
    },
    "model": {
-    "spread": -23.0,
-    "total": 138.9,
-    "home_win_prob": 0.982
+    "spread": -22.5,
+    "total": 138.5,
+    "home_win_prob": 0.98
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -4608,19 +4608,19 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 9.5,
     "spread_open": 6.5,
-    "total": 150.5,
+    "total": 147.5,
     "total_open": 147.5,
-    "home_ml": 330.0,
-    "away_ml": -425.0,
+    "home_ml": 340.0,
+    "away_ml": -440.0,
     "home_ml_open": 215.0,
     "away_ml_open": -265.0
    },
    "model": {
     "spread": 4.8,
-    "total": 147.7,
+    "total": 147.3,
     "home_win_prob": 0.331
    },
    "notes": [
@@ -4673,19 +4673,19 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -22.5,
     "spread_open": -20.5,
-    "total": 156.5,
+    "total": 158.5,
     "total_open": 159.5,
-    "home_ml": -50000.0,
-    "away_ml": 4000.0,
+    "home_ml": -10000.0,
+    "away_ml": 3000.0,
     "home_ml_open": -3200.0,
     "away_ml_open": 1400.0
    },
    "model": {
     "spread": -16.4,
-    "total": 157.5,
+    "total": 157.8,
     "home_win_prob": 0.932
    },
    "notes": [
@@ -4738,10 +4738,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -13.5,
     "spread_open": -14.5,
-    "total": 134.5,
+    "total": 133.5,
     "total_open": 136.5,
     "home_ml": -1100.0,
     "away_ml": 700.0,
@@ -4750,7 +4750,7 @@
    },
    "model": {
     "spread": -14.0,
-    "total": 140.2,
+    "total": 140.1,
     "home_win_prob": 0.898
    },
    "notes": [
@@ -4804,20 +4804,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -27.5,
+    "book": "Draft Kings",
+    "spread": -24.5,
     "spread_open": -26.5,
     "total": 151.5,
     "total_open": 150.5,
-    "home_ml": -20000.0,
-    "away_ml": 3500.0,
+    "home_ml": -8000.0,
+    "away_ml": 2200.0,
     "home_ml_open": -20000.0,
     "away_ml_open": 3500.0
    },
    "model": {
-    "spread": -23.6,
+    "spread": -22.8,
     "total": 148.7,
-    "home_win_prob": 0.984
+    "home_win_prob": 0.981
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -4845,7 +4845,7 @@
      "Overall rating (pts/100 vs avg)": -12.9,
      "Adj. offense (pts/100 vs avg)": -3.0,
      "Adj. defense (pts/100 vs avg)": -10.0,
-     "Tempo (possessions)": 67.1,
+     "Tempo (possessions)": 67.0,
      "Last 5": "0-3"
     }
    },
@@ -4862,27 +4862,27 @@
      "Conference": "MEAC",
      "Model rank": 239,
      "Overall rating (pts/100 vs avg)": -4.5,
-     "Adj. offense (pts/100 vs avg)": -2.3,
+     "Adj. offense (pts/100 vs avg)": -2.4,
      "Adj. defense (pts/100 vs avg)": -2.2,
      "Tempo (possessions)": 70.1,
      "Last 5": "1-2"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -10.5,
+    "book": "Draft Kings",
+    "spread": -8.5,
     "spread_open": -10.5,
-    "total": 152.5,
+    "total": 148.5,
     "total_open": 151.5,
-    "home_ml": -625.0,
-    "away_ml": 455.0,
+    "home_ml": -470.0,
+    "away_ml": 360.0,
     "home_ml_open": -470.0,
     "away_ml_open": 360.0
    },
    "model": {
-    "spread": -10.7,
-    "total": 151.4,
-    "home_win_prob": 0.835
+    "spread": -10.3,
+    "total": 151.1,
+    "home_win_prob": 0.825
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -4934,10 +4934,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -1.5,
     "spread_open": -1.5,
-    "total": 144.5,
+    "total": 143.5,
     "total_open": 145.5,
     "home_ml": -115.0,
     "away_ml": -105.0,
@@ -4946,7 +4946,7 @@
    },
    "model": {
     "spread": -3.2,
-    "total": 147.3,
+    "total": 147.2,
     "home_win_prob": 0.614
    },
    "notes": [
@@ -4972,7 +4972,7 @@
     "stats": {
      "Conference": "NEC",
      "Model rank": 305,
-     "Overall rating (pts/100 vs avg)": -9.8,
+     "Overall rating (pts/100 vs avg)": -9.7,
      "Adj. offense (pts/100 vs avg)": -5.0,
      "Adj. defense (pts/100 vs avg)": -4.8,
      "Tempo (possessions)": 65.0,
@@ -4999,20 +4999,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -4.5,
+    "book": "Draft Kings",
+    "spread": -6.5,
     "spread_open": -5.5,
-    "total": 146.5,
+    "total": 144.5,
     "total_open": 148.5,
-    "home_ml": -205.0,
-    "away_ml": 170.0,
+    "home_ml": -258.0,
+    "away_ml": 210.0,
     "home_ml_open": -225.0,
     "away_ml_open": 185.0
    },
    "model": {
-    "spread": -7.3,
-    "total": 147.6,
-    "home_win_prob": 0.747
+    "spread": -7.8,
+    "total": 147.4,
+    "home_win_prob": 0.761
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -5052,7 +5052,7 @@
      "Model rank": 138,
      "Overall rating (pts/100 vs avg)": 1.5,
      "Adj. offense (pts/100 vs avg)": -0.3,
-     "Adj. defense (pts/100 vs avg)": 1.8,
+     "Adj. defense (pts/100 vs avg)": 1.9,
      "Tempo (possessions)": 75.3,
      "Last 5": "3-0"
     }
@@ -5086,7 +5086,7 @@
      "Model rank": 260,
      "Overall rating (pts/100 vs avg)": -5.8,
      "Adj. offense (pts/100 vs avg)": -2.6,
-     "Adj. defense (pts/100 vs avg)": -3.2,
+     "Adj. defense (pts/100 vs avg)": -3.1,
      "Tempo (possessions)": 68.9,
      "Last 5": "2-1"
     }
@@ -5111,20 +5111,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": 3.5,
+    "book": "Draft Kings",
+    "spread": 1.5,
     "spread_open": -1.5,
-    "total": 151.5,
+    "total": 152.5,
     "total_open": 150.5,
-    "home_ml": 136.0,
-    "away_ml": -162.0,
+    "home_ml": 110.0,
+    "away_ml": -130.0,
     "home_ml_open": -110.0,
     "away_ml_open": -120.0
    },
    "model": {
-    "spread": -1.1,
-    "total": 152.2,
-    "home_win_prob": 0.541
+    "spread": -1.8,
+    "total": 152.3,
+    "home_win_prob": 0.566
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -5200,7 +5200,7 @@
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 99,
+     "Model rank": 98,
      "Overall rating (pts/100 vs avg)": 6.5,
      "Adj. offense (pts/100 vs avg)": 5.8,
      "Adj. defense (pts/100 vs avg)": 0.6,
@@ -5220,28 +5220,28 @@
     "stats": {
      "Conference": "MVC",
      "Model rank": 132,
-     "Overall rating (pts/100 vs avg)": 2.0,
+     "Overall rating (pts/100 vs avg)": 2.1,
      "Adj. offense (pts/100 vs avg)": -1.1,
-     "Adj. defense (pts/100 vs avg)": 3.1,
-     "Tempo (possessions)": 68.7,
+     "Adj. defense (pts/100 vs avg)": 3.2,
+     "Tempo (possessions)": 68.8,
      "Last 5": "1-1"
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": 3.5,
+    "book": "Draft Kings",
+    "spread": 2.5,
     "spread_open": 3.5,
-    "total": 154.5,
+    "total": 151.5,
     "total_open": 156.5,
-    "home_ml": 142.0,
-    "away_ml": -170.0,
+    "home_ml": 124.0,
+    "away_ml": -148.0,
     "home_ml_open": 154.0,
     "away_ml_open": -185.0
    },
    "model": {
-    "spread": 2.9,
-    "total": 148.6,
-    "home_win_prob": 0.397
+    "spread": 2.5,
+    "total": 148.2,
+    "home_win_prob": 0.409
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -5293,8 +5293,8 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -25.5,
+    "book": "Draft Kings",
+    "spread": -26.5,
     "spread_open": -24.5,
     "total": 142.5,
     "total_open": 140.5,
@@ -5304,9 +5304,9 @@
     "away_ml_open": 2500.0
    },
    "model": {
-    "spread": -25.2,
+    "spread": -25.4,
     "total": 142.1,
-    "home_win_prob": 0.989
+    "home_win_prob": 0.99
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -5358,10 +5358,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": 1.5,
     "spread_open": 1.5,
-    "total": 142.5,
+    "total": 141.5,
     "total_open": 143.5,
     "home_ml": -108.0,
     "away_ml": -112.0,
@@ -5370,7 +5370,7 @@
    },
    "model": {
     "spread": 2.6,
-    "total": 147.2,
+    "total": 147.1,
     "home_win_prob": 0.407
    },
    "notes": [
@@ -5424,10 +5424,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
+    "book": "Draft Kings",
     "spread": -8.5,
     "spread_open": -7.5,
-    "total": 178.5,
+    "total": 179.5,
     "total_open": 177.5,
     "home_ml": -380.0,
     "away_ml": 300.0,
@@ -5480,7 +5480,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 345,
+     "Model rank": 346,
      "Overall rating (pts/100 vs avg)": -14.4,
      "Adj. offense (pts/100 vs avg)": -8.0,
      "Adj. defense (pts/100 vs avg)": -6.4,
@@ -5489,20 +5489,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -7.5,
+    "book": "Draft Kings",
+    "spread": -4.5,
     "spread_open": -8.5,
-    "total": 149.5,
+    "total": 146.5,
     "total_open": 147.5,
-    "home_ml": -325.0,
-    "away_ml": 260.0,
+    "home_ml": -218.0,
+    "away_ml": 180.0,
     "home_ml_open": -380.0,
     "away_ml_open": 300.0
    },
    "model": {
-    "spread": 1.2,
-    "total": 145.0,
-    "home_win_prob": 0.456
+    "spread": 2.3,
+    "total": 144.6,
+    "home_win_prob": 0.417
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -5554,10 +5554,10 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -5.5,
+    "book": "Draft Kings",
+    "spread": -4.5,
     "spread_open": -3.5,
-    "total": 142.5,
+    "total": 145.5,
     "total_open": 143.5,
     "home_ml": -218.0,
     "away_ml": 180.0,
@@ -5565,9 +5565,9 @@
     "away_ml_open": 130.0
    },
    "model": {
-    "spread": -7.9,
-    "total": 144.2,
-    "home_win_prob": 0.762
+    "spread": -7.5,
+    "total": 144.6,
+    "home_win_prob": 0.753
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -5666,20 +5666,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -23.5,
+    "book": "Draft Kings",
+    "spread": -21.5,
     "spread_open": -24.5,
-    "total": 164.5,
+    "total": 162.5,
     "total_open": 163.5,
-    "home_ml": -6500.0,
-    "away_ml": 2000.0,
+    "home_ml": -5000.0,
+    "away_ml": 1800.0,
     "home_ml_open": -8000.0,
     "away_ml_open": 2200.0
    },
    "model": {
-    "spread": -20.8,
-    "total": 160.0,
-    "home_win_prob": 0.97
+    "spread": -20.2,
+    "total": 159.8,
+    "home_win_prob": 0.967
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -5707,7 +5707,7 @@
      "Overall rating (pts/100 vs avg)": -5.1,
      "Adj. offense (pts/100 vs avg)": -4.1,
      "Adj. defense (pts/100 vs avg)": -1.0,
-     "Tempo (possessions)": 70.4,
+     "Tempo (possessions)": 70.3,
      "Last 5": "2-0"
     }
    },
@@ -5731,20 +5731,20 @@
     }
    },
    "lines": {
-    "book": "DraftKings",
-    "spread": -7.5,
+    "book": "Draft Kings",
+    "spread": -8.5,
     "spread_open": -8.5,
-    "total": 152.5,
+    "total": 153.5,
     "total_open": 153.5,
-    "home_ml": -325.0,
-    "away_ml": 260.0,
+    "home_ml": -395.0,
+    "away_ml": 310.0,
     "home_ml_open": -305.0,
     "away_ml_open": 245.0
    },
    "model": {
-    "spread": -7.1,
-    "total": 151.6,
-    "home_win_prob": 0.741
+    "spread": -7.4,
+    "total": 151.7,
+    "home_win_prob": 0.751
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -5793,51 +5793,6 @@
    "model": {
     "spread": -48.7,
     "total": 160.2,
-    "home_win_prob": 1.0
-   },
-   "notes": []
-  },
-  {
-   "id": "ncaab-401926203",
-   "date": "2026-11-13",
-   "start": "2026-11-13T17:00Z",
-   "status": "pre",
-   "status_text": null,
-   "neutral": false,
-   "away": {
-    "name": "Mary Baldwin",
-    "short": "Mary Baldwin",
-    "abbr": "MBAL",
-    "record": null,
-    "score": null,
-    "rest_days": 7,
-    "b2b": false,
-    "injuries": [],
-    "stats": {}
-   },
-   "home": {
-    "name": "VMI",
-    "short": "VMI",
-    "abbr": "VMI",
-    "record": "2-2",
-    "score": null,
-    "rest_days": 2,
-    "b2b": false,
-    "injuries": [],
-    "stats": {
-     "Conference": "SoCon",
-     "Model rank": 321,
-     "Overall rating (pts/100 vs avg)": -10.8,
-     "Adj. offense (pts/100 vs avg)": -6.2,
-     "Adj. defense (pts/100 vs avg)": -4.6,
-     "Tempo (possessions)": 71.4,
-     "Last 5": "2-2"
-    }
-   },
-   "lines": null,
-   "model": {
-    "spread": -39.8,
-    "total": 154.6,
     "home_win_prob": 1.0
    },
    "notes": []
@@ -5934,9 +5889,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 8.7,
-    "total": 157.1,
-    "home_win_prob": 0.214
+    "spread": 9.3,
+    "total": 156.9,
+    "home_win_prob": 0.2
    },
    "notes": [
     "Neutral site",
@@ -6043,11 +5998,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -33.5,
+    "spread_open": -33.5,
+    "total": 148.5,
+    "total_open": 148.5,
+    "home_ml": null,
+    "away_ml": null,
+    "home_ml_open": null,
+    "away_ml_open": null
+   },
    "model": {
-    "spread": -24.4,
-    "total": 147.3,
-    "home_win_prob": 0.987
+    "spread": -26.8,
+    "total": 147.2,
+    "home_win_prob": 0.993
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6075,7 +6040,7 @@
      "Overall rating (pts/100 vs avg)": 8.2,
      "Adj. offense (pts/100 vs avg)": 4.7,
      "Adj. defense (pts/100 vs avg)": 3.5,
-     "Tempo (possessions)": 68.5,
+     "Tempo (possessions)": 68.4,
      "Last 5": "3-0"
     }
    },
@@ -6098,11 +6063,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -3.5,
+    "spread_open": -3.5,
+    "total": 149.5,
+    "total_open": 149.5,
+    "home_ml": -175.0,
+    "away_ml": 145.0,
+    "home_ml_open": -175.0,
+    "away_ml_open": 145.0
+   },
    "model": {
-    "spread": -4.1,
-    "total": 148.4,
-    "home_win_prob": 0.646
+    "spread": -4.7,
+    "total": 148.7,
+    "home_win_prob": 0.665
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6208,11 +6183,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -3.5,
+    "spread_open": -3.5,
+    "total": 157.5,
+    "total_open": 158.5,
+    "home_ml": null,
+    "away_ml": 130.0,
+    "home_ml_open": null,
+    "away_ml_open": 130.0
+   },
    "model": {
-    "spread": -3.0,
-    "total": 153.5,
-    "home_win_prob": 0.607
+    "spread": -3.8,
+    "total": 154.0,
+    "home_win_prob": 0.635
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6263,11 +6248,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -37.5,
+    "spread_open": -37.5,
+    "total": 142.5,
+    "total_open": 142.5,
+    "home_ml": null,
+    "away_ml": null,
+    "home_ml_open": null,
+    "away_ml_open": null
+   },
    "model": {
-    "spread": -25.5,
-    "total": 144.0,
-    "home_win_prob": 0.99
+    "spread": -28.6,
+    "total": 143.5,
+    "home_win_prob": 0.995
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6314,15 +6309,25 @@
      "Overall rating (pts/100 vs avg)": 16.1,
      "Adj. offense (pts/100 vs avg)": 6.8,
      "Adj. defense (pts/100 vs avg)": 9.2,
-     "Tempo (possessions)": 73.7,
+     "Tempo (possessions)": 73.6,
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -4.5,
+    "spread_open": -4.5,
+    "total": 161.5,
+    "total_open": 161.5,
+    "home_ml": -185.0,
+    "away_ml": 154.0,
+    "home_ml_open": -185.0,
+    "away_ml_open": 154.0
+   },
    "model": {
-    "spread": -5.0,
-    "total": 160.0,
-    "home_win_prob": 0.675
+    "spread": -5.7,
+    "total": 160.1,
+    "home_win_prob": 0.699
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6373,11 +6378,21 @@
      "Last 5": "2-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -29.5,
+    "spread_open": -29.5,
+    "total": 154.5,
+    "total_open": 154.5,
+    "home_ml": -50000.0,
+    "away_ml": 4000.0,
+    "home_ml_open": -50000.0,
+    "away_ml_open": 4000.0
+   },
    "model": {
-    "spread": -26.1,
-    "total": 151.8,
-    "home_win_prob": 0.991
+    "spread": -27.3,
+    "total": 152.3,
+    "home_win_prob": 0.994
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -6483,11 +6498,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -11.5,
+    "spread_open": -11.5,
+    "total": 134.5,
+    "total_open": 134.5,
+    "home_ml": -600.0,
+    "away_ml": 440.0,
+    "home_ml_open": -600.0,
+    "away_ml_open": 440.0
+   },
    "model": {
-    "spread": -15.0,
-    "total": 137.4,
-    "home_win_prob": 0.914
+    "spread": -14.6,
+    "total": 136.2,
+    "home_win_prob": 0.908
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6538,10 +6563,20 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -35.5,
+    "spread_open": -35.5,
+    "total": 170.5,
+    "total_open": 170.5,
+    "home_ml": null,
+    "away_ml": null,
+    "home_ml_open": null,
+    "away_ml_open": null
+   },
    "model": {
-    "spread": -30.9,
-    "total": 161.2,
+    "spread": -32.3,
+    "total": 162.1,
     "home_win_prob": 0.998
    },
    "notes": [
@@ -6593,11 +6628,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -22.5,
+    "spread_open": -22.5,
+    "total": 147.5,
+    "total_open": 147.5,
+    "home_ml": -6500.0,
+    "away_ml": 2000.0,
+    "home_ml_open": -6500.0,
+    "away_ml_open": 2000.0
+   },
    "model": {
-    "spread": -18.9,
-    "total": 151.4,
-    "home_win_prob": 0.957
+    "spread": -19.9,
+    "total": 150.9,
+    "home_win_prob": 0.965
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6623,7 +6668,7 @@
      "Conference": "Metro",
      "Model rank": 275,
      "Overall rating (pts/100 vs avg)": -7.3,
-     "Adj. offense (pts/100 vs avg)": -8.0,
+     "Adj. offense (pts/100 vs avg)": -8.1,
      "Adj. defense (pts/100 vs avg)": 0.7,
      "Tempo (possessions)": 67.6,
      "Last 5": "1-1"
@@ -6703,11 +6748,21 @@
      "Last 5": "1-2"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 1.5,
+    "spread_open": 1.5,
+    "total": 154.5,
+    "total_open": 154.5,
+    "home_ml": 102.0,
+    "away_ml": -122.0,
+    "home_ml_open": -105.0,
+    "away_ml_open": -115.0
+   },
    "model": {
-    "spread": 2.9,
+    "spread": 2.3,
     "total": 155.9,
-    "home_win_prob": 0.398
+    "home_win_prob": 0.417
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6758,11 +6813,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -4.5,
+    "spread_open": -3.5,
+    "total": 150.5,
+    "total_open": 150.5,
+    "home_ml": -166.0,
+    "away_ml": 140.0,
+    "home_ml_open": -192.0,
+    "away_ml_open": 160.0
+   },
    "model": {
-    "spread": -8.7,
-    "total": 152.4,
-    "home_win_prob": 0.785
+    "spread": -7.4,
+    "total": 152.2,
+    "home_win_prob": 0.748
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6813,11 +6878,21 @@
      "Last 5": "1-2"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -7.5,
+    "spread_open": -7.5,
+    "total": 138.5,
+    "total_open": 138.5,
+    "home_ml": -285.0,
+    "away_ml": 230.0,
+    "home_ml_open": -285.0,
+    "away_ml_open": 230.0
+   },
    "model": {
-    "spread": -8.7,
-    "total": 141.1,
-    "home_win_prob": 0.786
+    "spread": -8.8,
+    "total": 140.7,
+    "home_win_prob": 0.789
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -6868,10 +6943,20 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -34.5,
+    "spread_open": -34.5,
+    "total": 155.5,
+    "total_open": 155.5,
+    "home_ml": null,
+    "away_ml": null,
+    "home_ml_open": null,
+    "away_ml_open": null
+   },
    "model": {
-    "spread": -28.8,
-    "total": 154.0,
+    "spread": -29.3,
+    "total": 154.1,
     "home_win_prob": 0.996
    },
    "notes": [
@@ -6954,7 +7039,7 @@
      "Model rank": 183,
      "Overall rating (pts/100 vs avg)": -1.8,
      "Adj. offense (pts/100 vs avg)": -1.1,
-     "Adj. defense (pts/100 vs avg)": -0.7,
+     "Adj. defense (pts/100 vs avg)": -0.6,
      "Tempo (possessions)": 74.6,
      "Last 5": "2-0"
     }
@@ -6981,7 +7066,7 @@
    "lines": null,
    "model": {
     "spread": 3.8,
-    "total": 155.7,
+    "total": 155.8,
     "home_win_prob": 0.364
    },
    "notes": [
@@ -7029,7 +7114,7 @@
      "Overall rating (pts/100 vs avg)": -14.8,
      "Adj. offense (pts/100 vs avg)": -5.7,
      "Adj. defense (pts/100 vs avg)": -9.2,
-     "Tempo (possessions)": 66.6,
+     "Tempo (possessions)": 66.5,
      "Last 5": "0-3"
     }
    },
@@ -7143,11 +7228,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -29.5,
+    "spread_open": -29.5,
+    "total": 155.5,
+    "total_open": 155.5,
+    "home_ml": -100000.0,
+    "away_ml": 5000.0,
+    "home_ml_open": -100000.0,
+    "away_ml_open": 5000.0
+   },
    "model": {
-    "spread": -23.7,
-    "total": 147.8,
-    "home_win_prob": 0.985
+    "spread": -25.0,
+    "total": 148.9,
+    "home_win_prob": 0.988
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -7198,11 +7293,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -8.5,
+    "spread_open": -8.5,
+    "total": 133.5,
+    "total_open": 132.5,
+    "home_ml": -455.0,
+    "away_ml": 350.0,
+    "home_ml_open": -455.0,
+    "away_ml_open": 350.0
+   },
    "model": {
-    "spread": -7.7,
-    "total": 138.3,
-    "home_win_prob": 0.758
+    "spread": -6.8,
+    "total": 137.7,
+    "home_win_prob": 0.731
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -7253,15 +7358,70 @@
      "Last 5": "1-2"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -20.5,
+    "spread_open": -20.5,
+    "total": 153.5,
+    "total_open": 153.5,
+    "home_ml": -3600.0,
+    "away_ml": 1500.0,
+    "home_ml_open": -3600.0,
+    "away_ml_open": 1500.0
+   },
    "model": {
-    "spread": -16.7,
-    "total": 155.5,
-    "home_win_prob": 0.936
+    "spread": -18.3,
+    "total": 155.3,
+    "home_win_prob": 0.952
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
    ]
+  },
+  {
+   "id": "ncaab-401926203",
+   "date": "2026-11-13",
+   "start": "2026-11-14T00:00Z",
+   "status": "pre",
+   "status_text": null,
+   "neutral": false,
+   "away": {
+    "name": "Mary Baldwin",
+    "short": "Mary Baldwin",
+    "abbr": "MBAL",
+    "record": null,
+    "score": null,
+    "rest_days": 7,
+    "b2b": false,
+    "injuries": [],
+    "stats": {}
+   },
+   "home": {
+    "name": "VMI",
+    "short": "VMI",
+    "abbr": "VMI",
+    "record": "2-2",
+    "score": null,
+    "rest_days": 2,
+    "b2b": false,
+    "injuries": [],
+    "stats": {
+     "Conference": "SoCon",
+     "Model rank": 321,
+     "Overall rating (pts/100 vs avg)": -10.8,
+     "Adj. offense (pts/100 vs avg)": -6.2,
+     "Adj. defense (pts/100 vs avg)": -4.6,
+     "Tempo (possessions)": 71.4,
+     "Last 5": "2-2"
+    }
+   },
+   "lines": null,
+   "model": {
+    "spread": -39.8,
+    "total": 154.6,
+    "home_win_prob": 1.0
+   },
+   "notes": []
   },
   {
    "id": "ncaab-401926732",
@@ -7374,7 +7534,7 @@
     "stats": {
      "Conference": "Big Ten",
      "Model rank": 36,
-     "Overall rating (pts/100 vs avg)": 16.9,
+     "Overall rating (pts/100 vs avg)": 16.8,
      "Adj. offense (pts/100 vs avg)": 12.2,
      "Adj. defense (pts/100 vs avg)": 4.6,
      "Tempo (possessions)": 67.3,
@@ -7396,15 +7556,25 @@
      "Overall rating (pts/100 vs avg)": 25.3,
      "Adj. offense (pts/100 vs avg)": 11.3,
      "Adj. defense (pts/100 vs avg)": 14.0,
-     "Tempo (possessions)": 65.4,
+     "Tempo (possessions)": 65.3,
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -10.5,
+    "spread_open": -10.5,
+    "total": 147.5,
+    "total_open": 147.5,
+    "home_ml": -500.0,
+    "away_ml": 380.0,
+    "home_ml_open": -455.0,
+    "away_ml_open": 350.0
+   },
    "model": {
-    "spread": -11.2,
-    "total": 147.4,
-    "home_win_prob": 0.845
+    "spread": -11.5,
+    "total": 147.3,
+    "home_win_prob": 0.852
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -7431,7 +7601,7 @@
      "Model rank": 240,
      "Overall rating (pts/100 vs avg)": -4.6,
      "Adj. offense (pts/100 vs avg)": -3.7,
-     "Adj. defense (pts/100 vs avg)": -1.0,
+     "Adj. defense (pts/100 vs avg)": -0.9,
      "Tempo (possessions)": 69.0,
      "Last 5": "2-1"
     }
@@ -7455,11 +7625,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -5.5,
+    "spread_open": -5.5,
+    "total": 146.5,
+    "total_open": 146.5,
+    "home_ml": -225.0,
+    "away_ml": 185.0,
+    "home_ml_open": -225.0,
+    "away_ml_open": 185.0
+   },
    "model": {
-    "spread": -6.0,
-    "total": 149.1,
-    "home_win_prob": 0.707
+    "spread": -5.5,
+    "total": 148.9,
+    "home_win_prob": 0.692
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -7565,11 +7745,21 @@
      "Last 5": "2-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -13.5,
+    "spread_open": -12.5,
+    "total": 162.5,
+    "total_open": 162.5,
+    "home_ml": -1100.0,
+    "away_ml": 700.0,
+    "home_ml_open": -700.0,
+    "away_ml_open": 500.0
+   },
    "model": {
-    "spread": -11.9,
-    "total": 155.8,
-    "home_win_prob": 0.861
+    "spread": -13.3,
+    "total": 156.6,
+    "home_win_prob": 0.887
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -7675,10 +7865,20 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -43.5,
+    "spread_open": -43.5,
+    "total": 147.5,
+    "total_open": 147.5,
+    "home_ml": null,
+    "away_ml": null,
+    "home_ml_open": null,
+    "away_ml_open": null
+   },
    "model": {
-    "spread": -34.4,
-    "total": 142.2,
+    "spread": -35.9,
+    "total": 142.6,
     "home_win_prob": 0.999
    },
    "notes": [
@@ -7707,7 +7907,7 @@
      "Overall rating (pts/100 vs avg)": 20.8,
      "Adj. offense (pts/100 vs avg)": 11.0,
      "Adj. defense (pts/100 vs avg)": 9.8,
-     "Tempo (possessions)": 69.5,
+     "Tempo (possessions)": 69.4,
      "Last 5": "4-0"
     }
    },
@@ -7730,11 +7930,21 @@
      "Last 5": "1-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 6.5,
+    "spread_open": 6.5,
+    "total": 155.5,
+    "total_open": 154.5,
+    "home_ml": 200.0,
+    "away_ml": -245.0,
+    "home_ml_open": 185.0,
+    "away_ml_open": -225.0
+   },
    "model": {
-    "spread": 5.0,
-    "total": 151.0,
-    "home_win_prob": 0.325
+    "spread": 5.4,
+    "total": 151.6,
+    "home_win_prob": 0.313
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -7785,11 +7995,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -26.5,
+    "spread_open": -26.5,
+    "total": 159.5,
+    "total_open": 159.5,
+    "home_ml": -10000.0,
+    "away_ml": 3000.0,
+    "home_ml_open": -10000.0,
+    "away_ml_open": 3000.0
+   },
    "model": {
-    "spread": -20.7,
-    "total": 159.8,
-    "home_win_prob": 0.97
+    "spread": -21.0,
+    "total": 160.0,
+    "home_win_prob": 0.972
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -7840,10 +8060,20 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -25.5,
+    "spread_open": -25.5,
+    "total": 156.5,
+    "total_open": 156.5,
+    "home_ml": -9000.0,
+    "away_ml": 2500.0,
+    "home_ml_open": -9000.0,
+    "away_ml_open": 2500.0
+   },
    "model": {
     "spread": -24.7,
-    "total": 155.0,
+    "total": 155.2,
     "home_win_prob": 0.988
    },
    "notes": [
@@ -7868,7 +8098,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Sun Belt",
-     "Model rank": 247,
+     "Model rank": 246,
      "Overall rating (pts/100 vs avg)": -4.9,
      "Adj. offense (pts/100 vs avg)": -1.3,
      "Adj. defense (pts/100 vs avg)": -3.7,
@@ -7895,11 +8125,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -23.5,
+    "spread_open": -23.5,
+    "total": 160.5,
+    "total_open": 160.5,
+    "home_ml": -6500.0,
+    "away_ml": 2000.0,
+    "home_ml_open": -6500.0,
+    "away_ml_open": 2000.0
+   },
    "model": {
-    "spread": -18.4,
-    "total": 163.8,
-    "home_win_prob": 0.953
+    "spread": -19.2,
+    "total": 163.9,
+    "home_win_prob": 0.96
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8052,11 +8292,21 @@
      "Last 5": "1-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 1.5,
+    "spread_open": 1.5,
+    "total": 156.5,
+    "total_open": 156.5,
+    "home_ml": 114.0,
+    "away_ml": -135.0,
+    "home_ml_open": 114.0,
+    "away_ml_open": -135.0
+   },
    "model": {
-    "spread": 0.8,
-    "total": 155.5,
-    "home_win_prob": 0.47
+    "spread": 1.5,
+    "total": 155.6,
+    "home_win_prob": 0.447
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -8080,7 +8330,7 @@
     "injuries": [],
     "stats": {
      "Conference": "MVC",
-     "Model rank": 97,
+     "Model rank": 96,
      "Overall rating (pts/100 vs avg)": 6.5,
      "Adj. offense (pts/100 vs avg)": 6.5,
      "Adj. defense (pts/100 vs avg)": 0.0,
@@ -8107,11 +8357,21 @@
      "Last 5": "1-3"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 3.5,
+    "spread_open": 3.5,
+    "total": 150.5,
+    "total_open": 148.5,
+    "home_ml": 145.0,
+    "away_ml": -175.0,
+    "home_ml_open": 145.0,
+    "away_ml_open": -175.0
+   },
    "model": {
-    "spread": 2.6,
-    "total": 149.8,
-    "home_win_prob": 0.407
+    "spread": 3.1,
+    "total": 150.0,
+    "home_win_prob": 0.388
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8217,11 +8477,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -12.5,
+    "spread_open": -12.5,
+    "total": 143.5,
+    "total_open": 143.5,
+    "home_ml": -650.0,
+    "away_ml": 470.0,
+    "home_ml_open": -675.0,
+    "away_ml_open": 490.0
+   },
    "model": {
-    "spread": -13.0,
-    "total": 147.1,
-    "home_win_prob": 0.882
+    "spread": -12.9,
+    "total": 146.9,
+    "home_win_prob": 0.879
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8272,11 +8542,21 @@
      "Last 5": "2-2"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -3.5,
+    "spread_open": -3.5,
+    "total": 153.5,
+    "total_open": 153.5,
+    "home_ml": -185.0,
+    "away_ml": null,
+    "home_ml_open": -185.0,
+    "away_ml_open": null
+   },
    "model": {
-    "spread": 1.7,
+    "spread": 2.2,
     "total": 151.6,
-    "home_win_prob": 0.438
+    "home_win_prob": 0.421
    },
    "notes": [
     "Early season: model line is 50% the market's view of these teams"
@@ -8327,11 +8607,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -15.5,
+    "spread_open": -15.5,
+    "total": 156.5,
+    "total_open": 156.5,
+    "home_ml": -1200.0,
+    "away_ml": 750.0,
+    "home_ml_open": -1200.0,
+    "away_ml_open": 750.0
+   },
    "model": {
-    "spread": -14.0,
-    "total": 154.4,
-    "home_win_prob": 0.899
+    "spread": -14.6,
+    "total": 154.5,
+    "home_win_prob": 0.907
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8382,11 +8672,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 3.5,
+    "spread_open": 3.5,
+    "total": 165.5,
+    "total_open": 165.5,
+    "home_ml": 145.0,
+    "away_ml": -175.0,
+    "home_ml_open": 145.0,
+    "away_ml_open": -175.0
+   },
    "model": {
-    "spread": 4.7,
-    "total": 159.0,
-    "home_win_prob": 0.336
+    "spread": 3.6,
+    "total": 159.5,
+    "home_win_prob": 0.372
    },
    "notes": [
     "Neutral site: Greenbrier Tip-Off",
@@ -8438,11 +8738,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 1.5,
+    "spread_open": 1.5,
+    "total": 140.5,
+    "total_open": 140.5,
+    "home_ml": 105.0,
+    "away_ml": -125.0,
+    "home_ml_open": 105.0,
+    "away_ml_open": -125.0
+   },
    "model": {
-    "spread": -4.2,
-    "total": 141.6,
-    "home_win_prob": 0.648
+    "spread": -3.6,
+    "total": 141.3,
+    "home_win_prob": 0.629
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8493,11 +8803,21 @@
      "Last 5": "2-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 2.5,
+    "spread_open": 2.5,
+    "total": 159.5,
+    "total_open": 159.5,
+    "home_ml": 102.0,
+    "away_ml": -122.0,
+    "home_ml_open": 102.0,
+    "away_ml_open": -122.0
+   },
    "model": {
-    "spread": -1.6,
-    "total": 159.3,
-    "home_win_prob": 0.556
+    "spread": -0.9,
+    "total": 159.4,
+    "home_win_prob": 0.533
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -8548,11 +8868,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -22.5,
+    "spread_open": -22.5,
+    "total": 150.5,
+    "total_open": 150.5,
+    "home_ml": -6500.0,
+    "away_ml": 2000.0,
+    "home_ml_open": -6500.0,
+    "away_ml_open": 2000.0
+   },
    "model": {
-    "spread": -20.3,
-    "total": 148.7,
-    "home_win_prob": 0.968
+    "spread": -21.1,
+    "total": 148.5,
+    "home_win_prob": 0.973
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8603,11 +8933,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -30.5,
+    "spread_open": -30.5,
+    "total": 152.5,
+    "total_open": 152.5,
+    "home_ml": -100000.0,
+    "away_ml": 5000.0,
+    "home_ml_open": -100000.0,
+    "away_ml_open": 5000.0
+   },
    "model": {
-    "spread": -26.6,
+    "spread": -27.2,
     "total": 156.8,
-    "home_win_prob": 0.992
+    "home_win_prob": 0.993
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8658,11 +8998,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -1.5,
+    "spread_open": -1.5,
+    "total": 165.5,
+    "total_open": 165.5,
+    "home_ml": -120.0,
+    "away_ml": 100.0,
+    "home_ml_open": -115.0,
+    "away_ml_open": -105.0
+   },
    "model": {
-    "spread": -8.3,
-    "total": 161.4,
-    "home_win_prob": 0.774
+    "spread": -7.2,
+    "total": 161.8,
+    "home_win_prob": 0.742
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8758,11 +9108,21 @@
      "Last 5": "2-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": 1.5,
+    "spread_open": -1.5,
+    "total": 150.5,
+    "total_open": 150.5,
+    "home_ml": -105.0,
+    "away_ml": -115.0,
+    "home_ml_open": -105.0,
+    "away_ml_open": -115.0
+   },
    "model": {
-    "spread": -2.0,
-    "total": 152.9,
-    "home_win_prob": 0.574
+    "spread": -0.9,
+    "total": 152.7,
+    "home_win_prob": 0.532
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -8923,11 +9283,21 @@
      "Last 5": "2-1"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -4.5,
+    "spread_open": -4.5,
+    "total": 151.5,
+    "total_open": 151.5,
+    "home_ml": -245.0,
+    "away_ml": 200.0,
+    "home_ml_open": -258.0,
+    "away_ml_open": 210.0
+   },
    "model": {
-    "spread": -8.7,
-    "total": 148.8,
-    "home_win_prob": 0.785
+    "spread": -8.3,
+    "total": 149.4,
+    "home_win_prob": 0.775
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -8955,7 +9325,7 @@
      "Overall rating (pts/100 vs avg)": -6.6,
      "Adj. offense (pts/100 vs avg)": -5.4,
      "Adj. defense (pts/100 vs avg)": -1.2,
-     "Tempo (possessions)": 68.7,
+     "Tempo (possessions)": 68.6,
      "Last 5": "2-1"
     }
    },
@@ -9033,11 +9403,21 @@
      "Last 5": "3-0"
     }
    },
-   "lines": null,
+   "lines": {
+    "book": "Draft Kings",
+    "spread": -13.5,
+    "spread_open": -13.5,
+    "total": 154.5,
+    "total_open": 154.5,
+    "home_ml": -800.0,
+    "away_ml": 550.0,
+    "home_ml_open": -800.0,
+    "away_ml_open": 550.0
+   },
    "model": {
-    "spread": -16.7,
-    "total": 152.2,
-    "home_win_prob": 0.935
+    "spread": -16.4,
+    "total": 152.7,
+    "home_win_prob": 0.931
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -9064,7 +9444,7 @@
      "Model rank": 366,
      "Overall rating (pts/100 vs avg)": -21.8,
      "Adj. offense (pts/100 vs avg)": -9.4,
-     "Adj. defense (pts/100 vs avg)": -12.5,
+     "Adj. defense (pts/100 vs avg)": -12.4,
      "Tempo (possessions)": 70.8,
      "Last 5": "0-3"
     }
@@ -9146,7 +9526,7 @@
    "lines": null,
    "model": {
     "spread": -8.3,
-    "total": 160.3,
+    "total": 160.4,
     "home_win_prob": 0.775
    },
    "notes": [
@@ -9256,7 +9636,7 @@
    "lines": null,
    "model": {
     "spread": 4.6,
-    "total": 151.6,
+    "total": 151.7,
     "home_win_prob": 0.339
    },
    "notes": [
@@ -9348,30 +9728,30 @@
     "name": "George Mason",
     "short": "George Mason",
     "abbr": "GMU",
-    "record": "2-0",
+    "record": "3-0",
     "score": null,
     "rest_days": 2,
     "b2b": false,
     "injuries": [],
     "stats": {
      "Conference": "A-10",
-     "Model rank": 96,
-     "Overall rating (pts/100 vs avg)": 6.6,
-     "Adj. offense (pts/100 vs avg)": 1.3,
-     "Adj. defense (pts/100 vs avg)": 5.4,
-     "Tempo (possessions)": 64.0,
-     "Last 5": "2-0"
+     "Model rank": 100,
+     "Overall rating (pts/100 vs avg)": 6.1,
+     "Adj. offense (pts/100 vs avg)": 2.0,
+     "Adj. defense (pts/100 vs avg)": 4.1,
+     "Tempo (possessions)": 62.9,
+     "Last 5": "3-0"
     }
    },
    "lines": null,
    "model": {
-    "spread": -7.8,
-    "total": 136.2,
-    "home_win_prob": 0.76
+    "spread": -7.0,
+    "total": 135.9,
+    "home_win_prob": 0.738
    },
    "notes": [
     "Neutral site: Showdown in St. Pete",
-    "Early season: model line is 59% the market's view of these teams"
+    "Early season: model line is 55% the market's view of these teams"
    ]
   },
   {
@@ -9421,9 +9801,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 8.1,
-    "total": 143.3,
-    "home_win_prob": 0.23
+    "spread": 8.5,
+    "total": 143.1,
+    "home_win_prob": 0.22
    },
    "notes": [
     "Neutral site: 410 Invitational - Consolation",
@@ -9652,7 +10032,7 @@
      "Overall rating (pts/100 vs avg)": -1.8,
      "Adj. offense (pts/100 vs avg)": -1.6,
      "Adj. defense (pts/100 vs avg)": -0.3,
-     "Tempo (possessions)": 67.7,
+     "Tempo (possessions)": 67.6,
      "Last 5": "2-1"
     }
    },
@@ -9678,7 +10058,7 @@
    "lines": null,
    "model": {
     "spread": -8.8,
-    "total": 147.0,
+    "total": 147.1,
     "home_win_prob": 0.789
    },
    "notes": [
@@ -9814,10 +10194,10 @@
     "stats": {
      "Conference": "MEAC",
      "Model rank": 364,
-     "Overall rating (pts/100 vs avg)": -20.2,
-     "Adj. offense (pts/100 vs avg)": -11.2,
-     "Adj. defense (pts/100 vs avg)": -9.0,
-     "Tempo (possessions)": 65.7,
+     "Overall rating (pts/100 vs avg)": -20.3,
+     "Adj. offense (pts/100 vs avg)": -11.3,
+     "Adj. defense (pts/100 vs avg)": -8.9,
+     "Tempo (possessions)": 65.8,
      "Last 5": "1-2"
     }
    },
@@ -9832,7 +10212,7 @@
     "injuries": [],
     "stats": {
      "Conference": "American",
-     "Model rank": 73,
+     "Model rank": 72,
      "Overall rating (pts/100 vs avg)": 10.1,
      "Adj. offense (pts/100 vs avg)": 4.9,
      "Adj. defense (pts/100 vs avg)": 5.2,
@@ -9842,8 +10222,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -28.0,
-    "total": 151.9,
+    "spread": -28.4,
+    "total": 151.6,
     "home_win_prob": 0.995
    },
    "notes": [
@@ -10210,7 +10590,7 @@
    "lines": null,
    "model": {
     "spread": -14.3,
-    "total": 160.7,
+    "total": 160.8,
     "home_win_prob": 0.903
    },
    "notes": [
@@ -10283,7 +10663,7 @@
      "Model rank": 106,
      "Overall rating (pts/100 vs avg)": 5.6,
      "Adj. offense (pts/100 vs avg)": 3.3,
-     "Adj. defense (pts/100 vs avg)": 2.3,
+     "Adj. defense (pts/100 vs avg)": 2.4,
      "Tempo (possessions)": 66.4,
      "Last 5": "2-1"
     }
@@ -10527,7 +10907,7 @@
    "lines": null,
    "model": {
     "spread": -16.2,
-    "total": 155.6,
+    "total": 155.8,
     "home_win_prob": 0.93
    },
    "notes": [
@@ -10637,7 +11017,7 @@
    "lines": null,
    "model": {
     "spread": -15.1,
-    "total": 146.8,
+    "total": 146.9,
     "home_win_prob": 0.915
    },
    "notes": [
@@ -10692,7 +11072,7 @@
    "lines": null,
    "model": {
     "spread": -12.5,
-    "total": 142.8,
+    "total": 142.9,
     "home_win_prob": 0.873
    },
    "notes": [
@@ -10720,8 +11100,8 @@
      "Model rank": 268,
      "Overall rating (pts/100 vs avg)": -6.5,
      "Adj. offense (pts/100 vs avg)": -1.9,
-     "Adj. defense (pts/100 vs avg)": -4.7,
-     "Tempo (possessions)": 68.6,
+     "Adj. defense (pts/100 vs avg)": -4.6,
+     "Tempo (possessions)": 68.5,
      "Last 5": "2-2"
     }
    },
@@ -10747,7 +11127,7 @@
    "lines": null,
    "model": {
     "spread": -16.5,
-    "total": 153.0,
+    "total": 153.1,
     "home_win_prob": 0.933
    },
    "notes": [
@@ -10794,7 +11174,7 @@
      "Model rank": 199,
      "Overall rating (pts/100 vs avg)": -2.4,
      "Adj. offense (pts/100 vs avg)": -2.0,
-     "Adj. defense (pts/100 vs avg)": -0.5,
+     "Adj. defense (pts/100 vs avg)": -0.4,
      "Tempo (possessions)": 64.1,
      "Last 5": "3-1"
     }
@@ -10858,7 +11238,7 @@
    "model": {
     "spread": -5.8,
     "total": 149.7,
-    "home_win_prob": 0.702
+    "home_win_prob": 0.703
    },
    "notes": [
     "Early season: model line is 50% the market's view of these teams"
@@ -11078,7 +11458,7 @@
    "lines": null,
    "model": {
     "spread": -14.5,
-    "total": 158.5,
+    "total": 158.6,
     "home_win_prob": 0.906
    },
    "notes": [
@@ -11132,9 +11512,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 2.3,
-    "total": 154.5,
-    "home_win_prob": 0.417
+    "spread": 1.6,
+    "total": 155.1,
+    "home_win_prob": 0.441
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -11340,7 +11720,7 @@
      "Overall rating (pts/100 vs avg)": -7.4,
      "Adj. offense (pts/100 vs avg)": -4.9,
      "Adj. defense (pts/100 vs avg)": -2.5,
-     "Tempo (possessions)": 73.4,
+     "Tempo (possessions)": 73.3,
      "Last 5": "1-1"
     }
    },
@@ -11400,7 +11780,7 @@
    "lines": null,
    "model": {
     "spread": -9.8,
-    "total": 142.4,
+    "total": 142.3,
     "home_win_prob": 0.813
    },
    "notes": [
@@ -11442,7 +11822,7 @@
      "Overall rating (pts/100 vs avg)": -7.9,
      "Adj. offense (pts/100 vs avg)": -0.5,
      "Adj. defense (pts/100 vs avg)": -7.3,
-     "Tempo (possessions)": 72.1,
+     "Tempo (possessions)": 72.0,
      "Last 5": "0-3"
     }
    },
@@ -11476,7 +11856,7 @@
      "Overall rating (pts/100 vs avg)": -5.1,
      "Adj. offense (pts/100 vs avg)": -4.1,
      "Adj. defense (pts/100 vs avg)": -1.0,
-     "Tempo (possessions)": 70.4,
+     "Tempo (possessions)": 70.3,
      "Last 5": "2-0"
     }
    },
@@ -11501,9 +11881,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -5.3,
-    "total": 149.7,
-    "home_win_prob": 0.686
+    "spread": -5.5,
+    "total": 149.8,
+    "home_win_prob": 0.692
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -11550,7 +11930,7 @@
      "Overall rating (pts/100 vs avg)": 4.6,
      "Adj. offense (pts/100 vs avg)": -2.8,
      "Adj. defense (pts/100 vs avg)": 7.4,
-     "Tempo (possessions)": 72.6,
+     "Tempo (possessions)": 72.5,
      "Last 5": "3-0"
     }
    },
@@ -11657,7 +12037,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big South",
-     "Model rank": 262,
+     "Model rank": 263,
      "Overall rating (pts/100 vs avg)": -6.1,
      "Adj. offense (pts/100 vs avg)": -4.4,
      "Adj. defense (pts/100 vs avg)": -1.7,
@@ -11716,7 +12096,7 @@
      "Overall rating (pts/100 vs avg)": 7.0,
      "Adj. offense (pts/100 vs avg)": 2.3,
      "Adj. defense (pts/100 vs avg)": 4.7,
-     "Tempo (possessions)": 72.8,
+     "Tempo (possessions)": 72.7,
      "Last 5": "2-1"
     }
    },
@@ -11968,7 +12348,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big Ten",
-     "Model rank": 72,
+     "Model rank": 73,
      "Overall rating (pts/100 vs avg)": 10.1,
      "Adj. offense (pts/100 vs avg)": 5.3,
      "Adj. defense (pts/100 vs avg)": 4.8,
@@ -11987,7 +12367,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Big 12",
-     "Model rank": 100,
+     "Model rank": 99,
      "Overall rating (pts/100 vs avg)": 6.3,
      "Adj. offense (pts/100 vs avg)": 4.7,
      "Adj. defense (pts/100 vs avg)": 1.5,
@@ -12135,7 +12515,7 @@
      "Conference": "MEAC",
      "Model rank": 239,
      "Overall rating (pts/100 vs avg)": -4.5,
-     "Adj. offense (pts/100 vs avg)": -2.3,
+     "Adj. offense (pts/100 vs avg)": -2.4,
      "Adj. defense (pts/100 vs avg)": -2.2,
      "Tempo (possessions)": 70.1,
      "Last 5": "1-2"
@@ -12162,9 +12542,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -12.7,
-    "total": 143.7,
-    "home_win_prob": 0.876
+    "spread": -12.9,
+    "total": 143.6,
+    "home_win_prob": 0.88
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -12174,7 +12554,7 @@
    "id": "ncaab-401926864",
    "date": "2026-11-14",
    "start": "2026-11-15T00:00Z",
-   "status": "pre",
+   "status": "post",
    "status_text": null,
    "neutral": false,
    "away": {
@@ -12343,7 +12723,7 @@
     "injuries": [],
     "stats": {
      "Conference": "Am. East",
-     "Model rank": 344,
+     "Model rank": 345,
      "Overall rating (pts/100 vs avg)": -14.1,
      "Adj. offense (pts/100 vs avg)": -5.2,
      "Adj. defense (pts/100 vs avg)": -8.9,
@@ -12365,7 +12745,7 @@
      "Model rank": 175,
      "Overall rating (pts/100 vs avg)": -1.3,
      "Adj. offense (pts/100 vs avg)": 0.7,
-     "Adj. defense (pts/100 vs avg)": -2.1,
+     "Adj. defense (pts/100 vs avg)": -2.0,
      "Tempo (possessions)": 65.1,
      "Last 5": "3-0"
     }
@@ -12373,7 +12753,7 @@
    "lines": null,
    "model": {
     "spread": -14.9,
-    "total": 142.6,
+    "total": 142.7,
     "home_win_prob": 0.913
    },
    "notes": [
@@ -12482,8 +12862,8 @@
    },
    "lines": null,
    "model": {
-    "spread": -25.4,
-    "total": 159.8,
+    "spread": -25.7,
+    "total": 159.7,
     "home_win_prob": 0.99
    },
    "notes": [
@@ -12958,7 +13338,7 @@
    "lines": null,
    "model": {
     "spread": -0.6,
-    "total": 159.8,
+    "total": 159.9,
     "home_win_prob": 0.52
    },
    "notes": [
@@ -13112,9 +13492,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -1.6,
-    "total": 136.0,
-    "home_win_prob": 0.557
+    "spread": -1.3,
+    "total": 135.2,
+    "home_win_prob": 0.548
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -13323,7 +13703,7 @@
     "stats": {
      "Conference": "NEC",
      "Model rank": 305,
-     "Overall rating (pts/100 vs avg)": -9.8,
+     "Overall rating (pts/100 vs avg)": -9.7,
      "Adj. offense (pts/100 vs avg)": -5.0,
      "Adj. defense (pts/100 vs avg)": -4.8,
      "Tempo (possessions)": 65.0,
@@ -13332,9 +13712,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -0.3,
-    "total": 144.6,
-    "home_win_prob": 0.51
+    "spread": -0.1,
+    "total": 144.5,
+    "home_win_prob": 0.502
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -13488,7 +13868,7 @@
     "injuries": [],
     "stats": {
      "Conference": "ACC",
-     "Model rank": 98,
+     "Model rank": 97,
      "Overall rating (pts/100 vs avg)": 6.5,
      "Adj. offense (pts/100 vs avg)": -0.3,
      "Adj. defense (pts/100 vs avg)": 6.8,
@@ -13608,9 +13988,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -9.4,
-    "total": 141.1,
-    "home_win_prob": 0.804
+    "spread": -9.2,
+    "total": 141.0,
+    "home_win_prob": 0.799
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -13663,9 +14043,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -5.7,
-    "total": 154.9,
-    "home_win_prob": 0.696
+    "spread": -5.4,
+    "total": 154.8,
+    "home_win_prob": 0.688
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -14060,7 +14440,7 @@
      "Model rank": 82,
      "Overall rating (pts/100 vs avg)": 9.3,
      "Adj. offense (pts/100 vs avg)": 5.6,
-     "Adj. defense (pts/100 vs avg)": 3.6,
+     "Adj. defense (pts/100 vs avg)": 3.7,
      "Tempo (possessions)": 68.7,
      "Last 5": "2-1"
     }
@@ -14086,7 +14466,7 @@
    },
    "lines": null,
    "model": {
-    "spread": -6.4,
+    "spread": -6.3,
     "total": 146.8,
     "home_win_prob": 0.718
    },
@@ -14143,7 +14523,7 @@
    "lines": null,
    "model": {
     "spread": -10.2,
-    "total": 159.0,
+    "total": 159.1,
     "home_win_prob": 0.824
    },
    "notes": [
@@ -14187,7 +14567,7 @@
     "injuries": [],
     "stats": {
      "Conference": "SWAC",
-     "Model rank": 345,
+     "Model rank": 346,
      "Overall rating (pts/100 vs avg)": -14.4,
      "Adj. offense (pts/100 vs avg)": -8.0,
      "Adj. defense (pts/100 vs avg)": -6.4,
@@ -14197,9 +14577,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -8.6,
-    "total": 154.4,
-    "home_win_prob": 0.782
+    "spread": -8.0,
+    "total": 154.2,
+    "home_win_prob": 0.767
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -14252,9 +14632,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 4.5,
-    "total": 147.1,
-    "home_win_prob": 0.34
+    "spread": 4.9,
+    "total": 147.2,
+    "home_win_prob": 0.327
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -14353,7 +14733,7 @@
    "lines": null,
    "model": {
     "spread": -16.6,
-    "total": 145.8,
+    "total": 145.7,
     "home_win_prob": 0.934
    },
    "notes": [
@@ -14381,7 +14761,7 @@
      "Model rank": 314,
      "Overall rating (pts/100 vs avg)": -10.6,
      "Adj. offense (pts/100 vs avg)": -7.1,
-     "Adj. defense (pts/100 vs avg)": -3.5,
+     "Adj. defense (pts/100 vs avg)": -3.4,
      "Tempo (possessions)": 63.9,
      "Last 5": "1-2"
     }
@@ -14401,15 +14781,15 @@
      "Overall rating (pts/100 vs avg)": -1.0,
      "Adj. offense (pts/100 vs avg)": -0.8,
      "Adj. defense (pts/100 vs avg)": -0.2,
-     "Tempo (possessions)": 69.6,
+     "Tempo (possessions)": 69.5,
      "Last 5": "1-2"
     }
    },
    "lines": null,
    "model": {
-    "spread": -14.3,
-    "total": 143.0,
-    "home_win_prob": 0.903
+    "spread": -14.1,
+    "total": 142.9,
+    "home_win_prob": 0.9
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -14507,9 +14887,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -15.8,
-    "total": 148.3,
-    "home_win_prob": 0.924
+    "spread": -15.6,
+    "total": 148.5,
+    "home_win_prob": 0.922
    },
    "notes": [
     "Neutral site: Compete 4 Cause Classic",
@@ -14563,9 +14943,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -21.0,
-    "total": 144.5,
-    "home_win_prob": 0.972
+    "spread": -20.9,
+    "total": 144.4,
+    "home_win_prob": 0.971
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -14592,7 +14972,7 @@
      "Model rank": 260,
      "Overall rating (pts/100 vs avg)": -5.8,
      "Adj. offense (pts/100 vs avg)": -2.6,
-     "Adj. defense (pts/100 vs avg)": -3.2,
+     "Adj. defense (pts/100 vs avg)": -3.1,
      "Tempo (possessions)": 68.9,
      "Last 5": "2-1"
     }
@@ -14618,9 +14998,9 @@
    },
    "lines": null,
    "model": {
-    "spread": 0.5,
+    "spread": 0.2,
     "total": 145.8,
-    "home_win_prob": 0.481
+    "home_win_prob": 0.491
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -14748,7 +15128,7 @@
      "Overall rating (pts/100 vs avg)": -16.7,
      "Adj. offense (pts/100 vs avg)": -9.8,
      "Adj. defense (pts/100 vs avg)": -6.9,
-     "Tempo (possessions)": 65.6,
+     "Tempo (possessions)": 65.5,
      "Last 5": "1-2"
     }
    },
@@ -14875,9 +15255,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -10.0,
-    "total": 161.0,
-    "home_win_prob": 0.817
+    "spread": -9.7,
+    "total": 161.1,
+    "home_win_prob": 0.812
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -14905,7 +15285,7 @@
      "Overall rating (pts/100 vs avg)": 11.2,
      "Adj. offense (pts/100 vs avg)": 7.0,
      "Adj. defense (pts/100 vs avg)": 4.3,
-     "Tempo (possessions)": 70.3,
+     "Tempo (possessions)": 70.2,
      "Last 5": "2-1"
     }
    },
@@ -14959,7 +15339,7 @@
      "Model rank": 366,
      "Overall rating (pts/100 vs avg)": -21.8,
      "Adj. offense (pts/100 vs avg)": -9.4,
-     "Adj. defense (pts/100 vs avg)": -12.5,
+     "Adj. defense (pts/100 vs avg)": -12.4,
      "Tempo (possessions)": 70.8,
      "Last 5": "0-3"
     }
@@ -14979,7 +15359,7 @@
      "Overall rating (pts/100 vs avg)": 12.8,
      "Adj. offense (pts/100 vs avg)": 6.9,
      "Adj. defense (pts/100 vs avg)": 6.0,
-     "Tempo (possessions)": 73.2,
+     "Tempo (possessions)": 73.1,
      "Last 5": "3-0"
     }
    },
@@ -15141,8 +15521,8 @@
    "lines": null,
    "model": {
     "spread": 3.3,
-    "total": 151.2,
-    "home_win_prob": 0.38
+    "total": 151.1,
+    "home_win_prob": 0.383
    },
    "notes": [
     "Early season: model line is 55% the market's view of these teams"
@@ -15169,8 +15549,8 @@
      "Model rank": 367,
      "Overall rating (pts/100 vs avg)": -21.9,
      "Adj. offense (pts/100 vs avg)": -10.9,
-     "Adj. defense (pts/100 vs avg)": -11.0,
-     "Tempo (possessions)": 67.8,
+     "Adj. defense (pts/100 vs avg)": -10.9,
+     "Tempo (possessions)": 67.9,
      "Last 5": "0-4"
     }
    },
@@ -15195,9 +15575,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -17.0,
-    "total": 145.9,
-    "home_win_prob": 0.939
+    "spread": -16.8,
+    "total": 146.0,
+    "home_win_prob": 0.937
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
@@ -15250,9 +15630,9 @@
    },
    "lines": null,
    "model": {
-    "spread": -15.2,
-    "total": 152.1,
-    "home_win_prob": 0.917
+    "spread": -15.4,
+    "total": 152.2,
+    "home_win_prob": 0.919
    },
    "notes": [
     "Early season: model line is 59% the market's view of these teams"
