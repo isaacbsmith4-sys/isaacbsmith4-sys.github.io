@@ -2,7 +2,7 @@
  "sport": "NHL",
  "app": "NHL Model",
  "format": 1,
- "generated_at": "2026-11-13T02:43Z",
+ "generated_at": "2026-11-13T13:46Z",
  "plays": [
   {
    "id": "nhl-401891773-ml",
@@ -3916,9 +3916,9 @@
    "edge_display": "4.7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "win",
+   "result_units": 1.1,
+   "beat_close": true
   },
   {
    "id": "nhl-401891808-ml",
@@ -3960,9 +3960,9 @@
    "edge_display": "3.7%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "loss",
+   "result_units": -1.0,
+   "beat_close": false
   },
   {
    "id": "nhl-401892697-ml",
