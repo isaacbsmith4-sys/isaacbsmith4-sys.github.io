@@ -452,11 +452,16 @@ function onlineHTML(q) {
   if (online.err === "limit") return `<p class="note">The free online search is used up for the hour. ${usdaKey() === "DEMO_KEY" ? "Add your own free USDA key in Setup to remove the limit, or" : "Try again soon, or"} use Photo or Create.</p>`;
   if (online.err) return `<p class="note">Couldn't reach the online food database. Check your connection.</p>`;
   if (!online.foods.length) return localCount ? "" : `<div class="empty">No match for "${esc(q)}". Try fewer words, take a photo, scan the barcode, or create it.</div>`;
-  const gen = online.foods.filter(f => !f.branded), br = online.foods.filter(f => f.branded);
+  // foods whose name has every word you typed go first, and whichever group matches better (brand vs common) leads
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean), full = f => words.every(w => f.name.toLowerCase().includes(w));
+  const order = list => [...list.filter(full), ...list.filter(f => !full(f))], hits = list => list.filter(full).length / (list.length || 1);
+  const gen = order(online.foods.filter(f => !f.branded)), br = order(online.foods.filter(f => f.branded));
+  const groups = [["Common foods · USDA", gen], ["Brands · USDA", br]];
+  if (hits(br) > hits(gen)) groups.reverse();
   let i = localCount;
   const rows = list => list.map(f => resultRow(f, i++)).join("");
-  resultCache = resultCache.slice(0, localCount).concat(gen, br);
-  return (gen.length ? `<div class="grp">Common foods · USDA</div>${rows(gen)}` : "") + (br.length ? `<div class="grp">Brands · USDA</div>${rows(br)}` : "");
+  resultCache = resultCache.slice(0, localCount).concat(groups[0][1], groups[1][1]);
+  return groups.map(([t, list]) => list.length ? `<div class="grp">${t}</div>${rows(list)}` : "").join("");
 }
 function queueOnline(q) {
   clearTimeout(onlineT);
