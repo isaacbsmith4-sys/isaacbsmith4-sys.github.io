@@ -1,5 +1,5 @@
 // Network-first for everything, falling back to cache when offline.
-const CACHE = "recovery-v4";
+const CACHE = "recovery-v5";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "../kit/kit.js?v=10"];
 
 self.addEventListener("install", (e) => {

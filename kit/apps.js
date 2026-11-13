@@ -30,6 +30,7 @@
     {id: "focus", name: "Focus", color: "#6aa8ff", path: "../focus/", built: true, blurb: "Focus timer and study hours"},
     {id: "mindset", name: "Mindset", color: "#d29bff", phase: 3, blurb: "Journal, reflections, weekly review"},
     {id: "recovery", name: "Recovery", color: "#46d1c4", path: "../recovery/", built: true, blurb: "Readiness, soreness, training load"},
+    {id: "mobility", name: "Mobility", color: "#c6f432", path: "../mobility/", built: true, blurb: "Routines built for today, follow-along coach"},
     {id: "basketball", name: "Basketball", color: "#e0955a", path: "../basketball/", built: true, blurb: "Shooting charts and skill work"},
     {id: "finance", name: "Finance", color: "#7bd88f", phase: 4, blurb: "Budget, spending, savings"},
   ];

@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0c07">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mobility">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Mobility</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: three tabs (Build / Moves / History) and a full-screen follow-along player.
+   Near-black olive ground with an electric lime accent; the stick figure is drawn in the accent,
+   its far-side limbs dimmer so you can tell left from right. */
+:root{
+  color-scheme:dark;
+  --bg:#0a0c07; --surface:#13160e; --surface2:#1a1e13; --sunk:#0e100a; --line:#272c1d; --line-hi:#3b4229;
+  --ink:#f2f6e8; --ink2:#cfd6bd; --muted:#929b7c; --faint:#626a50;
+  --accent:#c6f432; --accent-dim:#6e8a1c; --accent-bg:rgba(198,244,50,.11); --on-accent:#141a02;
+  --good:#7be38f; --warn:#ffc35a; --bad:#ff6b6b;
+  --display:"Archivo","Avenir Next Condensed",system-ui,sans-serif;
+  --body:"Manrope","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --tabh:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);min-height:100vh;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(var(--tabh) + 24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(90% 50% at 100% -5%,rgba(198,244,50,.11),transparent 60%)}
+.wrap{position:relative;max-width:620px;margin:0 auto}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:18px 0 14px;flex-wrap:wrap}
+header h1{font:900 28px var(--display);font-stretch:118%;margin:0;letter-spacing:-.01em;text-transform:uppercase}
+header p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.screen{display:grid;gap:14px}
+.card{background:linear-gradient(180deg,var(--surface),rgba(19,22,14,.85));border:1px solid var(--line);border-radius:20px;padding:18px;min-width:0}
+.card h2{font:800 15px var(--display);font-stretch:112%;margin:0;text-transform:uppercase;letter-spacing:.02em}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sub,.note{color:var(--muted);font-size:12.5px}
+.eyebrow{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{min-width:0}
+.btn{appearance:none;border:1px solid var(--line-hi);background:var(--surface2);color:var(--ink);font:700 14px var(--body);padding:11px 16px;border-radius:14px;cursor:pointer;white-space:nowrap}
+.btn.go{background:var(--accent);color:var(--on-accent);border-color:var(--accent);box-shadow:0 0 26px -8px var(--accent)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.wide{width:100%;padding:15px;font-size:16px;border-radius:16px}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:11px}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:focus-visible,.chip:focus-visible,.tab:focus-visible,input:focus-visible,.mv:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:999px;padding:8px 13px;font:600 13px var(--body);cursor:pointer}
+.chip.on{border-color:var(--accent);background:var(--accent-bg);color:var(--ink)}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{border:0;background:none;color:var(--muted);font:700 12.5px var(--body);padding:10px 4px;cursor:pointer;display:grid;gap:1px;justify-items:center}
+.seg button small{font:500 10.5px var(--body);color:var(--faint)}
+.seg button.on{background:var(--accent-bg);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.label{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.label:first-child{margin-top:0}
+input{font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:11px;padding:10px 11px;min-width:0}
+.fig{display:block;width:100%;height:auto}
+.fig .near{stroke:var(--accent)}
+.fig .far{stroke:var(--accent-dim)}
+.fig .gnd{stroke:var(--line-hi)}
+.fig circle{fill:var(--accent)}
+.mv{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.mv:last-child{border-bottom:0}
+.mv .th{width:56px;height:56px;flex:none;border-radius:12px;background:var(--sunk);border:1px solid var(--line)}
+.mv .m{flex:1;min-width:0}
+.mv .m b{display:block;font-weight:700;overflow-wrap:anywhere}
+.mv .t{font:600 13px var(--mono);color:var(--ink2);white-space:nowrap}
+.icon{border:0;background:none;color:var(--faint);cursor:pointer;padding:6px;border-radius:9px;font-size:16px;line-height:1}
+.icon:hover{color:var(--ink)}
+.summary{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:2px 0 10px}
+.summary b{font:900 30px var(--display);font-stretch:110%}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:2px}
+.stat .v{font:800 22px var(--display);font-stretch:110%;font-variant-numeric:tabular-nums}
+.stat .s{font-size:11.5px;color:var(--muted)}
+.empty{color:var(--muted);font-size:14px;padding:16px;border:1px dashed var(--line-hi);border-radius:14px;text-align:center}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;text-align:center}
+.week div{display:grid;gap:4px;font:600 10.5px var(--mono);color:var(--faint)}
+.week i{display:block;height:34px;border-radius:9px;background:var(--sunk);border:1px solid var(--line)}
+.week i.on{background:var(--accent);border-color:var(--accent);box-shadow:0 0 12px -3px var(--accent)}
+.week .today{color:var(--ink)}
+.lib{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.libc{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:10px;cursor:pointer;text-align:left;color:inherit;font:inherit}
+.libc .fig{background:var(--sunk);border-radius:11px}
+.libc b{display:block;font-size:13.5px;margin-top:8px}
+.libc span{font-size:11.5px;color:var(--muted)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(10,12,7,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+nav.tabs .in{display:flex;width:100%;max-width:620px}
+.tab{flex:1;border:0;background:none;color:var(--faint);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:6px 0;cursor:pointer}
+.tab svg{width:22px;height:22px}
+.tab[aria-selected=true]{color:var(--accent)}
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(5,6,3,.74);backdrop-filter:blur(5px);display:grid;align-items:end;justify-items:center}
+.sheet .in{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;display:grid;gap:14px;
+  padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));animation:up .22s ease-out}
+.sheet .fig{background:var(--sunk);border-radius:16px;max-height:260px}
+ol.cues{margin:0;padding-left:20px;display:grid;gap:6px;color:var(--ink2)}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+/* player */
+.player{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column;
+  padding:calc(12px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
+.player .pin{width:min(560px,100%);margin:0 auto;flex:1;display:flex;flex-direction:column;gap:10px;min-height:0}
+.ptop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.prog{display:flex;gap:3px;flex:1}
+.prog i{flex:1;height:4px;border-radius:4px;background:var(--line)}
+.prog i.done{background:var(--accent-dim)}
+.prog i.cur{background:var(--accent)}
+.stage{position:relative;flex:1;min-height:150px;display:grid;place-items:center}
+.stage .fig{max-height:100%;width:auto;height:100%;max-width:100%}
+.pname{font:900 26px var(--display);font-stretch:112%;text-transform:uppercase;line-height:1.05;margin:0}
+.pside{display:inline-block;font:700 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--on-accent);background:var(--accent);border-radius:7px;padding:3px 8px;margin-left:6px;vertical-align:middle}
+.pcue{color:var(--ink2);font-size:15px;min-height:44px}
+.clock{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.clock .big{font:900 64px var(--display);font-stretch:105%;font-variant-numeric:tabular-nums;line-height:1}
+.clock .big.ready{color:var(--warn)}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar b{display:block;height:100%;background:var(--accent);border-radius:6px}
+.ctrls{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:10px}
+.ctrls .btn{padding:15px 8px;font-size:15px}
+.nextup{font-size:13px;color:var(--muted)}
+.done{display:grid;place-items:center;text-align:center;gap:14px;flex:1}
+.done h2{font:900 34px var(--display);font-stretch:115%;text-transform:uppercase;margin:0}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;background:var(--surface2);border:1px solid var(--line-hi);border-radius:13px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.4);max-width:calc(100vw - 32px)}
+.toast button{border:0;background:none;color:var(--accent);font:700 13px var(--body);cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div><h1 id="title">Mobility</h1><p id="sub"></p><div id="sync" style="margin-top:8px"></div></div></header>
+  <main id="main" class="screen"></main>
+</div>
+<nav class="tabs"><div class="in" id="tabs" role="tablist"></div></nav>
+<div id="overlay"></div>
+<div id="playerRoot"></div>
+
+<script src="../kit/kit.js?v=10"></script>
+<script src="moves.js?v=1"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const rid = () => Math.random().toString(36).slice(2, 10);
+const pad = n => String(n).padStart(2, "0");
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const todayKey = () => ymd(new Date(Date.now() - 3 * 3600e3)); // a 1 AM session counts toward the day before, like the other LIFE HQ apps
+const parseKey = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return ymd(d); };
+const mmss = s => Math.floor(s / 60) + ":" + pad(Math.max(0, Math.floor(s % 60)));
+const BY = Object.fromEntries(MOVES.map(m => [m.id, m]));
+
+/* ---------- data (kit/kit.js): saved routines in one doc, sessions as records; finished sessions also go to Recovery ---------- */
+const ROUT = Life.doc("mobility/routines"), SESS = Life.col("mobility/sessions", {months: 4}), RSESS = Life.col("recovery/sessions", {months: 4});
+const PREFS_KEY = "mobility:prefs";
+let prefs = {goal: null, min: 10, focus: [], voice: true};
+try { Object.assign(prefs, JSON.parse(localStorage.getItem(PREFS_KEY)) || {}); } catch (e) {}
+const savePrefs = () => { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {} };
+const routines = () => ROUT.get()?.list || [];
+const setRoutines = list => ROUT.set({list});
+const sessions = () => Object.entries(SESS.all()).map(([id, s]) => ({id, ...s})).sort((a, b) => (b.at || 0) - (a.at || 0));
+
+/* ---------- stick figure ---------- */
+const parse = s => s.trim().split(/\s+/).map(p => p.split(",").map(Number));
+const POSES = new Map();
+const poseOf = (m, which) => { const k = m.id + which; if (!POSES.has(k)) POSES.set(k, parse(m[which])); return POSES.get(k); };
+function figPaths(pts, bend = 0) {
+  const [H, N, P, K1, F1, K2, F2, E1, W1, E2, W2] = pts;
+  const f = n => n.toFixed(1);
+  const line = (...ps) => "M" + ps.map(p => f(p[0]) + " " + f(p[1])).join(" L");
+  const mx = (N[0] + P[0]) / 2, my = (N[1] + P[1]) / 2, dx = N[0] - P[0], dy = N[1] - P[1], L = Math.hypot(dx, dy) || 1;
+  const cx = mx + (-dy / L) * bend * -1, cy = my + (dx / L) * bend * -1;
+  return {far: line(P, K2, F2) + " " + line(N, E2, W2), near: line(P, K1, F1) + " " + line(N, E1, W1),
+    spine: `M${f(P[0])} ${f(P[1])} Q${f(cx)} ${f(cy)} ${f(N[0])} ${f(N[1])}`, head: H};
+}
+function figSVG(m, which = "a", extra = "") {
+  const p = figPaths(poseOf(m, which), m[which === "a" ? "bendA" : "bendB"] || 0);
+  return `<svg class="fig" viewBox="0 0 100 100" aria-hidden="true" ${extra}><line class="gnd" x1="4" y1="91.5" x2="96" y2="91.5" stroke-width="1.5" stroke-linecap="round"/>
+    <g fill="none" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"><path class="far" d="${p.far}"/><path class="near" d="${p.spine}"/><path class="near" d="${p.near}"/></g>
+    <circle cx="${p.head[0].toFixed(1)}" cy="${p.head[1].toFixed(1)}" r="5.6"/></svg>`;
+}
+/* animate every [data-anim] figure between its a and b poses */
+const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+function animate(now) {
+  document.querySelectorAll("svg[data-anim]").forEach(svg => {
+    const m = BY[svg.dataset.anim]; if (!m) return;
+    const period = m.kind === "hold" ? 6000 : 2600, ph = (now % period) / period, t = ease(ph < .5 ? ph * 2 : 2 - ph * 2);
+    const A = poseOf(m, "a"), B = poseOf(m, "b"), pts = A.map((p, i) => [p[0] + (B[i][0] - p[0]) * t, p[1] + (B[i][1] - p[1]) * t]);
+    const p = figPaths(pts, (m.bendA || 0) + ((m.bendB || 0) - (m.bendA || 0)) * t);
+    const paths = svg.querySelectorAll("path");
+    paths[0].setAttribute("d", p.far); paths[1].setAttribute("d", p.spine); paths[2].setAttribute("d", p.near);
+    const c = svg.querySelector("circle"); c.setAttribute("cx", p.head[0].toFixed(1)); c.setAttribute("cy", p.head[1].toFixed(1));
+  });
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+
+/* ---------- routine builder ---------- */
+const GOALS = {
+  pre: {label: "Pre-game", small: "warm up", kinds: ["dyn"], dyn: 40, hold: 30},
+  post: {label: "Post-workout", small: "cool down", kinds: ["dyn", "hold"], dyn: 40, hold: 45},
+  bed: {label: "Before bed", small: "wind down", kinds: ["hold"], dyn: 40, hold: 60},
+  rest: {label: "Rest day", small: "full reset", kinds: ["dyn", "hold"], dyn: 40, hold: 45},
+};
+const FOCUS = [["hips", "Hips"], ["ankles", "Ankles & calves"], ["hamstrings", "Hamstrings"], ["groin", "Groin"], ["back", "Back"], ["shoulders", "Shoulders"]];
+const GAP = 8; // seconds between moves to get into position
+const defaultGoal = () => { const h = new Date().getHours(); return h >= 20 || h < 4 ? "bed" : "pre"; };
+const secFor = (m, goal) => GOALS[goal][m.kind];
+const moveTime = (m, sec) => (m.sides ? 2 : 1) * sec;
+function routineSeconds(items) { return items.reduce((t, it) => t + moveTime(BY[it.id], it.sec), 0) + GAP * Math.max(0, items.length - 1); }
+function build(goal, min, focus, keep = []) {
+  const g = GOALS[goal], budget = min * 60;
+  let pool = MOVES.filter(m => g.kinds.includes(m.kind) && (goal === "bed" ? m.level >= 1 : !m.bedOnly));
+  if (goal === "post") pool = pool.filter(m => m.kind === "hold" || m.level === 0); // a few standing moves to ease down, then holds
+  const want = m => !focus.length ? 1 : m.regions.some(r => focus.includes(r)) ? (m.regions[0] && focus.includes(m.regions[0]) ? 3.2 : 2.4) : .35;
+  const scored = pool.map(m => ({m, s: want(m) * (.55 + Math.random() * .9) * (goal === "post" && m.kind === "dyn" ? .6 : 1)})).sort((a, b) => b.s - a.s);
+  const picked = keep.slice();
+  let t = routineSeconds(picked);
+  for (const {m} of scored) {
+    if (picked.some(x => x.id === m.id)) continue;
+    const sec = secFor(m, goal), add = moveTime(m, sec) + (picked.length ? GAP : 0);
+    if (t + add > budget * 1.08 && picked.length >= 3) continue;
+    picked.push({id: m.id, sec}); t += add;
+    if (t >= budget * .94) break;
+  }
+  // ran out of moves that fit (long bedtime routines): hold each one longer instead of coming up short
+  t = routineSeconds(picked);
+  if (t < budget * .9) {
+    const k = Math.min(2, (budget - GAP * (picked.length - 1)) / (t - GAP * (picked.length - 1)));
+    picked.forEach(x => { if (!keep.includes(x)) x.sec = Math.min(120, Math.round(x.sec * k / 5) * 5); });
+  }
+  if (goal === "bed" && picked.length > 1 && !picked.some(x => x.id === "breathe") && min >= 10) { picked.pop(); picked.push({id: "breathe", sec: 90}); }
+  // flow through positions: warm-ups go floor → standing; cool-downs and bedtime go standing → floor
+  const lvl = x => BY[x.id].level + (x.id === "breathe" ? 9 : 0);
+  picked.sort((a, b) => goal === "pre" ? lvl(b) - lvl(a) : lvl(a) - lvl(b));
+  return picked;
+}
+const focusName = f => !f.length ? "Full body" : f.map(x => FOCUS.find(y => y[0] === x)[1].split(" ")[0]).join(" + ");
+const autoName = (goal, focus) => `${GOALS[goal].label} · ${focusName(focus)}`;
+
+/* ---------- state ---------- */
+let draft = null; // {name, goal, focus, min, items, savedId?}
+let tab = ["build", "moves", "history"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "build";
+if (!prefs.goal) prefs.goal = defaultGoal();
+function go(t) { tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0, 0); }
+let toastT;
+function toast(msg, undo) {
+  document.querySelectorAll(".toast").forEach(t => t.remove());
+  const o = document.createElement("div"); o.className = "toast"; o.setAttribute("role", "status");
+  o.innerHTML = `<span>${esc(msg)}</span>${undo ? "<button>Undo</button>" : ""}`;
+  document.body.appendChild(o);
+  if (undo) o.querySelector("button").onclick = () => { undo(); o.remove(); render(); };
+  clearTimeout(toastT); toastT = setTimeout(() => o.remove(), 4500);
+}
+
+/* ================= BUILD ================= */
+function weekStrip() {
+  const k = todayKey(), days = new Set(sessions().map(s => s.date));
+  return `<div class="week">${Array.from({length: 7}, (_, i) => { const d = addDays(k, i - 6);
+    return `<div class="${d === k ? "today" : ""}"><i class="${days.has(d) ? "on" : ""}"></i>${"SMTWTFS"[parseKey(d).getDay()]}</div>`; }).join("")}</div>`;
+}
+function itemsHTML(items, editable) {
+  return items.map((it, i) => { const m = BY[it.id];
+    return `<div class="mv"><div class="th" role="button" tabindex="0" data-act="info" data-id="${m.id}" aria-label="How to do ${esc(m.name)}">${figSVG(m, "b")}</div>
+      <div class="m" data-act="info" data-id="${m.id}" role="button" tabindex="0"><b>${esc(m.name)}</b><span class="sub">${m.kind === "hold" ? "Hold" : "Moving"}${m.sides ? ", each side" : ""} · ${esc(m.feel)}</span></div>
+      <span class="t">${m.sides ? "2×" : ""}${it.sec}s</span>
+      ${editable ? `<button class="icon" data-act="swap" data-i="${i}" aria-label="Swap ${esc(m.name)} for a different move">⇄</button><button class="icon" data-act="drop" data-i="${i}" aria-label="Remove ${esc(m.name)}">×</button>` : ""}</div>`; }).join("");
+}
+function viewBuild() {
+  const g = prefs.goal, list = routines();
+  const sess = sessions(), wk = sess.filter(s => s.date > addDays(todayKey(), -7));
+  let h = `<section class="card"><div class="ch"><h2>This week</h2><span class="sub">${wk.length} session${wk.length === 1 ? "" : "s"} · ${wk.reduce((a, s) => a + s.min, 0)} min</span></div>${weekStrip()}</section>`;
+  if (draft) {
+    const secs = routineSeconds(draft.items);
+    h += `<section class="card"><div class="ch"><h2>${esc(draft.name)}</h2><button class="btn ghost sm" data-act="closeDraft">${draft.savedId ? "Close" : "Start over"}</button></div>
+      <div class="summary"><span><b>${Math.round(secs / 60)}</b> <span class="sub">min · ${draft.items.length} moves</span></span>${draft.savedId ? "" : `<button class="btn sm" data-act="shuffle">↻ Shuffle</button>`}</div>
+      ${itemsHTML(draft.items, true)}
+      <div class="row" style="margin-top:10px"><button class="btn sm" data-act="addMove">+ Add a move</button></div>
+      <button class="btn go wide" style="margin-top:14px" data-act="start" ${draft.items.length ? "" : "disabled"}>▶ Start</button>
+      <div class="row" style="margin-top:8px"><button class="btn ghost sm" data-act="saveDraft">${draft.savedId ? "Save changes" : "☆ Save this routine"}</button><span class="sub" style="flex:1">${draft.savedId ? "" : "Saved routines start in one tap."}</span></div></section>`;
+  } else {
+    h += `<section class="card"><div class="ch"><h2>Build a routine</h2></div>
+      <div class="label">When</div>
+      <div class="seg">${Object.entries(GOALS).map(([k, v]) => `<button class="${g === k ? "on" : ""}" data-act="goal" data-v="${k}">${v.label}<small>${v.small}</small></button>`).join("")}</div>
+      <div class="label">Time</div>
+      <div class="chips">${[5, 10, 15, 20, 30].map(n => `<button class="chip ${prefs.min === n ? "on" : ""}" data-act="min" data-v="${n}">${n} min</button>`).join("")}</div>
+      <div class="label">What's tight? <span style="text-transform:none;letter-spacing:0">(none = full body)</span></div>
+      <div class="chips">${FOCUS.map(([k, l]) => `<button class="chip ${prefs.focus.includes(k) ? "on" : ""}" data-act="focus" data-v="${k}" aria-pressed="${prefs.focus.includes(k)}">${l}</button>`).join("")}</div>
+      <button class="btn go wide" style="margin-top:18px" data-act="build">Build my routine</button></section>`;
+  }
+  h += `<section class="card"><div class="ch"><h2>Saved routines</h2></div>
+    ${list.length ? list.map(r => `<div class="mv"><div class="m" data-act="openSaved" data-id="${r.id}" role="button" tabindex="0"><b>${esc(r.name)}</b><span class="sub">${Math.round(routineSeconds(r.items) / 60)} min · ${r.items.length} moves</span></div>
+      <button class="btn go sm" data-act="startSaved" data-id="${r.id}">▶ Start</button><button class="icon" data-act="delSaved" data-id="${r.id}" aria-label="Delete ${esc(r.name)}">×</button></div>`).join("")
+      : `<p class="note" style="margin:0">Build one you like and tap "Save this routine" (your pre-game warm-up, your bedtime stretch). It shows up here to start in one tap.</p>`}</section>`;
+  return h;
+}
+
+/* ================= MOVES ================= */
+let libFilter = "";
+function viewMoves() {
+  const list = MOVES.filter(m => !libFilter || m.regions.includes(libFilter));
+  return `<section class="card"><div class="chips">${[["", "All"], ...FOCUS].map(([k, l]) => `<button class="chip ${libFilter === k ? "on" : ""}" data-act="lib" data-v="${k}">${l}</button>`).join("")}</div></section>
+    <div class="lib">${list.map(m => `<button class="libc" data-act="info" data-id="${m.id}">${figSVG(m, "a", `data-anim="${m.id}"`)}<b>${esc(m.name)}</b><span>${m.kind === "hold" ? "Hold" : "Moving"}${m.sides ? " · each side" : ""}</span></button>`).join("")}</div>`;
+}
+function openInfo(id, pickFor) {
+  const m = BY[id];
+  $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog" aria-label="${esc(m.name)}">
+    <div class="row" style="justify-content:space-between"><h2 style="font:900 20px var(--display);font-stretch:112%;margin:0;text-transform:uppercase">${esc(m.name)}</h2><button class="btn ghost sm" data-act="closeSheet">Done</button></div>
+    ${figSVG(m, "a", `data-anim="${m.id}"`)}
+    <div class="sub">${m.kind === "hold" ? "Hold and breathe" : "Smooth, controlled reps"}${m.sides ? " · both sides" : ""}${m.front ? " · shown from the front" : ""}</div>
+    <ol class="cues">${m.cues.map(c => `<li>${esc(c)}</li>`).join("")}</ol>
+    <p class="note" style="margin:0"><b style="color:var(--ink2)">Feel it in:</b> ${esc(m.feel)}. A stretch should feel like a pull, never a sharp or pinching pain.</p>
+    ${pickFor != null ? `<button class="btn go wide" data-act="pickMove" data-id="${m.id}">Use this move</button>` : ""}
+  </div></div>`;
+}
+function openPicker(replaceIdx) {
+  const used = new Set(draft.items.map(x => x.id)), cur = replaceIdx != null ? BY[draft.items[replaceIdx].id] : null;
+  const opts = MOVES.filter(m => !used.has(m.id)).sort((a, b) => cur ? (b.regions.some(r => cur.regions.includes(r)) - a.regions.some(r => cur.regions.includes(r))) || (b.kind === cur.kind) - (a.kind === cur.kind) : 0);
+  pickTarget = replaceIdx;
+  $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog" aria-label="Pick a move">
+    <div class="row" style="justify-content:space-between"><h2 style="font:900 18px var(--display);font-stretch:112%;margin:0;text-transform:uppercase">${cur ? "Swap " + esc(cur.name) : "Add a move"}</h2><button class="btn ghost sm" data-act="closeSheet">Cancel</button></div>
+    <div>${opts.map(m => `<div class="mv"><div class="th" data-act="info" data-id="${m.id}" data-pick="1" role="button" tabindex="0">${figSVG(m, "b")}</div><div class="m" data-act="pickMove" data-id="${m.id}" role="button" tabindex="0"><b>${esc(m.name)}</b><span class="sub">${m.kind === "hold" ? "Hold" : "Moving"} · ${esc(m.feel)}</span></div><button class="btn sm" data-act="pickMove" data-id="${m.id}">${cur ? "Swap" : "Add"}</button></div>`).join("")}</div>
+  </div></div>`;
+}
+let pickTarget = null;
+
+/* ================= HISTORY ================= */
+function viewHistory() {
+  const s = sessions(), k = todayKey();
+  const days = new Set(s.map(x => x.date)); let streak = 0;
+  for (let d = days.has(k) ? k : addDays(k, -1); days.has(d); d = addDays(d, -1)) streak++;
+  const month = s.filter(x => x.date > addDays(k, -30));
+  return `<section class="card"><div class="stats">
+      <div class="stat"><span class="v">${streak}</span><span class="s">day streak</span></div>
+      <div class="stat"><span class="v">${month.length}</span><span class="s">sessions, 30 days</span></div>
+      <div class="stat"><span class="v">${month.reduce((a, x) => a + x.min, 0)}</span><span class="s">minutes, 30 days</span></div></div></section>
+    <section class="card"><div class="ch"><h2>Sessions</h2><span class="sub">also in Recovery</span></div>
+      ${s.length ? s.slice(0, 60).map(x => `<div class="mv"><div class="m"><b>${esc(x.name)}</b><span class="sub">${parseKey(x.date).toLocaleDateString([], {weekday: "short", month: "short", day: "numeric"})} · ${x.min} min · ${x.moves} moves${x.partial ? " · ended early" : ""}</span></div><button class="icon" data-act="delSess" data-id="${x.id}" aria-label="Delete this session">×</button></div>`).join("")
+        : `<div class="empty">Finish a routine and it shows up here, in Recovery, and on the LIFE HQ calendar.</div>`}</section>
+    <section class="card"><div class="ch"><h2>Voice coach</h2><button class="chip ${prefs.voice ? "on" : ""}" data-act="voice">${prefs.voice ? "On" : "Off"}</button></div>
+      <p class="note" style="margin:0">Says each move and "switch sides" out loud, so you don't have to look at your phone. Beeps count down the last 3 seconds either way. Turn your ringer on to hear it.</p></section>`;
+}
+
+/* ================= PLAYER ================= */
+let P = null; // {name, steps:[{m, side, dur}], i, phase:'ready'|'go', endAt, left, paused, startedAt, doneSec}
+let audio = null, wake = null;
+function beep(freq = 880, ms = 120) {
+  try { audio ||= new (window.AudioContext || window.webkitAudioContext)(); const o = audio.createOscillator(), g = audio.createGain();
+    o.frequency.value = freq; g.gain.setValueAtTime(.18, audio.currentTime); g.gain.exponentialRampToValueAtTime(.001, audio.currentTime + ms / 1000);
+    o.connect(g).connect(audio.destination); o.start(); o.stop(audio.currentTime + ms / 1000); } catch (e) {}
+}
+function say(t) { if (!prefs.voice || !("speechSynthesis" in window)) return; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.rate = 1.02; speechSynthesis.speak(u); } catch (e) {} }
+async function lockScreen() { try { wake = await navigator.wakeLock?.request("screen"); } catch (e) {} }
+function stepsFor(items) {
+  const out = [];
+  items.forEach(it => { const m = BY[it.id]; if (m.sides) { out.push({m, side: "Left", dur: it.sec}); out.push({m, side: "Right", dur: it.sec}); } else out.push({m, side: "", dur: it.sec}); });
+  return out;
+}
+function startPlayer(name, items) {
+  try { audio ||= new (window.AudioContext || window.webkitAudioContext)(); audio.resume(); } catch (e) {}
+  if (prefs.voice && "speechSynthesis" in window) try { speechSynthesis.speak(new SpeechSynthesisUtterance("")); } catch (e) {} // unlocks speech on iPhone (needs a tap)
+  P = {name, items, steps: stepsFor(items), i: 0, phase: "ready", left: GAP, endAt: performance.now() + GAP * 1000, paused: false, doneSec: 0, startedAt: Date.now(), lastBeep: null};
+  lockScreen(); announce(); renderPlayer(); tick();
+}
+function announce() {
+  const s = P.steps[P.i];
+  if (P.phase === "ready") say(P.i === 0 ? `First up: ${s.m.name}${s.side ? ", " + s.side.toLowerCase() + " side" : ""}.` : s.side === "Right" && P.steps[P.i - 1]?.m === s.m ? "Switch sides." : `Next: ${s.m.name}${s.side ? ", " + s.side.toLowerCase() + " side" : ""}.`);
+  else say(s.m.kind === "hold" ? "Hold and breathe." : "Go.");
+}
+function advance() {
+  if (!P) return;
+  if (P.phase === "ready") { P.phase = "go"; P.left = P.steps[P.i].dur; beep(1320, 180); }
+  else {
+    P.doneSec += P.steps[P.i].dur; P.i++;
+    if (P.i >= P.steps.length) { finish(false); return; }
+    const sameMove = P.steps[P.i - 1].m === P.steps[P.i].m;
+    P.phase = "ready"; P.left = sameMove ? 4 : GAP;
+  }
+  P.endAt = performance.now() + P.left * 1000; P.lastBeep = null; announce(); renderPlayer();
+}
+function tick() {
+  if (!P || P.over) return;
+  if (!P.paused) {
+    P.left = Math.max(0, (P.endAt - performance.now()) / 1000);
+    const whole = Math.ceil(P.left);
+    if (whole <= 3 && whole >= 1 && P.lastBeep !== whole) { P.lastBeep = whole; beep(P.phase === "ready" ? 660 : 880); }
+    if (P.left <= 0) { advance(); }
+    else updateClock();
+  }
+  setTimeout(tick, 150); // a timer, not animation frames, so the clock keeps going when the screen isn't repainting
+}
+function updateClock() {
+  const c = $("#pClock"), b = $("#pBar"); if (!c) return;
+  c.textContent = P.phase === "ready" ? Math.ceil(P.left) : mmss(Math.ceil(P.left));
+  const total = P.phase === "ready" ? (P.steps[P.i - 1]?.m === P.steps[P.i].m ? 4 : GAP) : P.steps[P.i].dur;
+  b.style.width = (100 * (1 - P.left / total)).toFixed(1) + "%";
+}
+function renderPlayer() {
+  const root = $("#playerRoot");
+  if (!P) { root.innerHTML = ""; document.body.style.overflow = ""; return; }
+  document.body.style.overflow = "hidden";
+  if (P.over) {
+    root.innerHTML = `<div class="player"><div class="pin"><div class="done">
+      <div style="font-size:52px">✓</div><h2>${P.partial ? "Nice work" : "Done"}</h2>
+      <p class="sub" style="font-size:15px;margin:0">${esc(P.name)} · ${P.min} min · ${P.moves} moves</p>
+      <p class="note" style="max-width:320px">${P.logged ? "Saved to your history and to Recovery, so it counts on the LIFE HQ calendar." : "Too short to log."}</p>
+      <button class="btn go wide" style="max-width:320px" data-act="closePlayer">Close</button></div></div></div>`;
+    return;
+  }
+  const s = P.steps[P.i], nxt = P.steps.slice(P.i + 1).find(x => x.m !== s.m);
+  root.innerHTML = `<div class="player" role="dialog" aria-label="Routine player"><div class="pin">
+    <div class="ptop"><button class="btn ghost sm" data-act="endEarly">End</button><div class="prog">${P.steps.map((x, i) => `<i class="${i < P.i ? "done" : i === P.i ? "cur" : ""}"></i>`).join("")}</div><button class="btn ghost sm" data-act="voice" aria-label="Voice coach">${prefs.voice ? "🔊" : "🔇"}</button></div>
+    <div class="stage">${figSVG(s.m, "a", `data-anim="${s.m.id}"`)}</div>
+    <div><div class="eyebrow">${P.phase === "ready" ? (P.steps[P.i - 1]?.m === s.m ? "Switch sides" : P.i === 0 ? "Get in position" : "Up next") : s.m.kind === "hold" ? "Hold and breathe" : "Keep moving"}</div>
+      <h2 class="pname">${esc(s.m.name)}${s.side ? `<span class="pside">${s.side}</span>` : ""}</h2></div>
+    <div class="pcue">${esc(s.m.cues[P.phase === "ready" ? 0 : Math.min(s.m.cues.length - 1, 1)])}${P.phase === "go" && s.m.cues.length > 2 ? " " + esc(s.m.cues[2]) : ""}</div>
+    <div class="clock"><span class="big ${P.phase === "ready" ? "ready" : ""}" id="pClock"></span><span class="nextup">${nxt ? "Then: " + esc(nxt.m.name) : "Last move"}</span></div>
+    <div class="bar"><b id="pBar" style="width:0"></b></div>
+    <div class="ctrls"><button class="btn" data-act="pBack" ${P.i === 0 && P.phase === "ready" ? "disabled" : ""}>‹ Back</button><button class="btn go" data-act="pPause">${P.paused ? "▶ Resume" : "❚❚ Pause"}</button><button class="btn" data-act="pSkip">Skip ›</button></div>
+  </div></div>`;
+  updateClock();
+}
+function finish(partial) {
+  if (!P) return;
+  if (partial && P.phase === "go") P.doneSec += P.steps[P.i].dur - Math.ceil(P.left);
+  P.over = true; P.partial = partial; P.min = Math.max(1, Math.round(P.doneSec / 60)); P.moves = partial ? new Set(P.steps.slice(0, P.i + (P.phase === "go" ? 1 : 0)).map(x => x.m.id)).size : P.items.length;
+  P.logged = P.doneSec >= 60;
+  if (P.logged) {
+    const id = rid(), date = todayKey();
+    SESS.replace({...SESS.all(), [id]: {date, name: P.name, min: P.min, moves: P.moves, partial: partial || undefined, at: Date.now()}});
+    RSESS.replace({...RSESS.all(), ["mob-" + id]: {date, type: "Mobility", min: P.min, note: P.name}});
+  }
+  say(partial ? "Session saved." : "Done. Nice work."); beep(1320, 300);
+  try { wake?.release(); } catch (e) {} wake = null;
+  renderPlayer(); render();
+}
+
+/* ================= render ================= */
+const ICONS = {
+  build: '<circle cx="12" cy="5" r="2.2"/><path d="M12 8v6M12 14l-4 6M12 14l5 3 2 3M12 10l-6-2M12 10l6-4"/>',
+  moves: '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+  history: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',
+};
+const TABS = [["build", "Build"], ["moves", "Moves"], ["history", "History"]];
+function render() {
+  $("#sub").textContent = {build: "Your routine, built for today", moves: MOVES.length + " moves, how to do each", history: "Sessions and streak"}[tab];
+  $("#tabs").innerHTML = TABS.map(([id, l]) => `<button class="tab" role="tab" aria-selected="${id === tab}" data-act="tab" data-id="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]}</svg>${l}</button>`).join("");
+  $("#main").innerHTML = {build: viewBuild, moves: viewMoves, history: viewHistory}[tab]();
+}
+const closeSheet = () => { $("#overlay").innerHTML = ""; };
+
+/* ================= actions ================= */
+const A = {
+  tab: el => go(el.dataset.id),
+  goal(el) { prefs.goal = el.dataset.v; savePrefs(); render(); },
+  min(el) { prefs.min = +el.dataset.v; savePrefs(); render(); },
+  focus(el) { const v = el.dataset.v, f = prefs.focus; prefs.focus = f.includes(v) ? f.filter(x => x !== v) : [...f, v]; savePrefs(); render(); },
+  build() { draft = {name: autoName(prefs.goal, prefs.focus), goal: prefs.goal, focus: prefs.focus.slice(), min: prefs.min, items: build(prefs.goal, prefs.min, prefs.focus)}; render(); },
+  shuffle() { draft.items = build(draft.goal, draft.min, draft.focus); render(); },
+  closeDraft() { draft = null; render(); },
+  swap(el) { openPicker(+el.dataset.i); },
+  addMove() { openPicker(null); },
+  drop(el) { const i = +el.dataset.i, it = draft.items[i]; draft.items.splice(i, 1); render(); toast("Removed " + BY[it.id].name, () => draft && draft.items.splice(i, 0, it)); },
+  pickMove(el) {
+    const m = BY[el.dataset.id], sec = draft.goal ? secFor(m, draft.goal) : (m.kind === "hold" ? 45 : 40);
+    if (pickTarget != null) draft.items[pickTarget] = {id: m.id, sec}; else draft.items.push({id: m.id, sec});
+    closeSheet(); render();
+  },
+  info(el) { openInfo(el.dataset.id, el.dataset.pick ? 1 : null); },
+  closeSheet(el, ev) { if (ev.target === el || el.tagName === "BUTTON") closeSheet(); },
+  saveDraft() {
+    const list = routines();
+    if (draft.savedId) { const r = list.find(x => x.id === draft.savedId); if (r) { r.items = draft.items; setRoutines(list); toast("Saved"); } return; }
+    const name = prompt("Name this routine", draft.name); if (name == null) return;
+    const r = {id: rid(), name: name.trim() || draft.name, goal: draft.goal, items: draft.items};
+    setRoutines([r, ...list]); draft.savedId = r.id; draft.name = r.name; render(); toast("Saved. Start it any time from Saved routines.");
+  },
+  openSaved(el) { const r = routines().find(x => x.id === el.dataset.id); draft = {name: r.name, goal: r.goal, focus: [], min: 0, items: r.items.slice(), savedId: r.id}; render(); window.scrollTo(0, 0); },
+  startSaved(el) { const r = routines().find(x => x.id === el.dataset.id); startPlayer(r.name, r.items); },
+  delSaved(el) { const list = routines(), r = list.find(x => x.id === el.dataset.id); setRoutines(list.filter(x => x !== r)); if (draft?.savedId === r.id) draft = null; render(); toast("Deleted " + r.name, () => setRoutines([r, ...routines()])); },
+  start() { startPlayer(draft.name, draft.items); },
+  lib(el) { libFilter = el.dataset.v; render(); },
+  voice() { prefs.voice = !prefs.voice; savePrefs(); if (P && !P.over) renderPlayer(); render(); },
+  delSess(el) {
+    const id = el.dataset.id, all = SESS.all(), s = all[id]; delete all[id]; SESS.replace(all);
+    const r = RSESS.all(); const had = r["mob-" + id]; delete r["mob-" + id]; RSESS.replace(r); render();
+    toast("Deleted", () => { SESS.replace({...SESS.all(), [id]: s}); if (had) RSESS.replace({...RSESS.all(), ["mob-" + id]: had}); });
+  },
+  pPause() {
+    if (P.paused) { P.paused = false; P.endAt = performance.now() + P.left * 1000; lockScreen(); }
+    else { P.paused = true; }
+    renderPlayer();
+  },
+  pSkip() { if (P.phase === "go") P.doneSec -= Math.ceil(P.left); P.left = 0; P.endAt = performance.now(); if (P.paused) { P.paused = false; } advance(); },
+  pBack() {
+    if (P.phase === "go" || P.i === 0) { P.phase = "ready"; }
+    else { P.i = Math.max(0, P.i - 1); P.doneSec = Math.max(0, P.doneSec - P.steps[P.i].dur); P.phase = "ready"; }
+    P.left = 4; P.endAt = performance.now() + 4000; P.paused = false; P.lastBeep = null; announce(); renderPlayer();
+  },
+  endEarly() { if (P.doneSec < 30 && P.phase === "ready" ? true : confirm("End the routine? What you've done so far is saved if it's at least a minute.")) finish(true); },
+  closePlayer() { P = null; renderPlayer(); },
+};
+document.addEventListener("click", ev => {
+  const el = ev.target.closest("[data-act]");
+  if (!el || el.disabled) return;
+  A[el.dataset.act]?.(el, ev);
+});
+document.addEventListener("keydown", ev => {
+  if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches("[role=button][data-act]")) { ev.preventDefault(); A[ev.target.dataset.act](ev.target, ev); }
+  if (ev.key === "Escape") { if ($("#overlay").innerHTML) closeSheet(); }
+  if (ev.key === " " && P && !P.over && !ev.target.matches("input,button")) { ev.preventDefault(); A.pPause(); }
+});
+// the phone may sleep or the app may be switched away mid-routine: pause instead of silently running out the clock
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden" && P && !P.over && !P.paused) { P.paused = true; P.left = Math.max(0, (P.endAt - performance.now()) / 1000); renderPlayer(); }
+  if (document.visibilityState === "visible" && P && !P.over && P.paused) lockScreen();
+});
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (TABS.some(t => t[0] === h) && h !== tab) go(h); });
+
+Life.mountStatus($("#sync"));
+Life.onChange(() => { if (!$("#overlay").innerHTML) render(); });
+render();
+Life.start();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>

@@ -275,7 +275,8 @@ function viewToday() {
   refreshScore(k);
   const todaySess = Object.entries(S.sessions).filter(([, s]) => s.date === k);
   const rsess = `<section class="card"><div class="ch"><h2>Recovery work</h2><button class="btn sm" data-act="logSess">+ Log</button></div>
-    ${todaySess.length ? todaySess.map(([id, s]) => `<div class="item" data-act="delSess" data-id="${id}"><div class="m"><b>${esc(s.type)}</b><div class="sub">${s.min} min${s.note ? " · " + esc(s.note) : ""}</div></div><span class="sub">tap to delete</span></div>`).join("") : '<p class="note" style="margin:0">Stretching, foam rolling, cold tub, naps… Mobility sessions in Train count too.</p>'}</section>`;
+    ${todaySess.length ? todaySess.map(([id, s]) => `<div class="item" data-act="delSess" data-id="${id}"><div class="m"><b>${esc(s.type)}</b><div class="sub">${s.min} min${s.note ? " · " + esc(s.note) : ""}</div></div><span class="sub">tap to delete</span></div>`).join("") : '<p class="note" style="margin:0">Stretching, foam rolling, cold tub, naps… Mobility sessions in Train count too.</p>'}
+    <a class="btn sm" href="../mobility/" style="display:inline-block;margin-top:10px;text-decoration:none">Build a mobility routine ›</a></section>`;
   if (!c) return `<section class="card"><div class="eyebrow">Morning check-in</div><div style="font:700 22px var(--display);margin:6px 0 4px">How's your body today?</div>
       <p class="note" style="margin:0 0 14px">30 seconds. Combined with last night's sleep and your training, it gives you a readiness score.</p>
       <button class="btn go wide" data-act="checkin">Start check-in</button></section>${sleepNote(k)}${rsess}`;
