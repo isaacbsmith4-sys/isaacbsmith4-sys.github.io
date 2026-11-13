@@ -415,10 +415,17 @@ const USDA_CACHE = new Map();
 async function usdaSearch(query, types) {
   const ck = query.toLowerCase() + "|" + (types || "");
   if (USDA_CACHE.has(ck)) return USDA_CACHE.get(ck);
-  const r = await fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(usdaKey())}&query=${encodeURIComponent(query)}&pageSize=30${types ? "&dataType=" + encodeURIComponent(types) : ""}`);
-  if (r.status === 429) throw new Error("limit");
-  if (!r.ok) throw new Error("http " + r.status);
-  const foods = ((await r.json()).foods || []).map(fromUSDA).filter(Boolean);
+  // multi-word searches must match every word, so "fairlife chocolate" isn't buried under chocolate doughnuts; one retry without it on no hits
+  const get = async all => {
+    const r = await fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(usdaKey())}&query=${encodeURIComponent(query)}&pageSize=30${all ? "&requireAllWords=true" : ""}${types ? "&dataType=" + encodeURIComponent(types) : ""}`);
+    if (r.status === 429) throw new Error("limit");
+    if (!r.ok) throw new Error("http " + r.status);
+    return (await r.json()).foods || [];
+  };
+  const multi = /\s/.test(query.trim());
+  let raw = await get(multi);
+  if (multi && !raw.length) raw = await get(false);
+  const foods = raw.map(fromUSDA).filter(Boolean);
   USDA_CACHE.set(ck, foods);
   return foods;
 }
@@ -472,7 +479,7 @@ function queueOnline(q) {
     try { const foods = await usdaSearch(q); if (online.q === q.toLowerCase()) online = {q: online.q, busy: false, err: "", foods}; }
     catch (e) { if (online.q === q.toLowerCase()) online = {q: online.q, busy: false, err: e.message === "limit" ? "limit" : "net", foods: []}; }
     if (add && add.mode === "search" && !add.pick && add.q.trim().toLowerCase() === online.q) { const el = $("#online"); if (el) el.innerHTML = onlineHTML(add.q.trim()); }
-  }, 700);
+  }, 900);
 }
 
 /* ---------- AI: photo or description → foods (Claude, with the key saved in Setup; shared with the other apps on this site) ---------- */
@@ -711,7 +718,7 @@ function viewSetup() {
     ${aiKey() ? `<div class="row"><span class="num sub" style="flex:1">sk-ant-…${esc(aiKey().slice(-4))}</span><button class="btn sm" data-act="testAi">Test it</button><button class="btn ghost sm" data-act="delAi">Remove</button></div>`
       : `<div class="row"><input id="aiKeyIn" type="password" placeholder="sk-ant-…" autocomplete="off" style="flex:1 1 180px"><button class="btn ember" data-act="saveAi">Save</button></div>`}</section>
   <section class="card"><div class="ch"><h2>Food database</h2></div>
-    <p class="note" style="margin:0 0 10px">Search uses the USDA FoodData Central list (common foods plus about 400,000 US branded foods). Barcodes check Open Food Facts first, then USDA. The shared free key allows about 30 searches an hour. If you hit that, a free personal key from api.data.gov/signup removes the limit.</p>
+    <p class="note" style="margin:0 0 10px">Search uses the USDA FoodData Central list (common foods plus about 400,000 US branded foods). Barcodes check Open Food Facts first, then USDA. The shared free key only allows about 10 searches an hour. If you hit that, a free personal key from api.data.gov/signup removes the limit.</p>
     <div class="row"><input id="usdaIn" placeholder="Optional USDA key" value="${esc(ls.get("fuel:usda-key"))}" autocomplete="off" style="flex:1 1 180px"><button class="btn sm" data-act="saveUsda">Save</button></div></section>
   <section class="card"><div class="ch"><h2>Backup</h2><span class="sub">${Object.keys(S.days).length} days saved on this phone</span></div>
     <p class="note" style="margin:0 0 10px">Your food log is only stored on this phone. Save a backup now and then.</p>
