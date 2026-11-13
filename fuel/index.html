@@ -127,6 +127,30 @@ nav.tabs .in{display:flex;width:100%;max-width:620px}
 @keyframes up{from{transform:translateY(30px);opacity:0}}
 .toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--surface2);border:1px solid var(--line-hi);border-radius:13px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:calc(100vw - 32px)}
 .toast button{border:0;background:none;color:var(--ember);font:700 13px var(--body);cursor:pointer}
+.normals{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.chip.normal{border-style:dashed;border-color:rgba(255,106,61,.5);color:var(--ink);font-size:12.5px;padding:7px 11px}
+.chip.normal b{font:600 11.5px var(--mono);color:var(--muted);margin-left:4px}
+.seg.five button{font-size:12px;padding:9px 2px}
+.snapimg{width:100%;max-height:240px;object-fit:cover;border-radius:16px;border:1px solid var(--line);display:block}
+.snapbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.snapbtns .btn{position:relative;overflow:hidden;display:grid;place-items:center;gap:4px;padding:18px 10px;border-radius:16px;font-size:14px}
+.snapbtns .btn svg{width:26px;height:26px;color:var(--ember)}
+.filein{position:absolute;inset:0;opacity:0;cursor:pointer}
+.airow{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}
+.airow:last-child{border-bottom:0}
+.airow.off{opacity:.4}
+.airow .m{flex:1;min-width:0}
+.airow input[type=checkbox]{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ember)}
+.airow .mult{display:flex;gap:4px;margin-top:7px}
+.airow .mult button{border:1px solid var(--line);background:var(--sunk);color:var(--muted);border-radius:8px;font:600 12px var(--mono);padding:4px 8px;cursor:pointer}
+.airow .mult button.on{border-color:var(--ember);color:var(--ink);background:var(--ember-bg)}
+.airow .k{font:600 14px var(--mono);text-align:right}
+.thinking{display:flex;align-items:center;gap:10px;color:var(--ink2);font-size:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--sunk)}
+.thinking i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line-hi);border-top-color:var(--ember);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err{color:var(--bad);font-size:13px}
+textarea{font:inherit;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:11px;padding:10px 11px;width:100%;resize:vertical;min-height:58px}
+.grp{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px}
 @media (max-width:400px){.top{grid-template-columns:120px minmax(0,1fr);gap:14px}.big{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -281,9 +305,10 @@ function viewToday() {
     return `<section class="card meal">
       <div class="mh"><h3>${m}</h3><span class="num sub">${r0(sum)} kcal</span></div>
       ${its.length ? `<div style="margin-top:6px">${its.map(i => `<div class="item"><div class="m"><div>${esc(i.name)}</div><div class="meta">${esc(i.qtyLabel || "")}${i.qtyLabel ? " · " : ""}${macroLine(i)}</div></div><span class="cal">${r0(i.cal)}</span><button class="x" data-act="delItem" data-id="${i.id}" aria-label="Remove ${esc(i.name)}">×</button></div>`).join("")}</div>` : ""}
+      ${normalsFor(m).length ? `<div class="normals">${normalsFor(m).map(x => `<button class="chip normal" data-act="addNormal" data-id="${x.id}" data-meal="${m}">+ ${esc(x.name)}<b>${r0(x.items.reduce((a, i) => a + i.cal, 0))}</b></button>`).join("")}</div>` : ""}
       <button class="btn add" data-act="openAdd" data-meal="${m}">+ Add food</button>
       ${!its.length && y.length ? `<button class="btn ghost sm" style="margin-top:6px" data-act="copyY" data-meal="${m}">Copy yesterday's ${m.toLowerCase()} (${r0(y.reduce((a, i) => a + i.cal, 0))} kcal)</button>` : ""}
-      ${its.length > 1 ? `<button class="btn ghost sm" style="margin-top:6px" data-act="saveMeal" data-meal="${m}">Save as a meal</button>` : ""}
+      ${its.length ? `<button class="btn ghost sm" style="margin-top:6px" data-act="saveMeal" data-meal="${m}">Save as my usual ${m.toLowerCase()}</button>` : ""}
     </section>`; }).join("")}
   <section class="card">
     <div class="ch"><h2>Water</h2><span class="sub num">${d.water} / ${s.water} cups</span></div>
@@ -291,6 +316,9 @@ function viewToday() {
     <p class="note" style="margin:10px 0 0">8 oz per cup. On practice days add a cup or two for every hour of hard work.</p>
   </section>`;
 }
+
+/* saved meals tagged for this meal (or untagged ones) show as one-tap buttons on Today */
+const normalsFor = m => S.meals.filter(x => x.meal === m || !x.meal).slice(0, 4);
 
 /* ================= ADD FOOD SHEET ================= */
 let add = null; // {meal, mode:'search'|'quick'|'create'|'scan', q, pick, qty}
@@ -316,11 +344,12 @@ function resultRow(f, i) {
 }
 function searchResults(qRaw) {
   const q = qRaw.trim();
-  resultCache = q ? searchFoods(q) : recentFoods();
+  resultCache = q ? searchFoods(q) : recentFoods(); localCount = resultCache.length;
   const meals = q ? S.meals.filter(m => m.name.toLowerCase().includes(q.toLowerCase())) : S.meals;
   return `${meals.length ? `<div><div class="eyebrow" style="margin-bottom:6px">Saved meals</div>${meals.map(m => `<div class="res" data-act="addMeal" data-id="${m.id}" role="button" tabindex="0"><div class="m"><div>${esc(m.name)}<span class="badge">meal</span></div><div class="sub">${m.items.length} foods · ${macroLine(m.items.reduce((s, i) => ({p: s.p + i.p, c: s.c + i.c, f: s.f + i.f}), {p: 0, c: 0, f: 0}))}</div></div><div class="k">${r0(m.items.reduce((s, i) => s + i.cal, 0))}<div class="sub">kcal</div></div><button class="x" data-act="delMeal" data-id="${m.id}" aria-label="Delete saved meal">×</button></div>`).join("")}</div>` : ""}
     <div>${!q && resultCache.length ? '<div class="eyebrow" style="margin-bottom:6px">Recent</div>' : ""}
-      ${resultCache.map(resultRow).join("") || (q ? `<div class="empty">No match for "${esc(q)}". Try fewer words, scan the barcode, or create it.</div>` : '<div class="empty">Search above. Foods you log show up here for one-tap adding.</div>')}</div>`;
+      ${resultCache.map(resultRow).join("") || (q ? "" : '<div class="empty">Search above. Foods you log show up here for one-tap adding.</div>')}</div>
+    ${q ? `<div id="online">${onlineHTML(q)}</div>` : ""}`;
 }
 function renderSheet() {
   if (!add) { $("#overlay").innerHTML = ""; return; }
@@ -329,14 +358,18 @@ function renderSheet() {
   if (a.pick) {
     const f = a.pick, q = a.qty;
     body = `<div class="pick">
-      <div><div style="font:800 17px var(--display);font-stretch:108%">${esc(f.name)}</div><div class="sub">per ${esc(f.serving)}</div></div>
+      <div><div style="font:800 17px var(--display);font-stretch:108%">${esc(f.name)}</div><div class="sub">per ${esc(f.serving)}${f.src === "usda" ? " · USDA FoodData Central" : f.src === "scan" ? " · check it against the label" : ""}</div></div>
+      ${f.units ? `<label class="f">Serving size<select id="unitSel">${f.units.map((u, i) => `<option value="${i}" ${i === (a.unit || 0) ? "selected" : ""}>${esc(u.label)}</option>`).join("")}</select></label>` : ""}
       <div><div class="eyebrow" style="margin-bottom:8px">Servings</div>
         <div class="row">${[0.5, 1, 1.5, 2, 3].map(x => `<button class="chip ${q === x ? "on" : ""}" data-act="qty" data-q="${x}">${x}</button>`).join("")}<input type="number" inputmode="decimal" id="qtyIn" value="${q}" step="0.25" min="0" style="width:84px" aria-label="Custom servings"></div></div>
       <div class="preview"><div><b style="color:var(--ink)">${r0(f.cal * q)}</b><span>kcal</span></div><div><b style="color:var(--ember)">${r0(f.p * q)}</b><span>protein</span></div><div><b style="color:var(--carb)">${r0(f.c * q)}</b><span>carbs</span></div><div><b style="color:var(--fat)">${r0(f.f * q)}</b><span>fat</span></div></div>
       <div class="row"><button class="btn ghost" data-act="unpick">Back</button><button class="btn ember" style="flex:1" data-act="addPicked">Add to ${a.meal.toLowerCase()}</button></div>
+      ${f.src !== "mine" ? `<button class="btn ghost sm" data-act="saveMine">${S.myFoods.some(x => x.name === f.name && x.serving === f.serving) ? "✓ In my foods" : "☆ Save to my foods"}</button>` : ""}
     </div>`;
   } else if (a.mode === "search") {
     body = `<input id="q" placeholder="Search foods: chicken, Chipotle, banana…" value="${esc(a.q)}" autocomplete="off" style="width:100%"><div id="results">${searchResults(a.q)}</div>`;
+  } else if (a.mode === "snap") {
+    body = snapHTML(a);
   } else if (a.mode === "quick") {
     body = `<p class="note" style="margin:0">Know the numbers? Type them in.</p>
       <label class="f">Name (optional)<input id="qkName" placeholder="Quick add"></label>
@@ -345,6 +378,7 @@ function renderSheet() {
       <button class="btn ember wide" data-act="quickAdd">Add to ${a.meal.toLowerCase()}</button>`;
   } else if (a.mode === "create") {
     body = `<p class="note" style="margin:0">Copy the label once and it's saved under "mine" for next time.</p>
+      ${aiKey() ? `<label class="btn" style="position:relative;overflow:hidden;text-align:center">📷 Fill it in from a photo of the label<input type="file" accept="image/*" id="labelPic" class="filein"></label><div id="labelMsg" class="sub"></div>` : ""}
       <label class="f">Food name<input id="crName" placeholder="Mom's lasagna, Kirkland protein bar…"></label>
       <label class="f">Serving size<input id="crServ" placeholder="1 bar, 1 cup, 2 slices"></label>
       <div class="row"><label class="f">Calories<input id="crCal" type="number" inputmode="numeric"></label><label class="f">Protein g<input id="crP" type="number" inputmode="decimal"></label></div>
@@ -360,7 +394,7 @@ function renderSheet() {
   }
   $("#overlay").innerHTML = `<div class="sheet" data-act="closeSheet"><div class="in" role="dialog" aria-label="Add food">
     <div class="row between"><h2 style="font:800 18px var(--display);font-stretch:112%;margin:0;text-transform:uppercase">Add to ${esc(a.meal)}</h2><button class="btn ghost sm" data-act="closeSheet">Done</button></div>
-    ${a.pick ? "" : `<div class="seg">${[["search", "Search"], ["scan", "Barcode"], ["quick", "Quick add"], ["create", "Create"]].map(([m, l]) => `<button class="${a.mode === m ? "on" : ""}" data-act="mode" data-m="${m}">${l}</button>`).join("")}</div>`}
+    ${a.pick ? "" : `<div class="seg five">${[["search", "Search"], ["snap", "Photo"], ["scan", "Barcode"], ["quick", "Quick"], ["create", "Create"]].map(([m, l]) => `<button class="${a.mode === m ? "on" : ""}" data-act="mode" data-m="${m}">${l}</button>`).join("")}</div>`}
     ${body}
   </div></div>`;
   if (a.camOn) startCamera();
@@ -371,6 +405,169 @@ function addItems(items, meal) {
   save();
 }
 const qtyLabel = (q, serving) => (q === 1 ? "" : q + " × ") + serving;
+const ls = {get(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }, set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch (e) {} }};
+const titleCase = t => /[a-z]/.test(t) ? t : t.toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+
+/* ---------- online search: USDA FoodData Central (generic foods + US branded foods). OFF has no browser-readable text search. ---------- */
+let localCount = 0, online = {q: "", busy: false, err: "", foods: []}, onlineT;
+const usdaKey = () => ls.get("fuel:usda-key") || "DEMO_KEY";
+const USDA_CACHE = new Map();
+async function usdaSearch(query, types) {
+  const ck = query.toLowerCase() + "|" + (types || "");
+  if (USDA_CACHE.has(ck)) return USDA_CACHE.get(ck);
+  const r = await fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(usdaKey())}&query=${encodeURIComponent(query)}&pageSize=30${types ? "&dataType=" + encodeURIComponent(types) : ""}`);
+  if (r.status === 429) throw new Error("limit");
+  if (!r.ok) throw new Error("http " + r.status);
+  const foods = ((await r.json()).foods || []).map(fromUSDA).filter(Boolean);
+  USDA_CACHE.set(ck, foods);
+  return foods;
+}
+function fromUSDA(f) {
+  const n = id => (f.foodNutrients || []).find(x => x.nutrientId === id)?.value;
+  const kcal = n(1008) ?? n(2047) ?? n(2048);
+  if (kcal == null) return null;
+  const per100 = {cal: kcal, p: n(1003) || 0, c: n(1005) || 0, f: n(1004) || 0}, units = [];
+  if (f.dataType === "Branded" && f.servingSize > 0 && /^(g|grm|ml|mlt)$/i.test(f.servingSizeUnit || "")) {
+    const amt = r0(f.servingSize) + (/^m/i.test(f.servingSizeUnit) ? " ml" : " g");
+    units.push({label: f.householdServingFullText ? `${f.householdServingFullText.toLowerCase()} (${amt})` : amt, g: f.servingSize});
+  }
+  (f.foodMeasures || []).filter(m => m.gramWeight > 0 && m.disseminationText && !/not specified/i.test(m.disseminationText)).slice(0, 5)
+    .forEach(m => units.push({label: `${m.disseminationText} (${r0(m.gramWeight)} g)`, g: m.gramWeight}));
+  units.push({label: "100 g", g: 100}, {label: "1 oz (28 g)", g: 28.35});
+  const brand = f.dataType === "Branded" ? titleCase(f.brandName || f.brandOwner || "") : "";
+  const desc = titleCase(f.description || "Food");
+  const name = brand && !desc.toLowerCase().includes(brand.toLowerCase()) ? brand + " " + desc : desc;
+  return withUnit({id: "u" + f.fdcId, name, src: "usda", branded: f.dataType === "Branded", gtin: f.gtinUpc || "", per100, units}, 0);
+}
+function withUnit(f, i) {
+  const u = f.units[i] || f.units[0], k = u.g / 100;
+  return {...f, serving: u.label, cal: f.per100.cal * k, p: f.per100.p * k, c: f.per100.c * k, f: f.per100.f * k};
+}
+async function usdaBarcode(code) {
+  const foods = await usdaSearch(code, "Branded");
+  return foods.find(f => f.gtin && f.gtin.replace(/^0+/, "") === code.replace(/^0+/, "")) || null;
+}
+function onlineHTML(q) {
+  if (online.q !== q.toLowerCase() || online.busy) return `<div class="thinking"><i></i>Searching the USDA food database…</div>`;
+  if (online.err === "limit") return `<p class="note">The free online search is used up for the hour. ${usdaKey() === "DEMO_KEY" ? "Add your own free USDA key in Setup to remove the limit, or" : "Try again soon, or"} use Photo or Create.</p>`;
+  if (online.err) return `<p class="note">Couldn't reach the online food database. Check your connection.</p>`;
+  if (!online.foods.length) return localCount ? "" : `<div class="empty">No match for "${esc(q)}". Try fewer words, take a photo, scan the barcode, or create it.</div>`;
+  const gen = online.foods.filter(f => !f.branded), br = online.foods.filter(f => f.branded);
+  let i = localCount;
+  const rows = list => list.map(f => resultRow(f, i++)).join("");
+  resultCache = resultCache.slice(0, localCount).concat(gen, br);
+  return (gen.length ? `<div class="grp">Common foods · USDA</div>${rows(gen)}` : "") + (br.length ? `<div class="grp">Brands · USDA</div>${rows(br)}` : "");
+}
+function queueOnline(q) {
+  clearTimeout(onlineT);
+  q = q.trim();
+  if (q.length < 3) return;
+  online = {q: q.toLowerCase(), busy: true, err: "", foods: []};
+  onlineT = setTimeout(async () => {
+    try { const foods = await usdaSearch(q); if (online.q === q.toLowerCase()) online = {q: online.q, busy: false, err: "", foods}; }
+    catch (e) { if (online.q === q.toLowerCase()) online = {q: online.q, busy: false, err: e.message === "limit" ? "limit" : "net", foods: []}; }
+    if (add && add.mode === "search" && !add.pick && add.q.trim().toLowerCase() === online.q) { const el = $("#online"); if (el) el.innerHTML = onlineHTML(add.q.trim()); }
+  }, 700);
+}
+
+/* ---------- AI: photo or description → foods (Claude, with the key saved in Setup; shared with the other apps on this site) ---------- */
+const aiKey = () => ls.get("suite:ai-key");
+async function aiJSON(system, content, schema, maxTokens = 1500) {
+  if (!aiKey()) throw new Error("Add your Anthropic API key in Setup first.");
+  const body = {model: "claude-opus-5-5", max_tokens: maxTokens, system, output_config: {effort: "low", format: {type: "json_schema", schema}}, messages: [{role: "user", content}]};
+  const call = fb => fetch("https://api.anthropic.com/v1/messages", {method: "POST",
+    headers: {"content-type": "application/json", "x-api-key": aiKey(), "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true", ...(fb ? {"anthropic-beta": "server-side-fallback-2026-07-01"} : {})},
+    body: JSON.stringify(fb ? {...body, fallbacks: "default"} : body)});
+  let r;
+  try { r = await call(true); if (r.status === 400) r = await call(false); } catch (e) { throw new Error("No connection to the AI service."); }
+  if (r.status === 401) throw new Error("The API key wasn't accepted. Check it in Setup.");
+  if (r.status === 429) throw new Error("AI is busy right now. Try again in a minute.");
+  if (!r.ok) { let m = ""; try { m = (await r.json()).error.message; } catch (e) {} throw new Error("AI error " + r.status + (m ? ": " + m : "")); }
+  const j = await r.json();
+  if (j.stop_reason === "refusal") throw new Error("The AI declined this one.");
+  try { return JSON.parse((j.content || []).filter(b => b.type === "text").map(b => b.text).join("")); } catch (e) { throw new Error("AI sent back something unreadable. Try again."); }
+}
+async function shrink(file, max = 1280) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL("image/jpeg", .85);
+  } finally { URL.revokeObjectURL(url); }
+}
+const imgBlock = dataUrl => ({type: "image", source: {type: "base64", media_type: "image/jpeg", data: dataUrl.split(",")[1]}});
+const MEAL_SCHEMA = {type: "object", additionalProperties: false, required: ["items", "confidence", "note"], properties: {
+  items: {type: "array", items: {type: "object", additionalProperties: false, required: ["name", "portion", "cal", "p", "c", "f"], properties: {
+    name: {type: "string"}, portion: {type: "string"}, cal: {type: "number"}, p: {type: "number"}, c: {type: "number"}, f: {type: "number"}}}},
+  confidence: {type: "string", enum: ["high", "medium", "low"]}, note: {type: "string"}}};
+const MEAL_SYSTEM = `You estimate nutrition for a food log, like a dietitian looking at a plate.
+List each distinct food or drink in the photo and/or description as its own item. For each, give the portion you estimate (household units plus grams, e.g. "1 cup (160 g)") and calories, protein, carbs and fat in grams FOR THAT PORTION.
+Judge portion size from visual cues: plate and bowl size, utensils, hands, packaging. If a package, menu item or brand is recognizable, use its published numbers. Count cooking oil, butter, sauces and dressings when the food clearly has them, as separate items when they're significant.
+If the user's description gives amounts or details, they override what the photo suggests.
+If there's no food, return no items and say so in the note.
+Names are short and plain ("Grilled chicken breast", "White rice"). The note is one or two short sentences: what you're least sure about and what would change the number most. No disclaimers.`;
+async function runSnap() {
+  const sn = add.snap;
+  if (!sn.img && !sn.text.trim()) { sn.err = "Take a photo or describe what you ate."; renderSheet(); return; }
+  sn.busy = true; sn.err = ""; sn.res = null; renderSheet();
+  const content = [];
+  if (sn.img) content.push(imgBlock(sn.img));
+  content.push({type: "text", text: (sn.img ? "Estimate the nutrition for this meal." : "Estimate the nutrition for this meal from the description.") + (sn.text.trim() ? "\nDetails from me: " + sn.text.trim() : "")});
+  try {
+    const out = await aiJSON(MEAL_SYSTEM, content, MEAL_SCHEMA);
+    if (!add || add.snap !== sn) return;
+    sn.res = {...out, items: out.items.map(i => ({...i, on: true, mult: 1}))};
+    if (!out.items.length) sn.err = out.note || "No food found in that photo.";
+  } catch (e) { if (add?.snap === sn) sn.err = e.message; }
+  sn.busy = false; if (add?.snap === sn) renderSheet();
+}
+function snapHTML(a) {
+  if (!aiKey()) return `<div class="empty" style="text-align:left;display:grid;gap:10px">
+      <b style="color:var(--ink)">Photo scanning needs an AI key</b>
+      <span>Snapping a meal sends the photo to Claude (Anthropic's AI), which names each food and estimates the portion and macros. That needs your own Anthropic API key, billed to your account at a few cents per photo. It's a one-time paste in Setup.</span>
+      <span>Barcode, search, quick add and your saved meals all work without it.</span>
+      <button class="btn ember" data-act="goSetup">Go to Setup</button></div>`;
+  const sn = a.snap ||= {img: "", text: "", busy: false, err: "", res: null};
+  const camIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+  const libIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg>';
+  let h = sn.img ? `<img class="snapimg" src="${sn.img}" alt="Your meal photo">` :
+    `<div class="snapbtns"><label class="btn">${camIcon}Take a photo<input type="file" accept="image/*" capture="environment" id="snapCam" class="filein"></label><label class="btn">${libIcon}From photos<input type="file" accept="image/*" id="snapLib" class="filein"></label></div>`;
+  h += `<textarea id="snapText" placeholder="${sn.img ? "Anything the photo won't show? (cooked in butter, 2 tbsp ranch, ate half)" : "Or describe it: Chipotle chicken bowl with white rice, black beans, cheese and guac"}">${esc(sn.text)}</textarea>`;
+  if (sn.busy) return h + `<div class="thinking"><i></i>Looking at your ${sn.img ? "plate" : "meal"}…</div>`;
+  if (sn.err) h += `<div class="err">${esc(sn.err)}</div>`;
+  if (sn.res?.items.length) {
+    const on = sn.res.items.filter(i => i.on), tot = on.reduce((t, i) => ({cal: t.cal + i.cal * i.mult, p: t.p + i.p * i.mult, c: t.c + i.c * i.mult, f: t.f + i.f * i.mult}), {cal: 0, p: 0, c: 0, f: 0});
+    h += `<div><div class="eyebrow" style="margin-bottom:2px">What I see · ${sn.res.confidence} confidence</div>
+      ${sn.res.items.map((it, i) => `<div class="airow ${it.on ? "" : "off"}"><input type="checkbox" data-snapon="${i}" ${it.on ? "checked" : ""} aria-label="Include ${esc(it.name)}">
+        <div class="m"><div>${esc(it.name)}</div><div class="sub">${esc(it.portion)}${it.mult !== 1 ? " × " + it.mult : ""} · ${macroLine({p: it.p * it.mult, c: it.c * it.mult, f: it.f * it.mult})}</div>
+        <div class="mult">${[0.5, 1, 1.5, 2].map(x => `<button class="${it.mult === x ? "on" : ""}" data-act="snapMult" data-i="${i}" data-x="${x}">${x === 0.5 ? "½" : x === 1.5 ? "1½" : x}×</button>`).join("")}</div></div>
+        <div class="k">${r0(it.cal * it.mult)}<div class="sub">kcal</div></div></div>`).join("")}</div>
+      <div class="preview"><div><b style="color:var(--ink)">${r0(tot.cal)}</b><span>kcal</span></div><div><b style="color:var(--ember)">${r0(tot.p)}</b><span>protein</span></div><div><b style="color:var(--carb)">${r0(tot.c)}</b><span>carbs</span></div><div><b style="color:var(--fat)">${r0(tot.f)}</b><span>fat</span></div></div>
+      ${sn.res.note ? `<p class="note" style="margin:0">${esc(sn.res.note)}</p>` : ""}
+      <button class="btn ember wide" data-act="snapAdd" ${on.length ? "" : "disabled"}>Add ${on.length} to ${a.meal.toLowerCase()}</button>
+      <div class="row"><button class="btn ghost sm" data-act="snapSave" ${on.length ? "" : "disabled"}>Save as my usual ${a.meal.toLowerCase()}</button><button class="btn ghost sm" data-act="snapAgain">Re-check with my details</button><button class="btn ghost sm" data-act="snapReset">New photo</button></div>
+      <p class="note" style="margin:0">These are estimates from a photo. Tap ½× or 2× when the portion looks off.</p>`;
+  } else h += `<div class="row">${sn.img ? `<button class="btn ghost" data-act="snapReset">Retake</button>` : ""}<button class="btn ember" style="flex:1" data-act="snapGo">${sn.img ? "Estimate it" : "Estimate from my description"}</button></div>`;
+  return h;
+}
+const LABEL_SCHEMA = {type: "object", additionalProperties: false, required: ["found", "name", "serving", "cal", "p", "c", "f"], properties: {
+  found: {type: "boolean"}, name: {type: "string"}, serving: {type: "string"}, cal: {type: "number"}, p: {type: "number"}, c: {type: "number"}, f: {type: "number"}}};
+async function readLabel(file) {
+  const msg = t => { const el = $("#labelMsg"); if (el) el.textContent = t; };
+  msg("Reading the label…");
+  try {
+    const img = await shrink(file, 1600);
+    const out = await aiJSON("You read Nutrition Facts labels exactly as printed. Copy the per-serving numbers; don't estimate. name: the product name if it's visible on the package, else empty. serving: the serving size as printed. found=false if no nutrition label is readable.",
+      [imgBlock(img), {type: "text", text: "Read this nutrition label."}], LABEL_SCHEMA, 400);
+    if (!out.found) { msg("Couldn't read a nutrition label in that photo. Try closer, straight on, in good light."); return; }
+    const set = (id, v) => { const el = $("#" + id); if (el && v !== "" && v != null) el.value = typeof v === "number" ? Math.round(v * 10) / 10 : v; };
+    if (!val("crName")) set("crName", out.name);
+    set("crServ", out.serving); set("crCal", out.cal); set("crP", out.p); set("crC", out.c); set("crF", out.f);
+    msg("Filled in from the label. Check the numbers, then save.");
+  } catch (e) { msg(e.message); }
+}
 
 /* ---------- barcode ---------- */
 let reader = null, zxingLoad = null;
@@ -399,7 +596,12 @@ async function lookup(code) {
     const r = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=product_name,brands,serving_size,serving_quantity,nutriments`);
     const d = await r.json();
     if (!add) return;
-    if (d.status !== 1 || !d.product) { add.scanMsg = "That barcode isn't in the database. Use Create to add it from the label."; renderSheet(); return; }
+    if (d.status !== 1 || !d.product) {
+      const hit = await usdaBarcode(code).catch(() => null);
+      if (!add) return;
+      if (hit) { add.pick = {...hit, src: "scan"}; add.unit = 0; add.qty = 1; add.scanMsg = ""; renderSheet(); return; }
+      add.scanMsg = "That barcode isn't in Open Food Facts or the USDA list. Use Create to add it from the label."; renderSheet(); return;
+    }
     const p = d.product, n = p.nutriments || {};
     let f;
     if (n["energy-kcal_serving"] != null) f = {cal: num(n["energy-kcal_serving"]), p: num(n.proteins_serving), c: num(n.carbohydrates_serving), f: num(n.fat_serving), serving: p.serving_size || "1 serving"};
@@ -494,6 +696,18 @@ function viewSetup() {
     <div class="preview" style="margin-top:14px"><div><b>${g.cal.toLocaleString()}</b><span>kcal</span></div><div><b style="color:var(--ember)">${g.p}</b><span>protein</span></div><div><b style="color:var(--carb)">${g.c}</b><span>carbs</span></div><div><b style="color:var(--fat)">${g.f}</b><span>fat</span></div></div>
     <button class="btn wide" style="margin-top:12px" data-act="useCalc">Use these goals</button>
     <p class="note" style="margin:10px 0 0">Protein is set to about 1 g per pound of bodyweight, which is plenty for building muscle. For a teen athlete, eating enough matters more than eating little: keep any cut small and slow.</p></section>
+  <section class="card"><div class="ch"><h2>My foods &amp; usual meals</h2><span class="sub">${S.meals.length} meals · ${S.myFoods.length} foods</span></div>
+    ${S.meals.length ? S.meals.map(m => `<div class="item"><div class="m"><div>${esc(m.name)}</div><div class="meta">${m.items.length} food${m.items.length === 1 ? "" : "s"} · ${r0(m.items.reduce((a, i) => a + i.cal, 0))} kcal</div></div>
+      <select data-mealtag="${m.id}" aria-label="Show on" style="padding:6px 8px;font-size:12.5px"><option value="">Any meal</option>${MEALS.map(x => `<option ${m.meal === x ? "selected" : ""}>${x}</option>`).join("")}</select>
+      <button class="x" style="font-size:14px" data-act="renameMeal" data-id="${m.id}" aria-label="Rename ${esc(m.name)}">✎</button><button class="x" data-act="delMealS" data-id="${m.id}" aria-label="Delete ${esc(m.name)}">×</button></div>`).join("") : `<p class="note" style="margin:0">Log what you usually eat once, then tap "Save as my usual" under that meal. It becomes a one-tap button.</p>`}
+    ${S.myFoods.length ? `<div class="grp">My foods</div>${S.myFoods.map(f => `<div class="item"><div class="m"><div>${esc(f.name)}</div><div class="meta">${esc(f.serving)} · ${r0(f.cal)} kcal · ${macroLine(f)}</div></div><button class="x" data-act="delMineS" data-id="${f.id}" aria-label="Delete ${esc(f.name)}">×</button></div>`).join("")}` : ""}</section>
+  <section class="card"><div class="ch"><h2>Photo scanning</h2><span class="sub" style="color:${aiKey() ? "var(--good)" : "var(--muted)"}">${aiKey() ? "On" : "Off"}</span></div>
+    <p class="note" style="margin:0 0 10px">Snap a meal or a nutrition label and Claude (Anthropic's AI) estimates it. This uses your own Anthropic API key, billed to your account, a few cents per photo. Get one at console.anthropic.com › API keys. It's stored only on this phone and shared with INBOX and TALK.</p>
+    ${aiKey() ? `<div class="row"><span class="num sub" style="flex:1">sk-ant-…${esc(aiKey().slice(-4))}</span><button class="btn sm" data-act="testAi">Test it</button><button class="btn ghost sm" data-act="delAi">Remove</button></div>`
+      : `<div class="row"><input id="aiKeyIn" type="password" placeholder="sk-ant-…" autocomplete="off" style="flex:1 1 180px"><button class="btn ember" data-act="saveAi">Save</button></div>`}</section>
+  <section class="card"><div class="ch"><h2>Food database</h2></div>
+    <p class="note" style="margin:0 0 10px">Search uses the USDA FoodData Central list (common foods plus about 400,000 US branded foods). Barcodes check Open Food Facts first, then USDA. The shared free key allows about 30 searches an hour. If you hit that, a free personal key from api.data.gov/signup removes the limit.</p>
+    <div class="row"><input id="usdaIn" placeholder="Optional USDA key" value="${esc(ls.get("fuel:usda-key"))}" autocomplete="off" style="flex:1 1 180px"><button class="btn sm" data-act="saveUsda">Save</button></div></section>
   <section class="card"><div class="ch"><h2>Backup</h2><span class="sub">${Object.keys(S.days).length} days saved on this phone</span></div>
     <p class="note" style="margin:0 0 10px">Your food log is only stored on this phone. Save a backup now and then.</p>
     <div class="row"><button class="btn" data-act="export">Save backup</button><label class="btn ghost" style="position:relative;overflow:hidden">Restore backup<input type="file" accept="application/json,.json" id="importFile" style="position:absolute;inset:0;opacity:0"></label></div></section>
@@ -513,6 +727,7 @@ function render() {
 
 /* ---------- actions ---------- */
 const val = id => ($("#" + id)?.value ?? "").trim();
+const snapItems = () => (add?.snap?.res?.items || []).filter(i => i.on).map(i => ({name: i.name, serving: i.portion, qty: i.mult, qtyLabel: qtyLabel(i.mult, i.portion), cal: i.cal * i.mult, p: i.p * i.mult, c: i.c * i.mult, f: i.f * i.mult}));
 let editMeal = null;
 const A = {
   tab: el => go(el.dataset.id),
@@ -520,7 +735,43 @@ const A = {
   openAdd: el => openAdd(el.dataset.meal),
   closeSheet(el, ev) { if (ev.target === el || el.tagName === "BUTTON") closeSheet(); },
   mode(el) { stopScan(); add.mode = el.dataset.m; add.camOn = false; add.scanMsg = ""; renderSheet(); if (add.mode === "search") $("#q")?.focus(); },
-  pick(el) { add.pick = resultCache[+el.dataset.i]; add.qty = 1; renderSheet(); },
+  pick(el) { add.pick = resultCache[+el.dataset.i]; add.unit = 0; add.qty = 1; renderSheet(); },
+  saveMine() {
+    const f = add.pick; if (S.myFoods.some(x => x.name === f.name && x.serving === f.serving)) return;
+    S.myFoods.unshift({id: rid(), name: f.name, serving: f.serving, cal: r0(f.cal), p: Math.round(f.p * 10) / 10, c: Math.round(f.c * 10) / 10, f: Math.round(f.f * 10) / 10});
+    save(); renderSheet(); toast("Saved to my foods");
+  },
+  addNormal(el) {
+    const m = S.meals.find(x => x.id === el.dataset.id); if (!m) return;
+    const d = day(), before = d.items.slice(); addItems(m.items, el.dataset.meal); render();
+    toast(`Added ${m.name} (${r0(m.items.reduce((a, i) => a + i.cal, 0))} kcal)`, () => { d.items = before; });
+  },
+  goSetup() { closeSheet(); go("setup"); },
+  snapGo() { runSnap(); },
+  snapAgain() { runSnap(); },
+  snapReset() { add.snap = {img: "", text: add.snap?.text || "", busy: false, err: "", res: null}; renderSheet(); },
+  snapMult(el) { add.snap.res.items[+el.dataset.i].mult = +el.dataset.x; renderSheet(); },
+  snapAdd() {
+    const its = snapItems(); if (!its.length) return;
+    addItems(its, add.meal); toast(`Added ${its.length} food${its.length === 1 ? "" : "s"}`); closeSheet(); render();
+  },
+  snapSave() {
+    const its = snapItems(); if (!its.length) return;
+    const name = prompt("Name it so you can add it in one tap", "My usual " + add.meal.toLowerCase()); if (name == null) return;
+    S.meals.unshift({id: rid(), name: name.trim() || "My usual " + add.meal.toLowerCase(), meal: add.meal, items: its}); save(); toast("Saved. It's a one-tap button on " + add.meal + " now.");
+  },
+  saveAi() { const k = val("aiKeyIn"); if (!/^sk-ant-/.test(k)) { toast("That doesn't look like an Anthropic key (starts with sk-ant-)."); return; } ls.set("suite:ai-key", k); render(); toast("Key saved. Photo scanning is on."); },
+  delAi() { ls.set("suite:ai-key", ""); render(); toast("Key removed"); },
+  async testAi(el) {
+    el.disabled = true; el.textContent = "Testing…";
+    try { await aiJSON("Reply with ok=true.", "Test", {type: "object", additionalProperties: false, required: ["ok"], properties: {ok: {type: "boolean"}}}, 50); toast("The key works."); }
+    catch (e) { toast(e.message); }
+    el.disabled = false; el.textContent = "Test it";
+  },
+  saveUsda() { ls.set("fuel:usda-key", val("usdaIn")); USDA_CACHE.clear(); render(); toast(val("usdaIn") ? "USDA key saved" : "Using the shared free key"); },
+  renameMeal(el) { const m = S.meals.find(x => x.id === el.dataset.id); const n = prompt("Rename", m.name); if (n && n.trim()) { m.name = n.trim(); save(); render(); } },
+  delMealS(el) { const m = S.meals.find(x => x.id === el.dataset.id), i = S.meals.indexOf(m); S.meals.splice(i, 1); save(); render(); toast("Deleted " + m.name, () => { S.meals.splice(i, 0, m); }); },
+  delMineS(el) { const f = S.myFoods.find(x => x.id === el.dataset.id), i = S.myFoods.indexOf(f); S.myFoods.splice(i, 1); save(); render(); toast("Deleted " + f.name, () => { S.myFoods.splice(i, 0, f); }); },
   unpick() { add.pick = null; renderSheet(); },
   qty(el) { add.qty = +el.dataset.q; renderSheet(); },
   addPicked() {
@@ -545,8 +796,8 @@ const A = {
   copyY(el) { const m = el.dataset.meal, y = (peek(addDays(viewDay, -1))?.items || []).filter(i => i.meal === m); addItems(y, m); render(); toast(`Copied ${y.length} food${y.length === 1 ? "" : "s"}`); },
   saveMeal(el) {
     const m = el.dataset.meal, items = day().items.filter(i => i.meal === m).map(({id, meal, ...rest}) => rest);
-    const name = items.map(i => i.name.split(/[,(]/)[0].trim()).slice(0, 3).join(" + ");
-    S.meals.unshift({id: rid(), name, items}); save(); toast("Saved \"" + name + "\". Find it at the top of Add food.");
+    const name = prompt("Name it so you can add it in one tap", "My usual " + m.toLowerCase()); if (name == null) return;
+    S.meals.unshift({id: rid(), name: name.trim() || "My usual " + m.toLowerCase(), meal: m, items}); save(); render(); toast("Saved. It's a one-tap button on " + m + " now.");
   },
   water(el) { const d = day(), n = +el.dataset.n; d.water = d.water === n ? n - 1 : n; save(); render(); },
   saveW() { const w = num(val("wIn")); if (!(w > 50 && w < 500)) { toast("Enter your weight in pounds."); return; } S.weights[todayKey()] = Math.round(w * 10) / 10; save(); render(); toast("Saved " + w + " lb"); },
@@ -573,12 +824,18 @@ document.addEventListener("keydown", ev => {
 });
 document.addEventListener("input", ev => {
   const t = ev.target;
-  if (t.id === "q") { add.q = t.value; $("#results").innerHTML = searchResults(add.q); }
+  if (t.id === "q") { add.q = t.value; queueOnline(add.q); $("#results").innerHTML = searchResults(add.q); }
+  if (t.id === "snapText" && add?.snap) add.snap.text = t.value;
   if (t.id === "qtyIn") { add.qty = Math.max(0, num(t.value)); const pv = document.querySelector(".preview"); const f = add.pick, q = add.qty;
     if (pv) pv.querySelectorAll("b").forEach((b, i) => b.textContent = r0([f.cal, f.p, f.c, f.f][i] * q)); document.querySelectorAll(".pick .chip").forEach(c => c.classList.toggle("on", +c.dataset.q === q)); }
 });
 document.addEventListener("change", ev => {
   const t = ev.target;
+  if (t.id === "unitSel" && add?.pick?.units) { add.unit = +t.value; add.pick = withUnit(add.pick, add.unit); renderSheet(); }
+  if ((t.id === "snapCam" || t.id === "snapLib") && t.files[0]) { const sn = add.snap; shrink(t.files[0]).then(img => { sn.img = img; if (add?.snap === sn) runSnap(); }).catch(() => { sn.err = "Couldn't open that photo. Try another."; renderSheet(); }); }
+  if (t.id === "labelPic" && t.files[0]) readLabel(t.files[0]);
+  if (t.dataset.snapon != null && add?.snap?.res) { add.snap.res.items[+t.dataset.snapon].on = t.checked; renderSheet(); }
+  if (t.dataset.mealtag) { const m = S.meals.find(x => x.id === t.dataset.mealtag); m.meal = t.value || undefined; save(); render(); }
   if (t.dataset.pf) { const p = S.settings.profile; p[t.dataset.pf] = num(t.value); save(); render(); }
   if (t.id === "importFile" && t.files[0]) t.files[0].text().then(txt => { const d = JSON.parse(txt); if (!d.settings || !d.days) throw 0; S = d; save(); render(); toast("Backup restored"); }).catch(() => toast("That file isn't a Fuel backup."));
 });
