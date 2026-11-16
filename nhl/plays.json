@@ -2,7 +2,7 @@
  "sport": "NHL",
  "app": "NHL Model",
  "format": 1,
- "generated_at": "2026-11-16T02:16Z",
+ "generated_at": "2026-11-16T14:30Z",
  "plays": [
   {
    "id": "nhl-401891773-ml",
@@ -4092,9 +4092,9 @@
    "edge_display": "5.7%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "loss",
+   "result_units": -1.0,
+   "beat_close": true
   },
   {
    "id": "nhl-401892722-total",
@@ -4114,9 +4114,9 @@
    "edge_display": "5.5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "win",
+   "result_units": 1.2,
+   "beat_close": true
   },
   {
    "id": "nhl-401892725-total",
@@ -4136,9 +4136,9 @@
    "edge_display": "5.6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "win",
+   "result_units": 1.05,
+   "beat_close": true
   },
   {
    "id": "nhl-401892723-ml",
@@ -4158,8 +4158,8 @@
    "edge_display": "3.8%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -4173,11 +4173,11 @@
    "player": null,
    "line": null,
    "price": -340.0,
-   "model_prob": 0.8092,
+   "model_prob": 0.8068,
    "market_prob": 0.7409,
-   "edge_prob": 0.0683,
-   "ev": 0.0472,
-   "edge_display": "6.8%",
+   "edge_prob": 0.0659,
+   "ev": 0.0441,
+   "edge_display": "6.6%",
    "tier": "1U",
    "units": 1,
    "status": "pending",
