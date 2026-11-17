@@ -2,7 +2,7 @@
  "sport": "NBA",
  "app": "NBA Model",
  "format": 1,
- "generated_at": "2026-11-17T02:18Z",
+ "generated_at": "2026-11-17T04:45Z",
  "plays": [
   {
    "id": "nba-401909088-4351852-reb",
@@ -73637,8 +73637,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 2.18,
    "beat_close": null
   },
   {
@@ -73659,8 +73659,8 @@
    "edge_display": "16%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.923,
    "beat_close": null
   },
   {
@@ -73681,8 +73681,8 @@
    "edge_display": "16%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.802,
    "beat_close": null
   },
   {
@@ -73703,8 +73703,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -73725,8 +73725,8 @@
    "edge_display": "13%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.29,
    "beat_close": null
   },
   {
@@ -73747,8 +73747,8 @@
    "edge_display": "13%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -73769,8 +73769,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -73791,8 +73791,8 @@
    "edge_display": "13%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -73813,8 +73813,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -73835,8 +73835,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -73857,8 +73857,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -73879,8 +73879,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -73901,8 +73901,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -73923,8 +73923,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -73945,8 +73945,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -73967,8 +73967,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -73989,8 +73989,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.274,
    "beat_close": null
   },
   {
@@ -74011,8 +74011,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74033,8 +74033,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74055,8 +74055,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74077,8 +74077,8 @@
    "edge_display": "13%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.282,
    "beat_close": null
   },
   {
@@ -74099,8 +74099,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.901,
    "beat_close": null
   },
   {
@@ -74121,8 +74121,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74143,8 +74143,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74165,8 +74165,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74187,8 +74187,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.694,
    "beat_close": null
   },
   {
@@ -74209,8 +74209,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74231,8 +74231,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74253,8 +74253,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.752,
    "beat_close": null
   },
   {
@@ -74275,8 +74275,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.769,
    "beat_close": null
   },
   {
@@ -74297,8 +74297,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74319,8 +74319,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74341,8 +74341,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74363,8 +74363,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74385,8 +74385,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74407,8 +74407,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.813,
    "beat_close": null
   },
   {
@@ -74429,8 +74429,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74451,8 +74451,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.763,
    "beat_close": null
   },
   {
@@ -74473,8 +74473,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.613,
    "beat_close": null
   },
   {
@@ -74495,8 +74495,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.602,
    "beat_close": null
   },
   {
@@ -74517,8 +74517,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.99,
    "beat_close": null
   },
   {
@@ -74539,8 +74539,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74561,8 +74561,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74583,8 +74583,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.32,
    "beat_close": null
   },
   {
@@ -74605,8 +74605,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.685,
    "beat_close": null
   },
   {
@@ -74627,8 +74627,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.862,
    "beat_close": null
   },
   {
@@ -74649,8 +74649,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74671,8 +74671,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.16,
    "beat_close": null
   },
   {
@@ -74693,8 +74693,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -74715,8 +74715,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74737,8 +74737,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.602,
    "beat_close": null
   },
   {
@@ -74759,8 +74759,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74781,8 +74781,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74803,8 +74803,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.709,
    "beat_close": null
   },
   {
@@ -74825,8 +74825,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.735,
    "beat_close": null
   },
   {
@@ -74847,8 +74847,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.667,
    "beat_close": null
   },
   {
@@ -74869,8 +74869,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -74891,8 +74891,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74913,8 +74913,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74935,8 +74935,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74957,8 +74957,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -74979,8 +74979,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.14,
    "beat_close": null
   },
   {
@@ -75001,8 +75001,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75023,8 +75023,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75045,8 +75045,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.98,
    "beat_close": null
   },
   {
@@ -75067,8 +75067,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75089,8 +75089,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75111,8 +75111,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75133,8 +75133,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.17,
    "beat_close": null
   },
   {
@@ -75155,8 +75155,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75177,8 +75177,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.971,
    "beat_close": null
   },
   {
@@ -75199,8 +75199,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.641,
    "beat_close": null
   },
   {
@@ -75221,8 +75221,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75243,8 +75243,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.719,
    "beat_close": null
   },
   {
@@ -75265,8 +75265,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75287,8 +75287,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.971,
    "beat_close": null
   },
   {
@@ -75309,8 +75309,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.826,
    "beat_close": null
   },
   {
@@ -75331,8 +75331,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75353,8 +75353,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75375,8 +75375,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75397,8 +75397,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75419,8 +75419,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75441,8 +75441,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.781,
    "beat_close": null
   },
   {
@@ -75463,8 +75463,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.29,
    "beat_close": null
   },
   {
@@ -75485,8 +75485,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75507,8 +75507,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75529,8 +75529,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.8,
    "beat_close": null
   },
   {
@@ -75551,8 +75551,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.45,
    "beat_close": null
   },
   {
@@ -75573,8 +75573,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75595,8 +75595,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.787,
    "beat_close": null
   },
   {
@@ -75617,8 +75617,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.42,
    "beat_close": null
   },
   {
@@ -75639,8 +75639,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75661,8 +75661,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75683,8 +75683,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75705,8 +75705,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75727,8 +75727,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.775,
    "beat_close": null
   },
   {
@@ -75749,8 +75749,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.26,
    "beat_close": null
   },
   {
@@ -75771,8 +75771,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "void",
+   "result_units": 0.0,
    "beat_close": null
   },
   {
@@ -75793,8 +75793,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.917,
    "beat_close": null
   },
   {
@@ -75815,8 +75815,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75837,8 +75837,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.26,
    "beat_close": null
   },
   {
@@ -75859,8 +75859,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75881,8 +75881,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75903,8 +75903,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.69,
    "beat_close": null
   },
   {
@@ -75925,8 +75925,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75947,8 +75947,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -75969,8 +75969,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.962,
    "beat_close": null
   },
   {
@@ -75991,8 +75991,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76013,8 +76013,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76035,8 +76035,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.893,
    "beat_close": null
   },
   {
@@ -76057,8 +76057,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76079,8 +76079,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76101,8 +76101,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76123,8 +76123,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.775,
    "beat_close": null
   },
   {
@@ -76145,8 +76145,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.629,
    "beat_close": null
   },
   {
@@ -76167,8 +76167,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.09,
    "beat_close": null
   },
   {
@@ -76189,8 +76189,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.943,
    "beat_close": null
   },
   {
@@ -76211,8 +76211,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76233,8 +76233,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76255,8 +76255,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76277,8 +76277,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.543,
    "beat_close": null
   },
   {
@@ -76299,8 +76299,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.498,
    "beat_close": null
   },
   {
@@ -76321,8 +76321,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.926,
    "beat_close": null
   },
   {
@@ -76343,8 +76343,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.662,
    "beat_close": null
   },
   {
@@ -76365,8 +76365,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76387,8 +76387,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.641,
    "beat_close": null
   },
   {
@@ -76409,8 +76409,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.787,
    "beat_close": null
   },
   {
@@ -76431,8 +76431,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76453,8 +76453,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.885,
    "beat_close": null
   },
   {
@@ -76475,8 +76475,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.629,
    "beat_close": null
   },
   {
@@ -76497,8 +76497,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76519,8 +76519,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.05,
    "beat_close": null
   },
   {
@@ -76541,8 +76541,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76563,8 +76563,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76585,8 +76585,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76607,8 +76607,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.556,
    "beat_close": null
   },
   {
@@ -76629,8 +76629,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.0,
    "beat_close": null
   },
   {
@@ -76651,8 +76651,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.685,
    "beat_close": null
   },
   {
@@ -76673,8 +76673,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76695,8 +76695,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.847,
    "beat_close": null
   },
   {
@@ -76717,8 +76717,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76739,8 +76739,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.568,
    "beat_close": null
   },
   {
@@ -76761,8 +76761,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76783,8 +76783,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.565,
    "beat_close": null
   },
   {
@@ -76805,8 +76805,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -76827,8 +76827,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.565,
    "beat_close": null
   },
   {
@@ -76849,8 +76849,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.709,
    "beat_close": null
   },
   {
@@ -76871,8 +76871,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.658,
    "beat_close": null
   },
   {
@@ -76893,9 +76893,3125 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
+   "status": "loss",
+   "result_units": -1.0,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401910004-4066259-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "De'Aaron Fox under 3.5 rebounds",
+   "player": "De'Aaron Fox",
+   "line": 3.5,
+   "price": 120.0,
+   "model_prob": 0.582,
+   "market_prob": 0.425,
+   "edge_prob": 0.156,
+   "ev": 0.279,
+   "edge_display": "16%",
+   "tier": "2U",
+   "units": 2,
    "status": "pending",
    "result_units": null,
-   "beat_close": null
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 89 of his past games match that",
+    "Went over 3.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 58%; book says 43%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.4,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Sacramento Kings",
+     "val": 4
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 8
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 9
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4066259-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "De'Aaron Fox under 5.5 assists",
+   "player": "De'Aaron Fox",
+   "line": 5.5,
+   "price": -124.0,
+   "model_prob": 0.693,
+   "market_prob": 0.518,
+   "edge_prob": 0.174,
+   "ev": 0.251,
+   "edge_display": "17%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 89 of his past games match that",
+    "Went over 5.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Pistons allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 4.5,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Sacramento Kings",
+     "val": 6
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 4
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 7
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 6
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 9
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-5037871-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Dylan Harper under 4.5 assists",
+   "player": "Dylan Harper",
+   "line": 4.5,
+   "price": -119.0,
+   "model_prob": 0.673,
+   "market_prob": 0.508,
+   "edge_prob": 0.165,
+   "ev": 0.238,
+   "edge_display": "16%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 88 of his past games match that",
+    "Went over 4.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Pistons allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 3.8,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 8
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 8
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 3
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 10
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 4
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-5104157-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Victor Wembanyama under 1.5 threes",
+   "player": "Victor Wembanyama",
+   "line": 1.5,
+   "price": 133.0,
+   "model_prob": 0.529,
+   "market_prob": 0.402,
+   "edge_prob": 0.127,
+   "ev": 0.232,
+   "edge_display": "13%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephon Castle in, De'Aaron Fox in tonight; 89 of his past games match that",
+    "Went over 1.5 in 7 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Pistons allow 9% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.6,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 4
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 0
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-5104157-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Victor Wembanyama under 2.5 assists",
+   "player": "Victor Wembanyama",
+   "line": 2.5,
+   "price": 118.0,
+   "model_prob": 0.546,
+   "market_prob": 0.43,
+   "edge_prob": 0.116,
+   "ev": 0.191,
+   "edge_display": "12%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephon Castle in, De'Aaron Fox in tonight; 89 of his past games match that, where his assists ran 6% lower",
+    "Went over 2.5 in 7 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Pistons allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 2.6,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 5
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 5
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 6
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 6
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4433134-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Scottie Barnes under 0.5 threes",
+   "player": "Scottie Barnes",
+   "line": 0.5,
+   "price": 172.0,
+   "model_prob": 0.432,
+   "market_prob": 0.345,
+   "edge_prob": 0.087,
+   "ev": 0.174,
+   "edge_display": "9%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: RJ Barrett in, Immanuel Quickley in tonight; 72 of his past games match that",
+    "Went over 0.5 in 6 of his last 10 games",
+    "Early season: 23% weighted to the book's expected number",
+    "Model says 43%; book says 35%; realistic \u2248 47% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 0.9,
+   "open_line": 0.5,
+   "recent": [
+    {
+     "date": "2026-05-03",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-10-21",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-10-23",
+     "opp": "Washington Wizards",
+     "val": 1
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 1
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4845367-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Stephon Castle under 5.5 assists",
+   "player": "Stephon Castle",
+   "line": 5.5,
+   "price": -111.0,
+   "model_prob": 0.615,
+   "market_prob": 0.492,
+   "edge_prob": 0.123,
+   "ev": 0.17,
+   "edge_display": "12%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 89 of his past games match that",
+    "Went over 5.5 in 5 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Pistons allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 5.0,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 8
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 7
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 7
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 3
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 6
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 9
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4395724-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Immanuel Quickley under 2.5 threes",
+   "player": "Immanuel Quickley",
+   "line": 2.5,
+   "price": -107.0,
+   "model_prob": 0.604,
+   "market_prob": 0.484,
+   "edge_prob": 0.12,
+   "ev": 0.168,
+   "edge_display": "12%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, RJ Barrett in tonight; 92 of his past games match that",
+    "Went over 2.5 in 6 of his last 10 games",
+    "Early season: 18% weighted to the book's expected number",
+    "Model says 60%; book says 48%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.3,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-23",
+     "opp": "Washington Wizards",
+     "val": 0
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 4
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 4
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 1
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 3
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4395625-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "RJ Barrett under 3.5 assists",
+   "player": "RJ Barrett",
+   "line": 3.5,
+   "price": 111.0,
+   "model_prob": 0.552,
+   "market_prob": 0.444,
+   "edge_prob": 0.108,
+   "ev": 0.165,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, Immanuel Quickley in tonight; 78 of his past games match that, where his assists ran 10% lower",
+    "Went over 3.5 in 7 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Knicks allow 10% less assists than average"
+   ],
+   "flags": [],
+   "proj": 3.5,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 6
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 5
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Milwaukee Bucks",
+     "val": 5
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Memphis Grizzlies",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 7
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 6
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4395630-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Devin Vassell under 2.5 assists",
+   "player": "Devin Vassell",
+   "line": 2.5,
+   "price": -113.0,
+   "model_prob": 0.617,
+   "market_prob": 0.497,
+   "edge_prob": 0.12,
+   "ev": 0.162,
+   "edge_display": "12%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 102 of his past games match that",
+    "Went over 2.5 in 4 of his last 10 games",
+    "Early season: 16% weighted to the book's expected number",
+    "Pistons allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 2.3,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-24",
+     "opp": "Dallas Mavericks",
+     "val": 6
+    },
+    {
+     "date": "2026-10-27",
+     "opp": "Sacramento Kings",
+     "val": 8
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 2
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3147657-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Mikal Bridges under 2.5 rebounds",
+   "player": "Mikal Bridges",
+   "line": 2.5,
+   "price": 131.0,
+   "model_prob": 0.501,
+   "market_prob": 0.406,
+   "edge_prob": 0.095,
+   "ev": 0.157,
+   "edge_display": "9%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 121 of his past games match that",
+    "Went over 2.5 in 7 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 50%; book says 41%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.8,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 3
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 5
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 7
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3934672-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Jalen Brunson under 6.5 assists",
+   "player": "Jalen Brunson",
+   "line": 6.5,
+   "price": -123.0,
+   "model_prob": 0.636,
+   "market_prob": 0.516,
+   "edge_prob": 0.12,
+   "ev": 0.154,
+   "edge_display": "12%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Karl-Anthony Towns in, OG Anunoby in tonight; 119 of his past games match that",
+    "Went over 6.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 64%; book says 52%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.8,
+   "open_line": 6.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 7
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 7
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 9
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 11
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 9
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4395625-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "RJ Barrett under 1.5 threes",
+   "player": "RJ Barrett",
+   "line": 1.5,
+   "price": 116.0,
+   "model_prob": 0.534,
+   "market_prob": 0.434,
+   "edge_prob": 0.101,
+   "ev": 0.154,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, Immanuel Quickley in tonight; 78 of his past games match that",
+    "Went over 1.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 53%; book says 43%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.6,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 1
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Milwaukee Bucks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Memphis Grizzlies",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 0
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4592479-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Julian Champagnie under 1.5 assists",
+   "player": "Julian Champagnie",
+   "line": 1.5,
+   "price": -119.0,
+   "model_prob": 0.621,
+   "market_prob": 0.508,
+   "edge_prob": 0.113,
+   "ev": 0.144,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 97 of his past games match that",
+    "Went over 1.5 in 5 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Pistons allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 1.4,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 0
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4066259-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "De'Aaron Fox under 1.5 threes",
+   "player": "De'Aaron Fox",
+   "line": 1.5,
+   "price": -174.0,
+   "model_prob": 0.725,
+   "market_prob": 0.596,
+   "edge_prob": 0.129,
+   "ev": 0.141,
+   "edge_display": "13%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 89 of his past games match that, where his 3-pointers ran 9% lower",
+    "Went over 1.5 in 3 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Pistons allow 9% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.0,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 0
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4433134-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Scottie Barnes under 7.5 rebounds",
+   "player": "Scottie Barnes",
+   "line": 7.5,
+   "price": -134.0,
+   "model_prob": 0.649,
+   "market_prob": 0.536,
+   "edge_prob": 0.113,
+   "ev": 0.133,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: RJ Barrett in, Immanuel Quickley in tonight; 72 of his past games match that, where his rebounds ran 7% higher",
+    "Went over 7.5 in 4 of his last 10 games",
+    "Early season: 23% weighted to the book's expected number",
+    "Model says 65%; book says 54%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 6.6,
+   "open_line": 7.5,
+   "recent": [
+    {
+     "date": "2026-05-03",
+     "opp": "Cleveland Cavaliers",
+     "val": 9
+    },
+    {
+     "date": "2026-10-21",
+     "opp": "Chicago Bulls",
+     "val": 6
+    },
+    {
+     "date": "2026-10-23",
+     "opp": "Washington Wizards",
+     "val": 14
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 6
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 5
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 15
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 9
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-5037871-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Dylan Harper under 5.5 rebounds",
+   "player": "Dylan Harper",
+   "line": 5.5,
+   "price": -107.0,
+   "model_prob": 0.583,
+   "market_prob": 0.484,
+   "edge_prob": 0.099,
+   "ev": 0.127,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 88 of his past games match that",
+    "Went over 5.5 in 5 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 58%; book says 48%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.2,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 5
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 7
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 7
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 5
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 7
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 5
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 6
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 9
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4432241-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Jamal Shead over 4.5 assists",
+   "player": "Jamal Shead",
+   "line": 4.5,
+   "price": 113.0,
+   "model_prob": 0.527,
+   "market_prob": 0.44,
+   "edge_prob": 0.087,
+   "ev": 0.122,
+   "edge_display": "9%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, RJ Barrett in tonight; 98 of his past games match that, where his assists ran 7% lower",
+    "Went over 4.5 in 9 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Knicks allow 10% less assists than average"
+   ],
+   "flags": [],
+   "proj": 4.9,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 7
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 8
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Milwaukee Bucks",
+     "val": 16
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Memphis Grizzlies",
+     "val": 11
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 6
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4845367-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Stephon Castle under 5.5 rebounds",
+   "player": "Stephon Castle",
+   "line": 5.5,
+   "price": -137.0,
+   "model_prob": 0.647,
+   "market_prob": 0.541,
+   "edge_prob": 0.105,
+   "ev": 0.118,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 89 of his past games match that",
+    "Went over 5.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 65%; book says 54%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 4.8,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 6
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 5
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 5
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 10
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 3
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 7
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 8
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-5093267-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Collin Murray-Boyles under 6.5 rebounds",
+   "player": "Collin Murray-Boyles",
+   "line": 6.5,
+   "price": -145.0,
+   "model_prob": 0.661,
+   "market_prob": 0.554,
+   "edge_prob": 0.107,
+   "ev": 0.117,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, RJ Barrett in tonight; 50 of his past games match that",
+    "Went over 6.5 in 4 of his last 10 games",
+    "Early season: 16% weighted to the book's expected number",
+    "Model says 66%; book says 55%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.6,
+   "open_line": 6.5,
+   "recent": [
+    {
+     "date": "2026-10-25",
+     "opp": "Minnesota Timberwolves",
+     "val": 7
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 2
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 5
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 7
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Milwaukee Bucks",
+     "val": 7
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 13
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-5037871-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Dylan Harper under 1.5 threes",
+   "player": "Dylan Harper",
+   "line": 1.5,
+   "price": -159.0,
+   "model_prob": 0.678,
+   "market_prob": 0.576,
+   "edge_prob": 0.102,
+   "ev": 0.105,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 88 of his past games match that",
+    "Went over 1.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Pistons allow 9% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.2,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 2
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 1
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 0
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4395630-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Devin Vassell under 1.5 threes",
+   "player": "Devin Vassell",
+   "line": 1.5,
+   "price": 103.0,
+   "model_prob": 0.543,
+   "market_prob": 0.461,
+   "edge_prob": 0.082,
+   "ev": 0.102,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 102 of his past games match that",
+    "Went over 1.5 in 3 of his last 10 games",
+    "Early season: 16% weighted to the book's expected number",
+    "Pistons allow 9% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.6,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-24",
+     "opp": "Dallas Mavericks",
+     "val": 1
+    },
+    {
+     "date": "2026-10-27",
+     "opp": "Sacramento Kings",
+     "val": 4
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 5
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 0
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4845367-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Stephon Castle under 1.5 threes",
+   "player": "Stephon Castle",
+   "line": 1.5,
+   "price": -115.0,
+   "model_prob": 0.589,
+   "market_prob": 0.5,
+   "edge_prob": 0.089,
+   "ev": 0.102,
+   "edge_display": "9%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 89 of his past games match that",
+    "Went over 1.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Pistons allow 9% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.4,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 1
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 0
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4395724-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Immanuel Quickley under 3.5 rebounds",
+   "player": "Immanuel Quickley",
+   "line": 3.5,
+   "price": -111.0,
+   "model_prob": 0.568,
+   "market_prob": 0.493,
+   "edge_prob": 0.075,
+   "ev": 0.079,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, RJ Barrett in tonight; 92 of his past games match that",
+    "Went over 3.5 in 6 of his last 10 games",
+    "Early season: 18% weighted to the book's expected number",
+    "Model says 57%; book says 49%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.5,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-23",
+     "opp": "Washington Wizards",
+     "val": 1
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 6
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 6
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3134908-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Jakob Poeltl under 5.5 rebounds",
+   "player": "Jakob Poeltl",
+   "line": 5.5,
+   "price": 104.0,
+   "model_prob": 0.522,
+   "market_prob": 0.46,
+   "edge_prob": 0.063,
+   "ev": 0.065,
+   "edge_display": "6%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, RJ Barrett in tonight; 92 of his past games match that",
+    "Went over 5.5 in 5 of his last 10 games",
+    "Early season: 18% weighted to the book's expected number",
+    "Model says 52%; book says 46%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.7,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-23",
+     "opp": "Washington Wizards",
+     "val": 9
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 2
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 11
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 5
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Milwaukee Bucks",
+     "val": 11
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Memphis Grizzlies",
+     "val": 8
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 9
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910004-4592479-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T01:00Z",
+   "event": "Spurs vs Pistons",
+   "market": "prop",
+   "selection": "Julian Champagnie under 4.5 rebounds",
+   "player": "Julian Champagnie",
+   "line": 4.5,
+   "price": -133.0,
+   "model_prob": 0.603,
+   "market_prob": 0.534,
+   "edge_prob": 0.069,
+   "ev": 0.056,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 97 of his past games match that",
+    "Went over 4.5 in 5 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 60%; book says 53%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 4.2,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 6
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 7
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 8
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3136195-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Karl-Anthony Towns over 3.5 assists",
+   "player": "Karl-Anthony Towns",
+   "line": 3.5,
+   "price": 120.0,
+   "model_prob": 0.477,
+   "market_prob": 0.426,
+   "edge_prob": 0.051,
+   "ev": 0.05,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, OG Anunoby in tonight; 112 of his past games match that",
+    "Went over 3.5 in 4 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 48%; book says 43%; realistic \u2248 48% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.6,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 3
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 5
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 5
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 8
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 3
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4395724-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Immanuel Quickley under 4.5 assists",
+   "player": "Immanuel Quickley",
+   "line": 4.5,
+   "price": 112.0,
+   "model_prob": 0.495,
+   "market_prob": 0.442,
+   "edge_prob": 0.053,
+   "ev": 0.049,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, RJ Barrett in tonight; 92 of his past games match that, where his assists ran 7% lower",
+    "Went over 4.5 in 7 of his last 10 games",
+    "Early season: 18% weighted to the book's expected number",
+    "Knicks allow 10% less assists than average"
+   ],
+   "flags": [],
+   "proj": 4.8,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-23",
+     "opp": "Washington Wizards",
+     "val": 6
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Minnesota Timberwolves",
+     "val": 2
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 7
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 8
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 7
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 7
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 6
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3147657-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Mikal Bridges under 0.5 threes",
+   "player": "Mikal Bridges",
+   "line": 0.5,
+   "price": 154.0,
+   "model_prob": 0.412,
+   "market_prob": 0.369,
+   "edge_prob": 0.043,
+   "ev": 0.048,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 121 of his past games match that",
+    "Went over 0.5 in 6 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 41%; book says 37%; realistic \u2248 47% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.0,
+   "open_line": 0.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 4
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3934719-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "OG Anunoby under 1.5 assists",
+   "player": "OG Anunoby",
+   "line": 1.5,
+   "price": 113.0,
+   "model_prob": 0.491,
+   "market_prob": 0.44,
+   "edge_prob": 0.051,
+   "ev": 0.046,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 120 of his past games match that",
+    "Went over 1.5 in 7 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 49%; book says 44%; realistic \u2248 48% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.8,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 2
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4431823-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Miles McBride under 1.5 threes",
+   "player": "Miles McBride",
+   "line": 1.5,
+   "price": 103.0,
+   "model_prob": 0.513,
+   "market_prob": 0.462,
+   "edge_prob": 0.051,
+   "ev": 0.041,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 128 of his past games match that",
+    "Went over 1.5 in 6 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 51%; book says 46%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.7,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 1
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3136195-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Karl-Anthony Towns under 12.5 rebounds",
+   "player": "Karl-Anthony Towns",
+   "line": 12.5,
+   "price": -129.0,
+   "model_prob": 0.585,
+   "market_prob": 0.527,
+   "edge_prob": 0.058,
+   "ev": 0.039,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, OG Anunoby in tonight; 112 of his past games match that",
+    "Went over 12.5 in 7 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 59%; book says 53%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 11.9,
+   "open_line": 12.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 20
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 13
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 12
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 16
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 12
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 13
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 16
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 11
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 15
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 17
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3934719-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "OG Anunoby under 5.5 rebounds",
+   "player": "OG Anunoby",
+   "line": 5.5,
+   "price": -151.0,
+   "model_prob": 0.618,
+   "market_prob": 0.563,
+   "edge_prob": 0.055,
+   "ev": 0.027,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 120 of his past games match that",
+    "Went over 5.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 62%; book says 56%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.0,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 7
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 6
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 5
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 9
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3062679-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Josh Hart under 6.5 rebounds",
+   "player": "Josh Hart",
+   "line": 6.5,
+   "price": -140.0,
+   "model_prob": 0.598,
+   "market_prob": 0.546,
+   "edge_prob": 0.052,
+   "ev": 0.025,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 121 of his past games match that",
+    "Went over 6.5 in 4 of his last 10 games",
+    "Early season: 20% weighted to the book's expected number",
+    "Model says 60%; book says 55%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 6.1,
+   "open_line": 6.5,
+   "recent": [
+    {
+     "date": "2026-10-20",
+     "opp": "Philadelphia 76ers",
+     "val": 7
+    },
+    {
+     "date": "2026-10-23",
+     "opp": "Boston Celtics",
+     "val": 12
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Orlando Magic",
+     "val": 8
+    },
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 4
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 8
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3934672-reb",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Jalen Brunson under 2.5 rebounds",
+   "player": "Jalen Brunson",
+   "line": 2.5,
+   "price": -101.0,
+   "model_prob": 0.514,
+   "market_prob": 0.471,
+   "edge_prob": 0.043,
+   "ev": 0.023,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Karl-Anthony Towns in, OG Anunoby in tonight; 119 of his past games match that",
+    "Went over 2.5 in 4 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 51%; book says 47%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.8,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 1
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3062679-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Josh Hart under 1.5 threes",
+   "player": "Josh Hart",
+   "line": 1.5,
+   "price": -187.0,
+   "model_prob": 0.661,
+   "market_prob": 0.611,
+   "edge_prob": 0.05,
+   "ev": 0.014,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 121 of his past games match that",
+    "Went over 1.5 in 6 of his last 10 games",
+    "Early season: 20% weighted to the book's expected number",
+    "Model says 66%; book says 61%; realistic \u2248 52% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.2,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-20",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-10-23",
+     "opp": "Boston Celtics",
+     "val": 2
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 2
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-3147657-ast",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Knicks @ Raptors",
+   "market": "prop",
+   "selection": "Mikal Bridges under 2.5 assists",
+   "player": "Mikal Bridges",
+   "line": 2.5,
+   "price": -161.0,
+   "model_prob": 0.622,
+   "market_prob": 0.578,
+   "edge_prob": 0.044,
+   "ev": 0.008,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 121 of his past games match that",
+    "Went over 2.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 62%; book says 58%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.2,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 4
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 3
+    }
+   ]
+  },
+  {
+   "id": "nba-401910002-4684272-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-17",
+   "start": "2026-11-18T00:30Z",
+   "event": "Raptors vs Knicks",
+   "market": "prop",
+   "selection": "Ja'Kobe Walter under 2.5 threes",
+   "player": "Ja'Kobe Walter",
+   "line": 2.5,
+   "price": -171.0,
+   "model_prob": 0.635,
+   "market_prob": 0.591,
+   "edge_prob": 0.044,
+   "ev": 0.007,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Scottie Barnes in, RJ Barrett in tonight; 97 of his past games match that",
+    "Went over 2.5 in 4 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 64%; book says 59%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.2,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Lakers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Los Angeles Clippers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Denver Nuggets",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Milwaukee Bucks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Memphis Grizzlies",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Boston Celtics",
+     "val": 5
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Philadelphia 76ers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "New York Knicks",
+     "val": 1
+    }
+   ]
   }
  ]
 }
