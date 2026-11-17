@@ -4170,8 +4170,8 @@
   "stake": 2.0,
   "locked_at": "2026-11-16 10:57 ET",
   "backfilled": false,
-  "status": "pending",
-  "result_units": null,
+  "status": "win",
+  "result_units": 2.18,
   "potd": false
  },
  {
@@ -4195,8 +4195,8 @@
   "stake": 2.0,
   "locked_at": "2026-11-16 19:24 ET",
   "backfilled": false,
-  "status": "pending",
-  "result_units": null,
+  "status": "loss",
+  "result_units": -2.0,
   "potd": false
  }
 ]
