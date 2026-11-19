@@ -2,7 +2,7 @@
  "sport": "NBA",
  "app": "NBA Model",
  "format": 1,
- "generated_at": "2026-11-19T03:48Z",
+ "generated_at": "2026-11-19T15:15Z",
  "plays": [
   {
    "id": "nba-401909088-4351852-reb",
@@ -79533,8 +79533,8 @@
    "edge_display": "16%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -79577,8 +79577,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.887,
    "beat_close": true
   },
   {
@@ -79621,8 +79621,8 @@
    "edge_display": "14%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 2.26,
    "beat_close": null
   },
   {
@@ -79687,8 +79687,8 @@
    "edge_display": "16%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": null
   },
   {
@@ -79951,8 +79951,8 @@
    "edge_display": "15%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.408,
    "beat_close": true
   },
   {
@@ -80017,8 +80017,8 @@
    "edge_display": "13%",
    "tier": "2U",
    "units": 2,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -2.0,
    "beat_close": false
   },
   {
@@ -80193,8 +80193,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.33,
    "beat_close": null
   },
   {
@@ -80215,8 +80215,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -80347,8 +80347,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.43,
    "beat_close": null
   },
   {
@@ -80457,8 +80457,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -80479,8 +80479,8 @@
    "edge_display": "12%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.826,
    "beat_close": null
   },
   {
@@ -80523,8 +80523,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.893,
    "beat_close": true
   },
   {
@@ -80589,8 +80589,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.13,
    "beat_close": false
   },
   {
@@ -80611,8 +80611,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.04,
    "beat_close": null
   },
   {
@@ -80655,8 +80655,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -80809,8 +80809,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -80831,8 +80831,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.08,
    "beat_close": false
   },
   {
@@ -80919,8 +80919,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.662,
    "beat_close": false
   },
   {
@@ -80941,8 +80941,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.676,
    "beat_close": true
   },
   {
@@ -80963,8 +80963,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.69,
    "beat_close": true
   },
   {
@@ -81007,8 +81007,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -81073,8 +81073,8 @@
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.676,
    "beat_close": true
   },
   {
@@ -81271,8 +81271,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.23,
    "beat_close": null
   },
   {
@@ -81293,8 +81293,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -81315,8 +81315,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.926,
    "beat_close": false
   },
   {
@@ -81337,8 +81337,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -81381,8 +81381,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.885,
    "beat_close": null
   },
   {
@@ -81447,8 +81447,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.671,
    "beat_close": true
   },
   {
@@ -81557,8 +81557,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.694,
    "beat_close": true
   },
   {
@@ -81601,8 +81601,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -81733,8 +81733,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.14,
    "beat_close": null
   },
   {
@@ -81755,8 +81755,8 @@
    "edge_display": "10%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.602,
    "beat_close": null
   },
   {
@@ -81953,8 +81953,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.641,
    "beat_close": null
   },
   {
@@ -81997,8 +81997,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -82019,8 +82019,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -82041,8 +82041,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -82085,8 +82085,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.58,
    "beat_close": null
   },
   {
@@ -82129,8 +82129,8 @@
    "edge_display": "9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.658,
    "beat_close": true
   },
   {
@@ -82195,8 +82195,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -82261,8 +82261,8 @@
    "edge_display": "9%",
    "tier": "1U",
    "units": 1,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.541,
    "beat_close": null
   },
   {
@@ -82283,8 +82283,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -82327,8 +82327,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.952,
    "beat_close": null
   },
   {
@@ -82371,8 +82371,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -82393,8 +82393,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -82437,8 +82437,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -82569,8 +82569,8 @@
    "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.637,
    "beat_close": null
   },
   {
@@ -82635,8 +82635,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -82789,8 +82789,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -82877,8 +82877,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -82943,8 +82943,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -83053,8 +83053,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": false
   },
   {
@@ -83097,8 +83097,8 @@
    "edge_display": "7%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.637,
    "beat_close": null
   },
   {
@@ -83229,8 +83229,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -83251,8 +83251,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 1.14,
    "beat_close": true
   },
   {
@@ -83427,8 +83427,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.926,
    "beat_close": null
   },
   {
@@ -83471,8 +83471,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -83515,8 +83515,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.599,
    "beat_close": false
   },
   {
@@ -83603,8 +83603,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.806,
    "beat_close": null
   },
   {
@@ -83669,8 +83669,8 @@
    "edge_display": "6%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -83801,8 +83801,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -83889,8 +83889,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -83911,8 +83911,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -83955,8 +83955,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.559,
    "beat_close": null
   },
   {
@@ -83999,8 +83999,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.98,
    "beat_close": true
   },
   {
@@ -84021,8 +84021,8 @@
    "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.578,
    "beat_close": true
   },
   {
@@ -84131,8 +84131,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -84263,8 +84263,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.704,
    "beat_close": null
   },
   {
@@ -84329,8 +84329,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": null
   },
   {
@@ -84373,8 +84373,8 @@
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "loss",
+   "result_units": -1.0,
    "beat_close": true
   },
   {
@@ -84505,8 +84505,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.725,
    "beat_close": false
   },
   {
@@ -84549,8 +84549,8 @@
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
+   "status": "win",
+   "result_units": 0.787,
    "beat_close": null
   },
   {
@@ -84686,266 +84686,20 @@
    "beat_close": null
   },
   {
-   "id": "nba-401910022-5104157-ast",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Spurs vs Clippers",
-   "market": "prop",
-   "selection": "Victor Wembanyama under 3.5 assists",
-   "player": "Victor Wembanyama",
-   "line": 3.5,
-   "price": 109.0,
-   "model_prob": 0.636,
-   "market_prob": 0.448,
-   "edge_prob": 0.188,
-   "ev": 0.329,
-   "edge_display": "19%",
-   "tier": "2U",
-   "units": 2,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Stephon Castle in, De'Aaron Fox in tonight; 90 of his past games match that, where his assists ran 6% lower",
-    "Went over 3.5 in 5 of his last 10 games",
-    "Early season: 11% weighted to the book's expected number",
-    "Model says 64%; book says 45%; realistic \u2248 51% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 3.1,
-   "open_line": 3.5,
-   "recent": [
-    {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 4
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 5
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 2
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 2
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 3
-    },
-    {
-     "date": "2026-11-09",
-     "opp": "Phoenix Suns",
-     "val": 3
-    },
-    {
-     "date": "2026-11-11",
-     "opp": "Chicago Bulls",
-     "val": 1
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Golden State Warriors",
-     "val": 6
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Utah Jazz",
-     "val": 6
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 4
-    }
-   ]
-  },
-  {
-   "id": "nba-401910022-4066648-reb",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Clippers @ Spurs",
-   "market": "prop",
-   "selection": "Rui Hachimura under 4.5 rebounds",
-   "player": "Rui Hachimura",
-   "line": 4.5,
-   "price": 114.0,
-   "model_prob": 0.614,
-   "market_prob": 0.438,
-   "edge_prob": 0.176,
-   "ev": 0.313,
-   "edge_display": "18%",
-   "tier": "2U",
-   "units": 2,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Darius Garland in, Keaton Wagler in tonight; 11 of his past games match that",
-    "Went over 4.5 in 7 of his last 10 games",
-    "Early season: 18% weighted to the book's expected number",
-    "Model says 61%; book says 44%; realistic \u2248 51% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 4.1,
-   "open_line": 4.5,
-   "recent": [
-    {
-     "date": "2026-10-23",
-     "opp": "Los Angeles Lakers",
-     "val": 6
-    },
-    {
-     "date": "2026-10-25",
-     "opp": "Oklahoma City Thunder",
-     "val": 4
-    },
-    {
-     "date": "2026-10-30",
-     "opp": "Minnesota Timberwolves",
-     "val": 5
-    },
-    {
-     "date": "2026-11-01",
-     "opp": "Golden State Warriors",
-     "val": 7
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Miami Heat",
-     "val": 9
-    },
-    {
-     "date": "2026-11-08",
-     "opp": "New Orleans Pelicans",
-     "val": 3
-    },
-    {
-     "date": "2026-11-10",
-     "opp": "Phoenix Suns",
-     "val": 5
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Oklahoma City Thunder",
-     "val": 11
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Charlotte Hornets",
-     "val": 2
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Utah Jazz",
-     "val": 5
-    }
-   ]
-  },
-  {
-   "id": "nba-401910022-4845367-ast",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Spurs vs Clippers",
-   "market": "prop",
-   "selection": "Stephon Castle under 7.5 assists",
-   "player": "Stephon Castle",
-   "line": 7.5,
-   "price": -138.0,
-   "model_prob": 0.748,
-   "market_prob": 0.543,
-   "edge_prob": 0.205,
-   "ev": 0.29,
-   "edge_display": "21%",
-   "tier": "2U",
-   "units": 2,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 90 of his past games match that",
-    "Went over 7.5 in 1 of his last 10 games",
-    "Early season: 11% weighted to the book's expected number",
-    "Model says 75%; book says 54%; realistic \u2248 53% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 5.8,
-   "open_line": 7.5,
-   "recent": [
-    {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 4
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 4
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 3
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 7
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 5
-    },
-    {
-     "date": "2026-11-09",
-     "opp": "Phoenix Suns",
-     "val": 7
-    },
-    {
-     "date": "2026-11-11",
-     "opp": "Chicago Bulls",
-     "val": 3
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Golden State Warriors",
-     "val": 6
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Utah Jazz",
-     "val": 9
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 7
-    }
-   ]
-  },
-  {
    "id": "nba-401910022-5104157-reb",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
    "event": "Spurs vs Clippers",
    "market": "prop",
-   "selection": "Victor Wembanyama under 12.5 rebounds",
+   "selection": "Victor Wembanyama under 11.5 rebounds",
    "player": "Victor Wembanyama",
-   "line": 12.5,
-   "price": -132.0,
-   "model_prob": 0.707,
-   "market_prob": 0.533,
-   "edge_prob": 0.174,
-   "ev": 0.243,
+   "line": 11.5,
+   "price": 106.0,
+   "model_prob": 0.623,
+   "market_prob": 0.454,
+   "edge_prob": 0.169,
+   "ev": 0.283,
    "edge_display": "17%",
    "tier": "2U",
    "units": 2,
@@ -84953,9 +84707,9 @@
    "result_units": null,
    "why": [
     "Role: Stephon Castle in, De'Aaron Fox in tonight; 90 of his past games match that",
-    "Went over 12.5 in 3 of his last 10 games",
+    "Went over 11.5 in 4 of his last 10 games",
     "Early season: 11% weighted to the book's expected number",
-    "Model says 71%; book says 53%; realistic \u2248 52% (the model runs overconfident)"
+    "Model says 62%; book says 45%; realistic \u2248 51% (the model runs overconfident)"
    ],
    "flags": [],
    "proj": 10.6,
@@ -85014,6 +84768,744 @@
    ]
   },
   {
+   "id": "nba-401910022-4845367-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "Stephon Castle under 7.5 assists",
+   "player": "Stephon Castle",
+   "line": 7.5,
+   "price": -145.0,
+   "model_prob": 0.749,
+   "market_prob": 0.554,
+   "edge_prob": 0.195,
+   "ev": 0.266,
+   "edge_display": "20%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 90 of his past games match that",
+    "Went over 7.5 in 1 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 75%; book says 55%; realistic \u2248 53% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.8,
+   "open_line": 7.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 7
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 7
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 3
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 6
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 9
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Detroit Pistons",
+     "val": 7
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-4683678-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Scoot Henderson under 2.5 assists",
+   "player": "Scoot Henderson",
+   "line": 2.5,
+   "price": -129.0,
+   "model_prob": 0.713,
+   "market_prob": 0.527,
+   "edge_prob": 0.185,
+   "ev": 0.266,
+   "edge_display": "19%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Damian Lillard in tonight; 13 of his past games match that, where his assists ran 40% lower",
+    "Went over 2.5 in 1 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "About 65 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 1.9,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 1
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 1
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3032976-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "Rudy Gobert under 9.5 rebounds",
+   "player": "Rudy Gobert",
+   "line": 9.5,
+   "price": 105.0,
+   "model_prob": 0.611,
+   "market_prob": 0.457,
+   "edge_prob": 0.154,
+   "ev": 0.252,
+   "edge_display": "15%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: LaMelo Ball in, Ayo Dosunmu in tonight; 14 of his past games match that",
+    "Went over 9.5 in 7 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Knicks allow 9% less rebounds than average"
+   ],
+   "flags": [],
+   "proj": 8.8,
+   "open_line": 10.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Golden State Warriors",
+     "val": 4
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Clippers",
+     "val": 13
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Milwaukee Bucks",
+     "val": 10
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 11
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 11
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 15
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 6
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 10
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 15
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-5175737-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Warriors @ Grizzlies",
+   "market": "prop",
+   "selection": "Yaxel Lendeborg under 3.5 assists",
+   "player": "Yaxel Lendeborg",
+   "line": 3.5,
+   "price": 123.0,
+   "model_prob": 0.557,
+   "market_prob": 0.42,
+   "edge_prob": 0.137,
+   "ev": 0.242,
+   "edge_display": "14%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephen Curry out, Brandin Podziemski in tonight; 4 of his past games match that",
+    "Went over 3.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "About 68 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 3.5,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Lakers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Clippers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Phoenix Suns",
+     "val": 5
+    },
+    {
+     "date": "2026-11-05",
+     "opp": "Miami Heat",
+     "val": 6
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "New Orleans Pelicans",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Houston Rockets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "San Antonio Spurs",
+     "val": 1
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "New Orleans Pelicans",
+     "val": 3
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Dallas Mavericks",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4066259-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "De'Aaron Fox under 3.5 rebounds",
+   "player": "De'Aaron Fox",
+   "line": 3.5,
+   "price": 125.0,
+   "model_prob": 0.547,
+   "market_prob": 0.416,
+   "edge_prob": 0.131,
+   "ev": 0.231,
+   "edge_display": "13%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 90 of his past games match that",
+    "Went over 3.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 55%; book says 42%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.6,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 8
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 9
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 5
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Detroit Pistons",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-4397002-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "Ayo Dosunmu under 3.5 assists",
+   "player": "Ayo Dosunmu",
+   "line": 3.5,
+   "price": 121.0,
+   "model_prob": 0.555,
+   "market_prob": 0.424,
+   "edge_prob": 0.132,
+   "ev": 0.227,
+   "edge_display": "13%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: LaMelo Ball in, Jaden McDaniels in tonight; 15 of his past games match that, where his assists ran 5% lower",
+    "Went over 3.5 in 4 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Knicks allow 9% less assists than average"
+   ],
+   "flags": [],
+   "proj": 3.5,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Clippers",
+     "val": 2
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "San Antonio Spurs",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Milwaukee Bucks",
+     "val": 8
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 4
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4066259-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "De'Aaron Fox under 6.5 assists",
+   "player": "De'Aaron Fox",
+   "line": 6.5,
+   "price": -147.0,
+   "model_prob": 0.728,
+   "market_prob": 0.557,
+   "edge_prob": 0.172,
+   "ev": 0.224,
+   "edge_display": "17%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 90 of his past games match that",
+    "Went over 6.5 in 2 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 73%; book says 56%; realistic \u2248 53% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.1,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Utah Jazz",
+     "val": 4
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 7
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 6
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 9
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Detroit Pistons",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-4397886-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Warriors @ Grizzlies",
+   "market": "prop",
+   "selection": "Charles Bassey under 6.5 rebounds",
+   "player": "Charles Bassey",
+   "line": 6.5,
+   "price": 108.0,
+   "model_prob": 0.588,
+   "market_prob": 0.45,
+   "edge_prob": 0.139,
+   "ev": 0.224,
+   "edge_display": "14%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephen Curry out, Yaxel Lendeborg in tonight; 5 of his past games match that",
+    "Went over 6.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "About 68 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 6.2,
+   "open_line": 7.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Lakers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Clippers",
+     "val": 10
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Phoenix Suns",
+     "val": 8
+    },
+    {
+     "date": "2026-11-05",
+     "opp": "Miami Heat",
+     "val": 7
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Orlando Magic",
+     "val": 4
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "New Orleans Pelicans",
+     "val": 10
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Houston Rockets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "San Antonio Spurs",
+     "val": 5
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "New Orleans Pelicans",
+     "val": 0
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Dallas Mavericks",
+     "val": 8
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4066648-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Clippers @ Spurs",
+   "market": "prop",
+   "selection": "Rui Hachimura under 4.5 rebounds",
+   "player": "Rui Hachimura",
+   "line": 4.5,
+   "price": -104.0,
+   "model_prob": 0.622,
+   "market_prob": 0.478,
+   "edge_prob": 0.144,
+   "ev": 0.219,
+   "edge_display": "14%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Darius Garland in, Keaton Wagler in tonight; 11 of his past games match that",
+    "Went over 4.5 in 7 of his last 10 games",
+    "Early season: 18% weighted to the book's expected number",
+    "Model says 62%; book says 48%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 4.1,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-23",
+     "opp": "Los Angeles Lakers",
+     "val": 6
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Oklahoma City Thunder",
+     "val": 4
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 5
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Golden State Warriors",
+     "val": 7
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Miami Heat",
+     "val": 9
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "New Orleans Pelicans",
+     "val": 3
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Phoenix Suns",
+     "val": 5
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Oklahoma City Thunder",
+     "val": 11
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Charlotte Hornets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Utah Jazz",
+     "val": 5
+    }
+   ]
+  },
+  {
    "id": "nba-401910022-4592479-fg3m",
    "sport": "NBA",
    "date": "2026-11-19",
@@ -85023,14 +85515,14 @@
    "selection": "Julian Champagnie under 2.5 threes",
    "player": "Julian Champagnie",
    "line": 2.5,
-   "price": 107.0,
-   "model_prob": 0.582,
-   "market_prob": 0.453,
-   "edge_prob": 0.129,
-   "ev": 0.204,
+   "price": 109.0,
+   "model_prob": 0.58,
+   "market_prob": 0.448,
+   "edge_prob": 0.132,
+   "ev": 0.213,
    "edge_display": "13%",
-   "tier": "1U",
-   "units": 1,
+   "tier": "2U",
+   "units": 2,
    "status": "pending",
    "result_units": null,
    "why": [
@@ -85096,358 +85588,30 @@
    ]
   },
   {
-   "id": "nba-401910022-4592479-ast",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Spurs vs Clippers",
-   "market": "prop",
-   "selection": "Julian Champagnie under 1.5 assists",
-   "player": "Julian Champagnie",
-   "line": 1.5,
-   "price": 108.0,
-   "model_prob": 0.578,
-   "market_prob": 0.45,
-   "edge_prob": 0.128,
-   "ev": 0.202,
-   "edge_display": "13%",
-   "tier": "1U",
-   "units": 1,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Victor Wembanyama in, Stephon Castle in tonight; 98 of his past games match that",
-    "Went over 1.5 in 5 of his last 10 games",
-    "Early season: 11% weighted to the book's expected number",
-    "Model says 58%; book says 45%; realistic \u2248 50% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 1.5,
-   "open_line": 1.5,
-   "recent": [
-    {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 1
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 0
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 3
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 2
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 0
-    },
-    {
-     "date": "2026-11-09",
-     "opp": "Phoenix Suns",
-     "val": 2
-    },
-    {
-     "date": "2026-11-11",
-     "opp": "Chicago Bulls",
-     "val": 2
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Golden State Warriors",
-     "val": 3
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Utah Jazz",
-     "val": 1
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 0
-    }
-   ]
-  },
-  {
-   "id": "nba-401910022-4395630-ast",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Spurs vs Clippers",
-   "market": "prop",
-   "selection": "Devin Vassell under 2.5 assists",
-   "player": "Devin Vassell",
-   "line": 2.5,
-   "price": 130.0,
-   "model_prob": 0.518,
-   "market_prob": 0.407,
-   "edge_prob": 0.111,
-   "ev": 0.192,
-   "edge_display": "11%",
-   "tier": "1U",
-   "units": 1,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Victor Wembanyama in, Stephon Castle in tonight; 102 of his past games match that",
-    "Went over 2.5 in 4 of his last 10 games",
-    "Early season: 14% weighted to the book's expected number",
-    "Model says 52%; book says 41%; realistic \u2248 49% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 2.7,
-   "open_line": 2.5,
-   "recent": [
-    {
-     "date": "2026-10-27",
-     "opp": "Sacramento Kings",
-     "val": 8
-    },
-    {
-     "date": "2026-10-28",
-     "opp": "Utah Jazz",
-     "val": 2
-    },
-    {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 2
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 1
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 4
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 2
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 3
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Golden State Warriors",
-     "val": 2
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Utah Jazz",
-     "val": 1
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 4
-    }
-   ]
-  },
-  {
-   "id": "nba-401910022-5104157-fg3m",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Spurs vs Clippers",
-   "market": "prop",
-   "selection": "Victor Wembanyama under 1.5 threes",
-   "player": "Victor Wembanyama",
-   "line": 1.5,
-   "price": 142.0,
-   "model_prob": 0.488,
-   "market_prob": 0.387,
-   "edge_prob": 0.101,
-   "ev": 0.18,
-   "edge_display": "10%",
-   "tier": "1U",
-   "units": 1,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Stephon Castle in, De'Aaron Fox in tonight; 90 of his past games match that",
-    "Went over 1.5 in 6 of his last 10 games",
-    "Early season: 11% weighted to the book's expected number",
-    "Model says 49%; book says 39%; realistic \u2248 48% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 1.8,
-   "open_line": 1.5,
-   "recent": [
-    {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 3
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 0
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 1
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 4
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 3
-    },
-    {
-     "date": "2026-11-09",
-     "opp": "Phoenix Suns",
-     "val": 2
-    },
-    {
-     "date": "2026-11-11",
-     "opp": "Chicago Bulls",
-     "val": 2
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Golden State Warriors",
-     "val": 0
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Utah Jazz",
-     "val": 4
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 1
-    }
-   ]
-  },
-  {
-   "id": "nba-401910022-4066259-ast",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Spurs vs Clippers",
-   "market": "prop",
-   "selection": "De'Aaron Fox under 5.5 assists",
-   "player": "De'Aaron Fox",
-   "line": 5.5,
-   "price": -106.0,
-   "model_prob": 0.606,
-   "market_prob": 0.481,
-   "edge_prob": 0.125,
-   "ev": 0.178,
-   "edge_display": "13%",
-   "tier": "1U",
-   "units": 1,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Victor Wembanyama in, Stephon Castle in tonight; 90 of his past games match that",
-    "Went over 5.5 in 4 of his last 10 games",
-    "Early season: 12% weighted to the book's expected number",
-    "Model says 61%; book says 48%; realistic \u2248 50% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 5.1,
-   "open_line": 5.5,
-   "recent": [
-    {
-     "date": "2026-10-28",
-     "opp": "Utah Jazz",
-     "val": 4
-    },
-    {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 7
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 3
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 4
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 4
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 6
-    },
-    {
-     "date": "2026-11-09",
-     "opp": "Phoenix Suns",
-     "val": 6
-    },
-    {
-     "date": "2026-11-11",
-     "opp": "Chicago Bulls",
-     "val": 9
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Golden State Warriors",
-     "val": 1
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 2
-    }
-   ]
-  },
-  {
    "id": "nba-401910022-4592479-reb",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
    "event": "Spurs vs Clippers",
    "market": "prop",
-   "selection": "Julian Champagnie under 4.5 rebounds",
+   "selection": "Julian Champagnie under 5.5 rebounds",
    "player": "Julian Champagnie",
-   "line": 4.5,
-   "price": 117.0,
-   "model_prob": 0.54,
-   "market_prob": 0.432,
-   "edge_prob": 0.108,
-   "ev": 0.172,
-   "edge_display": "11%",
-   "tier": "1U",
-   "units": 1,
+   "line": 5.5,
+   "price": -128.0,
+   "model_prob": 0.674,
+   "market_prob": 0.525,
+   "edge_prob": 0.148,
+   "ev": 0.2,
+   "edge_display": "15%",
+   "tier": "2U",
+   "units": 2,
    "status": "pending",
    "result_units": null,
    "why": [
     "Role: Victor Wembanyama in, Stephon Castle in tonight; 98 of his past games match that",
-    "Went over 4.5 in 5 of his last 10 games",
+    "Went over 5.5 in 4 of his last 10 games",
     "Early season: 11% weighted to the book's expected number",
-    "Model says 54%; book says 43%; realistic \u2248 49% (the model runs overconfident)"
+    "Model says 67%; book says 53%; realistic \u2248 52% (the model runs overconfident)"
    ],
    "flags": [],
    "proj": 4.6,
@@ -85506,412 +85670,707 @@
    ]
   },
   {
-   "id": "nba-401910022-4396907-ast",
+   "id": "nba-401910022-4395630-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": null,
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "Devin Vassell under 2.5 assists",
+   "player": "Devin Vassell",
+   "line": 2.5,
+   "price": 130.0,
+   "model_prob": 0.518,
+   "market_prob": 0.407,
+   "edge_prob": 0.111,
+   "ev": 0.192,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": true
+  },
+  {
+   "id": "nba-401910020-3133628-fg3m",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
-   "event": "Clippers @ Spurs",
+   "event": "Bucks vs Blazers",
    "market": "prop",
-   "selection": "Darius Garland under 7.5 assists",
-   "player": "Darius Garland",
-   "line": 7.5,
-   "price": -140.0,
-   "model_prob": 0.674,
-   "market_prob": 0.546,
-   "edge_prob": 0.128,
-   "ev": 0.156,
-   "edge_display": "13%",
+   "selection": "Myles Turner under 1.5 threes",
+   "player": "Myles Turner",
+   "line": 1.5,
+   "price": 104.0,
+   "model_prob": 0.584,
+   "market_prob": 0.459,
+   "edge_prob": 0.125,
+   "ev": 0.191,
+   "edge_display": "12%",
    "tier": "1U",
    "units": 1,
    "status": "pending",
    "result_units": null,
    "why": [
-    "Role: Keaton Wagler in, Rui Hachimura in tonight; 11 of his past games match that",
-    "Went over 7.5 in 2 of his last 10 games",
-    "Early season: 14% weighted to the book's expected number",
-    "Model says 67%; book says 55%; realistic \u2248 52% (the model runs overconfident)"
+    "Role: Tyler Herro in, Ryan Rollins in tonight; 11 of his past games match that, where his 3-pointers ran 11% lower",
+    "Went over 1.5 in 3 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Blazers allow 13% less 3-pointers than average"
    ],
    "flags": [],
-   "proj": 6.4,
-   "open_line": 7.5,
+   "proj": 1.5,
+   "open_line": 1.5,
    "recent": [
     {
      "date": "2026-10-28",
-     "opp": "Los Angeles Lakers",
-     "val": 5
+     "opp": "Houston Rockets",
+     "val": 0
     },
     {
-     "date": "2026-10-30",
-     "opp": "Minnesota Timberwolves",
-     "val": 5
-    },
-    {
-     "date": "2026-11-01",
-     "opp": "Golden State Warriors",
-     "val": 7
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
     },
     {
      "date": "2026-11-02",
-     "opp": "Toronto Raptors",
-     "val": 8
+     "opp": "Minnesota Timberwolves",
+     "val": 3
     },
     {
      "date": "2026-11-04",
-     "opp": "Miami Heat",
-     "val": 7
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 0
     },
     {
      "date": "2026-11-08",
-     "opp": "New Orleans Pelicans",
-     "val": 10
+     "opp": "Boston Celtics",
+     "val": 0
     },
     {
      "date": "2026-11-10",
-     "opp": "Phoenix Suns",
-     "val": 6
+     "opp": "New York Knicks",
+     "val": 1
     },
     {
      "date": "2026-11-13",
-     "opp": "Oklahoma City Thunder",
-     "val": 7
+     "opp": "Orlando Magic",
+     "val": 4
     },
     {
      "date": "2026-11-15",
-     "opp": "Charlotte Hornets",
-     "val": 7
+     "opp": "Atlanta Hawks",
+     "val": 1
     },
     {
-     "date": "2026-11-17",
-     "opp": "Utah Jazz",
-     "val": 7
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 0
     }
    ]
   },
   {
-   "id": "nba-401910022-4396907-reb",
+   "id": "nba-401910020-4683678-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Scoot Henderson under 2.5 rebounds",
+   "player": "Scoot Henderson",
+   "line": 2.5,
+   "price": -130.0,
+   "model_prob": 0.672,
+   "market_prob": 0.529,
+   "edge_prob": 0.143,
+   "ev": 0.189,
+   "edge_display": "14%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Damian Lillard in tonight; 13 of his past games match that, where his rebounds ran 18% lower",
+    "Went over 2.5 in 1 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "About 65 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 2.0,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 2
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 0
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-4709138-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Warriors @ Grizzlies",
+   "market": "prop",
+   "selection": "Brandin Podziemski under 4.5 assists",
+   "player": "Brandin Podziemski",
+   "line": 4.5,
+   "price": -142.0,
+   "model_prob": 0.689,
+   "market_prob": 0.55,
+   "edge_prob": 0.139,
+   "ev": 0.173,
+   "edge_display": "14%",
+   "tier": "2U",
+   "units": 2,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephen Curry out, Yaxel Lendeborg in tonight; 4 of his past games match that",
+    "Went over 4.5 in 2 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "About 68 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 3.7,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Lakers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Clippers",
+     "val": 8
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-05",
+     "opp": "Miami Heat",
+     "val": 3
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Orlando Magic",
+     "val": 1
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "New Orleans Pelicans",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Houston Rockets",
+     "val": 4
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "San Antonio Spurs",
+     "val": 0
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "New Orleans Pelicans",
+     "val": 3
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Dallas Mavericks",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-spread",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
    "event": "Clippers @ Spurs",
+   "market": "spread",
+   "selection": "Clippers +15.5",
+   "player": null,
+   "line": 15.5,
+   "price": -110,
+   "model_prob": 0.602,
+   "market_prob": 0.5,
+   "edge_prob": 0.102,
+   "ev": 0.149,
+   "edge_display": "3.2 pts",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Team rating: Spurs +10.8 better",
+    "Roster strength tonight: Spurs +34.3 better",
+    "Clippers missing key players (Brandon Ingram, Jordan Miller)",
+    "Spurs missing key players (Dylan Harper, Tobias Harris)"
+   ]
+  },
+  {
+   "id": "nba-401910021-4432816-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
    "market": "prop",
-   "selection": "Darius Garland under 2.5 rebounds",
-   "player": "Darius Garland",
-   "line": 2.5,
-   "price": 103.0,
-   "model_prob": 0.567,
-   "market_prob": 0.461,
+   "selection": "LaMelo Ball under 3.5 threes",
+   "player": "LaMelo Ball",
+   "line": 3.5,
+   "price": -105.0,
+   "model_prob": 0.585,
+   "market_prob": 0.479,
    "edge_prob": 0.106,
-   "ev": 0.15,
+   "ev": 0.142,
    "edge_display": "11%",
    "tier": "1U",
    "units": 1,
    "status": "pending",
    "result_units": null,
    "why": [
-    "Role: Keaton Wagler in, Rui Hachimura in tonight; 11 of his past games match that",
-    "Went over 2.5 in 5 of his last 10 games",
-    "Early season: 14% weighted to the book's expected number",
-    "Model says 57%; book says 46%; realistic \u2248 50% (the model runs overconfident)"
+    "Role: Ayo Dosunmu in, Jaden McDaniels in tonight; 15 of his past games match that",
+    "Went over 3.5 in 6 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 58%; book says 48%; realistic \u2248 50% (the model runs overconfident)"
    ],
    "flags": [],
-   "proj": 2.5,
-   "open_line": 2.5,
+   "proj": 3.3,
+   "open_line": 3.5,
    "recent": [
     {
-     "date": "2026-10-28",
-     "opp": "Los Angeles Lakers",
-     "val": 1
-    },
-    {
      "date": "2026-10-30",
-     "opp": "Minnesota Timberwolves",
-     "val": 2
+     "opp": "Los Angeles Clippers",
+     "val": 6
     },
     {
-     "date": "2026-11-01",
-     "opp": "Golden State Warriors",
+     "date": "2026-10-31",
+     "opp": "San Antonio Spurs",
      "val": 0
     },
     {
      "date": "2026-11-02",
-     "opp": "Toronto Raptors",
-     "val": 4
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Miami Heat",
-     "val": 1
-    },
-    {
-     "date": "2026-11-08",
-     "opp": "New Orleans Pelicans",
-     "val": 0
-    },
-    {
-     "date": "2026-11-10",
-     "opp": "Phoenix Suns",
-     "val": 5
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Oklahoma City Thunder",
-     "val": 4
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Charlotte Hornets",
+     "opp": "Milwaukee Bucks",
      "val": 6
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 3
+    },
+    {
+     "date": "2026-11-08",
      "opp": "Utah Jazz",
+     "val": 4
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 6
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
      "val": 3
     }
    ]
   },
   {
-   "id": "nba-401910022-4845367-fg3m",
+   "id": "nba-401910020-4395725-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Tyler Herro under 4.5 assists",
+   "player": "Tyler Herro",
+   "line": 4.5,
+   "price": -143.0,
+   "model_prob": 0.671,
+   "market_prob": 0.552,
+   "edge_prob": 0.12,
+   "ev": 0.141,
+   "edge_display": "12%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ryan Rollins in, Jaime Jaquez Jr. in tonight; 12 of his past games match that",
+    "Went over 4.5 in 2 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Blazers allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 3.8,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Houston Rockets",
+     "val": 0
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 10
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 7
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-5082206-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Brayden Burries under 2.5 assists",
+   "player": "Brayden Burries",
+   "line": 2.5,
+   "price": -111.0,
+   "model_prob": 0.598,
+   "market_prob": 0.492,
+   "edge_prob": 0.106,
+   "ev": 0.138,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Tyler Herro in, Ryan Rollins in tonight; 12 of his past games match that",
+    "Went over 2.5 in 6 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Blazers allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 2.3,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 6
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "New York Knicks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 4
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-5104157-fg3m",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
    "event": "Spurs vs Clippers",
    "market": "prop",
-   "selection": "Stephon Castle under 1.5 threes",
-   "player": "Stephon Castle",
-   "line": 1.5,
-   "price": 103.0,
-   "model_prob": 0.541,
-   "market_prob": 0.461,
-   "edge_prob": 0.08,
-   "ev": 0.098,
-   "edge_display": "8%",
-   "tier": "Lean",
-   "units": 0,
+   "selection": "Victor Wembanyama under 2.5 threes",
+   "player": "Victor Wembanyama",
+   "line": 2.5,
+   "price": -178.0,
+   "model_prob": 0.726,
+   "market_prob": 0.6,
+   "edge_prob": 0.126,
+   "ev": 0.134,
+   "edge_display": "13%",
+   "tier": "1U",
+   "units": 1,
    "status": "pending",
    "result_units": null,
    "why": [
-    "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 90 of his past games match that",
-    "Went over 1.5 in 5 of his last 10 games",
+    "Role: Stephon Castle in, De'Aaron Fox in tonight; 90 of his past games match that",
+    "Went over 2.5 in 4 of his last 10 games",
     "Early season: 11% weighted to the book's expected number",
-    "Model says 54%; book says 46%; realistic \u2248 49% (the model runs overconfident)"
+    "Model says 73%; book says 60%; realistic \u2248 53% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.8,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 0
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 4
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Detroit Pistons",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3032976-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "Rudy Gobert under 1.5 assists",
+   "player": "Rudy Gobert",
+   "line": 1.5,
+   "price": 104.0,
+   "model_prob": 0.555,
+   "market_prob": 0.459,
+   "edge_prob": 0.096,
+   "ev": 0.132,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: LaMelo Ball in, Ayo Dosunmu in tonight; 14 of his past games match that",
+    "Went over 1.5 in 6 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Knicks allow 9% less assists than average"
    ],
    "flags": [],
    "proj": 1.6,
    "open_line": 1.5,
    "recent": [
     {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 0
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 2
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 2
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 1
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 2
-    },
-    {
-     "date": "2026-11-09",
-     "opp": "Phoenix Suns",
-     "val": 0
-    },
-    {
-     "date": "2026-11-11",
-     "opp": "Chicago Bulls",
-     "val": 1
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Golden State Warriors",
-     "val": 5
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Utah Jazz",
-     "val": 0
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 2
-    }
-   ]
-  },
-  {
-   "id": "nba-401910022-4066259-reb",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Spurs vs Clippers",
-   "market": "prop",
-   "selection": "De'Aaron Fox under 3.5 rebounds",
-   "player": "De'Aaron Fox",
-   "line": 3.5,
-   "price": -104.0,
-   "model_prob": 0.555,
-   "market_prob": 0.477,
-   "edge_prob": 0.079,
-   "ev": 0.089,
-   "edge_display": "8%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Victor Wembanyama in, Stephon Castle in tonight; 90 of his past games match that",
-    "Went over 3.5 in 4 of his last 10 games",
-    "Early season: 12% weighted to the book's expected number",
-    "Model says 56%; book says 48%; realistic \u2248 49% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 3.5,
-   "open_line": 3.5,
-   "recent": [
-    {
      "date": "2026-10-28",
-     "opp": "Utah Jazz",
-     "val": 3
-    },
-    {
-     "date": "2026-10-31",
-     "opp": "Minnesota Timberwolves",
-     "val": 8
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Utah Jazz",
-     "val": 2
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Dallas Mavericks",
-     "val": 3
-    },
-    {
-     "date": "2026-11-06",
-     "opp": "Sacramento Kings",
-     "val": 2
-    },
-    {
-     "date": "2026-11-07",
-     "opp": "Portland Trail Blazers",
-     "val": 3
-    },
-    {
-     "date": "2026-11-09",
-     "opp": "Phoenix Suns",
-     "val": 9
-    },
-    {
-     "date": "2026-11-11",
-     "opp": "Chicago Bulls",
-     "val": 4
-    },
-    {
-     "date": "2026-11-13",
      "opp": "Golden State Warriors",
-     "val": 5
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Detroit Pistons",
-     "val": 2
-    }
-   ]
-  },
-  {
-   "id": "nba-401910022-3448-reb",
-   "sport": "NBA",
-   "date": "2026-11-19",
-   "start": "2026-11-20T01:00Z",
-   "event": "Clippers @ Spurs",
-   "market": "prop",
-   "selection": "Brook Lopez under 4.5 rebounds",
-   "player": "Brook Lopez",
-   "line": 4.5,
-   "price": 118.0,
-   "model_prob": 0.496,
-   "market_prob": 0.43,
-   "edge_prob": 0.066,
-   "ev": 0.08,
-   "edge_display": "7%",
-   "tier": "Lean",
-   "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "why": [
-    "Role: Darius Garland in, Keaton Wagler in tonight; 13 of his past games match that, where his rebounds ran 13% higher",
-    "Went over 4.5 in 7 of his last 10 games",
-    "Early season: 14% weighted to the book's expected number",
-    "Model says 50%; book says 43%; realistic \u2248 48% (the model runs overconfident)"
-   ],
-   "flags": [],
-   "proj": 4.9,
-   "open_line": 5.5,
-   "recent": [
-    {
-     "date": "2026-10-28",
-     "opp": "Los Angeles Lakers",
-     "val": 3
+     "val": 1
     },
     {
      "date": "2026-10-30",
-     "opp": "Minnesota Timberwolves",
-     "val": 6
-    },
-    {
-     "date": "2026-11-01",
-     "opp": "Golden State Warriors",
-     "val": 2
-    },
-    {
-     "date": "2026-11-02",
-     "opp": "Toronto Raptors",
-     "val": 6
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Miami Heat",
-     "val": 8
-    },
-    {
-     "date": "2026-11-08",
-     "opp": "New Orleans Pelicans",
-     "val": 7
-    },
-    {
-     "date": "2026-11-10",
-     "opp": "Phoenix Suns",
+     "opp": "Los Angeles Clippers",
      "val": 4
     },
     {
-     "date": "2026-11-13",
-     "opp": "Oklahoma City Thunder",
-     "val": 7
+     "date": "2026-11-02",
+     "opp": "Milwaukee Bucks",
+     "val": 1
     },
     {
-     "date": "2026-11-15",
-     "opp": "Charlotte Hornets",
-     "val": 5
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 0
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 2
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 3
     },
     {
      "date": "2026-11-17",
-     "opp": "Utah Jazz",
-     "val": 6
+     "opp": "Portland Trail Blazers",
+     "val": 2
     }
    ]
   },
@@ -85925,21 +86384,21 @@
    "selection": "De'Aaron Fox under 1.5 threes",
    "player": "De'Aaron Fox",
    "line": 1.5,
-   "price": -195.0,
-   "model_prob": 0.704,
-   "market_prob": 0.62,
-   "edge_prob": 0.083,
-   "ev": 0.064,
-   "edge_display": "8%",
-   "tier": "Lean",
-   "units": 0,
+   "price": -167.0,
+   "model_prob": 0.699,
+   "market_prob": 0.586,
+   "edge_prob": 0.113,
+   "ev": 0.117,
+   "edge_display": "11%",
+   "tier": "1U",
+   "units": 1,
    "status": "pending",
    "result_units": null,
    "why": [
     "Role: Victor Wembanyama in, Stephon Castle in tonight; 90 of his past games match that, where his 3-pointers ran 9% lower",
     "Went over 1.5 in 2 of his last 10 games",
     "Early season: 12% weighted to the book's expected number",
-    "Model says 70%; book says 62%; realistic \u2248 52% (the model runs overconfident)"
+    "Model says 70%; book says 59%; realistic \u2248 52% (the model runs overconfident)"
    ],
    "flags": [],
    "proj": 1.1,
@@ -85998,6 +86457,1564 @@
    ]
   },
   {
+   "id": "nba-401910020-5105565-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Donovan Clingan under 11.5 rebounds",
+   "player": "Donovan Clingan",
+   "line": 11.5,
+   "price": 100.0,
+   "model_prob": 0.558,
+   "market_prob": 0.468,
+   "edge_prob": 0.09,
+   "ev": 0.115,
+   "edge_display": "9%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Damian Lillard in tonight; 13 of his past games match that",
+    "Went over 11.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "About 65 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 11.2,
+   "open_line": 11.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 9
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 18
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 11
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 11
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 5
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 13
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 12
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 11
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 10
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 12
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3934672-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Jalen Brunson under 2.5 threes",
+   "player": "Jalen Brunson",
+   "line": 2.5,
+   "price": -121.0,
+   "model_prob": 0.608,
+   "market_prob": 0.513,
+   "edge_prob": 0.095,
+   "ev": 0.111,
+   "edge_display": "9%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Karl-Anthony Towns in, OG Anunoby in tonight; 119 of his past games match that",
+    "Went over 2.5 in 9 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Timberwolves allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 2.3,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 6
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 5
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 3
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-4431671-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "Jaden McDaniels under 1.5 threes",
+   "player": "Jaden McDaniels",
+   "line": 1.5,
+   "price": -140.0,
+   "model_prob": 0.648,
+   "market_prob": 0.546,
+   "edge_prob": 0.102,
+   "ev": 0.11,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: LaMelo Ball in, Ayo Dosunmu in tonight; 15 of his past games match that",
+    "Went over 1.5 in 6 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 65%; book says 55%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.3,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Clippers",
+     "val": 1
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "San Antonio Spurs",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 2
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 2
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-5105565-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Donovan Clingan under 2.5 assists",
+   "player": "Donovan Clingan",
+   "line": 2.5,
+   "price": -144.0,
+   "model_prob": 0.653,
+   "market_prob": 0.552,
+   "edge_prob": 0.1,
+   "ev": 0.106,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Damian Lillard in tonight; 13 of his past games match that, where his assists ran 17% lower",
+    "Went over 2.5 in 3 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "About 65 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 2.1,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 0
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 0
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-5254165-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Clippers @ Spurs",
+   "market": "prop",
+   "selection": "Keaton Wagler under 2.5 rebounds",
+   "player": "Keaton Wagler",
+   "line": 2.5,
+   "price": 115.0,
+   "model_prob": 0.513,
+   "market_prob": 0.435,
+   "edge_prob": 0.077,
+   "ev": 0.102,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Darius Garland in, Rui Hachimura in tonight; 11 of his past games match that",
+    "Went over 2.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 51%; book says 44%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.8,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Los Angeles Lakers",
+     "val": 4
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 6
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Golden State Warriors",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Toronto Raptors",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Miami Heat",
+     "val": 2
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "New Orleans Pelicans",
+     "val": 2
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Phoenix Suns",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Charlotte Hornets",
+     "val": 4
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Utah Jazz",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4396907-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Clippers @ Spurs",
+   "market": "prop",
+   "selection": "Darius Garland under 6.5 assists",
+   "player": "Darius Garland",
+   "line": 6.5,
+   "price": -102.0,
+   "model_prob": 0.555,
+   "market_prob": 0.473,
+   "edge_prob": 0.083,
+   "ev": 0.1,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Keaton Wagler in, Rui Hachimura in tonight; 11 of his past games match that",
+    "Went over 6.5 in 7 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 56%; book says 47%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 6.4,
+   "open_line": 7.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Los Angeles Lakers",
+     "val": 5
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 5
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Golden State Warriors",
+     "val": 7
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Toronto Raptors",
+     "val": 8
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Miami Heat",
+     "val": 7
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "New Orleans Pelicans",
+     "val": 10
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Phoenix Suns",
+     "val": 6
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Oklahoma City Thunder",
+     "val": 7
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Charlotte Hornets",
+     "val": 7
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Utah Jazz",
+     "val": 7
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-4432847-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "Terrence Shannon Jr. over 2.5 assists",
+   "player": "Terrence Shannon Jr.",
+   "line": 2.5,
+   "price": 101.0,
+   "model_prob": 0.547,
+   "market_prob": 0.466,
+   "edge_prob": 0.082,
+   "ev": 0.1,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: LaMelo Ball in, Ayo Dosunmu in tonight; 12 of his past games match that, where his assists ran 60% higher",
+    "Went over 2.5 in 7 of his last 10 games",
+    "Early season: 16% weighted to the book's expected number",
+    "Knicks allow 9% less assists than average"
+   ],
+   "flags": [],
+   "proj": 3.0,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-25",
+     "opp": "Toronto Raptors",
+     "val": 3
+    },
+    {
+     "date": "2026-10-26",
+     "opp": "Cleveland Cavaliers",
+     "val": 5
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Golden State Warriors",
+     "val": 2
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Clippers",
+     "val": 2
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "San Antonio Spurs",
+     "val": 4
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 4
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-6606-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Damian Lillard under 3.5 threes",
+   "player": "Damian Lillard",
+   "line": 3.5,
+   "price": -149.0,
+   "model_prob": 0.658,
+   "market_prob": 0.56,
+   "edge_prob": 0.098,
+   "ev": 0.1,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Jrue Holiday in tonight; 13 of his past games match that",
+    "Went over 3.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Bucks allow 14% more 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 3.0,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 2
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 6
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 2
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4395723-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "Keldon Johnson under 5.5 rebounds",
+   "player": "Keldon Johnson",
+   "line": 5.5,
+   "price": -144.0,
+   "model_prob": 0.645,
+   "market_prob": 0.552,
+   "edge_prob": 0.093,
+   "ev": 0.093,
+   "edge_display": "9%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 99 of his past games match that, where his rebounds ran 6% lower",
+    "Went over 5.5 in 6 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 65%; book says 55%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 4.8,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 7
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 5
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 6
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 7
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 5
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 6
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 4
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 10
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Detroit Pistons",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-4395725-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Tyler Herro under 2.5 threes",
+   "player": "Tyler Herro",
+   "line": 2.5,
+   "price": -147.0,
+   "model_prob": 0.65,
+   "market_prob": 0.558,
+   "edge_prob": 0.093,
+   "ev": 0.093,
+   "edge_display": "9%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ryan Rollins in, Jaime Jaquez Jr. in tonight; 12 of his past games match that, where his 3-pointers ran 13% higher",
+    "Went over 2.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Blazers allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 2.1,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Houston Rockets",
+     "val": 4
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-4683678-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Scoot Henderson under 1.5 threes",
+   "player": "Scoot Henderson",
+   "line": 1.5,
+   "price": -123.0,
+   "model_prob": 0.601,
+   "market_prob": 0.516,
+   "edge_prob": 0.085,
+   "ev": 0.09,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Damian Lillard in tonight; 13 of his past games match that, where his 3-pointers ran 29% lower",
+    "Went over 1.5 in 3 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Bucks allow 14% more 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.4,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 0
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3147657-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Mikal Bridges under 1.5 threes",
+   "player": "Mikal Bridges",
+   "line": 1.5,
+   "price": -211.0,
+   "model_prob": 0.733,
+   "market_prob": 0.637,
+   "edge_prob": 0.095,
+   "ev": 0.08,
+   "edge_display": "10%",
+   "tier": "1U",
+   "units": 1,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 122 of his past games match that",
+    "Went over 1.5 in 3 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Timberwolves allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.0,
+   "open_line": 0.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 0
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 0
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-5112087-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Grizzlies vs Warriors",
+   "market": "prop",
+   "selection": "Jaylen Wells under 2.5 rebounds",
+   "player": "Jaylen Wells",
+   "line": 2.5,
+   "price": 115.0,
+   "model_prob": 0.5,
+   "market_prob": 0.435,
+   "edge_prob": 0.065,
+   "ev": 0.076,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ty Jerome out, Cameron Boozer in tonight; 4 of his past games match that",
+    "Went over 2.5 in 4 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "About 51 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 2.8,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "New Orleans Pelicans",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Indiana Pacers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Oklahoma City Thunder",
+     "val": 0
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Toronto Raptors",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Denver Nuggets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "New Orleans Pelicans",
+     "val": 2
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Washington Wizards",
+     "val": 4
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Cleveland Cavaliers",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3136195-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Karl-Anthony Towns under 1.5 threes",
+   "player": "Karl-Anthony Towns",
+   "line": 1.5,
+   "price": -101.0,
+   "model_prob": 0.54,
+   "market_prob": 0.471,
+   "edge_prob": 0.069,
+   "ev": 0.074,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, OG Anunoby in tonight; 113 of his past games match that",
+    "Went over 1.5 in 8 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Timberwolves allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.6,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 3
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 3
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3934672-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Jalen Brunson under 5.5 assists",
+   "player": "Jalen Brunson",
+   "line": 5.5,
+   "price": 102.0,
+   "model_prob": 0.531,
+   "market_prob": 0.464,
+   "edge_prob": 0.067,
+   "ev": 0.072,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Karl-Anthony Towns in, OG Anunoby in tonight; 119 of his past games match that",
+    "Went over 5.5 in 6 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 53%; book says 46%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.6,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 7
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 9
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 11
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 9
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-3134907-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Kyle Kuzma under 2.5 assists",
+   "player": "Kyle Kuzma",
+   "line": 2.5,
+   "price": -117.0,
+   "model_prob": 0.578,
+   "market_prob": 0.505,
+   "edge_prob": 0.073,
+   "ev": 0.072,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Tyler Herro in, Ryan Rollins in tonight; 12 of his past games match that",
+    "Went over 2.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Blazers allow 11% less assists than average"
+   ],
+   "flags": [],
+   "proj": 2.4,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 3
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 0
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "New York Knicks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 2
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-5104157-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "Victor Wembanyama under 3.5 assists",
+   "player": "Victor Wembanyama",
+   "line": 3.5,
+   "price": -154.0,
+   "model_prob": 0.649,
+   "market_prob": 0.568,
+   "edge_prob": 0.081,
+   "ev": 0.071,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephon Castle in, De'Aaron Fox in tonight; 90 of his past games match that, where his assists ran 6% lower",
+    "Went over 3.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 65%; book says 57%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.0,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 5
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 6
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 6
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Detroit Pistons",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-4432848-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Jaime Jaquez Jr. over 1.5 threes",
+   "player": "Jaime Jaquez Jr.",
+   "line": 1.5,
+   "price": 158.0,
+   "model_prob": 0.414,
+   "market_prob": 0.364,
+   "edge_prob": 0.051,
+   "ev": 0.069,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Tyler Herro in, Ryan Rollins in tonight; 12 of his past games match that",
+    "Went over 1.5 in 7 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Blazers allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.5,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 2
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 0
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "New York Knicks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3934719-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "OG Anunoby under 1.5 assists",
+   "player": "OG Anunoby",
+   "line": 1.5,
+   "price": 106.0,
+   "model_prob": 0.518,
+   "market_prob": 0.455,
+   "edge_prob": 0.063,
+   "ev": 0.068,
+   "edge_display": "6%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 120 of his past games match that",
+    "Went over 1.5 in 6 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 52%; book says 45%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.7,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 0
+    }
+   ]
+  },
+  {
    "id": "nba-401910022-4845367-reb",
    "sport": "NBA",
    "date": "2026-11-19",
@@ -86007,12 +88024,12 @@
    "selection": "Stephon Castle under 5.5 rebounds",
    "player": "Stephon Castle",
    "line": 5.5,
-   "price": -155.0,
-   "model_prob": 0.637,
-   "market_prob": 0.57,
-   "edge_prob": 0.067,
-   "ev": 0.047,
-   "edge_display": "7%",
+   "price": -147.0,
+   "model_prob": 0.635,
+   "market_prob": 0.558,
+   "edge_prob": 0.077,
+   "ev": 0.067,
+   "edge_display": "8%",
    "tier": "Lean",
    "units": 0,
    "status": "pending",
@@ -86021,7 +88038,7 @@
     "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 90 of his past games match that",
     "Went over 5.5 in 3 of his last 10 games",
     "Early season: 11% weighted to the book's expected number",
-    "Model says 64%; book says 57%; realistic \u2248 51% (the model runs overconfident)"
+    "Model says 64%; book says 56%; realistic \u2248 51% (the model runs overconfident)"
    ],
    "flags": [],
    "proj": 4.9,
@@ -86080,6 +88097,826 @@
    ]
   },
   {
+   "id": "nba-401910022-4592479-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "Julian Champagnie under 1.5 assists",
+   "player": "Julian Champagnie",
+   "line": 1.5,
+   "price": -122.0,
+   "model_prob": 0.586,
+   "market_prob": 0.514,
+   "edge_prob": 0.071,
+   "ev": 0.065,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Victor Wembanyama in, Stephon Castle in tonight; 98 of his past games match that",
+    "Went over 1.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 59%; book says 51%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 1.5,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Utah Jazz",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Dallas Mavericks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Sacramento Kings",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Portland Trail Blazers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Golden State Warriors",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Detroit Pistons",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-5175737-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Warriors @ Grizzlies",
+   "market": "prop",
+   "selection": "Yaxel Lendeborg under 1.5 threes",
+   "player": "Yaxel Lendeborg",
+   "line": 1.5,
+   "price": 137.0,
+   "model_prob": 0.448,
+   "market_prob": 0.396,
+   "edge_prob": 0.052,
+   "ev": 0.062,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephen Curry out, Brandin Podziemski in tonight; 4 of his past games match that",
+    "Went over 1.5 in 6 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "About 68 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 1.9,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Lakers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Clippers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Phoenix Suns",
+     "val": 2
+    },
+    {
+     "date": "2026-11-05",
+     "opp": "Miami Heat",
+     "val": 1
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Orlando Magic",
+     "val": 2
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "New Orleans Pelicans",
+     "val": 4
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Houston Rockets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "San Antonio Spurs",
+     "val": 0
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "New Orleans Pelicans",
+     "val": 2
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Dallas Mavericks",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3147657-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Mikal Bridges under 2.5 assists",
+   "player": "Mikal Bridges",
+   "line": 2.5,
+   "price": -143.0,
+   "model_prob": 0.625,
+   "market_prob": 0.552,
+   "edge_prob": 0.073,
+   "ev": 0.062,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 122 of his past games match that",
+    "Went over 2.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 62%; book says 55%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.2,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 3
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-4432816-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "LaMelo Ball under 4.5 rebounds",
+   "player": "LaMelo Ball",
+   "line": 4.5,
+   "price": -140.0,
+   "model_prob": 0.619,
+   "market_prob": 0.546,
+   "edge_prob": 0.073,
+   "ev": 0.062,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ayo Dosunmu in, Jaden McDaniels in tonight; 15 of his past games match that",
+    "Went over 4.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Knicks allow 9% less rebounds than average"
+   ],
+   "flags": [],
+   "proj": 4.1,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Clippers",
+     "val": 4
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "San Antonio Spurs",
+     "val": 8
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Milwaukee Bucks",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 2
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 8
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
+     "val": 9
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-4395725-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Tyler Herro under 3.5 rebounds",
+   "player": "Tyler Herro",
+   "line": 3.5,
+   "price": 107.0,
+   "model_prob": 0.512,
+   "market_prob": 0.453,
+   "edge_prob": 0.059,
+   "ev": 0.059,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ryan Rollins in, Jaime Jaquez Jr. in tonight; 12 of his past games match that",
+    "Went over 3.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 51%; book says 45%; realistic \u2248 49% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.8,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Houston Rockets",
+     "val": 3
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 5
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 5
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 5
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3136195-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Karl-Anthony Towns under 13.5 rebounds",
+   "player": "Karl-Anthony Towns",
+   "line": 13.5,
+   "price": -136.0,
+   "model_prob": 0.609,
+   "market_prob": 0.539,
+   "edge_prob": 0.07,
+   "ev": 0.057,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, OG Anunoby in tonight; 113 of his past games match that",
+    "Went over 13.5 in 5 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 61%; book says 54%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 12.6,
+   "open_line": 12.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 13
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 12
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 16
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 12
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 13
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 16
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 11
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 15
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 17
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 16
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-5041935-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Grizzlies vs Warriors",
+   "market": "prop",
+   "selection": "Cameron Boozer under 2.5 threes",
+   "player": "Cameron Boozer",
+   "line": 2.5,
+   "price": -187.0,
+   "model_prob": 0.689,
+   "market_prob": 0.611,
+   "edge_prob": 0.078,
+   "ev": 0.057,
+   "edge_display": "8%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ty Jerome out, Cedric Coward in tonight; 4 of his past games match that, where his 3-pointers ran 17% higher",
+    "Went over 2.5 in 2 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "About 51 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 2.0,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Sacramento Kings",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "New Orleans Pelicans",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Indiana Pacers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Oklahoma City Thunder",
+     "val": 0
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Toronto Raptors",
+     "val": 0
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Denver Nuggets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "New Orleans Pelicans",
+     "val": 1
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Brooklyn Nets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Washington Wizards",
+     "val": 7
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-3936099-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Clippers @ Spurs",
+   "market": "prop",
+   "selection": "Derrick Jones Jr. under 3.5 rebounds",
+   "player": "Derrick Jones Jr.",
+   "line": 3.5,
+   "price": 117.0,
+   "model_prob": 0.487,
+   "market_prob": 0.431,
+   "edge_prob": 0.056,
+   "ev": 0.057,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Darius Garland in, Keaton Wagler in tonight; 12 of his past games match that, where his rebounds ran 14% higher",
+    "Went over 3.5 in 7 of his last 10 games",
+    "Early season: 16% weighted to the book's expected number",
+    "Model says 49%; book says 43%; realistic \u2248 48% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.9,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-25",
+     "opp": "Oklahoma City Thunder",
+     "val": 6
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Los Angeles Lakers",
+     "val": 5
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Golden State Warriors",
+     "val": 7
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Miami Heat",
+     "val": 8
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "New Orleans Pelicans",
+     "val": 4
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Phoenix Suns",
+     "val": 3
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Oklahoma City Thunder",
+     "val": 5
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Charlotte Hornets",
+     "val": 4
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Utah Jazz",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3147657-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Mikal Bridges under 3.5 rebounds",
+   "player": "Mikal Bridges",
+   "line": 3.5,
+   "price": -152.0,
+   "model_prob": 0.637,
+   "market_prob": 0.565,
+   "edge_prob": 0.072,
+   "ev": 0.056,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 122 of his past games match that",
+    "Went over 3.5 in 6 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "Model says 64%; book says 56%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 3.1,
+   "open_line": 3.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Chicago Bulls",
+     "val": 4
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Cleveland Cavaliers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Milwaukee Bucks",
+     "val": 5
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 7
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-4432816-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "LaMelo Ball under 5.5 assists",
+   "player": "LaMelo Ball",
+   "line": 5.5,
+   "price": -110.0,
+   "model_prob": 0.552,
+   "market_prob": 0.49,
+   "edge_prob": 0.063,
+   "ev": 0.055,
+   "edge_display": "6%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ayo Dosunmu in, Jaden McDaniels in tonight; 15 of his past games match that",
+    "Went over 5.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Knicks allow 9% less assists than average"
+   ],
+   "flags": [],
+   "proj": 5.4,
+   "open_line": 6.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Clippers",
+     "val": 7
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "San Antonio Spurs",
+     "val": 4
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Milwaukee Bucks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 6
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 8
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 5
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 9
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 6
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
+     "val": 2
+    }
+   ]
+  },
+  {
    "id": "nba-401910022-4066648-fg3m",
    "sport": "NBA",
    "date": "2026-11-19",
@@ -86089,11 +88926,11 @@
    "selection": "Rui Hachimura under 1.5 threes",
    "player": "Rui Hachimura",
    "line": 1.5,
-   "price": 121.0,
-   "model_prob": 0.472,
-   "market_prob": 0.424,
-   "edge_prob": 0.049,
-   "ev": 0.044,
+   "price": 124.0,
+   "model_prob": 0.471,
+   "market_prob": 0.419,
+   "edge_prob": 0.052,
+   "ev": 0.054,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
@@ -86162,69 +88999,151 @@
    ]
   },
   {
-   "id": "nba-401910022-2991139-fg3m",
+   "id": "nba-401910022-3448-reb",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
    "event": "Clippers @ Spurs",
    "market": "prop",
-   "selection": "Kris Dunn under 0.5 threes",
-   "player": "Kris Dunn",
-   "line": 0.5,
-   "price": -106.0,
-   "model_prob": 0.535,
-   "market_prob": 0.482,
+   "selection": "Brook Lopez under 5.5 rebounds",
+   "player": "Brook Lopez",
+   "line": 5.5,
+   "price": -155.0,
+   "model_prob": 0.637,
+   "market_prob": 0.57,
+   "edge_prob": 0.067,
+   "ev": 0.049,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Darius Garland in, Keaton Wagler in tonight; 13 of his past games match that, where his rebounds ran 13% higher",
+    "Went over 5.5 in 6 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 64%; book says 57%; realistic \u2248 51% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 4.9,
+   "open_line": 5.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Los Angeles Lakers",
+     "val": 3
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 6
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Golden State Warriors",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Toronto Raptors",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Miami Heat",
+     "val": 8
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "New Orleans Pelicans",
+     "val": 7
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Phoenix Suns",
+     "val": 4
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Oklahoma City Thunder",
+     "val": 7
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Charlotte Hornets",
+     "val": 5
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Utah Jazz",
+     "val": 6
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4065778-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Clippers @ Spurs",
+   "market": "prop",
+   "selection": "Max Strus under 1.5 threes",
+   "player": "Max Strus",
+   "line": 1.5,
+   "price": 111.0,
+   "model_prob": 0.496,
+   "market_prob": 0.443,
    "edge_prob": 0.053,
-   "ev": 0.039,
+   "ev": 0.047,
    "edge_display": "5%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
    "why": [
-    "Role: Darius Garland in, Keaton Wagler in tonight; 13 of his past games match that, where his 3-pointers ran 12% lower",
-    "Went over 0.5 in 5 of his last 10 games",
-    "Early season: 14% weighted to the book's expected number",
+    "Role: Darius Garland in, Keaton Wagler in tonight; 7 of his past games match that",
+    "Went over 1.5 in 5 of his last 10 games",
+    "Early season: 29% weighted to the book's expected number",
     "Spurs allow 9% less 3-pointers than average"
    ],
    "flags": [],
-   "proj": 0.7,
-   "open_line": 0.5,
+   "proj": 1.8,
+   "open_line": 1.5,
    "recent": [
     {
-     "date": "2026-10-28",
-     "opp": "Los Angeles Lakers",
+     "date": "2026-05-19",
+     "opp": "New York Knicks",
+     "val": 2
+    },
+    {
+     "date": "2026-05-21",
+     "opp": "New York Knicks",
      "val": 1
     },
     {
-     "date": "2026-10-30",
-     "opp": "Minnesota Timberwolves",
-     "val": 0
-    },
-    {
-     "date": "2026-11-01",
-     "opp": "Golden State Warriors",
-     "val": 0
+     "date": "2026-05-25",
+     "opp": "New York Knicks",
+     "val": 1
     },
     {
      "date": "2026-11-02",
      "opp": "Toronto Raptors",
-     "val": 1
+     "val": 3
     },
     {
      "date": "2026-11-04",
      "opp": "Miami Heat",
-     "val": 1
+     "val": 3
     },
     {
      "date": "2026-11-08",
      "opp": "New Orleans Pelicans",
-     "val": 2
+     "val": 1
     },
     {
      "date": "2026-11-10",
      "opp": "Phoenix Suns",
-     "val": 1
+     "val": 2
     },
     {
      "date": "2026-11-13",
@@ -86234,55 +89153,45 @@
     {
      "date": "2026-11-15",
      "opp": "Charlotte Hornets",
-     "val": 0
+     "val": 4
     },
     {
      "date": "2026-11-17",
      "opp": "Utah Jazz",
-     "val": 0
+     "val": 1
     }
    ]
   },
   {
-   "id": "nba-401910022-4395630-fg3m",
+   "id": "nba-401910022-4845367-fg3m",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
    "event": "Spurs vs Clippers",
    "market": "prop",
-   "selection": "Devin Vassell under 1.5 threes",
-   "player": "Devin Vassell",
+   "selection": "Stephon Castle under 1.5 threes",
+   "player": "Stephon Castle",
    "line": 1.5,
-   "price": 112.0,
-   "model_prob": 0.487,
-   "market_prob": 0.442,
-   "edge_prob": 0.045,
-   "ev": 0.033,
-   "edge_display": "4%",
+   "price": -108.0,
+   "model_prob": 0.543,
+   "market_prob": 0.486,
+   "edge_prob": 0.057,
+   "ev": 0.046,
+   "edge_display": "6%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
    "why": [
-    "Role: Victor Wembanyama in, Stephon Castle in tonight; 102 of his past games match that",
-    "Went over 1.5 in 4 of his last 10 games",
-    "Early season: 14% weighted to the book's expected number",
-    "Model says 49%; book says 44%; realistic \u2248 48% (the model runs overconfident)"
+    "Role: Victor Wembanyama in, De'Aaron Fox in tonight; 90 of his past games match that",
+    "Went over 1.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 54%; book says 49%; realistic \u2248 49% (the model runs overconfident)"
    ],
    "flags": [],
-   "proj": 1.8,
+   "proj": 1.6,
    "open_line": 1.5,
    "recent": [
-    {
-     "date": "2026-10-27",
-     "opp": "Sacramento Kings",
-     "val": 4
-    },
-    {
-     "date": "2026-10-28",
-     "opp": "Utah Jazz",
-     "val": 1
-    },
     {
      "date": "2026-10-31",
      "opp": "Minnesota Timberwolves",
@@ -86291,17 +89200,17 @@
     {
      "date": "2026-11-02",
      "opp": "Utah Jazz",
-     "val": 0
+     "val": 2
     },
     {
      "date": "2026-11-04",
      "opp": "Dallas Mavericks",
-     "val": 0
+     "val": 2
     },
     {
      "date": "2026-11-06",
      "opp": "Sacramento Kings",
-     "val": 5
+     "val": 1
     },
     {
      "date": "2026-11-07",
@@ -86309,9 +89218,19 @@
      "val": 2
     },
     {
+     "date": "2026-11-09",
+     "opp": "Phoenix Suns",
+     "val": 0
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Chicago Bulls",
+     "val": 1
+    },
+    {
      "date": "2026-11-13",
      "opp": "Golden State Warriors",
-     "val": 0
+     "val": 5
     },
     {
      "date": "2026-11-15",
@@ -86326,84 +89245,330 @@
    ]
   },
   {
-   "id": "nba-401910022-3936099-reb",
+   "id": "nba-401910019-4709138-fg3m",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
-   "event": "Clippers @ Spurs",
+   "event": "Warriors @ Grizzlies",
    "market": "prop",
-   "selection": "Derrick Jones Jr. under 3.5 rebounds",
-   "player": "Derrick Jones Jr.",
-   "line": 3.5,
-   "price": 111.0,
-   "model_prob": 0.489,
-   "market_prob": 0.443,
-   "edge_prob": 0.046,
-   "ev": 0.032,
-   "edge_display": "5%",
-   "tier": "Light lean",
+   "selection": "Brandin Podziemski under 2.5 threes",
+   "player": "Brandin Podziemski",
+   "line": 2.5,
+   "price": -139.0,
+   "model_prob": 0.608,
+   "market_prob": 0.544,
+   "edge_prob": 0.064,
+   "ev": 0.044,
+   "edge_display": "6%",
+   "tier": "Lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
    "why": [
-    "Role: Darius Garland in, Keaton Wagler in tonight; 12 of his past games match that, where his rebounds ran 14% higher",
-    "Went over 3.5 in 7 of his last 10 games",
+    "Role: Stephen Curry out, Yaxel Lendeborg in tonight; 4 of his past games match that, where his 3-pointers ran 8% lower",
+    "Went over 2.5 in 6 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "About 68 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 2.3,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Lakers",
+     "val": 4
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Los Angeles Clippers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Phoenix Suns",
+     "val": 3
+    },
+    {
+     "date": "2026-11-05",
+     "opp": "Miami Heat",
+     "val": 2
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Orlando Magic",
+     "val": 4
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "New Orleans Pelicans",
+     "val": 5
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Houston Rockets",
+     "val": 4
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "San Antonio Spurs",
+     "val": 2
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "New Orleans Pelicans",
+     "val": 3
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Dallas Mavericks",
+     "val": 0
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-4997536-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Warriors @ Grizzlies",
+   "market": "prop",
+   "selection": "Gui Santos under 4.5 rebounds",
+   "player": "Gui Santos",
+   "line": 4.5,
+   "price": -165.0,
+   "model_prob": 0.649,
+   "market_prob": 0.584,
+   "edge_prob": 0.066,
+   "ev": 0.043,
+   "edge_display": "7%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Stephen Curry out, Yaxel Lendeborg in tonight; 5 of his past games match that, where his rebounds ran 7% higher",
+    "Went over 4.5 in 4 of his last 10 games",
     "Early season: 16% weighted to the book's expected number",
-    "Model says 49%; book says 44%; realistic \u2248 48% (the model runs overconfident)"
+    "About 68 minutes of teammates out tonight"
    ],
    "flags": [],
    "proj": 3.9,
    "open_line": 3.5,
    "recent": [
     {
-     "date": "2026-10-25",
-     "opp": "Oklahoma City Thunder",
-     "val": 6
+     "date": "2026-10-24",
+     "opp": "Phoenix Suns",
+     "val": 4
     },
     {
-     "date": "2026-10-28",
+     "date": "2026-10-26",
+     "opp": "Denver Nuggets",
+     "val": 3
+    },
+    {
+     "date": "2026-10-30",
      "opp": "Los Angeles Lakers",
      "val": 5
     },
     {
-     "date": "2026-10-30",
-     "opp": "Minnesota Timberwolves",
+     "date": "2026-11-01",
+     "opp": "Los Angeles Clippers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "Orlando Magic",
      "val": 1
     },
     {
-     "date": "2026-11-01",
-     "opp": "Golden State Warriors",
+     "date": "2026-11-09",
+     "opp": "New Orleans Pelicans",
      "val": 7
     },
     {
-     "date": "2026-11-04",
-     "opp": "Miami Heat",
-     "val": 8
-    },
-    {
-     "date": "2026-11-08",
-     "opp": "New Orleans Pelicans",
-     "val": 4
-    },
-    {
-     "date": "2026-11-10",
-     "opp": "Phoenix Suns",
+     "date": "2026-11-11",
+     "opp": "Houston Rockets",
      "val": 3
     },
     {
      "date": "2026-11-13",
-     "opp": "Oklahoma City Thunder",
+     "opp": "San Antonio Spurs",
+     "val": 4
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "New Orleans Pelicans",
+     "val": 7
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Dallas Mavericks",
+     "val": 6
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4396907-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Clippers @ Spurs",
+   "market": "prop",
+   "selection": "Darius Garland under 2.5 rebounds",
+   "player": "Darius Garland",
+   "line": 2.5,
+   "price": -123.0,
+   "model_prob": 0.575,
+   "market_prob": 0.516,
+   "edge_prob": 0.059,
+   "ev": 0.042,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Keaton Wagler in, Rui Hachimura in tonight; 11 of his past games match that",
+    "Went over 2.5 in 5 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Model says 57%; book says 52%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 2.5,
+   "open_line": 2.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Los Angeles Lakers",
+     "val": 1
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 2
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Golden State Warriors",
+     "val": 0
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Toronto Raptors",
+     "val": 4
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Miami Heat",
+     "val": 1
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "New Orleans Pelicans",
+     "val": 0
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Phoenix Suns",
      "val": 5
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Oklahoma City Thunder",
+     "val": 4
     },
     {
      "date": "2026-11-15",
      "opp": "Charlotte Hornets",
-     "val": 4
+     "val": 6
     },
     {
      "date": "2026-11-17",
      "opp": "Utah Jazz",
+     "val": 3
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-5112087-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Grizzlies vs Warriors",
+   "market": "prop",
+   "selection": "Jaylen Wells under 1.5 assists",
+   "player": "Jaylen Wells",
+   "line": 1.5,
+   "price": -106.0,
+   "model_prob": 0.536,
+   "market_prob": 0.482,
+   "edge_prob": 0.054,
+   "ev": 0.041,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ty Jerome out, Cameron Boozer in tonight; 4 of his past games match that, where his assists ran 7% higher",
+    "Went over 1.5 in 5 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "About 51 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 1.7,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Sacramento Kings",
+     "val": 0
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "New Orleans Pelicans",
+     "val": 3
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Indiana Pacers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Oklahoma City Thunder",
+     "val": 0
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Toronto Raptors",
      "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Denver Nuggets",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "New Orleans Pelicans",
+     "val": 1
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Washington Wizards",
+     "val": 3
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
     }
    ]
   },
@@ -86414,24 +89579,24 @@
    "start": "2026-11-20T01:00Z",
    "event": "Clippers @ Spurs",
    "market": "prop",
-   "selection": "Kris Dunn under 3.5 rebounds",
+   "selection": "Kris Dunn under 2.5 rebounds",
    "player": "Kris Dunn",
-   "line": 3.5,
-   "price": -164.0,
-   "model_prob": 0.627,
-   "market_prob": 0.582,
-   "edge_prob": 0.045,
-   "ev": 0.009,
-   "edge_display": "5%",
+   "line": 2.5,
+   "price": 134.0,
+   "model_prob": 0.444,
+   "market_prob": 0.4,
+   "edge_prob": 0.044,
+   "ev": 0.039,
+   "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
    "status": "pending",
    "result_units": null,
    "why": [
     "Role: Darius Garland in, Keaton Wagler in tonight; 13 of his past games match that, where his rebounds ran 6% higher",
-    "Went over 3.5 in 5 of his last 10 games",
+    "Went over 2.5 in 8 of his last 10 games",
     "Early season: 14% weighted to the book's expected number",
-    "Model says 63%; book says 58%; realistic \u2248 51% (the model runs overconfident)"
+    "Model says 44%; book says 40%; realistic \u2248 47% (the model runs overconfident)"
    ],
    "flags": [],
    "proj": 3.1,
@@ -86490,6 +89655,706 @@
    ]
   },
   {
+   "id": "nba-401910022-2991139-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": null,
+   "event": "Clippers vs Spurs",
+   "market": "prop",
+   "selection": "Kris Dunn under 0.5 threes",
+   "player": "Kris Dunn",
+   "line": 0.5,
+   "price": -106.0,
+   "model_prob": 0.535,
+   "market_prob": 0.482,
+   "edge_prob": 0.053,
+   "ev": 0.039,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": null
+  },
+  {
+   "id": "nba-401910020-5082206-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Brayden Burries under 1.5 threes",
+   "player": "Brayden Burries",
+   "line": 1.5,
+   "price": -199.0,
+   "model_prob": 0.69,
+   "market_prob": 0.625,
+   "edge_prob": 0.065,
+   "ev": 0.036,
+   "edge_display": "6%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Tyler Herro in, Ryan Rollins in tonight; 12 of his past games match that, where his 3-pointers ran 16% lower",
+    "Went over 1.5 in 2 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Blazers allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.1,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 0
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 1
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "New York Knicks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 2
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 3
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-5082206-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Brayden Burries over 4.5 rebounds",
+   "player": "Brayden Burries",
+   "line": 4.5,
+   "price": -133.0,
+   "model_prob": 0.59,
+   "market_prob": 0.534,
+   "edge_prob": 0.056,
+   "ev": 0.034,
+   "edge_display": "6%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Tyler Herro in, Ryan Rollins in tonight; 12 of his past games match that",
+    "Went over 4.5 in 7 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Model says 59%; book says 53%; realistic \u2248 50% (the model runs overconfident)"
+   ],
+   "flags": [],
+   "proj": 5.5,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 9
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 5
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 11
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 8
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "New York Knicks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 5
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 4
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 8
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 7
+    }
+   ]
+  },
+  {
+   "id": "nba-401910021-3062679-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Knicks @ Timberwolves",
+   "market": "prop",
+   "selection": "Josh Hart under 1.5 threes",
+   "player": "Josh Hart",
+   "line": 1.5,
+   "price": -187.0,
+   "model_prob": 0.673,
+   "market_prob": 0.611,
+   "edge_prob": 0.062,
+   "ev": 0.033,
+   "edge_display": "6%",
+   "tier": "Lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Jalen Brunson in, Karl-Anthony Towns in tonight; 122 of his past games match that",
+    "Went over 1.5 in 5 of his last 10 games",
+    "Early season: 18% weighted to the book's expected number",
+    "Timberwolves allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.2,
+   "open_line": 0.5,
+   "recent": [
+    {
+     "date": "2026-10-23",
+     "opp": "Boston Celtics",
+     "val": 2
+    },
+    {
+     "date": "2026-10-25",
+     "opp": "Orlando Magic",
+     "val": 3
+    },
+    {
+     "date": "2026-10-27",
+     "opp": "Detroit Pistons",
+     "val": 2
+    },
+    {
+     "date": "2026-10-28",
+     "opp": "Chicago Bulls",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Philadelphia 76ers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Brooklyn Nets",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Cleveland Cavaliers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Indiana Pacers",
+     "val": 0
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Toronto Raptors",
+     "val": 0
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Toronto Raptors",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-4395630-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": null,
+   "event": "Spurs vs Clippers",
+   "market": "prop",
+   "selection": "Devin Vassell under 1.5 threes",
+   "player": "Devin Vassell",
+   "line": 1.5,
+   "price": 112.0,
+   "model_prob": 0.487,
+   "market_prob": 0.442,
+   "edge_prob": 0.045,
+   "ev": 0.032,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "beat_close": true
+  },
+  {
+   "id": "nba-401910021-4431671-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Timberwolves vs Knicks",
+   "market": "prop",
+   "selection": "Jaden McDaniels under 5.5 rebounds",
+   "player": "Jaden McDaniels",
+   "line": 5.5,
+   "price": -131.0,
+   "model_prob": 0.584,
+   "market_prob": 0.531,
+   "edge_prob": 0.053,
+   "ev": 0.03,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: LaMelo Ball in, Ayo Dosunmu in tonight; 15 of his past games match that, where his rebounds ran 16% higher",
+    "Went over 5.5 in 7 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Knicks allow 9% less rebounds than average"
+   ],
+   "flags": [],
+   "proj": 5.2,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-30",
+     "opp": "Los Angeles Clippers",
+     "val": 6
+    },
+    {
+     "date": "2026-10-31",
+     "opp": "San Antonio Spurs",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Milwaukee Bucks",
+     "val": 6
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Houston Rockets",
+     "val": 8
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "New Orleans Pelicans",
+     "val": 6
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Utah Jazz",
+     "val": 6
+    },
+    {
+     "date": "2026-11-12",
+     "opp": "Dallas Mavericks",
+     "val": 9
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Chicago Bulls",
+     "val": 5
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Portland Trail Blazers",
+     "val": 6
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Portland Trail Blazers",
+     "val": 5
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-3134907-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Bucks vs Blazers",
+   "market": "prop",
+   "selection": "Kyle Kuzma under 1.5 threes",
+   "player": "Kyle Kuzma",
+   "line": 1.5,
+   "price": -122.0,
+   "model_prob": 0.561,
+   "market_prob": 0.514,
+   "edge_prob": 0.047,
+   "ev": 0.021,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Tyler Herro in, Ryan Rollins in tonight; 12 of his past games match that, where his 3-pointers ran 7% higher",
+    "Went over 1.5 in 4 of his last 10 games",
+    "Early season: 11% weighted to the book's expected number",
+    "Blazers allow 13% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.5,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Cleveland Cavaliers",
+     "val": 2
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Minnesota Timberwolves",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Boston Celtics",
+     "val": 1
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Toronto Raptors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "Boston Celtics",
+     "val": 6
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "New York Knicks",
+     "val": 1
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Los Angeles Lakers",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Orlando Magic",
+     "val": 1
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Atlanta Hawks",
+     "val": 3
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Miami Heat",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "id": "nba-401910020-3995-ast",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Jrue Holiday under 4.5 assists",
+   "player": "Jrue Holiday",
+   "line": 4.5,
+   "price": -124.0,
+   "model_prob": 0.565,
+   "market_prob": 0.518,
+   "edge_prob": 0.047,
+   "ev": 0.021,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Damian Lillard in tonight; 13 of his past games match that, where his assists ran 19% lower",
+    "Went over 4.5 in 5 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "About 65 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 4.4,
+   "open_line": 4.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 3
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 10
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 0
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 7
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 0
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 2
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 5
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 5
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 6
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-3448-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Clippers @ Spurs",
+   "market": "prop",
+   "selection": "Brook Lopez under 1.5 threes",
+   "player": "Brook Lopez",
+   "line": 1.5,
+   "price": -130.0,
+   "model_prob": 0.576,
+   "market_prob": 0.529,
+   "edge_prob": 0.046,
+   "ev": 0.018,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Darius Garland in, Keaton Wagler in tonight; 13 of his past games match that",
+    "Went over 1.5 in 3 of his last 10 games",
+    "Early season: 14% weighted to the book's expected number",
+    "Spurs allow 9% less 3-pointers than average"
+   ],
+   "flags": [],
+   "proj": 1.5,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-28",
+     "opp": "Los Angeles Lakers",
+     "val": 0
+    },
+    {
+     "date": "2026-10-30",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    },
+    {
+     "date": "2026-11-01",
+     "opp": "Golden State Warriors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Toronto Raptors",
+     "val": 1
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Miami Heat",
+     "val": 2
+    },
+    {
+     "date": "2026-11-08",
+     "opp": "New Orleans Pelicans",
+     "val": 1
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Phoenix Suns",
+     "val": 1
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Oklahoma City Thunder",
+     "val": 3
+    },
+    {
+     "date": "2026-11-15",
+     "opp": "Charlotte Hornets",
+     "val": 1
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Utah Jazz",
+     "val": 4
+    }
+   ]
+  },
+  {
+   "id": "nba-401910019-4903027-reb",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": "2026-11-20T01:00Z",
+   "event": "Grizzlies vs Warriors",
+   "market": "prop",
+   "selection": "Cedric Coward under 7.5 rebounds",
+   "player": "Cedric Coward",
+   "line": 7.5,
+   "price": -125.0,
+   "model_prob": 0.566,
+   "market_prob": 0.52,
+   "edge_prob": 0.045,
+   "ev": 0.018,
+   "edge_display": "5%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Ty Jerome out, Cameron Boozer in tonight; 4 of his past games match that, where his rebounds ran 6% higher",
+    "Went over 7.5 in 6 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "About 51 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 7.3,
+   "open_line": 7.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Sacramento Kings",
+     "val": 7
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "New Orleans Pelicans",
+     "val": 9
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Indiana Pacers",
+     "val": 9
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Oklahoma City Thunder",
+     "val": 9
+    },
+    {
+     "date": "2026-11-09",
+     "opp": "Toronto Raptors",
+     "val": 6
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Denver Nuggets",
+     "val": 11
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "New Orleans Pelicans",
+     "val": 7
+    },
+    {
+     "date": "2026-11-14",
+     "opp": "Brooklyn Nets",
+     "val": 12
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Washington Wizards",
+     "val": 8
+    },
+    {
+     "date": "2026-11-18",
+     "opp": "Cleveland Cavaliers",
+     "val": 3
+    }
+   ]
+  },
+  {
    "id": "nba-401910022-4396907-fg3m",
    "sport": "NBA",
    "date": "2026-11-19",
@@ -86499,11 +90364,11 @@
    "selection": "Darius Garland under 2.5 threes",
    "player": "Darius Garland",
    "line": 2.5,
-   "price": -151.0,
-   "model_prob": 0.604,
-   "market_prob": 0.563,
-   "edge_prob": 0.041,
-   "ev": 0.004,
+   "price": -148.0,
+   "model_prob": 0.602,
+   "market_prob": 0.558,
+   "edge_prob": 0.044,
+   "ev": 0.009,
    "edge_display": "4%",
    "tier": "Light lean",
    "units": 0,
@@ -86572,11 +90437,93 @@
    ]
   },
   {
-   "id": "nba-401910022-3936099-fg3m",
+   "id": "nba-401910020-5081727-ast",
    "sport": "NBA",
    "date": "2026-11-19",
    "start": "2026-11-20T01:00Z",
-   "event": "Clippers @ Spurs",
+   "event": "Blazers @ Bucks",
+   "market": "prop",
+   "selection": "Sidy Cissoko over 1.5 assists",
+   "player": "Sidy Cissoko",
+   "line": 1.5,
+   "price": -176.0,
+   "model_prob": 0.641,
+   "market_prob": 0.598,
+   "edge_prob": 0.044,
+   "ev": 0.006,
+   "edge_display": "4%",
+   "tier": "Light lean",
+   "units": 0,
+   "status": "pending",
+   "result_units": null,
+   "why": [
+    "Role: Deni Avdija in, Damian Lillard in tonight; 13 of his past games match that, where his assists ran 22% higher",
+    "Went over 1.5 in 4 of his last 10 games",
+    "Early season: 12% weighted to the book's expected number",
+    "About 65 minutes of teammates out tonight"
+   ],
+   "flags": [],
+   "proj": 2.4,
+   "open_line": 1.5,
+   "recent": [
+    {
+     "date": "2026-10-31",
+     "opp": "Utah Jazz",
+     "val": 1
+    },
+    {
+     "date": "2026-11-02",
+     "opp": "Denver Nuggets",
+     "val": 0
+    },
+    {
+     "date": "2026-11-04",
+     "opp": "Phoenix Suns",
+     "val": 4
+    },
+    {
+     "date": "2026-11-06",
+     "opp": "Los Angeles Lakers",
+     "val": 3
+    },
+    {
+     "date": "2026-11-07",
+     "opp": "San Antonio Spurs",
+     "val": 1
+    },
+    {
+     "date": "2026-11-10",
+     "opp": "Oklahoma City Thunder",
+     "val": 3
+    },
+    {
+     "date": "2026-11-11",
+     "opp": "Oklahoma City Thunder",
+     "val": 0
+    },
+    {
+     "date": "2026-11-13",
+     "opp": "Sacramento Kings",
+     "val": 1
+    },
+    {
+     "date": "2026-11-16",
+     "opp": "Minnesota Timberwolves",
+     "val": 3
+    },
+    {
+     "date": "2026-11-17",
+     "opp": "Minnesota Timberwolves",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "id": "nba-401910022-3936099-fg3m",
+   "sport": "NBA",
+   "date": "2026-11-19",
+   "start": null,
+   "event": "Clippers vs Spurs",
    "market": "prop",
    "selection": "Derrick Jones Jr. under 1.5 threes",
    "player": "Derrick Jones Jr.",
@@ -86591,67 +90538,7 @@
    "units": 0,
    "status": "pending",
    "result_units": null,
-   "why": [
-    "Role: Darius Garland in, Keaton Wagler in tonight; 12 of his past games match that, where his 3-pointers ran 41% higher",
-    "Went over 1.5 in 7 of his last 10 games",
-    "Early season: 16% weighted to the book's expected number",
-    "Spurs allow 9% less 3-pointers than average"
-   ],
-   "flags": [],
-   "proj": 1.4,
-   "open_line": 1.5,
-   "recent": [
-    {
-     "date": "2026-10-25",
-     "opp": "Oklahoma City Thunder",
-     "val": 3
-    },
-    {
-     "date": "2026-10-28",
-     "opp": "Los Angeles Lakers",
-     "val": 3
-    },
-    {
-     "date": "2026-10-30",
-     "opp": "Minnesota Timberwolves",
-     "val": 2
-    },
-    {
-     "date": "2026-11-01",
-     "opp": "Golden State Warriors",
-     "val": 1
-    },
-    {
-     "date": "2026-11-04",
-     "opp": "Miami Heat",
-     "val": 2
-    },
-    {
-     "date": "2026-11-08",
-     "opp": "New Orleans Pelicans",
-     "val": 0
-    },
-    {
-     "date": "2026-11-10",
-     "opp": "Phoenix Suns",
-     "val": 2
-    },
-    {
-     "date": "2026-11-13",
-     "opp": "Oklahoma City Thunder",
-     "val": 4
-    },
-    {
-     "date": "2026-11-15",
-     "opp": "Charlotte Hornets",
-     "val": 3
-    },
-    {
-     "date": "2026-11-17",
-     "opp": "Utah Jazz",
-     "val": 0
-    }
-   ]
+   "beat_close": true
   }
  ]
 }
