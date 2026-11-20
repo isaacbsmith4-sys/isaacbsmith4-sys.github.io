@@ -2,7 +2,7 @@
  "sport": "NHL",
  "app": "NHL Model",
  "format": 1,
- "generated_at": "2026-11-20T03:35Z",
+ "generated_at": "2026-11-20T14:44Z",
  "plays": [
   {
    "id": "nhl-401891773-ml",
@@ -4334,9 +4334,9 @@
    "edge_display": "4.9%",
    "tier": "Lean",
    "units": 0,
-   "status": "pending",
-   "result_units": null,
-   "beat_close": null
+   "status": "win",
+   "result_units": 0.6757,
+   "beat_close": false
   },
   {
    "id": "nhl-401892744-ml",
